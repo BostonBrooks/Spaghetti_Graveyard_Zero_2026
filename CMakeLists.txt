@@ -2,8 +2,9 @@ cmake_minimum_required(VERSION 4.1)
 project(Spaghetti_Graveyard_Zero_2026 C)
 
 set(CMAKE_C_STANDARD 23)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../games/game0)
 
-add_executable(Spaghetti_Graveyard_Zero_2026 main.c)
+add_executable(Spaghetti_Graveyard_Zero_2026 test/incremental_test.c)
 
 target_link_libraries(Spaghetti_Graveyard_Zero_2026 PRIVATE
         csfml-graphics
