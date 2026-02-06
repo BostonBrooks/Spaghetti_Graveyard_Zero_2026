@@ -1,0 +1,32 @@
+Instead of Object Oriented Programming, we use a rather informal Entity Component System.
+
+Much of the coding style is similar to the library CSFML. Instead of starting component names with the prefix "sf" I will start component names with the prefix "bb". For example a bbAnimation contains an array of pointers to sfSprite components . The system that bbAnimation components belong to is simply called bbAnimations.
+
+A function that acts on a component (analogous member function in C++) will  called the name of the component type, followed by an underscore, followed by a verb in lower case, optionally followed by a noun in title case. 
+
+eg bbAnimation_getSprite()
+
+Variable, struct member and union member names will all be in snake_case.
+
+Multiple systems can be incorporated into one interface system. For example bbNetworkSend and bbNetworkReceive might be incorporated into bbNetworkApp. bbNetworkApp would provide a simplified interface while each sub-system keeps its independence.
+
+There will be one thread that acts at a clock, to keep everything synchronised, internally and across networked gaming.
+
+There will be a separate thread for just graphics and user input. This means mouse, keyboard, window, widgets, viewport and things that are drawn to the viewport which include "drawables" and "map icons".
+
+As an example, when the user clicks on a button, a message is put on a thread safe queue to be read by the main thread. The main thread reads the message, reacts, then sends a message back to change the state of the button. As such the graphics thread knows nothing of the game state, only what to display on screen.
+
+The graphics thread needs to know the location of things that move around on the map. This data will be sent to the graphics thread via messages containing pointers to buffers.
+
+Messages may contain a pointer to the string that contains the text of a text box. I don't know. This may break the separation of state between threads.
+
+Widgets and drawables have minimal state. Whatever is drawn to the screen is decided by conditional execution inside drawfunctions. These entities will all be created at load time and minimally edited during play.
+
+locations of things that move around on the map are kept for 2 different points in time to allow for interpolation.
+
+Game state will be stored in what I call the bbCore. Changes to game state in the core are logged so that they can be undone and the game state rewound. This is all to do with networked multiplayer. If a message comes in late, the game state must be rewound, the network message acted upon, and then fast forwarded to the current time.
+
+I need to remember that with pthreads when you launch a thread with a void pointer, that should be used as a pointer and not cast as an int.
+
+That'll do for now,
+Boston
