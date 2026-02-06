@@ -4,6 +4,11 @@
 #include <SFML/Window.h>
 #include <pthread.h>
 
+#include "engine/logic/bbTerminal.h"
+#include "engine/logic/bbFlag.h"
+
+thread_local char* thread;
+
 void* graphics_thread(void* arg);
 int main(void)
 {
@@ -11,6 +16,10 @@ int main(void)
 
     pthread_t graphics_pthread;
     pthread_create(&graphics_pthread, NULL, graphics_thread, NULL);
+
+    bbFlag flag = bbSuccess;
+    bbFlag_print(flag)
+
 
     sfSleep(sfSeconds(5.f));
 

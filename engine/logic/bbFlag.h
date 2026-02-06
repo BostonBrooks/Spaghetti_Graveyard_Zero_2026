@@ -1,0 +1,27 @@
+/// Most functions return a flag to indicate success/failure etc
+
+#ifndef BBFLAG_H
+#define BBFLAG_H
+
+//some function return positive values for indices and negative values for flags
+#define flag_Success     0
+#define flag_None        (-1)
+
+// the vast majority of functions return bbFlag, and other values are
+// returned by reference. names had better not overwrite other C keywords
+typedef enum {
+    bbSuccess,
+    bbFail,
+    bbNone,
+    bbFull,
+    bbEmpty,
+    bbBreak,
+    bbRepeat,
+    bbContinue,
+    bbDelete,
+    bbHead,
+    bbTail,
+} bbFlag;
+
+#endif // BBFLAG_H
+

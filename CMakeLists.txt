@@ -6,6 +6,8 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../games/game0)
 
 add_executable(Spaghetti_Graveyard_Zero_2026 test/incremental_test.c)
 
+target_include_directories(Spaghetti_Graveyard_Zero_2026  PRIVATE "./")
+
 target_link_libraries(Spaghetti_Graveyard_Zero_2026 PRIVATE
         csfml-graphics
         csfml-window
