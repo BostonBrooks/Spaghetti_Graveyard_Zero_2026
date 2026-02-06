@@ -69,5 +69,56 @@ static bbFlag bbStr_putStr(char* dest, char* src, I32 max){
 }
 
 //TODO other functions
+static bbFlag bbStr_putChar(char* dest, char src, I32 max)
+{
+    I32 i = 0;
+    //backspace character
+    if (src == '\b')
+    {
+        //nothing to backspace
+        if (dest[0] == '\0') return bbSuccess;
+
+        while (1)
+        {
+            i++;
+            //End Of String not found
+            if (i >= max)
+            {
+                dest[max - 1] = '\0';
+                return bbSuccess;
+            }
+            //End Of String found, delete character:
+            if (dest[i] == '\0')
+            {
+                dest[i-1] = '\0';
+                return bbSuccess;
+            }
+        }
+
+    }
+
+    //not a backspace character
+    while (1)
+    {
+        if (dest[i] == '\0') break;
+        i++;
+        //End Of String not found
+        if (i >= max)
+        {
+            dest[max - 1] = '\0';
+            return bbNone;
+        }
+    }
+
+    //EOS not found
+    if (i+1 >= max) {
+         dest[i] = '\0';
+        return bbNone;
+    }
+    //add character
+    dest[i] = src;
+    dest[i+1] = '\0';
+    return bbSuccess;
+}
 
 #endif //BB_STRING_H
