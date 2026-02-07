@@ -10,3 +10,4 @@
 #include "engine/logic/bbVPool.h"
 #include "engine/logic/bbConstants.h"
 #include "engine/logic/bbList.h"
+#include "engine/threadsafe/bbThreadedPool.h"
