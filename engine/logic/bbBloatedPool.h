@@ -22,7 +22,7 @@ typedef struct
 typedef struct
 {
     bbHandle self;
-    bbListElement_Handle list_element;
+    bbListElement_Handle list;
     bool in_use;
     I32 line;
     char file[32];
