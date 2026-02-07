@@ -13,3 +13,7 @@
 #include "engine/threadsafe/bbThreadedPool.h"
 #include "engine/threadsafe/bbThreadedQueue_search.h"
 #include "engine/logic/bbTree.h"
+#include "engine/graphics/bbSprites.h"
+#include "engine/graphics/CSFML.h"
+#include "engine/graphics/bbSprites.h"
+#include "engine/graphics/bbTextures.h"
