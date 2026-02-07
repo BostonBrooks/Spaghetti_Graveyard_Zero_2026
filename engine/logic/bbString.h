@@ -69,5 +69,123 @@ static bbFlag bbStr_putStr(char* dest, char* src, I32 max){
 }
 
 //TODO other functions
+static bbFlag bbStr_putChar(char* dest, char src, I32 max)
+{
+    I32 i = 0;
+    //backspace character
+    if (src == '\b')
+    {
+        //nothing to backspace
+        if (dest[0] == '\0') return bbSuccess;
+
+        while (1)
+        {
+            i++;
+            //End Of String not found
+            if (i >= max)
+            {
+                dest[max - 1] = '\0';
+                return bbSuccess;
+            }
+            //End Of String found, delete character:
+            if (dest[i] == '\0')
+            {
+                dest[i-1] = '\0';
+                return bbSuccess;
+            }
+        }
+
+    }
+
+    //not a backspace character
+    while (1)
+    {
+        if (dest[i] == '\0') break;
+        i++;
+        //End Of String not found
+        if (i >= max)
+        {
+            dest[max - 1] = '\0';
+            return bbNone;
+        }
+    }
+
+    //EOS not found
+    if (i+1 >= max) {
+         dest[i] = '\0';
+        return bbNone;
+    }
+    //add character
+    dest[i] = src;
+    dest[i+1] = '\0';
+    return bbSuccess;
+}
+
+
+
+//edit string to fit within rows and columns
+static bbFlag bbStr_setBounds(char* str, I32 columns, I32 rows, I32 max)
+{
+    //temporary storage while we add newlines to the string
+    //moving this to a global would be not thread safe.
+    //I could move this to a thread-local global
+    char temp[1028];
+
+
+    I32 i_str;
+    I32 i_temp;
+    I32 column;
+
+    // copy from str to temp, keeping track of chars since last \n
+    // insert \n when necessary
+
+    while (1)
+    {
+        if (str[i_str] == '\0')
+        {
+            temp[i_tep] = '\0';
+            break;
+        }
+
+        if (column > columns)
+        {
+            if (str[i_str] != '\n')
+            {
+                temp[i_tep] = '\n';
+                column = 0;
+                i_temp++;
+            }
+
+
+        }
+
+        if(str[i_str] == '\n') column = -1;
+
+        temp[i_temp] = str[i_str];
+        i_str++;
+        i_temp++;
+        column++;
+    }
+
+    // work backward and count off the number of rows to display
+
+    I32 row = 0;
+
+    //dont count final newline
+    i_temp--;
+
+    while (1) {
+        if (i_temp <= 0) break;
+        if (temp[i_temp - 1] == '\n') row++;
+        if (row >= rows) break;
+        i_temp--;
+    }
+    //Copy output back to str
+    //TODO if output is larger than max, the start of the output should be
+    // clipped, not the end
+    bbStr_setStr(str, &temp[i_temp], max);
+
+    return bbSuccess;
+}
 
 #endif //BB_STRING_H
