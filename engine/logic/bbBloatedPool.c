@@ -3,8 +3,13 @@
 #include <stdlib.h>
 
 #include "engine/logic/bbBloatedPool.h"
+
+#include "bbString.h"
 #include "engine/logic/bbVPool.h"
 #include "engine/logic/bbArithmetic.h"
+
+
+//Elements available to be allocated are stored in a non-circular list
 
 bool bbBloatedPool_handleIsEqual(bbBloatedPool* UNUSED, bbHandle A, bbHandle B){
 	return(A.bloated.collision == B.bloated.collision
@@ -18,10 +23,6 @@ bbFlag bbBloatedPool_print (bbBloatedPool* pool);
 bbFlag bbBloatedPool_getHeader(bbBloatedPool_Header** header, void* address){
 	size_t offset = offsetof(bbBloatedPool_Header, user_data);
 	*header = address - offset;
-
-
-	bbBloatedPool_Header* hdr= address - offset;
-	hdr->file[1] = 'z';
 	return bbSuccess;
 }
 
@@ -96,7 +97,6 @@ lvl2index, bbHandle* Handle){
     U32 randint = rand();
     if (randint == 0) randint++;
     U32 collision = randint;
-    //bbDebug("collision = %d\n", collision);
     bbHandle handle;
     handle.bloated.index = index;
     handle.bloated.collision = collision;
@@ -111,17 +111,13 @@ bbFlag bbBloatedPool_expand(bbBloatedPool* pool){
 	U32 i = 0;
 	while (pool->elements[i] != NULL){
 		i++;
-		bbAssert(i<pool->level1, "Pool full\n");
+		bbAssert(i < pool->level1, "Pool full\n");
 	}
 
-    int* array = calloc(23, sizeof (int));
-
-
-
+//each element in level 2 has size = size of header + size of user data
 	U8* level2 = calloc(pool->level2,
                                 sizeof(bbBloatedPool_Header)
-                                + pool->size_of * sizeof(U8)); //why is
-                                // this?
+                                + pool->size_of * sizeof(U8));
 
 	bbAssert(level2 != NULL, "calloc failed\n");
 
@@ -136,7 +132,7 @@ bbFlag bbBloatedPool_expand(bbBloatedPool* pool){
 
 	j++;
 
-	while(j<pool->level2 - 1){
+	while(j < pool->level2 - 1){
 		element_B = (bbBloatedPool_Header *) &level2[j * (sizeof(bbBloatedPool_Header) + pool->size_of)];
 		element_B->list.prev = element_A->self;
 		element_B->self = element_A->list.next;
@@ -163,4 +159,142 @@ bbFlag bbBloatedPool_expand(bbBloatedPool* pool){
 	return bbSuccess;
 }
 
-//TODO - the rest of these functions
+bbFlag bbBloatedPool_allocImpl(bbBloatedPool* pool, void** address, char* file, I32 line)
+{
+	bbAssert(address != NULL, "NULL pointer");
+
+	//If no elements available
+	if (IS_NULL(pool->available.head) || IS_NULL(pool->available.tail))
+	{
+		bbAssert(bbBloatedPool_handleIsEqual(NULL,pool->available.head,pool->available.tail),
+			"head/tail mismatch\n");
+		bbBloatedPool_expand(pool);
+	}
+
+	//If one element available
+	if (bbBloatedPool_handleIsEqual(NULL, pool->available.head,
+								pool->available.tail))
+	{
+        bbBloatedPool_Header *element;
+		void* element_address;
+		bbHandle element_handle = pool->available.head;
+		bbBloatedPool_lookup(pool, &element_address, element_handle);
+		bbBloatedPool_getHeader(&element, element_address);
+
+		pool->available.head = pool->null;
+		pool->available.tail = pool->null;
+
+		//element in use is not in available list
+		element->list.prev = pool->null;
+		element->list.next = pool->null;
+
+
+		*address = &element->user_data;
+		return bbSuccess;
+	}
+
+	//Then, more than one element available
+
+	bbHandle head_handle = pool->available.head;
+	void *head_address;
+	bbBloatedPool_Header *head_header;
+	bbBloatedPool_lookup(pool, &head_address, head_handle);
+	bbBloatedPool_getHeader(&head_header, head_address);
+
+	bbHandle next_handle = head_header->list.next;
+	void *next_address;
+	bbBloatedPool_Header *next_header;
+	bbBloatedPool_lookup(pool, &next_address, next_handle);
+	bbBloatedPool_getHeader(&next_header, next_address);
+
+	next_header->list.prev = pool->null;
+	pool->available.head = next_handle;
+
+	head_header->list.prev = pool->null;
+	head_header->list.next = pool->null;
+	head_header->in_use = true;
+	head_header->line = line;
+	bbStr_setStr(head_header->file, file, KEY_LENGTH);
+
+	*address = &head_header->user_data;
+
+	return bbSuccess;
+}
+
+bbFlag bbBloatedPool_Handle_incrementCollision(bbHandle* handle){
+	U32 collision = handle->bloated.collision;
+	collision++;
+	if(collision == 0) collision++;
+	handle->bloated.collision = collision;
+	return bbSuccess;
+}
+
+
+bbFlag bbBloatedPool_free(bbBloatedPool* pool, void* address)
+{
+	bbBloatedPool_Header* header;
+	bbBloatedPool_getHeader(&header, address);
+	bbBloatedPool_Handle_incrementCollision(&header->self);
+
+	//return element to empty pool
+	if (IS_NULL(pool->available.head) || IS_NULL(pool->available.tail))
+	{
+		bbAssert(bbBloatedPool_handleIsEqual(NULL,pool->available.head,pool->available.tail ),
+			"head/tail mismatch\n");
+
+		pool->available.head = header->self;
+		pool->available.tail = header->self;
+		header->list.prev = pool->null;
+		header->list.next = pool->null;
+		header->in_use = false;
+		return bbSuccess;
+
+	}
+	bbHandle available_handle = pool->available.head;
+	bbBloatedPool_Header* available_header;
+	void* available_address;
+
+	bbBloatedPool_lookup(pool, &available_address, available_handle);
+	bbBloatedPool_getHeader(&available_header, available_address);
+
+	available_header->list.prev = header->self;
+	pool->available.head = header->self;
+	header->list.prev = pool->null;
+	header->list.next = available_header->self;
+	available_header->in_use = false;
+	return bbSuccess;
+}
+
+bbFlag bbBloatedPool_lookupHeader(bbBloatedPool* pool, void** address, bbHandle handle){
+	U32 index = handle.bloated.index;
+	U32 collision = handle.bloated.collision;
+	U32 lvl1index = index / pool->level2;
+	bbAssert(lvl1index < pool->level1, "index out of bounds\n");
+	U32 lvl2index = index % pool->level2;
+	U8* lvl2 = pool->elements[lvl1index];
+	bbBloatedPool_Header *element = (bbBloatedPool_Header *)&lvl2[lvl2index * (sizeof(bbBloatedPool_Header) + pool->sizeOf)];
+	bbHandle elementHandle = element->self;
+	bbAssert(handle.bloated.collision == elementHandle.bloated.collision,
+			 "handle collision\n");
+
+	*address = element;
+	return bbSuccess;
+}
+
+bbFlag bbBloatedPool_lookup(bbBloatedPool* pool, void** address, bbHandle handle){
+	bbBloatedPool_Header* element;
+	bbBloatedPool_lookupHeader(pool, (void**)&element, handle);
+	*address = &element->user_data;
+
+	return bbSuccess;
+}
+
+bbFlag bbBloatedPool_reverseLookup(bbBloatedPool* pool, void* address, bbHandle* handle){
+	bbAssert(handle != NULL, "handle is NULL\n");
+	bbAssert(address != NULL, "address is NULL\n");
+	bbAssert(pool != NULL, "pool is NULL\n");
+	bbBloatedPool_Header* element;
+	bbBloatedPool_getHeader(&element, address);
+	*handle = element->self;
+	return bbSuccess;
+}
