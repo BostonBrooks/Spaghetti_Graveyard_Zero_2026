@@ -1,0 +1,24 @@
+Number of Compositions:,4,,,,,,
+,,,,,,,
+Label:,NULL,Integer Address:,0,num:,1,Comment,Void Composition
+Type:,Key:,Drawfunction:,startTime,Offest X:,Offset Y:,Frame Rate:,
+ANIMATION,0,DEFAULT,0,0,0,0,
+,,,,,,,
+Label:,KITTIES,Integer Address:,1,num:,3,Comment:,This is a composition of KITTY animations
+Type:,Key:,Drawfunction:,startTime,Offest X:,Offset Y:,Frame Rate:,
+ANIMATION,KITTY,DEFAULT,0,0,0,0.9,
+ANIMATION,KITTY,DEFAULT,12,1200,0,1,
+ANIMATION,KITTY,DEFAULT,24,2400,0,1.1,
+,,,,,,,
+Label:,KITTIESX,Integer Address:,2,num:,3,Comment:,This is a composition of KITTY compositions
+Type:,Key:,Drawfunction:,startTime,Offest X:,Offset Y:,Frame Rate:,
+COMPOSITION,KITTIES,COMPOSITION,0,0,0,0.98,
+COMPOSITION,KITTIES,COMPOSITION,0,0,1000,1,
+COMPOSITION,KITTIES,COMPOSITION,0,0,2000,1.02,
+,,,,,,,,
+Label:,BUTTON,Integer Address:,3,num:,4,Comment:,Displays the button differently depending on state
+Type:,Key:,Drawfunction:,startTime,Offest X:,Offset Y:,Frame Rate:,
+SPRITE,CONNECT_DEFAULT,WIDGETSPRITE,0,0,0,0,
+SPRITE,CONNECT_HOVER,WIDGETSPRITE,0,0,0,0,
+SPRITE,CONNECT_CLICK,WIDGETSPRITE,0,0,0,0,
+SPRITE,CONNECT_CLICK,WIDGETSPRITE,0,0,0,0,
