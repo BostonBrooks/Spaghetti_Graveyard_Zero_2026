@@ -1,5 +1,6 @@
 #include "engine/logic/bbArithmetic.h"
 #include "engine/logic/bbBloatedPool.h"
+#include "engine/logic/bbDictionary.h"
 #include "engine/logic/bbFlag.h"
 #include "engine/logic/bbHandle.h"
 #include "engine/logic/bbIntTypes.h"
@@ -7,3 +8,4 @@
 #include "engine/logic/bbString.h"
 #include "engine/logic/bbTerminal.h"
 #include "engine/logic/bbVPool.h"
+#include "engine/logic/bbConstants.h"

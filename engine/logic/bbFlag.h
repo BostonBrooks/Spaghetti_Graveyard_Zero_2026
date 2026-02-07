@@ -3,12 +3,13 @@
 #ifndef BBFLAG_H
 #define BBFLAG_H
 
-//some function return positive values for indices and negative values for flags
+//some functions return positive values for indices and negative values for flags
+//some struct elements take positive values for indices and negative values for flags
 #define flag_Success     0
 #define flag_None        (-1)
 
 // the vast majority of functions return bbFlag, and other values are
-// returned by reference. names had better not overwrite other C keywords
+// returned by reference.
 typedef enum {
     bbSuccess,
     bbFail,
