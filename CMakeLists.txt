@@ -9,7 +9,8 @@ add_executable(Spaghetti_Graveyard_Zero_2026 test/incremental_test.c
         engine/logic/bbBloatedPool.c
         engine/logic/bbDictionary.c
         engine/threadsafe/bbThreadedPool.c
-        engine/threadsafe/bbThreadedQueue.c)
+        engine/threadsafe/bbThreadedQueue.c
+        engine/threadsafe/bbThreadedQueue_search.c)
 
 target_include_directories(Spaghetti_Graveyard_Zero_2026  PRIVATE "./")
 
