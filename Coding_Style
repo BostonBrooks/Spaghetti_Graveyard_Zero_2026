@@ -64,10 +64,10 @@ pointer, that should be used as a pointer and not cast as an int.
 
 Include guards will be used in header files. They will look like the following:
 
-#ifndef BB_SYSTEMNAME_H
-#define BB_SYSTEMNAME_H
+#ifndef BB_SYSTEM_NAME_H
+#define BB_SYSTEM_NAME_H
 ...
-#endif //BB_SYSTEMNAME_H
+#endif //_
 
 
 

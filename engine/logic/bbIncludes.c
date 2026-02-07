@@ -12,3 +12,4 @@
 #include "engine/logic/bbList.h"
 #include "engine/threadsafe/bbThreadedPool.h"
 #include "engine/threadsafe/bbThreadedQueue_search.h"
+#include "engine/logic/bbTree.h"
