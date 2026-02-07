@@ -143,7 +143,7 @@ static bbFlag bbStr_setBounds(char* str, I32 columns, I32 rows, I32 max)
     {
         if (str[i_str] == '\0')
         {
-            temp[i_tep] = '\0';
+            temp[i_temp] = '\0';
             break;
         }
 
@@ -151,7 +151,7 @@ static bbFlag bbStr_setBounds(char* str, I32 columns, I32 rows, I32 max)
         {
             if (str[i_str] != '\n')
             {
-                temp[i_tep] = '\n';
+                temp[i_temp] = '\n';
                 column = 0;
                 i_temp++;
             }

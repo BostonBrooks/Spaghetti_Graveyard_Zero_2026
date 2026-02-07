@@ -86,4 +86,31 @@ break;            \
 }\
 }\
 
+//#define MUTEX_DEBUG
+#ifdef MUTEX_DEBUG
+
+#define bbMutexLock(mutex){\
+bbDebug("Mutex Lock attempted in thread %s!\n", thread);\
+pthread_mutex_lock(mutex);}\
+bbPrintf("Mutex Lock aquired in thread %s!\n", thread);\
+
+
+#define bbMutexUnlock(mutex){\
+bbDebug("Mutex Unlock in thread %s!\n", thread);\
+pthread_mutex_unlock(mutex);}\
+
+
+
+#else //#ifdef MUTEX_DEBUG
+
+
+#define bbMutexLock(mutex){\
+pthread_mutex_lock(mutex);}\
+
+
+#define bbMutexUnlock(mutex){\
+pthread_mutex_unlock(mutex);}\
+
+#endif //#ifdef MUTEX_DEBUG
+
 #endif //BB_TERMINAL_H

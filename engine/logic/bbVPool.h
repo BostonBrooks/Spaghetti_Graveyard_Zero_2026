@@ -1,8 +1,8 @@
 /// A virtual pool is a wrapper for different types of concrete pools,
 /// providing a single interface
 
-#ifndef BB_VPOOL_H
-#define BB_VPOOL_H
+#ifndef BB_VIRTUAL_POOL_H
+#define BB_VIRTUAL_POOL_H
 
 #include <stdlib.h>
 
@@ -79,7 +79,7 @@ static bbFlag bbVPool_printHeader(bbVPool* pool, void* address)
 {
     return pool->print_header(pool->pool, address);
 }
-bool bbVPool_handleIsEqual(bbVPool* pool, bbHandle A, bbHandle B)
+static bool bbVPool_handleIsEqual(bbVPool* pool, bbHandle A, bbHandle B)
 {
     return pool->handle_is_equal(pool->pool, A, B);
 }
@@ -92,4 +92,4 @@ bbVPool_allocImpl(pool, address, __FILE_NAME__, __LINE__);
 
 
 
-#endif //BB_VPOOL_H
+#endif //BB_VIRTUAL_POOL_H

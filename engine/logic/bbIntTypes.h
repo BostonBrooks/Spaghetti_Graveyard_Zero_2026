@@ -1,7 +1,7 @@
 /// This header file contains wrappers for int types
 
-#ifndef BBINTTYPES
-#define BBINTTYPES
+#ifndef BB_INTTYPES_H
+#define BB_INTTYPES_H
 
 #include <inttypes.h>
 #include <stdbool.h>
@@ -22,4 +22,4 @@ typedef struct
     I32 y;
 } I32x2;
 
-#endif //BBINTTYPES
+#endif //BB_INTTYPES_H

@@ -3,6 +3,10 @@
  * @brief We assume built in integer arithmetic rounds to zero
  * Define new arithmetic that rounds toward -infinity
  */
+
+#ifndef BB_ARITHMETIC_H
+#define BB_ARITHMETIC_H
+
 #include "engine/logic/bbIntTypes.h"
 #include "engine/logic/bbTerminal.h"
 
@@ -83,3 +87,5 @@ static I64 bbArith64_roundUp (I64 x, I64 y){
 static I64 bbArith64_roundDown (I64 x, I64 y){
     return x >= 0 ? (x / y) * y : ((x - y + 1) / y) * y;
 }
+
+#endif //BB_ARITHMETIC_H

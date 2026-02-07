@@ -1,7 +1,7 @@
 /// Most functions return a flag to indicate success/failure etc
 
-#ifndef BBFLAG_H
-#define BBFLAG_H
+#ifndef BB_FLAG_H
+#define BB_FLAG_H
 
 //some functions return positive values for indices and negative values for flags
 //some struct elements take positive values for indices and negative values for flags
@@ -24,5 +24,5 @@ typedef enum {
     bbTail,
 } bbFlag;
 
-#endif // BBFLAG_H
+#endif // BB_FLAG_H
 
