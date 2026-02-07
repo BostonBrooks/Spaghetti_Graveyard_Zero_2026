@@ -43,7 +43,7 @@ bbFlag bbVPool_newBloated(bbVPool** Pool, I32 sizeOf, I32 level1, I32 level2){
     handle)) bbBloatedPool_lookup;
     pool->reverse_lookup = (bbFlag (*)(void* pool, void* address,
             bbHandle* handle)) bbBloatedPool_reverseLookup;
-    pool->print_header = (bbFlag (*)(void *, void *)) bbBloatedPool_printHeader;
+//    pool->print_header = (bbFlag (*)(void *, void *)) bbBloatedPool_printHeader;
     pool->handle_is_equal = (bool (*)(void* USUSED, bbHandle A, bbHandle B)) bbBloatedPool_handleIsEqual;
     *Pool = pool;
     return bbSuccess;
@@ -272,7 +272,7 @@ bbFlag bbBloatedPool_lookupHeader(bbBloatedPool* pool, void** address, bbHandle 
 	bbAssert(lvl1index < pool->level1, "index out of bounds\n");
 	U32 lvl2index = index % pool->level2;
 	U8* lvl2 = pool->elements[lvl1index];
-	bbBloatedPool_Header *element = (bbBloatedPool_Header *)&lvl2[lvl2index * (sizeof(bbBloatedPool_Header) + pool->sizeOf)];
+	bbBloatedPool_Header *element = (bbBloatedPool_Header *)&lvl2[lvl2index * (sizeof(bbBloatedPool_Header) + pool->size_of)];
 	bbHandle elementHandle = element->self;
 	bbAssert(handle.bloated.collision == elementHandle.bloated.collision,
 			 "handle collision\n");
