@@ -14,6 +14,13 @@ verb in lower case, optionally followed by a noun in title case.
 eg bbAnimation_getSprite()
 
 Variable, struct member and union member names will all be in snake_case.
+Sometimes a function will take a void pointer that is immediately cast to a
+struct. In this case the void pointer will start with a capital and the struct
+will start with a lower case letter.
+
+An enum might be a type of a component in a system, for example the component
+might be a message, then the enum might be called bbMessage_type and one element
+of the enum might be bbMessageType_setPosition
 
 Multiple systems can be incorporated into one interface system. For example
 bbNetworkSend and bbNetworkReceive might be incorporated into bbNetworkApp.
@@ -55,5 +62,15 @@ forwarded to the current time.
 I need to remember that with pthreads when you launch a thread with a void
 pointer, that should be used as a pointer and not cast as an int.
 
+Include guards will be used in header files. They will look like the following:
+
+#ifndef BB_SYSTEMNAME_H
+#define BB_SYSTEMNAME_H
+...
+#endif //BB_SYSTEMNAME_H
+
+
+
 That'll do for now,
 Boston
+
