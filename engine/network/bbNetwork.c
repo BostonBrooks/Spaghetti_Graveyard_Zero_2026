@@ -179,7 +179,7 @@ void* bbNetwork_sendThread(void* args)
 
         bbNetworkPacket* test;
 
-        bbFlag flag = bbThreadedQueue_popRblock(&network->outbox, (void**)&test);
+        bbFlag flag = bbThreadedQueue_popR_block(&network->outbox, (void**)&test);
 
         if (flag == bbNone) continue;
 
