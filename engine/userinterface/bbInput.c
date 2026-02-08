@@ -190,7 +190,10 @@ bbFlag bbInput_poll(bbInput* input, sfRenderWindow* window){
                                            handle);
                     }
                 }
-
+                if (key == 0)
+                {
+                    if (keyCode == sfKeyEscape) exit(EXIT_SUCCESS);
+                }
                 //special character
             /*TODO code up mouse
             if (key == 0)
