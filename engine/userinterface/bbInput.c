@@ -151,7 +151,7 @@ bbFlag bbInput_poll(bbInput* input, sfRenderWindow* window){
         if (flag == sfFalse) return bbContinue;
         switch (event.type)
         {
-        case sfEvtClosed: return bbBreak;
+        case sfEvtClosed: exit(EXIT_SUCCESS);
 
         case sfEvtMouseMoved:
         case sfEvtMouseButtonPressed:

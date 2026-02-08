@@ -68,13 +68,12 @@ void* graphics_thread(void* arg)
                              "KITTY",
                              (bbScreenPoints){200*SCREEN_PPP,200*SCREEN_PPP});
 
-    bbWidget_constructor(&home.UI.widgets.selected_textbox,
+    bbWidget_constructor(NULL,
                          &home.UI.widgets,
-                         "TEXTBOX",
+                         "GAME",
                          "LAYOUT",
-                         "TEXTBOX",
-                         (bbScreenPoints){200*SCREEN_PPP,200*SCREEN_PPP});
-
+                         "GAME",
+                         (bbScreenPoints){0*SCREEN_PPP,0*SCREEN_PPP});
 
     drawFuncClosure cl;
     cl.map_time = 0;

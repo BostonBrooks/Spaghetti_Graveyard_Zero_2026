@@ -3,6 +3,7 @@
 #include "engine/userinterface/bbWidgetFunctions.h"
 #include "engine/userinterface/bbWidgets.h"
 #include "games/game0/maps/map0/widgets/textbox.h"
+#include "games/game0/maps/map0/widgets/gamewidget.h"
 
 
 bbFlag bbWidget_Constructor_NULL (bbWidget** self,
@@ -73,6 +74,11 @@ bbFlag bbWidgetFunctions_populate(bbWidgetFunctions* self)
         WidgetConstructor,
         bbWidget_Constructor_Textbox,
         "TEXTBOX");
+
+    bbWidgetFunctions_add(self,
+        WidgetConstructor,
+        bbWidget_Constructor_Game,
+        "GAME");
 
 
 

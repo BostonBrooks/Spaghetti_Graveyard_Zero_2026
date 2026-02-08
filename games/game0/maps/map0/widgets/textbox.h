@@ -95,22 +95,24 @@ bbFlag Textbox_OnCommand(bbWidget* widget, bbWidgetCommandType type, bbHandle da
                  char ch = data.u64;
                  char* string = widget->type_data.text_box.string;
                  bbStr_putChar(string, ch, 1048);
-                 bbStr_setBounds(string , widget->type_data.text_box.columns, widget->type_data.text_box.rows, 1048);
+                 bbStr_setBounds(string , widget->type_data.text_box.columns,
+                                 widget->type_data.text_box.rows, 1048);
 
                  sfText_setString(widget->type_data.text_box.text, string);
 
 
                  break;
              }
-        /*
+
     case bbWC_putStr:
              {
                  char* ch = data.ptr;
-                 char* string = widget->typeData.textBox.string;
+                 char* string = widget->type_data.text_box.string;
                  bbStr_putStr(string, ch, 1048);
-                 bbStr_setBounds(string , widget->typeData.textBox.columns, widget->typeData.textBox.rows, 1048);
+                 bbStr_setBounds(string , widget->type_data.text_box.columns,
+                               widget->type_data.text_box.rows, 1048);
 
-                 sfText_setString(widget->typeData.textBox.text, string);
+                 sfText_setString(widget->type_data.text_box.text, string);
 
 
                  break;
@@ -120,14 +122,14 @@ bbFlag Textbox_OnCommand(bbWidget* widget, bbWidgetCommandType type, bbHandle da
              {
                  I32x2 bounds = data.i32x2;
 
-                 widget->typeData.textBox.columns = bounds.x;
-                 widget->typeData.textBox.rows = bounds.y;
-                 bbStr_setBounds(widget->typeData.textBox.string,
-                     widget->typeData.textBox.columns,
-                     widget->typeData.textBox.rows,
+                 widget->type_data.text_box.columns = bounds.x;
+                 widget->type_data.text_box.rows = bounds.y;
+                 bbStr_setBounds(widget->type_data.text_box.string,
+                     widget->type_data.text_box.columns,
+                     widget->type_data.text_box.rows,
                      1048);
 
-                 sfText_setString(widget->typeData.textBox.text, widget->typeData.textBox.string);
+                 sfText_setString(widget->type_data.text_box.text, widget->type_data.text_box.string);
                  break;
              }
 
@@ -138,9 +140,9 @@ bbFlag Textbox_OnCommand(bbWidget* widget, bbWidgetCommandType type, bbHandle da
                  widget->rect.width = dimensions.x;
                  widget->rect.height = dimensions.y;
 
-                 sfText* text = widget->typeData.textBox.text;
-                 float lineSpacing = 12;// != sfText_getLineSpacing(text);
-                 float letterSpacing = 8;// != sfText_getLetterSpacing(text);
+                 sfText* text = widget->type_data.text_box.text;
+                 float lineSpacing = 12.f;// != sfText_getLineSpacing(text);
+                 float letterSpacing = 8.f;// != sfText_getLetterSpacing(text);
                  //int charsize = sfText_getCharacterSize(text);
 
                  //bbDebug("lineSpacing = %f, letterSpacing = %f, charsize = %d\n", lineSpacing, letterSpacing, charsize);
@@ -150,24 +152,26 @@ bbFlag Textbox_OnCommand(bbWidget* widget, bbWidgetCommandType type, bbHandle da
                  bounds.x = dimensions.x / (letterSpacing * SCREEN_PPP);
                  bounds.y = dimensions.y / (lineSpacing * SCREEN_PPP);
 
-                 widget->typeData.textBox.columns = bounds.x;
-                 widget->typeData.textBox.rows = bounds.y;
-                 bbStr_setBounds(widget->typeData.textBox.string,
-                     widget->typeData.textBox.columns,
-                     widget->typeData.textBox.rows,
+                 widget->type_data.text_box.columns = bounds.x;
+                 widget->type_data.text_box.rows = bounds.y;
+                 bbStr_setBounds(widget->type_data.text_box.string,
+                     widget->type_data.text_box.columns,
+                     widget->type_data.text_box.rows,
                      1048);
 
-                 sfText_setString(widget->typeData.textBox.text, widget->typeData.textBox.string);
+                 sfText_setString(widget->type_data.text_box.text,
+                     widget->type_data.text_box.string);
                  break;
              }
     case bbWC_setStr:
              {
                  char* ch = data.ptr;
-                 char* string = widget->typeData.textBox.string;
+                 char* string = widget->type_data.text_box.string;
                  bbStr_setStr(string, ch, 1048);
-                 bbStr_setBounds(string , widget->typeData.textBox.columns, widget->typeData.textBox.rows, 1048);
+                 bbStr_setBounds(string , widget->type_data.text_box.columns,
+                     widget->type_data.text_box.rows, 1048);
 
-                 sfText_setString(widget->typeData.textBox.text, string);
+                 sfText_setString(widget->type_data.text_box.text, string);
 
 
                  break;
@@ -175,16 +179,17 @@ bbFlag Textbox_OnCommand(bbWidget* widget, bbWidgetCommandType type, bbHandle da
         case bbWC_clrStr:
         {
             char* ch = data.ptr;
-            char* string = widget->typeData.textBox.string;
+            char* string = widget->type_data.text_box.string;
             bbStr_setStr(string, "", 1048);
-            bbStr_setBounds(string , widget->typeData.textBox.columns, widget->typeData.textBox.rows, 1048);
+            bbStr_setBounds(string , widget->type_data.text_box.columns,
+                widget->type_data.text_box.rows, 1048);
 
-            sfText_setString(widget->typeData.textBox.text, string);
+            sfText_setString(widget->type_data.text_box.text, string);
 
 
             break;
         }
-*/
+
     }
     return bbSuccess;
 }
