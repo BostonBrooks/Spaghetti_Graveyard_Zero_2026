@@ -54,11 +54,14 @@ bbFlag bbSprite_new(bbSprites* sprites, char* key, I32 address, sfTexture* textu
     return bbSuccess;
 }
 
-bbFlag bbSprites_new(bbSprites** self, bbTextures* textures, char* filePath,
-                  float widget_scale, float drawable_scale, float ground_scale)
+bbFlag bbSprites_new(bbSprites** self, bbTextures* textures, char* file_path,
+                  float widget_scale,
+                  float drawable_scale,
+                  float ground_scale,
+                  float mapicon_scale)
 {
 
-    FILE* file = fopen(filePath, "r");
+    FILE* file = fopen(file_path, "r");
     bbAssert(file!= NULL, "bad fopen\n");
 
     I32 num;
@@ -96,14 +99,20 @@ bbFlag bbSprites_new(bbSprites** self, bbTextures* textures, char* filePath,
         } else if(0 == strcmp(scale_by, "Ground")){
             dimensions.scale_x *= ground_scale;
             dimensions.scale_y *= ground_scale;
-        } else  {
-            bbAssert(0 == strcmp(scale_by, "None"), "bad Scale By in sprites.csv\n");
+        } else if(0 == strcmp(scale_by, "MapIcon"))
+            dimensions.scale_x *= mapicon_scale;
+            dimensions.scale_y *= mapicon_scale;
+        } else
+        {
+
+            dimensions.scale_x *= 1.f;
+            dimensions.scale_y *= 1.f;
         }
 
 
         bbTextures_lookup(&texture_ptr, textures, texture);
         bbSprite_new(sprites, key, address, texture_ptr, &dimensions);
-                 }
+
 
     fclose(file);
     *self = sprites;

@@ -4,6 +4,7 @@
 #include <SFML/Window.h>
 #include <pthread.h>
 
+#include "engine/graphics/bbSprites.h"
 #include "engine/logic/bbTerminal.h"
 #include "engine/logic/bbFlag.h"
 
@@ -39,6 +40,20 @@ void* graphics_thread(void* arg)
 
     sfRenderWindow* window = sfRenderWindow_create(mode, "early demo", sfResize | sfClose, NULL);
     sfRenderWindow_drawSprite(window, splash_sprite, NULL);
+    sfRenderWindow_display(window);
+
+    bbTextures* textures;
+    bbSprites* sprites;
+
+    bbTextures_new(&textures, "./maps/map0/graphics/textures.csv");
+
+    bbSprites_new(&sprites, textures, "./maps/map0/graphics/sprites.csv",
+                  1.f, 1.f, 1.f);
+
+    sfSprite* sprite;
+    bbSprites_lookup (&sprite, sprites, "LAYERBOUNDARY");
+
+    sfRenderWindow_drawSprite(window, sprite, NULL);
     sfRenderWindow_display(window);
 
     sfSleep(sfSeconds(5.f));

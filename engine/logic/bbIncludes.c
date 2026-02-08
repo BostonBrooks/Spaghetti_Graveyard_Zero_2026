@@ -17,3 +17,4 @@
 #include "engine/graphics/CSFML.h"
 #include "engine/graphics/bbSprites.h"
 #include "engine/graphics/bbTextures.h"
+#include "engine/graphics/bbAnimations.h"

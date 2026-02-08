@@ -13,7 +13,11 @@ add_executable(Spaghetti_Graveyard_Zero_2026 test/incremental_test.c
         engine/threadsafe/bbThreadedQueue_search.c
         engine/logic/bbTree.c
         engine/graphics/bbTextures.c
-        engine/graphics/bbSprites.c)
+        engine/graphics/bbSprites.c
+        engine/graphics/bbAnimations.c
+        engine/graphics/bbColours.c
+        engine/graphics/bbFonts.c
+        engine/graphics/bbComposition.c)
 
 target_include_directories(Spaghetti_Graveyard_Zero_2026  PRIVATE "./")
 

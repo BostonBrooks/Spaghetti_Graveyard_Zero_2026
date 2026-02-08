@@ -16,7 +16,10 @@ typedef struct { //bbSprites
 } bbSprites;
 
 bbFlag bbSprites_new(bbSprites** self, bbTextures* textures, char* file_path,
-                  float widget_scale, float drawable_scale, float ground_scale);
+                  float widget_scale,
+                  float drawable_scale,
+                  float ground_scale,
+                  float mapicon_scale);
 
 ///when closing one map before opening another
 bbFlag bbSprites_delete(bbSprites* sprites);
