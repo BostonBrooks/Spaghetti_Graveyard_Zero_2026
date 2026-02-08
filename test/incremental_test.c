@@ -57,8 +57,8 @@ void* graphics_thread(void* arg)
     bbMouse mouse;
     bbMouse_Init(&mouse, &home.UI.widgets, &home.UI.graphics);
 
-
     bbMouseFunctions_init(&mouse.functions);
+    bbMouseFunctions_populate(&mouse.functions);
 
     bbInput input;
     bbInput_init(&input, window, &mouse, &home.UI.widgets);
@@ -94,6 +94,8 @@ void* graphics_thread(void* arg)
         cl.GUI_time = gui_time++;
 
         bbInput_poll(&input, window);
+
+        bbMouse_isOver(&mouse, &home.UI.widgets);
 
         sfRenderWindow_clear(window, sfMagenta);
         bbWidgets_draw(&home.UI.widgets, &cl);

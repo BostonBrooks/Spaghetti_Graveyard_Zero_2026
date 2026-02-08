@@ -1,0 +1,42 @@
+#ifndef MOUSE
+#define MOUSE
+
+#include "engine/logic/bbFlag.h"
+#include "engine/userinterface/bbMouse.h"
+#include "engine/userinterface/bbWidgets.h"
+
+//mouse hovers over widget, uses pointer defined by widget
+bbFlag IsOver_Hover(bbMouse* mouse, bbWidgets* widgets, bbWidget* widget)
+{
+
+    bbScreenPointsRect rect = widget->rect;
+    bbScreenPoints point = mouse->position;
+
+    if (bbScreenPoints_inScreenPointsRect(point, rect)){
+        bbVPool* pool = widgets->pool;
+        bbHandle handle;
+        bbVPool_reverseLookup(pool,widget,&handle);
+
+        if (!bbVPool_handleIsEqual(pool,handle,mouse->is_over))
+        {
+            mouse->was_over = mouse->is_over;
+            mouse->is_over = handle;
+        }
+        return bbBreak;
+    }
+    return bbContinue;
+}
+
+bbFlag bbMouseFunctions_populate(bbMouseFunctions* self)
+{
+
+    bbMouseFunctions_add(self, MouseIsOver, IsOver_Hover, "HOVER");
+
+
+    return bbSuccess;
+}
+
+
+
+
+#endif //MOUSE

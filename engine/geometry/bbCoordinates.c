@@ -18,3 +18,16 @@ bbScreenPoints pixel_getScreenPoints(I32 x, I32 y)
 
     return SP;
 }
+
+I32 bbScreenPoints_inScreenPointsRect(bbScreenPoints SP,
+                                      bbScreenPointsRect rect){
+
+    if (SP.x < rect.left || SP.y < rect.top) return 0;
+
+    I32 right = rect.left + rect.width;
+    I32 bottom = rect.top + rect.height;
+
+    if (SP.x > right || SP.y > bottom) return 0;
+
+    return 1;
+}

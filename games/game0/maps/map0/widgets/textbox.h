@@ -28,18 +28,18 @@ bbFlag bbWidget_Constructor_Textbox (bbWidget** self,
     widget->rect = rect;
 
     widget->ftable.command = bbWidgetFunctions_getInt(widgets->functions,WidgetCommand ,"TEXTBOX");
-/* mouse fuctions
+
     int funcInt;
     funcInt = bbMouseFunctions_getInt(&widgets->mouse->functions,MouseIsOver,
                                   "HOVER");
-    widget->mtable.isOver = funcInt;
-
+    widget->mtable.is_over = funcInt;
+/*
     funcInt = bbMouseFunctions_getInt(&widgets->mouse->functions,MouseLeftDown,
                                   "TEXTBOX");
     widget->mtable.LeftDown = funcInt;
-
-    widget->mtable.MouseIcon = 155;
 */
+    widget->mtable.mouse_icon = 155;
+
     bbGraphicsApp* Graphics = graphics;
     bbHandle drawfunctionHandle;
     bbDictionary_lookup(Graphics->drawfunctions->dictionary, "TEXTBOX",

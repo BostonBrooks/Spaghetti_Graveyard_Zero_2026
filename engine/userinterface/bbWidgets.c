@@ -185,6 +185,13 @@ bbFlag bbWidget_newLayout(bbWidget** self,
 
     widget->rect = rect;
 
+    int funcInt;
+    funcInt = bbMouseFunctions_getInt(&widgets->mouse->functions,MouseIsOver,
+                                  "HOVER");
+    widget->mtable.is_over = funcInt;
+
+    widget->mtable.mouse_icon = 154;
+
     bbHandle drawfunctionHandle;
     bbDictionary_lookup(graphics->drawfunctions->dictionary,
                      "WIDGET_SPRITE",
