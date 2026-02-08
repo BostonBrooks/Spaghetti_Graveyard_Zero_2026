@@ -37,4 +37,27 @@ target_link_libraries(Spaghetti_Graveyard_Zero_2026 PRIVATE
         csfml-graphics
         csfml-window
         csfml-system
+        csfml-network
+)
+
+add_executable(Server engine/server/bbServer.c
+        engine/data/bbIncludes.c
+        engine/logic/bbBloatedPool.c
+        engine/logic/bbDictionary.c
+        engine/threadsafe/bbThreadedPool.c
+        engine/threadsafe/bbThreadedQueue.c
+        engine/threadsafe/bbThreadedQueue_search.c
+        engine/network/bbNetwork.c
+        engine/network/bbNetworkApp.c
+        engine/network/bbNetworkClock.c
+        engine/network/bbNetworkPacket.c
+        engine/network/bbNetworkTime.c)
+
+target_include_directories(Server  PRIVATE "./")
+
+target_link_libraries(Server PRIVATE
+        csfml-graphics
+        csfml-window
+        csfml-system
+        csfml-network
 )

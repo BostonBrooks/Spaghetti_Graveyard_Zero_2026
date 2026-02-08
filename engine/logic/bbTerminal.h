@@ -4,7 +4,11 @@
 #define BB_TERMINAL_H
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 #include "engine/logic/bbFlag.h"
+#include "engine/logic/bbIntTypes.h"
 
 extern thread_local char* thread;
 static const int stringLength = 512;
@@ -85,6 +89,105 @@ break;            \
 \
 }\
 }\
+
+#define sfSocketStatus_print(status)\
+{\
+switch((sfSocketStatus)status)\
+{\
+case sfSocketDone:\
+bbDebug("status = sfSocketDone\n");\
+break;\
+case sfSocketNotReady:\
+bbDebug("status = sfSocketNotReady\n");\
+break;\
+case sfSocketPartial:\
+bbDebug("status = sfSocketPartial\n");\
+break;\
+case sfSocketDisconnected:\
+bbDebug("status = sfSocketDisconnected\n");\
+break;\
+case sfSocketError:\
+bbDebug("status = sfSocketError\n");\
+break;\
+default:\
+bbDebug("status = unknown\n");\
+\
+}\
+}\
+
+//Similar function found in https://github.com/orichalcink/chatroom
+static void bbClearLine(I32 lines)
+{
+    //    \r     #go to the start of the current line
+    //    \033[F #back to previous line
+    //    \033[K #delete everything from the cursor to the end of the line
+
+    for(I32 i = 0; i <= lines;i++)
+    {
+        printf("\r\033[K");
+        if (i<lines) printf("\033[F");
+    }
+    fflush(stdout);
+}
+
+//Similar function found in https://github.com/orichalcink/chatroom
+static I32 bbGetLine(char* string, I32 bufferlength, FILE* fp)
+{
+    I32 numchars = 0;
+    I32 c = '\0';
+
+    while (1)
+    {
+        c = fgetc(fp);
+
+        if (c == EOF || c == '\n') break;
+
+        string[numchars] = c;
+
+        if (numchars >= bufferlength - 1) break;
+        numchars++;
+    }
+
+    string[numchars + 1] = '\0';
+
+    return numchars + 1;
+}
+
+//Similar function found in https://github.com/orichalcink/chatroom
+static I32 bbGetInt(char* prompt, int defaultValue)
+{
+    I32 number;
+    char answer[64];
+    while(1){
+        printf("%s", prompt);
+
+        for (I32 j = 0; j < 64; j++)
+        {
+            answer[j] = 0;
+        }
+
+        bbGetLine(answer,64,stdin);
+
+        I32 len = strlen(answer);
+
+        if (len == 0) return defaultValue;
+
+        char digits[] = "0123456789";
+        I32 int_len = strspn(answer, digits);
+
+        if(len == int_len) {
+
+            number = atoi(answer);
+            return (number);
+        }
+        bbClearLine(1);
+
+        printf("Invalid input. Please enter a valid integer.\n");
+
+
+    }
+}
+
 
 //#define MUTEX_DEBUG
 #ifdef MUTEX_DEBUG
