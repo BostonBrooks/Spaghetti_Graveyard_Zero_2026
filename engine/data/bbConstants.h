@@ -7,6 +7,8 @@
 #define KEY_LENGTH 33
 #define FRAMES_PER_COMPOSITION 8
 
+#define FRAMES_PER_WIDGET 8
+
 #define KEY_LENGTH            33
 
 //TODO POINTS_PER_PIXEL needs to be separates from SCREEN_PPP

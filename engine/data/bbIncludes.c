@@ -19,3 +19,5 @@
 #include "engine/graphics/bbTextures.h"
 #include "engine/graphics/bbAnimations.h"
 #include "engine/data/bbHome.h"
+#include "engine/userinterface/bbWidgets.h"
+#include "engine/userinterface/bbWidgetFunctions.h"

@@ -16,6 +16,7 @@ bbHome home;
 void* graphics_thread(void* arg);
 int main(void)
 {
+    thread = "MAIN";
     printf("Hello, World!\n");
 
     pthread_t graphics_pthread;
@@ -32,6 +33,7 @@ int main(void)
 
 void* graphics_thread(void* arg)
 {
+    thread = "GRAPHICS";
     sfTexture* splash_texture = sfTexture_createFromFile("./graphics/Splash.png", NULL);
     sfSprite* splash_sprite = sfSprite_create();
     sfSprite_setTexture(splash_sprite, splash_texture, sfTrue);
@@ -47,6 +49,29 @@ void* graphics_thread(void* arg)
 
 
     bbGraphicsApp_init(&home.UI.graphics);
+
+    bbWidgets_init(&home.UI.widgets);
+
+    bbWidget* root;
+    bbWidget_newLayout(&root, &home.UI.graphics, &home.UI.widgets, NULL);
+
+
+
+    bbWidget_constructor(NULL,
+                             &home.UI.widgets,
+                             "NULL",
+                             "NULL",
+                             "NULL",
+                             (bbScreenPoints){0,0});
+
+    drawFuncClosure cl;
+    cl.map_time = 0;
+    cl.GUI_time = 0;
+    cl.graphics = &home.UI.graphics;
+    cl.target = window;
+
+    bbWidgets_draw(&home.UI.widgets, &cl);
+    sfRenderWindow_display(window);
 
     sfSleep(sfSeconds(5.f));
     return 0;

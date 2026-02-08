@@ -266,6 +266,14 @@ bbFlag bbBloatedPool_free(bbBloatedPool* pool, void* address)
 }
 
 bbFlag bbBloatedPool_lookupHeader(bbBloatedPool* pool, void** address, bbHandle handle){
+
+	if ( handle.bloated.index == 0 && handle.bloated.collision == 0)
+	{
+		bbHere();
+		*address = NULL;
+		return bbFail;
+	}
+
 	U32 index = handle.bloated.index;
 	U32 collision = handle.bloated.collision;
 	U32 lvl1index = index / pool->level2;

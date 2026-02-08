@@ -122,7 +122,7 @@ bbFlag bbDictionary_lookup(bbDictionary* dict, char* key, bbHandle* value){
     I32 index = bbDictionary_lookupIndex(dict, key);
     if (index == flag_None) {
         value->u64 = 0;
-        //bbDebug("key not found: %s\n", key);
+        bbDebug("key not found: %s\n", key);
         return bbNone;
     }
     bbDictionary_entry* entry = bbDictionary_indexLookup(dict, index);
