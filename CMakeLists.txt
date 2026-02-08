@@ -25,7 +25,8 @@ add_executable(Spaghetti_Graveyard_Zero_2026 test/incremental_test.c
         games/game0/maps/map0/widgets/widgets.c
         engine/geometry/bbCoordinates.c
         engine/userinterface/bbInput.c
-        engine/userinterface/bbMouse.c)
+        engine/userinterface/bbMouse.c
+        engine/userinterface/bbMouseFunctions.c)
 
 target_include_directories(Spaghetti_Graveyard_Zero_2026  PRIVATE "./")
 

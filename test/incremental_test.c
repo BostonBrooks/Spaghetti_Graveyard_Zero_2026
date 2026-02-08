@@ -57,6 +57,9 @@ void* graphics_thread(void* arg)
     bbMouse mouse;
     bbMouse_Init(&mouse, &home.UI.widgets, &home.UI.graphics);
 
+
+    bbMouseFunctions_init(&mouse.functions);
+
     bbInput input;
     bbInput_init(&input, window, &mouse, &home.UI.widgets);
 

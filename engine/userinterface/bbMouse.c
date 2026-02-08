@@ -173,9 +173,11 @@ bbFlag bbMouse_Draw(bbMouse* mouse, void* Widgets, bbGraphicsApp* graphics,
     bbWidget* widget;
     bbVPool_lookup(widgets->pool, (void**)&widget, widget_handle);
 
+    int spriteInt;
     pos = bbScreenPoints_getV2f(mouse->position);
-    //TODO int spriteInt = widget->mtable.mouse_icon;
-    int spriteInt = 133;
+
+    spriteInt = (widget == NULL) ? 133 : widget->mtable.mouse_icon;
+
     if (spriteInt < 0) spriteInt = 0;
     sfSprite* sprite = graphics->sprites->sprites[spriteInt];
     sfSprite_setPosition(sprite, pos);

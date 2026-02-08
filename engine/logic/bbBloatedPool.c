@@ -290,10 +290,12 @@ bbFlag bbBloatedPool_lookupHeader(bbBloatedPool* pool, void** address, bbHandle 
 
 bbFlag bbBloatedPool_lookup(bbBloatedPool* pool, void** address, bbHandle handle){
 	bbBloatedPool_Header* element;
-	bbBloatedPool_lookupHeader(pool, (void**)&element, handle);
-	*address = &element->user_data;
+	bbFlag flag = bbBloatedPool_lookupHeader(pool, (void**)&element, handle);
 
-	return bbSuccess;
+	if (flag == bbSuccess) *address = &element->user_data;
+	else *address = NULL;
+
+	return flag;
 }
 
 bbFlag bbBloatedPool_reverseLookup(bbBloatedPool* pool, void* address, bbHandle* handle){

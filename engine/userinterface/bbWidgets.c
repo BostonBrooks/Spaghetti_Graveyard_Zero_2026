@@ -69,22 +69,22 @@ bbFlag bbWidget_newEmpty(bbWidget** self, bbWidgets* widgets, bbWidget* parent, 
     widget->rect.width = 0;
     widget->rect.height = 0;
 
-/* not yet implemented
-    widget->mtable.isOver = -1;
-    widget->mtable.Enter = -1;
-    widget->mtable.Leave = -1;
-    widget->mtable.LeftDown = -1;
-    widget->mtable.LeftUp = -1;
-    widget->mtable.LeftDrag = -1;
-    widget->mtable.RightDown = -1;
-    widget->mtable.RightUp = -1;
-    widget->mtable.RightDrag = -1;
-    widget->mtable.Drop = -1;
-    widget->mtable.MouseIcon = -1;
-    widget->mtable.DragIcon = -1;
+
+    widget->mtable.is_over = -1;
+    widget->mtable.enter = -1;
+    widget->mtable.leave = -1;
+    widget->mtable.left_down = -1;
+    widget->mtable.left_up = -1;
+    widget->mtable.left_drag = -1;
+    widget->mtable.right_down = -1;
+    widget->mtable.right_up = -1;
+    widget->mtable.right_drag = -1;
+    widget->mtable.drop = -1;
+    widget->mtable.mouse_icon = -1;
+    widget->mtable.drag_icon = 154;
     widget->mtable.hover = false;
     widget->mtable.selected = false;
-*/
+
     widget->ftable.constructor = -1;
     widget->ftable.update = -1;
     widget->ftable.destructor = -1;
