@@ -191,7 +191,8 @@ bbFlag bbWidget_newLayout(bbWidget** self,
     bbVPool_reverseLookup(widgets->pool, widget, &handle);
     bbDictionary_add(widgets->dict, "LAYOUT", handle);
 
-    *self = widget;
+    if (self!=NULL) *self = widget;
 
     return bbSuccess;
 }
+

@@ -28,7 +28,7 @@ int main(void)
 
     sfSleep(sfSeconds(5.f));
 
-    return 0;
+    exit (EXIT_SUCCESS);
 }
 
 void* graphics_thread(void* arg)
@@ -44,6 +44,7 @@ void* graphics_thread(void* arg)
     mode.bitsPerPixel = 32;
 
     sfRenderWindow* window = sfRenderWindow_create(mode, "early demo", sfResize | sfClose, NULL);
+    sfRenderWindow_setFramerateLimit(window, 60);
     sfRenderWindow_drawSprite(window, splash_sprite, NULL);
     sfRenderWindow_display(window);
 
@@ -59,10 +60,11 @@ void* graphics_thread(void* arg)
 
     bbWidget_constructor(NULL,
                              &home.UI.widgets,
-                             "NULL",
-                             "NULL",
-                             "NULL",
-                             (bbScreenPoints){0,0});
+                             "KITTY",
+                             "LAYOUT",
+                             "KITTY",
+                             (bbScreenPoints){200*SCREEN_PPP,200*SCREEN_PPP});
+
 
     drawFuncClosure cl;
     cl.map_time = 0;
@@ -70,8 +72,14 @@ void* graphics_thread(void* arg)
     cl.graphics = &home.UI.graphics;
     cl.target = window;
 
-    bbWidgets_draw(&home.UI.widgets, &cl);
-    sfRenderWindow_display(window);
+    I32 gui_time = 0;
+    while (1)
+    {
+        cl.GUI_time = gui_time++;
+        sfRenderWindow_clear(window, sfMagenta);
+        bbWidgets_draw(&home.UI.widgets, &cl);
+        sfRenderWindow_display(window);
+    }
 
     sfSleep(sfSeconds(5.f));
     return 0;

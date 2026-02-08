@@ -35,7 +35,42 @@ bbFlag bbDF_widgetSprite(void* drawable, void* frame_descriptor, void* cl){
     return bbSuccess;
 }
 
-#define NUM_DRAWFUNCTIONS 2
+
+// Draw an animation belonging to a widget;
+bbFlag bbDF_widgetAnimation(void* drawable, void* frameDescriptor, void* cl){
+
+    bbWidget* widget = drawable;
+    bbFrame* frame_descriptor = frameDescriptor;
+    drawFuncClosure* closure = cl;
+    bbGraphicsApp* graphics = closure->graphics;
+
+    bbAnimation* animation = graphics->animations->animations[frame_descriptor->handle.u64];
+
+    I32 angle = 0;
+    I32 frames = animation->frames;
+
+
+    //bbDebug("key = %s, maptime = %d, starttime= %d, framerate = %f, frames = %d\n",
+    //		animation->key, mapTime, frame_descriptor->startTime,animation->framerate, animation->frames );
+    I32 frame = (int)((double)(closure->GUI_time - frame_descriptor->start_time) *
+                      (double)animation->framerate * frame_descriptor->framerate) % animation->frames;
+    I32 sprite_int = animation->Sprites[angle*frames+frame].u64;
+    sfSprite* sprite = animation->sprites->sprites[sprite_int];
+
+
+
+    bbScreenPoints SP;
+    SP.x = widget->rect.left + frame_descriptor->offset.x;
+    SP.y = widget->rect.top + frame_descriptor->offset.y;
+    sfVector2f position = bbScreenPoints_getV2f(SP);
+
+    sfSprite_setPosition(sprite, position);
+    sfRenderWindow_drawSprite(closure->target, sprite, NULL);
+
+    return bbSuccess;
+}
+
+#define NUM_DRAWFUNCTIONS 3
 bbFlag bbDrawfunctions_new(bbDrawfunctions** drawfunctions){
 
     bbDrawfunctions* functions = malloc(sizeof(bbDrawfunctions) + NUM_DRAWFUNCTIONS * sizeof(bbDrawFunction*));
@@ -53,6 +88,10 @@ bbFlag bbDrawfunctions_new(bbDrawfunctions** drawfunctions){
     functions->functions[1] = bbDF_widgetSprite;
     handle.u64 = 1;
     bbDictionary_add(functions->dictionary, "WIDGET_SPRITE", handle);
+
+    functions->functions[2] = bbDF_widgetAnimation;
+    handle.u64 = 2;
+    bbDictionary_add(functions->dictionary, "WIDGET_ANIMATION", handle);
 
     *drawfunctions = functions;
     return bbSuccess;

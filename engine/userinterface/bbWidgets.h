@@ -75,7 +75,10 @@ typedef struct bbWidgets {
 
 bbFlag bbWidgets_init(bbWidgets* widgets);
 
-bbFlag bbWidget_newEmpty(bbWidget** self, bbWidgets* widgets, bbWidget* parent, char* name);
+bbFlag bbWidget_newEmpty(bbWidget** self,
+                         bbWidgets* widgets,
+                         bbWidget* parent,
+                         char* name);
 
 bbFlag bbWidget_constructor(bbWidget** self,
                              bbWidgets* widgets,
@@ -89,5 +92,8 @@ bbFlag bbWidget_draw(bbWidget* widget, drawFuncClosure* cl);
 
 bbFlag bbWidgets_draw(bbWidgets* widgets, void* cl);
 
-bbFlag bbWidget_newLayout(bbWidget** self, bbGraphicsApp* graphics, bbWidgets* widgets, bbWidget* parent);
+bbFlag bbWidget_newLayout(bbWidget** self,
+                         bbGraphicsApp* graphics,
+                         bbWidgets* widgets,
+                         bbWidget* parent);
 #endif //BB_WIDGET_H
