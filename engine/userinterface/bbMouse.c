@@ -137,9 +137,6 @@ bbFlag bbMouse_isOverFunc(bbTree* tree, void* node, void* cl)
     if (funcInt == -1) return bbContinue;
 
     bbMouse_IsOver* func = mouse->functions.IsOver[funcInt];
-
-    bbDebug("func = %p\n",func);
-
     return func(mouse, widgets, widget);
 
 }
