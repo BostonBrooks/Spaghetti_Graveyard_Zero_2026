@@ -1,7 +1,7 @@
 #ifndef BB_COORDINATES_H
 #define BB_COORDINATES_H
 
-#include "engine/graphics/CSFML.h"
+#include "engine/data/CSFML.h"
 #include "engine/logic/bbArithmetic.h"
 #include <math.h>
 

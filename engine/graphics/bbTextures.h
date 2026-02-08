@@ -1,7 +1,7 @@
 #ifndef BB_TEXTURES_H
 #define BB_TEXTURES_H
 
-#include "engine/graphics/CSFML.h"
+#include "engine/data/CSFML.h"
 #include "engine/logic/bbFlag.h"
 #include "engine/logic/bbDictionary.h"
 

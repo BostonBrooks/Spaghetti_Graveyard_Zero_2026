@@ -13,6 +13,11 @@ bbFlag bbWidgetFunctions_new(bbWidgetFunctions** self)
     bbDictionary_new(&functions->constructor_dict, magic_number);
     functions->constructor_available = 0;
 
+    functions->commands = calloc(magic_number, sizeof(U64));
+    bbAssert(functions->commands != NULL, "bad calloc\n");
+    bbDictionary_new(&functions->command_dict, magic_number);
+    functions->command_available = 0;
+
     *self = functions;
     return bbSuccess;
 }
@@ -36,8 +41,20 @@ bbFlag bbWidgetFunctions_add(bbWidgetFunctions* functions, bbWidgetFunctionType 
 
         return bbSuccess;
 
+    case WidgetCommand:
+        available = functions->command_available++;
+        bbAssert(available < magic_number, "out of bounds error\n");
+
+        functions->commands[available] = function_pointer;
+        handle.u64 = available;
+
+        bbDictionary_add(functions->command_dict, key, handle);
+
+        return bbSuccess;
+
     default:
         bbAssert(0, "bad widget function type\n");
+        return bbFail;
     }
 
     return bbSuccess;
@@ -50,11 +67,16 @@ I32 bbWidgetFunctions_getInt(bbWidgetFunctions* functions,
     case WidgetConstructor:
         dict = functions->constructor_dict;
         break;
+
+    case WidgetCommand:
+        dict = functions->command_dict;
+        break;
     }
 
     bbHandle handle;
-    bbDictionary_lookup(dict,key,&handle);
-    return handle.u64;
+    bbFlag flag = bbDictionary_lookup(dict,key,&handle);
+    if (flag == bbSuccess) return handle.u64;
+    return -1;
 }
 
 
@@ -67,6 +89,11 @@ bbFlag bbWidgetFunctions_getFunction(void** function, bbWidgetFunctions* functio
     case WidgetConstructor:
         bbDictionary_lookup(functions->constructor_dict,key,&handle);
         *function = functions->constructors[handle.u64];
+        return bbSuccess;
+
+    case WidgetCommand:
+        bbDictionary_lookup(functions->command_dict,key,&handle);
+        *function = functions->commands[handle.u64];
         return bbSuccess;
     }
     *function = NULL;

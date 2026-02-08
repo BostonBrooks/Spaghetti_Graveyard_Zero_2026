@@ -5,7 +5,7 @@
 #include "engine/logic/bbDictionary.h"
 //#include "engine/graphics/bbTextures.h"
 #include "engine/logic/bbIntTypes.h"
-#include "engine/graphics/CSFML.h"
+#include "engine/data/CSFML.h"
 #include "engine/graphics/bbTextures.h"
 
 typedef struct { //bbSprites

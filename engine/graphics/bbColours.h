@@ -1,7 +1,7 @@
 #ifndef BB_COLOURS_H
 #define BB_COLOURS_H
 
-#include "engine/graphics/CSFML.h"
+#include "engine/data/CSFML.h"
 #include "engine/logic/bbTerminal.h"
 
 ///Clear the window to a given colour.

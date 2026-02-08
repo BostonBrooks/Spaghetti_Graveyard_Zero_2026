@@ -70,7 +70,20 @@ bbFlag bbDF_widgetAnimation(void* drawable, void* frameDescriptor, void* cl){
     return bbSuccess;
 }
 
-#define NUM_DRAWFUNCTIONS 3
+bbFlag bbDF_widgetTextBox(void* drawable, void* frameDescriptor, void* cl)
+{
+
+    bbWidget* widget = drawable;
+    bbFrame* frame = frameDescriptor;
+    drawFuncClosure* closure = cl;
+    bbGraphicsApp* graphics = closure->graphics;
+
+    sfRenderWindow_drawText(closure->target, widget->type_data.text_box.text, NULL);
+    return bbSuccess;
+
+}
+
+#define NUM_DRAWFUNCTIONS 4
 bbFlag bbDrawfunctions_new(bbDrawfunctions** drawfunctions){
 
     bbDrawfunctions* functions = malloc(sizeof(bbDrawfunctions) + NUM_DRAWFUNCTIONS * sizeof(bbDrawFunction*));
@@ -92,6 +105,10 @@ bbFlag bbDrawfunctions_new(bbDrawfunctions** drawfunctions){
     functions->functions[2] = bbDF_widgetAnimation;
     handle.u64 = 2;
     bbDictionary_add(functions->dictionary, "WIDGET_ANIMATION", handle);
+
+    functions->functions[3] = bbDF_widgetTextBox;
+    handle.u64 = 3;
+    bbDictionary_add(functions->dictionary, "TEXTBOX", handle);
 
     *drawfunctions = functions;
     return bbSuccess;

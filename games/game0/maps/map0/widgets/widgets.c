@@ -2,6 +2,8 @@
 #define WIDGET_FUNCTIONS
 #include "engine/userinterface/bbWidgetFunctions.h"
 #include "engine/userinterface/bbWidgets.h"
+#include "games/game0/maps/map0/widgets/textbox.h"
+
 
 bbFlag bbWidget_Constructor_NULL (bbWidget** self,
                                   bbWidgets* widgets,
@@ -63,9 +65,21 @@ bbFlag bbWidgetFunctions_populate(bbWidgetFunctions* self)
         "NULL");
 
     bbWidgetFunctions_add(self,
-    WidgetConstructor,
-    bbWidget_Constructor_Kitty,
-    "KITTY");
+        WidgetConstructor,
+        bbWidget_Constructor_Kitty,
+        "KITTY");
+
+    bbWidgetFunctions_add(self,
+        WidgetConstructor,
+        bbWidget_Constructor_Textbox,
+        "TEXTBOX");
+
+
+
+    bbWidgetFunctions_add(self,
+        WidgetCommand,
+        Textbox_OnCommand,
+        "TEXTBOX");
 
     return bbSuccess;
 }

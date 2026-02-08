@@ -1,5 +1,5 @@
 #include "engine/logic/bbIntTypes.h"
-#include "engine/graphics/CSFML.h"
+#include "engine/data/CSFML.h"
 #include "engine/graphics/bbSprites.h"
 
 #include <stdlib.h>

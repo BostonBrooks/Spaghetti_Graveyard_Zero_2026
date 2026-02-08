@@ -8,8 +8,8 @@ typedef enum
     WidgetConstructor,
     WidgetUpdate,
     WidgetDestructor,
-    WidgetOnCommand,
-    WidgetOnTimer,
+    WidgetCommand,
+    WidgetTimer,
     WidgetHide,
     WidgetUnhide
 } bbWidgetFunctionType;
@@ -45,10 +45,19 @@ typedef bbFlag bbWidget_Constructor (bbWidget** self,
                                       bbGraphicsApp* graphics
                                       );
 
+typedef bbFlag bbWidget_Command (bbWidget* widget,
+                                   bbWidgetCommandType type,
+                                   bbHandle data);
+
+
 typedef struct bbWidgetFunctions {
     bbWidget_Constructor** constructors;
     bbDictionary* constructor_dict;
     I32 constructor_available;
+
+    bbWidget_Command** commands;
+    bbDictionary* command_dict;
+    I32 command_available;
 } bbWidgetFunctions;
 
 

@@ -9,6 +9,7 @@
 #include "engine/logic/bbFlag.h"
 #include "engine/graphics/bbGraphicsApp.h"
 #include "engine/data/bbHome.h"
+#include "engine/userinterface/bbInput.h"
 
 thread_local char* thread;
 bbHome home;
@@ -25,10 +26,7 @@ int main(void)
     bbFlag flag = bbSuccess;
     bbFlag_print(flag)
 
-
-    sfSleep(sfSeconds(5.f));
-
-    exit (EXIT_SUCCESS);
+    pthread_join(graphics_pthread, NULL);
 }
 
 void* graphics_thread(void* arg)
@@ -51,7 +49,12 @@ void* graphics_thread(void* arg)
 
     bbGraphicsApp_init(&home.UI.graphics);
 
+
     bbWidgets_init(&home.UI.widgets);
+
+
+    bbInput input;
+    bbInput_init(&input, window, NULL, &home.UI.widgets);
 
     bbWidget* root;
     bbWidget_newLayout(&root, &home.UI.graphics, &home.UI.widgets, NULL);
@@ -65,6 +68,13 @@ void* graphics_thread(void* arg)
                              "KITTY",
                              (bbScreenPoints){200*SCREEN_PPP,200*SCREEN_PPP});
 
+    bbWidget_constructor(&home.UI.widgets.selected_textbox,
+                         &home.UI.widgets,
+                         "TEXTBOX",
+                         "LAYOUT",
+                         "TEXTBOX",
+                         (bbScreenPoints){200*SCREEN_PPP,200*SCREEN_PPP});
+
 
     drawFuncClosure cl;
     cl.map_time = 0;
@@ -76,11 +86,12 @@ void* graphics_thread(void* arg)
     while (1)
     {
         cl.GUI_time = gui_time++;
+
+        bbInput_poll(&input, window);
+
         sfRenderWindow_clear(window, sfMagenta);
         bbWidgets_draw(&home.UI.widgets, &cl);
         sfRenderWindow_display(window);
     }
 
-    sfSleep(sfSeconds(5.f));
-    return 0;
 }

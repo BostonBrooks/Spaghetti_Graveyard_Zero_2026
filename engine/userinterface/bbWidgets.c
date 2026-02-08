@@ -156,6 +156,18 @@ bbFlag bbWidget_constructor(bbWidget** self,
 }
 
 
+bbFlag bbWidget_onCommand(bbWidget* widget,
+                          bbWidgets* widgets,
+                          bbWidgetCommandType type,
+                          bbHandle data)
+{
+    I32 func_int = widget->ftable.command;
+    if (func_int < 0) return bbNone;
+    bbFlag (*funcPtr)(bbWidget*, bbWidgetCommandType, bbHandle);
+    funcPtr = widgets->functions->commands[func_int];
+    return funcPtr(widget, type, data);
+}
+
 bbFlag bbWidget_newLayout(bbWidget** self,
                           bbGraphicsApp* graphics,
                           bbWidgets* widgets,

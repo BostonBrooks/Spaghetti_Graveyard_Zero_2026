@@ -1,11 +1,12 @@
 #ifndef BB_WIDGET_H
 #define BB_WIDGET_H
 
+#include "engine/userinterface/bbWidgetFunctions.h"
 #include "engine/geometry/bbCoordinates.h"
 #include "engine/graphics/bbCompositions.h"
 #include "engine/graphics/bbGraphicsApp.h"
 #include "engine/logic/bbIntTypes.h"
-#include "engine/graphics/CSFML.h"
+#include "engine/data/CSFML.h"
 #include "engine/logic/bbTree.h"
 
 typedef enum bbWidget_Type
@@ -62,6 +63,8 @@ typedef struct bbWidget{
     bbWidget_TypeData type_data;
     char key[KEY_LENGTH];
 
+
+
     void* extra_data;
 } bbWidget;
 
@@ -71,6 +74,7 @@ typedef struct bbWidgets {
     struct bbWidgetFunctions* functions;
     bbDictionary* dict;
 
+    bbWidget* selected_textbox;
 } bbWidgets;
 
 bbFlag bbWidgets_init(bbWidgets* widgets);
@@ -85,12 +89,17 @@ bbFlag bbWidget_constructor(bbWidget** self,
                              char* type,
                              char* parent,
                              char* name,
-
                              bbScreenPoints screen_points);
 
 bbFlag bbWidget_draw(bbWidget* widget, drawFuncClosure* cl);
 
 bbFlag bbWidgets_draw(bbWidgets* widgets, void* cl);
+
+bbFlag bbWidget_onCommand(bbWidget* widget,
+                          bbWidgets* widgets,
+                          bbWidgetCommandType type,
+                          bbHandle data);
+
 
 bbFlag bbWidget_newLayout(bbWidget** self,
                          bbGraphicsApp* graphics,

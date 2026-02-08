@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "engine/graphics/CSFML.h"
+#include "engine/data/CSFML.h"
 #include "engine/logic/bbFlag.h"
 #include "engine/logic/bbDictionary.h"
 #include "engine/logic/bbTerminal.h"
