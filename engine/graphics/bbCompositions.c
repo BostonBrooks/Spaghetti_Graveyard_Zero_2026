@@ -1,7 +1,7 @@
 
 #include <stdio.h>
 #include <string.h>
-#include "engine/graphics/bbComposition.h"
+#include "engine/graphics/bbCompositions.h"
 
 #include <stdlib.h>
 

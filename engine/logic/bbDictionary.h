@@ -6,7 +6,7 @@
 #include "engine/logic/bbIntTypes.h"
 #include "engine/logic/bbFlag.h"
 #include "engine/logic/bbHandle.h"
-#include "engine/logic/bbConstants.h"
+#include "engine/data/bbConstants.h"
 
 
 

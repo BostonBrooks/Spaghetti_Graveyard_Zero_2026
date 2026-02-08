@@ -1,9 +1,8 @@
 #ifndef BB_COORDINATES_H
 #define BB_COORDINATES_H
 
-#include "engine/includes/game0.h"
-#include "engine/includes/CSFML.h"
-#include "engine/logic/bbArith.h"
+#include "engine/graphics/CSFML.h"
+#include "engine/logic/bbArithmetic.h"
 #include <math.h>
 
 typedef struct

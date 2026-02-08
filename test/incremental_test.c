@@ -7,8 +7,11 @@
 #include "engine/graphics/bbSprites.h"
 #include "engine/logic/bbTerminal.h"
 #include "engine/logic/bbFlag.h"
+#include "engine/graphics/bbGraphicsApp.h"
+#include "engine/data/bbHome.h"
 
 thread_local char* thread;
+bbHome home;
 
 void* graphics_thread(void* arg);
 int main(void)
@@ -42,19 +45,8 @@ void* graphics_thread(void* arg)
     sfRenderWindow_drawSprite(window, splash_sprite, NULL);
     sfRenderWindow_display(window);
 
-    bbTextures* textures;
-    bbSprites* sprites;
 
-    bbTextures_new(&textures, "./maps/map0/graphics/textures.csv");
-
-    bbSprites_new(&sprites, textures, "./maps/map0/graphics/sprites.csv",
-                  1.f, 1.f, 1.f);
-
-    sfSprite* sprite;
-    bbSprites_lookup (&sprite, sprites, "LAYERBOUNDARY");
-
-    sfRenderWindow_drawSprite(window, sprite, NULL);
-    sfRenderWindow_display(window);
+    bbGraphicsApp_init(&home.UI.graphics);
 
     sfSleep(sfSeconds(5.f));
     return 0;

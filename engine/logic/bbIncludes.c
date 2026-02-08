@@ -8,7 +8,7 @@
 #include "engine/logic/bbString.h"
 #include "engine/logic/bbTerminal.h"
 #include "engine/logic/bbVPool.h"
-#include "engine/logic/bbConstants.h"
+#include "engine/data/bbConstants.h"
 #include "engine/logic/bbList.h"
 #include "engine/threadsafe/bbThreadedPool.h"
 #include "engine/threadsafe/bbThreadedQueue_search.h"
@@ -18,3 +18,4 @@
 #include "engine/graphics/bbSprites.h"
 #include "engine/graphics/bbTextures.h"
 #include "engine/graphics/bbAnimations.h"
+#include "engine/data/bbHome.h"

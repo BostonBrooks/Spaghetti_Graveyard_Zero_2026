@@ -88,8 +88,8 @@ bbFlag bbSprites_new(bbSprites** self, bbTextures* textures, char* file_path,
     while(fscanf(file, "%[^,],%d,%[^,],%d,%d,%d,%d,%f,%f,%f,%f,%[^,],%*[^\n]\n",
                  key, &address, texture, &dimensions.left, &dimensions.top, &dimensions.width,
                  &dimensions.height, &dimensions.origin_x, &dimensions.origin_y, &dimensions.scale_x,
-                 &dimensions.scale_y, scale_by) == 12) {
-
+                 &dimensions.scale_y, scale_by) == 12)
+    {
         if(0 == strcmp(scale_by, "Widget")){
             dimensions.scale_x *= widget_scale;
             dimensions.scale_y *= widget_scale;
@@ -99,11 +99,10 @@ bbFlag bbSprites_new(bbSprites** self, bbTextures* textures, char* file_path,
         } else if(0 == strcmp(scale_by, "Ground")){
             dimensions.scale_x *= ground_scale;
             dimensions.scale_y *= ground_scale;
-        } else if(0 == strcmp(scale_by, "MapIcon"))
+        } else if(0 == strcmp(scale_by, "MapIcon")){
             dimensions.scale_x *= mapicon_scale;
             dimensions.scale_y *= mapicon_scale;
-        } else
-        {
+        } else {
 
             dimensions.scale_x *= 1.f;
             dimensions.scale_y *= 1.f;
@@ -112,7 +111,7 @@ bbFlag bbSprites_new(bbSprites** self, bbTextures* textures, char* file_path,
 
         bbTextures_lookup(&texture_ptr, textures, texture);
         bbSprite_new(sprites, key, address, texture_ptr, &dimensions);
-
+    }
 
     fclose(file);
     *self = sprites;

@@ -17,7 +17,9 @@ add_executable(Spaghetti_Graveyard_Zero_2026 test/incremental_test.c
         engine/graphics/bbAnimations.c
         engine/graphics/bbColours.c
         engine/graphics/bbFonts.c
-        engine/graphics/bbComposition.c)
+        engine/graphics/bbCompositions.c
+        engine/graphics/bbGraphicsApp.c
+        games/game0/maps/map0/drawfunctions/drawfunctions.c)
 
 target_include_directories(Spaghetti_Graveyard_Zero_2026  PRIVATE "./")
 

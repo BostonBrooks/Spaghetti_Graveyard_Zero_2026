@@ -3,7 +3,7 @@
 #ifndef BB_BLOATEDPOOL_H
 #define BB_BLOATEDPOOL_H
 
-#include "engine/logic/bbConstants.h"
+#include "engine/data/bbConstants.h"
 #include "engine/logic/bbFlag.h"
 #include "engine/logic/bbVPool.h"
 #include "engine/logic/bbHandle.h"
