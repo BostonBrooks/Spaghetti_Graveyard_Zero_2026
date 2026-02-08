@@ -132,9 +132,9 @@ static bbFlag bbStr_setBounds(char* str, I32 columns, I32 rows, I32 max)
     char temp[1028];
 
 
-    I32 i_str;
-    I32 i_temp;
-    I32 column;
+    I32 i_str = 0;
+    I32 i_temp = 0;
+    I32 column = 0;
 
     // copy from str to temp, keeping track of chars since last \n
     // insert \n when necessary
