@@ -1,0 +1,124 @@
+#include "engine/network/bbNetworkPacket.h"
+
+#include "bbNetwork.h"
+#include "engine/logic/bbString.h"
+#include "engine/logic/bbTerminal.h"
+
+bbFlag bbNetworkPacket_toStruct (sfPacket* packet, void* Struct)
+{
+    bbNetworkPacket* struct1 = Struct;
+
+
+    struct1->type = sfPacket_readInt32(packet);
+
+    U64 sendTick_lower = sfPacket_readUint32(packet);
+    U64 sendTick_upper = sfPacket_readUint32(packet);
+
+    struct1->sendTick = sendTick_upper * 0x100000000 + sendTick_lower;
+
+    U64 actTick_lower = sfPacket_readUint32(packet);
+    U64 actTick_upper = sfPacket_readUint32(packet);
+
+    struct1->actTick = actTick_upper * 0x100000000 + actTick_lower;
+
+    struct1->player = sfPacket_readUint8(packet);
+
+    switch (struct1->type)
+    {
+        case PACKETTYPE_STRING:
+            sfPacket_readString(packet, struct1->data.str);
+        break;
+        case PACKETTYPE_TIMESTAMP:
+        case PACKETTYPE_REQUESTTIMESTAMP:
+
+            U64 packetN_lower = sfPacket_readUint32(packet);
+            U64 packetN_upper = sfPacket_readUint32(packet);
+            U64 receive_time_lower = sfPacket_readUint32(packet);
+            U64 receive_time_upper = sfPacket_readUint32(packet);
+            U64 send_time_lower = sfPacket_readUint32(packet);
+            U64 send_time_upper = sfPacket_readUint32(packet);
+
+
+
+            struct1->data.timestamp.packetN = packetN_upper * 0x100000000 + packetN_lower;
+            struct1->data.timestamp.receive_time = receive_time_upper * 0x100000000  + receive_time_lower;
+            struct1->data.timestamp.send_time = send_time_upper * 0x100000000 + send_time_lower;
+
+        break;
+    case PACKETTYPE_SETGOALPOINT:
+        struct1->data.map_coords.i = sfPacket_readInt32(packet);
+        struct1->data.map_coords.j = sfPacket_readInt32(packet);
+        struct1->data.map_coords.k = sfPacket_readInt32(packet);
+        break;
+    }
+    return bbSuccess;
+}
+bbFlag bbNetworkPacket_fromStruct (sfPacket* packet, void* Struct)
+{
+    bbNetworkPacket* struct1 = Struct;
+
+    sfPacket_writeInt32(packet, struct1->type);
+
+    U64 sendTick_lower = struct1->sendTick & 0xFFFFFFFF;
+    U64 sendTick_upper = struct1->sendTick / 0x100000000;
+
+    sfPacket_writeUint32(packet, (U32)sendTick_lower);
+    sfPacket_writeUint32(packet, (U32)sendTick_upper);
+
+    U64 actTick_lower = struct1->actTick & 0xFFFFFFFF;
+    U64 actTick_upper = struct1->actTick / 0x100000000;
+
+    sfPacket_writeUint32(packet, (U32)actTick_lower);
+    sfPacket_writeUint32(packet, (U32)actTick_upper);
+
+    sfPacket_writeUint8(packet, struct1->player);
+
+    switch (struct1->type)
+    {
+    case PACKETTYPE_STRING:
+        sfPacket_writeString(packet, struct1->data.str);
+        break;
+    case PACKETTYPE_TIMESTAMP:
+    case PACKETTYPE_REQUESTTIMESTAMP:
+
+        U64 packetN_lower = struct1->data.timestamp.packetN & 0xFFFFFFFF;
+        U64 packetN_upper = struct1->data.timestamp.packetN / 0x100000000;
+        U64 receive_time_lower = struct1->data.timestamp.receive_time & 0xFFFFFFFF;
+        U64 receive_time_upper = struct1->data.timestamp.receive_time / 0x100000000;
+        U64 send_time_lower = struct1->data.timestamp.send_time & 0xFFFFFFFF;
+        U64 send_time_upper = struct1->data.timestamp.send_time / 0x100000000;
+
+
+
+        sfPacket_writeUint32(packet, (U32)packetN_lower);
+        sfPacket_writeUint32(packet, (U32)packetN_upper);
+        sfPacket_writeUint32(packet, (U32)receive_time_lower);
+        sfPacket_writeUint32(packet, (U32)receive_time_upper);
+        sfPacket_writeUint32(packet, (U32)send_time_lower);
+        sfPacket_writeUint32(packet, (U32)send_time_upper);
+        break;
+    case PACKETTYPE_SETGOALPOINT:
+
+        sfPacket_writeInt32(packet, struct1->data.map_coords.i);
+        sfPacket_writeInt32(packet, struct1->data.map_coords.j);
+        sfPacket_writeInt32(packet, struct1->data.map_coords.k);
+        break;
+    }
+    return bbSuccess;
+}
+
+
+bbFlag bbNetwork_sendStr(void* Network, char* str)
+{
+    bbNetwork* network = (bbNetwork*)Network;
+    bbNetworkPacket* packet;
+    bbThreadedQueue_alloc(&network->outbox, (void**)&packet);
+    packet->type = PACKETTYPE_STRING;
+    bbStr_setStr(packet->data.str, str, 64);
+    bbThreadedQueue_pushL(&network->outbox, (void*)packet);
+
+    return bbSuccess;
+}
+
+
+
