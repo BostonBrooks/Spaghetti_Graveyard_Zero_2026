@@ -8,7 +8,7 @@
 #include "engine/logic/bbDictionary.h"
 #include "engine/logic/bbString.h"
 #include "engine/logic/bbTerminal.h"
-#include "engine/userinterface/bbWidget.h"
+#include "engine/userinterface/bbWidgets.h"
 
 //typedef bbFlag bbNetwork_onConnect (void* network);
 //Notify user interface of network connection

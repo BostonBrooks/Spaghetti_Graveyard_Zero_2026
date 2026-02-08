@@ -16,7 +16,7 @@ void* bbNetwork_clockThread(void* Network_clock)
     bbNetworkClock_pingRecord* ping_record;
     while (1)
     {
-        bbThreadedQueue_popRblock(&network_clock->pending_pingRecords,(void**)&ping_record);
+        bbThreadedQueue_popR_block(&network_clock->pending_pingRecords,(void**)&ping_record);
         //bbDebug("Round trip time = %lu, time_difference = %ld\n",
         //    ping_record->round_trip_time,
         //    ping_record->time_difference);
