@@ -9,3 +9,12 @@ sfVector2f bbScreenPoints_getV2f(bbScreenPoints SP)
 
     return return_value;
 }
+
+bbScreenPoints pixel_getScreenPoints(I32 x, I32 y)
+{
+    bbScreenPoints SP;
+    SP.x = x * SCREEN_PPP;
+    SP.y = y * SCREEN_PPP;
+
+    return SP;
+}

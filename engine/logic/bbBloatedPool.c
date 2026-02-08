@@ -269,7 +269,6 @@ bbFlag bbBloatedPool_lookupHeader(bbBloatedPool* pool, void** address, bbHandle 
 
 	if ( handle.bloated.index == 0 && handle.bloated.collision == 0)
 	{
-		bbHere();
 		*address = NULL;
 		return bbFail;
 	}

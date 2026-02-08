@@ -1,6 +1,7 @@
 #ifndef BB_WIDGET_H
 #define BB_WIDGET_H
 
+#include "engine/userinterface/bbMouse.h"
 #include "engine/userinterface/bbWidgetFunctions.h"
 #include "engine/geometry/bbCoordinates.h"
 #include "engine/graphics/bbCompositions.h"
@@ -54,7 +55,7 @@ typedef struct bbWidget{
     //It is important that "bbTree_Node tree;" is the first element
     bbTree_Node tree;
     bbScreenPointsRect rect;
-    //bbMouseTable mtable;
+    bbMouseTable mtable;
     bbWidgetFunctionTable ftable;
     bbFrame frames[FRAMES_PER_WIDGET];
     bbWidget_Type type;
@@ -74,6 +75,7 @@ typedef struct bbWidgets {
     struct bbWidgetFunctions* functions;
     bbDictionary* dict;
 
+    bbMouse* mouse;
     bbWidget* selected_textbox;
 } bbWidgets;
 

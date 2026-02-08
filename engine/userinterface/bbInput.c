@@ -157,7 +157,7 @@ bbFlag bbInput_poll(bbInput* input, sfRenderWindow* window){
         case sfEvtMouseButtonPressed:
         case sfEvtMouseButtonReleased:{
 
-            //bbMouse_Event(input->mouse, &event);
+            bbMouse_Event(input->mouse, &event);
             break;
         }
 

@@ -10,6 +10,7 @@
 #include "engine/graphics/bbGraphicsApp.h"
 #include "engine/data/bbHome.h"
 #include "engine/userinterface/bbInput.h"
+#include "engine/userinterface/bbMouse.h"
 
 thread_local char* thread;
 bbHome home;
@@ -42,6 +43,7 @@ void* graphics_thread(void* arg)
     mode.bitsPerPixel = 32;
 
     sfRenderWindow* window = sfRenderWindow_create(mode, "early demo", sfResize | sfClose, NULL);
+    sfRenderWindow_setMouseCursorVisible(window, sfFalse);
     sfRenderWindow_setFramerateLimit(window, 60);
     sfRenderWindow_drawSprite(window, splash_sprite, NULL);
     sfRenderWindow_display(window);
@@ -52,9 +54,11 @@ void* graphics_thread(void* arg)
 
     bbWidgets_init(&home.UI.widgets);
 
+    bbMouse mouse;
+    bbMouse_Init(&mouse, &home.UI.widgets, &home.UI.graphics);
 
     bbInput input;
-    bbInput_init(&input, window, NULL, &home.UI.widgets);
+    bbInput_init(&input, window, &mouse, &home.UI.widgets);
 
     bbWidget* root;
     bbWidget_newLayout(&root, &home.UI.graphics, &home.UI.widgets, NULL);
@@ -90,6 +94,7 @@ void* graphics_thread(void* arg)
 
         sfRenderWindow_clear(window, sfMagenta);
         bbWidgets_draw(&home.UI.widgets, &cl);
+        bbMouse_Draw(&mouse,&home.UI.widgets, &home.UI.graphics, window);
         sfRenderWindow_display(window);
     }
 
