@@ -1,5 +1,5 @@
 /// A virtual pool is a wrapper for different types of concrete pools,
-/// providing a single interface
+/// providing a single interface, to quickly switch between pool types
 
 #ifndef BB_VIRTUAL_POOL_H
 #define BB_VIRTUAL_POOL_H
