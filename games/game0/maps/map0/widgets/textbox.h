@@ -48,8 +48,8 @@ bbFlag bbWidget_Constructor_Textbox (bbWidget** self,
     widget->frames[0].offset.x = 5;
     widget->frames[0].offset.y = 5;
 
-    bbDictionary_lookup(Graphics->drawfunctions->dictionary, "TEXTBOX_INDICATOR",
-                        &drawfunctionHandle);
+    //bbDictionary_lookup(Graphics->drawfunctions->dictionary, "TEXTBOX_INDICATOR",
+    //                    &drawfunctionHandle);
     //widget->frames[1].drawfunction = drawfunctionHandle.u64;
 
     widget->type =  bbWidgetType_TextBox;
@@ -75,8 +75,6 @@ bbFlag bbWidget_Constructor_Textbox (bbWidget** self,
     sfText_setPosition(text, pos);
     sfText_setCharacterSize(text, 15);
     sfText_setColor(text, sfBlack);
-
-    sfText_setString(widget->type_data.text_box.text, string);
 
     widget->type_data.text_box.text = text;
 
