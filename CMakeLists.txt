@@ -28,16 +28,16 @@ add_executable(Spaghetti_Graveyard_Zero_2026 test/incremental_test.c
         engine/userinterface/bbMouse.c
         engine/userinterface/bbMouseFunctions.c
         games/game0/maps/map0/mouse/mouse.c
-        engine/network/bbNetwork.c
-        engine/network/bbNetworkApp.c
-        engine/network/bbNetworkClock.c
-        engine/network/bbNetworkPacket.c
-        engine/network/bbNetworkTime.c
         engine/logic/bbList.c
         engine/logic/bbList_getNth.c
         engine/logic/bbList_iterate.c
         engine/logic/bbList_map.c
-        engine/logic/bbList_sort.c)
+        engine/logic/bbList_sort.c
+        engine/network/bbNetwork.c
+        engine/network/bbNetworkApp.c
+        engine/network/bbNetworkPacket.c
+        engine/network/bbNetworkTime.c
+)
 
 target_include_directories(Spaghetti_Graveyard_Zero_2026  PRIVATE "./")
 
@@ -55,11 +55,6 @@ add_executable(Server engine/server/bbServer.c
         engine/threadsafe/bbThreadedPool.c
         engine/threadsafe/bbThreadedQueue.c
         engine/threadsafe/bbThreadedQueue_search.c
-        engine/network/bbNetwork.c
-        engine/network/bbNetworkApp.c
-        engine/network/bbNetworkClock.c
-        engine/network/bbNetworkPacket.c
-        engine/network/bbNetworkTime.c
         engine/logic/bbList.c
         engine/logic/bbList_getNth.c
         engine/logic/bbList_iterate.c

@@ -3,6 +3,7 @@
 #include "engine/logic/bbTerminal.h"
 #include "engine/network/bbNetworkPacket.h"
 
+extern _Thread_local char* thread;
 
 bbFlag bbNetwork_init(bbNetwork* network,
     bbNetwork_PacketToStruct* packet_to_struct,
@@ -36,6 +37,8 @@ bbFlag bbNetwork_connect(bbNetwork* network, sfIpAddress address, I32 port)
 {
     network->send_ready = false;
     network->receive_ready = false;
+    //Not a thread
+    //thread = "connect";
     printf("Hello Connect\n");
     network->address = address;
     network->port = port;

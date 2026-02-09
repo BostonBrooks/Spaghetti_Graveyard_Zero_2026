@@ -4,6 +4,9 @@
 #include "engine/logic/bbString.h"
 #include "engine/logic/bbTerminal.h"
 
+
+extern _Thread_local char* thread;
+
 bbFlag bbNetworkPacket_toStruct (sfPacket* packet, void* Struct)
 {
     bbNetworkPacket* struct1 = Struct;

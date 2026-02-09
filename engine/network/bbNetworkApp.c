@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "bbNetworkClock.h"
 #include "engine/data/bbHome.h"
 #include "engine/logic/bbDictionary.h"
 #include "engine/logic/bbString.h"
@@ -23,8 +22,6 @@ bbFlag bbNetworkApp_init(bbNetwork* network)
     bbFlag flag;
     bbNetworkTime* network_time = (bbNetworkTime*)malloc(sizeof(bbNetworkTime));
     bbNetworkTime_init(network_time);
-    bbNetworkClock* network_clock = (bbNetworkClock*)malloc(sizeof(bbNetworkClock));
-    bbNetworkClock_init(network_clock,network_time);
 
     flag = bbNetwork_init(network,
         bbNetworkPacket_toStruct,
