@@ -1,5 +1,9 @@
 /// bbList is the Swiss army knife of doubly linked lists
 
+// implements circular doubly linked list.
+// uses head/tail in bbList_Handle
+// head.prev = tail, tail.next = head
+
 #ifndef BB_LIST_H
 #define BB_LIST_H
 
