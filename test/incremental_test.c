@@ -18,7 +18,6 @@ thread_local char* thread;
 bbHome home;
 
 
-bbClock Clock;
 
 void* graphics_thread(void* arg);
 int main(void)
@@ -26,7 +25,7 @@ int main(void)
     thread = "MAIN";
     printf("Hello, World!\n");
 
-    Clock.clock_running = false;
+    home.clock.clock_running = false;
 
     pthread_t graphics_pthread;
     pthread_create(&graphics_pthread, NULL, graphics_thread, NULL);
@@ -36,7 +35,7 @@ int main(void)
     char address[64] = "127.0.0.1";
     char port[64] = "1701";
     bbNetworkApp_connect(&home.network, address, port);
-    bbNetworkTime* network_time = (bbNetworkTime*)home.network.extra_data;
+    home.network_time = (bbNetworkTime*)home.network.extra_data;
 
     bool once = false;
     while (1)
@@ -49,10 +48,10 @@ int main(void)
         }
 
 
-        if (network_time->timeCalibrated && once == false)
+        if (home.network_time->timeCalibrated && once == false)
         {
             once = true;
-            bbClock_init(&Clock, network_time);
+            bbClock_init(&home.clock, home.network_time);
         }
 
 
@@ -140,9 +139,9 @@ void* graphics_thread(void* arg)
 
 
         I64 time;
-        if (Clock.clock_running == true)
+        if (home.clock.clock_running == true)
         {
-            cl.map_time = Clock.current_tick;
+            cl.map_time = home.clock.current_tick;
         }
         bbInput_poll(&input, window);
 

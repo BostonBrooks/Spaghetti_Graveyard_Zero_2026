@@ -61,6 +61,7 @@ add_executable(Server engine/server/bbServer.c
         engine/logic/bbList_iterate.c
         engine/logic/bbList_map.c
         engine/logic/bbList_sort.c
+        engine/network/bbNetworkPacket.c
 )
 
 
