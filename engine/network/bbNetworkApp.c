@@ -152,7 +152,7 @@ bbFlag bbNetworkApp_checkInbox(bbNetwork* network)
     }
 }
 
-
+//Notify user interface of network connection
 bbFlag bbConnect(void* network)
 {
     bbDebug("Connect to server in thread %s\n", thread);

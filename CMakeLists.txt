@@ -37,6 +37,7 @@ add_executable(Spaghetti_Graveyard_Zero_2026 test/incremental_test.c
         engine/network/bbNetworkApp.c
         engine/network/bbNetworkPacket.c
         engine/network/bbNetworkTime.c
+        engine/interthread/bbClock.c
 )
 
 target_include_directories(Spaghetti_Graveyard_Zero_2026  PRIVATE "./")

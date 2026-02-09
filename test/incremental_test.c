@@ -9,37 +9,54 @@
 #include "engine/logic/bbFlag.h"
 #include "engine/graphics/bbGraphicsApp.h"
 #include "engine/data/bbHome.h"
+#include "engine/interthread/bbClock.h"
 #include "engine/userinterface/bbInput.h"
 #include "engine/userinterface/bbMouse.h"
 
 #include "engine/network/bbNetworkApp.h"
 thread_local char* thread;
 bbHome home;
-bbNetwork network;
+
+
+bbClock Clock;
+
 void* graphics_thread(void* arg);
 int main(void)
 {
     thread = "MAIN";
     printf("Hello, World!\n");
 
+    Clock.clock_running = false;
+
     pthread_t graphics_pthread;
     pthread_create(&graphics_pthread, NULL, graphics_thread, NULL);
 
-    bbNetworkApp_init(&network);
+    bbNetworkApp_init(&home.network);
 
     char address[64] = "127.0.0.1";
     char port[64] = "1701";
-    bbNetworkApp_connect(&network, address, port);
+    bbNetworkApp_connect(&home.network, address, port);
+    bbNetworkTime* network_time = (bbNetworkTime*)home.network.extra_data;
 
-
+    bool once = false;
     while (1)
     {
-        if (network.send_ready && network.receive_ready)
+        if (home.network.send_ready && home.network.receive_ready)
         {
-            bbNetworkTime_ping(&network);
-            bbNetworkApp_checkInbox(&network);
-            bbNetworkTime_updateTimeDiff(network.extra_data);
+            bbNetworkTime_ping(&home.network);
+            bbNetworkApp_checkInbox(&home.network);
+            bbNetworkTime_updateTimeDiff(home.network.extra_data);
         }
+
+
+        if (network_time->timeCalibrated && once == false)
+        {
+            once = true;
+            bbClock_init(&Clock, network_time);
+        }
+
+
+
         sfSleep(sfSeconds(1.f/60.f));
     }
 
@@ -115,7 +132,7 @@ void* graphics_thread(void* arg)
     cl.target = window;
 
 
-    bbNetworkTime* network_time = (bbNetworkTime*)network.extra_data;
+    bbNetworkTime* network_time = (bbNetworkTime*)home.network.extra_data;
 
     while (1)
     {
@@ -123,10 +140,9 @@ void* graphics_thread(void* arg)
 
 
         I64 time;
-        if (network_time->timeCalibrated == true)
+        if (Clock.clock_running == true)
         {
-            bbNetworkTime_get(network_time, &time);
-            cl.map_time = time / (1000000/60);
+            cl.map_time = Clock.current_tick;
         }
         bbInput_poll(&input, window);
 

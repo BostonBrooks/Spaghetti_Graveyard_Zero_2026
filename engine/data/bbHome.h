@@ -1,5 +1,6 @@
 
 #include "engine/graphics/bbGraphicsApp.h"
+#include "engine/network/bbNetwork.h"
 #include "engine/userinterface/bbWidgets.h"
 
 typedef struct
@@ -13,7 +14,7 @@ typedef struct
 typedef struct
 {
     bbHome_UI UI;
-
+    bbNetwork network;
 } bbHome;
 
 
