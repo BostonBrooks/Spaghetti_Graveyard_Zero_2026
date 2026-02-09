@@ -3,14 +3,13 @@
 
 void* clock_thread(void* arg)
 {
-    thread = "CLOCK_THREAD";
+    thread = "CLOCK";
     bbClock *clock = (bbClock *) arg;
 
     while (1)
     {
+        bbNetworkTime_waitInt(clock->network_time, clock->current_tick+1);
         clock->current_tick++;
-
-        bbNetworkTime_waitInt(clock->network_time, clock->current_tick);
 
         if (clock->current_tick % 300 == 0)
         {
