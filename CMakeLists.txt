@@ -59,3 +59,12 @@ target_link_libraries(Server PRIVATE
         csfml-system
         csfml-network
 )
+
+
+add_executable(test_sort test/bbList_testSort.c
+        engine/logic/bbList.c
+        engine/logic/bbBloatedPool.c
+)
+
+target_include_directories(test_sort  PRIVATE "./")
+

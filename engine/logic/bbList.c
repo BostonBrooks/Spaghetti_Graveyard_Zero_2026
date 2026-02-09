@@ -40,7 +40,7 @@ bbFlag bbList_init(bbList* list, bbVPool* pool, void* list_pointer, size_t offse
 bbFlag bbList_pushL(bbList* list, void* element){
     //cases: empty list / 1 element list / other
 
-    bbListElement_Handle* list_element = element + list->offsetOf;
+    bbListElement_Handle* list_element = element + list->offset_of;
     bbHandle handle_element;
     bbVPool_reverseLookup(list->pool, element, &handle_element);
 
@@ -94,7 +94,7 @@ bbFlag bbList_pushL(bbList* list, void* element){
 bbFlag bbList_pushR(bbList* list, void* element){
     //cases: empty list / 1 element list / other
 
-    bbListElement_Handle* list_element = element + list->offsetOf;
+    bbListElement_Handle* list_element = element + list->offset_of;
     bbHandle handle_element;
     bbVPool_reverseLookup(list->pool, element, &handle_element);
 
@@ -371,7 +371,7 @@ bbFlag bbList_insertBefore(bbList* list, void* Node, void* Key){
 bbFlag bbList_remove(bbList* list, void* element){
 
     bbHandle element_handle;
-    bbListElement_Handle* element_list = element + list->offsetOf;
+    bbListElement_Handle* element_list = element + list->offset_of;
     bbVPool_reverseLookup(list->pool, element, &element_handle);
 
 	//Since it's a circular list, if an element points to itself, it's the only element in the list.
