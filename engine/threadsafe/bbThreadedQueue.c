@@ -281,7 +281,7 @@ bbFlag bbThreadedQueue_popR(bbThreadedQueue* queue, void** Element)
     return bbSuccess;
 }
 
-bbFlag bbThreadedQueue_popRblock(bbThreadedQueue* queue, void** Element)
+bbFlag bbThreadedQueue_popR_block(bbThreadedQueue* queue, void** Element)
 {
     bbVPool* pool = queue->pool;
     //   bbDebug("queue = %p, vPool = %p, Pool = %p\n", queue, pool, pool->pool);
@@ -343,7 +343,7 @@ bbFlag bbThreadedQueue_popRblock(bbThreadedQueue* queue, void** Element)
 }
 
 //Cases: empty, 1 element, more than 1 element;
-bbFlag bbThreadedQueue_popLblock(bbThreadedQueue* queue, void** Element)
+bbFlag bbThreadedQueue_popL_block(bbThreadedQueue* queue, void** Element)
 {
     bbMutexLock(&queue->mutex);
 

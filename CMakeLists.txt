@@ -49,7 +49,14 @@ add_executable(Server engine/server/bbServer.c
         engine/network/bbNetworkApp.c
         engine/network/bbNetworkClock.c
         engine/network/bbNetworkPacket.c
-        engine/network/bbNetworkTime.c)
+        engine/network/bbNetworkTime.c
+        engine/logic/bbList.c
+        engine/logic/bbList_getNth.c
+        engine/logic/bbList_iterate.c
+        engine/logic/bbList_map.c
+        engine/logic/bbList_sort.c
+)
+
 
 target_include_directories(Server  PRIVATE "./")
 
