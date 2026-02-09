@@ -8,9 +8,12 @@ typedef struct
     bbWidgets widgets;
 } bbHome_UI;
 
+
+
 typedef struct
 {
     bbHome_UI UI;
+
 } bbHome;
 
 

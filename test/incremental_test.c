@@ -12,9 +12,10 @@
 #include "engine/userinterface/bbInput.h"
 #include "engine/userinterface/bbMouse.h"
 
+#include "engine/network/bbNetworkApp.h"
 thread_local char* thread;
 bbHome home;
-
+bbNetwork network;
 void* graphics_thread(void* arg);
 int main(void)
 {
@@ -23,6 +24,24 @@ int main(void)
 
     pthread_t graphics_pthread;
     pthread_create(&graphics_pthread, NULL, graphics_thread, NULL);
+
+    bbNetworkApp_init(&network);
+
+    char address[64] = "127.0.0.1";
+    char port[64] = "1701";
+    bbNetworkApp_connect(&network, address, port);
+
+
+    while (1)
+    {
+        if (network.send_ready && network.receive_ready)
+        {
+            bbNetworkTime_ping(&network);
+            bbNetworkApp_checkInbox(&network);
+            bbNetworkTime_updateTimeDiff(network.extra_data);
+        }
+        sfSleep(sfSeconds(1.f/60.f));
+    }
 
     bbFlag flag = bbSuccess;
     bbFlag_print(flag)
@@ -44,7 +63,7 @@ void* graphics_thread(void* arg)
 
     sfRenderWindow* window = sfRenderWindow_create(mode, "early demo", sfResize | sfClose, NULL);
     sfRenderWindow_setMouseCursorVisible(window, sfFalse);
-    sfRenderWindow_setFramerateLimit(window, 60);
+    //sfRenderWindow_setFramerateLimit(window, 60);
     sfRenderWindow_drawSprite(window, splash_sprite, NULL);
     sfRenderWindow_display(window);
 
@@ -77,6 +96,13 @@ void* graphics_thread(void* arg)
 
     bbWidget_constructor(NULL,
                          &home.UI.widgets,
+                         "CLOCK",
+                         "LAYOUT",
+                         "CLOCK",
+                         (bbScreenPoints){100*SCREEN_PPP,100*SCREEN_PPP});
+
+    bbWidget_constructor(NULL,
+                         &home.UI.widgets,
                          "GAME",
                          "LAYOUT",
                          "GAME",
@@ -88,11 +114,20 @@ void* graphics_thread(void* arg)
     cl.graphics = &home.UI.graphics;
     cl.target = window;
 
-    I32 gui_time = 0;
+
+    bbNetworkTime* network_time = (bbNetworkTime*)network.extra_data;
+
     while (1)
     {
-        cl.GUI_time = gui_time++;
+        cl.GUI_time++;
 
+
+        I64 time;
+        if (network_time->timeCalibrated == true)
+        {
+            bbNetworkTime_get(network_time, &time);
+            cl.map_time = time / (1000000/60);
+        }
         bbInput_poll(&input, window);
 
         bbMouse_isOver(&mouse, &home.UI.widgets);
@@ -101,6 +136,11 @@ void* graphics_thread(void* arg)
         bbWidgets_draw(&home.UI.widgets, &cl);
         bbMouse_Draw(&mouse,&home.UI.widgets, &home.UI.graphics, window);
         sfRenderWindow_display(window);
+
+        if (network_time->timeCalibrated == true)
+        {
+            bbNetworkTime_waitInt(network_time, cl.map_time+1);
+        }
     }
 
 }
