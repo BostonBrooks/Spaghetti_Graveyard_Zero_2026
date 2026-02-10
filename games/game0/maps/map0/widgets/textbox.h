@@ -33,11 +33,11 @@ bbFlag bbWidget_Constructor_Textbox (bbWidget** self,
     funcInt = bbMouseFunctions_getInt(&widgets->mouse->functions,MouseIsOver,
                                   "HOVER");
     widget->mtable.is_over = funcInt;
-/*
+
     funcInt = bbMouseFunctions_getInt(&widgets->mouse->functions,MouseLeftDown,
                                   "TEXTBOX");
-    widget->mtable.LeftDown = funcInt;
-*/
+    widget->mtable.left_down = funcInt;
+
     widget->mtable.mouse_icon = 155;
 
     bbGraphicsApp* Graphics = graphics;
