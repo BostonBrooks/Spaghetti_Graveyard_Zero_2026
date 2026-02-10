@@ -12,6 +12,7 @@
 #include "engine/network/bbNetworkPacket.h"
 
 thread_local char* thread;
+U64 test_time = 0;
 
 int main(void){
     printf("Hello, server!\n");

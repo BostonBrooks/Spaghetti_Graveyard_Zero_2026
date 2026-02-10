@@ -132,19 +132,14 @@ void* graphics_thread(void* arg)
 
     bbNetworkTime* network_time = (bbNetworkTime*)home.network.extra_data;
 
+    U8 clock_index = 255;
     while (1)
     {
         test_time = cl.GUI_time++;
 
 
+
         I64 time;
-        if (home.clock.clock_running == true)
-        {
-            bbClock_message* msg;
-            bbThreadedQueue_popL_block(&home.clock.outbox,(void**)&msg);
-            cl.map_time = msg->tick_time;
-            bbThreadedQueue_free(&home.clock.outbox,(void**)&msg);
-        }
         bbInput_poll(&input, window);
 
         bbMouse_isOver(&mouse, &home.UI.widgets);
@@ -157,7 +152,15 @@ void* graphics_thread(void* arg)
 
         if (network_time->timeCalibrated == true)
         {
-            bbNetworkTime_waitInt(network_time, cl.map_time+1);
+            if (clock_index == 255)
+            {
+                bbClock_getOutboxIndex(&home.clock, &clock_index);
+                U64 time;
+                bbClock_getTick(&home.clock, &time);
+                cl.map_time = time;
+                bbDebug("clock_index = %d, time = %llu\n", clock_index,time);
+            }
+            bbClock_waitTick(&home.clock,  ++(cl.map_time), clock_index);
         }
     }
 

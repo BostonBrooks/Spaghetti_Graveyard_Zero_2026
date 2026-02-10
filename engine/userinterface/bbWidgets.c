@@ -135,7 +135,6 @@ bbFlag bbWidget_constructor(bbWidget** self,
 
                              bbScreenPoints screen_points)
 {
-    bbHere()
     bbWidget* widget;
 
     bbHandle parent_handle;

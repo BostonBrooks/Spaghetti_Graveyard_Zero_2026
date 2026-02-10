@@ -11,6 +11,7 @@
 typedef enum
 {
     bbClockMessageType_request,
+    bbClockMessageType_subscribe,
     bbClockMessageType_send
 } bbClock_message_type;
 
@@ -18,10 +19,23 @@ typedef enum
 typedef struct bbClock_message
 {
     bbClock_message_type type;
-    U64 tick_time;
+    bbHandle data;
+    U8 index;
     bbListElement_Handle list_element;
 } bbClock_message;
 
+typedef struct
+{
+    bbThreadedQueue outbox;
+    //send a wakeup message when send_time == current_tick
+    U64 send_time;
+    //send a wakeup message when "remainder" == "current_tick" mod "period"
+    U32 period;
+    U32 remainder;
+    bool allocated;
+} bbClock_connection;
+
+#define MAX_CONNECTIONS 8
 typedef struct
 {
     pthread_t clock_thread;
@@ -34,14 +48,26 @@ typedef struct
     //Later, there will be one of each of these per thread
     bbThreadedQueue inbox;
     bbThreadedQueue outbox;
+    bbClock_connection connections[MAX_CONNECTIONS];
 
 } bbClock;
 
 
 bbFlag bbClock_init(bbClock* clock, bbNetworkTime* network_time);
 
+///Get the current time in multiples of 1/60 seconds
 bbFlag bbClock_getTick(bbClock* clock, U64* tick_time);
 
-bbFlag bbClock_waitTick(bbClock* clock, U64 tick_time);
+///Assign outbox to thread by giving the thread an integer index
+bbFlag bbClock_getOutboxIndex(bbClock* clock, U8* index);
+
+///Wait until the time reaches tick_time
+bbFlag bbClock_waitTick(bbClock* clock, U64 tick_time, U8 index);
+
+///send a wakeup message when "remainder" == "current_tick" mod "period"
+bbFlag bbClock_subscribe(bbClock* clock, U32 period, U32 remainder, U8 index);
+
+///wake up when "remainder" == "current_tick" mod "period"
+bbFlag bbClock_waitSubscription(bbClock* clock, U8 index);
 
 #endif// BB_BBCLOCK_H
