@@ -141,7 +141,10 @@ void* graphics_thread(void* arg)
         I64 time;
         if (home.clock.clock_running == true)
         {
-            cl.map_time = home.clock.current_tick;
+            bbClock_message* msg;
+            bbThreadedQueue_popL_block(&home.clock.outbox,(void**)&msg);
+            cl.map_time = msg->tick_time;
+            bbThreadedQueue_free(&home.clock.outbox,(void**)&msg);
         }
         bbInput_poll(&input, window);
 
