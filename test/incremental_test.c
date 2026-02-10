@@ -17,7 +17,7 @@
 thread_local char* thread;
 bbHome home;
 
-
+U64 test_time = 0;
 
 void* graphics_thread(void* arg);
 int main(void)
@@ -67,7 +67,7 @@ int main(void)
 
 void* graphics_thread(void* arg)
 {
-    thread = "GRAPHICS";
+    thread = "USER INTERFACE";
     sfTexture* splash_texture = sfTexture_createFromFile("./graphics/Splash.png", NULL);
     sfSprite* splash_sprite = sfSprite_create();
     sfSprite_setTexture(splash_sprite, splash_texture, sfTrue);
@@ -130,12 +130,11 @@ void* graphics_thread(void* arg)
     cl.graphics = &home.UI.graphics;
     cl.target = window;
 
-
     bbNetworkTime* network_time = (bbNetworkTime*)home.network.extra_data;
 
     while (1)
     {
-        cl.GUI_time++;
+        test_time = cl.GUI_time++;
 
 
         I64 time;
@@ -149,6 +148,7 @@ void* graphics_thread(void* arg)
         bbInput_poll(&input, window);
 
         bbMouse_isOver(&mouse, &home.UI.widgets);
+        bbMouse_Update(&mouse, &home.UI.widgets, &home.UI.graphics);
 
         sfRenderWindow_clear(window, sfMagenta);
         bbWidgets_draw(&home.UI.widgets, &cl);

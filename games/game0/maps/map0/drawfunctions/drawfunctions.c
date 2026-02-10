@@ -5,6 +5,7 @@
 #include "engine/logic/bbPrime.h"
 #include "engine/logic/bbTerminal.h"
 #include "engine/userinterface/bbWidgets.h"
+#include "games/game0/maps/map0/drawfunctions/textboxindicator.h"
 
 bbFlag bbDF_NULL(void* drawable, void* frameDescriptor, void* cl)
 {
@@ -116,7 +117,7 @@ bbFlag bbDF_widgetTextBox(void* drawable, void* frameDescriptor, void* cl)
 
 }
 
-#define NUM_DRAWFUNCTIONS 5
+#define NUM_DRAWFUNCTIONS 6
 bbFlag bbDrawfunctions_new(bbDrawfunctions** drawfunctions){
 
     bbDrawfunctions* functions = malloc(sizeof(bbDrawfunctions) + NUM_DRAWFUNCTIONS * sizeof(bbDrawFunction*));
@@ -147,6 +148,10 @@ bbFlag bbDrawfunctions_new(bbDrawfunctions** drawfunctions){
     functions->functions[4] = bbDF_widgetMapTimeAnimation;
     handle.u64 = 4;
     bbDictionary_add(functions->dictionary, "WIDGET_MAPTIME_ANIMATION", handle);
+
+    functions->functions[5] = bbDF_textboxIndicator;
+    handle.u64 = 5;
+    bbDictionary_add(functions->dictionary, "TEXTBOX_INDICATOR", handle);
 
     *drawfunctions = functions;
     return bbSuccess;

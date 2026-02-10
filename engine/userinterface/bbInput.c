@@ -143,9 +143,9 @@ bbFlag bbInput_poll(bbInput* input, sfRenderWindow* window){
     sfEvent event;
     sfBool flag;
 
-    //TODO code up mouse
-    //input->mouse->right_changed = false;
-    //input->mouse->left_changed = false;
+
+    input->mouse->right_changed = false;
+    input->mouse->left_changed = false;
     while (1) {
         flag = sfRenderWindow_pollEvent(window, &event);
         if (flag == sfFalse) return bbContinue;
@@ -156,7 +156,6 @@ bbFlag bbInput_poll(bbInput* input, sfRenderWindow* window){
         case sfEvtMouseMoved:
         case sfEvtMouseButtonPressed:
         case sfEvtMouseButtonReleased:{
-
             bbMouse_Event(input->mouse, &event);
             break;
         }

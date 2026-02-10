@@ -12,10 +12,11 @@
 
 extern thread_local char* thread;
 static const int stringLength = 512;
+extern U64 test_time;
 
 /// Print current file, function, line and thread
-#define bbHere() printf ("In FILE: %s, FUNCTION: %s, LINE: %d, THREAD: %s\n",\
-__FILE_NAME__, __func__, __LINE__, thread);
+#define bbHere() printf ("In FILE: %s, FUNCTION: %s, LINE: %d, THREAD: %s, TIME: %lu\n",\
+__FILE_NAME__, __func__, __LINE__, thread, test_time);
 
 /// Print warning and exit, but preserve the stack for gdb
 #define bbAssert(expression, ...)\
@@ -37,8 +38,8 @@ int x = 1/0;\
 #define bbDebug(...) {\
 char string1[stringLength];\
 char string2[stringLength];\
-sprintf (string1, "In FILE: %s, FUNCTION: %s, LINE: %d, THREAD: %s,\nDEBUG: ",\
-__FILE_NAME__, __func__, __LINE__, thread);\
+sprintf (string1, "In FILE: %s, FUNCTION: %s, LINE: %d, THREAD: %s, TIME: %lu\nDEBUG: ",\
+__FILE_NAME__, __func__, __LINE__, thread, test_time);\
 sprintf (string2, __VA_ARGS__);\
 printf("%s%s", string1, string2);\
 }

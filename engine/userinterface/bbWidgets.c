@@ -8,6 +8,7 @@
 #include "engine/logic/bbDictionary.h"
 #include "engine/logic/bbFlag.h"
 #include "engine/logic/bbPrime.h"
+#include "engine/logic/bbString.h"
 #include "engine/logic/bbTree.h"
 #include "engine/userinterface/bbWidgetFunctions.h"
 
@@ -52,6 +53,8 @@ bbFlag bbWidget_newEmpty(bbWidget** self, bbWidgets* widgets, bbWidget* parent, 
     bbHandle widget_handle;
     bbVPool_alloc(widgets->pool, (void**)&widget);
     bbVPool_reverseLookup(widgets->pool, widget, &widget_handle);
+
+    bbStr_putStr(widget->key, name, KEY_LENGTH);
 
     widget->tree.visible = true;
     widget->tree.children_visible = true;

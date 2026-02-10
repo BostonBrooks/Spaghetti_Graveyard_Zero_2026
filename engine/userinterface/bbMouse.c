@@ -28,7 +28,7 @@ bbFlag bbMouse_Event(bbMouse* mouse, sfEvent* event)
             mouse->position = pixel_getScreenPoints(event->mouseMove.x,
                                                 event->mouseMove.y);
 
-        break;/*
+        break;
         case sfEvtMouseButtonPressed:
             button = event->mouseButton.button;
             mouse->position = pixel_getScreenPoints(event->mouseButton.x,event->mouseButton.y);
@@ -57,7 +57,7 @@ bbFlag bbMouse_Event(bbMouse* mouse, sfEvent* event)
                 mouse->right_changed = true;
                 mouse->right_down = false;
             }
-            break;*/
+            break;
     default:{
             bbDebug("input not recognised\n");
     }
@@ -82,6 +82,7 @@ bbFlag bbMouse_isOver(bbMouse* mouse, void* Widgets)
 
 bbFlag bbMouse_Update(bbMouse* mouse, void* Widgets, bbGraphicsApp* graphics)
 {
+    bbHere()
     bbWidgets* widgets = Widgets;
     bbVPool* pool = widgets->pool;
     if(!bbVPool_handleIsEqual(pool, mouse->was_over, pool->null)){
@@ -103,6 +104,7 @@ bbFlag bbMouse_Update(bbMouse* mouse, void* Widgets, bbGraphicsApp* graphics)
 
 
         bbVPool_lookup(pool, (void**)&widget, mouse->is_over);
+        bbHere()
         bbMouse_LeftDownWidget (mouse, widgets, widget, graphics);
 
     } else if (!mouse->left_down && mouse->left_changed) {
@@ -191,6 +193,7 @@ graphics)
     bbMouse* Mouse = mouse;
     I32 funcInt = widget->mtable.enter;
 
+    bbDebug("you entered widget %s\n", widget->key);
     if (funcInt == -1) return bbSuccess;
 
     bbMouse_Leave* func = Mouse->functions.Enter[funcInt];
@@ -205,6 +208,7 @@ graphics)
     bbMouse* mouse = Mouse;
     I32 funcInt = widget->mtable.leave;
 
+    bbDebug("you left widget %s\n", widget->key);
     if (funcInt == -1) return bbSuccess;
 
     bbMouse_Leave* func = mouse->functions.Leave[funcInt];
@@ -219,6 +223,8 @@ bbFlag bbMouse_LeftDownWidget(void* Mouse, void* widgets, void* Widget,
     bbMouse* mouse = Mouse;
     I32 funcInt = widget->mtable.left_down;
 
+    bbDebug("you clicked widget %s\n", widget->key);
+
     if (funcInt == -1) return bbSuccess;
 
     bbMouse_Leave* func = mouse->functions.LeftDown[funcInt];
@@ -232,6 +238,7 @@ bbFlag bbMouse_LeftUpWidget(void* Mouse, void* widgets, void* Widget,
     bbMouse* mouse = Mouse;
     I32 funcInt = widget->mtable.left_up;
 
+    bbDebug("you unclicked widget %s\n", widget->key);
     if (funcInt == -1) return bbSuccess;
 
     bbMouse_Leave* func = mouse->functions.LeftUp[funcInt];
