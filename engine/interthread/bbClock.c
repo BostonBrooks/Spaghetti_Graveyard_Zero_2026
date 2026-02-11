@@ -74,15 +74,21 @@ void* clock_thread(void* arg)
             connection = &clock->connections[i];
 
             if (connection->allocated == false) continue;
+
             if (connection->send_time > 0)
             {
                 if (connection->send_time <= clock->current_tick)
                 {
+
                     bbClock_message* msg;
                     bbThreadedQueue_alloc(&connection->outbox,(void**)&msg);
                     msg->type = bbClockMessageType_send;
                     msg->data.u64 = clock->current_tick;
                     msg->index = i;
+                    bbDebug("prev = %llx, next = %llx, null = %llx\n",
+                        msg->list_element.prev.u64,
+                        msg->list_element.next.u64,
+                        clock->message_pool->null.u64);
                     bbThreadedQueue_pushR(&connection->outbox,(void*)msg);
                     connection->send_time = 0;
                 }
@@ -110,7 +116,7 @@ bbFlag bbClock_init(bbClock* clock, bbNetworkTime* network_time)
 
     pthread_create(&clock->clock_thread, NULL, clock_thread, clock);
 
-    return EXIT_SUCCESS;
+    return bbSuccess;
 }
 
 bbFlag bbClock_getTick(bbClock* clock, U64* tick_time)

@@ -158,7 +158,6 @@ void* graphics_thread(void* arg)
                 U64 time;
                 bbClock_getTick(&home.clock, &time);
                 cl.map_time = time;
-                bbDebug("clock_index = %d, time = %llu\n", clock_index,time);
             }
             bbClock_waitTick(&home.clock,  ++(cl.map_time), clock_index);
         }
