@@ -25,7 +25,7 @@ typedef struct
     bbList undo_stack;
 
     bbVPool* local_message_pool;
-    ///Receive messages from GUI
+    ///Receive messages from GUI, FIFO
     bbThreadedQueue local_message_queue;
 
 

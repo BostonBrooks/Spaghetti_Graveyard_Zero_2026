@@ -4,6 +4,9 @@
 #include <SFML/Window.h>
 #include <pthread.h>
 
+#include "engine/core/bbCoreInputs.h"
+#include "engine/core/bbLocalMessage.h"
+#include "engine/core/bbLocalMessageInputs.h"
 #include "engine/graphics/bbSprites.h"
 #include "engine/logic/bbTerminal.h"
 #include "engine/logic/bbFlag.h"
@@ -27,6 +30,8 @@ int main(void)
 
     home.clock.clock_running = false;
 
+    bbCore_init(&home.core.core);
+
     pthread_t graphics_pthread;
     pthread_create(&graphics_pthread, NULL, graphics_thread, NULL);
 
@@ -37,7 +42,7 @@ int main(void)
     bbNetworkApp_connect(&home.network, address, port);
     home.network_time = (bbNetworkTime*)home.network.extra_data;
 
-    bbCore_init(&home.core.core);
+
 
     bool once = false;
     while (1)
@@ -55,8 +60,15 @@ int main(void)
             once = true;
             bbClock_init(&home.clock, home.network_time);
         }
+        if (test_time%60 == 0)
+        {
 
+            bbCore_printInteger(&home.core.core, 69, true);
+            bbCore_printString(&home.core.core, "69", true);
+        }
 
+        bbCore_react(&home.core.core);
+        bbCore_checkLocalMessages(&home.core.core);
 
         sfSleep(sfSeconds(1.f/60.f));
     }
@@ -81,7 +93,7 @@ void* graphics_thread(void* arg)
 
     sfRenderWindow* window = sfRenderWindow_create(mode, "early demo", sfResize | sfClose, NULL);
     sfRenderWindow_setMouseCursorVisible(window, sfFalse);
-    //sfRenderWindow_setFramerateLimit(window, 60);
+    sfRenderWindow_setFramerateLimit(window, 60);
     sfRenderWindow_drawSprite(window, splash_sprite, NULL);
     sfRenderWindow_display(window);
 
@@ -147,9 +159,6 @@ void* graphics_thread(void* arg)
     {
         test_time = cl.GUI_time++;
 
-
-
-        I64 time;
         bbInput_poll(&input, window);
 
         bbMouse_isOver(&mouse, &home.UI.widgets);
@@ -165,11 +174,20 @@ void* graphics_thread(void* arg)
             if (clock_index == 255)
             {
                 bbClock_getOutboxIndex(&home.clock, &clock_index);
+                sfRenderWindow_setFramerateLimit(window, 0);
                 U64 time;
                 bbClock_getTick(&home.clock, &time);
                 cl.map_time = time;
             }
             bbClock_waitTick(&home.clock,  ++(cl.map_time), clock_index);
+        }
+
+
+        if (test_time%60 == 0)
+        {
+            char a_string[64];
+            sprintf(a_string, "message sent at: %d\n", test_time);
+            bbLocalMessage_PrintString(&home.core.core, a_string);
         }
     }
 

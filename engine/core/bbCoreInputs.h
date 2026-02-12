@@ -1,5 +1,5 @@
-///A bunch of functions that put instructions on the stack, to be executed
-///Not threadsafe
+/// Functions like bbCore_printString should be called from the same thread
+/// that owns the instance of bbCore
 
 #include "engine/core/bbCore.h"
 #include "engine/logic/bbFlag.h"
