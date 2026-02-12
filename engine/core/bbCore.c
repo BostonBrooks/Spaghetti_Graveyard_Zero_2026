@@ -37,6 +37,10 @@ bbFlag bbCore_react(bbCore* core)
         case bbInstruction_printInteger:
             bbInstruction_printInteger_fn(core, instruction);
             break;
+
+        case bbInstruction_printString:
+            bbInstruction_printString_fn(core, instruction);
+            break;
         default:
             bbDebug("Unknown instruction type");
         }
@@ -60,6 +64,9 @@ bbFlag bbCore_rewind(bbCore* core)
         {
         case bbInstruction_unprintInteger:
             bbInstruction_unprintInteger_fn(core, instruction);
+            break;
+        case bbInstruction_unprintString:
+            bbInstruction_unprintString_fn(core, instruction);
             break;
         default:
             bbDebug("Unknown undo instruction type");

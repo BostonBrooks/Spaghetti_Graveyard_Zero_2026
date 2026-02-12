@@ -85,10 +85,10 @@ void* clock_thread(void* arg)
                     msg->type = bbClockMessageType_send;
                     msg->data.u64 = clock->current_tick;
                     msg->index = i;
-                    bbDebug("prev = %llx, next = %llx, null = %llx\n",
-                        msg->list_element.prev.u64,
-                        msg->list_element.next.u64,
-                        clock->message_pool->null.u64);
+                    //bbDebug("prev = %llx, next = %llx, null = %llx\n",
+                    //    msg->list_element.prev.u64,
+                    //    msg->list_element.next.u64,
+                    //    clock->message_pool->null.u64);
                     bbThreadedQueue_pushR(&connection->outbox,(void*)msg);
                     connection->send_time = 0;
                 }

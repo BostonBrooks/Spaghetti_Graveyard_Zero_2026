@@ -12,6 +12,7 @@ int main (void)
     bbCore core;
     bbCore_init(&core);
     bbCore_printInteger(&core, 69, true);
+    bbCore_printString(&core, "69", true);
     bbCore_react(&core);
     sleep(5);
     exit(EXIT_SUCCESS);

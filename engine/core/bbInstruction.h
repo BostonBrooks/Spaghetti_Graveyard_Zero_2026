@@ -6,22 +6,32 @@
 #include "engine/logic/bbHandle.h"
 #include "engine/logic/bbFlag.h"
 #include "engine/core/bbCore.h"
+#include "engine/data/bbConstants.h"
 
 typedef enum
 {
     bbInstruction_printInteger,
     bbInstruction_unprintInteger,
 
+    bbInstruction_printString,
+    bbInstruction_unprintString
+
 } bbInstruction_type;
 
 typedef struct
 {
     I32 integer;
-} bbInstruction_printInteger_data;
+} bbInstructionData_integer;
+
+typedef struct
+{
+    char string[KEY_LENGTH];
+} bbInstructionData_string;
 
 typedef union
 {
-    bbInstruction_printInteger_data integer;
+    bbInstructionData_integer integer;
+    bbInstructionData_string string;
 } bbInstruction_data;
 
 typedef struct
@@ -35,5 +45,9 @@ typedef struct
 
 bbFlag bbInstruction_printInteger_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_unprintInteger_fn(bbCore* core, bbInstruction* instruction);
+
+
+bbFlag bbInstruction_printString_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbInstruction_unprintString_fn(bbCore* core, bbInstruction* instruction);
 
 #endif // BB_INSTRUCTION_H
