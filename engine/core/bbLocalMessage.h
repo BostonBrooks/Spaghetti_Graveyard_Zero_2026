@@ -1,3 +1,6 @@
+#ifndef BB_LOCALMESSAGE_H
+#define BB_LOCALMESSAGE_H
+
 #include "engine/core/bbInstruction.h"
 #include "engine/logic/bbHandle.h"
 
@@ -32,3 +35,4 @@ typedef struct
 bbFlag bbCore_checkLocalMessages(bbCore* core);
 bbFlag bbLocalMessage_printString_fn(bbCore* core, bbLocalMessage* message);
 
+#endif // BB_LOCALMESSAGE_H
