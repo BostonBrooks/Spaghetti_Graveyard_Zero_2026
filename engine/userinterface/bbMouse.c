@@ -82,7 +82,7 @@ bbFlag bbMouse_isOver(bbMouse* mouse, void* Widgets)
 
 bbFlag bbMouse_Update(bbMouse* mouse, void* Widgets, bbGraphicsApp* graphics)
 {
-    bbHere()
+
     bbWidgets* widgets = Widgets;
     bbVPool* pool = widgets->pool;
     if(!bbVPool_handleIsEqual(pool, mouse->was_over, pool->null)){
@@ -100,11 +100,7 @@ bbFlag bbMouse_Update(bbMouse* mouse, void* Widgets, bbGraphicsApp* graphics)
     if (mouse->left_down && mouse->left_changed){
 
         bbWidget* widget;
-
-
-
         bbVPool_lookup(pool, (void**)&widget, mouse->is_over);
-        bbHere()
         bbMouse_LeftDownWidget (mouse, widgets, widget, graphics);
 
     } else if (!mouse->left_down && mouse->left_changed) {
