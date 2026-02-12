@@ -38,6 +38,8 @@ add_executable(Spaghetti_Graveyard_Zero_2026 test/incremental_test.c
         engine/network/bbNetworkPacket.c
         engine/network/bbNetworkTime.c
         engine/interthread/bbClock.c
+        engine/core/bbCore.c
+        engine/core/bbInstruction.c
 )
 
 target_include_directories(Spaghetti_Graveyard_Zero_2026  PRIVATE "./")
@@ -75,10 +77,24 @@ target_link_libraries(Server PRIVATE
 )
 
 
-add_executable(test_sort test/bbList_testSort.c
+add_executable(test_sort test/bbTest_list_sort.c
         engine/logic/bbList.c
         engine/logic/bbBloatedPool.c
 )
 
 target_include_directories(test_sort  PRIVATE "./")
 
+
+
+
+add_executable(test_core test/bbTest_core.c
+        engine/core/bbCore.c
+        engine/core/bbCoreInputs.c
+        engine/core/bbInstruction.c
+        engine/threadsafe/bbThreadedPool.c
+        engine/threadsafe/bbThreadedQueue.c
+        engine/logic/bbList.c
+        engine/logic/bbBloatedPool.c
+)
+
+target_include_directories(test_core  PRIVATE "./")

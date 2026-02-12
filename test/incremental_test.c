@@ -37,6 +37,8 @@ int main(void)
     bbNetworkApp_connect(&home.network, address, port);
     home.network_time = (bbNetworkTime*)home.network.extra_data;
 
+    bbCore_init(&home.core.core);
+
     bool once = false;
     while (1)
     {

@@ -1,4 +1,5 @@
 
+#include "engine/core/bbCore.h"
 #include "engine/graphics/bbGraphicsApp.h"
 #include "engine/interthread/bbClock.h"
 #include "engine/network/bbNetwork.h"
@@ -10,7 +11,10 @@ typedef struct
     bbWidgets widgets;
 } bbHome_UI;
 
-
+typedef struct
+{
+    bbCore core;
+} bbHome_core;
 
 typedef struct
 {
@@ -18,6 +22,8 @@ typedef struct
     bbNetwork network;
     bbNetworkTime* network_time;
     bbClock clock;
+
+    bbHome_core core;
 
 } bbHome;
 
