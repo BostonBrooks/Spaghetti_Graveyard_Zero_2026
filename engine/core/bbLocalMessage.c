@@ -2,6 +2,7 @@
 
 #include "bbCoreInputs.h"
 #include "engine/data/bbHome.h"
+#include "engine/userinterface/bbUI_Inbox.h"
 
 
 bbFlag bbLocalMessage_printString_fn(bbCore* core, bbLocalMessage* message)

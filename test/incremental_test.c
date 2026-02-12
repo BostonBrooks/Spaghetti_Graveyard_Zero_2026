@@ -112,6 +112,8 @@ void* userinterface_thread(void* arg)
     bbInput input;
     bbInput_init(&input, window, &mouse, &home.UI.widgets);
 
+    bbUI_Inbox_init(&home.UI.inbox);
+
     bbWidget* root;
     bbWidget_newLayout(&root, &home.UI.graphics, &home.UI.widgets, NULL);
 
@@ -164,6 +166,7 @@ void* userinterface_thread(void* arg)
         bbMouse_isOver(&mouse, &home.UI.widgets);
         bbMouse_Update(&mouse, &home.UI.widgets, &home.UI.graphics);
 
+        bbUI_Inbox_check(&home.UI.inbox);
         sfRenderWindow_clear(window, sfMagenta);
         bbWidgets_draw(&home.UI.widgets, &cl);
         bbMouse_Draw(&mouse,&home.UI.widgets, &home.UI.graphics, window);

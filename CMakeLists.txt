@@ -27,6 +27,7 @@ add_executable(Spaghetti_Graveyard_Zero_2026 test/incremental_test.c
         engine/userinterface/bbInput.c
         engine/userinterface/bbMouse.c
         engine/userinterface/bbMouseFunctions.c
+        engine/userinterface/bbUI_Inbox.c
         games/game0/maps/map0/mouse/mouse.c
         engine/logic/bbList.c
         engine/logic/bbList_getNth.c

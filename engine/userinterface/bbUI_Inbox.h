@@ -1,14 +1,14 @@
 #ifndef BB_UI_INBOX_H
 #define BB_UI_INBOX_H
+
 #include "engine/core/bbLocalMessage.h"
 #include "engine/logic/bbFlag.h"
 #include "engine/logic/bbHandle.h"
 #include "engine/threadsafe/bbThreadedPool.h"
-#include "engine/data/bbHome.h"
 
 typedef enum
 {
-    bbbbUI_Inbox_unpressButton,
+    bbUI_Inbox_unpressButton,
 } bbUI_Inbox_type;
 
 typedef struct
@@ -38,6 +38,11 @@ typedef struct
     bbThreadedQueue local_message_queue;
 } bbUI_Inbox;
 
-bbFlag bbUI_Inbox_init(bbUI_Inbox* inbox)
+bbFlag bbUI_Inbox_init(bbUI_Inbox* inbox);
 
+bbFlag bbUI_Inbox_check(bbUI_Inbox* inbox);
+bbFlag bbUI_Inbox_unpressButton_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message);
+
+
+bbFlag bbUI_Inbox_UnpressButton(bbUI_Inbox* inbox);
 #endif // BB_UI_INBOX_H
