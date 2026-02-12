@@ -114,6 +114,14 @@ void* graphics_thread(void* arg)
 
     bbWidget_constructor(NULL,
                          &home.UI.widgets,
+                         "BUTTON",
+                         "LAYOUT",
+                         "BUTTON",
+                         (bbScreenPoints){300*SCREEN_PPP,200*SCREEN_PPP});
+
+
+    bbWidget_constructor(NULL,
+                         &home.UI.widgets,
                          "CLOCK",
                          "LAYOUT",
                          "CLOCK",
