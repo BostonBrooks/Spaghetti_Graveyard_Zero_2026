@@ -22,7 +22,7 @@ bbHome home;
 
 U64 test_time = 0;
 
-void* graphics_thread(void* arg);
+void* userinterface_thread(void* arg);
 int main(void)
 {
     thread = "MAIN";
@@ -33,7 +33,7 @@ int main(void)
     bbCore_init(&home.core.core);
 
     pthread_t graphics_pthread;
-    pthread_create(&graphics_pthread, NULL, graphics_thread, NULL);
+    pthread_create(&graphics_pthread, NULL, userinterface_thread, NULL);
 
     bbNetworkApp_init(&home.network);
 
@@ -60,12 +60,12 @@ int main(void)
             once = true;
             bbClock_init(&home.clock, home.network_time);
         }
-        if (test_time%60 == 0)
-        {
-
-            bbCore_printInteger(&home.core.core, 69, true);
-            bbCore_printString(&home.core.core, "69", true);
-        }
+        //if (test_time%60 == 0)
+        //{
+        //
+        //   bbCore_printInteger(&home.core.core, 69, true);
+        //    bbCore_printString(&home.core.core, "69", true);
+        //}
 
         bbCore_react(&home.core.core);
         bbCore_checkLocalMessages(&home.core.core);
@@ -79,7 +79,7 @@ int main(void)
     pthread_join(graphics_pthread, NULL);
 }
 
-void* graphics_thread(void* arg)
+void* userinterface_thread(void* arg)
 {
     thread = "USER INTERFACE";
     sfTexture* splash_texture = sfTexture_createFromFile("./graphics/Splash.png", NULL);
