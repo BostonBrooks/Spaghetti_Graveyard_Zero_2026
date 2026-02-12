@@ -1,3 +1,5 @@
+#ifndef	BB_HOME_H
+#define BB_HOME_H
 
 #include "engine/core/bbCore.h"
 #include "engine/graphics/bbGraphicsApp.h"
@@ -29,3 +31,5 @@ typedef struct
 
 
 extern bbHome home;
+
+#endif // BB_HOME_H

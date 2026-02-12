@@ -7,6 +7,7 @@
 #include "engine/data/bbHome.h"
 
 #include "games/game0/maps/map0/mouse/textbox.h"
+#include "games/game0/maps/map0/mouse/button.h"
 
 //mouse hovers over widget, uses pointer defined by widget
 bbFlag IsOver_Hover(bbMouse* mouse, bbWidgets* widgets, bbWidget* widget)
@@ -35,6 +36,7 @@ bbFlag bbMouseFunctions_populate(bbMouseFunctions* self)
 
     bbMouseFunctions_add(self, MouseIsOver, IsOver_Hover, "HOVER");
     bbMouseFunctions_add(self, MouseLeftDown,Textbox_LeftDown,"TEXTBOX");
+    bbMouseFunctions_add(self, MouseLeftDown,Button_LeftDown,"BUTTON");
 
     return bbSuccess;
 }

@@ -183,12 +183,6 @@ void* userinterface_thread(void* arg)
         }
 
 
-        if (test_time%60 == 0)
-        {
-            char a_string[64];
-            sprintf(a_string, "message sent at: %d\n", test_time);
-            bbLocalMessage_PrintString(&home.core.core, a_string);
-        }
     }
 
 }

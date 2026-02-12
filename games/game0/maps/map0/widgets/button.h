@@ -51,6 +51,9 @@ bbFlag bbWidget_Constructor_Button(bbWidget** self,
                                   "HOVER");
     widget->mtable.is_over = funcInt;
 
+    funcInt = bbMouseFunctions_getInt(&widgets->mouse->functions,MouseLeftDown,
+                                  "BUTTON");
+    widget->mtable.left_down = funcInt;
 
     widget->mtable.mouse_icon = 86;
 
