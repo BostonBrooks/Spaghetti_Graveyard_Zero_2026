@@ -119,7 +119,7 @@ void* userinterface_thread(void* arg)
 
     bbWidget_constructor(NULL,
                              &home.UI.widgets,
-                             "KITTY",
+                             "COMPOSITION",
                              "LAYOUT",
                              "KITTY",
                              (bbScreenPoints){200*SCREEN_PPP,200*SCREEN_PPP});

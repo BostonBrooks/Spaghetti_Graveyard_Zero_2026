@@ -117,7 +117,54 @@ bbFlag bbDF_widgetTextBox(void* drawable, void* frameDescriptor, void* cl)
 
 }
 
-#define NUM_DRAWFUNCTIONS 6
+//Look up default draw function for a given animation
+bbFlag bbDF_widgetAnimationDefault(void* drawable, void* frameDescriptor, void* cl){
+    bbWidget* widget = drawable;
+    bbFrame* frame_descriptor = frameDescriptor;
+    drawFuncClosure* closure = cl;
+    bbGraphicsApp* graphics = closure->graphics;
+    bbAnimation* animation = graphics->animations->animations[frame_descriptor->handle.u64];
+    I32 drawFunctionInt = animation->drawfunction;
+    bbDrawFunction *drawFunction = graphics->drawfunctions->functions[drawFunctionInt];
+    return drawFunction(drawable, frame_descriptor, cl);
+}
+
+bbFlag bbDF_composition(void* drawable, void* frameDescriptor, void* cl){
+
+    bbFrame* self_frame = frameDescriptor;
+    drawFuncClosure* closure = cl;
+    bbGraphicsApp* graphics = closure->graphics;
+    bbComposition* composition = graphics->compositions->compositions[self_frame->handle.u64];
+    bbFrame* input_frame;
+    bbFrame output_frame;
+    //void* output_object;
+
+    //bbDebug("composition->num_frames = %d\n", composition->num_frames);
+    for (int i = 0; i < composition->num_frames; i++){
+        input_frame = &composition->frame[i];
+
+        output_frame.type = input_frame->type;
+        output_frame.handle = input_frame->handle;
+        output_frame.offset.x = input_frame->offset.x + self_frame->offset.x;
+        output_frame.offset.y = input_frame->offset.y + self_frame->offset.y;
+        output_frame.framerate = input_frame->framerate * self_frame->framerate;
+        output_frame.start_time = input_frame->start_time + self_frame->start_time;
+        output_frame.drawfunction = input_frame->drawfunction;
+
+
+        if (output_frame.drawfunction <0 || output_frame.drawfunction> 4){
+            //bbDebug ("drawfunction == %d, type = %d\n",
+            //		 output_frame.drawfunction, output_frame.type);
+        } else {
+
+            bbDrawFunction *drawFunction =graphics->drawfunctions->functions[output_frame.drawfunction];
+            drawFunction(drawable, &output_frame, cl);
+        }
+    }
+    return bbSuccess;
+}
+
+#define NUM_DRAWFUNCTIONS 7
 bbFlag bbDrawfunctions_new(bbDrawfunctions** drawfunctions){
 
     bbDrawfunctions* functions = malloc(sizeof(bbDrawfunctions) + NUM_DRAWFUNCTIONS * sizeof(bbDrawFunction*));
@@ -152,6 +199,14 @@ bbFlag bbDrawfunctions_new(bbDrawfunctions** drawfunctions){
     functions->functions[5] = bbDF_textboxIndicator;
     handle.u64 = 5;
     bbDictionary_add(functions->dictionary, "TEXTBOX_INDICATOR", handle);
+
+    functions->functions[6] = bbDF_widgetAnimationDefault;
+    handle.u64 = 6;
+    bbDictionary_add(functions->dictionary, "ANIMATION_DEFAULT", handle);
+
+    functions->functions[7] = bbDF_composition;
+    handle.u64 = 7;
+    bbDictionary_add(functions->dictionary, "COMPOSITION", handle);
 
     *drawfunctions = functions;
     return bbSuccess;

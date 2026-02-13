@@ -5,6 +5,7 @@
 #include "games/game0/maps/map0/widgets/textbox.h"
 #include "games/game0/maps/map0/widgets/gamewidget.h"
 #include "games/game0/maps/map0/widgets/button.h"
+#include "games/game0/maps/map0/widgets/composition.h"
 
 
 bbFlag bbWidget_Constructor_NULL (bbWidget** self,
@@ -132,6 +133,12 @@ bbFlag bbWidgetFunctions_populate(bbWidgetFunctions* self)
         WidgetConstructor,
         bbWidget_Constructor_Button,
         "BUTTON");
+
+
+    bbWidgetFunctions_add(self,
+        WidgetConstructor,
+        bbWidget_Constructor_Composition,
+        "COMPOSITION");
 
 
 
