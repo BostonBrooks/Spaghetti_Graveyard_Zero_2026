@@ -124,14 +124,14 @@ void* userinterface_thread(void* arg)
                              "COMPOSITION",
                              "LAYOUT",
                              "KITTY",
-                             (bbScreenPoints){200*SCREEN_PPP,200*SCREEN_PPP});
+                             (bbScreenPoints){150*SCREEN_PPP,150*SCREEN_PPP});
 
     bbWidget_constructor(NULL,
                          &home.UI.widgets,
                          "BUTTON",
                          "LAYOUT",
                          "BUTTON",
-                         (bbScreenPoints){300*SCREEN_PPP,200*SCREEN_PPP});
+                         (bbScreenPoints){200*SCREEN_PPP,80*SCREEN_PPP});
 
 
     bbWidget_constructor(NULL,

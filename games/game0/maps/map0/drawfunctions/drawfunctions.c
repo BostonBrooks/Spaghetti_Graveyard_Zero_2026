@@ -6,6 +6,9 @@
 #include "engine/logic/bbTerminal.h"
 #include "engine/userinterface/bbWidgets.h"
 #include "games/game0/maps/map0/drawfunctions/textboxindicator.h"
+#include "games/game0/maps/map0/drawfunctions/button_state.h"
+
+#define NUM_DRAWFUNCTIONS 9
 
 bbFlag bbDF_NULL(void* drawable, void* frameDescriptor, void* cl)
 {
@@ -39,7 +42,7 @@ bbFlag bbDF_widgetSprite(void* drawable, void* frame_descriptor, void* cl){
 
 // Draw an animation belonging to a widget;
 bbFlag bbDF_widgetAnimation(void* drawable, void* frameDescriptor, void* cl){
-
+bbHere()
     bbWidget* widget = drawable;
     bbFrame* frame_descriptor = frameDescriptor;
     drawFuncClosure* closure = cl;
@@ -51,11 +54,15 @@ bbFlag bbDF_widgetAnimation(void* drawable, void* frameDescriptor, void* cl){
     I32 frames = animation->frames;
 
 
-    //bbDebug("key = %s, maptime = %d, starttime= %d, framerate = %f, frames = %d\n",
-    //		animation->key, mapTime, frame_descriptor->startTime,animation->framerate, animation->frames );
-    I32 frame = (int)((double)(closure->GUI_time - frame_descriptor->start_time) *
-                      (double)animation->framerate * frame_descriptor->framerate) % animation->frames;
+    I32 frame = bbArith_mod((int)((double)(closure->GUI_time - frame_descriptor->start_time) *
+                      (double)animation->framerate * frame_descriptor->framerate), animation->frames);
     I32 sprite_int = animation->Sprites[angle*frames+frame].u64;
+
+
+    bbDebug (" closure->GUI_time = %d, frame_descriptor->start_time = %d\n, animation->framerate = %f, frame_descriptor->framerate = %f\n, animation->frames = %d\n",
+        closure->GUI_time,frame_descriptor->start_time,animation->framerate , frame_descriptor->framerate,animation->frames);
+
+    bbAssert(sprite_int <  graphics->sprites->num_sprites, "bad sprite int\n");
     sfSprite* sprite = animation->sprites->sprites[sprite_int];
 
 
@@ -126,6 +133,8 @@ bbFlag bbDF_widgetAnimationDefault(void* drawable, void* frameDescriptor, void* 
     bbAnimation* animation = graphics->animations->animations[frame_descriptor->handle.u64];
     I32 drawFunctionInt = animation->drawfunction;
     bbDrawFunction *drawFunction = graphics->drawfunctions->functions[drawFunctionInt];
+
+    bbHere()
     return drawFunction(drawable, frame_descriptor, cl);
 }
 
@@ -152,9 +161,8 @@ bbFlag bbDF_composition(void* drawable, void* frameDescriptor, void* cl){
         output_frame.drawfunction = input_frame->drawfunction;
 
 
-        if (output_frame.drawfunction <0 || output_frame.drawfunction> 4){
-            //bbDebug ("drawfunction == %d, type = %d\n",
-            //		 output_frame.drawfunction, output_frame.type);
+        if (output_frame.drawfunction <0 || output_frame.drawfunction>= NUM_DRAWFUNCTIONS){
+            bbHere()
         } else {
 
             bbDrawFunction *drawFunction =graphics->drawfunctions->functions[output_frame.drawfunction];
@@ -164,7 +172,6 @@ bbFlag bbDF_composition(void* drawable, void* frameDescriptor, void* cl){
     return bbSuccess;
 }
 
-#define NUM_DRAWFUNCTIONS 7
 bbFlag bbDrawfunctions_new(bbDrawfunctions** drawfunctions){
 
     bbDrawfunctions* functions = malloc(sizeof(bbDrawfunctions) + NUM_DRAWFUNCTIONS * sizeof(bbDrawFunction*));
@@ -207,6 +214,10 @@ bbFlag bbDrawfunctions_new(bbDrawfunctions** drawfunctions){
     functions->functions[7] = bbDF_composition;
     handle.u64 = 7;
     bbDictionary_add(functions->dictionary, "COMPOSITION", handle);
+
+    functions->functions[8] = bbDF_buttonState;
+    handle.u64 = 8;
+    bbDictionary_add(functions->dictionary, "BUTTON_STATE", handle);
 
     *drawfunctions = functions;
     return bbSuccess;

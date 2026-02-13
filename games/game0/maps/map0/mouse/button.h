@@ -8,8 +8,7 @@ bbFlag Button_LeftDown (void* Mouse, void* Widgets, void* Widget, void*
     bbGraphicsApp* graphics = Graphics;
 
 
-    bbDictionary_lookup(graphics->sprites->dictionary,
-                        "BUTTON_CLICK", &widget->frames[0].handle);
+    widget->is_frozen = true;
 
     bbLocalMessage_PrintString(&home.core.core, "You clicked a button\n");
     return bbSuccess;

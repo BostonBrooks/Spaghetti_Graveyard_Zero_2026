@@ -53,8 +53,7 @@ bbFlag bbUI_Inbox_unpressButton_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* messag
     bbDictionary_lookup(widgets->dict,"BUTTON",&widget_handle);
     bbVPool_lookup(widgets->pool,(void**)&widget,widget_handle);
 
-    bbDictionary_lookup(home.UI.graphics.sprites->dictionary,
-                    "BUTTON_DEFAULT", &widget->frames[0].handle);
+    widget->is_frozen = false;
 
     bbDebug("Button unpressed\n");
     return bbSuccess;

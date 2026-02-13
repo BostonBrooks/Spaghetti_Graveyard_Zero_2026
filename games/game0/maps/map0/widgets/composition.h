@@ -40,7 +40,7 @@ bbFlag bbWidget_Constructor_Composition(bbWidget** self,
     //bbDebug("LAYOUT_480 = %d\n", widget->frames[0].handle.u64);
     widget->frames[0].offset.x = 0;
     widget->frames[0].offset.y = 0;
-
+    widget->frames[0].start_time = 0;
 
 
     if (self!=NULL) *self = widget;

@@ -34,13 +34,13 @@ bbFlag bbWidget_Constructor_Button(bbWidget** self,
 
     bbHandle drawfunctionHandle;
     bbDictionary_lookup(graphics->drawfunctions->dictionary,
-                     "WIDGET_SPRITE",
+                     "BUTTON_STATE",
                      &drawfunctionHandle);
 
     widget->frames[0].drawfunction = drawfunctionHandle.u64;
 
-    bbDictionary_lookup(graphics->sprites->dictionary,
-                        "BUTTON_DEFAULT", &widget->frames[0].handle);
+    bbDictionary_lookup(graphics->compositions->dictionary,
+                        "BUTTON", &widget->frames[0].handle);
 
     //bbDebug("LAYOUT_480 = %d\n", widget->frames[0].handle.u64);
     widget->frames[0].offset.x = 0;

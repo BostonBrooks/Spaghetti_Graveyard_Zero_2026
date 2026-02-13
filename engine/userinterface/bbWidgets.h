@@ -25,6 +25,7 @@ typedef enum bbWidget_state
     bbWidgetState_Default,
     bbWidgetState_Hover,
     bbWidgetState_Click,
+    bbWidgetState_Frozen
 } bbWidget_state;
 
 typedef struct {
