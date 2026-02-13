@@ -42,7 +42,7 @@ bbFlag bbDF_widgetSprite(void* drawable, void* frame_descriptor, void* cl){
 
 // Draw an animation belonging to a widget;
 bbFlag bbDF_widgetAnimation(void* drawable, void* frameDescriptor, void* cl){
-bbHere()
+
     bbWidget* widget = drawable;
     bbFrame* frame_descriptor = frameDescriptor;
     drawFuncClosure* closure = cl;
@@ -59,8 +59,6 @@ bbHere()
     I32 sprite_int = animation->Sprites[angle*frames+frame].u64;
 
 
-    bbDebug (" closure->GUI_time = %d, frame_descriptor->start_time = %d\n, animation->framerate = %f, frame_descriptor->framerate = %f\n, animation->frames = %d\n",
-        closure->GUI_time,frame_descriptor->start_time,animation->framerate , frame_descriptor->framerate,animation->frames);
 
     bbAssert(sprite_int <  graphics->sprites->num_sprites, "bad sprite int\n");
     sfSprite* sprite = animation->sprites->sprites[sprite_int];
@@ -133,8 +131,6 @@ bbFlag bbDF_widgetAnimationDefault(void* drawable, void* frameDescriptor, void* 
     bbAnimation* animation = graphics->animations->animations[frame_descriptor->handle.u64];
     I32 drawFunctionInt = animation->drawfunction;
     bbDrawFunction *drawFunction = graphics->drawfunctions->functions[drawFunctionInt];
-
-    bbHere()
     return drawFunction(drawable, frame_descriptor, cl);
 }
 
