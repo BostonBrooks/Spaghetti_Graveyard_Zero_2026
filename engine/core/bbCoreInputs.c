@@ -33,3 +33,16 @@ bbFlag bbCore_printString(bbCore* core, char* string, bool is_input)
     return bbSuccess;
 
 }
+
+bbFlag bbCore_unfreezeButton(bbCore* core, char* string, bool is_input)
+{
+    bbInstruction* instruction;
+    bbList_alloc(&core->do_stack, (void**) &instruction);
+
+    instruction->type = bbInstruction_unfreezeButton;
+
+    bbList_pushL(&core->do_stack, instruction);
+
+    return bbSuccess;
+
+}

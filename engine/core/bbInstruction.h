@@ -14,7 +14,9 @@ typedef enum
     bbInstruction_unprintInteger,
 
     bbInstruction_printString,
-    bbInstruction_unprintString
+    bbInstruction_unprintString,
+
+    bbInstruction_unfreezeButton,
 
 } bbInstruction_type;
 
@@ -49,5 +51,8 @@ bbFlag bbInstruction_unprintInteger_fn(bbCore* core, bbInstruction* instruction)
 
 bbFlag bbInstruction_printString_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_unprintString_fn(bbCore* core, bbInstruction* instruction);
+
+
+bbFlag bbInstruction_unfreezeButton_fn(bbCore* core, bbInstruction* instruction);
 
 #endif // BB_INSTRUCTION_H

@@ -41,6 +41,10 @@ bbFlag bbCore_react(bbCore* core)
         case bbInstruction_printString:
             bbInstruction_printString_fn(core, instruction);
             break;
+
+        case bbInstruction_unfreezeButton:
+            bbInstruction_unfreezeButton_fn(core, instruction);
+            break;
         default:
             bbDebug("Unknown instruction type");
         }

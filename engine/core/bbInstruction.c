@@ -19,11 +19,18 @@ bbFlag bbInstruction_unprintInteger_fn(bbCore* core, bbInstruction* instruction)
 bbFlag bbInstruction_printString_fn(bbCore* core, bbInstruction* instruction)
 {
     bbDebug("print string: %s\n", instruction->data.string.string);
-    bbUI_Inbox_UnpressButton(&home.UI.inbox);
+
     return bbSuccess;
 }
 bbFlag bbInstruction_unprintString_fn(bbCore* core, bbInstruction* instruction)
 {
     bbDebug("unprint string: %s\n", instruction->data.string.string);
+    return bbSuccess;
+}
+
+
+bbFlag bbInstruction_unfreezeButton_fn(bbCore* core, bbInstruction* instruction)
+{
+    bbUI_Inbox_UnpressButton(&home.UI.inbox);
     return bbSuccess;
 }

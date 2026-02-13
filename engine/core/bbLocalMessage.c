@@ -13,7 +13,13 @@ bbFlag bbLocalMessage_printString_fn(bbCore* core, bbLocalMessage* message)
     return bbSuccess;
 }
 
+bbFlag bbLocalMessage_unfreezeButton_fn(bbCore* core, bbLocalMessage* message)
+{
+    bbCore_unfreezeButton(core, message->data.string.string, true);
+    //undo message?
 
+    return bbSuccess;
+}
 
 bbFlag bbCore_checkLocalMessages(bbCore* core)
 {
@@ -30,6 +36,11 @@ bbFlag bbCore_checkLocalMessages(bbCore* core)
         {
         case bbLocalMessage_printString:
             bbLocalMessage_printString_fn(core, message);
+            bbCore_react(core);
+            break;
+
+        case bbLocalMessage_unfreezeButton:
+            bbLocalMessage_unfreezeButton_fn(core, message);
             bbCore_react(core);
             break;
             default:

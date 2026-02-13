@@ -14,3 +14,13 @@ bbFlag bbLocalMessage_PrintString(bbCore* core, char* string)
     bbThreadedQueue_pushL(&core->local_message_queue, message);
     return bbSuccess;
 }
+
+
+bbFlag bbLocalMessage_UnfreezeButton(bbCore* core)
+{
+    bbLocalMessage* message;
+    bbThreadedQueue_alloc(&core->local_message_queue, (void** ) &message);
+    message->type = bbLocalMessage_unfreezeButton;
+    bbThreadedQueue_pushL(&core->local_message_queue, message);
+    return bbSuccess;
+}

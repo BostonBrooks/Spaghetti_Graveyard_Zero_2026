@@ -9,7 +9,6 @@ bbFlag Button_LeftDown (void* Mouse, void* Widgets, void* Widget, void*
 
 
     widget->is_frozen = true;
-
-    bbLocalMessage_PrintString(&home.core.core, "You clicked a button\n");
+    bbLocalMessage_UnfreezeButton(&home.core.core);
     return bbSuccess;
 }

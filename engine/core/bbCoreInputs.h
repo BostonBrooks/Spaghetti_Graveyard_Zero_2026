@@ -9,3 +9,5 @@ bbFlag bbCore_printInteger(bbCore* core, I32 integer, bool isInput);
 
 
 bbFlag bbCore_printString(bbCore* core, char* string, bool isInput);
+
+bbFlag bbCore_unfreezeButton(bbCore* core, char* string, bool is_input);

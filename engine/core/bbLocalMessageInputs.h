@@ -6,3 +6,4 @@
 
 //I'm not sure if this is a good name
 bbFlag bbLocalMessage_PrintString(bbCore* core, char* string);
+bbFlag bbLocalMessage_UnfreezeButton(bbCore* core);
