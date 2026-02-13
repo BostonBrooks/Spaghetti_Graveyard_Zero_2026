@@ -50,7 +50,7 @@ bbFlag bbUI_Inbox_unpressButton_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* messag
     bbHandle widget_handle;
     bbWidget* widget;
 
-    bbDictionary_lookup(widgets->dict,"BUTTON",&widget_handle);
+    bbDictionary_lookup(widgets->dict,"REACT",&widget_handle);
     bbVPool_lookup(widgets->pool,(void**)&widget,widget_handle);
 
     widget->is_frozen = false;

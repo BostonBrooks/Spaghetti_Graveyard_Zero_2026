@@ -128,10 +128,17 @@ void* userinterface_thread(void* arg)
 
     bbWidget_constructor(NULL,
                          &home.UI.widgets,
-                         "BUTTON",
+                         "REACT",
                          "LAYOUT",
-                         "BUTTON",
+                         "REACT",
                          (bbScreenPoints){200*SCREEN_PPP,80*SCREEN_PPP});
+
+    bbWidget_constructor(NULL,
+                     &home.UI.widgets,
+                     "NETSEND",
+                     "LAYOUT",
+                     "NETSEND",
+                     (bbScreenPoints){200*SCREEN_PPP,103*SCREEN_PPP});
 
 
     bbWidget_constructor(NULL,

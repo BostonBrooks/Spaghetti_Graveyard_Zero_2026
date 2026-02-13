@@ -7,8 +7,9 @@
 #include "engine/userinterface/bbWidgets.h"
 #include "games/game0/maps/map0/drawfunctions/textboxindicator.h"
 #include "games/game0/maps/map0/drawfunctions/button_state.h"
+#include "games/game0/maps/map0/drawfunctions/widget_text.h"
 
-#define NUM_DRAWFUNCTIONS 9
+#define NUM_DRAWFUNCTIONS 10
 
 bbFlag bbDF_NULL(void* drawable, void* frameDescriptor, void* cl)
 {
@@ -214,6 +215,10 @@ bbFlag bbDrawfunctions_new(bbDrawfunctions** drawfunctions){
     functions->functions[8] = bbDF_buttonState;
     handle.u64 = 8;
     bbDictionary_add(functions->dictionary, "BUTTON_STATE", handle);
+
+    functions->functions[9] = bbDF_widgetText;
+    handle.u64 = 9;
+    bbDictionary_add(functions->dictionary, "WIDGET_TEXT", handle);
 
     *drawfunctions = functions;
     return bbSuccess;

@@ -11,7 +11,7 @@
 #include "engine/userinterface/bbWidgetFunctions.h"
 #include "engine/logic/bbString.h"
 
-bbFlag bbWidget_Constructor_Button(bbWidget** self,
+bbFlag bbWidget_Constructor_ReactButton(bbWidget** self,
                                   bbWidgets* widgets,
                                   bbWidget* parent,
                                   char* name,
@@ -45,6 +45,12 @@ bbFlag bbWidget_Constructor_Button(bbWidget** self,
     //bbDebug("LAYOUT_480 = %d\n", widget->frames[0].handle.u64);
     widget->frames[0].offset.x = 0;
     widget->frames[0].offset.y = 0;
+
+    bbDictionary_lookup(graphics->drawfunctions->dictionary, "WIDGET_TEXT",
+                &drawfunctionHandle);
+    widget->frames[1].drawfunction = drawfunctionHandle.u64;
+    widget->frames[1].offset.x = 3*SCREEN_PPP;
+    widget->frames[1].offset.y = 3*SCREEN_PPP;
 
     int funcInt;
     funcInt = bbMouseFunctions_getInt(&widgets->mouse->functions,MouseIsOver,

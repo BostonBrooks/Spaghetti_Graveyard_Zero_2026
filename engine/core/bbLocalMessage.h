@@ -9,6 +9,7 @@ typedef enum
 {
     bbLocalMessage_printString,
     bbLocalMessage_unfreezeButton,
+    bbLocalMessage_netsendButton
 } bbLocalMessage_type;
 
 typedef struct

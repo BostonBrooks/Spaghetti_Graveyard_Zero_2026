@@ -4,7 +4,8 @@
 #include "engine/userinterface/bbWidgets.h"
 #include "games/game0/maps/map0/widgets/textbox.h"
 #include "games/game0/maps/map0/widgets/gamewidget.h"
-#include "games/game0/maps/map0/widgets/button.h"
+#include "games/game0/maps/map0/widgets/react_button.h"
+#include "games/game0/maps/map0/widgets/netsend_button.h"
 #include "games/game0/maps/map0/widgets/composition.h"
 
 
@@ -131,8 +132,13 @@ bbFlag bbWidgetFunctions_populate(bbWidgetFunctions* self)
 
     bbWidgetFunctions_add(self,
         WidgetConstructor,
-        bbWidget_Constructor_Button,
-        "BUTTON");
+        bbWidget_Constructor_ReactButton,
+        "REACT");
+
+    bbWidgetFunctions_add(self,
+        WidgetConstructor,
+        bbWidget_Constructor_NetsendButton,
+        "NETSEND");
 
 
     bbWidgetFunctions_add(self,

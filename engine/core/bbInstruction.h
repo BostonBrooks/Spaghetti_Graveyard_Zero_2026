@@ -17,6 +17,7 @@ typedef enum
     bbInstruction_unprintString,
 
     bbInstruction_unfreezeButton,
+    bbInstruction_netsendButton,
 
 } bbInstruction_type;
 
