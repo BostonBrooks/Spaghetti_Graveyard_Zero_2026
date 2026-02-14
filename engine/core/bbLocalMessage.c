@@ -31,7 +31,7 @@ bbFlag bbLocalMessage_unfreezeButton2_fn(bbCore* core, bbLocalMessage* message)
 
 bbFlag bbLocalMessage_netsendButton_fn(bbCore* core, bbLocalMessage* message)
 {
-    bbCore_netsendButton(core,&message->data.string.string);
+    bbCore_netsendButton(core,message->data.string.string);
 
     return bbSuccess;
 }
