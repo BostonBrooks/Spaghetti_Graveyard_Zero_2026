@@ -42,11 +42,14 @@ int main(void)
     bbNetworkApp_connect(&home.network, address, port);
     home.network_time = (bbNetworkTime*)home.network.extra_data;
 
+    U64 core_time = 0;
     U32 collision = 0;
-
+    U8 clock_index = 255;
+    bool once2 = false;
     bool once = false;
     while (1)
     {
+
 
         U32 random = rand();
         char key[KEY_LENGTH];
@@ -81,7 +84,11 @@ int main(void)
 
 
 
-
+        if (home.network.send_ready && home.network.receive_ready)
+        {
+            bbNetworkTime_ping(&home.network);
+            bbNetworkTime_updateTimeDiff(home.network.extra_data);
+        }
 
 
         if (home.network_time->timeCalibrated && once == false)
@@ -89,26 +96,30 @@ int main(void)
             once = true;
             bbClock_init(&home.clock, home.network_time);
         }
-        //if (test_time%60 == 0)
-        //{
-        //
-        //   bbCore_printInteger(&home.core.core, 69, true);
-        //    bbCore_printString(&home.core.core, "69", true);
-        //}
+
+        if (home.clock.clock_running == true)
+        {
+            if (clock_index == 255)
+            {
+                bbClock_getOutboxIndex(&home.clock, &clock_index);
+                U64 time;
+                bbClock_getTick(&home.clock, &time);
+                core_time = time;
+            }
+            core_time += 3;
+            bbClock_waitTick(&home.clock,  core_time, clock_index);
+        }
+
 
         bbCore_checkLocalMessages(&home.core.core);
 
         if (home.network.send_ready && home.network.receive_ready)
-        {
-            bbNetworkTime_ping(&home.network);
-            bbNetworkApp_checkInbox(&home.network);
-            bbNetworkTime_updateTimeDiff(home.network.extra_data);
-        }
+                 bbNetworkApp_checkInbox(&home.network);
 
-        //TODO use clock time
-        bbActions_react(&home.core.core, test_time);
 
-        sfSleep(sfSeconds(1.f/60.f));
+        bbActions_react(&home.core.core, core_time);
+
+        if (clock_index == 255) sfSleep(sfSeconds(1.f/60.f));
     }
 
     bbFlag flag = bbSuccess;
