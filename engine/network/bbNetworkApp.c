@@ -193,3 +193,15 @@ bbFlag bbDisconnect(void* network)
     widget->isFrozen = true;*/
     return bbSuccess;
 }
+
+
+
+bbFlag bbNetworkApp_netsendButton(bbNetwork* network){
+    bbNetworkPacket* packet;
+    bbThreadedQueue_alloc(&network->outbox, (void**)&packet);
+    packet->type = PACKETTYPE_UNFREEZEBUTTON;
+
+    bbThreadedQueue_pushL(&network->outbox,packet);
+
+    return bbSuccess;
+}

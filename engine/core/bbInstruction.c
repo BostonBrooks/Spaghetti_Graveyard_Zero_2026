@@ -2,6 +2,7 @@
 
 #include "engine/data/bbHome.h"
 #include "engine/logic/bbTerminal.h"
+#include "engine/network/bbNetworkApp.h"
 #include "engine/userinterface/bbUI_Inbox.h"
 
 
@@ -32,5 +33,12 @@ bbFlag bbInstruction_unprintString_fn(bbCore* core, bbInstruction* instruction)
 bbFlag bbInstruction_unfreezeButton_fn(bbCore* core, bbInstruction* instruction)
 {
     bbUI_Inbox_UnpressButton(&home.UI.inbox);
+    return bbSuccess;
+}
+
+
+bbFlag bbInstruction_netsendButton_fn(bbCore* core, bbInstruction* instruction)
+{
+    bbNetworkApp_netsendButton(&home.network);
     return bbSuccess;
 }

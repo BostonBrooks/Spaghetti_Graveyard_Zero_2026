@@ -56,4 +56,5 @@ bbFlag bbInstruction_unprintString_fn(bbCore* core, bbInstruction* instruction);
 
 bbFlag bbInstruction_unfreezeButton_fn(bbCore* core, bbInstruction* instruction);
 
+bbFlag bbInstruction_netsendButton_fn(bbCore* core, bbInstruction* instruction);
 #endif // BB_INSTRUCTION_H

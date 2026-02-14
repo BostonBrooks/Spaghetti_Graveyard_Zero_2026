@@ -4,7 +4,9 @@
 #include "engine/logic/bbBloatedPool.h"
 #include "engine/threadsafe/bbThreadedPool.h"
 #include "engine/core/bbLocalMessage.h"
+#include "engine/data/bbHome.h"
 #include "engine/logic/bbTerminal.h"
+#include "engine/network/bbNetworkApp.h"
 
 bbFlag bbCore_init(bbCore* core)
 {
@@ -47,6 +49,8 @@ bbFlag bbCore_react(bbCore* core)
             break;
         case bbInstruction_netsendButton:
             bbDebug("Send button click to server\n");
+
+            bbInstruction_netsendButton_fn(core, instruction);
             break;
         default:
             bbDebug("Unknown instruction type");
