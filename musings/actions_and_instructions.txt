@@ -1,0 +1,27 @@
+Instructions are fed into the core and then (re)acted upon.
+Instructions can spawn new instructions to also be acted upon.
+When instructions are acted upon they store an inverse reaction on the undo stack.
+When the game needs to be rewound, instructions are popped off the undo stack and
+acted upon.
+
+The undo instructions can have a handle to a redo instruction, which is then put
+on the stack to redo. The redo stack is used to fast-forward the game after
+rewinding.
+
+Actions are stored in a queue and acted on in a specific order. The action is
+acted upon a fixed time after it is created to give time for it to propagate through
+the network.
+
+Action objects are created by the function bbNetworkApp_checkInbox(&home.network);
+and placed on the queue. Once per iteration, a function is called to react to
+current actions by executing instructions. These instructions will place undo
+instructions on the undo stack and the instructions on the undo stack will own
+pointers to the actions that spawned them.
+
+Now when the core is rewound, past actions are put back in the action queue in
+order for them to be acted upon again in the same order.
+
+We need to be able to rewind the core for one reason: an action network message
+that spawns an action object might come in late, after the time is would be acted upon.
+The core is rewound and the late messaged is shoe horned in and then the core is
+fast-forwarded back to the current time.
