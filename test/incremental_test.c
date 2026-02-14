@@ -80,12 +80,7 @@ int main(void)
                             key);
 
 
-        if (home.network.send_ready && home.network.receive_ready)
-        {
-            bbNetworkTime_ping(&home.network);
-            bbNetworkApp_checkInbox(&home.network);
-            bbNetworkTime_updateTimeDiff(home.network.extra_data);
-        }
+
 
 
 
@@ -103,8 +98,15 @@ int main(void)
 
         bbCore_checkLocalMessages(&home.core.core);
 
+        if (home.network.send_ready && home.network.receive_ready)
+        {
+            bbNetworkTime_ping(&home.network);
+            bbNetworkApp_checkInbox(&home.network);
+            bbNetworkTime_updateTimeDiff(home.network.extra_data);
+        }
 
-        bbActions_react(&home.core.core, 10000000);
+        //TODO use clock time
+        bbActions_react(&home.core.core, test_time);
 
         sfSleep(sfSeconds(1.f/60.f));
     }
