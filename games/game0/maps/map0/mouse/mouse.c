@@ -32,10 +32,29 @@ bbFlag IsOver_Hover(bbMouse* mouse, bbWidgets* widgets, bbWidget* widget)
     return bbContinue;
 }
 
+//if the mouse is over the widget, it teleports to somewhere else, execution continues
+bbFlag IsOver_Butterfly(bbMouse* mouse, bbWidgets* widgets, bbWidget* widget)
+{
+
+    bbScreenPointsRect rect = widget->rect;
+    bbScreenPoints point = mouse->position;
+
+    if (bbScreenPoints_inScreenPointsRect(point, rect)){
+        widget->rect.left = rand()%(720*SCREEN_PPP - 80*SCREEN_PPP);
+        widget->rect.top = rand()%(480*SCREEN_PPP - 80*SCREEN_PPP);
+
+        widget->angle = rand()%8;
+    }
+
+
+    return bbContinue;
+}
+
 bbFlag bbMouseFunctions_populate(bbMouseFunctions* self)
 {
 
     bbMouseFunctions_add(self, MouseIsOver, IsOver_Hover, "HOVER");
+    bbMouseFunctions_add(self, MouseIsOver,IsOver_Butterfly,"BUTTERFLY");
     bbMouseFunctions_add(self, MouseLeftDown,Textbox_LeftDown,"TEXTBOX");
     bbMouseFunctions_add(self, MouseLeftDown,ReactButton_LeftDown,"BUTTON");
     bbMouseFunctions_add(self, MouseLeftDown,NetsendButton_LeftDown,"NETSEND_BUTTON");

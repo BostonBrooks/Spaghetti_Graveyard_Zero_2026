@@ -9,7 +9,7 @@
 #include "games/game0/maps/map0/drawfunctions/button_state.h"
 #include "games/game0/maps/map0/drawfunctions/widget_text.h"
 
-#define NUM_DRAWFUNCTIONS 10
+#define NUM_DRAWFUNCTIONS 11
 
 bbFlag bbDF_NULL(void* drawable, void* frameDescriptor, void* cl)
 {
@@ -57,6 +57,40 @@ bbFlag bbDF_widgetAnimation(void* drawable, void* frameDescriptor, void* cl){
 
     I32 frame = bbArith_mod((int)((double)(closure->GUI_time - frame_descriptor->start_time) *
                       (double)animation->framerate * frame_descriptor->framerate), animation->frames);
+    I32 sprite_int = animation->Sprites[angle*frames+frame].u64;
+
+
+
+    bbAssert(sprite_int <  graphics->sprites->num_sprites, "bad sprite int\n");
+    sfSprite* sprite = animation->sprites->sprites[sprite_int];
+
+
+
+    bbScreenPoints SP;
+    SP.x = widget->rect.left + frame_descriptor->offset.x;
+    SP.y = widget->rect.top + frame_descriptor->offset.y;
+    sfVector2f position = bbScreenPoints_getV2f(SP);
+
+    sfSprite_setPosition(sprite, position);
+    sfRenderWindow_drawSprite(closure->target, sprite, NULL);
+
+    return bbSuccess;
+}
+
+bbFlag bbDF_widgetAngle(void* drawable, void* frameDescriptor, void* cl){
+
+    bbWidget* widget = drawable;
+    bbFrame* frame_descriptor = frameDescriptor;
+    drawFuncClosure* closure = cl;
+    bbGraphicsApp* graphics = closure->graphics;
+
+    bbAnimation* animation = graphics->animations->animations[frame_descriptor->handle.u64];
+
+    I32 angle = widget->angle;
+    I32 frames = animation->frames;
+
+
+    I32 frame = 0;
     I32 sprite_int = animation->Sprites[angle*frames+frame].u64;
 
 
@@ -219,6 +253,10 @@ bbFlag bbDrawfunctions_new(bbDrawfunctions** drawfunctions){
     functions->functions[9] = bbDF_widgetText;
     handle.u64 = 9;
     bbDictionary_add(functions->dictionary, "WIDGET_TEXT", handle);
+
+    functions->functions[10] = bbDF_widgetAngle;
+    handle.u64 = 10;
+    bbDictionary_add(functions->dictionary, "WIDGET_ANGLE", handle);
 
     *drawfunctions = functions;
     return bbSuccess;

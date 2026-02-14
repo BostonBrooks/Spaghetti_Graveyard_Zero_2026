@@ -59,6 +59,7 @@ typedef struct bbWidget{
     bbMouseTable mtable;
     bbWidgetFunctionTable ftable;
     bbFrame frames[FRAMES_PER_WIDGET];
+    I32 angle;
     bbWidget_Type type;
     bbWidget_state state;
     bool is_frozen;

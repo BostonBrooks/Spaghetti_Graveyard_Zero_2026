@@ -22,8 +22,8 @@ bbFlag bbWidget_Constructor_Textbox (bbWidget** self,
 
     rect.left = screen_points.x;
     rect.top = screen_points.y;
-    rect.width = 50*POINTS_PER_PIXEL;
-    rect.height = 11*POINTS_PER_PIXEL;
+    rect.width = 50*SCREEN_PPP;
+    rect.height = 11*SCREEN_PPP;
 
     widget->rect = rect;
 

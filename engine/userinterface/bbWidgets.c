@@ -106,6 +106,7 @@ bbFlag bbWidget_newEmpty(bbWidget** self, bbWidgets* widgets, bbWidget* parent, 
         widget->frames[i].type = Sprite;
     }
 
+    widget->angle = 0;
     widget->type = bbWidgetType_None;
     widget->state = bbWidgetState_Default;
     widget->is_frozen = false;

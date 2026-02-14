@@ -1,4 +1,4 @@
-Number of Sprites:,539,,,,,,,,,,,,
+Number of Sprites:,547,,,,,,,,,,,,
 Label:,Integer Address:,Texture:,Left:,Top:,Width:,Height:,Origin X:,Origin Y:,Scale X:,Scale Y:,Scale By:,Comment:,
 NULL,0,NULL,0,0,128,128,0,0,1,1,None,Exception,
 LAYOUT_480,1,LAYOUT_480,0,0,720,480,0,0,1,1,None,The root of the widget tree,
@@ -539,3 +539,11 @@ CLOCK56,535,CLOCK,0,784,107,111,52,55,1,1,Widget,a clock hand
 CLOCK57,536,CLOCK,109,784,107,111,52,55,1,1,Widget,a clock hand
 CLOCK58,537,CLOCK,218,784,107,111,52,55,1,1,Widget,a clock hand
 CLOCK59,538,CLOCK,327,784,107,111,52,55,1,1,Widget,a clock hand
+BUTTERFLY_RED,539,BUTTERFLIES,0,0,100,100,50,50,1,1,Widget, a red butterfly
+BUTTERFLY_ORANGE,540,BUTTERFLIES,100,0,100,100,10,10,1,1,Widget, a orange butterfly
+BUTTERFLY_YELLOW,541,BUTTERFLIES,200,0,100,100,10,10,1,1,Widget, a yellow butterfly
+BUTTERFLY_GREEN,542,BUTTERFLIES,300,0,100,100,10,10,1,1,Widget, a green butterfly
+BUTTERFLY_TEAL,543,BUTTERFLIES,400,0,100,100,10,10,1,1,Widget, a teal butterfly
+BUTTERFLY_BLUE,544,BUTTERFLIES,500,0,100,100,10,10,1,1,Widget, a blue butterfly
+BUTTERFLY_PURPLE,545,BUTTERFLIES,600,0,100,100,10,10,1,1,Widget, a purple butterfly
+BUTTERFLY_PINK,546,BUTTERFLIES,700,0,100,100,10,10,1,1,Widget, a pink butterfly

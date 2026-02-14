@@ -61,6 +61,55 @@ bbFlag bbWidget_Constructor_Kitty(bbWidget** self,
     return bbSuccess;
 }
 
+bbFlag bbWidget_Constructor_Butterfly(bbWidget** self,
+                                  bbWidgets* widgets,
+                                  bbWidget* parent,
+                                  char* name,
+                                  bbScreenPoints screen_points,
+                                  bbGraphicsApp* graphics){
+
+    bbWidget* widget;
+
+    bbWidget_newEmpty(&widget, widgets, parent, name);
+
+    bbScreenPointsRect rect;
+    rect.left = screen_points.x;
+    rect.top = screen_points.y;
+    rect.width = 80*SCREEN_PPP;
+    rect.height = 80*SCREEN_PPP;
+
+    widget->rect = rect;
+
+    bbHandle drawfunctionHandle;
+    bbDictionary_lookup(graphics->drawfunctions->dictionary,
+                     "WIDGET_ANGLE",
+                     &drawfunctionHandle);
+
+    widget->frames[0].drawfunction = drawfunctionHandle.u64;
+
+    bbDictionary_lookup(graphics->animations->dictionary,
+                        "BUTTERFLIES", &widget->frames[0].handle);
+
+    widget->frames[0].offset.x = 0;
+    widget->frames[0].offset.y = 0;
+
+    widget->angle = rand()%8;
+
+    int funcInt;
+    funcInt = bbMouseFunctions_getInt(&widgets->mouse->functions,MouseIsOver,
+                                  "BUTTERFLY");
+    widget->mtable.is_over = funcInt;
+
+
+    bbHandle handle;
+    bbVPool_reverseLookup(widgets->pool, widget, &handle);
+    bbDictionary_add(widgets->dict, name, handle);
+
+    if (self!=NULL) *self = widget;
+
+    return bbSuccess;
+}
+
 bbFlag bbWidget_Constructor_Clock(bbWidget** self,
                                   bbWidgets* widgets,
                                   bbWidget* parent,
@@ -145,6 +194,11 @@ bbFlag bbWidgetFunctions_populate(bbWidgetFunctions* self)
         WidgetConstructor,
         bbWidget_Constructor_Composition,
         "COMPOSITION");
+
+    bbWidgetFunctions_add(self,
+        WidgetConstructor,
+        bbWidget_Constructor_Butterfly,
+        "BUTTERFLY");
 
 
 

@@ -119,12 +119,7 @@ void* userinterface_thread(void* arg)
 
 
 
-    bbWidget_constructor(NULL,
-                             &home.UI.widgets,
-                             "COMPOSITION",
-                             "LAYOUT",
-                             "KITTY",
-                             (bbScreenPoints){150*SCREEN_PPP,150*SCREEN_PPP});
+
 
     bbWidget_constructor(NULL,
                          &home.UI.widgets,
@@ -154,6 +149,13 @@ void* userinterface_thread(void* arg)
                          "LAYOUT",
                          "GAME",
                          (bbScreenPoints){0*SCREEN_PPP,0*SCREEN_PPP});
+
+    bbWidget_constructor(NULL,
+                         &home.UI.widgets,
+                         "BUTTERFLY",
+                         "LAYOUT",
+                         "BUTTERFLY",
+                         (bbScreenPoints){100*SCREEN_PPP,200*SCREEN_PPP});
 
     drawFuncClosure cl;
     cl.map_time = 0;
