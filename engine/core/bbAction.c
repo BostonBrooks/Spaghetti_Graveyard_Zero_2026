@@ -26,7 +26,7 @@ bbFlag bbAction_printString(void* Core,
 }
 
 
-bbFlag bbActions_react(void* Core, U64 tick_time)
+bbFlag bbActions_reactOnce(void* Core, U64 tick_time)
 {
     bbCore* core = (bbCore*)Core;
     bbAction* action;
@@ -41,6 +41,17 @@ bbFlag bbActions_react(void* Core, U64 tick_time)
     return bbSuccess;
 
 
+}
+
+
+bbFlag bbActions_react(void* Core, U64 tick_time)
+{
+    bbDebug("Tick time = %llu\n", tick_time);
+    while (1)
+    {
+        bbFlag flag = bbActions_reactOnce(Core, tick_time);
+        if (flag == bbBreak) return bbSuccess;
+    }
 }
 
 I32 bbAction_compare (void* A, void* B)
