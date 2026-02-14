@@ -51,7 +51,7 @@ int main(void)
     {
 
 
-        U32 random = core_time + rand() %160;
+        U32 random = core_time + 60 + rand() % 160;
         char key[KEY_LENGTH];
         sprintf(key, "%d", random);
 
@@ -62,7 +62,7 @@ int main(void)
                             random,
                             key);
 
-        random = core_time + rand() %160;
+        random = core_time + 60 + rand() % 160;
         sprintf(key, "%d", random);
 
         bbAction_printString(&home.core.core,
@@ -72,7 +72,7 @@ int main(void)
                             random,
                             key);
 
-        random = core_time + rand() %160;
+        random = core_time + 60 + rand() % 160;
         sprintf(key, "%d", random);
 
         bbAction_printString(&home.core.core,

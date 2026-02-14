@@ -53,7 +53,6 @@ bbFlag bbActions_reactOnce(void* Core, U64 tick_time)
 
 bbFlag bbActions_react(void* Core, U64 tick_time)
 {
-    bbDebug("Tick time = %llu\n", tick_time);
     while (1)
     {
         bbFlag flag = bbActions_reactOnce(Core, tick_time);

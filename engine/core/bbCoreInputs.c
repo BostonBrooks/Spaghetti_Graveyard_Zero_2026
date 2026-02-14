@@ -12,6 +12,7 @@ bbFlag bbCore_printInteger(bbCore* core, I32 integer, bool is_input)
     instruction->type = bbInstruction_printInteger;
     instruction->data.integer.integer = integer;
     instruction->is_input = is_input;
+    instruction->is_action = false;
 
     bbList_pushL(&core->do_stack, instruction);
 
@@ -27,7 +28,7 @@ bbFlag bbCore_printString(bbCore* core, char* string, bool is_input)
     instruction->type = bbInstruction_printString;
     bbStr_setStr(instruction->data.string.string, string, KEY_LENGTH);
     instruction->is_input = is_input;
-
+    instruction->is_action = false;
     bbList_pushL(&core->do_stack, instruction);
 
     return bbSuccess;
