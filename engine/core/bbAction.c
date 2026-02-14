@@ -1,3 +1,4 @@
+#include "bbCoreInputs.h"
 #include "engine/core/bbCore.h"
 #include "engine/logic/bbString.h"
 #include "engine/logic/bbTerminal.h"
@@ -13,6 +14,7 @@ bbFlag bbAction_printString(void* Core,
     bbCore* core = (bbCore*)Core;
     bbAction* action;
     bbList_alloc(&core->action_queue,(void**)&action);
+    action->type = bbActionType_printString;
     action->player = player;
     action->collision = collision;
     action->created_tick = created_tick;
@@ -35,7 +37,12 @@ bbFlag bbActions_reactOnce(void* Core, U64 tick_time)
     if (action->act_tick > tick_time) return bbBreak;
     bbList_popL(&core->action_queue,(void**)&action);
 
-    bbDebug("action->key = %s\n", action->key);
+    if (action->type == bbActionType_printString)
+    {
+
+        bbCore_printString(core, action->key, false);
+        bbCore_react(core);
+    }
 
     bbVPool_free(core->action_pool, action);
     return bbSuccess;

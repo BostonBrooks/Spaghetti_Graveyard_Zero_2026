@@ -48,6 +48,7 @@ typedef struct
 
     //TODO instead of bool is_input, use redo!=NULL
     bool is_input;
+    bool is_action;
 } bbInstruction;
 
 bbFlag bbInstruction_printInteger_fn(bbCore* core, bbInstruction* instruction);
