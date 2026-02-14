@@ -153,7 +153,7 @@ bbFlag bbNetworkApp_checkInbox(bbNetwork* network)
         {
             bbDebug("add incoming message to bbCore?\n");
 
-            bbLocalMessage_UnfreezeButton2(&home.core.core);
+            bbLocalMessage_UnfreezeButton2(&home.core.core,packet->data.str);
         }
         bbThreadedQueue_free(&network->inbox, (void**)&packet);
     }
@@ -203,11 +203,12 @@ bbFlag bbDisconnect(void* network)
 
 
 
-bbFlag bbNetworkApp_netsendButton(bbNetwork* network){
+bbFlag bbNetworkApp_netsendButton(bbNetwork* network, char* key){
     bbNetworkPacket* packet;
     bbThreadedQueue_alloc(&network->outbox, (void**)&packet);
     packet->type = PACKETTYPE_UNFREEZEBUTTON;
 
+    bbStr_setStr(packet->data.str, key, 64);
     bbThreadedQueue_pushL(&network->outbox,packet);
 
     return bbSuccess;

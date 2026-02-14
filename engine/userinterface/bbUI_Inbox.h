@@ -17,9 +17,15 @@ typedef struct
     bbHandle handle;
 } bbUI_Inbox_handle;
 
+typedef struct
+{
+    char string[KEY_LENGTH];
+} bbUI_Inbox_string;
+
 typedef union
 {
     bbUI_Inbox_handle handle;
+    bbUI_Inbox_string string;
 } bbUI_Inbox_data;
 
 typedef struct
@@ -47,5 +53,5 @@ bbFlag bbUI_Inbox_unpressButton2_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* messa
 
 
 bbFlag bbUI_Inbox_UnpressButton(bbUI_Inbox* inbox);
-bbFlag bbUI_Inbox_UnpressButton2(bbUI_Inbox* inbox);
+bbFlag bbUI_Inbox_UnpressButton2(bbUI_Inbox* inbox, char* key);
 #endif // BB_UI_INBOX_H

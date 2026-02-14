@@ -54,7 +54,7 @@ bbFlag bbNetworkPacket_toStruct (sfPacket* packet, void* Struct)
         struct1->data.map_coords.k = sfPacket_readInt32(packet);
         break;
     case PACKETTYPE_UNFREEZEBUTTON:
-        bbHere()
+            sfPacket_readString(packet, struct1->data.str);
         break;
     }
     return bbSuccess;
@@ -110,7 +110,8 @@ bbFlag bbNetworkPacket_fromStruct (sfPacket* packet, void* Struct)
         sfPacket_writeInt32(packet, struct1->data.map_coords.k);
         break;
     case PACKETTYPE_UNFREEZEBUTTON:
-        bbHere()
+
+        sfPacket_writeString(packet, struct1->data.str);
     }
     return bbSuccess;
 }

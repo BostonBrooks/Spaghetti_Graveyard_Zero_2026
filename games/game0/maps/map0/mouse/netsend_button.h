@@ -9,6 +9,6 @@ bbFlag NetsendButton_LeftDown (void* Mouse, void* Widgets, void* Widget, void*
 
 
     widget->is_frozen = true;
-    bbLocalMessage_NetsendButton(&home.core.core);
+    bbLocalMessage_NetsendButton(&home.core.core, widget->key);
     return bbSuccess;
 }

@@ -105,7 +105,7 @@ int main(void){
 
 
                 status = sfTcpSocket_receivePacket(sockets[i], packet);
-                sfSocketStatus_print(status);
+                //sfSocketStatus_print(status);
                 if (status != sfSocketDone){
 
                     //This line causes the server to lock up
@@ -144,10 +144,13 @@ int main(void){
                     bbNetworkPacket_fromStruct(packet, &packetStruct);
                     status = sfTcpSocket_sendPacket(sockets[i], packet);
                     sfPacket_clear(packet);
-                    printf("Sent time\n");
+                    //printf("Sent time\n");
                     continue;
                 }
-
+                if (packetStruct.type == PACKETTYPE_UNFREEZEBUTTON)
+                {
+                    bbDebug("unfreeze button %s\n", packetStruct.data.str);
+                }
 
                 for (int j = 0; j < 8; j++){
                     //send to self

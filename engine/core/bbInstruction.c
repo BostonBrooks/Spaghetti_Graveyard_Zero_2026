@@ -39,13 +39,13 @@ bbFlag bbInstruction_unfreezeButton_fn(bbCore* core, bbInstruction* instruction)
 bbFlag bbInstruction_unfreezeButton2_fn(bbCore* core, bbInstruction* instruction)
 {
     bbHere()
-    bbUI_Inbox_UnpressButton2(&home.UI.inbox);
+    bbUI_Inbox_UnpressButton2(&home.UI.inbox, instruction->data.string.string);
     return bbSuccess;
 }
 
 
 bbFlag bbInstruction_netsendButton_fn(bbCore* core, bbInstruction* instruction)
 {
-    bbNetworkApp_netsendButton(&home.network);
+    bbNetworkApp_netsendButton(&home.network, instruction->data.string.string);
     return bbSuccess;
 }

@@ -13,4 +13,4 @@ bbFlag bbCore_printString(bbCore* core, char* string, bool isInput);
 bbFlag bbCore_unfreezeButton(bbCore* core, char* string, bool is_input);
 bbFlag bbCore_unfreezeButton2(bbCore* core, char* string, bool is_input);
 
-bbFlag bbCore_netsendButton(bbCore* core);
+bbFlag bbCore_netsendButton(bbCore* core,char* string);

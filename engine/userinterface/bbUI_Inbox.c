@@ -2,6 +2,7 @@
 
 #include "engine/userinterface/bbWidgets.h"
 #include "engine/data/bbHome.h"
+#include "engine/logic/bbString.h"
 #include "engine/logic/bbTerminal.h"
 
 bbFlag bbUI_Inbox_init(bbUI_Inbox* inbox)
@@ -70,12 +71,11 @@ bbFlag bbUI_Inbox_unpressButton2_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* messa
     bbHandle widget_handle;
     bbWidget* widget;
 
-    bbDictionary_lookup(widgets->dict,"NETSEND",&widget_handle);
+    bbDictionary_lookup(widgets->dict,message->data.string.string,&widget_handle);
     bbVPool_lookup(widgets->pool,(void**)&widget,widget_handle);
 
     widget->is_frozen = false;
 
-    bbDebug("Button unpressed\n");
     return bbSuccess;
 }
 
@@ -88,11 +88,15 @@ bbFlag bbUI_Inbox_UnpressButton(bbUI_Inbox* inbox)
     return bbSuccess;
 }
 
-bbFlag bbUI_Inbox_UnpressButton2(bbUI_Inbox* inbox)
+bbFlag bbUI_Inbox_UnpressButton2(bbUI_Inbox* inbox, char* key)
 {
     bbUI_Inbox_message* message;
     bbThreadedQueue_alloc(&inbox->local_message_queue,(void**)&message);
     message->type = bbUI_Inbox_unpressButton2;
+    bbStr_setStr(message->data.string.string, key, KEY_LENGTH);
+
+    bbDebug("key: %s\n", key);
+
     bbThreadedQueue_pushL(&inbox->local_message_queue, (void*)message);
     return bbSuccess;
 }
