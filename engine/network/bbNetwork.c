@@ -26,8 +26,8 @@ bbFlag bbNetwork_init(bbNetwork* network,
     network->filter_outbox = filter_outbox;
     network->extra_data = extra_data;
 
-    bbThreadedQueue_init(&network->inbox,NULL,sizeof(bbNetworkPacket),queue_length,offsetof(bbNetworkPacket, listElement));
-    bbThreadedQueue_init(&network->outbox,NULL,sizeof(bbNetworkPacket),queue_length,offsetof(bbNetworkPacket, listElement));
+    bbThreadedQueue_init(&network->inbox,NULL,sizeof(bbNetworkPacket),queue_length,offsetof(bbNetworkPacket, list_element));
+    bbThreadedQueue_init(&network->outbox,NULL,sizeof(bbNetworkPacket),queue_length,offsetof(bbNetworkPacket, list_element));
 
     network->quit = false;
     return bbSuccess;

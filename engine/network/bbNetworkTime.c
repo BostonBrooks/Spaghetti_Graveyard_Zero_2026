@@ -126,8 +126,8 @@ bbFlag bbNetworkTime_ping(void* Network)
     bbNetworkPacket* packet;
     bbThreadedQueue_alloc(&network->outbox, (void**)&packet);
 
-    packet->sendTick = 696969696;
-    packet->actTick = 31415;
+    packet->send_tick = 696969696;
+    packet->act_tick = 31415;
     packet->type = PACKETTYPE_REQUESTTIMESTAMP;
 
     bbThreadedQueue_pushL(&network->outbox,packet);

@@ -96,8 +96,8 @@ bbFlag bbNetworkApp_sendGoalpoint(void* Network, bbMapCoords* coords)
     bbNetwork* network = (bbNetwork*)Network;
     bbNetworkPacket* packet;
     bbThreadedQueue_alloc(&network->outbox, (void**)&packet);
-    packet->actTick = 1337;
-    packet->sendTick = 8008135;
+    packet->act_tick = 1337;
+    packet->send_tick = 8008135;
     packet->type = PACKETTYPE_SETGOALPOINT;
     packet->data.map_coords.i = coords->i;
     packet->data.map_coords.j = coords->j;
