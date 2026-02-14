@@ -43,7 +43,10 @@ typedef struct
     bbInstruction_type type;
     bbInstruction_data data;
     bbListElement_Handle list_element;
-    bbHandle redo;
+    bbHandle redo_instruction;
+    bbHandle action;
+
+    //TODO instead of bool is_input, use redo!=NULL
     bool is_input;
 } bbInstruction;
 

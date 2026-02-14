@@ -44,6 +44,7 @@ add_executable(Spaghetti_Graveyard_Zero_2026 test/incremental_test.c
         engine/core/bbCoreInputs.c
         engine/core/bbLocalMessage.c
         engine/core/bbLocalMessageInputs.c
+        engine/core/bbAction.c
         engine/threadsafe/bbThreadedPool.c
         engine/threadsafe/bbThreadedQueue.c
 )

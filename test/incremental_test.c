@@ -42,17 +42,51 @@ int main(void)
     bbNetworkApp_connect(&home.network, address, port);
     home.network_time = (bbNetworkTime*)home.network.extra_data;
 
-
+    U32 collision = 0;
 
     bool once = false;
     while (1)
     {
+
+        U32 random = rand();
+        char key[KEY_LENGTH];
+        sprintf(key, "%d", random);
+
+        bbAction_printString(&home.core.core,
+                            0,
+                            collision++,
+                            0,
+                            random,
+                            key);
+
+        random = rand();
+        sprintf(key, "%d", random);
+
+        bbAction_printString(&home.core.core,
+                            0,
+                            collision++,
+                            0,
+                            random,
+                            key);
+
+        random = rand();
+        sprintf(key, "%d", random);
+
+        bbAction_printString(&home.core.core,
+                            0,
+                            collision++,
+                            0,
+                            random,
+                            key);
+
+
         if (home.network.send_ready && home.network.receive_ready)
         {
             bbNetworkTime_ping(&home.network);
             bbNetworkApp_checkInbox(&home.network);
             bbNetworkTime_updateTimeDiff(home.network.extra_data);
         }
+
 
 
         if (home.network_time->timeCalibrated && once == false)
@@ -67,8 +101,10 @@ int main(void)
         //    bbCore_printString(&home.core.core, "69", true);
         //}
 
-        bbCore_react(&home.core.core);
         bbCore_checkLocalMessages(&home.core.core);
+
+
+        bbActions_react(&home.core.core, 10000000);
 
         sfSleep(sfSeconds(1.f/60.f));
     }

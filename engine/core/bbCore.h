@@ -15,6 +15,7 @@
 #include "engine/logic/bbList.h"
 #include "engine/logic/bbVPool.h"
 #include "engine/threadsafe/bbThreadedQueue.h"
+#include "engine/core/bbAction.h"
 
 typedef struct
 {
@@ -28,6 +29,8 @@ typedef struct
     ///Receive messages from GUI, FIFO
     bbThreadedQueue local_message_queue;
 
+    bbVPool* action_pool;
+    bbList action_queue;
 
 
 } bbCore;

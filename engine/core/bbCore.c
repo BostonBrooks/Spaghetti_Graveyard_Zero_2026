@@ -20,6 +20,11 @@ bbFlag bbCore_init(bbCore* core)
                           sizeof(bbLocalMessage),
                           1000,offsetof(bbLocalMessage, list_element));
 
+    bbVPool_newBloated(&core->action_pool,sizeof(bbAction),100,1000);
+    bbList_init(&core->action_queue, core->action_pool, NULL, offsetof(bbAction, list_element),bbAction_compare);
+
+
+
     bbHere();
     return bbSuccess;
 }
