@@ -17,6 +17,7 @@ typedef enum
     bbInstruction_unprintString,
 
     bbInstruction_unfreezeButton,
+    bbInstruction_unfreezeButton2,
     bbInstruction_netsendButton,
 
 } bbInstruction_type;
@@ -55,6 +56,7 @@ bbFlag bbInstruction_unprintString_fn(bbCore* core, bbInstruction* instruction);
 
 
 bbFlag bbInstruction_unfreezeButton_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbInstruction_unfreezeButton2_fn(bbCore* core, bbInstruction* instruction);
 
 bbFlag bbInstruction_netsendButton_fn(bbCore* core, bbInstruction* instruction);
 #endif // BB_INSTRUCTION_H

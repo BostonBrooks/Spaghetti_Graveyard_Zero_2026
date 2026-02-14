@@ -1,7 +1,7 @@
 #include "engine/core/bbLocalMessageInputs.h"
 #include "engine/data/bbHome.h"
 
-bbFlag Button_LeftDown (void* Mouse, void* Widgets, void* Widget, void*
+bbFlag ReactButton_LeftDown (void* Mouse, void* Widgets, void* Widget, void*
                         Graphics)
 {
     bbWidget* widget = (bbWidget*)Widget;

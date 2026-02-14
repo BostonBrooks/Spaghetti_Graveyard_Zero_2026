@@ -9,3 +9,4 @@ bbFlag bbLocalMessage_PrintString(bbCore* core, char* string);
 bbFlag bbLocalMessage_UnfreezeButton(bbCore* core);
 
 bbFlag bbLocalMessage_NetsendButton(bbCore* core);
+bbFlag bbLocalMessage_UnfreezeButton2(bbCore* core);

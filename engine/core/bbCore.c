@@ -47,6 +47,11 @@ bbFlag bbCore_react(bbCore* core)
         case bbInstruction_unfreezeButton:
             bbInstruction_unfreezeButton_fn(core, instruction);
             break;
+
+        case bbInstruction_unfreezeButton2:
+            bbInstruction_unfreezeButton2_fn(core, instruction);
+            break;
+
         case bbInstruction_netsendButton:
             bbDebug("Send button click to server\n");
 

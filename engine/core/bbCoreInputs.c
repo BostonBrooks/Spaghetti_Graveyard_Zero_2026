@@ -48,6 +48,20 @@ bbFlag bbCore_unfreezeButton(bbCore* core, char* string, bool is_input)
 }
 
 
+bbFlag bbCore_unfreezeButton2(bbCore* core, char* string, bool is_input)
+{
+    bbInstruction* instruction;
+    bbList_alloc(&core->do_stack, (void**) &instruction);
+
+    instruction->type = bbInstruction_unfreezeButton2;
+
+    bbList_pushL(&core->do_stack, instruction);
+
+    return bbSuccess;
+
+}
+
+
 bbFlag bbCore_netsendButton(bbCore* core)
 {
     bbInstruction* instruction;

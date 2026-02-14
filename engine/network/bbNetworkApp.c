@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "engine/core/bbLocalMessageInputs.h"
 #include "engine/data/bbHome.h"
 #include "engine/logic/bbDictionary.h"
 #include "engine/logic/bbString.h"
@@ -148,6 +149,12 @@ bbFlag bbNetworkApp_checkInbox(bbNetwork* network)
             //    packet->data.map_coords.i, packet->data.map_coords.j, packet->data.map_coords.k);
         }
 
+        if (packet->type == PACKETTYPE_UNFREEZEBUTTON)
+        {
+            bbDebug("add incoming message to bbCore?\n");
+
+            bbLocalMessage_UnfreezeButton2(&home.core.core);
+        }
         bbThreadedQueue_free(&network->inbox, (void**)&packet);
     }
 }

@@ -34,3 +34,12 @@ bbFlag bbLocalMessage_NetsendButton(bbCore* core)
     bbThreadedQueue_pushL(&core->local_message_queue, message);
     return bbSuccess;
 }
+
+bbFlag bbLocalMessage_UnfreezeButton2(bbCore* core)
+{
+    bbLocalMessage* message;
+    bbThreadedQueue_alloc(&core->local_message_queue, (void** ) &message);
+    message->type = bbLocalMessage_unfreezeButton2;
+    bbThreadedQueue_pushL(&core->local_message_queue, message);
+    return bbSuccess;
+}
