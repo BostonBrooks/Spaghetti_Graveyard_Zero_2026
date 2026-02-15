@@ -108,6 +108,10 @@ int main(void)
             }
             core_time += 3;
             bbClock_waitTick(&home.clock,  core_time, clock_index);
+        } else
+        {
+
+            core_time += 3;
         }
 
 
@@ -116,8 +120,10 @@ int main(void)
         if (home.network.send_ready && home.network.receive_ready)
                  bbNetworkApp_checkInbox(&home.network);
 
-
-        bbActions_react(&home.core.core, core_time);
+        bbHandle no_handle = {0};
+        bbCoreInput_checkActions(&home.core.core, core_time, bbInstructionSource_input, no_handle );
+        bbCore_react(&home.core.core);
+        //bbActions_react(&home.core.core, core_time);
 
         if (clock_index == 255) sfSleep(sfSeconds(1.f/60.f));
     }

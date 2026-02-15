@@ -200,6 +200,9 @@ bbFlag bbInstruction_unsetTime_fn(bbCore* core, bbInstruction* instruction)
 bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
 {
 
+    bbActions_react(&home.core.core, instruction->data.integer.integer);
+
+    return bbSuccess;
 }
 bbFlag bbInstruction_uncheckActions_fn(bbCore* core, bbInstruction* instruction)
 {

@@ -39,8 +39,7 @@ bbFlag bbActions_reactOnce(void* Core, U64 tick_time)
 
     if (action->type == bbActionType_printString)
     {
-
-        bbCore_printString(core, action->key, false);
+        bbCoreInput_printString(core, action->key, false);
         bbCore_react(core);
     }
 

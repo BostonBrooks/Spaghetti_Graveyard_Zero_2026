@@ -20,7 +20,7 @@ bbFlag bbCore_printInteger(bbCore* core, I32 integer, bool is_input)
 
 }
 
-bbFlag bbCore_printString(bbCore* core, char* string, bool is_input)
+bbFlag bbCoreInput_printString(bbCore* core, char* string, bool is_input)
 {
     bbInstruction* instruction;
     bbList_alloc(&core->do_stack, (void**) &instruction);

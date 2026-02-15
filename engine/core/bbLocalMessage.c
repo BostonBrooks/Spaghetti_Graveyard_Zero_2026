@@ -7,7 +7,7 @@
 
 bbFlag bbLocalMessage_printString_fn(bbCore* core, bbLocalMessage* message)
 {
-    bbCore_printString(core, message->data.string.string, true);
+    bbCoreInput_printString(core, message->data.string.string, true);
     //undo message?
 
     return bbSuccess;
