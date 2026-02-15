@@ -20,7 +20,21 @@ typedef enum
     bbInstruction_unfreezeButton2,
     bbInstruction_netsendButton,
 
+
+    bbInstruction_setQuote,
+    bbInstruction_unsetQuote
 } bbInstruction_type;
+
+typedef enum
+{
+    ///The instruction was added from inside the core
+    bbInstructionSource_internal,
+    ///The instruction was added in the MAIN thread
+    bbInstructionSource_input,
+    ///The instruction was added through the action queue
+    bbInstructionSource_action,
+} bbInstruction_source;
+
 
 typedef struct
 {
@@ -44,13 +58,17 @@ typedef struct
     bbInstruction_data data;
     bbListElement_Handle list_element;
     bbHandle redo_instruction;
-    bbHandle action;
 
     //TODO instead of bool is_input, use redo!=NULL
     bool is_input;
     bool is_action;
+
+    bbInstruction_source source;
 } bbInstruction;
 
+///(4) instruction declaration
+bbFlag bbInstruction_setQuote_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbInstruction_unsetQuote_fn(bbCore* core, bbInstruction* instruction);
 
 
 //the following are too cludgey and will be deprecated

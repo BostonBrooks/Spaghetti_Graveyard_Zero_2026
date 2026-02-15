@@ -62,6 +62,17 @@ bbFlag bbCore_react(bbCore* core)
 
             bbInstruction_netsendButton_fn(core, instruction);
             break;
+
+
+
+
+
+
+///(2) core reacts to instruction
+        case bbInstruction_setQuote:
+            bbInstruction_setQuote_fn(core, instruction);
+            break;
+
         default:
             bbDebug("Unknown instruction type");
         }
@@ -88,6 +99,14 @@ bbFlag bbCore_rewind(bbCore* core)
             break;
         case bbInstruction_unprintString:
             bbInstruction_unprintString_fn(core, instruction);
+            break;
+
+
+
+
+///(6) core "un-reacts" to instruction
+        case bbInstruction_unsetQuote:
+            bbInstruction_unsetQuote_fn(core, instruction);
             break;
         default:
             bbDebug("Unknown undo instruction type");

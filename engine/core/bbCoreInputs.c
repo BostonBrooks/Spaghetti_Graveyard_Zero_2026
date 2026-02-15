@@ -76,3 +76,18 @@ bbFlag bbCore_netsendButton(bbCore* core, char* string)
 
     return bbSuccess;
 }
+
+///(1) put instruction on do_stack
+bbFlag bbCoreInput_setQuote(bbCore* core, char* string, bbInstruction_source source, bbHandle action)
+{
+    bbInstruction* instruction;
+    bbFlag flag = bbList_alloc(&core->do_stack,(void**)&instruction);
+
+    instruction->type = bbInstruction_setQuote;
+    bbStr_setStr(instruction->data.string.string, string, KEY_LENGTH);
+    instruction->source = source;
+    instruction->redo_instruction = action;
+
+    bbList_pushL(&core->do_stack, instruction);
+    return bbSuccess;
+}

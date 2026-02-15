@@ -18,6 +18,7 @@ typedef struct
 typedef struct
 {
     bbCore core;
+    char quote[KEY_LENGTH];
 } bbHome_core;
 
 typedef struct
