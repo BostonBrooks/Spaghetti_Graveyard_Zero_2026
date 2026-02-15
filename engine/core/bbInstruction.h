@@ -22,7 +22,10 @@ typedef enum
 
 
     bbInstruction_setQuote,
-    bbInstruction_unsetQuote
+    bbInstruction_unsetQuote,
+
+    bbInstruction_setTime,
+    bbInstruction_unsetTime
 } bbInstruction_type;
 
 typedef enum
@@ -38,7 +41,7 @@ typedef enum
 
 typedef struct
 {
-    I32 integer;
+    I64 integer;
 } bbInstructionData_integer;
 
 typedef struct
@@ -69,6 +72,9 @@ typedef struct
 ///(4) instruction declaration
 bbFlag bbInstruction_setQuote_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_unsetQuote_fn(bbCore* core, bbInstruction* instruction);
+
+bbFlag bbInstruction_setTime_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbInstruction_unsetTime_fn(bbCore* core, bbInstruction* instruction);
 
 
 //the following are too cludgey and will be deprecated

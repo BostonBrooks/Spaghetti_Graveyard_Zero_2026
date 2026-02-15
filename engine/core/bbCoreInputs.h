@@ -29,3 +29,4 @@ bbFlag bbCore_netsendButton(bbCore* core,char* string);
 ///for now we'll ignore the action case
 
 bbFlag bbCoreInput_setQuote(bbCore* core, char* string, bbInstruction_source source, bbHandle action);
+bbFlag bbCoreInput_setTime(bbCore* core, U64 time, bbInstruction_source source, bbHandle action);

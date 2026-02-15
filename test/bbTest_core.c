@@ -11,13 +11,17 @@
 thread_local char* thread;
 U64 test_time = 0;
 bbHome home;
+bbHandle no_handle = {0};
+
 
 int main (void)
 {
+
     bbCore core;
     bbCore_init(&core);
 
     bbStr_putStr(home.core.quote, "Abera Kedabera",KEY_LENGTH);
+    home.core.core.simulation_time = 0;
     /// Functions like bbCore_printInteger should be called from the some thread
     /// that owns the instance of bbCore
     for (I32 i = 0; i < 8;i++)
@@ -26,14 +30,14 @@ int main (void)
         sprintf(temp_string,"i = %d",i);
         bbHandle handle;
         handle.u64 = 0;
-        bbCoreInput_setQuote(&core, temp_string, bbInstructionSource_input, handle);
+        bbCoreInput_setQuote(&core, temp_string, bbInstructionSource_input, no_handle);
         bbCore_react(&core);
+
+
+        bbCoreInput_setTime(&core, i, bbInstructionSource_input, no_handle);
     }
 
 
     bbCore_rewind(&core);
     bbCore_react(&core);
-
-    sleep(5);
-    exit(EXIT_SUCCESS);
 }

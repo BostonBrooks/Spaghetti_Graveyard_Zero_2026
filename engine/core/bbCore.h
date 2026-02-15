@@ -32,6 +32,12 @@ typedef struct
     bbVPool* action_pool;
     bbList action_queue;
 
+    /// Set by bbCore_rewindUntilTime(bbCore* core, U64 time);
+    U64 rewind_until_time;
+    /// Set by bbCoreInput_setTime()
+    U64 simulation_time;
+    /// Set by clock / incremented at end of loop
+    U64 actual_time;
 
 } bbCore;
 

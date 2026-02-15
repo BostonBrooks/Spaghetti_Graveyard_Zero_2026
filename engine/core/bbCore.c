@@ -73,6 +73,11 @@ bbFlag bbCore_react(bbCore* core)
             bbInstruction_setQuote_fn(core, instruction);
             break;
 
+        case bbInstruction_setTime:
+            bbInstruction_setTime_fn(core, instruction);
+            break;
+
+
         default:
             bbDebug("Unknown instruction type");
         }
@@ -107,6 +112,10 @@ bbFlag bbCore_rewind(bbCore* core)
 ///(6) core "un-reacts" to instruction
         case bbInstruction_unsetQuote:
             bbInstruction_unsetQuote_fn(core, instruction);
+            break;
+
+        case bbInstruction_unsetTime:
+            bbInstruction_unsetTime_fn(core, instruction);
             break;
         default:
             bbDebug("Unknown undo instruction type");
