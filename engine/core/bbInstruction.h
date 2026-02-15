@@ -51,16 +51,14 @@ typedef struct
     bool is_action;
 } bbInstruction;
 
+
+
+//the following are too cludgey and will be deprecated
 bbFlag bbInstruction_printInteger_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_unprintInteger_fn(bbCore* core, bbInstruction* instruction);
-
-
 bbFlag bbInstruction_printString_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_unprintString_fn(bbCore* core, bbInstruction* instruction);
-
-
 bbFlag bbInstruction_unfreezeButton_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_unfreezeButton2_fn(bbCore* core, bbInstruction* instruction);
-
 bbFlag bbInstruction_netsendButton_fn(bbCore* core, bbInstruction* instruction);
 #endif // BB_INSTRUCTION_H
