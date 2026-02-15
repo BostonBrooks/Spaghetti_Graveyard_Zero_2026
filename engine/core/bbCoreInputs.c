@@ -106,3 +106,33 @@ bbFlag bbCoreInput_setTime(bbCore* core, U64 time, bbInstruction_source source, 
     bbList_pushL(&core->do_stack, instruction);
     return bbSuccess;
 }
+
+
+bbFlag bbCoreInput_checkActions(bbCore* core, U64 time, bbInstruction_source source, bbHandle action)
+{
+    bbInstruction* instruction;
+    bbFlag flag = bbList_alloc(&core->do_stack,(void**)&instruction);
+
+    instruction->type = bbInstruction_checkActions;
+    instruction->data.integer.integer = time;
+    instruction->source = source;
+    instruction->redo_instruction = action;
+
+    bbList_pushL(&core->do_stack, instruction);
+    return bbSuccess;
+}
+
+
+bbFlag bbCoreInput_setTestInt(bbCore* core, U64 time, bbInstruction_source source, bbHandle action)
+{
+    bbInstruction* instruction;
+    bbFlag flag = bbList_alloc(&core->do_stack,(void**)&instruction);
+
+    instruction->type = bbInstruction_setTestInt;
+    instruction->data.integer.integer = time;
+    instruction->source = source;
+    instruction->redo_instruction = action;
+
+    bbList_pushL(&core->do_stack, instruction);
+    return bbSuccess;
+}

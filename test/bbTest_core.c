@@ -17,27 +17,32 @@ bbHandle no_handle = {0};
 int main (void)
 {
 
-    bbCore core;
-    bbCore_init(&core);
+    //bbCore core;
+    bbCore_init(&home.core.core);
 
     bbStr_putStr(home.core.quote, "Abera Kedabera",KEY_LENGTH);
-    home.core.core.simulation_time = 0;
-    /// Functions like bbCore_printInteger should be called from the some thread
-    /// that owns the instance of bbCore
+    home.core.core.simulation_time = 117;
+    home.core.test_int = 69;
+
     for (I32 i = 0; i < 8;i++)
     {
         char temp_string[KEY_LENGTH];
         sprintf(temp_string,"i = %d",i);
         bbHandle handle;
         handle.u64 = 0;
-        bbCoreInput_setQuote(&core, temp_string, bbInstructionSource_input, no_handle);
-        bbCore_react(&core);
+        bbCoreInput_setQuote(&home.core.core, temp_string, bbInstructionSource_input, no_handle);
+        bbCore_react(&home.core.core);
 
 
-        bbCoreInput_setTime(&core, i, bbInstructionSource_input, no_handle);
+        bbCoreInput_setTime(&home.core.core, i, bbInstructionSource_input, no_handle);
+        bbCore_react(&home.core.core);
+
     }
 
 
-    bbCore_rewind(&core);
-    bbCore_react(&core);
+    bbCoreInput_setTestInt(&home.core.core, 7, bbInstructionSource_input, no_handle);
+    bbCore_react(&home.core.core);
+
+    bbCore_rewind(&home.core.core);
+    bbCore_react(&home.core.core);
 }

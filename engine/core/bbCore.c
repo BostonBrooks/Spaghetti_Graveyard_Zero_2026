@@ -78,6 +78,12 @@ bbFlag bbCore_react(bbCore* core)
             break;
 
 
+
+        case bbInstruction_setTestInt:
+            bbInstruction_setTestInt_fn(core, instruction);
+            break;
+
+
         default:
             bbDebug("Unknown instruction type");
         }
@@ -116,6 +122,10 @@ bbFlag bbCore_rewind(bbCore* core)
 
         case bbInstruction_unsetTime:
             bbInstruction_unsetTime_fn(core, instruction);
+            break;
+
+        case bbInstruction_unsetTestInt:
+            bbInstruction_unsetTestInt_fn(core, instruction);
             break;
         default:
             bbDebug("Unknown undo instruction type");

@@ -30,3 +30,10 @@ bbFlag bbCore_netsendButton(bbCore* core,char* string);
 
 bbFlag bbCoreInput_setQuote(bbCore* core, char* string, bbInstruction_source source, bbHandle action);
 bbFlag bbCoreInput_setTime(bbCore* core, U64 time, bbInstruction_source source, bbHandle action);
+
+
+bbFlag bbCoreInput_checkActions(bbCore* core, U64 time, bbInstruction_source source, bbHandle action);
+
+
+
+bbFlag bbCoreInput_setTestInt(bbCore* core, U64 time, bbInstruction_source source, bbHandle action);

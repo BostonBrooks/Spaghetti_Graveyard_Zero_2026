@@ -25,7 +25,14 @@ typedef enum
     bbInstruction_unsetQuote,
 
     bbInstruction_setTime,
-    bbInstruction_unsetTime
+    bbInstruction_unsetTime,
+
+    bbInstruction_checkActions,
+    bbInstruction_uncheckActions,
+
+
+    bbInstruction_setTestInt,
+    bbInstruction_unsetTestInt
 } bbInstruction_type;
 
 typedef enum
@@ -75,6 +82,15 @@ bbFlag bbInstruction_unsetQuote_fn(bbCore* core, bbInstruction* instruction);
 
 bbFlag bbInstruction_setTime_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_unsetTime_fn(bbCore* core, bbInstruction* instruction);
+
+bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbInstruction_uncheckActions_fn(bbCore* core, bbInstruction* instruction);
+
+
+
+bbFlag bbInstruction_setTestInt_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbInstruction_unsetTestInt_fn(bbCore* core, bbInstruction* instruction);
+
 
 
 //the following are too cludgey and will be deprecated

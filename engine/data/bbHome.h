@@ -19,6 +19,7 @@ typedef struct
 {
     bbCore core;
     char quote[KEY_LENGTH];
+    I64 test_int;
 } bbHome_core;
 
 typedef struct

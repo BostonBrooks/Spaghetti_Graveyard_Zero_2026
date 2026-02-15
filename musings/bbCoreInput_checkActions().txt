@@ -1,0 +1,4 @@
+
+bbFlag bbCoreInput_checkActions(bbCore* core, U64 time, bbInstruction_source source, bbHandle action);
+
+the check actions instruction calls on bbActions and puts them in the undo queue
