@@ -154,6 +154,8 @@ bbFlag bbNetworkApp_checkInbox(bbNetwork* network)
             bbDebug("add incoming message to bbCore?\n");
 
             bbLocalMessage_UnfreezeButton2(&home.core.core,packet->data.str);
+            bbCore_react(&home.core.core);
+
         }
         bbThreadedQueue_free(&network->inbox, (void**)&packet);
     }
