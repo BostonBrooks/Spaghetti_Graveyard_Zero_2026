@@ -7,7 +7,7 @@
 #include "engine/data/bbHome.h"
 
 #include "games/game0/maps/map0/mouse/textbox.h"
-#include "games/game0/maps/map0/mouse/reeact_button.h"
+#include "games/game0/maps/map0/mouse/react_button.h"
 #include "games/game0/maps/map0/mouse/netsend_button.h"
 
 //mouse hovers over widget, uses pointer defined by widget
