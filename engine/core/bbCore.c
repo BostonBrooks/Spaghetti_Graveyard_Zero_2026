@@ -132,6 +132,13 @@ bbFlag bbCore_rewind(bbCore* core)
         case bbInstruction_unsetTestInt:
             bbInstruction_unsetTestInt_fn(core, instruction);
             break;
+
+
+        case bbInstruction_uncheckActions:
+            bbHere()
+            bbInstruction_uncheckActions_fn(core, instruction);
+            break;
+
         default:
             bbDebug("Unknown undo instruction type");
         }

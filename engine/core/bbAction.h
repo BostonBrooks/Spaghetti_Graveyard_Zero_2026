@@ -6,6 +6,7 @@
 typedef enum
 {
     bbActionType_printString,
+    bbActionType_setQuote
 } bbAction_type;
 
 typedef  struct
@@ -25,6 +26,13 @@ typedef  struct
 I32 bbAction_compare (void* A, void* B);
 
 bbFlag bbAction_printString(void* Core,
+                            U32 player,
+                            U32 collision,
+                            U64 created_tick,
+                            U64 act_tick,
+                            char* key);
+
+bbFlag bbAction_setQuote(void* Core,
                             U32 player,
                             U32 collision,
                             U64 created_tick,

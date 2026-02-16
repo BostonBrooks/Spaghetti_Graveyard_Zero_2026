@@ -27,6 +27,32 @@ bbFlag bbAction_printString(void* Core,
     return bbSuccess;
 }
 
+bbFlag bbAction_setQuote(void* Core,
+                            U32 player,
+                            U32 collision,
+                            U64 created_tick,
+                            U64 act_tick,
+                            char* key)
+{
+    bbCore* core = (bbCore*)Core;
+    bbAction* action;
+    bbList_alloc(&core->action_queue,(void**)&action);
+    action->type = bbActionType_setQuote;
+    action->player = player;
+    action->collision = collision;
+    action->created_tick = created_tick;
+    action->act_tick = act_tick;
+    bbStr_setStr(action->key, key, KEY_LENGTH);
+    bbList_sortL(&core->action_queue,(void*)action);
+
+//debug code
+    bbHandle handle;
+    bbVPool_reverseLookup(core->action_pool,action,&handle);
+    bbDebug("handle = %p\n", handle.ptr);
+
+    return bbSuccess;
+}
+
 
 bbFlag bbActions_reactOnce(void* Core, U64 tick_time)
 {
@@ -37,9 +63,26 @@ bbFlag bbActions_reactOnce(void* Core, U64 tick_time)
     if (action->act_tick > tick_time) return bbBreak;
     bbList_popL(&core->action_queue,(void**)&action);
 
+    bbHandle handle;
+    bbVPool_reverseLookup(core->action_pool,action,&handle);
+
+    bbAction* test_action;
+    bbVPool_lookup(core->action_pool, (void**)&test_action, handle);
+
     if (action->type == bbActionType_printString)
     {
         bbCoreInput_printString(core, action->key, false);
+        bbCore_react(core);
+    }
+    if (action->type == bbActionType_setQuote)
+    {
+        //debug code
+        bbDebug("handle = %p\n", handle.ptr);
+
+
+
+
+        bbCoreInput_setQuote(core,action->key,bbInstructionSource_action,handle);
         bbCore_react(core);
     }
 

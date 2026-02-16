@@ -24,14 +24,27 @@ int main (void)
     home.core.core.simulation_time = 117;
     home.core.test_int = 69;
 
-    for (I32 i = 0; i < 8;i++)
+    U32 collision = 0;
+    bbPrintf("Play:\n");
+
+
+    char key[KEY_LENGTH];
+
+    for (I32 i = 0; i < 1;i++)
     {
         char temp_string[KEY_LENGTH];
         sprintf(temp_string,"i = %d",i);
         bbHandle handle;
         handle.u64 = 0;
-        bbCoreInput_setQuote(&home.core.core, temp_string, bbInstructionSource_input, no_handle);
-        bbCore_react(&home.core.core);
+
+        sprintf(key, "action: i = %d",i);
+
+        bbAction_setQuote(&home.core.core,
+                            0,
+                            collision++,
+                            0,
+                            i,
+                            key);
 
 
         bbCoreInput_setTime(&home.core.core, i, bbInstructionSource_input, no_handle);
@@ -43,6 +56,11 @@ int main (void)
     bbCoreInput_setTestInt(&home.core.core, 7, bbInstructionSource_input, no_handle);
     bbCore_react(&home.core.core);
 
+    bbCoreInput_checkActions(&home.core.core,19,bbInstructionSource_input, no_handle);
+    bbCore_react(&home.core.core);
+
+    bbPrintf("Rewind:\n");
     bbCore_rewind(&home.core.core);
+    bbPrintf("Fast Forward:\n");
     bbCore_react(&home.core.core);
 }

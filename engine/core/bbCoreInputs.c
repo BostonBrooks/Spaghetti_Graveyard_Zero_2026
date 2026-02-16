@@ -2,6 +2,7 @@
 
 #include "bbInstruction.h"
 #include "engine/logic/bbString.h"
+#include "engine/logic/bbTerminal.h"
 
 
 bbFlag bbCore_printInteger(bbCore* core, I32 integer, bool is_input)
@@ -89,6 +90,9 @@ bbFlag bbCoreInput_setQuote(bbCore* core, char* string, bbInstruction_source sou
     instruction->redo_instruction = action;
 
     bbList_pushL(&core->do_stack, instruction);
+
+    //debug code
+    bbDebug("handle = %p\n", action.ptr);
     return bbSuccess;
 }
 
