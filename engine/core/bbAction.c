@@ -73,6 +73,7 @@ bbFlag bbActions_reactOnce(void* Core, U64 tick_time)
     {
         bbCoreInput_printString(core, action->key, false);
         bbCore_react(core);
+        return bbSuccess;
     }
     if (action->type == bbActionType_setQuote)
     {
@@ -84,6 +85,7 @@ bbFlag bbActions_reactOnce(void* Core, U64 tick_time)
 
         bbCoreInput_setQuote(core,action->key,bbInstructionSource_action,handle);
         bbCore_react(core);
+        return bbSuccess;
     }
 
     bbVPool_free(core->action_pool, action);
