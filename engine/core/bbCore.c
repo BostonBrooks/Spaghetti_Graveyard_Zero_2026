@@ -22,10 +22,6 @@ bbFlag bbCore_init(bbCore* core)
 
     bbVPool_newBloated(&core->action_pool,sizeof(bbAction),100,1000);
     bbList_init(&core->action_queue, core->action_pool, NULL, offsetof(bbAction, list_element),bbAction_compare);
-
-
-
-    bbHere();
     return bbSuccess;
 }
 
@@ -58,7 +54,6 @@ bbFlag bbCore_react(bbCore* core)
             break;
 
         case bbInstruction_netsendButton:
-            bbDebug("Send button click to server\n");
 
             bbInstruction_netsendButton_fn(core, instruction);
             break;
@@ -148,3 +143,50 @@ bbFlag bbCore_rewind(bbCore* core)
 }
 
 
+bbFlag bbCore_rewindUntilTime(bbCore* core, U64 time)
+{
+    bbFlag flag;
+    bbInstruction* instruction;
+
+    while (core->simulation_time > time)
+    {
+        flag = bbList_popL(&core->undo_stack, (void**)&instruction);
+        if (flag != bbSuccess) return bbSuccess;
+
+        switch (instruction->type)
+        {
+        case bbInstruction_unprintInteger:
+            bbInstruction_unprintInteger_fn(core, instruction);
+            break;
+        case bbInstruction_unprintString:
+            bbInstruction_unprintString_fn(core, instruction);
+            break;
+
+
+
+
+            ///(6) core "un-reacts" to instruction
+        case bbInstruction_unsetQuote:
+            bbInstruction_unsetQuote_fn(core, instruction);
+            break;
+
+        case bbInstruction_unsetTime:
+            bbInstruction_unsetTime_fn(core, instruction);
+            break;
+
+        case bbInstruction_unsetTestInt:
+            bbInstruction_unsetTestInt_fn(core, instruction);
+            break;
+
+
+        case bbInstruction_uncheckActions:
+            bbInstruction_uncheckActions_fn(core, instruction);
+            break;
+
+        default:
+            bbDebug("Unknown undo instruction type");
+        }
+
+    }
+    return bbSuccess;
+}

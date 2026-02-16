@@ -114,9 +114,6 @@ bbFlag bbInstruction_unsetQuote_fn(bbCore* core, bbInstruction* instruction)
         //TODO place instruction->redo_instruction into core->action_queue
         bbAction* redo_action;
 
-        //debug code:
-        bbDebug("handle = %p\n", instruction->redo_instruction.ptr);
-
         bbVPool_lookup(core->action_pool, (void**)&redo_action, instruction->redo_instruction);
         bbList_sortL(&core->action_queue,(void*)redo_action);
         bbVPool_free(core->instruction_pool, (void*)instruction);
@@ -138,7 +135,7 @@ bbFlag bbInstruction_setTime_fn(bbCore* core, bbInstruction* instruction)
     undo_instruction->source = instruction->source;
 
 
-    printf("Set Time: old time = %llu, new time = %llu\n",core->simulation_time, instruction->data.integer.integer);
+    printf("Set Time: %llu\n", instruction->data.integer.integer);
     core->simulation_time = instruction->data.integer.integer;
 
     if (instruction->source == bbInstructionSource_internal)
@@ -168,7 +165,7 @@ bbFlag bbInstruction_setTime_fn(bbCore* core, bbInstruction* instruction)
 }
 bbFlag bbInstruction_unsetTime_fn(bbCore* core, bbInstruction* instruction)
 {
-    printf("Unset Time: old time = %llu, new time = %llu\n",core->simulation_time, instruction->data.integer.integer);
+    printf("Unset Time: %llu\n",instruction->data.integer.integer);
 
 
     core->simulation_time = instruction->data.integer.integer;

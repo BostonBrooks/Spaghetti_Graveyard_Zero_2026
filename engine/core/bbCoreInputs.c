@@ -90,9 +90,6 @@ bbFlag bbCoreInput_setQuote(bbCore* core, char* string, bbInstruction_source sou
     instruction->redo_instruction = action;
 
     bbList_pushL(&core->do_stack, instruction);
-
-    //debug code
-    bbDebug("handle = %p\n", action.ptr);
     return bbSuccess;
 }
 

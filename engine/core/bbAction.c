@@ -45,11 +45,6 @@ bbFlag bbAction_setQuote(void* Core,
     bbStr_setStr(action->key, key, KEY_LENGTH);
     bbList_sortL(&core->action_queue,(void*)action);
 
-//debug code
-    bbHandle handle;
-    bbVPool_reverseLookup(core->action_pool,action,&handle);
-    bbDebug("handle = %p\n", handle.ptr);
-
     return bbSuccess;
 }
 
@@ -77,12 +72,6 @@ bbFlag bbActions_reactOnce(void* Core, U64 tick_time)
     }
     if (action->type == bbActionType_setQuote)
     {
-        //debug code
-        bbDebug("handle = %p\n", handle.ptr);
-
-
-
-
         bbCoreInput_setQuote(core,action->key,bbInstructionSource_action,handle);
         bbCore_react(core);
         return bbSuccess;
