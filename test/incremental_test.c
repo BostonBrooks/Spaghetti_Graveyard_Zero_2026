@@ -175,7 +175,7 @@ void* userinterface_thread(void* arg)
     bbWidget_newLayout(&root, &home.UI.graphics, &home.UI.widgets, NULL);
 
 
-
+    home.UI.UI_time = 0;
 
 
     bbWidget_constructor(NULL,
@@ -240,7 +240,7 @@ void* userinterface_thread(void* arg)
     while (1)
     {
         test_time = cl.GUI_time++;
-
+        home.UI.UI_time = cl.map_time;
         bbInput_poll(&input, window);
 
         bbMouse_isOver(&mouse, &home.UI.widgets);

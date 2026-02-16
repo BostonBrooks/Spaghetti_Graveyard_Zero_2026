@@ -66,7 +66,7 @@ bbFlag bbLocalMessage_NetcodeButton(bbCore* core, char* key, U64 time)
     bbThreadedQueue_alloc(&core->local_message_queue, (void** ) &message);
     message->type = bbLocalMessage_netcodeButton;
     bbStr_setStr(message->data.string.string, key, KEY_LENGTH);
-    message->act_time = time + 60;
+    message->act_time = time;
     bbThreadedQueue_pushL(&core->local_message_queue, message);
     return bbSuccess;
 

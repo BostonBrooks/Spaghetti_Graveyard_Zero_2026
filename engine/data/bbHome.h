@@ -13,6 +13,7 @@ typedef struct
     bbGraphicsApp graphics;
     bbWidgets widgets;
     bbUI_Inbox inbox;
+    U64 UI_time;
 } bbHome_UI;
 
 typedef struct
