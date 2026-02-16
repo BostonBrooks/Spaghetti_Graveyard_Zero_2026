@@ -155,6 +155,16 @@ bbFlag bbNetworkApp_checkInbox(bbNetwork* network)
             bbCore_react(&home.core.core);
 
         }
+
+        if (packet->type == PACKETTYPE_NETCODEBUTTON)
+        {
+            bbAction_unfreezeButton(&home.core.core,
+                            packet->player,
+                            0,
+                            packet->send_tick,
+                            packet->act_tick,
+                            packet->data.str);
+        }
         bbThreadedQueue_free(&network->inbox, (void**)&packet);
     }
 }
@@ -208,6 +218,19 @@ bbFlag bbNetworkApp_netsendButton(bbNetwork* network, char* key){
     bbThreadedQueue_alloc(&network->outbox, (void**)&packet);
     packet->type = PACKETTYPE_UNFREEZEBUTTON;
 
+    bbStr_setStr(packet->data.str, key, 64);
+    bbThreadedQueue_pushL(&network->outbox,packet);
+
+    return bbSuccess;
+}
+
+
+
+bbFlag bbNetworkApp_netcodeButton(bbNetwork* network, char* key, U64 time){
+    bbNetworkPacket* packet;
+    bbThreadedQueue_alloc(&network->outbox, (void**)&packet);
+    packet->type = PACKETTYPE_NETCODEBUTTON;
+    packet->act_tick = time;
     bbStr_setStr(packet->data.str, key, 64);
     bbThreadedQueue_pushL(&network->outbox,packet);
 

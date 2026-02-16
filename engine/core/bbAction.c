@@ -102,7 +102,7 @@ bbFlag bbActions_reactOnce(void* Core, U64 tick_time)
     if (action->type == bbActionType_unfreezeButton)
     {
         bbDebug("time = %lu", core->simulation_time);
-        bbCore_unfreezeButton2(core, action->key, false);
+        bbCoreInput_unfreezeButton2(core, action->key, false);
         bbCore_react(core);
         return bbSuccess;
     }

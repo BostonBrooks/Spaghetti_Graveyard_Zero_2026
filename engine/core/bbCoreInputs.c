@@ -5,7 +5,7 @@
 #include "engine/logic/bbTerminal.h"
 
 
-bbFlag bbCore_printInteger(bbCore* core, I32 integer, bool is_input)
+bbFlag bbCoreInput_printInteger(bbCore* core, I32 integer, bool is_input)
 {
     bbInstruction* instruction;
     bbList_alloc(&core->do_stack, (void**) &instruction);
@@ -36,7 +36,7 @@ bbFlag bbCoreInput_printString(bbCore* core, char* string, bool is_input)
 
 }
 
-bbFlag bbCore_unfreezeButton(bbCore* core, char* string, bool is_input)
+bbFlag bbCoreInput_unfreezeButton(bbCore* core, char* string, bool is_input)
 {
     bbInstruction* instruction;
     bbList_alloc(&core->do_stack, (void**) &instruction);
@@ -50,7 +50,7 @@ bbFlag bbCore_unfreezeButton(bbCore* core, char* string, bool is_input)
 }
 
 
-bbFlag bbCore_unfreezeButton2(bbCore* core, char* string, bool is_input)
+bbFlag bbCoreInput_unfreezeButton2(bbCore* core, char* string, bool is_input)
 {
     bbInstruction* instruction;
     bbList_alloc(&core->do_stack, (void**) &instruction);
@@ -65,7 +65,7 @@ bbFlag bbCore_unfreezeButton2(bbCore* core, char* string, bool is_input)
 }
 
 
-bbFlag bbCore_netsendButton(bbCore* core, char* string)
+bbFlag bbCoreInput_netsendButton(bbCore* core, char* string)
 {
     bbInstruction* instruction;
     bbList_alloc(&core->do_stack, (void**) &instruction);
@@ -73,6 +73,21 @@ bbFlag bbCore_netsendButton(bbCore* core, char* string)
     instruction->type = bbInstruction_netsendButton;
     bbStr_setStr(instruction->data.string.string, string, KEY_LENGTH);
 
+    bbList_pushL(&core->do_stack, instruction);
+
+    return bbSuccess;
+}
+
+bbFlag bbCoreInput_netcodeButton(bbCore* core, char* string, U64 time,
+                                  bbInstruction_source source, bbHandle action)
+{
+    bbInstruction* instruction;
+    bbList_alloc(&core->do_stack, (void**) &instruction);
+
+
+    instruction->type = bbInstruction_netcodeButton;
+    bbStr_setStr(instruction->data.string.string, string, KEY_LENGTH);
+    instruction->act_time = time;
     bbList_pushL(&core->do_stack, instruction);
 
     return bbSuccess;

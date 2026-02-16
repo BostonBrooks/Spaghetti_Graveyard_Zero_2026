@@ -52,6 +52,13 @@ bbFlag bbInstruction_netsendButton_fn(bbCore* core, bbInstruction* instruction)
 }
 
 
+bbFlag bbInstruction_netcodeButton_fn(bbCore* core, bbInstruction* instruction)
+{
+    bbNetworkApp_netcodeButton(&home.network, instruction->data.string.string, instruction->act_time);
+    return bbSuccess;
+}
+
+
 ///(5) instruction definition
 bbFlag bbInstruction_setQuote_fn(bbCore* core, bbInstruction* instruction)
 {

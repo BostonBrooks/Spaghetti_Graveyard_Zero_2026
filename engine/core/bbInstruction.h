@@ -19,6 +19,7 @@ typedef enum
     bbInstruction_unfreezeButton,
     bbInstruction_unfreezeButton2,
     bbInstruction_netsendButton,
+    bbInstruction_netcodeButton,
 
 
     bbInstruction_setQuote,
@@ -66,6 +67,7 @@ typedef struct
 {
     bbInstruction_type type;
     bbInstruction_data data;
+    U64 act_time;
     bbListElement_Handle list_element;
     bbHandle redo_instruction;
 
@@ -101,4 +103,5 @@ bbFlag bbInstruction_unprintString_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_unfreezeButton_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_unfreezeButton2_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_netsendButton_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbInstruction_netcodeButton_fn(bbCore* core, bbInstruction* instruction);
 #endif // BB_INSTRUCTION_H

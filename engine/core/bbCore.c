@@ -60,6 +60,13 @@ bbFlag bbCore_react(bbCore* core)
 
 
 
+        case bbInstruction_netcodeButton:
+
+            bbInstruction_netcodeButton_fn(core, instruction);
+            break;
+
+
+
 
 
 

@@ -12,11 +12,14 @@
 
 
 //the following are too cludgey and will be deprecated
-bbFlag bbCore_printInteger(bbCore* core, I32 integer, bool isInput);
+bbFlag bbCoreInput_printInteger(bbCore* core, I32 integer, bool isInput);
 bbFlag bbCoreInput_printString(bbCore* core, char* string, bool isInput);
-bbFlag bbCore_unfreezeButton(bbCore* core, char* string, bool is_input);
-bbFlag bbCore_unfreezeButton2(bbCore* core, char* string, bool is_input);
-bbFlag bbCore_netsendButton(bbCore* core,char* string);
+bbFlag bbCoreInput_unfreezeButton(bbCore* core, char* string, bool is_input);
+bbFlag bbCoreInput_unfreezeButton2(bbCore* core, char* string, bool is_input);
+bbFlag bbCoreInput_netsendButton(bbCore* core,char* string);
+
+bbFlag bbCoreInput_netcodeButton(bbCore* core, char* string, U64 time,
+                                  bbInstruction_source source, bbHandle action);
 
 
 

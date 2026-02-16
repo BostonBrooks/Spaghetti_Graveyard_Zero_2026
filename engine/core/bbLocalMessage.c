@@ -15,7 +15,7 @@ bbFlag bbLocalMessage_printString_fn(bbCore* core, bbLocalMessage* message)
 
 bbFlag bbLocalMessage_unfreezeButton_fn(bbCore* core, bbLocalMessage* message)
 {
-    bbCore_unfreezeButton(core, message->data.string.string, true);
+    bbCoreInput_unfreezeButton(core, message->data.string.string, true);
     //undo message?
 
     return bbSuccess;
@@ -23,7 +23,7 @@ bbFlag bbLocalMessage_unfreezeButton_fn(bbCore* core, bbLocalMessage* message)
 
 bbFlag bbLocalMessage_unfreezeButton2_fn(bbCore* core, bbLocalMessage* message)
 {
-    bbCore_unfreezeButton2(core, message->data.string.string, true);
+    bbCoreInput_unfreezeButton2(core, message->data.string.string, true);
     //undo message?
 
     return bbSuccess;
@@ -31,7 +31,7 @@ bbFlag bbLocalMessage_unfreezeButton2_fn(bbCore* core, bbLocalMessage* message)
 
 bbFlag bbLocalMessage_netsendButton_fn(bbCore* core, bbLocalMessage* message)
 {
-    bbCore_netsendButton(core,message->data.string.string);
+    bbCoreInput_netsendButton(core,message->data.string.string);
 
     return bbSuccess;
 }
@@ -55,7 +55,8 @@ bbFlag bbLocalMessage_netcodeButton_fn(bbCore* core, bbLocalMessage* message)
 
     bbDebug("Send message to server\n");
 
-
+    bbHandle handle = {0};
+    bbCoreInput_netcodeButton(core,message->data.string.string, message->act_time,bbInstructionSource_input,handle);
 
     return bbSuccess;
 }
