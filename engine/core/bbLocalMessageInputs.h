@@ -14,4 +14,4 @@ bbFlag bbLocalMessage_UnfreezeButton2(bbCore* core,char* key);
 
 bbFlag bbLocalMessage_ActionUnfreeze(bbCore* core, char* key);
 
-bbFlag bbLocalMessage_NetcodeButton(bbCore* core, char* key, U64 time);
+bbFlag bbLocalMessage_NetcodeButton(bbCore* core, char* key);
