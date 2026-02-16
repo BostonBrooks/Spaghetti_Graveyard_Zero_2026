@@ -151,8 +151,6 @@ bbFlag bbNetworkApp_checkInbox(bbNetwork* network)
 
         if (packet->type == PACKETTYPE_UNFREEZEBUTTON)
         {
-            bbDebug("add incoming message to bbCore?\n");
-
             bbLocalMessage_UnfreezeButton2(&home.core.core,packet->data.str);
             bbCore_react(&home.core.core);
 
