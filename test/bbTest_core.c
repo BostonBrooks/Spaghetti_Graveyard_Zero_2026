@@ -40,7 +40,7 @@ int main (void)
         I32 time_plus_rand = i + rand() % 3 + 1;
 
 
-        sprintf(key, "created: %d, acted: %d",i, time_plus_rand);
+        sprintf(key, "(%d,%d)",i, time_plus_rand);
 
         bbAction_setQuote(&home.core.core,
                             0,
@@ -57,8 +57,8 @@ int main (void)
     }
 
 
-    //bbCoreInput_setTestInt(&home.core.core, 7, bbInstructionSource_input, no_handle);
-    //bbCore_react(&home.core.core);
+    bbCoreInput_setTestInt(&home.core.core, 2, bbInstructionSource_input, no_handle);
+    bbCore_react(&home.core.core);
 
 
 
