@@ -199,6 +199,13 @@ void* userinterface_thread(void* arg)
                      "ACTION",
                      (bbScreenPoints){200*SCREEN_PPP,126*SCREEN_PPP});
 
+    bbWidget_constructor(NULL,
+                     &home.UI.widgets,
+                     "NETCODE",
+                     "LAYOUT",
+                     "NETCODE",
+                     (bbScreenPoints){200*SCREEN_PPP,149*SCREEN_PPP});
+
 
     bbWidget_constructor(NULL,
                          &home.UI.widgets,

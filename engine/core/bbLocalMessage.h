@@ -11,7 +11,8 @@ typedef enum
     bbLocalMessage_unfreezeButton,
     bbLocalMessage_unfreezeButton2,
     bbLocalMessage_netsendButton,
-    bbLocalMessage_actionUnfreeze
+    bbLocalMessage_actionUnfreeze,
+    bbLocalMessage_netcodeButton
 } bbLocalMessage_type;
 
 typedef struct
@@ -29,6 +30,7 @@ typedef struct
 {
     bbLocalMessage_type type;
     bbLocalMessage_data data;
+    U64 act_time;
     bbListElement_Handle list_element;
 
     //may or may not need to redo local messages

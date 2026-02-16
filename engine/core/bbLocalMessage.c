@@ -39,13 +39,23 @@ bbFlag bbLocalMessage_netsendButton_fn(bbCore* core, bbLocalMessage* message)
 bbFlag bbLocalMessage_actionUnfreeze_fn(bbCore* core, bbLocalMessage* message)
 {
 
-    bbDebug("time = %lu", core->simulation_time  + 60);
+    bbDebug("time = %lu\n", core->simulation_time  + 60);
     bbAction_unfreezeButton(core,
                            0,
                            0,
                            0,
                            core->simulation_time + 60,
                            message->data.string.string);
+
+    return bbSuccess;
+}
+
+bbFlag bbLocalMessage_netcodeButton_fn(bbCore* core, bbLocalMessage* message)
+{
+
+    bbDebug("Send message to server\n");
+
+
 
     return bbSuccess;
 }
@@ -87,6 +97,13 @@ bbFlag bbCore_checkLocalMessages(bbCore* core)
 
         case bbLocalMessage_actionUnfreeze:
             bbLocalMessage_actionUnfreeze_fn(core, message);
+            bbCore_react(core);
+            break;
+
+
+
+        case bbLocalMessage_netcodeButton:
+            bbLocalMessage_netcodeButton_fn(core, message);
             bbCore_react(core);
             break;
             default:
