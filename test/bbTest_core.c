@@ -68,7 +68,7 @@ int main (void)
 
 
     bbPrintf("Add more actions:\n");
-    sprintf(key, "new action: i = %d",7);
+    sprintf(key, "new action: - acted: %d",7);
 
     bbAction_setQuote(&home.core.core,
                         0,
