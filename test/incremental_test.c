@@ -50,7 +50,7 @@ int main(void)
     while (1)
     {
 
-
+/* bbActions demoed in bbTest_core.c
         U32 random = core_time + 60 + rand() % 160;
         char key[KEY_LENGTH];
         sprintf(key, "%d", random);
@@ -81,7 +81,7 @@ int main(void)
                             0,
                             random,
                             key);
-
+*/
 
 
         if (home.network.send_ready && home.network.receive_ready)
@@ -113,6 +113,8 @@ int main(void)
 
             core_time += 3;
         }
+        home.core.core.simulation_time = core_time;
+        home.core.core.actual_time = core_time;
 
 
         bbCore_checkLocalMessages(&home.core.core);
@@ -189,6 +191,13 @@ void* userinterface_thread(void* arg)
                      "LAYOUT",
                      "NETSEND",
                      (bbScreenPoints){200*SCREEN_PPP,103*SCREEN_PPP});
+
+    bbWidget_constructor(NULL,
+                     &home.UI.widgets,
+                     "ACTION",
+                     "LAYOUT",
+                     "ACTION",
+                     (bbScreenPoints){200*SCREEN_PPP,126*SCREEN_PPP});
 
 
     bbWidget_constructor(NULL,

@@ -27,6 +27,7 @@ bbFlag bbAction_printString(void* Core,
     return bbSuccess;
 }
 
+
 bbFlag bbAction_setQuote(void* Core,
                             U32 player,
                             U32 collision,
@@ -38,6 +39,27 @@ bbFlag bbAction_setQuote(void* Core,
     bbAction* action;
     bbList_alloc(&core->action_queue,(void**)&action);
     action->type = bbActionType_setQuote;
+    action->player = player;
+    action->collision = collision;
+    action->created_tick = created_tick;
+    action->act_tick = act_tick;
+    bbStr_setStr(action->key, key, KEY_LENGTH);
+    bbList_sortL(&core->action_queue,(void*)action);
+
+    return bbSuccess;
+}
+
+bbFlag bbAction_unfreezeButton(void* Core,
+                            U32 player,
+                            U32 collision,
+                            U64 created_tick,
+                            U64 act_tick,
+                            char* key)
+{
+    bbCore* core = (bbCore*)Core;
+    bbAction* action;
+    bbList_alloc(&core->action_queue,(void**)&action);
+    action->type = bbActionType_unfreezeButton;
     action->player = player;
     action->collision = collision;
     action->created_tick = created_tick;
@@ -73,6 +95,14 @@ bbFlag bbActions_reactOnce(void* Core, U64 tick_time)
     if (action->type == bbActionType_setQuote)
     {
         bbCoreInput_setQuote(core,action->key,bbInstructionSource_action,handle);
+        bbCore_react(core);
+        return bbSuccess;
+    }
+
+    if (action->type == bbActionType_unfreezeButton)
+    {
+        bbDebug("time = %lu", core->simulation_time);
+        bbCore_unfreezeButton2(core, action->key, false);
         bbCore_react(core);
         return bbSuccess;
     }

@@ -6,7 +6,8 @@
 typedef enum
 {
     bbActionType_printString,
-    bbActionType_setQuote
+    bbActionType_setQuote,
+    bbActionType_unfreezeButton
 } bbAction_type;
 
 typedef  struct
@@ -33,6 +34,13 @@ bbFlag bbAction_printString(void* Core,
                             char* key);
 
 bbFlag bbAction_setQuote(void* Core,
+                            U32 player,
+                            U32 collision,
+                            U64 created_tick,
+                            U64 act_tick,
+                            char* key);
+
+bbFlag bbAction_unfreezeButton(void* Core,
                             U32 player,
                             U32 collision,
                             U64 created_tick,

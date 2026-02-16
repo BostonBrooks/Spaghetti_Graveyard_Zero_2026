@@ -8,6 +8,7 @@
 
 #include "games/game0/maps/map0/mouse/textbox.h"
 #include "games/game0/maps/map0/mouse/react_button.h"
+#include "games/game0/maps/map0/mouse/action_button.h"
 #include "games/game0/maps/map0/mouse/netsend_button.h"
 
 //mouse hovers over widget, uses pointer defined by widget
@@ -58,6 +59,7 @@ bbFlag bbMouseFunctions_populate(bbMouseFunctions* self)
     bbMouseFunctions_add(self, MouseLeftDown,Textbox_LeftDown,"TEXTBOX");
     bbMouseFunctions_add(self, MouseLeftDown,ReactButton_LeftDown,"BUTTON");
     bbMouseFunctions_add(self, MouseLeftDown,NetsendButton_LeftDown,"NETSEND_BUTTON");
+    bbMouseFunctions_add(self, MouseLeftDown,ActionButton_LeftDown,"ACTION_BUTTON");
 
     return bbSuccess;
 }

@@ -10,3 +10,6 @@ bbFlag bbLocalMessage_UnfreezeButton(bbCore* core);
 
 bbFlag bbLocalMessage_NetsendButton(bbCore* core, char* key);
 bbFlag bbLocalMessage_UnfreezeButton2(bbCore* core,char* key);
+
+
+bbFlag bbLocalMessage_ActionUnfreeze(bbCore* core, char* key);
