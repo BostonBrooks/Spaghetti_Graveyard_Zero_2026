@@ -58,6 +58,18 @@ bbFlag bbInstruction_netcodeButton_fn(bbCore* core, bbInstruction* instruction)
     return bbSuccess;
 }
 
+bbFlag bbInstruction_loopAction_fn(bbCore* core, bbInstruction* instruction)
+{
+    bbDebug("Loop instruction at time = %lu\n", instruction->act_time);
+    bbAction_loop(core,
+                  0,
+                  0,
+                  0,
+                  instruction->act_time + 120,
+                  instruction->data.string.string);
+    return bbSuccess;
+
+}
 
 ///(5) instruction definition
 bbFlag bbInstruction_setQuote_fn(bbCore* core, bbInstruction* instruction)

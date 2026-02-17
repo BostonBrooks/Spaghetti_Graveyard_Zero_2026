@@ -12,6 +12,7 @@ typedef enum
     bbLocalMessage_unfreezeButton2,
     bbLocalMessage_netsendButton,
     bbLocalMessage_actionUnfreeze,
+    bbLocalMessage_actionLoop,
     bbLocalMessage_netcodeButton
 } bbLocalMessage_type;
 
@@ -43,5 +44,6 @@ bbFlag bbLocalMessage_printString_fn(bbCore* core, bbLocalMessage* message);
 bbFlag bbLocalMessage_unfreezeButton_fn(bbCore* core, bbLocalMessage* message);
 bbFlag bbLocalMessage_unfreezeButton2_fn(bbCore* core, bbLocalMessage* message);
 bbFlag bbLocalMessage_actionUnfreeze_fn(bbCore* core, bbLocalMessage* message);
+bbFlag bbLocalMessage_actionLoop_fn(bbCore* core, bbLocalMessage* message);
 
 #endif // BB_LOCALMESSAGE_H

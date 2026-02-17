@@ -91,6 +91,12 @@ bbFlag bbCore_react(bbCore* core)
             bbInstruction_checkActions_fn(core, instruction);
             break;
 
+
+
+        case bbInstruction_loopAction:
+            bbInstruction_loopAction_fn(core, instruction);
+            break;
+
         default:
             bbDebug("Unknown instruction type");
         }

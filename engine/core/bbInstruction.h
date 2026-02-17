@@ -20,7 +20,7 @@ typedef enum
     bbInstruction_unfreezeButton2,
     bbInstruction_netsendButton,
     bbInstruction_netcodeButton,
-
+    bbInstruction_loopAction,
 
     bbInstruction_setQuote,
     bbInstruction_unsetQuote,
@@ -104,4 +104,5 @@ bbFlag bbInstruction_unfreezeButton_fn(bbCore* core, bbInstruction* instruction)
 bbFlag bbInstruction_unfreezeButton2_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_netsendButton_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_netcodeButton_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbInstruction_loopAction_fn(bbCore* core, bbInstruction* instruction);
 #endif // BB_INSTRUCTION_H

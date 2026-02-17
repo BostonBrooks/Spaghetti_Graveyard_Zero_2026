@@ -206,6 +206,13 @@ void* userinterface_thread(void* arg)
                      "NETCODE",
                      (bbScreenPoints){200*SCREEN_PPP,149*SCREEN_PPP});
 
+    bbWidget_constructor(NULL,
+                     &home.UI.widgets,
+                     "LOOP_BUTTON",
+                     "LAYOUT",
+                     "LOOP_BUTTON",
+                     (bbScreenPoints){200*SCREEN_PPP,172*SCREEN_PPP});
+
 
     bbWidget_constructor(NULL,
                          &home.UI.widgets,

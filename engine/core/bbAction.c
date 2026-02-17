@@ -70,6 +70,27 @@ bbFlag bbAction_unfreezeButton(void* Core,
     return bbSuccess;
 }
 
+bbFlag bbAction_loop(void* Core,
+                            U32 player,
+                            U32 collision,
+                            U64 created_tick,
+                            U64 act_tick,
+                            char* key)
+{
+    bbCore* core = (bbCore*)Core;
+    bbAction* action;
+    bbList_alloc(&core->action_queue,(void**)&action);
+    action->type = bbActionType_loop;
+    action->player = player;
+    action->collision = collision;
+    action->created_tick = created_tick;
+    action->act_tick = act_tick;
+    bbStr_setStr(action->key, key, KEY_LENGTH);
+    bbList_sortL(&core->action_queue,(void*)action);
+
+    return bbSuccess;
+}
+
 
 bbFlag bbActions_reactOnce(void* Core, U64 tick_time)
 {
@@ -103,6 +124,13 @@ bbFlag bbActions_reactOnce(void* Core, U64 tick_time)
     {
         bbDebug("time = %lu", core->simulation_time);
         bbCoreInput_unfreezeButton2(core, action->key, false);
+        bbCore_react(core);
+        return bbSuccess;
+    }
+
+    if (action->type == bbActionType_loop)
+    {
+        bbCoreInput_loop(core,action->key,action->act_tick,bbInstructionSource_action,handle);
         bbCore_react(core);
         return bbSuccess;
     }

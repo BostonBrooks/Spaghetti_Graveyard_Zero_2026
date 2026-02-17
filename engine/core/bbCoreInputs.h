@@ -22,6 +22,8 @@ bbFlag bbCoreInput_netcodeButton(bbCore* core, char* string, U64 time,
                                   bbInstruction_source source, bbHandle action);
 
 
+bbFlag bbCoreInput_loop(bbCore* core, char* string, U64 time,
+                                  bbInstruction_source source, bbHandle action);
 
 ///Place an instruction in the core to send a message to the UI to set the text
 ///of the prompt widget. Instruction places reverse instruction on the undo stack.
