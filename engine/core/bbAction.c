@@ -78,6 +78,11 @@ bbFlag bbActions_reactOnce(void* Core, U64 tick_time)
     bbFlag flag = bbList_peakL(&core->action_queue,(void**)&action);
     if (flag == bbNone) return bbBreak;
     if (action->act_tick > tick_time) return bbBreak;
+    if (action->act_tick < tick_time)
+    {
+        //TODO action->act_tick OR action->act_tick - 1?
+        bbCore_rewindUntilTime(core,action->act_tick);
+    }
     bbList_popL(&core->action_queue,(void**)&action);
 
     bbHandle handle;
@@ -101,7 +106,6 @@ bbFlag bbActions_reactOnce(void* Core, U64 tick_time)
 
     if (action->type == bbActionType_unfreezeButton)
     {
-        bbDebug("time = %lu", core->simulation_time);
         bbCoreInput_unfreezeButton2(core, action->key, false);
         bbCore_react(core);
         return bbSuccess;
@@ -116,9 +120,10 @@ bbFlag bbActions_reactOnce(void* Core, U64 tick_time)
 
 bbFlag bbActions_react(void* Core, U64 tick_time)
 {
+    bbCore* core = (bbCore*)Core;
     while (1)
     {
-        bbFlag flag = bbActions_reactOnce(Core, tick_time);
+        bbFlag flag = bbActions_reactOnce(core, core->simulation_time);
         if (flag == bbBreak) return bbSuccess;
     }
 }

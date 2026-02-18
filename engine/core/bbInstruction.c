@@ -69,7 +69,7 @@ bbFlag bbInstruction_setQuote_fn(bbCore* core, bbInstruction* instruction)
     bbStr_setStr(undo_instruction->data.string.string, home.core.quote, KEY_LENGTH);
     undo_instruction->source = instruction->source;
 
-    printf("old quote: %s, new quote %s\n",home.core.quote, instruction->data.string.string);
+    printf("    +old quote: %s, new quote %s\n",home.core.quote, instruction->data.string.string);
 
     bbStr_setStr(home.core.quote, instruction->data.string.string, KEY_LENGTH);
 
@@ -102,7 +102,7 @@ bbFlag bbInstruction_setQuote_fn(bbCore* core, bbInstruction* instruction)
 bbFlag bbInstruction_unsetQuote_fn(bbCore* core, bbInstruction* instruction)
 {
 
-    printf("old quote: %s, new quote %s\n",home.core.quote, instruction->data.string.string);
+    printf("-old quote: %s, new quote %s\n",home.core.quote, instruction->data.string.string);
 
     bbStr_setStr(home.core.quote,instruction->data.string.string, KEY_LENGTH);
 
@@ -144,9 +144,9 @@ bbFlag bbInstruction_setTime_fn(bbCore* core, bbInstruction* instruction)
     undo_instruction->source = instruction->source;
 
 
-    printf("Old Time: %llu, New Time: %llu\n",
-        core->simulation_time,
-        instruction->data.integer.integer);
+    //printf("Old Time: %llu, New Time: %llu\n",
+    //    core->simulation_time,
+     //   instruction->data.integer.integer);
 
     core->simulation_time = instruction->data.integer.integer;
 
@@ -177,9 +177,9 @@ bbFlag bbInstruction_setTime_fn(bbCore* core, bbInstruction* instruction)
 }
 bbFlag bbInstruction_unsetTime_fn(bbCore* core, bbInstruction* instruction)
 {
-    printf("Unset Time: %llu, From: %llu\n",
-        instruction->data.integer.integer,
-        core->simulation_time);
+    //printf("Unset Time: %llu, From: %llu\n",
+    //    instruction->data.integer.integer,
+    //    core->simulation_time);
 
 
     core->simulation_time = instruction->data.integer.integer;

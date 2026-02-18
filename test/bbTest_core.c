@@ -32,21 +32,19 @@ int main (void)
 
     char key[KEY_LENGTH];
 
-    for (I32 i = 0; i < 15;i++)
+    for (I32 i = 0; i < 6;i++)
     {
         bbCoreInput_setTime(&home.core.core, i, bbInstructionSource_input, no_handle);
         bbCore_react(&home.core.core);
 
-        I32 time_plus_rand = i + rand() % 3 + 1;
 
-
-        sprintf(key, "(%d,%d)",i, time_plus_rand);
+        sprintf(key, " (%d)",i);
 
         bbAction_setQuote(&home.core.core,
                             0,
                             collision++,
                             0,
-                            time_plus_rand,
+                            i,
                             key);
 
         bbCoreInput_checkActions(&home.core.core,i,bbInstructionSource_input, no_handle);
@@ -57,45 +55,46 @@ int main (void)
     }
 
 
-    bbCoreInput_setTestInt(&home.core.core, 2, bbInstructionSource_input, no_handle);
+    bbPrintf("Add more actions:\n");
+    sprintf(key, "~(%d)",4);
+    printf( "new action: ~(%d)\n",4);
+
+    bbAction_setQuote(&home.core.core,
+                        0,
+                        collision++,
+                        0,
+                        4,
+                        key);
+
+    bbCoreInput_checkActions(&home.core.core,10,bbInstructionSource_input, no_handle);
     bbCore_react(&home.core.core);
 
-
-
-    bbPrintf("Rewind:\n");
-    bbCore_rewindUntilTime(&home.core.core, 3);
-
-
-
-    bbPrintf("Add more actions:\n");
-    sprintf(key, "new action: - acted: %d",7);
+    sprintf(key, "~(%d)",3);
+    printf( "new action: ~(%d)\n",3);
 
     bbAction_setQuote(&home.core.core,
                         0,
                         collision++,
                         0,
-                        7,
+                        3,
                         key);
 
-    sprintf(key, "new action: i = %d",8);
+
+    bbCoreInput_checkActions(&home.core.core,10,bbInstructionSource_input, no_handle);
+    bbCore_react(&home.core.core);
+
+    sprintf(key, "~(%d)",2);
+    printf( "new action: ~(%d)\n",2);
 
     bbAction_setQuote(&home.core.core,
                         0,
                         collision++,
                         0,
-                        8,
+                        2,
                         key);
 
-    sprintf(key, "new action: i = %d",8);
 
-    bbAction_setQuote(&home.core.core,
-                        0,
-                        collision++,
-                        0,
-                        8,
-                        key);
-
-    bbPrintf("Fast Forward:\n");
+    bbCoreInput_checkActions(&home.core.core,10,bbInstructionSource_input, no_handle);
     bbCore_react(&home.core.core);
 
 
