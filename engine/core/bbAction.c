@@ -80,8 +80,16 @@ bbFlag bbActions_reactOnce(void* Core, U64 tick_time)
     if (action->act_tick > tick_time) return bbBreak;
     if (action->act_tick < tick_time)
     {
-        //TODO action->act_tick OR action->act_tick - 1?
-        bbCore_rewindUntilTime(core,action->act_tick);
+        //TODO What if an action comes in that is supposed to execute on this tick
+        //but before the action that just took place?
+        //We use bbAction_compare() to decide the order that instructions are executed
+        //We might be safe if we only call bbActions_react() once per tick, and
+        //use bbCore_rewindUntilTime(core,action->act_tick-1);
+        //and not  bbCore_rewindUntilTime(core,action->act_tick);
+        //in the following line
+
+
+        bbCore_rewindUntilTime(core,action->act_tick-1);
     }
     bbList_popL(&core->action_queue,(void**)&action);
 
