@@ -197,3 +197,24 @@ bbFlag bbClock2_waitTick(bbClock2* clock, bbClock2_handle* handle, U64 until_map
     //todo return bbPaused
     return bbSuccess;
 }
+
+bbFlag bbClock2_setPause(bbClock2* clock,
+                U64 reference_server_tick,
+                U64 reference_map_tick,
+                bool is_paused)
+{
+    clock->reference_server_tick = reference_server_tick;
+    clock->reference_map_tick = reference_map_tick;
+    clock->is_paused = is_paused;
+    return bbSuccess;
+}
+
+
+bbFlag bbClock2_testPause(bbClock2* clock,bool is_paused)
+{
+    bbClock2_setPause(clock,
+                clock->server_tick,
+                clock->map_tick,
+                is_paused);
+    return bbSuccess;
+}

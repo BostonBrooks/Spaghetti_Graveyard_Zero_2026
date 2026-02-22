@@ -74,5 +74,11 @@ bbFlag bbClock2_handle_init(bbClock2* clock,
 
 bbFlag bbClock2_waitTick(bbClock2* clock, bbClock2_handle* handle, U64 until_map_tick);
 
+bbFlag bbClock2_setPause(bbClock2* clock,
+                U64 reference_server_tick,
+                U64 reference_map_tick,
+                bool is_paused);
+
+bbFlag bbClock2_testPause(bbClock2* clock,bool is_paused);
 
 #endif// BB_CLOCK2_H
