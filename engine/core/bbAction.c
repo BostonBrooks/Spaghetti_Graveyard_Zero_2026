@@ -130,7 +130,9 @@ bbFlag bbActions_reactOnce(void* Core, U64 tick_time)
     if (action->type == bbActionType_setQuote)
     {
         bbCoreInput_setQuote(core,action->key,bbInstructionSource_action,handle);
-        bbCore_react(core);
+        bbNotHere()
+        //TODO TODO TODO why does commenting the following line help?
+        //bbCore_react(core);
         return bbSuccess;
     }
 
