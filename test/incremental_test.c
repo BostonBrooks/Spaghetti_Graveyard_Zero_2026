@@ -183,35 +183,35 @@ void* userinterface_thread(void* arg)
                          "REACT",
                          "LAYOUT",
                          "REACT",
-                         (bbScreenPoints){200*SCREEN_PPP,80*SCREEN_PPP});
+                         (bbScreenPoints){12*SCREEN_PPP,12*SCREEN_PPP});
 
     bbWidget_constructor(NULL,
                      &home.UI.widgets,
                      "NETSEND",
                      "LAYOUT",
                      "NETSEND",
-                     (bbScreenPoints){200*SCREEN_PPP,103*SCREEN_PPP});
+                     (bbScreenPoints){12*SCREEN_PPP,34*SCREEN_PPP});
 
     bbWidget_constructor(NULL,
                      &home.UI.widgets,
                      "ACTION",
                      "LAYOUT",
                      "ACTION",
-                     (bbScreenPoints){200*SCREEN_PPP,126*SCREEN_PPP});
+                     (bbScreenPoints){12*SCREEN_PPP,56*SCREEN_PPP});
 
     bbWidget_constructor(NULL,
                      &home.UI.widgets,
                      "NETCODE",
                      "LAYOUT",
                      "NETCODE",
-                     (bbScreenPoints){200*SCREEN_PPP,149*SCREEN_PPP});
+                     (bbScreenPoints){12*SCREEN_PPP,78*SCREEN_PPP});
 
     bbWidget_constructor(NULL,
                      &home.UI.widgets,
                      "LOOP_BUTTON",
                      "LAYOUT",
-                     "LOOP_BUTTON",
-                     (bbScreenPoints){200*SCREEN_PPP,172*SCREEN_PPP});
+                     "LOOP",
+                     (bbScreenPoints){12*SCREEN_PPP,100*SCREEN_PPP});
 
 
     bbWidget_constructor(NULL,
@@ -219,7 +219,7 @@ void* userinterface_thread(void* arg)
                          "CLOCK",
                          "LAYOUT",
                          "CLOCK",
-                         (bbScreenPoints){100*SCREEN_PPP,100*SCREEN_PPP});
+                         (bbScreenPoints){150*SCREEN_PPP,80*SCREEN_PPP});
 
     bbWidget_constructor(NULL,
                          &home.UI.widgets,
