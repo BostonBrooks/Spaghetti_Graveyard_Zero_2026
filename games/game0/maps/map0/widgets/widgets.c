@@ -9,6 +9,7 @@
 #include "games/game0/maps/map0/widgets/action_button.h"
 #include "games/game0/maps/map0/widgets/netcode_button.h"
 #include "games/game0/maps/map0/widgets/loop_button.h"
+#include "games/game0/maps/map0/widgets/pause_button.h"
 #include "games/game0/maps/map0/widgets/composition.h"
 
 
@@ -230,6 +231,11 @@ bbFlag bbWidgetFunctions_populate(bbWidgetFunctions* self)
         WidgetConstructor,
         bbWidget_Constructor_LoopButton,
         "LOOP_BUTTON");
+
+    bbWidgetFunctions_add(self,
+        WidgetConstructor,
+        bbWidget_Constructor_PauseButton,
+        "PAUSE_BUTTON");
 
 
 

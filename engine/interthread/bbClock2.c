@@ -95,7 +95,7 @@ void* clock2_thread(void* arg)
 
                 if (connection->in_use == false) continue;
 
-                if (connection->wait_until_tick == clock->map_tick)
+                if (connection->wait_until_tick <= clock->map_tick)
                 {
                     bbClock2_message* message_out;
                     bbThreadedQueue_alloc(&connection->outbox,(void**)&message_out);

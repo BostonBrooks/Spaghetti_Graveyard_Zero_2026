@@ -183,6 +183,13 @@ void* userinterface_thread(void* arg)
                      "LOOP",
                      (bbScreenPoints){12*SCREEN_PPP,100*SCREEN_PPP});
 
+    bbWidget_constructor(NULL,
+                     &home.UI.widgets,
+                     "PAUSE_BUTTON",
+                     "LAYOUT",
+                     "PAUSE",
+                     (bbScreenPoints){12*SCREEN_PPP,122*SCREEN_PPP});
+
 
     bbWidget_constructor(NULL,
                          &home.UI.widgets,
@@ -237,11 +244,6 @@ void* userinterface_thread(void* arg)
             }
             bbClock2_waitTick(&home.clock2,&home.UI.clock2_handle,home.UI.clock2_handle.map_tick+1);
 
-            bbDebug("bbClock2_handle: server tick = %llu, map_tick = %llu, index = %d, paused = %d\n",
-                home.UI.clock2_handle.server_tick,
-                home.UI.clock2_handle.map_tick,
-                home.UI.clock2_handle.clock_thread_index,
-                home.UI.clock2_handle.clock_paused);
 
         }
 
