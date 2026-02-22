@@ -17,11 +17,12 @@ typedef enum
 {
 
     bbClock2MessageType_request,
-    bbClock2MessageType_send
+    bbClock2MessageType_send,
+    bbClock2MessageType_sendPaused
 } bbClock2_message_type;
 
 ///bbClock_waitTick() sends a bbClock_message and waits for the response
-typedef struct bbClock_message
+typedef struct bbClock2_message
 {
     bbClock2_message_type message_type;
     U64 server_tick;
@@ -71,7 +72,7 @@ bbFlag bbClock2_handle_init(bbClock2* clock,
                             U8 update_when_paused);
 
 
-bbFlag bbClock2_waitTick(bbClock2* clock, bbClock2_handle* handle, U64 until_tick);
+bbFlag bbClock2_waitTick(bbClock2* clock, bbClock2_handle* handle, U64 until_map_tick);
 
 
 #endif// BB_CLOCK2_H

@@ -8,6 +8,7 @@
 #include "engine/logic/bbFlag.h"
 #include "engine/logic/bbHandle.h"
 #include "engine/network/bbNetworkTime.h"
+#include "engine/network/bbNetworkTime_pause.h"
 
 #define PACKETTYPE_STRING            0
 #define PACKETTYPE_TIMESTAMP         1
@@ -15,11 +16,13 @@
 #define PACKETTYPE_SETGOALPOINT      3
 #define PACKETTYPE_UNFREEZEBUTTON    4
 #define PACKETTYPE_NETCODEBUTTON     5
+#define PACKETTYPE_PAUSE             6
 
 
 typedef union
 {
     bbNetwork_timestamp timestamp;
+    bbNetwork_pauseMessage pause;
     char str[64];
     bbMapCoords map_coords;
 } bbNetworkPacket_data;

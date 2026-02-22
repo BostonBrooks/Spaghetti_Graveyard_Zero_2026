@@ -15,6 +15,12 @@ thread_local char* thread;
 U64 test_time = 0;
 
 int main(void){
+
+    //Use the tick values at the time the server was paused or unpaused as a reference
+    U64 reference_server_tick = 0;
+    U64 reference_map_tick = 0;
+    bool is_paused = true;
+
     printf("Hello, server!\n");
 
     sfIpAddress localAddress;

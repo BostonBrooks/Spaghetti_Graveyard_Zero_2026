@@ -29,6 +29,9 @@ int main(void)
     printf("Hello, World!\n");
 
     home.clock.clock_running = false;
+    home.clock2.is_paused = true;
+    home.clock2.is_running = false;
+    home.UI.clock2_handle.clock_thread_index = 255;
 
     bbCore_init(&home.core.core);
 
@@ -50,40 +53,6 @@ int main(void)
     while (1)
     {
 
-/* bbActions demoed in bbTest_core.c
-        U32 random = core_time + 60 + rand() % 160;
-        char key[KEY_LENGTH];
-        sprintf(key, "%d", random);
-
-        bbAction_printString(&home.core.core,
-                            0,
-                            collision++,
-                            0,
-                            random,
-                            key);
-
-        random = core_time + 60 + rand() % 160;
-        sprintf(key, "%d", random);
-
-        bbAction_printString(&home.core.core,
-                            0,
-                            collision++,
-                            0,
-                            random,
-                            key);
-
-        random = core_time + 60 + rand() % 160;
-        sprintf(key, "%d", random);
-
-        bbAction_printString(&home.core.core,
-                            0,
-                            collision++,
-                            0,
-                            random,
-                            key);
-*/
-
-
         if (home.network.send_ready && home.network.receive_ready)
         {
             bbNetworkTime_ping(&home.network);
@@ -95,6 +64,7 @@ int main(void)
         {
             once = true;
             bbClock_init(&home.clock, home.network_time);
+            bbClock2_init(&home.clock2, home.network_time);
         }
 
         if (home.clock.clock_running == true)
@@ -247,6 +217,7 @@ void* userinterface_thread(void* arg)
     while (1)
     {
         test_time = cl.GUI_time++;
+        cl.map_time++;
         home.UI.UI_time = cl.map_time;
         bbInput_poll(&input, window);
 
@@ -259,17 +230,19 @@ void* userinterface_thread(void* arg)
         bbMouse_Draw(&mouse,&home.UI.widgets, &home.UI.graphics, window);
         sfRenderWindow_display(window);
 
-        if (network_time->timeCalibrated == true)
-        {
-            if (clock_index == 255)
+        if (home.clock2.is_running){
+            if (home.UI.clock2_handle.clock_thread_index == 255)
             {
-                bbClock_getOutboxIndex(&home.clock, &clock_index);
-                sfRenderWindow_setFramerateLimit(window, 0);
-                U64 time;
-                bbClock_getTick(&home.clock, &time);
-                cl.map_time = time;
+                bbClock2_handle_init(&home.clock2, &home.UI.clock2_handle, 1);
             }
-            bbClock_waitTick(&home.clock,  ++(cl.map_time), clock_index);
+            bbClock2_waitTick(&home.clock2,&home.UI.clock2_handle,home.UI.clock2_handle.map_tick+1);
+
+            bbDebug("bbClock2_handle: server tick = %llu, map_tick = %llu, index = %d, paused = %d\n",
+                home.UI.clock2_handle.server_tick,
+                home.UI.clock2_handle.map_tick,
+                home.UI.clock2_handle.clock_thread_index,
+                home.UI.clock2_handle.clock_paused);
+
         }
 
 
