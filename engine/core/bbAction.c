@@ -110,7 +110,8 @@ bbFlag bbActions_reactOnce(void* Core, U64 tick_time)
         //in the following line
 
 
-        bbCore_rewindUntilTime(core,action->act_tick-1);
+        bbCore_rewindUntilTime(core,action->act_tick);
+        return bbContinue;
     }
     bbList_popL(&core->action_queue,(void**)&action);
 
@@ -176,7 +177,7 @@ I32 bbAction_compare (void* A, void* B)
     if (a->player < b->player) return 1;
     if (a->player > b->player) return 0;
 
-    bbAssert(0==1, "bbAction_compare has a collision\n");
+    bbNotHere()
 
     return -1;
 }

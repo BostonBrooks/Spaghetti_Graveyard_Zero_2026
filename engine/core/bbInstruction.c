@@ -148,7 +148,6 @@ bbFlag bbInstruction_unsetQuote_fn(bbCore* core, bbInstruction* instruction)
 bbFlag bbInstruction_setTime_fn(bbCore* core, bbInstruction* instruction)
 {
 
-
     bbInstruction* undo_instruction;
     bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
     undo_instruction->type = bbInstruction_unsetTime;
@@ -156,12 +155,9 @@ bbFlag bbInstruction_setTime_fn(bbCore* core, bbInstruction* instruction)
     undo_instruction->source = instruction->source;
 
 
-    //printf("Old Time: %llu, New Time: %llu\n",
-    //    core->simulation_time,
-     //   instruction->data.integer.integer);
-
     core->simulation_time = instruction->data.integer.integer;
 
+    printf("                                         +time = %lu\n", core->simulation_time);
     if (instruction->source == bbInstructionSource_internal)
     {
         bbVPool_free(core->instruction_pool, (void*)instruction);
@@ -183,19 +179,15 @@ bbFlag bbInstruction_setTime_fn(bbCore* core, bbInstruction* instruction)
         bbList_pushL(&core->undo_stack,(void*)undo_instruction);
         return bbSuccess;
     }
-    bbAssert(0==1, "We should not get here\n");
+    bbNotHere()
 
 
 }
 bbFlag bbInstruction_unsetTime_fn(bbCore* core, bbInstruction* instruction)
 {
-    //printf("Unset Time: %llu, From: %llu\n",
-    //    instruction->data.integer.integer,
-    //    core->simulation_time);
-
-
     core->simulation_time = instruction->data.integer.integer;
 
+    printf("                                         -time = %lu\n", core->simulation_time);
     if (instruction->source == bbInstructionSource_internal)
     {
         bbVPool_free(core->instruction_pool, (void*)instruction);
@@ -218,7 +210,7 @@ bbFlag bbInstruction_unsetTime_fn(bbCore* core, bbInstruction* instruction)
         bbVPool_free(core->instruction_pool, (void*)instruction);
         return bbSuccess;
     }
-    bbAssert(0==1, "We should not get here\n");
+    bbNotHere()
 
 }
 

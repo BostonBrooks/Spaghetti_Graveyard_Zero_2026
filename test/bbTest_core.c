@@ -35,7 +35,7 @@ int main (void)
 
     char key[KEY_LENGTH];
 
-    for (I32 i = 0; i < 6;i++)
+    for (I32 i = 0; i < 7;i++)
     {
         bbCoreInput_setTime(&home.core.core, i, bbInstructionSource_input, no_handle);
         bbCore_react(&home.core.core);
@@ -59,7 +59,7 @@ int main (void)
 
 
     bbPrintf("Add more actions:\n");
-    sprintf(key, "~(%d)",4);
+    sprintf(key, "(%d.1)",4);
     printf( "new action: ~(%d)\n",4);
 
     bbAction_setQuote(&home.core.core,
@@ -69,17 +69,14 @@ int main (void)
                         4,
                         key);
 
-    bbCoreInput_checkActions(&home.core.core,10,bbInstructionSource_input, no_handle);
-    bbCore_react(&home.core.core);
-
-    sprintf(key, "~(%d)",3);
-    printf( "new action: ~(%d)\n",3);
+    sprintf(key, "(%d.1)",5);
+    printf( "new action: ~(%d)\n",5);
 
     bbAction_setQuote(&home.core.core,
                         0,
                         collision++,
                         0,
-                        3,
+                        5,
                         key);
 
 
@@ -94,6 +91,16 @@ int main (void)
                         collision++,
                         0,
                         2,
+                        key);
+
+    sprintf(key, "~(%d)",1);
+    printf( "new action: ~(%d)\n",1);
+
+    bbAction_setQuote(&home.core.core,
+                        0,
+                        collision++,
+                        0,
+                        1,
                         key);
 
 
