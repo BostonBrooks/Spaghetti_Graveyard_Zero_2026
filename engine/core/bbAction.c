@@ -111,7 +111,7 @@ bbFlag bbActions_reactOnce(void* Core, U64 tick_time)
 
 
         bbCore_rewindUntilTime(core,action->act_tick);
-        return bbContinue;
+
     }
     bbList_popL(&core->action_queue,(void**)&action);
 

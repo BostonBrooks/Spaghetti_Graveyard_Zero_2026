@@ -35,7 +35,7 @@ int main (void)
 
     char key[KEY_LENGTH];
 
-    for (I32 i = 0; i < 7;i++)
+    for (I32 i = 0; i < 9;i++)
     {
         bbCoreInput_setTime(&home.core.core, i, bbInstructionSource_input, no_handle);
         bbCore_react(&home.core.core);
@@ -59,18 +59,8 @@ int main (void)
 
 
     bbPrintf("Add more actions:\n");
-    sprintf(key, "(%d.1)",4);
-    printf( "new action: ~(%d)\n",4);
-
-    bbAction_setQuote(&home.core.core,
-                        0,
-                        collision++,
-                        0,
-                        4,
-                        key);
-
     sprintf(key, "(%d.1)",5);
-    printf( "new action: ~(%d)\n",5);
+    printf( "new action: (%d.1)\n",5);
 
     bbAction_setQuote(&home.core.core,
                         0,
@@ -79,12 +69,32 @@ int main (void)
                         5,
                         key);
 
+    sprintf(key, "(%d.1)",4);
+    printf( "new action: (%d.1)\n",4);
+
+    bbAction_setQuote(&home.core.core,
+                        0,
+                        collision++,
+                        0,
+                        4,
+                        key);
+
 
     bbCoreInput_checkActions(&home.core.core,10,bbInstructionSource_input, no_handle);
     bbCore_react(&home.core.core);
 
-    sprintf(key, "~(%d)",2);
-    printf( "new action: ~(%d)\n",2);
+    sprintf(key, "(%d.1)",3);
+    printf( "new action: (%d.1)\n",3);
+
+    bbAction_setQuote(&home.core.core,
+                        0,
+                        collision++,
+                        0,
+                        3,
+                        key);
+
+    sprintf(key, "(%d.1)",2);
+    printf( "new action: (%d.1)\n",2);
 
     bbAction_setQuote(&home.core.core,
                         0,
@@ -93,19 +103,10 @@ int main (void)
                         2,
                         key);
 
-    sprintf(key, "~(%d)",1);
-    printf( "new action: ~(%d)\n",1);
-
-    bbAction_setQuote(&home.core.core,
-                        0,
-                        collision++,
-                        0,
-                        1,
-                        key);
-
 
     bbCoreInput_checkActions(&home.core.core,10,bbInstructionSource_input, no_handle);
     bbCore_react(&home.core.core);
+
 
 
 }

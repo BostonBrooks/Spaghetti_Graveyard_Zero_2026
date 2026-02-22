@@ -222,7 +222,6 @@ bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
     bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
     undo_instruction->type = bbInstruction_uncheckActions;
     undo_instruction->source = instruction->source;
-
     bbActions_react(&home.core.core, instruction->data.integer.integer);
 
     if (instruction->source == bbInstructionSource_internal)
