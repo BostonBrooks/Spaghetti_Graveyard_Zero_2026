@@ -15,6 +15,9 @@ U64 test_time = 0;
 bbHome home;
 bbHandle no_handle = {0};
 
+//TODO rewind core until just after time was set to action.act_tick
+//Look for bbInstruction_unsetTime
+//with instruction->data.integer.integer == i;
 
 int main (void)
 {
