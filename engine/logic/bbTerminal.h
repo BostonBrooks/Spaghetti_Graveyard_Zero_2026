@@ -18,6 +18,13 @@ extern U64 test_time;
 #define bbHere() printf ("In FILE: %s, FUNCTION: %s, LINE: %d, THREAD: %s, TIME: %lu\n",\
 __FILE_NAME__, __func__, __LINE__, thread, test_time);
 
+#define bbNotHere() {\
+printf ("In FILE: %s, FUNCTION: %s, LINE: %d, THREAD: %s, TIME: %lu\n"\
+"BB_NOT_HERE\n",\
+__FILE_NAME__, __func__, __LINE__, thread, test_time);\
+int x = 1/0;\
+}
+
 /// Print warning and exit, but preserve the stack for gdb
 #define bbAssert(expression, ...)\
 {\
