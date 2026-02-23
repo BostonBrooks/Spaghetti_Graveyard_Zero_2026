@@ -12,6 +12,7 @@
 #include "engine/logic/bbFlag.h"
 #include "engine/graphics/bbGraphicsApp.h"
 #include "engine/data/bbHome.h"
+#include "engine/graphics/bbColours.h"
 #include "engine/interthread/bbClock.h"
 #include "engine/userinterface/bbInput.h"
 #include "engine/userinterface/bbMouse.h"
@@ -240,7 +241,7 @@ void* userinterface_thread(void* arg)
         bbMouse_Update(&mouse, &home.UI.widgets, &home.UI.graphics);
 
         bbUI_Inbox_check(&home.UI.inbox);
-        sfRenderWindow_clear(window, sfMagenta);
+        sfRenderWindow_clear(window, bbLight);
         bbWidgets_draw(&home.UI.widgets, &cl);
         bbMouse_Draw(&mouse,&home.UI.widgets, &home.UI.graphics, window);
         sfRenderWindow_display(window);

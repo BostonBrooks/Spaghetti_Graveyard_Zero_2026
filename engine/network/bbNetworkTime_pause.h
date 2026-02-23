@@ -14,8 +14,23 @@ typedef struct
 
 #endif // BBNETWORKTIMEPAUSEMESSAGE
 
+
+
 #ifndef BBNETWORKTIME_PAUSE_H
 #define BBNETWORKTIME_PAUSE_H
+
+#include <SFML/System.h>
+
+#include "bbNetwork.h"
+#include "bbNetworkPacket.h"
+#include "engine/logic/bbFlag.h"
+#include "engine/logic/bbVPool.h"
+#include "engine/logic/bbList.h"
+#include "engine/threadsafe/bbThreadedQueue.h"
+#include "engine/network/bbNetworkPacket.h"
+#include "engine/network/bbNetwork.h"
+
+
 
 
 #endif

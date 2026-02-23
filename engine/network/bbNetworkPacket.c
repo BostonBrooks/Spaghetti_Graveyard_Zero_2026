@@ -57,6 +57,19 @@ bbFlag bbNetworkPacket_toStruct (sfPacket* packet, void* Struct)
     case PACKETTYPE_NETCODEBUTTON:
             sfPacket_readString(packet, struct1->data.str);
         break;
+    case PACKETTYPE_PAUSE:
+
+        U64 server_tick_lower = sfPacket_readUint32(packet);
+        U64 server_tick_upper = sfPacket_readUint32(packet);
+        U64 map_tick_lower = sfPacket_readUint32(packet);
+        U64 map_tick_upper = sfPacket_readUint32(packet);
+
+
+        struct1->data.pause.reference_server_tick = server_tick_upper * 0x100000000 + server_tick_lower;
+        struct1->data.pause.reference_map_tick = map_tick_upper * 0x100000000 + map_tick_lower;
+       struct1->data.pause.is_paused = sfPacket_readBool(packet);
+
+        break;
     }
     return bbSuccess;
 }
@@ -114,6 +127,22 @@ bbFlag bbNetworkPacket_fromStruct (sfPacket* packet, void* Struct)
     case PACKETTYPE_NETCODEBUTTON:
 
         sfPacket_writeString(packet, struct1->data.str);
+
+        break;
+    case PACKETTYPE_PAUSE:
+
+        U64 server_tick_lower = struct1->data.pause.reference_server_tick & 0xFFFFFFFF;
+        U64 server_tick_upper = struct1->data.pause.reference_server_tick / 0x100000000;
+        U64 map_tick_lower = struct1->data.pause.reference_map_tick & 0xFFFFFFFF;
+        U64 map_tick_upper = struct1->data.pause.reference_map_tick / 0x100000000;
+
+        sfPacket_writeUint32(packet, (U32)server_tick_lower);
+        sfPacket_writeUint32(packet, (U32)server_tick_upper);
+        sfPacket_writeUint32(packet, (U32)map_tick_lower);
+        sfPacket_writeUint32(packet, (U32)map_tick_upper);
+        sfPacket_writeBool(packet, struct1->data.pause.is_paused);
+
+        break;
     }
     return bbSuccess;
 }
