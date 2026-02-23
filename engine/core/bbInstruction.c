@@ -222,13 +222,15 @@ bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
     bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
     undo_instruction->type = bbInstruction_uncheckActions;
     undo_instruction->source = instruction->source;
-    bbActions_react(&home.core.core, instruction->data.integer.integer);
+    undo_instruction->data.integer.integer = instruction->data.integer.integer;
+    //bbActions_react(&home.core.core, instruction->data.integer.integer);
 
     if (instruction->source == bbInstructionSource_internal)
     {
         bbVPool_free(core->instruction_pool, (void*)instruction);
         undo_instruction->redo_instruction.u64 = 0;
         bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+    bbActions_react(&home.core.core, instruction->data.integer.integer);
         return bbSuccess;
     }
     if (instruction->source == bbInstructionSource_input)
@@ -237,12 +239,14 @@ bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
         bbVPool_reverseLookup(core->instruction_pool, instruction, &handle);
         undo_instruction->redo_instruction = handle;
         bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+    bbActions_react(&home.core.core, instruction->data.integer.integer);
         return bbSuccess;
     }
     if (instruction->source == bbInstructionSource_action)
     {
         undo_instruction->redo_instruction = instruction->redo_instruction;
         bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+    bbActions_react(&home.core.core, instruction->data.integer.integer);
         return bbSuccess;
     }
     bbAssert(0==1, "We should not get here\n");

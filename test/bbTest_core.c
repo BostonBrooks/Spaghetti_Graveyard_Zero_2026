@@ -69,14 +69,14 @@ int main (void)
                         5,
                         key);
 
-    sprintf(key, "(%d.1)",4);
-    printf( "new action: (%d.1)\n",4);
+    sprintf(key, "(%d.2)",5);
+    printf( "new action: (%d.2)\n",5);
 
     bbAction_setQuote(&home.core.core,
                         0,
                         collision++,
                         0,
-                        4,
+                        5,
                         key);
 
 
@@ -93,14 +93,14 @@ int main (void)
                         3,
                         key);
 
-    sprintf(key, "(%d.1)",2);
-    printf( "new action: (%d.1)\n",2);
+    sprintf(key, "(%d.2)",3);
+    printf( "new action: (%d.1)\n",3);
 
     bbAction_setQuote(&home.core.core,
                         0,
                         collision++,
                         0,
-                        2,
+                        3,
                         key);
 
 

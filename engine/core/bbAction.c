@@ -99,7 +99,7 @@ bbFlag bbActions_reactOnce(void* Core, U64 tick_time)
     bbFlag flag = bbList_peakL(&core->action_queue,(void**)&action);
     if (flag == bbNone) return bbBreak;
     if (action->act_tick > tick_time) return bbBreak;
-    if (action->act_tick < tick_time)
+    if (action->act_tick <= tick_time)
     {
         //TODO What if an action comes in that is supposed to execute on this tick
         //but before the action that just took place?
@@ -130,9 +130,9 @@ bbFlag bbActions_reactOnce(void* Core, U64 tick_time)
     if (action->type == bbActionType_setQuote)
     {
         bbCoreInput_setQuote(core,action->key,bbInstructionSource_action,handle);
-        bbNotHere()
+        //bbNotHere()
         //TODO TODO TODO why does commenting the following line help?
-        //bbCore_react(core);
+        bbCore_react(core);
         return bbSuccess;
     }
 

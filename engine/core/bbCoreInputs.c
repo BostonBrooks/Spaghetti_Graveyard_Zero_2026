@@ -132,6 +132,7 @@ bbFlag bbCoreInput_checkActions(bbCore* core, U64 time, bbInstruction_source sou
     instruction->type = bbInstruction_checkActions;
     instruction->source = source;
     instruction->redo_instruction = action;
+    instruction->data.integer.integer = time;
 
     bbList_pushL(&core->do_stack, instruction);
     return bbSuccess;
