@@ -58,7 +58,7 @@ bbFlag bbNetworkPacket_toStruct (sfPacket* packet, void* Struct)
             sfPacket_readString(packet, struct1->data.str);
         break;
     case PACKETTYPE_PAUSE:
-
+bbHere()
         U64 server_tick_lower = sfPacket_readUint32(packet);
         U64 server_tick_upper = sfPacket_readUint32(packet);
         U64 map_tick_lower = sfPacket_readUint32(packet);
@@ -130,7 +130,7 @@ bbFlag bbNetworkPacket_fromStruct (sfPacket* packet, void* Struct)
 
         break;
     case PACKETTYPE_PAUSE:
-
+bbHere()
         U64 server_tick_lower = struct1->data.pause.reference_server_tick & 0xFFFFFFFF;
         U64 server_tick_upper = struct1->data.pause.reference_server_tick / 0x100000000;
         U64 map_tick_lower = struct1->data.pause.reference_map_tick & 0xFFFFFFFF;

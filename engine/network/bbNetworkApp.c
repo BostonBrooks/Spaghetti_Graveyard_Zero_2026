@@ -165,6 +165,14 @@ bbFlag bbNetworkApp_checkInbox(bbNetwork* network)
                             packet->act_tick,
                             packet->data.str);
         }
+
+        if (packet->type == PACKETTYPE_PAUSE)
+        {
+            bbClock2_setPause(&home.clock2,
+                              packet->data.pause.reference_server_tick,
+                              packet->data.pause.reference_map_tick,
+                              packet->data.pause.is_paused);
+        }
         bbThreadedQueue_free(&network->inbox, (void**)&packet);
     }
 }
@@ -229,9 +237,12 @@ bbFlag bbNetworkApp_netsendButton(bbNetwork* network, char* key){
 bbFlag bbNetworkApp_netpauseButton(bbNetwork* network, char* key){
     bbNetworkPacket* packet;
     bbThreadedQueue_alloc(&network->outbox, (void**)&packet);
-    packet->type = PACKETTYPE_UNFREEZEBUTTON;
+    packet->type = PACKETTYPE_PAUSE;
 
-    bbStr_setStr(packet->data.str, key, 64);
+    packet->data.pause.is_paused = !home.core.clock2_handle.clock_paused;
+    packet->data.pause.reference_server_tick = home.core.clock2_handle.server_tick;
+    packet->data.pause.reference_map_tick = home.core.clock2_handle.map_tick;
+
     bbThreadedQueue_pushL(&network->outbox,packet);
 
     return bbSuccess;
