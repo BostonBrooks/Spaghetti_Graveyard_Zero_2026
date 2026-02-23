@@ -64,13 +64,26 @@ bbFlag bbCoreInput_unfreezeButton2(bbCore* core, char* string, bool is_input)
 
 }
 
-
 bbFlag bbCoreInput_netsendButton(bbCore* core, char* string)
 {
     bbInstruction* instruction;
     bbList_alloc(&core->do_stack, (void**) &instruction);
 
     instruction->type = bbInstruction_netsendButton;
+    bbStr_setStr(instruction->data.string.string, string, KEY_LENGTH);
+
+    bbList_pushL(&core->do_stack, instruction);
+
+    return bbSuccess;
+}
+
+
+bbFlag bbCoreInput_netpauseButton(bbCore* core, char* string)
+{
+    bbInstruction* instruction;
+    bbList_alloc(&core->do_stack, (void**) &instruction);
+
+    instruction->type = bbInstruction_netpauseButton;
     bbStr_setStr(instruction->data.string.string, string, KEY_LENGTH);
 
     bbList_pushL(&core->do_stack, instruction);

@@ -58,6 +58,11 @@ bbFlag bbCore_react(bbCore* core)
             bbInstruction_netsendButton_fn(core, instruction);
             break;
 
+        case bbInstruction_netpauseButton:
+
+            bbInstruction_netpauseButton_fn(core, instruction);
+            break;
+
 
 
         case bbInstruction_netcodeButton:

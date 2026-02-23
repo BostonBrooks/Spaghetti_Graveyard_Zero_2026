@@ -51,6 +51,12 @@ bbFlag bbInstruction_netsendButton_fn(bbCore* core, bbInstruction* instruction)
     return bbSuccess;
 }
 
+bbFlag bbInstruction_netpauseButton_fn(bbCore* core, bbInstruction* instruction)
+{
+    bbNetworkApp_netpauseButton(&home.network, instruction->data.string.string);
+    return bbSuccess;
+}
+
 
 bbFlag bbInstruction_netcodeButton_fn(bbCore* core, bbInstruction* instruction)
 {

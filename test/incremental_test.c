@@ -193,6 +193,13 @@ void* userinterface_thread(void* arg)
                      "PAUSE",
                      (bbScreenPoints){12*SCREEN_PPP,122*SCREEN_PPP});
 
+    bbWidget_constructor(NULL,
+                     &home.UI.widgets,
+                     "NETPAUSE_BUTTON",
+                     "LAYOUT",
+                     "NETPAUSE",
+                     (bbScreenPoints){12*SCREEN_PPP,144*SCREEN_PPP});
+
 
     bbWidget_constructor(NULL,
                          &home.UI.widgets,

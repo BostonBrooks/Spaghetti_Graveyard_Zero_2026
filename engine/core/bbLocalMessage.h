@@ -13,7 +13,8 @@ typedef enum
     bbLocalMessage_netsendButton,
     bbLocalMessage_actionUnfreeze,
     bbLocalMessage_actionLoop,
-    bbLocalMessage_netcodeButton
+    bbLocalMessage_netcodeButton,
+    bbLocalMessage_netpauseButton
 } bbLocalMessage_type;
 
 typedef struct
