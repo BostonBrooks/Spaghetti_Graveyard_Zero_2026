@@ -66,7 +66,7 @@ bbFlag bbLocalMessage_ActionLoop(bbCore* core, char* key)
     bbThreadedQueue_alloc(&core->local_message_queue, (void** ) &message);
     message->type = bbLocalMessage_actionLoop;
     bbStr_setStr(message->data.string.string, key, KEY_LENGTH);
-    message->act_time = home.UI.UI_time + 60;
+    message->act_time = home.core.core.actual_time + 60;
     bbThreadedQueue_pushL(&core->local_message_queue, message);
     return bbSuccess;
 }
@@ -78,7 +78,7 @@ bbFlag bbLocalMessage_NetcodeButton(bbCore* core, char* key)
     bbThreadedQueue_alloc(&core->local_message_queue, (void** ) &message);
     message->type = bbLocalMessage_netcodeButton;
     bbStr_setStr(message->data.string.string, key, KEY_LENGTH);
-    message->act_time = home.UI.UI_time + 60;
+    message->act_time = home.core.core.actual_time + 60;
     bbThreadedQueue_pushL(&core->local_message_queue, message);
     return bbSuccess;
 

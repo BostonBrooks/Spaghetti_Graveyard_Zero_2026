@@ -23,6 +23,7 @@ typedef struct
     bbCore core;
     char quote[KEY_LENGTH];
     I64 test_int;
+    bbClock2_handle clock2_handle;
 } bbHome_core;
 
 typedef struct

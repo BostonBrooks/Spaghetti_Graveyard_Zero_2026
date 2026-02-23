@@ -75,9 +75,12 @@ int main(void)
                 U64 time;
                 bbClock_getTick(&home.clock, &time);
                 core_time = time;
+                bbClock2_handle_init(&home.clock2, &home.core.clock2_handle, 3);
             }
             core_time += 3;
-            bbClock_waitTick(&home.clock,  core_time, clock_index);
+            //bbClock_waitTick(&home.clock,  core_time, clock_index);
+            bbClock2_waitTick(&home.clock2,&home.core.clock2_handle,home.core.clock2_handle.map_tick+3);
+
         } else
         {
 
@@ -223,9 +226,7 @@ void* userinterface_thread(void* arg)
     U8 clock_index = 255;
     while (1)
     {
-        test_time = cl.GUI_time++;
-        cl.map_time++;
-        home.UI.UI_time = cl.map_time;
+
         bbInput_poll(&input, window);
 
         bbMouse_isOver(&mouse, &home.UI.widgets);
@@ -243,8 +244,8 @@ void* userinterface_thread(void* arg)
                 bbClock2_handle_init(&home.clock2, &home.UI.clock2_handle, 1);
             }
             bbClock2_waitTick(&home.clock2,&home.UI.clock2_handle,home.UI.clock2_handle.map_tick+1);
-
-
+            cl.map_time = home.UI.clock2_handle.map_tick;
+            cl.GUI_time = home.UI.clock2_handle.server_tick;
         }
 
 
