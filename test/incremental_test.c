@@ -29,7 +29,7 @@ int main(void)
     thread = "MAIN";
     printf("Hello, World!\n");
 
-    home.clock.clock_running = false;
+    //home.clock.clock_running = false;
     home.clock2.is_paused = true;
     home.clock2.is_running = false;
     home.UI.clock2_handle.clock_thread_index = 255;
@@ -46,9 +46,9 @@ int main(void)
     bbNetworkApp_connect(&home.network, address, port);
     home.network_time = (bbNetworkTime*)home.network.extra_data;
 
-    U64 core_time = 0;
+    //U64 core_time = 0;
     U32 collision = 0;
-    U8 clock_index = 255;
+    bool clock_handle_init = false;
     bool once2 = false;
     bool once = false;
     while (1)
@@ -64,31 +64,34 @@ int main(void)
         if (home.network_time->timeCalibrated && once == false)
         {
             once = true;
-            bbClock_init(&home.clock, home.network_time);
+            //bbClock_init(&home.clock, home.network_time);
             bbClock2_init(&home.clock2, home.network_time);
         }
 
-        if (home.clock.clock_running == true && home.clock2.is_running == true)
+        //if (home.clock.clock_running == true && home.clock2.is_running == true)
+        if ( home.clock2.is_running == true)
         {
-            if (clock_index == 255)
+            if (clock_handle_init == false)
             {
-                bbClock_getOutboxIndex(&home.clock, &clock_index);
-                U64 time;
-                bbClock_getTick(&home.clock, &time);
-                core_time = time;
+                //bbClock_getOutboxIndex(&home.clock, &clock_index);
+                //U64 time;
+                //bbClock_getTick(&home.clock, &time);
+                //core_time = time;
                 bbClock2_handle_init(&home.clock2, &home.core.clock2_handle, 3);
+                clock_handle_init = true;
+                //core_time = home.clock2.map_tick;
             }
-            core_time += 3;
+            //core_time += 3;
             //bbClock_waitTick(&home.clock,  core_time, clock_index);
             bbClock2_waitTick(&home.clock2,&home.core.clock2_handle,home.core.clock2_handle.map_tick+3);
 
         } else
         {
 
-            core_time += 3;
+            //core_time += 3;
         }
-        home.core.core.simulation_time = core_time;
-        home.core.core.actual_time = core_time;
+        home.core.core.simulation_time = home.core.clock2_handle.map_tick;
+        home.core.core.actual_time = home.core.clock2_handle.map_tick;
 
 
         bbCore_checkLocalMessages(&home.core.core);
@@ -97,11 +100,19 @@ int main(void)
                  bbNetworkApp_checkInbox(&home.network);
 
         bbHandle no_handle = {0};
-        bbCoreInput_checkActions(&home.core.core, core_time, bbInstructionSource_input, no_handle );
+
+
+        if (home.core.clock2_handle.clock_paused == false)
+        {
+            bbCoreInput_checkActions(&home.core.core,
+                home.core.clock2_handle.map_tick,
+                bbInstructionSource_input, no_handle );
+        }
+
         bbCore_react(&home.core.core);
         //bbActions_react(&home.core.core, core_time);
 
-        if (clock_index == 255) sfSleep(sfSeconds(1.f/60.f));
+        if (clock_handle_init == false) sfSleep(sfSeconds(1.f/60.f));
     }
 
     bbFlag flag = bbSuccess;
