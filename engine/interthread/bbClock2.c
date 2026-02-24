@@ -146,6 +146,7 @@ bbFlag bbClock2_init(bbClock2* clock, bbNetworkTime* network_time)
     return bbSuccess;
 }
 
+//TODO not threadsafe, test and set clock->connections[i].in_use or use mutex
 bbFlag bbClock2_handle_init(bbClock2* clock,
                             bbClock2_handle* handle,
                             U8 update_when_paused)
