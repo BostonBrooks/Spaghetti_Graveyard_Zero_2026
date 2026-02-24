@@ -68,7 +68,7 @@ int main(void)
             bbClock2_init(&home.clock2, home.network_time);
         }
 
-        if (home.clock.clock_running == true)
+        if (home.clock.clock_running == true && home.clock2.is_running == true)
         {
             if (clock_index == 255)
             {
