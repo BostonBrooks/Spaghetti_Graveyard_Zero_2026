@@ -1,5 +1,6 @@
 #include <stddef.h>
 #include "engine/core/bbCore.h"
+#include "engine/core/bbAction2.h"
 #include "engine/core/bbInstruction.h"
 #include "engine/logic/bbBloatedPool.h"
 #include "engine/threadsafe/bbThreadedPool.h"
@@ -22,6 +23,9 @@ bbFlag bbCore_init(bbCore* core)
 
     bbVPool_newBloated(&core->action_pool,sizeof(bbAction),100,1000);
     bbList_init(&core->action_queue, core->action_pool, NULL, offsetof(bbAction, list_element),bbAction_compare);
+
+    bbVPool_newBloated(&core->action2_pool,sizeof(bbAction2),100,1000);
+    bbList_init(&core->action2_queue, core->action2_pool, NULL, offsetof(bbAction2, header.list_element),bbAction_compare);
     return bbSuccess;
 }
 
@@ -96,6 +100,9 @@ bbFlag bbCore_react(bbCore* core)
             bbInstruction_checkActions_fn(core, instruction);
             break;
 
+        case bbInstruction_checkActions2:
+            bbInstruction_checkActions2_fn(core, instruction);
+            break;
 
 
         case bbInstruction_loopAction:
@@ -152,6 +159,11 @@ bbFlag bbCore_rewind(bbCore* core)
             bbInstruction_uncheckActions_fn(core, instruction);
             break;
 
+        case bbInstruction_uncheckActions2:
+            bbHere()
+            bbInstruction_uncheckActions2_fn(core, instruction);
+            break;
+
         default:
             bbDebug("Unknown undo instruction type");
         }
@@ -199,6 +211,11 @@ bbFlag bbCore_rewindUntilTime(bbCore* core, U64 time)
 
         case bbInstruction_uncheckActions:
             bbInstruction_uncheckActions_fn(core, instruction);
+            break;
+
+        case bbInstruction_uncheckActions2:
+            bbHere()
+            bbInstruction_uncheckActions2_fn(core, instruction);
             break;
 
         default:

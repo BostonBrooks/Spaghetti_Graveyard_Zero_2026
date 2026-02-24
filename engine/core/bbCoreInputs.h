@@ -40,6 +40,7 @@ bbFlag bbCoreInput_setTime(bbCore* core, U64 time, bbInstruction_source source, 
 
 bbFlag bbCoreInput_checkActions(bbCore* core, U64 time, bbInstruction_source source, bbHandle action);
 
+bbFlag bbCoreInput_checkActions2(bbCore* core, U64 time, bbInstruction_source source, bbHandle action);
 
 
 bbFlag bbCoreInput_setTestInt(bbCore* core, U64 time, bbInstruction_source source, bbHandle action);

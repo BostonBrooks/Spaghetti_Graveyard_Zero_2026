@@ -31,6 +31,9 @@ typedef enum
 
     bbInstruction_checkActions,
     bbInstruction_uncheckActions,
+    bbInstruction_checkActions2,
+    bbInstruction_uncheckActions2,
+
 
 
     bbInstruction_setTestInt,
@@ -88,6 +91,9 @@ bbFlag bbInstruction_unsetTime_fn(bbCore* core, bbInstruction* instruction);
 
 bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_uncheckActions_fn(bbCore* core, bbInstruction* instruction);
+
+bbFlag bbInstruction_checkActions2_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbInstruction_uncheckActions2_fn(bbCore* core, bbInstruction* instruction);
 
 
 

@@ -30,4 +30,5 @@ typedef struct
     bbHandle next;
 } bbListElement_Handle;
 
+static const bbHandle no_handle = {0};
 #endif // BB_HANDLE_H
