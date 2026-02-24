@@ -50,6 +50,19 @@ bbFlag bbLocalMessage_actionUnfreeze_fn(bbCore* core, bbLocalMessage* message)
     return bbSuccess;
 }
 
+bbFlag bbLocalMessage_actionLoop_fn(bbCore* core, bbLocalMessage* message)
+{
+
+    bbAction_loop(core,
+                           0,
+                           0,
+                           0,
+                           message->act_time,
+                           message->data.string.string);
+
+    return bbSuccess;
+}
+
 bbFlag bbLocalMessage_netcodeButton_fn(bbCore* core, bbLocalMessage* message)
 {
 
@@ -57,6 +70,13 @@ bbFlag bbLocalMessage_netcodeButton_fn(bbCore* core, bbLocalMessage* message)
 
     bbHandle handle = {0};
     bbCoreInput_netcodeButton(core,message->data.string.string, message->act_time,bbInstructionSource_input,handle);
+
+    return bbSuccess;
+}
+
+bbFlag bbLocalMessage_netpauseButton_fn(bbCore* core, bbLocalMessage* message)
+{
+    bbCoreInput_netpauseButton(core,message->data.string.string);
 
     return bbSuccess;
 }
@@ -102,9 +122,19 @@ bbFlag bbCore_checkLocalMessages(bbCore* core)
             break;
 
 
+        case bbLocalMessage_actionLoop:
+            bbLocalMessage_actionLoop_fn(core, message);
+            bbCore_react(core);
+            break;
 
         case bbLocalMessage_netcodeButton:
             bbLocalMessage_netcodeButton_fn(core, message);
+            bbCore_react(core);
+            break;
+
+
+        case bbLocalMessage_netpauseButton:
+            bbLocalMessage_netpauseButton_fn(core, message);
             bbCore_react(core);
             break;
             default:

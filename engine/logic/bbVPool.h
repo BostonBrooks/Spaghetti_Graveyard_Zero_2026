@@ -6,6 +6,7 @@
 
 #include <stdlib.h>
 
+#include "engine/logic/bbTerminal.h"
 #include "engine/logic/bbFlag.h"
 #include "engine/logic/bbHandle.h"
 
@@ -49,6 +50,8 @@ static bbFlag bbVPool_clear(bbVPool* pool)
 
 static bbFlag bbVPool_allocImpl(bbVPool* pool, void** address, char* file, int line)
 {
+    bbAssert(pool!=0x0, "passing null argument\n");
+
     return pool->alloc_impl(pool->pool, address, file, line);
 }
 static bbFlag bbVPool_free(bbVPool* pool, void* address)

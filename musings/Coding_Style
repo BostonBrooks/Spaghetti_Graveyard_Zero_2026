@@ -7,7 +7,7 @@ component names with the prefix "sf" I will start component names with the prefi
 components . The system that bbAnimation components belong to is simply called
 bbAnimations.
 
-A function that acts on a component (analogous member function in C++) will
+A function that acts on a component (analogous member function in C++) will be
 called the name of the component type, followed by an underscore, followed by a
 verb in lower case, optionally followed by a noun in title case.
 

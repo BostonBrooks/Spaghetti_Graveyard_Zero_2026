@@ -70,6 +70,27 @@ bbFlag bbAction_unfreezeButton(void* Core,
     return bbSuccess;
 }
 
+bbFlag bbAction_loop(void* Core,
+                            U32 player,
+                            U32 collision,
+                            U64 created_tick,
+                            U64 act_tick,
+                            char* key)
+{
+    bbCore* core = (bbCore*)Core;
+    bbAction* action;
+    bbList_alloc(&core->action_queue,(void**)&action);
+    action->type = bbActionType_loop;
+    action->player = player;
+    action->collision = collision;
+    action->created_tick = created_tick;
+    action->act_tick = act_tick;
+    bbStr_setStr(action->key, key, KEY_LENGTH);
+    bbList_sortL(&core->action_queue,(void*)action);
+
+    return bbSuccess;
+}
+
 
 bbFlag bbActions_reactOnce(void* Core, U64 tick_time)
 {
@@ -78,7 +99,7 @@ bbFlag bbActions_reactOnce(void* Core, U64 tick_time)
     bbFlag flag = bbList_peakL(&core->action_queue,(void**)&action);
     if (flag == bbNone) return bbBreak;
     if (action->act_tick > tick_time) return bbBreak;
-    if (action->act_tick < tick_time)
+    if (action->act_tick <= tick_time)
     {
         //TODO What if an action comes in that is supposed to execute on this tick
         //but before the action that just took place?
@@ -89,7 +110,8 @@ bbFlag bbActions_reactOnce(void* Core, U64 tick_time)
         //in the following line
 
 
-        bbCore_rewindUntilTime(core,action->act_tick-1);
+        bbCore_rewindUntilTime(core,action->act_tick);
+
     }
     bbList_popL(&core->action_queue,(void**)&action);
 
@@ -108,6 +130,8 @@ bbFlag bbActions_reactOnce(void* Core, U64 tick_time)
     if (action->type == bbActionType_setQuote)
     {
         bbCoreInput_setQuote(core,action->key,bbInstructionSource_action,handle);
+        //bbNotHere()
+        //TODO TODO TODO why does commenting the following line help?
         bbCore_react(core);
         return bbSuccess;
     }
@@ -115,6 +139,13 @@ bbFlag bbActions_reactOnce(void* Core, U64 tick_time)
     if (action->type == bbActionType_unfreezeButton)
     {
         bbCoreInput_unfreezeButton2(core, action->key, false);
+        bbCore_react(core);
+        return bbSuccess;
+    }
+
+    if (action->type == bbActionType_loop)
+    {
+        bbCoreInput_loop(core,action->key,action->act_tick,bbInstructionSource_action,handle);
         bbCore_react(core);
         return bbSuccess;
     }
@@ -148,7 +179,7 @@ I32 bbAction_compare (void* A, void* B)
     if (a->player < b->player) return 1;
     if (a->player > b->player) return 0;
 
-    bbAssert(0==1, "bbAction_compare has a collision\n");
+    bbNotHere()
 
     return -1;
 }

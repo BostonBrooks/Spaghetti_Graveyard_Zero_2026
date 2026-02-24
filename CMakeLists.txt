@@ -39,6 +39,7 @@ add_executable(Spaghetti_Graveyard_Zero_2026 test/incremental_test.c
         engine/network/bbNetworkPacket.c
         engine/network/bbNetworkTime.c
         engine/interthread/bbClock.c
+        engine/interthread/bbClock2.c
         engine/core/bbCore.c
         engine/core/bbInstruction.c
         engine/core/bbCoreInputs.c
@@ -129,6 +130,7 @@ add_executable(test_core test/bbTest_core.c
         engine/network/bbNetworkPacket.c
         engine/network/bbNetworkTime.c
         engine/interthread/bbClock.c
+        engine/interthread/bbClock2.c
         engine/core/bbCore.c
         engine/core/bbInstruction.c
         engine/core/bbCoreInputs.c

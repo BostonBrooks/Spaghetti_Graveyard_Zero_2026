@@ -15,3 +15,6 @@ bbFlag bbLocalMessage_UnfreezeButton2(bbCore* core,char* key);
 bbFlag bbLocalMessage_ActionUnfreeze(bbCore* core, char* key);
 
 bbFlag bbLocalMessage_NetcodeButton(bbCore* core, char* key);
+bbFlag bbLocalMessage_ActionLoop(bbCore* core, char* key);
+
+bbFlag bbLocalMessage_NetpauseButton(bbCore* core, char* key);

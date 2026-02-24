@@ -1,2 +1,0 @@
-instructions can call other instructions by calling functions in bbCoreInputs.h
-with source = bbInstructionSource_internal

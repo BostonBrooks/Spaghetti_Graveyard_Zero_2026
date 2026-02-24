@@ -1,4 +1,4 @@
-Number of Textures:,33,,,,
+Number of Textures:,34,,,,
 Label:,Integer Address:,File:,Smooth:,Comment:,
 NULL,0,./graphics/NULL.png,F,Exception,
 LAYOUT_480,1,./graphics/Layout_480.png,F,The root of the widget tree,
@@ -33,3 +33,4 @@ SKELETON,29,./graphics/Flare_RPG/skeleton.png,T, a skeleton
 ZOMBIE,30,./graphics/Flare_RPG/zombie.png,T, a zombie
 CLOCK,31,./graphics/Clockface.png,T, a clock hand
 BUTTERFLIES,32,./graphics/Butterflies.png,T, some butterflies
+REDCLOCK,33,./graphics/Clockface_red.png,T, a red clock hand

@@ -28,6 +28,7 @@ extern sfColor bbBlue;
 extern sfColor bbViolet;
 extern sfColor bbPurple;
 extern sfColor bbMagenta;
+extern sfColor bbBeige;
 
 extern sfColor bbWhite;
 extern sfColor bbLight;

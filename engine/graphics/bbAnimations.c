@@ -76,3 +76,23 @@ I32 bbAnimations_new(bbAnimations** self, bbSprites* Sprites, bbDrawfunctions* d
     // bbDictionary_print(animations->dictionary);
 	return bbSuccess;
 }
+
+int bbAnimations_lookupInt(bbAnimations* animations, char* key){
+
+	I32 len = strlen(key);
+	char digits[] = "0123456789";
+	I32 int_len = strspn(key, digits);
+	I32 address1;
+	if(len == int_len){
+		address1 = atoi(key);
+
+	} else {
+		bbHandle handle;
+		bbDictionary_lookup(animations->dictionary, key, &handle);
+		address1 = handle.u64;
+	}
+	bbAssert(address1 < animations->num_animations,
+			 "address (%d) out of bounds (%d)\n", animations->num_animations);
+
+	return address1;
+}

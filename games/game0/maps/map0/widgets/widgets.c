@@ -8,6 +8,9 @@
 #include "games/game0/maps/map0/widgets/netsend_button.h"
 #include "games/game0/maps/map0/widgets/action_button.h"
 #include "games/game0/maps/map0/widgets/netcode_button.h"
+#include "games/game0/maps/map0/widgets/netpause_button.h"
+#include "games/game0/maps/map0/widgets/loop_button.h"
+#include "games/game0/maps/map0/widgets/pause_button.h"
 #include "games/game0/maps/map0/widgets/composition.h"
 
 
@@ -139,11 +142,24 @@ bbFlag bbWidget_Constructor_Clock(bbWidget** self,
     widget->frames[0].drawfunction = drawfunctionHandle.u64;
 
     bbDictionary_lookup(graphics->animations->dictionary,
-                        "CLOCK", &widget->frames[0].handle);
+                        "REDCLOCK", &widget->frames[0].handle);
 
     //bbDebug("LAYOUT_480 = %d\n", widget->frames[0].handle.u64);
     widget->frames[0].offset.x = 0;
     widget->frames[0].offset.y = 0;
+
+    bbDictionary_lookup(graphics->drawfunctions->dictionary,
+                 "WIDGET_SERVERTIME_ANIMATION",
+                 &drawfunctionHandle);
+
+    widget->frames[1].drawfunction = drawfunctionHandle.u64;
+
+    bbDictionary_lookup(graphics->animations->dictionary,
+                        "CLOCK", &widget->frames[1].handle);
+
+    //bbDebug("LAYOUT_480 = %d\n", widget->frames[0].handle.u64);
+    widget->frames[1].offset.x = 0;
+    widget->frames[1].offset.y = 0;
 
     bbHandle handle;
     bbVPool_reverseLookup(widgets->pool, widget, &handle);
@@ -211,6 +227,21 @@ bbFlag bbWidgetFunctions_populate(bbWidgetFunctions* self)
         WidgetConstructor,
         bbWidget_Constructor_NetcodeButton,
         "NETCODE");
+
+    bbWidgetFunctions_add(self,
+        WidgetConstructor,
+        bbWidget_Constructor_LoopButton,
+        "LOOP_BUTTON");
+
+    bbWidgetFunctions_add(self,
+        WidgetConstructor,
+        bbWidget_Constructor_PauseButton,
+        "PAUSE_BUTTON");
+
+    bbWidgetFunctions_add(self,
+        WidgetConstructor,
+        bbWidget_Constructor_NetpauseButton,
+        "NETPAUSE_BUTTON");
 
 
 

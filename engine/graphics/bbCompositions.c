@@ -62,6 +62,7 @@ I32 bbCompositions_new(bbCompositions** self,
 		float framerate;
 
 		bbHandle handle, handle2;
+		I32 sprite_int;
 
 		for(I32 j = 0; j < num_frames; j++) {
 			fscanf(file, "%[^,],%[^,],%[^,],%d,%d,%d,%f%*[^\n]\n",
@@ -70,18 +71,18 @@ I32 bbCompositions_new(bbCompositions** self,
 			if (strcmp(type, "SPRITE") == 0) {
 				//look up asset in sprites
 				bbDictionary_lookup(sprites->dictionary, asset, &handle);
-				composition->frame[j].handle = handle;
+				bbSprites_lookupInt(sprites, &sprite_int,  asset);
+				composition->frame[j].handle.u64 = sprite_int;
 				composition->frame[j].type = Sprite;
 
 			} else if (strcmp(type, "ANIMATION") == 0) {
 				//look up asset in animations
 				bbDictionary_lookup(animations->dictionary, asset, &handle);
-				composition->frame[j].handle = handle;
+				composition->frame[j].handle.u64 = bbAnimations_lookupInt(animations, asset);
 				composition->frame[j].type = Animation;
 
 			} else if (strcmp(type, "COMPOSITION") == 0) {
-				//look up asset in compositions
-				bbDictionary_lookup(compositions->dictionary, asset, &handle);
+				composition->frame[j].handle.u64 = bbCompositions_lookupInt(compositions, asset);
 				composition->frame[j].handle = handle;
 				composition->frame[j].type = Composition;
 			} else {
@@ -89,7 +90,6 @@ I32 bbCompositions_new(bbCompositions** self,
 			}
 			bbDictionary_lookup(drawfunctions->dictionary, drawfunction, &handle2);
 			composition->frame[j].drawfunction = handle2.u64;
-			//bbDebug("composition drawfunction = %" PRIu64 "\n", handle2.u64);
 			composition->frame[j].start_time = start_time;
 			composition->frame[j].offset.x = offsetX;
 			composition->frame[j].offset.y = offsetY;
@@ -107,4 +107,25 @@ I32 bbCompositions_new(bbCompositions** self,
 
 	*self = compositions;
 	return bbSuccess;
+}
+
+I32 bbCompositions_lookupInt(bbCompositions* compositions, char* key)
+{
+
+	I32 len = strlen(key);
+	char digits[] = "0123456789";
+	I32 int_len = strspn(key, digits);
+	I32 address1;
+	if(len == int_len){
+		address1 = atoi(key);
+
+	} else {
+		bbHandle handle;
+		bbDictionary_lookup(compositions->dictionary, key, &handle);
+		address1 = handle.u64;
+	}
+	bbAssert(address1 < compositions->num,
+			 "address (%d) out of bounds (%d)\n", compositions->num);
+
+	return address1;
 }

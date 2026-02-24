@@ -20,6 +20,7 @@ bbFlag bbNetworkApp_checkInbox(bbNetwork* network);
 bbFlag bbNetworkApp_sendGoalpoint(void* Network, bbMapCoords* coords);
 
 bbFlag bbNetworkApp_netsendButton(bbNetwork* network, char* key);
+bbFlag bbNetworkApp_netpauseButton(bbNetwork* network, char* key);
 
 bbFlag bbNetworkApp_netcodeButton(bbNetwork* network, char* key, U64 time);
 #endif // BBNWETWORKAPP_H

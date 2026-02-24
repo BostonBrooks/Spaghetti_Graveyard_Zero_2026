@@ -11,6 +11,9 @@
 #include "games/game0/maps/map0/mouse/action_button.h"
 #include "games/game0/maps/map0/mouse/netsend_button.h"
 #include "games/game0/maps/map0/mouse/netcode_button.h"
+#include "games/game0/maps/map0/mouse/loop_button.h"
+#include "games/game0/maps/map0/mouse/pause_button.h"
+#include "games/game0/maps/map0/mouse/netpause_button.h"
 
 //mouse hovers over widget, uses pointer defined by widget
 bbFlag IsOver_Hover(bbMouse* mouse, bbWidgets* widgets, bbWidget* widget)
@@ -62,6 +65,9 @@ bbFlag bbMouseFunctions_populate(bbMouseFunctions* self)
     bbMouseFunctions_add(self, MouseLeftDown,NetsendButton_LeftDown,"NETSEND_BUTTON");
     bbMouseFunctions_add(self, MouseLeftDown,ActionButton_LeftDown,"ACTION_BUTTON");
     bbMouseFunctions_add(self, MouseLeftDown,NetcodeButton_LeftDown,"NETCODE_BUTTON");
+    bbMouseFunctions_add(self, MouseLeftDown,LoopButton_LeftDown,"LOOP_BUTTON");
+    bbMouseFunctions_add(self, MouseLeftDown,PauseButton_LeftDown,"PAUSE_BUTTON");
+    bbMouseFunctions_add(self, MouseLeftDown,NetpauseButton_LeftDown,"NETPAUSE_BUTTON");
 
     return bbSuccess;
 }
