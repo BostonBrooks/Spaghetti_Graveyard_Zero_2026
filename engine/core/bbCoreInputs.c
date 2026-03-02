@@ -17,6 +17,20 @@ bbFlag bbCoreInput_setString(bbCore* core, char* string, bbInstruction_source so
     return bbSuccess;
 }
 
+bbFlag bbCoreInput_unfreezeButton(bbCore* core, char* string, bbInstruction_source source, bbHandle action)
+{
+    bbInstruction* instruction;
+    bbFlag flag = bbList_alloc(&core->do_stack,(void**)&instruction);
+
+    instruction->type = bbInstruction_unfreezeButton;
+    bbStr_setStr(instruction->data.string, string, KEY_LENGTH);
+    instruction->source = source;
+    instruction->redo_instruction = action;
+
+    bbList_pushL(&core->do_stack, instruction);
+    return bbSuccess;
+}
+
 bbFlag bbCoreInput_checkActions(bbCore* core, U64 time, bbInstruction_source source, bbHandle action)
 {
     bbInstruction* instruction;

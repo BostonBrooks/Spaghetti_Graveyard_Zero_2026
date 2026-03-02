@@ -1,112 +1,91 @@
-///This test shows that actions can be performed in order up until the current time.
-///Then, the state can be reversed, and new actions added to the list.
-///After that the new actions can be performed along with the existing actions
-#include<unistd.h>
+#include <stdio.h>
+#include <pthread.h>
 #include "engine/core/bbCore.h"
-
 #include "engine/core/bbCoreInputs.h"
-#include "engine/core/bbLocalMessage.h"
+#include "engine/data/bbConstants.h"
 #include "engine/logic/bbString.h"
+#include "engine/core/bbInstruction.h"
+#include "engine/core/bbAction.h"
+#include "engine/core/bbLocalMessage.h"
 #include "engine/core/bbLocalMessageInputs.h"
-#include "engine/data/bbHome.h"
 
 thread_local char* thread;
-U64 test_time = 0;
-bbHome home;
-bbHandle no_handle = {0};
+char test_string[KEY_LENGTH];
+U64 test_time;
 
-//TODO rewind core until just after time was set to action.act_tick
-//Look for bbInstruction_unsetTime
-//with instruction->data.integer.integer == i;
-
-int main (void)
+int main(void)
 {
+    bbCore core;
 
-    //bbCore core;
-    bbCore_init(&home.core.core);
+    bbCore_init(&core);
 
-    bbStr_putStr(home.core.quote, "Abera Kedabera",KEY_LENGTH);
-    home.core.core.simulation_time = 117;
-    home.core.test_int = 69;
+    bbStr_putStr(test_string, "Abera Kedabera",KEY_LENGTH);
 
     U32 collision = 0;
-    bbPrintf("Play:\n");
+
+    char str[KEY_LENGTH];
 
 
-    char key[KEY_LENGTH];
-
-    for (I32 i = 0; i < 9;i++)
+    //game is running normally
+    for (I32 i = 1; i < 9;i++)
     {
-        bbCoreInput_setTime(&home.core.core, i, bbInstructionSource_input, no_handle);
-        bbCore_react(&home.core.core);
+        bbCoreInput_setTime(&core, i, bbInstructionSource_input, no_handle);
+        bbCore_react(&core);
 
+        sprintf(str, "(%d)", i);
 
-        sprintf(key, " (%d)",i);
+        bbAction_setString(&core,
+                         0,
+                         collision++,
+                         i,
+                         i,
+                         str);
 
-        bbAction_setQuote(&home.core.core,
-                            0,
-                            collision++,
-                            0,
-                            i,
-                            key);
-
-        bbCoreInput_checkActions(&home.core.core,i,bbInstructionSource_input, no_handle);
-        bbCore_react(&home.core.core);
-
-
-
+        bbCoreInput_checkActions(&core,i,bbInstructionSource_input, no_handle);
+        bbCore_react(&core);
     }
 
+    bbLocalMessage_SetString(&core, "\"I made this world for you\"");
+    bbCore_checkLocalMessages(&core);
 
-    bbPrintf("Add more actions:\n");
-    sprintf(key, "(%d.1)",5);
-    printf( "new action: (%d.1)\n",5);
+//Some instructions come in late
+    for (I32 i = 1; i < 8; i++)
+    {
+         sprintf(str, "(%d.1)", i);
 
-    bbAction_setQuote(&home.core.core,
-                        0,
-                        collision++,
-                        0,
-                        5,
-                        key);
+         bbAction_setString(&core,
+                     0,
+                     collision++,
+                     i,
+                     i,
+                     str);
+    }
 
-    sprintf(key, "(%d.2)",5);
-    printf( "new action: (%d.2)\n",5);
+    bbLocalMessage_SetString(&core, "\"The size of a marble\"");
+    bbCore_checkLocalMessages(&core);
 
-    bbAction_setQuote(&home.core.core,
-                        0,
-                        collision++,
-                        0,
-                        5,
-                        key);
+    // Game continues to run normally
+    for (I32 i = 9; i < 12;i++)
+    {
+        bbCoreInput_setTime(&core, i, bbInstructionSource_input, no_handle);
+        bbCore_react(&core);
 
+        sprintf(str, "(%d)", i);
 
-    bbCoreInput_checkActions(&home.core.core,10,bbInstructionSource_input, no_handle);
-    bbCore_react(&home.core.core);
+        bbAction_setString(&core,
+                         0,
+                         collision++,
+                         i,
+                         i,
+                         str);
 
-    sprintf(key, "(%d.1)",3);
-    printf( "new action: (%d.1)\n",3);
+        bbCoreInput_checkActions(&core,i,bbInstructionSource_input, no_handle);
+        bbCore_react(&core);
+    }
 
-    bbAction_setQuote(&home.core.core,
-                        0,
-                        collision++,
-                        0,
-                        3,
-                        key);
-
-    sprintf(key, "(%d.2)",3);
-    printf( "new action: (%d.1)\n",3);
-
-    bbAction_setQuote(&home.core.core,
-                        0,
-                        collision++,
-                        0,
-                        3,
-                        key);
+    bbLocalMessage_SetString(&core, "\"I made this world for you\"");
+    bbCore_checkLocalMessages(&core);
 
 
-    bbCoreInput_checkActions(&home.core.core,10,bbInstructionSource_input, no_handle);
-    bbCore_react(&home.core.core);
-
-
-
+    printf("We made it to the end!\n");
 }

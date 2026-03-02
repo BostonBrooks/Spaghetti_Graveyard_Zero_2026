@@ -95,7 +95,7 @@ target_include_directories(test_sort  PRIVATE "./")
 
 
 
-add_executable(test_core test/bbTest_core.c
+add_executable(test_core
         engine/data/bbIncludes.c
         engine/logic/bbBloatedPool.c
         engine/logic/bbDictionary.c
@@ -149,3 +149,24 @@ target_link_libraries(test_core PRIVATE
         csfml-system
         csfml-network
 )
+
+add_executable(Reactor_Core test/bbTest_core.c
+        engine/logic/bbTree.c
+        engine/logic/bbList_sort.c
+        engine/logic/bbList_iterate.c
+        engine/logic/bbList_getNth.c
+        engine/logic/bbList.c
+        engine/logic/bbDictionary.c
+        engine/logic/bbBloatedPool.c
+        engine/core/bbCore.c
+        engine/core/bbCoreInputs.c
+        engine/core/bbInstruction.c
+        engine/core/bbAction.c
+        engine/threadsafe/bbThreadedPool.c
+        engine/core/bbLocalMessage.c
+        engine/threadsafe/bbThreadedQueue.c
+        engine/threadsafe/bbThreadedQueue_search.c
+        engine/core/bbLocalMessageInputs.c)
+
+
+target_include_directories(Reactor_Core  PRIVATE "./")
