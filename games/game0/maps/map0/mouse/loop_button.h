@@ -10,6 +10,6 @@ bbFlag LoopButton_LeftDown (void* Mouse, void* Widgets, void* Widget, void*
 
     widget->is_frozen = true;
 
-    bbLocalMessage_ActionLoop(&home.core.core,widget->key);
+    //bbLocalMessage_ActionLoop(&home.core.core,widget->key);
     return bbSuccess;
 }

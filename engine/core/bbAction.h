@@ -1,6 +1,6 @@
 #ifndef BB_ACTION_H
 #define BB_ACTION_H
-#include "engine/data/bbData.h"
+#include "engine/data/bbConstants.h"
 #include "engine/logic/bbFlag.h"
 #include "engine/logic/bbHandle.h"
 

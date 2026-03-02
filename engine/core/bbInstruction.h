@@ -2,7 +2,7 @@
 #ifndef BB_INSTRUCTION_H
 #define BB_INSTRUCTION_H
 #include "engine/core/bbCore.h"
-#include "engine/data/bbData.h"
+#include "engine/data/bbConstants.h"
 #include "engine/logic/bbHandle.h"
 
 typedef enum

@@ -151,19 +151,19 @@ bbFlag bbNetworkApp_checkInbox(bbNetwork* network)
 
         if (packet->type == PACKETTYPE_UNFREEZEBUTTON)
         {
-            bbLocalMessage_UnfreezeButton2(&home.core.core,packet->data.str);
+            //bbLocalMessage_UnfreezeButton2(&home.core.core,packet->data.str);
             bbCore_react(&home.core.core);
 
         }
 
         if (packet->type == PACKETTYPE_NETCODEBUTTON)
         {
-            bbAction_unfreezeButton(&home.core.core,
-                            packet->player,
-                            0,
-                            packet->send_tick,
-                            packet->act_tick,
-                            packet->data.str);
+            //bbAction_unfreezeButton(&home.core.core,
+             //               packet->player,
+             //               0,
+              //              packet->send_tick,
+               //             packet->act_tick,
+                //            packet->data.str);
         }
 
         if (packet->type == PACKETTYPE_PAUSE)

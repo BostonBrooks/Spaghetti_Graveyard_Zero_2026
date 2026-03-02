@@ -12,13 +12,13 @@ bbFlag bbInstruction_setString_fn(bbCore* core, bbInstruction* instruction)
     bbInstruction* undo_instruction;
     bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
     undo_instruction->type = bbInstruction_unsetString;
-    bbStr_setStr(undo_instruction->data.string, test_string, KEY_LENGTH);
+    //bbStr_setStr(undo_instruction->data.string, test_string, KEY_LENGTH);
     undo_instruction->source = instruction->source;
 
-    printf("    +old quote: %s, new quote %s, time = %lu\n",test_string,
-        instruction->data.string, core->simulation_time);
+   // printf("    +old quote: %s, new quote %s, time = %lu\n",test_string,
+    //    instruction->data.string, core->simulation_time);
 
-    bbStr_setStr(test_string, instruction->data.string, KEY_LENGTH);
+    //bbStr_setStr(test_string, instruction->data.string, KEY_LENGTH);
 
 
     if (instruction->source == bbInstructionSource_internal)
@@ -49,10 +49,10 @@ bbFlag bbInstruction_setString_fn(bbCore* core, bbInstruction* instruction)
 bbFlag bbInstruction_unsetString_fn(bbCore* core, bbInstruction* instruction)
 {
 
-    printf("-new quote %s, old quote: %s, time = %lu\n",
-        instruction->data.string,test_string, core->simulation_time);
+    //printf("-new quote %s, old quote: %s, time = %lu\n",
+    //    instruction->data.string,test_string, core->simulation_time);
 
-    bbStr_setStr(test_string,instruction->data.string, KEY_LENGTH);
+    //bbStr_setStr(test_string,instruction->data.string, KEY_LENGTH);
 
     if (instruction->source == bbInstructionSource_internal)
     {
