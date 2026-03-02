@@ -1,0 +1,8 @@
+#ifndef BB_LOCAL_MESSAGE_INPUTS_H
+#define BB_LOCAL_MESSAGE_INPUTS_H
+#include "bbCore.h"
+
+
+bbFlag bbLocalMessage_SetString(bbCore* core, char* string);
+
+#endif //BB_LOCAL_MESSAGE_INPUTS_H
