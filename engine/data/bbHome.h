@@ -31,7 +31,7 @@ typedef struct
     bbHome_UI UI;
     bbNetwork network;
     bbNetworkTime* network_time;
-    bbClock clock;
+    //bbClock clock;
     bbClock2 clock2;
     bbHome_core core;
 
