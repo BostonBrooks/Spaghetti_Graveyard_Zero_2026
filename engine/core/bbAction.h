@@ -1,17 +1,17 @@
 #ifndef BB_ACTION_H
 #define BB_ACTION_H
-#include "engine/data/bbConstants.h"
+#include "engine/data/bbData.h"
+#include "engine/logic/bbFlag.h"
 #include "engine/logic/bbHandle.h"
 
+///Different action types do different things
 typedef enum
 {
-    bbActionType_printString,
-    bbActionType_setQuote,
-    bbActionType_unfreezeButton,
-    bbActionType_loop
+    bbActionType_setString,
 } bbAction_type;
 
-typedef  struct
+///Action header used to figure out what order to enact actions
+typedef struct
 {
     bbListElement_Handle list_element;
     U32 player;
@@ -20,42 +20,25 @@ typedef  struct
     U64 created_tick;
     U64 act_tick;
     char key[KEY_LENGTH];
+} bbAction_header;
 
+typedef struct
+{
+    bbAction_header header;
 } bbAction;
 
-
-///return A < B
+///actions are sorted by time in a total-ordering
 I32 bbAction_compare (void* A, void* B);
 
-bbFlag bbAction_printString(void* Core,
+///Create action to be executed at a given time
+bbFlag bbAction_setString(void* Core,
                             U32 player,
                             U32 collision,
                             U64 created_tick,
                             U64 act_tick,
                             char* key);
 
-bbFlag bbAction_setQuote(void* Core,
-                            U32 player,
-                            U32 collision,
-                            U64 created_tick,
-                            U64 act_tick,
-                            char* key);
-
-bbFlag bbAction_unfreezeButton(void* Core,
-                            U32 player,
-                            U32 collision,
-                            U64 created_tick,
-                            U64 act_tick,
-                            char* key);
+bbFlag bbAction_update(void* core);
 
 
-bbFlag bbAction_loop(void* Core,
-                            U32 player,
-                            U32 collision,
-                            U64 created_tick,
-                            U64 act_tick,
-                            char* key);
-
-
-bbFlag bbActions_react(void* core, U64 tick_time);
-#endif // BB_ACTION_H
+#endif //BB_ACTION_H
