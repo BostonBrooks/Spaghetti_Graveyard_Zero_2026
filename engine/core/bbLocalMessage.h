@@ -5,7 +5,8 @@
 typedef enum
 {
     bbLocalMessage_setString,
-    bbLocalMessage_unfreezeButton
+    bbLocalMessage_unfreezeButton,
+    bbLocalMessage_actionUnfreeze
 } bbLocalMessage_type;
 
 typedef struct
@@ -21,4 +22,6 @@ bbFlag bbCore_checkLocalMessages(bbCore* core);
 
 bbFlag bbLocalMessage_setString_fn(bbCore* core, bbLocalMessage* message);
 
+
+bbFlag bbLocalMessage_actionUnfreeze_fn(bbCore* core, bbLocalMessage* message);
 #endif // BB_LOCAL_MESSAGE_H

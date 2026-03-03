@@ -4,7 +4,9 @@
 
 #include "bbAction.h"
 #include "bbCoreInputs.h"
+#include "engine/data/bbHome.h"
 #include "engine/logic/bbString.h"
+#include "engine/userinterface/bbUI_Inbox.h"
 extern char test_string[KEY_LENGTH];
 
 bbFlag bbInstruction_setString_fn(bbCore* core, bbInstruction* instruction)
@@ -86,9 +88,13 @@ bbFlag bbInstruction_unfreezeButton_fn(bbCore* core, bbInstruction* instruction)
 
 bbDebug("unfreeze button %s\n", instruction->data.string);
 
+    bbUI_Inbox_UnpressButton2(&home.UI.inbox, instruction->data.string);
+
+    return bbSuccess;
+    /* No need to undo this action?
     bbInstruction* undo_instruction;
     bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
-    undo_instruction->type = bbInstruction_unsetString;
+    //undo_instruction->type = bbInstruction_unsetString;
     //bbStr_setStr(undo_instruction->data.string, test_string, KEY_LENGTH);
     undo_instruction->source = instruction->source;
 
@@ -120,7 +126,7 @@ bbDebug("unfreeze button %s\n", instruction->data.string);
         return bbSuccess;
     }
     bbNotHere()
-
+*/
 }
 
 bbFlag bbInstruction_setTime_fn(bbCore* core, bbInstruction* instruction)
@@ -253,6 +259,14 @@ bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
     if (action->header.type == bbActionType_setString)
     {
         bbCoreInput_setString(core,action->header.key,bbInstructionSource_action,handle);
+        bbCore_react(core);
+
+    }
+
+    if (action->header.type == bbActionType_unfreezeButton)
+    {
+        bbDebug("unfreeze button %s\n", action->header.key);
+        bbCoreInput_unfreezeButton(core, action->header.key, bbInstructionSource_action,handle);
         bbCore_react(core);
 
     }

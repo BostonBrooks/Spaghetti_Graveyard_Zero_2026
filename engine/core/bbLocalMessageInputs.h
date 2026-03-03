@@ -6,4 +6,6 @@
 bbFlag bbLocalMessage_SetString(bbCore* core, char* string);
 
 bbFlag bbLocalMessage_UnfreezeButton(bbCore* core, char* string);
+
+bbFlag bbLocalMessage_ActionUnfreeze(bbCore* core, char* string);
 #endif //BB_LOCAL_MESSAGE_INPUTS_H

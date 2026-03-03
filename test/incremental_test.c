@@ -23,6 +23,8 @@ bbHome home;
 
 U64 test_time = 0;
 
+char test_string[KEY_LENGTH];
+
 void* userinterface_thread(void* arg);
 int main(void)
 {
