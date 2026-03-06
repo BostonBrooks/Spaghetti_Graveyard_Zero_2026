@@ -11,5 +11,7 @@ bbFlag bbCoreInput_checkActions(bbCore* core, U64 time, bbInstruction_source sou
 bbFlag bbCoreInput_setTime(bbCore* core, U64 time, bbInstruction_source source, bbHandle action);
 bbFlag bbCoreInput_unfreezeButton(bbCore* core, char* string, bbInstruction_source source, bbHandle action);
 
+bbFlag bbCoreInput_netsendButton(bbCore* core,char* string);
+
 
 #endif //BB_CORE_INPUTS

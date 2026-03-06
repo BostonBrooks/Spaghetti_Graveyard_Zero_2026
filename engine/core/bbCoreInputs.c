@@ -59,3 +59,16 @@ bbFlag bbCoreInput_setTime(bbCore* core, U64 time, bbInstruction_source source, 
     bbList_pushL(&core->do_stack, instruction);
     return bbSuccess;
 }
+
+bbFlag bbCoreInput_netsendButton(bbCore* core, char* string)
+{
+    bbInstruction* instruction;
+    bbList_alloc(&core->do_stack, (void**) &instruction);
+
+    instruction->type = bbInstruction_netsendButton;
+    bbStr_setStr(instruction->data.string, string, KEY_LENGTH);
+
+    bbList_pushL(&core->do_stack, instruction);
+
+    return bbSuccess;
+}

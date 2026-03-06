@@ -6,7 +6,8 @@ typedef enum
 {
     bbLocalMessage_setString,
     bbLocalMessage_unfreezeButton,
-    bbLocalMessage_actionUnfreeze
+    bbLocalMessage_actionUnfreeze,
+    bbLocalMessage_netsendButton
 } bbLocalMessage_type;
 
 typedef struct

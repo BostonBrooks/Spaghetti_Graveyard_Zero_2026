@@ -6,8 +6,15 @@
 #include "bbCoreInputs.h"
 #include "engine/data/bbHome.h"
 #include "engine/logic/bbString.h"
+#include "engine/network/bbNetworkApp.h"
 #include "engine/userinterface/bbUI_Inbox.h"
 extern char test_string[KEY_LENGTH];
+
+bbFlag bbInstruction_netsendButton_fn(bbCore* core, bbInstruction* instruction)
+{
+    bbNetworkApp_netsendButton(&home.network, instruction->data.string);
+    return bbSuccess;
+}
 
 bbFlag bbInstruction_setString_fn(bbCore* core, bbInstruction* instruction)
 {

@@ -34,6 +34,13 @@ bbFlag bbLocalMessage_actionUnfreeze_fn(bbCore* core, bbLocalMessage* message)
     return bbSuccess;
 }
 
+bbFlag bbLocalMessage_netsendButton_fn(bbCore* core, bbLocalMessage* message)
+{
+    bbCoreInput_netsendButton(core,message->data.string);
+
+    return bbSuccess;
+}
+
 bbFlag bbCore_checkLocalMessages(bbCore* core)
 {
     bbLocalMessage* message;
@@ -61,6 +68,11 @@ bbFlag bbCore_checkLocalMessages(bbCore* core)
 
         case bbLocalMessage_actionUnfreeze:
             bbLocalMessage_actionUnfreeze_fn(core, message);
+            bbCore_react(core);
+            break;
+
+        case bbLocalMessage_netsendButton:
+            bbLocalMessage_netsendButton_fn(core, message);
             bbCore_react(core);
             break;
         default:

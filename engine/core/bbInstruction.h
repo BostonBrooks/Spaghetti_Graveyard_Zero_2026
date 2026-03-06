@@ -17,7 +17,8 @@ typedef enum
     bbInstruction_setTime,
     bbInstruction_unsetTime,
 
-    bbInstruction_unfreezeButton
+    bbInstruction_unfreezeButton,
+    bbInstruction_netsendButton
 } bbInstruction_type;
 
 
@@ -61,5 +62,6 @@ bbFlag bbInstruction_unsetTime_fn(bbCore* core, bbInstruction* instruction);
 
 
 bbFlag bbInstruction_unfreezeButton_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbInstruction_netsendButton_fn(bbCore* core, bbInstruction* instruction);
 
 #endif //BB_INSTRUCTION_H

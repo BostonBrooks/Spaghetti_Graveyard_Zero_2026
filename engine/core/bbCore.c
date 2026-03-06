@@ -59,8 +59,13 @@ bbFlag bbCore_react(bbCore* core)
             bbInstruction_checkActions_fn(core, instruction);
             break;
 
+        case bbInstruction_netsendButton:
+            bbInstruction_netsendButton_fn(core, instruction);
+            break;
+
+
         default:
-            bbDebug("Unknown instruction type");
+            bbDebug("Unknown instruction type: %d\n", instruction->type);
         }
 
     }

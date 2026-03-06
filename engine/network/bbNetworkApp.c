@@ -151,7 +151,7 @@ bbFlag bbNetworkApp_checkInbox(bbNetwork* network)
 
         if (packet->type == PACKETTYPE_UNFREEZEBUTTON)
         {
-            //bbLocalMessage_UnfreezeButton2(&home.core.core,packet->data.str);
+            bbLocalMessage_UnfreezeButton(&home.core.core,packet->data.str);
             bbCore_react(&home.core.core);
 
         }
