@@ -93,7 +93,7 @@ int main(void)
             //core_time += 3;
         }
         //home.core.core.simulation_time = home.core.clock2_handle.map_tick;
-        //home.core.core.actual_time = home.core.clock2_handle.map_tick;
+        home.core.core.actual_time = home.core.clock2_handle.map_tick;
 
         bbCoreInput_setTime(&home.core.core,  home.core.clock2_handle.map_tick, bbInstructionSource_input, no_handle);
         bbCore_react(&home.core.core);

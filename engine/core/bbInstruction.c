@@ -29,7 +29,7 @@ bbFlag bbInstruction_loopAction_fn(bbCore* core, bbInstruction* instruction)
                   0,
                   rand(),
                   0,
-                  instruction->act_time + 12,
+                  instruction->act_time + 1,
                   instruction->data.string);
     return bbSuccess;
 

@@ -5,6 +5,7 @@
 
 bbFlag bbCoreInput_setString(bbCore* core, char* string, bbInstruction_source source, bbHandle action)
 {
+
     bbInstruction* instruction;
     bbFlag flag = bbList_alloc(&core->do_stack,(void**)&instruction);
 
