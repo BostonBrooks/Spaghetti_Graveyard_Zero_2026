@@ -8,7 +8,8 @@
 typedef enum
 {
     bbActionType_setString,
-    bbActionType_unfreezeButton
+    bbActionType_unfreezeButton,
+    bbActionType_loop
 } bbAction_type;
 
 ///Action header used to figure out what order to enact actions
@@ -55,6 +56,13 @@ bbFlag bbAction_unfreezeButton(void* Core,
                             char* key);
 
 bbFlag bbAction_update(void* core);
+
+bbFlag bbAction_loop(void* Core,
+                            U32 player,
+                            U32 collision,
+                            U64 created_tick,
+                            U64 act_tick,
+                            char* key);
 
 
 #endif //BB_ACTION_H

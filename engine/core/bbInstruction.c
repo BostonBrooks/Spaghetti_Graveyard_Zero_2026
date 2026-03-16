@@ -21,6 +21,20 @@ bbFlag bbInstruction_netcodeButton_fn(bbCore* core, bbInstruction* instruction)
     bbNetworkApp_netcodeButton(&home.network, instruction->data.string, instruction->act_time);
     return bbSuccess;
 }
+
+bbFlag bbInstruction_loopAction_fn(bbCore* core, bbInstruction* instruction)
+{
+    bbDebug("Loop instruction at time = %lu, actual time = %lu\n", instruction->act_time, core->actual_time);
+    bbAction_loop(core,
+                  0,
+                  rand(),
+                  0,
+                  instruction->act_time + 1,
+                  instruction->data.string);
+    return bbSuccess;
+
+}
+
 bbFlag bbInstruction_setString_fn(bbCore* core, bbInstruction* instruction)
 {
 
@@ -279,6 +293,14 @@ bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
     {
         bbDebug("unfreeze button %s\n", action->header.key);
         bbCoreInput_unfreezeButton(core, action->header.key, bbInstructionSource_action,handle);
+        bbCore_react(core);
+
+    }
+
+    if (action->header.type == bbActionType_loop)
+    {
+        bbDebug("6 hz loop\n");
+        bbCoreInput_loop(core,action->header.key,action->header.act_tick,bbInstructionSource_action,handle);
         bbCore_react(core);
 
     }

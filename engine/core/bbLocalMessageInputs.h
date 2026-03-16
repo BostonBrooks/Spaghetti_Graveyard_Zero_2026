@@ -13,4 +13,7 @@ bbFlag bbLocalMessage_NetsendButton(bbCore* core, char* key);
 
 
 bbFlag bbLocalMessage_NetcodeButton(bbCore* core, char* key);
+
+
+bbFlag bbLocalMessage_ActionLoop(bbCore* core, char* key);
 #endif //BB_LOCAL_MESSAGE_INPUTS_H

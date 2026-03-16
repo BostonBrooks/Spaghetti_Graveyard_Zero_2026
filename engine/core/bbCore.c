@@ -2,6 +2,7 @@
 #include <stddef.h>
 #include "engine/core/bbCore.h"
 
+#include "bbInstruction.h"
 #include "engine/core/bbLocalMessage.h"
 #include "engine/core/bbInstruction.h"
 #include "engine/core/bbAction.h"
@@ -65,6 +66,11 @@ bbFlag bbCore_react(bbCore* core)
         case bbInstruction_netcodeButton:
 
             bbInstruction_netcodeButton_fn(core, instruction);
+            break;
+
+        case bbInstruction_loopAction:
+
+            bbInstruction_loopAction_fn(core, instruction);
             break;
 
         default:

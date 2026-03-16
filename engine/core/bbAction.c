@@ -48,6 +48,27 @@ bbFlag bbAction_unfreezeButton(void* Core,
     return bbSuccess;
 }
 
+bbFlag bbAction_loop(void* Core,
+                            U32 player,
+                            U32 collision,
+                            U64 created_tick,
+                            U64 act_tick,
+                            char* key)
+{
+    bbCore* core = (bbCore*)Core;
+    bbAction* action;
+    bbList_alloc(&core->action_queue,(void**)&action);
+    action->header.type = bbActionType_loop;
+    action->header.player = player;
+    action->header.collision = collision;
+    action->header.created_tick = created_tick;
+    action->header.act_tick = act_tick;
+    bbStr_setStr(action->header.key, key, KEY_LENGTH);
+    bbList_sortL(&core->action_queue,(void*)action);
+
+    return bbSuccess;
+}
+
 I32 bbAction_compare (void* A, void* B)
 {
     bbAction_header* a = (bbAction_header*)A;

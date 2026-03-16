@@ -57,3 +57,14 @@ bbFlag bbLocalMessage_NetcodeButton(bbCore* core, char* key)
     return bbSuccess;
 
 }
+
+bbFlag bbLocalMessage_ActionLoop(bbCore* core, char* key)
+{
+    bbLocalMessage* message;
+    bbThreadedQueue_alloc(&core->local_message_queue, (void** ) &message);
+    message->type = bbLocalMessage_actionLoop;
+    bbStr_setStr(message->data.string, key, KEY_LENGTH);
+    message->act_time = home.core.core.actual_time;
+    bbThreadedQueue_pushL(&core->local_message_queue, message);
+    return bbSuccess;
+}

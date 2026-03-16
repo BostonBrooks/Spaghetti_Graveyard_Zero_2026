@@ -51,6 +51,19 @@ bbFlag bbLocalMessage_netcodeButton_fn(bbCore* core, bbLocalMessage* message)
     return bbSuccess;
 }
 
+bbFlag bbLocalMessage_actionLoop_fn(bbCore* core, bbLocalMessage* message)
+{
+
+    bbAction_loop(core,
+                           0,
+                           rand(),
+                           0,
+                           message->act_time,
+                           message->data.string);
+
+    return bbSuccess;
+}
+
 bbFlag bbCore_checkLocalMessages(bbCore* core)
 {
     bbLocalMessage* message;
@@ -89,6 +102,15 @@ bbFlag bbCore_checkLocalMessages(bbCore* core)
             bbLocalMessage_netcodeButton_fn(core, message);
             bbCore_react(core);
             break;
+
+
+
+        case bbLocalMessage_actionLoop:
+            bbLocalMessage_actionLoop_fn(core, message);
+            bbCore_react(core);
+            break;
+
+
         default:
 
             bbDebug("Unknown local message type\n");
