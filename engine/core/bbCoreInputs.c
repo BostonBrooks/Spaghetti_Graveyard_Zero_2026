@@ -72,3 +72,18 @@ bbFlag bbCoreInput_netsendButton(bbCore* core, char* string)
 
     return bbSuccess;
 }
+
+bbFlag bbCoreInput_netcodeButton(bbCore* core, char* string, U64 time,
+                                  bbInstruction_source source, bbHandle action)
+{
+    bbInstruction* instruction;
+    bbList_alloc(&core->do_stack, (void**) &instruction);
+
+
+    instruction->type = bbInstruction_netcodeButton;
+    bbStr_setStr(instruction->data.string, string, KEY_LENGTH);
+    instruction->act_time = time;
+    bbList_pushL(&core->do_stack, instruction);
+
+    return bbSuccess;
+}

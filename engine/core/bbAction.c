@@ -33,6 +33,7 @@ bbFlag bbAction_unfreezeButton(void* Core,
                             U64 act_tick,
                             char* key)
 {
+    bbDebug("Action unfreeze button: %s\n", key);
     bbCore* core = (bbCore*)Core;
     bbAction* action;
     bbList_alloc(&core->action_queue,(void**)&action);

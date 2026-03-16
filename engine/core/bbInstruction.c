@@ -16,6 +16,11 @@ bbFlag bbInstruction_netsendButton_fn(bbCore* core, bbInstruction* instruction)
     return bbSuccess;
 }
 
+bbFlag bbInstruction_netcodeButton_fn(bbCore* core, bbInstruction* instruction)
+{
+    bbNetworkApp_netcodeButton(&home.network, instruction->data.string, instruction->act_time);
+    return bbSuccess;
+}
 bbFlag bbInstruction_setString_fn(bbCore* core, bbInstruction* instruction)
 {
 

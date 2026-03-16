@@ -41,6 +41,16 @@ bbFlag bbLocalMessage_netsendButton_fn(bbCore* core, bbLocalMessage* message)
     return bbSuccess;
 }
 
+bbFlag bbLocalMessage_netcodeButton_fn(bbCore* core, bbLocalMessage* message)
+{
+
+
+    bbHandle handle = {0};
+    bbCoreInput_netcodeButton(core,message->data.string, message->act_time,bbInstructionSource_input,handle);
+
+    return bbSuccess;
+}
+
 bbFlag bbCore_checkLocalMessages(bbCore* core)
 {
     bbLocalMessage* message;
@@ -74,10 +84,14 @@ bbFlag bbCore_checkLocalMessages(bbCore* core)
         case bbLocalMessage_netsendButton:
             bbLocalMessage_netsendButton_fn(core, message);
             bbCore_react(core);
+
+        case bbLocalMessage_netcodeButton:
+            bbLocalMessage_netcodeButton_fn(core, message);
+            bbCore_react(core);
             break;
         default:
 
-            bbDebug("Unknown local message type");
+            bbDebug("Unknown local message type\n");
         }
     }
 }

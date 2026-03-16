@@ -62,7 +62,10 @@ bbFlag bbCore_react(bbCore* core)
         case bbInstruction_netsendButton:
             bbInstruction_netsendButton_fn(core, instruction);
             break;
+        case bbInstruction_netcodeButton:
 
+            bbInstruction_netcodeButton_fn(core, instruction);
+            break;
 
         default:
             bbDebug("Unknown instruction type: %d\n", instruction->type);

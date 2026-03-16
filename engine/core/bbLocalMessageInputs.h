@@ -10,4 +10,7 @@ bbFlag bbLocalMessage_UnfreezeButton(bbCore* core, char* string);
 bbFlag bbLocalMessage_ActionUnfreeze(bbCore* core, char* string);
 
 bbFlag bbLocalMessage_NetsendButton(bbCore* core, char* key);
+
+
+bbFlag bbLocalMessage_NetcodeButton(bbCore* core, char* key);
 #endif //BB_LOCAL_MESSAGE_INPUTS_H

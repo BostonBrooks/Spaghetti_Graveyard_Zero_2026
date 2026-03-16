@@ -13,5 +13,6 @@ bbFlag bbCoreInput_unfreezeButton(bbCore* core, char* string, bbInstruction_sour
 
 bbFlag bbCoreInput_netsendButton(bbCore* core,char* string);
 
-
+bbFlag bbCoreInput_netcodeButton(bbCore* core, char* string, U64 time,
+                                  bbInstruction_source source, bbHandle action);
 #endif //BB_CORE_INPUTS

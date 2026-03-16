@@ -7,13 +7,15 @@ typedef enum
     bbLocalMessage_setString,
     bbLocalMessage_unfreezeButton,
     bbLocalMessage_actionUnfreeze,
-    bbLocalMessage_netsendButton
+    bbLocalMessage_netsendButton,
+    bbLocalMessage_netcodeButton
 } bbLocalMessage_type;
 
 typedef struct
 {
     bbLocalMessage_type type;
     bbInstruction_data data;
+    U64 act_time;
     bbListElement_Handle list_element;
 } bbLocalMessage;
 
@@ -25,4 +27,5 @@ bbFlag bbLocalMessage_setString_fn(bbCore* core, bbLocalMessage* message);
 
 
 bbFlag bbLocalMessage_actionUnfreeze_fn(bbCore* core, bbLocalMessage* message);
+bbFlag bbLocalMessage_netcodeButton_fn(bbCore* core, bbLocalMessage* message);
 #endif // BB_LOCAL_MESSAGE_H

@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "engine/core/bbAction.h"
 #include "engine/core/bbLocalMessageInputs.h"
 #include "engine/data/bbHome.h"
 #include "engine/logic/bbDictionary.h"
@@ -158,12 +159,13 @@ bbFlag bbNetworkApp_checkInbox(bbNetwork* network)
 
         if (packet->type == PACKETTYPE_NETCODEBUTTON)
         {
-            //bbAction_unfreezeButton(&home.core.core,
-             //               packet->player,
-             //               0,
-              //              packet->send_tick,
-               //             packet->act_tick,
-                //            packet->data.str);
+            bbDebug ("netcode button: %s\n", packet->data.str);
+            bbAction_unfreezeButton(&home.core.core,
+                packet->player,
+                0,
+                packet->send_tick,
+                packet->act_tick,
+                packet->data.str);
         }
 
         if (packet->type == PACKETTYPE_PAUSE)

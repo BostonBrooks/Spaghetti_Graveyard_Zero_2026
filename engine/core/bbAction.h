@@ -47,6 +47,13 @@ bbFlag bbAction_unfreezeButton(void* Core,
                             U64 act_tick,
                             char* key);
 
+bbFlag bbAction_unfreezeButton(void* Core,
+                            U32 player,
+                            U32 collision,
+                            U64 created_tick,
+                            U64 act_tick,
+                            char* key);
+
 bbFlag bbAction_update(void* core);
 
 

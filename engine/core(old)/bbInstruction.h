@@ -34,7 +34,7 @@ typedef enum
 
 
     bbInstruction_setTestInt,
-    bbInstruction_unsetTestInt
+    bbInstruction_unsetTestInt,
 } bbInstruction_type;
 
 typedef enum
