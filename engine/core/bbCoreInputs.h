@@ -19,4 +19,7 @@ bbFlag bbCoreInput_netcodeButton(bbCore* core, char* string, U64 time,
 
 bbFlag bbCoreInput_loop(bbCore* core, char* string, U64 time,
                                   bbInstruction_source source, bbHandle action);
+
+
+bbFlag bbCoreInput_netpauseButton(bbCore* core,char* string);
 #endif //BB_CORE_INPUTS

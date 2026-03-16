@@ -74,6 +74,19 @@ bbFlag bbCoreInput_netsendButton(bbCore* core, char* string)
     return bbSuccess;
 }
 
+bbFlag bbCoreInput_netpauseButton(bbCore* core, char* string)
+{
+    bbInstruction* instruction;
+    bbList_alloc(&core->do_stack, (void**) &instruction);
+
+    instruction->type = bbInstruction_netpauseButton;
+    bbStr_setStr(instruction->data.string, string, KEY_LENGTH);
+
+    bbList_pushL(&core->do_stack, instruction);
+
+    return bbSuccess;
+}
+
 bbFlag bbCoreInput_netcodeButton(bbCore* core, char* string, U64 time,
                                   bbInstruction_source source, bbHandle action)
 {

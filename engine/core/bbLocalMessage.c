@@ -50,6 +50,12 @@ bbFlag bbLocalMessage_netcodeButton_fn(bbCore* core, bbLocalMessage* message)
 
     return bbSuccess;
 }
+bbFlag bbLocalMessage_netpauseButton_fn(bbCore* core, bbLocalMessage* message)
+{
+    bbCoreInput_netpauseButton(core,message->data.string);
+
+    return bbSuccess;
+}
 
 bbFlag bbLocalMessage_actionLoop_fn(bbCore* core, bbLocalMessage* message)
 {
@@ -107,6 +113,13 @@ bbFlag bbCore_checkLocalMessages(bbCore* core)
 
         case bbLocalMessage_actionLoop:
             bbLocalMessage_actionLoop_fn(core, message);
+            bbCore_react(core);
+            break;
+
+
+
+        case bbLocalMessage_netpauseButton:
+            bbLocalMessage_netpauseButton_fn(core, message);
             bbCore_react(core);
             break;
 

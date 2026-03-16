@@ -68,3 +68,15 @@ bbFlag bbLocalMessage_ActionLoop(bbCore* core, char* key)
     bbThreadedQueue_pushL(&core->local_message_queue, message);
     return bbSuccess;
 }
+
+bbFlag bbLocalMessage_NetpauseButton(bbCore* core, char* key)
+{
+    bbLocalMessage* message;
+    bbThreadedQueue_alloc(&core->local_message_queue, (void** ) &message);
+    message->type = bbLocalMessage_netpauseButton;
+
+    bbStr_setStr(message->data.string, key, KEY_LENGTH);
+
+    bbThreadedQueue_pushL(&core->local_message_queue, message);
+    return bbSuccess;
+}

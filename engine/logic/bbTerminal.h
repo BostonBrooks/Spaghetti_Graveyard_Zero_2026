@@ -42,6 +42,21 @@ int x = 1/0;\
 }\
 }
 
+#define bbWarning(expression, ...)\
+{\
+if (!(expression)){\
+char string1[stringLength];\
+char string2[stringLength];\
+sprintf (string1, "In FILE: %s, FUNCTION: %s, LINE: %d, THREAD: %s,"\
+"\nWARNING: %s, ", __FILE_NAME__, __func__, __LINE__, thread,\
+#expression );\
+\
+sprintf(string2, __VA_ARGS__);\
+\
+printf("%s%s", string1, string2);\
+}\
+}
+
 #define bbDebug(...) {\
 char string1[stringLength];\
 char string2[stringLength];\

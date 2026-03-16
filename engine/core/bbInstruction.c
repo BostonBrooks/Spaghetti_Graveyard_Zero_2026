@@ -16,6 +16,12 @@ bbFlag bbInstruction_netsendButton_fn(bbCore* core, bbInstruction* instruction)
     return bbSuccess;
 }
 
+bbFlag bbInstruction_netpauseButton_fn(bbCore* core, bbInstruction* instruction)
+{
+    bbNetworkApp_netpauseButton(&home.network, instruction->data.string);
+    return bbSuccess;
+}
+
 bbFlag bbInstruction_netcodeButton_fn(bbCore* core, bbInstruction* instruction)
 {
     bbNetworkApp_netcodeButton(&home.network, instruction->data.string, instruction->act_time);
@@ -282,6 +288,11 @@ bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
 
     //Loop by placing self on stack
     bbCoreInput_checkActions(core, core->simulation_time,bbInstructionSource_internal,no_handle);
+
+    bbWarning(action->header.act_tick <= core->simulation_time, "action  executed early\n"
+        "action->header.act_tick = %lu core->simulation_time = %lu\n",
+        action->header.act_tick, core->simulation_time);
+
     if (action->header.type == bbActionType_setString)
     {
         bbCoreInput_setString(core,action->header.key,bbInstructionSource_action,handle);
@@ -299,7 +310,6 @@ bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
 
     if (action->header.type == bbActionType_loop)
     {
-        bbDebug("6 hz loop\n");
         bbCoreInput_loop(core,action->header.key,action->header.act_tick,bbInstructionSource_action,handle);
         bbCore_react(core);
 
