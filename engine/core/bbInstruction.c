@@ -24,12 +24,12 @@ bbFlag bbInstruction_netcodeButton_fn(bbCore* core, bbInstruction* instruction)
 
 bbFlag bbInstruction_loopAction_fn(bbCore* core, bbInstruction* instruction)
 {
-    bbDebug("Loop instruction at time = %lu, actual time = %lu\n", instruction->act_time, core->actual_time);
+    bbDebug("Loop instruction at time = %lu, simulation time = %lu\n", instruction->act_time, core->simulation_time);
     bbAction_loop(core,
                   0,
                   rand(),
                   0,
-                  instruction->act_time + 1,
+                  instruction->act_time + 12,
                   instruction->data.string);
     return bbSuccess;
 
