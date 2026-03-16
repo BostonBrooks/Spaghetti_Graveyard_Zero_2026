@@ -8,6 +8,7 @@ bbFlag bbLocalMessage_SetString(bbCore* core, char* string);
 bbFlag bbLocalMessage_UnfreezeButton(bbCore* core, char* string);
 
 bbFlag bbLocalMessage_ActionUnfreeze(bbCore* core, char* string);
+bbFlag bbLocalMessage_RetroactionUnfreeze(bbCore* core, char* string);
 
 bbFlag bbLocalMessage_NetsendButton(bbCore* core, char* key);
 

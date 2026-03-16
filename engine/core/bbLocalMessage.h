@@ -7,6 +7,7 @@ typedef enum
     bbLocalMessage_setString,
     bbLocalMessage_unfreezeButton,
     bbLocalMessage_actionUnfreeze,
+    bbLocalMessage_retroactionUnfreeze,
     bbLocalMessage_netsendButton,
     bbLocalMessage_netcodeButton,
     bbLocalMessage_actionLoop,

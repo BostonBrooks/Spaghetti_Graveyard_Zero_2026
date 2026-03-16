@@ -7,6 +7,7 @@
 #include "games/game0/maps/map0/widgets/react_button.h"
 #include "games/game0/maps/map0/widgets/netsend_button.h"
 #include "games/game0/maps/map0/widgets/action_button.h"
+#include "games/game0/maps/map0/widgets/retroaction_button.h"
 #include "games/game0/maps/map0/widgets/netcode_button.h"
 #include "games/game0/maps/map0/widgets/netpause_button.h"
 #include "games/game0/maps/map0/widgets/loop_button.h"
@@ -211,6 +212,13 @@ bbFlag bbWidgetFunctions_populate(bbWidgetFunctions* self)
         WidgetConstructor,
         bbWidget_Constructor_ActionButton,
         "ACTION");
+
+
+
+    bbWidgetFunctions_add(self,
+        WidgetConstructor,
+        bbWidget_Constructor_RetroactionButton,
+        "RETROACTION");
 
 
     bbWidgetFunctions_add(self,

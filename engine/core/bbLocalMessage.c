@@ -34,6 +34,21 @@ bbFlag bbLocalMessage_actionUnfreeze_fn(bbCore* core, bbLocalMessage* message)
     return bbSuccess;
 }
 
+
+bbFlag bbLocalMessage_retroactionUnfreeze_fn(bbCore* core, bbLocalMessage* message)
+{
+
+    bbDebug("time = %lu\n", core->simulation_time  - 60);
+    bbAction_unfreezeButton(core,
+                           0,
+                           rand(),
+                           0,
+                           core->simulation_time - 60,
+                           message->data.string);
+
+    return bbSuccess;
+}
+
 bbFlag bbLocalMessage_netsendButton_fn(bbCore* core, bbLocalMessage* message)
 {
     bbCoreInput_netsendButton(core,message->data.string);
@@ -97,6 +112,11 @@ bbFlag bbCore_checkLocalMessages(bbCore* core)
 
         case bbLocalMessage_actionUnfreeze:
             bbLocalMessage_actionUnfreeze_fn(core, message);
+            bbCore_react(core);
+            break;
+
+        case bbLocalMessage_retroactionUnfreeze:
+            bbLocalMessage_retroactionUnfreeze_fn(core, message);
             bbCore_react(core);
             break;
 

@@ -34,6 +34,16 @@ bbFlag bbLocalMessage_ActionUnfreeze(bbCore* core, char* string)
     return bbSuccess;
 }
 
+bbFlag bbLocalMessage_RetroactionUnfreeze(bbCore* core, char* string)
+{
+    bbLocalMessage* message;
+    bbThreadedQueue_alloc(&core->local_message_queue, (void** ) &message);
+    message->type = bbLocalMessage_retroactionUnfreeze;
+    bbStr_setStr(message->data.string, string, KEY_LENGTH);
+    bbThreadedQueue_pushL(&core->local_message_queue, message);
+    return bbSuccess;
+}
+
 bbFlag bbLocalMessage_NetsendButton(bbCore* core, char* key)
 {
     bbLocalMessage* message;

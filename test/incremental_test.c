@@ -216,6 +216,13 @@ void* userinterface_thread(void* arg)
                      "NETPAUSE",
                      (bbScreenPoints){12*SCREEN_PPP,144*SCREEN_PPP});
 
+    bbWidget_constructor(NULL,
+                     &home.UI.widgets,
+                     "RETROACTION",
+                     "LAYOUT",
+                     "RETROACTION",
+                     (bbScreenPoints){12*SCREEN_PPP,166*SCREEN_PPP});
+
 
     bbWidget_constructor(NULL,
                          &home.UI.widgets,

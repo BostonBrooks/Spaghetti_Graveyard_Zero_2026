@@ -173,7 +173,7 @@ bbFlag bbInstruction_setTime_fn(bbCore* core, bbInstruction* instruction)
 
     core->simulation_time = instruction->data.unsigned_long ;
 
-    //printf("+time = %lu\n", core->simulation_time);
+    printf("+time = %lu\n", core->simulation_time);
     if (instruction->source == bbInstructionSource_internal)
     {
         bbVPool_free(core->instruction_pool, (void*)instruction);
@@ -203,7 +203,7 @@ bbFlag bbInstruction_unsetTime_fn(bbCore* core, bbInstruction* instruction)
 {
     core->simulation_time = instruction->data.unsigned_long ;
 
-    //printf("-time = %lu\n", core->simulation_time);
+    printf("-time = %lu\n", core->simulation_time);
     if (instruction->source == bbInstructionSource_internal)
     {
         bbVPool_free(core->instruction_pool, (void*)instruction);
