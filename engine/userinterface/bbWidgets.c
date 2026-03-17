@@ -218,3 +218,49 @@ bbFlag bbWidget_newLayout(bbWidget** self,
     return bbSuccess;
 }
 
+bbFlag bbWidget_newLayoutPong(bbWidget** self,
+                          bbGraphicsApp* graphics,
+                          bbWidgets* widgets,
+                          bbWidget* parent){
+
+    bbWidget* widget;
+
+    bbWidget_newEmpty(&widget, widgets, parent,"LAYOUT");
+
+    bbScreenPointsRect rect;
+    rect.left = 0;
+    rect.top = 0;
+    rect.width = 720 * SCREEN_PPP;
+    rect.height = 480 * SCREEN_PPP;
+
+    widget->rect = rect;
+
+    int funcInt;
+    funcInt = bbMouseFunctions_getInt(&widgets->mouse->functions,MouseIsOver,
+                                  "HOVER");
+    widget->mtable.is_over = funcInt;
+
+    widget->mtable.mouse_icon = 154;
+
+    bbHandle drawfunctionHandle;
+    bbDictionary_lookup(graphics->drawfunctions->dictionary,
+                     "WIDGET_SPRITE",
+                     &drawfunctionHandle);
+
+    widget->frames[0].drawfunction = drawfunctionHandle.u64;
+
+    bbDictionary_lookup(graphics->sprites->dictionary,
+                        "PONGLAYOUT", &widget->frames[0].handle);
+
+    //bbDebug("LAYOUT_480 = %d\n", widget->frames[0].handle.u64);
+    widget->frames[0].offset.x = 0;
+    widget->frames[0].offset.y = 0;
+
+    bbHandle handle;
+    bbVPool_reverseLookup(widgets->pool, widget, &handle);
+    bbDictionary_add(widgets->dict, "LAYOUT", handle);
+
+    if (self!=NULL) *self = widget;
+
+    return bbSuccess;
+}

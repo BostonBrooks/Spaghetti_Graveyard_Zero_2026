@@ -1,4 +1,4 @@
-Number of Textures:,35,,,,
+Number of Textures:,36,,,,
 Label:,Integer Address:,File:,Smooth:,Comment:,
 NULL,0,./graphics/NULL.png,F,Exception,
 LAYOUT_480,1,./graphics/Layout_480.png,F,The root of the widget tree,
@@ -34,4 +34,5 @@ ZOMBIE,30,./graphics/Flare_RPG/zombie.png,T, a zombie
 CLOCK,31,./graphics/Clockface.png,T, a clock hand
 BUTTERFLIES,32,./graphics/Butterflies.png,T, some butterflies
 REDCLOCK,33,./graphics/Clockface_red.png,T, a red clock hand
-PONGLAYOUT,34,./graphics/Pong_480.png, a pong layout
+PONGLAYOUT,34,./graphics/Pong_480.png,F, a pong layout
+BALL,35,./graphics/Ball.png,F, a pong ball

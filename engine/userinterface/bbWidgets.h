@@ -109,4 +109,9 @@ bbFlag bbWidget_newLayout(bbWidget** self,
                          bbGraphicsApp* graphics,
                          bbWidgets* widgets,
                          bbWidget* parent);
+
+bbFlag bbWidget_newLayoutPong(bbWidget** self,
+                          bbGraphicsApp* graphics,
+                          bbWidgets* widgets,
+                          bbWidget* parent);
 #endif //BB_WIDGET_H

@@ -1,4 +1,4 @@
-Number of Sprites:,608,,,,,,,,,,,,
+Number of Sprites:,609,,,,,,,,,,,,
 Label:,Integer Address:,Texture:,Left:,Top:,Width:,Height:,Origin X:,Origin Y:,Scale X:,Scale Y:,Scale By:,Comment:,
 NULL,0,NULL,0,0,128,128,0,0,1,1,None,Exception,
 LAYOUT_480,1,LAYOUT_480,0,0,720,480,0,0,1,1,None,The root of the widget tree,
@@ -608,3 +608,4 @@ REDCLOCK57,604,REDCLOCK,109,784,107,111,52,55,1,1,Widget,a clock hand
 REDCLOCK58,605,REDCLOCK,218,784,107,111,52,55,1,1,Widget,a clock hand
 REDCLOCK59,606,REDCLOCK,327,784,107,111,52,55,1,1,Widget,a clock hand
 PONGLAYOUT,607,PONGLAYOUT,0,0,720,480,0,0,1,1,None,the layout of the pong game
+BALL,608,BALL,0,0,52,52,0,0,1,1,Widget,A ball for the pong map
