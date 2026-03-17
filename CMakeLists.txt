@@ -4,6 +4,17 @@ project(Spaghetti_Graveyard_Zero_2026 C)
 set(CMAKE_C_STANDARD 23)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../games/game0)
 
+add_executable(Pong test/bbTest_Pong.c)
+
+target_include_directories(Pong  PRIVATE "./"
+                                PRIVATE "./games/game0/maps/pong/")
+
+target_link_libraries(Pong PRIVATE
+        csfml-graphics
+        csfml-window
+        csfml-system
+        csfml-network
+)
 add_executable(Spaghetti_Graveyard_Zero_2026 test/incremental_test.c
         engine/data/bbIncludes.c
         engine/logic/bbBloatedPool.c
