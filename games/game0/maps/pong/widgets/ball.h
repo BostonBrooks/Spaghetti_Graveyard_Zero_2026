@@ -17,6 +17,9 @@ bbGraphicsApp* graphics){
 
     bbWidget_newEmpty(&widget, widgets, parent, name);
 
+
+    widget->ftable.command = bbWidgetFunctions_getInt(widgets->functions,WidgetCommand ,"BALL");
+
     bbScreenPointsRect rect;
     rect.left = screen_points.x;
     rect.top = screen_points.y;
@@ -45,5 +48,21 @@ bbGraphicsApp* graphics){
 
     if (self!=NULL) *self = widget;
 
+    return bbSuccess;
+}
+
+bbFlag Ball_OnCommand(bbWidget* widget, bbWidgetCommandType type, bbHandle data){
+    switch(type)
+    {
+         case bbWC_setPosition:
+             {
+                 widget->rect.left = data.i32x2.x;
+                 widget->rect.top = data.i32x2.y;
+
+
+                 break;
+        }
+
+    }
     return bbSuccess;
 }

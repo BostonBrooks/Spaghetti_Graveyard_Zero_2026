@@ -35,6 +35,7 @@ int main(void)
     home.clock2.is_paused = true;
     home.clock2.is_running = false;
     home.UI.clock2_handle.clock_thread_index = 255;
+    home.core.clock2_handle.clock_paused = true;
 
     bbCore_init(&home.core.core);
 
@@ -100,6 +101,9 @@ int main(void)
 
         bbCore_checkLocalMessages(&home.core.core);
 
+
+
+
         if (home.network.send_ready && home.network.receive_ready)
                  bbNetworkApp_checkInbox(&home.network);
 
@@ -111,6 +115,17 @@ int main(void)
             bbCoreInput_checkActions(&home.core.core,
                 home.core.clock2_handle.map_tick,
                 bbInstructionSource_input, no_handle );
+
+
+            bbHandle ball_position;
+            ball_position.i32x2.x = rand()%(720*SCREEN_PPP);
+            ball_position.i32x2.y = rand()%(480*SCREEN_PPP);
+            bbUI_Inbox_SetWidgetPosition(&home.UI.inbox, "BALL", ball_position);
+
+        }
+
+        if (home.clock2.is_paused == false)
+        {
         }
 
         bbCore_react(&home.core.core);
@@ -184,8 +199,9 @@ void* userinterface_thread(void* arg)
                      "BUTTERFLY",
                      (bbScreenPoints){100*SCREEN_PPP,200*SCREEN_PPP});
 
+    bbWidget* ball;
 
-    bbWidget_constructor(NULL,
+    bbWidget_constructor(&ball,
                      &home.UI.widgets,
                      "BALL",
                      "LAYOUT",
@@ -206,6 +222,8 @@ void* userinterface_thread(void* arg)
     U8 clock_index = 255;
     while (1)
     {
+
+
 
         bbInput_poll(&input, window);
 

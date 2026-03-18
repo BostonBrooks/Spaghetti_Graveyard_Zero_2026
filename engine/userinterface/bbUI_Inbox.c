@@ -18,7 +18,7 @@ bbFlag bbUI_Inbox_init(bbUI_Inbox* inbox)
 
     return bbSuccess;
 }
-
+bbFlag bbUI_Inbox_setWidgetPosition_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message);
 
 bbFlag bbUI_Inbox_check(bbUI_Inbox* inbox)
 {
@@ -41,9 +41,13 @@ bbFlag bbUI_Inbox_check(bbUI_Inbox* inbox)
             bbUI_Inbox_unpressButton2_fn(inbox, message);
             break;
 
+        case bbUI_Inbox_setWidgetPosition:
+            bbUI_Inbox_setWidgetPosition_fn(inbox, message);
+
+
         default:
 
-            bbDebug("Unknown UI local message type");
+            bbDebug("Unknown UI local message type\n");
 
         }
     }
@@ -79,6 +83,21 @@ bbFlag bbUI_Inbox_unpressButton2_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* messa
     return bbSuccess;
 }
 
+bbFlag bbUI_Inbox_setWidgetPosition_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
+{
+    bbWidgets* widgets = &home.UI.widgets;
+    bbHandle widget_handle;
+    bbWidget* widget;
+
+    bbDictionary_lookup(widgets->dict,message->data.string.string,&widget_handle);
+    bbVPool_lookup(widgets->pool,(void**)&widget,widget_handle);
+
+    bbDebug("str = %s\n", message->data.string.string);
+    bbWidget_onCommand(widget, widgets,bbWC_setPosition,message->data.handle.handle);
+
+    return bbSuccess;
+}
+
 bbFlag bbUI_Inbox_UnpressButton(bbUI_Inbox* inbox)
 {
     bbUI_Inbox_message* message;
@@ -97,6 +116,18 @@ bbFlag bbUI_Inbox_UnpressButton2(bbUI_Inbox* inbox, char* key)
 
     bbDebug("key: %s\n", key);
 
+    bbThreadedQueue_pushL(&inbox->local_message_queue, (void*)message);
+    return bbSuccess;
+}
+
+
+bbFlag bbUI_Inbox_SetWidgetPosition(bbUI_Inbox* inbox, char* key, bbHandle position)
+{
+    bbUI_Inbox_message* message;
+    bbThreadedQueue_alloc(&inbox->local_message_queue,(void**)&message);
+    message->type = bbUI_Inbox_setWidgetPosition;
+    bbStr_setStr(message->data.string.string, key, KEY_LENGTH);
+    message->data.handle.handle = position;
     bbThreadedQueue_pushL(&inbox->local_message_queue, (void*)message);
     return bbSuccess;
 }

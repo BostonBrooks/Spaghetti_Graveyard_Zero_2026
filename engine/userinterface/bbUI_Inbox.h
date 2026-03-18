@@ -10,6 +10,7 @@ typedef enum
 {
     bbUI_Inbox_unpressButton,
     bbUI_Inbox_unpressButton2,
+    bbUI_Inbox_setWidgetPosition
 } bbUI_Inbox_type;
 
 typedef struct
@@ -22,7 +23,7 @@ typedef struct
     char string[KEY_LENGTH];
 } bbUI_Inbox_string;
 
-typedef union
+typedef struct
 {
     bbUI_Inbox_handle handle;
     bbUI_Inbox_string string;
@@ -54,4 +55,5 @@ bbFlag bbUI_Inbox_unpressButton2_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* messa
 
 bbFlag bbUI_Inbox_UnpressButton(bbUI_Inbox* inbox);
 bbFlag bbUI_Inbox_UnpressButton2(bbUI_Inbox* inbox, char* key);
+bbFlag bbUI_Inbox_SetWidgetPosition(bbUI_Inbox* inbox, char* key, bbHandle position);
 #endif // BB_UI_INBOX_H

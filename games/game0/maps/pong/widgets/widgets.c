@@ -262,6 +262,13 @@ bbFlag bbWidgetFunctions_populate(bbWidgetFunctions* self)
 
     bbWidgetFunctions_add(self,
         WidgetCommand,
+        Ball_OnCommand,
+        "BALL");
+
+
+
+    bbWidgetFunctions_add(self,
+        WidgetCommand,
         Textbox_OnCommand,
         "TEXTBOX");
 

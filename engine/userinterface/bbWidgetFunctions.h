@@ -21,7 +21,8 @@ typedef enum bbWidgetCommandType
     bbWC_setBounds,
     bbWC_setDimensions,
     bbWC_setStr,
-    bbWC_clrStr
+    bbWC_clrStr,
+    bbWC_setPosition,
 } bbWidgetCommandType;
 
 #endif //BB_WIDGET_FUNCTION_ENUMS_H
