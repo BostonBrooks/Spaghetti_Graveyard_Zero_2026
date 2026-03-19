@@ -9,12 +9,12 @@ bbFlag bbUI_Inbox_init(bbUI_Inbox* inbox)
 {
     bbVPool_newThreaded(&inbox->local_message_pool,
                  sizeof(bbUI_Inbox_message),
-                 1000);
+                 1001);
 
     bbThreadedQueue_init(&inbox->local_message_queue,
                       inbox->local_message_pool,
                       sizeof(bbUI_Inbox_message),
-                      1000,offsetof(bbUI_Inbox_message, list_element));
+                      1001,offsetof(bbUI_Inbox_message, list_element));
 
     return bbSuccess;
 }
@@ -43,13 +43,14 @@ bbFlag bbUI_Inbox_check(bbUI_Inbox* inbox)
 
         case bbUI_Inbox_setWidgetPosition:
             bbUI_Inbox_setWidgetPosition_fn(inbox, message);
-
+            break;
 
         default:
 
-            bbDebug("Unknown UI local message type\n");
+            bbDebug("Unknown UI local message type\nmessage->type = %d\n", message->type);
 
         }
+            bbThreadedQueue_free(&inbox->local_message_queue, (void**)&message);
     }
     return bbNone;
 }
@@ -65,7 +66,7 @@ bbFlag bbUI_Inbox_unpressButton_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* messag
 
     widget->is_frozen = false;
 
-    bbDebug("Button unpressed\n");
+    //bbDebug("Button unpressed\n");
     return bbSuccess;
 }
 
@@ -92,7 +93,7 @@ bbFlag bbUI_Inbox_setWidgetPosition_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* me
     bbDictionary_lookup(widgets->dict,message->data.string.string,&widget_handle);
     bbVPool_lookup(widgets->pool,(void**)&widget,widget_handle);
 
-    bbDebug("str = %s\n", message->data.string.string);
+    //bbDebug("str = %s\n", message->data.string.string);
     bbWidget_onCommand(widget, widgets,bbWC_setPosition,message->data.handle.handle);
 
     return bbSuccess;
@@ -114,7 +115,7 @@ bbFlag bbUI_Inbox_UnpressButton2(bbUI_Inbox* inbox, char* key)
     message->type = bbUI_Inbox_unpressButton2;
     bbStr_setStr(message->data.string.string, key, KEY_LENGTH);
 
-    bbDebug("key: %s\n", key);
+    //bbDebug("key: %s\n", key);
 
     bbThreadedQueue_pushL(&inbox->local_message_queue, (void*)message);
     return bbSuccess;
