@@ -119,8 +119,8 @@ int main(void)
 
 
             bbHandle ball_position;
-            ball_position.i32x2.x = rand()%(720*SCREEN_PPP);
-            ball_position.i32x2.y = rand()%(480*SCREEN_PPP);
+            ball_position.i32x2.x = cos(home.core.core.actual_time/60.f)*(240*SCREEN_PPP)+(360*SCREEN_PPP);;
+            ball_position.i32x2.y = cos(home.core.core.actual_time/270.f)*(240*SCREEN_PPP)+(120*SCREEN_PPP);;
             bbUI_Inbox_SetWidgetPosition(&home.UI.inbox, "BALL", ball_position);
 
 
