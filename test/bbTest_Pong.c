@@ -3,6 +3,7 @@
 #include <SFML/Graphics.h>
 #include <SFML/Window.h>
 #include <pthread.h>
+#include <math.h>
 
 #include "engine/core/bbCoreInputs.h"
 #include "engine/core/bbLocalMessage.h"
@@ -113,7 +114,7 @@ int main(void)
         if (home.core.clock2_handle.clock_paused == false)
         {
             bbCoreInput_checkActions(&home.core.core,
-                home.core.clock2_handle.map_tick,
+                home.core.core.actual_time,
                 bbInstructionSource_input, no_handle );
 
 
@@ -121,6 +122,18 @@ int main(void)
             ball_position.i32x2.x = rand()%(720*SCREEN_PPP);
             ball_position.i32x2.y = rand()%(480*SCREEN_PPP);
             bbUI_Inbox_SetWidgetPosition(&home.UI.inbox, "BALL", ball_position);
+
+
+            ball_position.i32x2.x = (50*SCREEN_PPP);
+            ball_position.i32x2.y = cos(home.core.core.actual_time/120.f)*(240*SCREEN_PPP)+(120*SCREEN_PPP);
+            bbUI_Inbox_SetWidgetPosition(&home.UI.inbox, "PADDLE1", ball_position);
+
+
+            ball_position.i32x2.x = (670*SCREEN_PPP);
+            ball_position.i32x2.y = sin(home.core.core.actual_time/120.f)*(240*SCREEN_PPP)+(120*SCREEN_PPP);
+            bbUI_Inbox_SetWidgetPosition(&home.UI.inbox, "PADDLE2", ball_position);
+
+
 
         }
 
@@ -207,6 +220,21 @@ void* userinterface_thread(void* arg)
                      "LAYOUT",
                      "BALL",
                      (bbScreenPoints){100*SCREEN_PPP,100*SCREEN_PPP});
+
+    bbWidget_constructor(&ball,
+                 &home.UI.widgets,
+                 "PADDLE",
+                 "LAYOUT",
+                 "PADDLE1",
+                 (bbScreenPoints){50*SCREEN_PPP,150*SCREEN_PPP});
+
+
+    bbWidget_constructor(&ball,
+                 &home.UI.widgets,
+                 "PADDLE",
+                 "LAYOUT",
+                 "PADDLE2",
+                 (bbScreenPoints){670*SCREEN_PPP,150*SCREEN_PPP});
 
     home.UI.UI_time = 0;
 

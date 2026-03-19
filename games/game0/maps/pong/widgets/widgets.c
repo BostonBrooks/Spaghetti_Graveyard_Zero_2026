@@ -14,6 +14,7 @@
 #include "games/game0/maps/pong/widgets/pause_button.h"
 #include "games/game0/maps/pong/widgets/composition.h"
 #include "games/game0/maps/pong/widgets/ball.h"
+#include "games/game0/maps/pong/widgets/paddle.h"
 
 
 bbFlag bbWidget_Constructor_NULL (bbWidget** self,
@@ -256,6 +257,12 @@ bbFlag bbWidgetFunctions_populate(bbWidgetFunctions* self)
         WidgetConstructor,
         bbWidget_Constructor_Ball,
         "BALL");
+
+    bbWidgetFunctions_add(self,
+    WidgetConstructor,
+    bbWidget_Constructor_Paddle,
+    "PADDLE");
+
 
 
 

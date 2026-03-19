@@ -57,6 +57,7 @@ target_link_libraries(Pong PRIVATE
         csfml-window
         csfml-system
         csfml-network
+        m
 )
 add_executable(Spaghetti_Graveyard_Zero_2026 test/incremental_test.c
         engine/data/bbIncludes.c
@@ -112,6 +113,8 @@ target_link_libraries(Spaghetti_Graveyard_Zero_2026 PRIVATE
         csfml-window
         csfml-system
         csfml-network
+
+
 )
 
 add_executable(Server engine/server/bbServer.c
