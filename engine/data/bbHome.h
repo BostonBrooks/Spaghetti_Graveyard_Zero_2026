@@ -6,6 +6,7 @@
 #include "engine/interthread/bbClock.h"
 #include "engine/interthread/bbClock2.h"
 #include "engine/network/bbNetwork.h"
+#include "engine/pong/bbBall.h"
 #include "engine/userinterface/bbUI_Inbox.h"
 #include "engine/userinterface/bbWidgets.h"
 
@@ -24,6 +25,7 @@ typedef struct
     char quote[KEY_LENGTH];
     I64 test_int;
     bbClock2_handle clock2_handle;
+    bbBall ball;
 } bbHome_core;
 
 typedef struct

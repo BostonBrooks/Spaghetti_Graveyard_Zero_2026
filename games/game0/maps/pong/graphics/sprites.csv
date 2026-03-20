@@ -609,4 +609,4 @@ REDCLOCK58,605,REDCLOCK,218,784,107,111,52,55,1,1,Widget,a clock hand
 REDCLOCK59,606,REDCLOCK,327,784,107,111,52,55,1,1,Widget,a clock hand
 PONGLAYOUT,607,PONGLAYOUT,0,0,720,480,0,0,1,1,None,the layout of the pong game
 BALL,608,BALL,0,0,52,52,26,26,1,1,Widget,A ball for the pong map
-PADDLE,609,BALL,0,52,52,181,26,90,1,1,Widget,A ball for the pong map
+PADDLE,609,BALL,0,52,52,128,26,64,1,1,Widget,A ball for the pong map

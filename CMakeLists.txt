@@ -47,7 +47,8 @@ add_executable(Pong test/bbTest_Pong.c
         engine/core/bbLocalMessageInputs.c
         engine/core/bbAction.c
         engine/threadsafe/bbThreadedPool.c
-        engine/threadsafe/bbThreadedQueue.c)
+        engine/threadsafe/bbThreadedQueue.c
+        engine/pong/bbBall.c)
 
 target_include_directories(Pong  PRIVATE "./"
                                 PRIVATE "./games/game0/maps/pong/")

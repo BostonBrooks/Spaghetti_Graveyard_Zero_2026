@@ -19,6 +19,7 @@
 #include "engine/userinterface/bbMouse.h"
 
 #include "engine/network/bbNetworkApp.h"
+#include "engine/pong/bbBall.h"
 thread_local char* thread;
 bbHome home;
 
@@ -55,6 +56,13 @@ int main(void)
     bool clock_handle_init = false;
     bool once2 = false;
     bool once = false;
+
+
+    {
+        bbScreenPoints position = {360*SCREEN_PPP,240*SCREEN_PPP};
+        bbScreenPoints velocity = {11*SCREEN_PPP,7*SCREEN_PPP};
+        bbBall_Init(&home.core.ball,position,velocity,"BALL");
+    }
     while (1)
     {
 
@@ -117,20 +125,15 @@ int main(void)
                 home.core.core.actual_time,
                 bbInstructionSource_input, no_handle );
 
-
+            bbBall_Update(&home.core.ball);
             bbHandle ball_position;
-            ball_position.i32x2.x = cos(home.core.core.actual_time/60.f)*(240*SCREEN_PPP)+(360*SCREEN_PPP);;
-            ball_position.i32x2.y = cos(home.core.core.actual_time/270.f)*(240*SCREEN_PPP)+(120*SCREEN_PPP);;
-            bbUI_Inbox_SetWidgetPosition(&home.UI.inbox, "BALL", ball_position);
-
-
             ball_position.i32x2.x = (50*SCREEN_PPP);
-            ball_position.i32x2.y = cos(home.core.core.actual_time/120.f)*(240*SCREEN_PPP)+(120*SCREEN_PPP);
+            ball_position.i32x2.y = cos(home.core.core.actual_time/120.f)*(200*SCREEN_PPP)+(240*SCREEN_PPP);
             bbUI_Inbox_SetWidgetPosition(&home.UI.inbox, "PADDLE1", ball_position);
 
 
             ball_position.i32x2.x = (670*SCREEN_PPP);
-            ball_position.i32x2.y = sin(home.core.core.actual_time/120.f)*(240*SCREEN_PPP)+(120*SCREEN_PPP);
+            ball_position.i32x2.y = sin(home.core.core.actual_time/120.f)*(200*SCREEN_PPP)+(240*SCREEN_PPP);
             bbUI_Inbox_SetWidgetPosition(&home.UI.inbox, "PADDLE2", ball_position);
 
 
