@@ -79,6 +79,10 @@ bbFlag bbCore_react(bbCore* core)
             bbInstruction_netpauseButton_fn(core, instruction);
             break;
 
+        case bbInstruction_updateBall:
+            bbInstruction_updateBall_fn(core, instruction);
+            break;
+
         default:
             bbDebug("Unknown instruction type: %d\n", instruction->type);
         }
@@ -111,6 +115,10 @@ bbFlag bbCore_rewind(bbCore* core)
 
         case bbInstruction_uncheckActions:
             bbInstruction_uncheckActions_fn(core, instruction);
+            break;
+
+        case bbInstruction_unupdateBall:
+            bbInstruction_unupdateBall_fn(core, instruction);
             break;
 
 

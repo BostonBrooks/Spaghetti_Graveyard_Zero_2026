@@ -116,7 +116,6 @@ int main(void)
         if (home.network.send_ready && home.network.receive_ready)
                  bbNetworkApp_checkInbox(&home.network);
 
-        bbHandle no_handle = {0};
 
 
         if (home.core.clock2_handle.clock_paused == false)
@@ -125,16 +124,18 @@ int main(void)
                 home.core.core.actual_time,
                 bbInstructionSource_input, no_handle );
 
-            bbBall_Update(&home.core.ball);
-            bbHandle ball_position;
-            ball_position.i32x2.x = (50*SCREEN_PPP);
-            ball_position.i32x2.y = cos(home.core.core.actual_time/120.f)*(200*SCREEN_PPP)+(240*SCREEN_PPP);
-            bbUI_Inbox_SetWidgetPosition(&home.UI.inbox, "PADDLE1", ball_position);
+            bbCoreInput_updateBall(&home.core.core, &home.core.ball, bbInstructionSource_input, no_handle);
+            bbCore_react(&home.core.core);
+
+            bbHandle paddle_position;
+            paddle_position.i32x2.x = (50*SCREEN_PPP);
+            paddle_position.i32x2.y = cos(home.core.core.actual_time/120.f)*(200*SCREEN_PPP)+(240*SCREEN_PPP);
+            bbUI_Inbox_SetWidgetPosition(&home.UI.inbox, "PADDLE1", paddle_position);
 
 
-            ball_position.i32x2.x = (670*SCREEN_PPP);
-            ball_position.i32x2.y = sin(home.core.core.actual_time/120.f)*(200*SCREEN_PPP)+(240*SCREEN_PPP);
-            bbUI_Inbox_SetWidgetPosition(&home.UI.inbox, "PADDLE2", ball_position);
+            paddle_position.i32x2.x = (670*SCREEN_PPP);
+            paddle_position.i32x2.y = sin(home.core.core.actual_time/120.f)*(200*SCREEN_PPP)+(240*SCREEN_PPP);
+            bbUI_Inbox_SetWidgetPosition(&home.UI.inbox, "PADDLE2", paddle_position);
 
 
 

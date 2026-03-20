@@ -21,7 +21,10 @@ typedef enum
     bbInstruction_netsendButton,
     bbInstruction_netcodeButton,
     bbInstruction_loopAction,
-    bbInstruction_netpauseButton
+    bbInstruction_netpauseButton,
+
+    bbInstruction_updateBall,
+    bbInstruction_unupdateBall
 } bbInstruction_type;
 
 
@@ -35,11 +38,18 @@ typedef enum
     bbInstructionSource_action,
 } bbInstruction_source;
 
+typedef struct
+{
+    bbHandle handle1;
+    bbHandle handle2;
+    bbHandle handle3;
+} bbThreeHandles;
 
 typedef union
 {
     char string[KEY_LENGTH];
     U64 unsigned_long;
+    bbThreeHandles three_handles;
 } bbInstruction_data;
 
 typedef struct
@@ -56,6 +66,8 @@ typedef struct
 bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_uncheckActions_fn(bbCore* core, bbInstruction* instruction);
 
+bbFlag bbInstruction_updateBall_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbInstruction_unupdateBall_fn(bbCore* core, bbInstruction* instruction);
 
 bbFlag bbInstruction_setString_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_unsetString_fn(bbCore* core, bbInstruction* instruction);

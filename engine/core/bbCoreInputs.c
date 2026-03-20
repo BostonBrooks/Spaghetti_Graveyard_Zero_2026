@@ -2,6 +2,7 @@
 #include "bbInstruction.h"
 #include "engine/logic/bbFlag.h"
 #include "engine/logic/bbString.h"
+#include "engine/pong/bbBall.h"
 
 bbFlag bbCoreInput_setString(bbCore* core, char* string, bbInstruction_source source, bbHandle action)
 {
@@ -54,6 +55,20 @@ bbFlag bbCoreInput_setTime(bbCore* core, U64 time, bbInstruction_source source, 
 
     instruction->type = bbInstruction_setTime;
     instruction->data.unsigned_long = time;
+    instruction->source = source;
+    instruction->redo_instruction = action;
+
+    bbList_pushL(&core->do_stack, instruction);
+    return bbSuccess;
+}
+
+bbFlag bbCoreInput_updateBall(bbCore* core, bbBall* ball, bbInstruction_source source, bbHandle action)
+{
+    bbInstruction* instruction;
+    bbFlag flag = bbList_alloc(&core->do_stack,(void**)&instruction);
+
+    instruction->data.three_handles.handle1.ptr = ball;
+    instruction->type = bbInstruction_updateBall;
     instruction->source = source;
     instruction->redo_instruction = action;
 
