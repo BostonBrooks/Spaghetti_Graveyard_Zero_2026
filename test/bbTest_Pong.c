@@ -60,17 +60,17 @@ int main(void)
 
     {
         bbScreenPoints position = {360*SCREEN_PPP,240*SCREEN_PPP};
-        bbScreenPoints velocity = {11*SCREEN_PPP,7*SCREEN_PPP};
+        bbScreenPoints velocity = {6*SCREEN_PPP,3*SCREEN_PPP};
         bbBall_Init(&home.core.ball,position,velocity,"BALL");
 
 
         bbScreenPoints position2 = {50*SCREEN_PPP,240*SCREEN_PPP};
-        bbScreenPoints velocity2 = {0*SCREEN_PPP,15*SCREEN_PPP};
+        bbScreenPoints velocity2 = {0*SCREEN_PPP,7*SCREEN_PPP};
         bbPaddle_Init(&home.core.paddle1, position2,velocity2,"PADDLE1");
 
 
         bbScreenPoints position3 = {670*SCREEN_PPP,240*SCREEN_PPP};
-        bbScreenPoints velocity3 = {0*SCREEN_PPP,14*SCREEN_PPP};
+        bbScreenPoints velocity3 = {0*SCREEN_PPP,6*SCREEN_PPP};
         bbPaddle_Init(&home.core.paddle2, position3,velocity3,"PADDLE2");
     }
     while (1)
@@ -99,13 +99,13 @@ int main(void)
                 //U64 time;
                 //bbClock_getTick(&home.clock, &time);
                 //core_time = time;
-                bbClock2_handle_init(&home.clock2, &home.core.clock2_handle, 3);
+                bbClock2_handle_init(&home.clock2, &home.core.clock2_handle, 1);
                 clock_handle_init = true;
                 //core_time = home.clock2.map_tick;
             }
             //core_time += 3;
             //bbClock_waitTick(&home.clock,  core_time, clock_index);
-            bbClock2_waitTick(&home.clock2,&home.core.clock2_handle,home.core.clock2_handle.map_tick+3);
+            bbClock2_waitTick(&home.clock2,&home.core.clock2_handle,home.core.clock2_handle.map_tick+1);
 
         } else
         {
