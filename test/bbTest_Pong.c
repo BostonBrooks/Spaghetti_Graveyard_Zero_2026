@@ -67,6 +67,11 @@ int main(void)
         bbScreenPoints position2 = {50*SCREEN_PPP,240*SCREEN_PPP};
         bbScreenPoints velocity2 = {0*SCREEN_PPP,15*SCREEN_PPP};
         bbPaddle_Init(&home.core.paddle1, position2,velocity2,"PADDLE1");
+
+
+        bbScreenPoints position3 = {670*SCREEN_PPP,240*SCREEN_PPP};
+        bbScreenPoints velocity3 = {0*SCREEN_PPP,14*SCREEN_PPP};
+        bbPaddle_Init(&home.core.paddle2, position3,velocity3,"PADDLE2");
     }
     while (1)
     {
@@ -131,14 +136,9 @@ int main(void)
 
             bbCoreInput_updateBall(&home.core.core, &home.core.ball, bbInstructionSource_input, no_handle);
             bbCoreInput_updatePaddle(&home.core.core, &home.core.paddle1, bbInstructionSource_input, no_handle);
+            bbCoreInput_updatePaddle(&home.core.core, &home.core.paddle2, bbInstructionSource_input, no_handle);
             bbCore_react(&home.core.core);
 
-
-
-            bbHandle paddle_position;
-            paddle_position.i32x2.x = (670*SCREEN_PPP);
-            paddle_position.i32x2.y = sin(home.core.core.actual_time/120.f)*(200*SCREEN_PPP)+(240*SCREEN_PPP);
-            bbUI_Inbox_SetWidgetPosition(&home.UI.inbox, "PADDLE2", paddle_position);
 
 
 
@@ -181,7 +181,6 @@ void* userinterface_thread(void* arg)
 
     bbGraphicsApp_init(&home.UI.graphics);
 
-
     bbWidgets_init(&home.UI.widgets);
 
     bbMouse mouse;
@@ -205,19 +204,13 @@ void* userinterface_thread(void* arg)
                      "NETPAUSE",
                      (bbScreenPoints){6*SCREEN_PPP,6*SCREEN_PPP});
 
-    bbWidget_constructor(NULL,
+    /*bbWidget_constructor(NULL,
                      &home.UI.widgets,
                      "CLOCK",
                      "LAYOUT",
                      "CLOCK",
-                     (bbScreenPoints){150*SCREEN_PPP,80*SCREEN_PPP});
+                     (bbScreenPoints){150*SCREEN_PPP,80*SCREEN_PPP});*/
 
-    bbWidget_constructor(NULL,
-                     &home.UI.widgets,
-                     "BUTTERFLY",
-                     "LAYOUT",
-                     "BUTTERFLY",
-                     (bbScreenPoints){100*SCREEN_PPP,200*SCREEN_PPP});
 
     bbWidget* ball;
 

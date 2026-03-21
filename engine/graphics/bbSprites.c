@@ -37,12 +37,12 @@ bbFlag bbSprite_new(bbSprites* sprites, char* key, I32 address, sfTexture* textu
 
     sfVector2f origin;
     origin.x = dimensions->origin_x;
-    origin.y = dimensions->origin_x;
+    origin.y = dimensions->origin_y;
     sfSprite_setOrigin(sprite, origin);
 
     sfVector2f scale;
     scale.x = dimensions->scale_x;
-    scale.y = dimensions->scale_x;
+    scale.y = dimensions->scale_y;
     sfSprite_setScale(sprite, scale);
 
     sprites->sprites[address] = sprite;

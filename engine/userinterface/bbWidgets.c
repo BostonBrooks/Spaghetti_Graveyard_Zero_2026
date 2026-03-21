@@ -240,7 +240,7 @@ bbFlag bbWidget_newLayoutPong(bbWidget** self,
                                   "HOVER");
     widget->mtable.is_over = funcInt;
 
-    widget->mtable.mouse_icon = 154;
+    widget->mtable.mouse_icon = 85;
 
     bbHandle drawfunctionHandle;
     bbDictionary_lookup(graphics->drawfunctions->dictionary,
