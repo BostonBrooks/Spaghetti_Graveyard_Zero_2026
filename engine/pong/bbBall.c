@@ -28,14 +28,52 @@ bbFlag bbBall_Update(bbBall* ball)
     bbScreenPointsRect rect;
 
     const I32 ball_size = 13;
+    const I32 paddle_half_width = 0;
+    const I32 paddle_half_height = 64;
 
-    if (new_position.x < ball_size*SCREEN_PPP || new_position.x > (720 - ball_size)*SCREEN_PPP)
+    bool A = new_position.x < ball_size*SCREEN_PPP;
+    bool B = new_position.x > (720 - ball_size)*SCREEN_PPP;
+
+    bbScreenPoints paddle_position = home.core.paddle1.position;
+    I32 horizontal_difference = new_position.x - paddle_position.x;
+    I32 vertical_difference = new_position.y - paddle_position.y;
+
+    if (horizontal_difference < 0) { horizontal_difference = -horizontal_difference; }
+    if (vertical_difference < 0 ) { vertical_difference = -vertical_difference; }
+
+    bool C = horizontal_difference < (paddle_half_width + ball_size)*SCREEN_PPP;
+    bool D = vertical_difference < (paddle_half_height + ball_size)*SCREEN_PPP;
+
+    paddle_position = home.core.paddle2.position;
+    horizontal_difference = new_position.x - paddle_position.x;
+    vertical_difference = new_position.y - paddle_position.y;
+
+    if (horizontal_difference < 0) { horizontal_difference = -horizontal_difference; }
+    if (vertical_difference < 0 ) { vertical_difference = -vertical_difference; }
+
+    bool E = horizontal_difference < (paddle_half_width + ball_size)*SCREEN_PPP;
+    bool F = vertical_difference < (paddle_half_height + ball_size)*SCREEN_PPP;
+
+    if (A || B || (C && D) || (E && F))
     {
         ball->velocity.x = -ball->velocity.x;
     new_position.x = ball->position.x + ball->velocity.x;
 
     }
 
+    if (C && D)
+    {
+        paddle_position = home.core.paddle1.position;
+        ball->velocity.y += (new_position.y - paddle_position.y) / 8;
+        ball->velocity.y -= ball->velocity.y / 12;
+    }
+
+    if (E && F)
+    {
+        paddle_position = home.core.paddle2.position;
+        ball->velocity.y += (new_position.y - paddle_position.y) / 8;
+        ball->velocity.y -= ball->velocity.y / 12;
+    }
 
     if (new_position.y < ball_size*SCREEN_PPP || new_position.y > (480 - ball_size)*SCREEN_PPP)
     {
