@@ -3,6 +3,7 @@
 #include "engine/logic/bbFlag.h"
 #include "engine/logic/bbString.h"
 #include "engine/pong/bbBall.h"
+#include "engine/pong/bbPaddle.h"
 
 bbFlag bbCoreInput_setString(bbCore* core, char* string, bbInstruction_source source, bbHandle action)
 {
@@ -75,6 +76,21 @@ bbFlag bbCoreInput_updateBall(bbCore* core, bbBall* ball, bbInstruction_source s
     bbList_pushL(&core->do_stack, instruction);
     return bbSuccess;
 }
+
+bbFlag bbCoreInput_updatePaddle(bbCore* core, bbPaddle* paddle, bbInstruction_source source, bbHandle action)
+{
+    bbInstruction* instruction;
+    bbFlag flag = bbList_alloc(&core->do_stack,(void**)&instruction);
+
+    instruction->data.three_handles.handle1.ptr = paddle;
+    instruction->type = bbInstruction_updatePaddle;
+    instruction->source = source;
+    instruction->redo_instruction = action;
+
+    bbList_pushL(&core->do_stack, instruction);
+    return bbSuccess;
+}
+
 
 bbFlag bbCoreInput_netsendButton(bbCore* core, char* string)
 {

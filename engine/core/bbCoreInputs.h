@@ -3,6 +3,7 @@
 #include "engine/core/bbInstruction.h"
 #include "engine/core/bbCore.h"
 #include "engine/pong/bbBall.h"
+#include "engine/pong/bbPaddle.h"
 
 
 bbFlag bbCoreInput_setString(bbCore* core, char* string, bbInstruction_source source, bbHandle action);
@@ -25,5 +26,6 @@ bbFlag bbCoreInput_loop(bbCore* core, char* string, U64 time,
 bbFlag bbCoreInput_netpauseButton(bbCore* core,char* string);
 
 bbFlag bbCoreInput_updateBall(bbCore* core, bbBall* ball, bbInstruction_source source, bbHandle action);
+bbFlag bbCoreInput_updatePaddle(bbCore* core, bbPaddle* paddle, bbInstruction_source source, bbHandle action);
 
 #endif //BB_CORE_INPUTS

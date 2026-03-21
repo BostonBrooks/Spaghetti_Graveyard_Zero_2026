@@ -7,6 +7,7 @@
 #include "engine/interthread/bbClock2.h"
 #include "engine/network/bbNetwork.h"
 #include "engine/pong/bbBall.h"
+#include "engine/pong/bbPaddle.h"
 #include "engine/userinterface/bbUI_Inbox.h"
 #include "engine/userinterface/bbWidgets.h"
 
@@ -26,6 +27,8 @@ typedef struct
     I64 test_int;
     bbClock2_handle clock2_handle;
     bbBall ball;
+    bbPaddle paddle1;
+    bbPaddle paddle2;
 } bbHome_core;
 
 typedef struct

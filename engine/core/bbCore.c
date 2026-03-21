@@ -83,6 +83,12 @@ bbFlag bbCore_react(bbCore* core)
             bbInstruction_updateBall_fn(core, instruction);
             break;
 
+
+
+        case bbInstruction_updatePaddle:
+            bbInstruction_updatePaddle_fn(core, instruction);
+            break;
+
         default:
             bbDebug("Unknown instruction type: %d\n", instruction->type);
         }
@@ -119,6 +125,10 @@ bbFlag bbCore_rewind(bbCore* core)
 
         case bbInstruction_unupdateBall:
             bbInstruction_unupdateBall_fn(core, instruction);
+            break;
+
+        case bbInstruction_unupdatePaddle:
+            bbInstruction_unupdatePaddle_fn(core, instruction);
             break;
 
 

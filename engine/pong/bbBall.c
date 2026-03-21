@@ -51,7 +51,7 @@ bbFlag bbBall_Update(bbBall* ball)
     bbHandle ball_position;
     ball_position.i32x2.x = new_position.x;
     ball_position.i32x2.y = new_position.y;
-    bbUI_Inbox_SetWidgetPosition(&home.UI.inbox, "BALL", ball_position);
+    bbUI_Inbox_SetWidgetPosition(&home.UI.inbox, ball->key, ball_position);
 
     return bbSuccess;
 }

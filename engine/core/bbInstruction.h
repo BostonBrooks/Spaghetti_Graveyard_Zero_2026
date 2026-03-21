@@ -24,7 +24,10 @@ typedef enum
     bbInstruction_netpauseButton,
 
     bbInstruction_updateBall,
-    bbInstruction_unupdateBall
+    bbInstruction_unupdateBall,
+
+    bbInstruction_updatePaddle,
+    bbInstruction_unupdatePaddle,
 } bbInstruction_type;
 
 
@@ -68,6 +71,9 @@ bbFlag bbInstruction_uncheckActions_fn(bbCore* core, bbInstruction* instruction)
 
 bbFlag bbInstruction_updateBall_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_unupdateBall_fn(bbCore* core, bbInstruction* instruction);
+
+bbFlag bbInstruction_updatePaddle_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbInstruction_unupdatePaddle_fn(bbCore* core, bbInstruction* instruction);
 
 bbFlag bbInstruction_setString_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_unsetString_fn(bbCore* core, bbInstruction* instruction);

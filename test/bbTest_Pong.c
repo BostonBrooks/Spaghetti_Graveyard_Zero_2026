@@ -62,6 +62,11 @@ int main(void)
         bbScreenPoints position = {360*SCREEN_PPP,240*SCREEN_PPP};
         bbScreenPoints velocity = {11*SCREEN_PPP,7*SCREEN_PPP};
         bbBall_Init(&home.core.ball,position,velocity,"BALL");
+
+
+        bbScreenPoints position2 = {50*SCREEN_PPP,240*SCREEN_PPP};
+        bbScreenPoints velocity2 = {0*SCREEN_PPP,15*SCREEN_PPP};
+        bbPaddle_Init(&home.core.paddle1, position2,velocity2,"PADDLE1");
     }
     while (1)
     {
@@ -125,14 +130,12 @@ int main(void)
                 bbInstructionSource_input, no_handle );
 
             bbCoreInput_updateBall(&home.core.core, &home.core.ball, bbInstructionSource_input, no_handle);
+            bbCoreInput_updatePaddle(&home.core.core, &home.core.paddle1, bbInstructionSource_input, no_handle);
             bbCore_react(&home.core.core);
 
+
+
             bbHandle paddle_position;
-            paddle_position.i32x2.x = (50*SCREEN_PPP);
-            paddle_position.i32x2.y = cos(home.core.core.actual_time/120.f)*(200*SCREEN_PPP)+(240*SCREEN_PPP);
-            bbUI_Inbox_SetWidgetPosition(&home.UI.inbox, "PADDLE1", paddle_position);
-
-
             paddle_position.i32x2.x = (670*SCREEN_PPP);
             paddle_position.i32x2.y = sin(home.core.core.actual_time/120.f)*(200*SCREEN_PPP)+(240*SCREEN_PPP);
             bbUI_Inbox_SetWidgetPosition(&home.UI.inbox, "PADDLE2", paddle_position);
