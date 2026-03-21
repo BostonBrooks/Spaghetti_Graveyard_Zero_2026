@@ -71,6 +71,14 @@ void* clock2_thread(void* arg)
         {
             bbFlag flag = bbThreadedQueue_popR(&clock->inbox,(void**)&message_in);
             if (flag == bbNone) break;
+            if (message_in->clock_thread_index >= MAX_CONNECTIONS)
+            {
+                bbDebug("index (%d) too large! message_type = %d\n",
+                    message_in->clock_thread_index, message_in->message_type );
+                bbThreadedQueue_free(&clock->inbox,(void**)&message_in);
+                break;
+            }
+
             if (message_in->message_type == bbClock2MessageType_request)
             {
                 bbClock2_connection* connection;
@@ -179,6 +187,7 @@ bbFlag bbClock2_waitTick(bbClock2* clock, bbClock2_handle* handle, U64 until_map
     message->message_type = bbClock2MessageType_request;
     message->map_tick = until_map_tick;
     message->clock_thread_index = handle->clock_thread_index;
+    bbAssert(handle->clock_thread_index < MAX_CONNECTIONS, "index too large\n");
 
     bbThreadedQueue_pushR(&clock->inbox,message);
 
