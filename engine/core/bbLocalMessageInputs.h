@@ -18,6 +18,8 @@ bbFlag bbLocalMessage_NetcodeButton(bbCore* core, char* key);
 
 bbFlag bbLocalMessage_ActionLoop(bbCore* core, char* key);
 
+bbFlag bbLocalMessage_KeyUp(bbCore* core, I32 key);
+bbFlag bbLocalMessage_KeyDown(bbCore* core, I32 key);
 
 
 bbFlag bbLocalMessage_NetpauseButton(bbCore* core, char* key);

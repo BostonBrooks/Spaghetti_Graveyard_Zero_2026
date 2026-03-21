@@ -11,7 +11,9 @@ typedef enum
     bbLocalMessage_netsendButton,
     bbLocalMessage_netcodeButton,
     bbLocalMessage_actionLoop,
-    bbLocalMessage_netpauseButton
+    bbLocalMessage_netpauseButton,
+    bbLocalMessage_keyDown,
+    bbLocalMessage_keyUp
 } bbLocalMessage_type;
 
 typedef struct
@@ -33,5 +35,7 @@ bbFlag bbLocalMessage_actionUnfreeze_fn(bbCore* core, bbLocalMessage* message);
 bbFlag bbLocalMessage_netcodeButton_fn(bbCore* core, bbLocalMessage* message);
 bbFlag bbLocalMessage_actionLoop_fn(bbCore* core, bbLocalMessage* message);
 
+bbFlag bbLocalMessage_keyUp_fn(bbCore* core, bbLocalMessage* message);
+bbFlag bbLocalMessage_keyDown_fn(bbCore* core, bbLocalMessage* message);
 
 #endif // BB_LOCAL_MESSAGE_H

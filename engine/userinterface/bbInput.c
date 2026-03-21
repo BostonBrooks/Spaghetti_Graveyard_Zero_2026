@@ -2,6 +2,7 @@
 #include "engine/data/CSFML.h"
 #include "engine/userinterface/bbInput.h"
 
+#include "engine/core/bbLocalMessageInputs.h"
 #include "engine/userinterface/bbWidgetFunctions.h"
 #include "engine/logic/bbTerminal.h"
 
@@ -192,6 +193,9 @@ bbFlag bbInput_poll(bbInput* input, sfRenderWindow* window){
                 if (key == 0)
                 {
                     if (keyCode == sfKeyEscape) exit(EXIT_SUCCESS);
+
+                    if (keyCode == sfKeyUp) bbLocalMessage_KeyDown(&home.core.core, keyCode);
+                    if (keyCode == sfKeyDown) bbLocalMessage_KeyDown(&home.core.core, keyCode);
                 }
                 //special character
             /*TODO code up mouse
@@ -236,6 +240,8 @@ bbFlag bbInput_poll(bbInput* input, sfRenderWindow* window){
             {
 
             }
+            if (keyCode == sfKeyUp) bbLocalMessage_KeyUp(&home.core.core, keyCode);
+            if (keyCode == sfKeyDown) bbLocalMessage_KeyUp(&home.core.core, keyCode);
         case sfEvtTextEntered:
             break;
         default:{
