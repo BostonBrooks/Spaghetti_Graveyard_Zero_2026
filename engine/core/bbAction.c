@@ -85,3 +85,24 @@ I32 bbAction_compare (void* A, void* B)
 
     return -1;
 }
+
+bbFlag bbAction_setPaddleDirection(void* Core,
+                            U32 player,
+                            U32 collision,
+                            U64 created_tick,
+                            U64 act_tick,
+                            paddle_direction direction)
+{
+    bbCore* core = (bbCore*)Core;
+    bbAction* action;
+    bbList_alloc(&core->action_queue,(void**)&action);
+    action->header.type = bbActionType_setPaddleDirection;
+    action->header.player = player;
+    action->header.collision = collision;
+    action->header.created_tick = created_tick;
+    action->header.act_tick = act_tick;
+    action->integer = direction;
+    bbList_sortL(&core->action_queue,(void*)action);
+
+    return bbSuccess;
+}

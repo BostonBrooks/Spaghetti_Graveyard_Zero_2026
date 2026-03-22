@@ -17,10 +17,13 @@
 #define PACKETTYPE_UNFREEZEBUTTON    4
 #define PACKETTYPE_NETCODEBUTTON     5
 #define PACKETTYPE_PAUSE             6
+#define PACKETTYPE_KEYUP             7
+#define PACKETTYPE_KEYDOWN           8
 
 
 typedef union
 {
+    I32 integer;
     bbNetwork_timestamp timestamp;
     bbNetwork_pauseMessage pause;
     char str[64];

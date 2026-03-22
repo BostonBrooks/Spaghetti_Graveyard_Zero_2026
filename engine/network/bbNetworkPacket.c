@@ -70,6 +70,11 @@ bbFlag bbNetworkPacket_toStruct (sfPacket* packet, void* Struct)
        struct1->data.pause.is_paused = sfPacket_readBool(packet);
 
         break;
+
+    case PACKETTYPE_KEYUP:
+    case PACKETTYPE_KEYDOWN:
+        struct1->data.integer = sfPacket_readInt32(packet);
+
     }
     return bbSuccess;
 }
@@ -141,6 +146,11 @@ bbFlag bbNetworkPacket_fromStruct (sfPacket* packet, void* Struct)
         sfPacket_writeUint32(packet, (U32)map_tick_lower);
         sfPacket_writeUint32(packet, (U32)map_tick_upper);
         sfPacket_writeBool(packet, struct1->data.pause.is_paused);
+
+        break;
+    case PACKETTYPE_KEYUP:
+    case PACKETTYPE_KEYDOWN:
+        sfPacket_writeInt32(packet, struct1->data.integer);
 
         break;
     }

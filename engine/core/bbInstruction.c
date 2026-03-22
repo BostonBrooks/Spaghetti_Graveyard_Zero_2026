@@ -28,6 +28,19 @@ bbFlag bbInstruction_netcodeButton_fn(bbCore* core, bbInstruction* instruction)
     return bbSuccess;
 }
 
+
+bbFlag bbInstruction_keyUp_fn(bbCore* core, bbInstruction* instruction)
+{
+    bbNetworkApp_keyUp(&home.network, instruction->data.three_handles.handle1.u64, instruction->act_time);
+    return bbSuccess;
+}
+
+bbFlag bbInstruction_keyDown_fn(bbCore* core, bbInstruction* instruction)
+{
+    bbNetworkApp_keyDown(&home.network, instruction->data.three_handles.handle1.u64, instruction->act_time);
+    return bbSuccess;
+}
+
 bbFlag bbInstruction_loopAction_fn(bbCore* core, bbInstruction* instruction)
 {
     bbDebug("Loop instruction at time = %lu, simulation time = %lu\n", instruction->act_time, core->simulation_time);
@@ -492,6 +505,13 @@ bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
     if (action->header.type == bbActionType_loop)
     {
         bbCoreInput_loop(core,action->header.key,action->header.act_tick,bbInstructionSource_action,handle);
+        bbCore_react(core);
+
+    }
+    if (action->header.type == bbActionType_setPaddleDirection)
+    {
+        bbHere()
+        bbCoreInput_setPaddleDirection(core,action->integer,action->header.act_tick,bbInstructionSource_action,handle);
         bbCore_react(core);
 
     }

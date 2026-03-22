@@ -87,14 +87,17 @@ bbFlag bbLocalMessage_actionLoop_fn(bbCore* core, bbLocalMessage* message)
 
 bbFlag bbLocalMessage_keyUp_fn(bbCore* core, bbLocalMessage* message)
 {
-    bbCoreInput_netpauseButton(core,"NETPAUSE");
+
+    bbHandle handle = {0};
+    bbCoreInput_keyUp(core,message->data.three_handles.handle1.u64, message->act_time,bbInstructionSource_input,handle);
 
     return bbSuccess;
 }
 
 bbFlag bbLocalMessage_keyDown_fn(bbCore* core, bbLocalMessage* message)
 {
-    bbCoreInput_netpauseButton(core,"NETPAUSE");
+    bbHandle handle = {0};
+    bbCoreInput_keyDown(core,message->data.three_handles.handle1.u64, message->act_time,bbInstructionSource_input,handle);
 
     return bbSuccess;
 }

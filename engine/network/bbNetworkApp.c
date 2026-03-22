@@ -159,7 +159,6 @@ bbFlag bbNetworkApp_checkInbox(bbNetwork* network)
 
         if (packet->type == PACKETTYPE_NETCODEBUTTON)
         {
-            bbDebug ("netcode button: %s\n", packet->data.str);
             bbAction_unfreezeButton(&home.core.core,
                 packet->player,
                 0,
@@ -177,6 +176,40 @@ bbFlag bbNetworkApp_checkInbox(bbNetwork* network)
             bbLocalMessage_UnfreezeButton(&home.core.core,"NETPAUSE");
 
         }
+
+        if (packet->type == PACKETTYPE_KEYUP)
+        {
+
+            bbAction_setPaddleDirection(&home.core.core,
+            packet->player,
+            rand(),
+            packet->send_tick,
+            packet->act_tick,
+             left_stop);
+            bbDebug("key up: %d\n", packet->data.integer);
+        }
+        if (packet->type == PACKETTYPE_KEYDOWN)
+        {
+            if (packet->data.integer == 73)
+            {
+                bbAction_setPaddleDirection(&home.core.core,
+                packet->player,
+                rand(),
+                packet->send_tick,
+                packet->act_tick,left_up);
+            }
+            if (packet->data.integer == 74)
+            {
+                bbAction_setPaddleDirection(&home.core.core,
+                packet->player,
+                rand(),
+                packet->send_tick,
+                packet->act_tick,left_down);
+            }
+            bbDebug("key down: %d\n", packet->data.integer);
+
+        }
+
         bbThreadedQueue_free(&network->inbox, (void**)&packet);
     }
 }
@@ -260,6 +293,27 @@ bbFlag bbNetworkApp_netcodeButton(bbNetwork* network, char* key, U64 time){
     packet->type = PACKETTYPE_NETCODEBUTTON;
     packet->act_tick = time;
     bbStr_setStr(packet->data.str, key, 64);
+    bbThreadedQueue_pushL(&network->outbox,packet);
+
+    return bbSuccess;
+}
+
+bbFlag bbNetworkApp_keyUp(bbNetwork* network, I32 key_code, U64 time){
+    bbNetworkPacket* packet;
+    bbThreadedQueue_alloc(&network->outbox, (void**)&packet);
+    packet->type = PACKETTYPE_KEYUP;
+    packet->act_tick = time;
+    packet->data.integer = key_code;
+    bbThreadedQueue_pushL(&network->outbox,packet);
+
+    return bbSuccess;
+}
+bbFlag bbNetworkApp_keyDown(bbNetwork* network, I32 key_code, U64 time){
+    bbNetworkPacket* packet;
+    bbThreadedQueue_alloc(&network->outbox, (void**)&packet);
+    packet->type = PACKETTYPE_KEYDOWN;
+    packet->act_tick = time;
+    packet->data.integer = key_code;
     bbThreadedQueue_pushL(&network->outbox,packet);
 
     return bbSuccess;

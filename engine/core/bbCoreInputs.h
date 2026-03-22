@@ -28,4 +28,11 @@ bbFlag bbCoreInput_netpauseButton(bbCore* core,char* string);
 bbFlag bbCoreInput_updateBall(bbCore* core, bbBall* ball, bbInstruction_source source, bbHandle action);
 bbFlag bbCoreInput_updatePaddle(bbCore* core, bbPaddle* paddle, bbInstruction_source source, bbHandle action);
 
+
+bbFlag bbCoreInput_keyUp(bbCore* core, I32 key_code, U64 time,
+                                  bbInstruction_source source, bbHandle action);
+bbFlag bbCoreInput_keyDown(bbCore* core, I32 key_code, U64 time,
+                                  bbInstruction_source source, bbHandle action);
+bbFlag bbCoreInput_setPaddleDirection(bbCore* core, I32 direction, U64 time,
+                                  bbInstruction_source source, bbHandle action);
 #endif //BB_CORE_INPUTS

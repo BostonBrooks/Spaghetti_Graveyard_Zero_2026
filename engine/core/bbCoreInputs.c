@@ -90,7 +90,11 @@ bbFlag bbCoreInput_updatePaddle(bbCore* core, bbPaddle* paddle, bbInstruction_so
     bbList_pushL(&core->do_stack, instruction);
     return bbSuccess;
 }
-
+bbFlag bbCoreInput_setPaddleDirection(bbCore* core, I32 direction, U64 time,
+                                  bbInstruction_source source, bbHandle action)
+{
+    bbHere()
+}
 
 bbFlag bbCoreInput_netsendButton(bbCore* core, char* string)
 {
@@ -105,6 +109,8 @@ bbFlag bbCoreInput_netsendButton(bbCore* core, char* string)
     return bbSuccess;
 }
 
+
+
 bbFlag bbCoreInput_netpauseButton(bbCore* core, char* string)
 {
     bbInstruction* instruction;
@@ -115,6 +121,30 @@ bbFlag bbCoreInput_netpauseButton(bbCore* core, char* string)
 
     bbList_pushL(&core->do_stack, instruction);
 
+    return bbSuccess;
+}
+
+bbFlag bbCoreInput_keyUp(bbCore* core, I32 key_code, U64 time,
+                                  bbInstruction_source source, bbHandle action)
+{
+    bbInstruction* instruction;
+    bbList_alloc(&core->do_stack, (void**) &instruction);
+
+    instruction->type = bbInstruction_keyUp;
+    instruction->data.three_handles.handle1.u64 = key_code;
+    instruction->act_time = time;
+    bbList_pushL(&core->do_stack, instruction);
+    return bbSuccess;
+}
+bbFlag bbCoreInput_keyDown(bbCore* core, I32 key_code, U64 time,
+                                  bbInstruction_source source, bbHandle action)
+{
+    bbInstruction* instruction;
+    bbList_alloc(&core->do_stack, (void**) &instruction);
+    instruction->type = bbInstruction_keyDown;
+    instruction->data.three_handles.handle1.u64 = key_code;
+    instruction->act_time = time;
+    bbList_pushL(&core->do_stack, instruction);
     return bbSuccess;
 }
 

@@ -83,10 +83,16 @@ bbFlag bbCore_react(bbCore* core)
             bbInstruction_updateBall_fn(core, instruction);
             break;
 
-
-
         case bbInstruction_updatePaddle:
             bbInstruction_updatePaddle_fn(core, instruction);
+            break;
+
+        case bbInstruction_keyDown:
+            bbInstruction_keyDown_fn(core, instruction);
+            break;
+
+        case bbInstruction_keyUp:
+            bbInstruction_keyUp_fn(core, instruction);
             break;
 
         default:

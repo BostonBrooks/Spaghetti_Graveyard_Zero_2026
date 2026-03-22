@@ -58,7 +58,6 @@ bbFlag bbLocalMessage_NetsendButton(bbCore* core, char* key)
 
 bbFlag bbLocalMessage_NetcodeButton(bbCore* core, char* key)
 {
-    bbHere()
     bbLocalMessage* message;
     bbThreadedQueue_alloc(&core->local_message_queue, (void** ) &message);
     message->type = bbLocalMessage_netcodeButton;
@@ -71,7 +70,6 @@ bbFlag bbLocalMessage_NetcodeButton(bbCore* core, char* key)
 
 bbFlag bbLocalMessage_KeyDown(bbCore* core, I32 key)
 {
-    bbHere()
     bbLocalMessage* message;
     bbThreadedQueue_alloc(&core->local_message_queue, (void** ) &message);
     message->type = bbLocalMessage_keyDown;
