@@ -93,7 +93,13 @@ bbFlag bbAction_setPaddleDirection(void* Core,
                             U64 act_tick,
                             paddle_direction direction)
 {
+
+
     bbCore* core = (bbCore*)Core;
+
+
+    bbDebug("actual time = %lu, act tick = %lu\n", core->actual_time, act_tick);
+
     bbAction* action;
     bbList_alloc(&core->action_queue,(void**)&action);
     action->header.type = bbActionType_setPaddleDirection;

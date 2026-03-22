@@ -93,7 +93,16 @@ bbFlag bbCoreInput_updatePaddle(bbCore* core, bbPaddle* paddle, bbInstruction_so
 bbFlag bbCoreInput_setPaddleDirection(bbCore* core, I32 direction, U64 time,
                                   bbInstruction_source source, bbHandle action)
 {
-    bbHere()
+    bbInstruction* instruction;
+    bbFlag flag = bbList_alloc(&core->do_stack,(void**)&instruction);
+
+    instruction->data.three_handles.handle1.u64 = direction;
+    instruction->type = bbInstruction_setPaddleDirection;
+    instruction->source = source;
+    instruction->redo_instruction = action;
+
+    bbList_pushL(&core->do_stack, instruction);
+    return bbSuccess;
 }
 
 bbFlag bbCoreInput_netsendButton(bbCore* core, char* string)

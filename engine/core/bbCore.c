@@ -95,6 +95,11 @@ bbFlag bbCore_react(bbCore* core)
             bbInstruction_keyUp_fn(core, instruction);
             break;
 
+
+        case bbInstruction_setPaddleDirection:
+            bbInstruction_setPaddleDirection_fn(core, instruction);
+            break;
+
         default:
             bbDebug("Unknown instruction type: %d\n", instruction->type);
         }
@@ -173,7 +178,7 @@ bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
 
 
         default:
-            bbDebug("Unknown undo instruction type");
+            bbDebug("Unknown undo instruction type\n");
         }
 
     }

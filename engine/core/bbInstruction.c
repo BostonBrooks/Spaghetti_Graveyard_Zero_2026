@@ -420,6 +420,33 @@ bbFlag bbInstruction_unupdatePaddle_fn(bbCore* core, bbInstruction* instruction)
 
 }
 
+
+bbFlag bbInstruction_setPaddleDirection_fn(bbCore* core, bbInstruction* instruction)
+{
+    if (instruction->data.three_handles.handle1.u64 == left_up)
+
+    {
+
+        bbPaddle* paddle = &home.core.paddle1;
+        paddle->velocity.y = - 7*SCREEN_PPP;
+    }
+    if (instruction->data.three_handles.handle1.u64 == left_stop)
+
+    {
+
+        bbPaddle* paddle = &home.core.paddle1;
+        paddle->velocity.y = - 0*SCREEN_PPP;
+    }
+    if (instruction->data.three_handles.handle1.u64 == left_down)
+
+    {
+
+        bbPaddle* paddle = &home.core.paddle1;
+        paddle->velocity.y =  7*SCREEN_PPP;
+    }
+    return bbSuccess;
+}
+
 ///check actions using the new algorithm
 bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
 {
