@@ -19,6 +19,7 @@
 #define PACKETTYPE_PAUSE             6
 #define PACKETTYPE_KEYUP             7
 #define PACKETTYPE_KEYDOWN           8
+#define PACKETTYPE_PADDLEVELOCITY    9
 
 
 typedef union
@@ -28,6 +29,8 @@ typedef union
     bbNetwork_pauseMessage pause;
     char str[64];
     bbMapCoords map_coords;
+
+    I32x2 paddle_and_velocity;
 } bbNetworkPacket_data;
 
 

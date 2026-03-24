@@ -10,7 +10,8 @@ typedef enum
     bbActionType_setString,
     bbActionType_unfreezeButton,
     bbActionType_loop,
-    bbActionType_setPaddleDirection
+    bbActionType_setPaddleDirection,
+    bbActionType_setPaddleVelocity
 } bbAction_type;
 
 ///Action header used to figure out what order to enact actions
@@ -75,5 +76,12 @@ bbFlag bbAction_setPaddleDirection(void* Core,
                             U64 created_tick,
                             U64 act_tick,
                             paddle_direction direction);
+
+bbFlag bbAction_setPaddleVelocity(void* Core,
+                            U32 player,
+                            U32 collision,
+                            U64 created_tick,
+                            U64 act_tick,
+                            I32 velocity);
 
 #endif //BB_ACTION_H

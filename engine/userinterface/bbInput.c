@@ -169,6 +169,9 @@ bbFlag bbInput_poll(bbInput* input, sfRenderWindow* window){
             bbWidget* widget = home.UI.widgets.selected_textbox;
 
             sfKeyCode keyCode = event.key.code;
+
+                //send every KeyDown event
+                bbLocalMessage_KeyDown(&home.core.core, keyCode);
             unsigned char key;
                 if (event.key.shift == sfTrue)
                 {
@@ -194,8 +197,6 @@ bbFlag bbInput_poll(bbInput* input, sfRenderWindow* window){
                 {
                     if (keyCode == sfKeyEscape) exit(EXIT_SUCCESS);
 
-                    if (keyCode == sfKeyUp) bbLocalMessage_KeyDown(&home.core.core, keyCode);
-                    if (keyCode == sfKeyDown) bbLocalMessage_KeyDown(&home.core.core, keyCode);
                 }
                 //special character
             /*TODO code up mouse
@@ -240,8 +241,8 @@ bbFlag bbInput_poll(bbInput* input, sfRenderWindow* window){
             {
 
             }
-            if (keyCode == sfKeyUp) bbLocalMessage_KeyUp(&home.core.core, keyCode);
-            if (keyCode == sfKeyDown) bbLocalMessage_KeyUp(&home.core.core, keyCode);
+            //send every KeyUp event
+            bbLocalMessage_KeyUp(&home.core.core, keyCode);
         case sfEvtTextEntered:
             break;
         default:{

@@ -209,6 +209,17 @@ bbFlag bbNetworkApp_checkInbox(bbNetwork* network)
             bbDebug("key down: %d\n", packet->data.integer);
 
         }
+        if (packet->type == PACKETTYPE_PADDLEVELOCITY)
+        {
+
+
+            bbAction_setPaddleVelocity(&home.core.core,
+                                        packet->data.paddle_and_velocity.x,
+                                        rand(),
+                                        packet->send_tick,
+                                        packet->act_tick,
+                                        packet->data.paddle_and_velocity.y);
+        }
 
         bbThreadedQueue_free(&network->inbox, (void**)&packet);
     }

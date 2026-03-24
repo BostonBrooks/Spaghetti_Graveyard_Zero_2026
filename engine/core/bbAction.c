@@ -112,3 +112,31 @@ bbFlag bbAction_setPaddleDirection(void* Core,
 
     return bbSuccess;
 }
+
+
+bbFlag bbAction_setPaddleVelocity(void* Core,
+                            U32 player,
+                            U32 collision,
+                            U64 created_tick,
+                            U64 act_tick,
+                            I32 velocity)
+{
+
+
+    bbCore* core = (bbCore*)Core;
+
+
+    bbDebug("actual time = %lu, act tick = %lu\n", core->actual_time, act_tick);
+
+    bbAction* action;
+    bbList_alloc(&core->action_queue,(void**)&action);
+    action->header.type = bbActionType_setPaddleVelocity;
+    action->header.player = player;
+    action->header.collision = collision;
+    action->header.created_tick = created_tick;
+    action->header.act_tick = act_tick;
+    action->integer = velocity;
+    bbList_sortL(&core->action_queue,(void*)action);
+
+    return bbSuccess;
+}

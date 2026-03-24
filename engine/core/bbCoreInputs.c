@@ -105,6 +105,22 @@ bbFlag bbCoreInput_setPaddleDirection(bbCore* core, I32 direction, U64 time,
     return bbSuccess;
 }
 
+bbFlag bbCoreInput_setPaddleVelocity(bbCore* core, U8 player, I32 velocity, U64 time,
+                                  bbInstruction_source source, bbHandle action)
+{
+    bbInstruction* instruction;
+    bbFlag flag = bbList_alloc(&core->do_stack,(void**)&instruction);
+
+    instruction->data.three_handles.handle1.i32x2.x = player;
+    instruction->data.three_handles.handle1.i32x2.y = velocity;
+    instruction->type = bbInstruction_setPaddleVelocity;
+    instruction->source = source;
+    instruction->redo_instruction = action;
+
+    bbList_pushL(&core->do_stack, instruction);
+    return bbSuccess;
+}
+
 bbFlag bbCoreInput_netsendButton(bbCore* core, char* string)
 {
     bbInstruction* instruction;

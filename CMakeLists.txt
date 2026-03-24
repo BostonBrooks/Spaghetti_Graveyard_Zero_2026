@@ -51,8 +51,13 @@ add_executable(Pong test/bbTest_Pong.c
         engine/pong/bbBall.c
         engine/pong/bbPaddle.c)
 
+target_compile_definitions(Pong PRIVATE
+        DEFINE_PONG)
+
 target_include_directories(Pong  PRIVATE "./"
                                 PRIVATE "./games/game0/maps/pong/")
+
+
 
 target_link_libraries(Pong PRIVATE
         csfml-graphics
@@ -61,6 +66,7 @@ target_link_libraries(Pong PRIVATE
         csfml-network
         m
 )
+
 add_executable(Spaghetti_Graveyard_Zero_2026 test/incremental_test.c
         engine/data/bbIncludes.c
         engine/logic/bbBloatedPool.c
@@ -109,6 +115,9 @@ add_executable(Spaghetti_Graveyard_Zero_2026 test/incremental_test.c
         engine/pong/bbPaddle.c
 )
 
+target_compile_definitions(Spaghetti_Graveyard_Zero_2026 PRIVATE
+        DEFINE_SPAGHETTI_GRAVEYARD_ZERO)
+
 target_include_directories(Spaghetti_Graveyard_Zero_2026  PRIVATE "./"
         PRIVATE "./games/game0/maps/map0/")
 
@@ -135,6 +144,9 @@ add_executable(Server engine/server/bbServer.c
         engine/logic/bbList_sort.c
         engine/network/bbNetworkPacket.c
 )
+
+target_compile_definitions(Server PRIVATE
+        DEFINE_SERVER)
 
 
 target_include_directories(Server  PRIVATE "./")

@@ -100,6 +100,9 @@ bbFlag bbCore_react(bbCore* core)
             bbInstruction_setPaddleDirection_fn(core, instruction);
             break;
 
+        case bbInstruction_setPaddleVelocity:
+            bbInstruction_setPaddleVelocity_fn(core, instruction);
+            break;
         default:
             bbDebug("Unknown instruction type: %d\n", instruction->type);
         }

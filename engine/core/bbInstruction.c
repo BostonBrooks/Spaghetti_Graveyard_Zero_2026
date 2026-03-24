@@ -447,6 +447,20 @@ bbFlag bbInstruction_setPaddleDirection_fn(bbCore* core, bbInstruction* instruct
     return bbSuccess;
 }
 
+bbFlag bbInstruction_setPaddleVelocity_fn(bbCore* core, bbInstruction* instruction)
+{
+    if (instruction->data.three_handles.handle1.i32x2.x == 0)
+    {
+        bbPaddle* paddle = &home.core.paddle1;
+        paddle->velocity.y = instruction->data.three_handles.handle1.i32x2.y;
+    } else {
+        bbPaddle* paddle = &home.core.paddle2;
+        paddle->velocity.y = instruction->data.three_handles.handle1.i32x2.y;
+    }
+
+    return bbSuccess;
+}
+
 ///check actions using the new algorithm
 bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
 {
@@ -542,6 +556,14 @@ bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
         bbCore_react(core);
 
     }
+    if (action->header.type == bbActionType_setPaddleVelocity)
+    {
+        bbHere()
+        bbCoreInput_setPaddleVelocity(core,action->header.player, action->integer,action->header.act_tick,bbInstructionSource_action,handle);
+        bbCore_react(core);
+
+    }
+
 
     return bbSuccess;
 }

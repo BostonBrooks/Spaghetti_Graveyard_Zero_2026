@@ -122,7 +122,7 @@ int main(void){
                 }
 
 
-                bbNetworkPacket packetStruct;
+                bbNetworkPacket packetStruct, packetStruct2;
 
                 bbNetworkPacket_toStruct(packet, &packetStruct);
 
@@ -153,6 +153,82 @@ int main(void){
                     //printf("Sent time\n");
                     continue;
                 }
+                if (packetStruct.type == PACKETTYPE_KEYUP)
+                {
+                    I32 key_code =  packetStruct.data.integer;
+
+                    if (key_code == sfKeyUp || key_code == sfKeyDown)
+                    {
+                        packetStruct.type = PACKETTYPE_PADDLEVELOCITY;
+                        packetStruct.data.paddle_and_velocity.x = 1;
+                        packetStruct.data.paddle_and_velocity.y = 0;
+                        sfPacket_clear(packet);
+                        bbNetworkPacket_fromStruct(packet, &packetStruct);
+
+                    }else
+                    if (key_code == sfKeyW || key_code == sfKeyS)
+                    {
+                        packetStruct.type = PACKETTYPE_PADDLEVELOCITY;
+                        packetStruct.data.paddle_and_velocity.x = 0;
+                        packetStruct.data.paddle_and_velocity.y = 0;
+                        sfPacket_clear(packet);
+                        bbNetworkPacket_fromStruct(packet, &packetStruct);
+
+                    }else
+                    {
+                    sfPacket_clear(packet);
+                        continue;
+                    }
+                }
+
+                if (packetStruct.type == PACKETTYPE_KEYDOWN)
+                {
+                    I32 key_code =  packetStruct.data.integer;
+
+                    if (key_code == sfKeyUp)
+                    {
+                        packetStruct.type = PACKETTYPE_PADDLEVELOCITY;
+                        packetStruct.data.paddle_and_velocity.x = 1;
+                        packetStruct.data.paddle_and_velocity.y = -7 * SCREEN_PPP;
+                        sfPacket_clear(packet);
+                        bbNetworkPacket_fromStruct(packet, &packetStruct);
+
+                    }else
+                    if (key_code == sfKeyDown)
+                    {
+                        packetStruct.type = PACKETTYPE_PADDLEVELOCITY;
+                        packetStruct.data.paddle_and_velocity.x = 1;
+                        packetStruct.data.paddle_and_velocity.y = 7 * SCREEN_PPP;
+                        sfPacket_clear(packet);
+                        bbNetworkPacket_fromStruct(packet, &packetStruct);
+
+                    }else
+                    if (key_code == sfKeyW)
+                    {
+                        packetStruct.type = PACKETTYPE_PADDLEVELOCITY;
+                        packetStruct.data.paddle_and_velocity.x = 0;
+                        packetStruct.data.paddle_and_velocity.y = -7 * SCREEN_PPP;
+                        sfPacket_clear(packet);
+                        bbNetworkPacket_fromStruct(packet, &packetStruct);
+
+                    }else
+                    if (key_code == sfKeyS)
+                    {
+                        packetStruct.type = PACKETTYPE_PADDLEVELOCITY;
+                        packetStruct.data.paddle_and_velocity.x = 0;
+                        packetStruct.data.paddle_and_velocity.y = 7 * SCREEN_PPP;
+                        sfPacket_clear(packet);
+                        bbNetworkPacket_fromStruct(packet, &packetStruct);
+
+                    }else
+                    {
+                    sfPacket_clear(packet);
+                        continue;
+                    }
+                }
+
+
+
                 if (packetStruct.type == PACKETTYPE_UNFREEZEBUTTON)
                 {
                     bbDebug("unfreeze button %s\n", packetStruct.data.str);

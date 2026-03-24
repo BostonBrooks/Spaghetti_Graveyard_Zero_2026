@@ -74,6 +74,12 @@ bbFlag bbNetworkPacket_toStruct (sfPacket* packet, void* Struct)
     case PACKETTYPE_KEYUP:
     case PACKETTYPE_KEYDOWN:
         struct1->data.integer = sfPacket_readInt32(packet);
+        break;
+    case PACKETTYPE_PADDLEVELOCITY:
+        struct1->data.paddle_and_velocity.x = sfPacket_readInt32(packet);
+        struct1->data.paddle_and_velocity.y = sfPacket_readInt32(packet);
+
+        break;
 
     }
     return bbSuccess;
@@ -153,6 +159,10 @@ bbFlag bbNetworkPacket_fromStruct (sfPacket* packet, void* Struct)
         sfPacket_writeInt32(packet, struct1->data.integer);
 
         break;
+
+    case PACKETTYPE_PADDLEVELOCITY:
+        sfPacket_writeInt32(packet, struct1->data.paddle_and_velocity.x);
+        sfPacket_writeInt32(packet, struct1->data.paddle_and_velocity.y);
     }
     return bbSuccess;
 }
