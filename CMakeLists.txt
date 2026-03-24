@@ -244,3 +244,9 @@ add_executable(Reactor_Core test/bbTest_core.c
 
 
 target_include_directories(Reactor_Core  PRIVATE "./")
+
+add_executable(Test_Threaded_Queue test/bbTest_ThreadedQueue.c
+        engine/threadsafe/bbThreadedQueue.c
+        engine/threadsafe/bbThreadedPool.c)
+
+target_include_directories(Test_Threaded_Queue  PRIVATE "./")
