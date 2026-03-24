@@ -178,19 +178,25 @@ bbFlag bbInput_poll(bbInput* input, sfRenderWindow* window){
                     key = input->keymap_uppercase[keyCode];
                     if (key != 0)
                     {
-                        bbHandle handle;
-                        handle.u64 = key;
-                        bbWidget_onCommand(widget,widgets, bbWC_putChar,
-                                           handle);
+                        if (widget!= NULL)
+                        {
+                            bbHandle handle;
+                            handle.u64 = key;
+                            bbWidget_onCommand(widget,widgets, bbWC_putChar,
+                                               handle);
+                        }
                     }
                 } else {
                     key = input->keymap_lowercase[keyCode];
                     if (key != 0)
                     {
-                        bbHandle handle;
-                        handle.u64 = key;
-                        bbWidget_onCommand(widget,widgets, bbWC_putChar,
-                                           handle);
+                        if (widget!= NULL)
+                        {
+                            bbHandle handle;
+                            handle.u64 = key;
+                            bbWidget_onCommand(widget,widgets, bbWC_putChar,
+                                               handle);
+                        }
                     }
                 }
                 if (key == 0)

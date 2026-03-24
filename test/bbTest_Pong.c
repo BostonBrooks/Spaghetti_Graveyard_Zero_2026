@@ -167,6 +167,8 @@ void* userinterface_thread(void* arg)
     sfSprite* splash_sprite = sfSprite_create();
     sfSprite_setTexture(splash_sprite, splash_texture, sfTrue);
 
+    home.UI.widgets.selected_textbox = NULL;
+
     sfVideoMode mode;
     mode.width = 720;
     mode.height = 480;
