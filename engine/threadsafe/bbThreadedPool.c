@@ -127,6 +127,9 @@ bbFlag bbThreadedPool_allocImpl(bbThreadedPool* pool, void** address, char* file
 
     bbHandle handle;
     bbThreadedPool_available* element;
+
+    bbAssert(pool->available_head >= 0, "negative number being stored in unsigned type\n");
+
     handle.u64 = pool->available_head;
 
     bbThreadedPool_lookup_unchecked(pool, (void*)&element, handle);
