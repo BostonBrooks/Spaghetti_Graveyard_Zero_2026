@@ -309,12 +309,14 @@ bbFlag bbThreadedQueue_popR_block(bbThreadedQueue* queue, void** Element)
 
         pthread_cond_wait(&queue->empty_cond, &queue->empty);
 
+        bbMutexLock(&queue->mutex);
     }
 
     //Case 2: One Element
 
     if (queue->head == queue->tail)
     {
+        bbAssert(queue->head == queue->tail, "how did we get here?\n");
         bbHandle handle;
         handle.u64 = queue->head;
         void* element;
@@ -368,6 +370,8 @@ bbFlag bbThreadedQueue_popL_block(bbThreadedQueue* queue, void** Element)
         bbAssert(queue->head == -1 && queue->tail == -1, "head/tail mismatch");
         bbMutexUnlock(&queue->mutex);
         pthread_cond_wait(&queue->empty_cond, &queue->empty);
+
+        bbMutexLock(&queue->mutex);
     }
 
     //Case 2: One Element

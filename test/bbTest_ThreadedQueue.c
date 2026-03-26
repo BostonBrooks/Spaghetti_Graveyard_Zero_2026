@@ -26,6 +26,7 @@ void* consumer_thread(void* arg)
     while (1)
     {
         head_tail(queue);
+        bbHere()
         bbTest_Struct* test_struct;
 
         bbThreadedQueue_popR_block(&queue, (void**)&test_struct);
@@ -50,6 +51,7 @@ int main (void)
     while (1)
     {
         head_tail(queue);
+        bbHere()
 
         bbTest_Struct* test_struct;
 
