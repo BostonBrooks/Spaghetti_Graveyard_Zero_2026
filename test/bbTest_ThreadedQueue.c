@@ -2,6 +2,8 @@
 
 #include "engine/threadsafe/bbThreadedQueue.h"
 
+#define head_tail(queue1){bbAssert((queue1.head < 0)==(queue1.tail < 0),\
+"head = %d, tail = %d\n", queue1.head, queue1.tail)}
 
 thread_local char* thread;
 
@@ -22,7 +24,8 @@ void* consumer_thread(void* arg)
 
 
     while (1)
-    {bbHere()
+    {
+        head_tail(queue);
         bbTest_Struct* test_struct;
 
         bbThreadedQueue_popR_block(&queue, (void**)&test_struct);
@@ -45,11 +48,14 @@ int main (void)
     pthread_create(&consumer_pthread, NULL, consumer_thread, NULL);
 
     while (1)
-    {bbHere()
+    {
+        head_tail(queue);
+
         bbTest_Struct* test_struct;
 
         bbThreadedQueue_alloc(&queue, (void**)&test_struct);
 
         bbThreadedQueue_pushL(&queue, test_struct);
+
     }
 }
