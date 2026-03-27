@@ -113,7 +113,7 @@ bbFlag bbThreadedPool_allocImpl(bbThreadedPool* pool, void** address, char* file
 {
     bbMutexLock(&pool->mutex);
 
-    if (pool->in_use >= pool->num)
+    if (pool->in_use >= pool->num-1)
     {
         //assert available list empty
         bbMutexUnlock(&pool->mutex);
