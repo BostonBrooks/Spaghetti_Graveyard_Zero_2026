@@ -2,6 +2,9 @@
 #include "engine/threadsafe/bbThreadedQueue.h"
 #include "engine/logic/bbTerminal.h"
 
+#define head_tail(queue){bbAssert((queue->head < 0)==(queue->tail < 0),\
+    "head = %d, tail = %d\n", queue->head, queue->tail)}
+
 bbFlag bbThreadedQueue_init(bbThreadedQueue* queue, bbVPool* pool, I32 sizeOf, I32 num, I32 offset_of)
 {
 
@@ -20,9 +23,15 @@ bbFlag bbThreadedQueue_init(bbThreadedQueue* queue, bbVPool* pool, I32 sizeOf, I
     queue->offset_of = offset_of;
 
 
-    pthread_mutex_init(&queue->mutex, NULL);
-    pthread_mutex_init(&queue->empty, NULL);
-    pthread_cond_init(&queue->empty_cond, NULL);
+    int flag = pthread_mutex_init(&queue->mutex, NULL);
+
+    bbAssert(flag == 0, "pthread_mutex_init failed\n");
+
+    flag = pthread_mutex_init(&queue->empty, NULL);
+    bbAssert(flag == 0, "pthread_mutex_init failed\n");
+    flag = pthread_cond_init(&queue->empty_cond, NULL);
+
+    bbAssert(flag == 0, "pthread_cond_init failed\n");
     return bbSuccess;
 }
 
@@ -56,6 +65,7 @@ bbFlag bbThreadedQueue_pushL(bbThreadedQueue* queue, void* element)
 
 
     bbMutexLock(&queue->mutex);
+    head_tail(queue)
 
     bbFlag flag;
     bbListElement_Handle* list_element = element + queue->offset_of;
@@ -67,7 +77,7 @@ bbFlag bbThreadedQueue_pushL(bbThreadedQueue* queue, void* element)
     );
     bbHandle handle_element;
     flag = bbVPool_reverseLookup(queue->pool, element, &handle_element);
-
+    head_tail(queue)
     //list empty
     if (queue->head == -1 || queue->tail == -1)
     {
@@ -91,19 +101,22 @@ bbFlag bbThreadedQueue_pushL(bbThreadedQueue* queue, void* element)
 
     void* head;
     bbHandle head_handle;
+
+    bbAssert( queue->head >= 0, "list not empty but has null head\n");
     head_handle.u64 = queue->head;
+
+
+    bbAssert( queue->tail != -1, "list not empty but has null tail\n");
     bbVPool_lookup(queue->pool, &head, head_handle);
+    bbAssert( queue->tail != -1, "list not empty but has null tail\n");
+
     bbListElement_Handle* head_listElement = (head + queue->offset_of);
 
     list_element->prev = queue->pool->null;
     list_element->next = head_handle;
 
     head_listElement->prev = handle_element;
-    queue->head = handle_element.u64;
-
-    bbAssert( queue->head != -1, "list not empty but has null head\n");
-    //I don't see why this fails
-    bbAssert( queue->tail != -1, "list not empty but has null tail\n");
+    queue->head = (I32)handle_element.u64;
 
     bbMutexUnlock(&queue->mutex);
     return bbSuccess;
@@ -296,12 +309,14 @@ bbFlag bbThreadedQueue_popR_block(bbThreadedQueue* queue, void** Element)
 
         pthread_cond_wait(&queue->empty_cond, &queue->empty);
 
+        bbMutexLock(&queue->mutex);
     }
 
     //Case 2: One Element
 
     if (queue->head == queue->tail)
     {
+        bbAssert(queue->head == queue->tail, "how did we get here?\n");
         bbHandle handle;
         handle.u64 = queue->head;
         void* element;
@@ -355,6 +370,8 @@ bbFlag bbThreadedQueue_popL_block(bbThreadedQueue* queue, void** Element)
         bbAssert(queue->head == -1 && queue->tail == -1, "head/tail mismatch");
         bbMutexUnlock(&queue->mutex);
         pthread_cond_wait(&queue->empty_cond, &queue->empty);
+
+        bbMutexLock(&queue->mutex);
     }
 
     //Case 2: One Element

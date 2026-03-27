@@ -5,6 +5,8 @@
 #include "engine/logic/bbArithmetic.h"
 #include "engine/logic/bbTerminal.h"
 #include "engine/logic/bbVPool.h"
+#define head_tail(pool){bbAssert((pool->available_head < 0)==(pool->available_tail < 0),\
+        "head = %d, tail = %d\n", pool->available_head, pool->available_tail)}
 
 bbFlag bbThreadedPool_lookup_unchecked(bbThreadedPool* pool, void** address, bbHandle handle)
 {
@@ -211,6 +213,7 @@ bbFlag bbThreadedPool_free(bbThreadedPool* pool, void* address)
 bbFlag bbThreadedPool_lookup(bbThreadedPool* pool, void** address, bbHandle handle)
 {
 
+    bbAssert(handle.u64 < pool->num, "handle out of range\n");
     void** element;
     bbThreadedPool_lookup_unchecked(pool, (void**)&element, handle);
     *address = element;
