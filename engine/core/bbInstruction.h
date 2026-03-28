@@ -34,7 +34,8 @@ typedef enum
     bbInstruction_keyDown,
 
     bbInstruction_setPaddleDirection,
-    bbInstruction_setPaddleVelocity
+    bbInstruction_setPaddleVelocity,
+    bbInstruction_unsetPaddleVelocity
 } bbInstruction_type;
 
 
@@ -85,6 +86,7 @@ bbFlag bbInstruction_unupdatePaddle_fn(bbCore* core, bbInstruction* instruction)
 
 bbFlag bbInstruction_setPaddleDirection_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_setPaddleVelocity_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbInstruction_unsetPaddleVelocity_fn(bbCore* core, bbInstruction* instruction);
 
 bbFlag bbInstruction_setString_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_unsetString_fn(bbCore* core, bbInstruction* instruction);

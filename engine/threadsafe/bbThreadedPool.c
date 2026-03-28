@@ -125,6 +125,15 @@ bbFlag bbThreadedPool_allocImpl(bbThreadedPool* pool, void** address, char* file
         bbMutexLock(&pool->mutex);
     }
 
+    if (pool->available_head == -1 || pool->available_tail == -1)
+    {
+        //assert available list empty
+        bbMutexUnlock(&pool->mutex);
+
+        //there is a bug when mutex is unlocked in between the following lines
+        pthread_cond_wait(&pool->pool_full_cond, &pool->pool_full);
+        bbMutexLock(&pool->mutex);
+    }
     pool->in_use++;
 
     bbHandle handle;

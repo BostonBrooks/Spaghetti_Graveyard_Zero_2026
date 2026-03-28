@@ -8,10 +8,12 @@
 #include "engine/core/bbAction.h"
 #include "engine/core/bbLocalMessage.h"
 #include "engine/core/bbLocalMessageInputs.h"
+#include "engine/data/bbHome.h"
 
 thread_local char* thread;
+bbHome home;
+U64 test_time = 0;
 char test_string[KEY_LENGTH];
-U64 test_time;
 
 int main(void)
 {

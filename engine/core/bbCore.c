@@ -142,7 +142,7 @@ bbFlag bbCore_rewind(bbCore* core)
             break;
 
         case bbInstruction_unupdatePaddle:
-            bbInstruction_unupdatePaddle_fn(core, instruction);
+            //bbInstruction_unupdatePaddle_fn(core, instruction);
             break;
 
 
@@ -179,9 +179,16 @@ bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
             bbInstruction_uncheckActions_fn(core, instruction);
             break;
 
+        case bbInstruction_unsetPaddleVelocity:
+            bbHere()
+            //bbInstruction_unsetPaddleVelocity_fn(core, instruction);
+            break;
+
 
         default:
-            bbDebug("Unknown undo instruction type\n");
+            bbDebug("Unknown undo instruction type %d\n", instruction->type);
+
+            bbVPool_free(core->instruction_pool, (void*)instruction);
         }
 
     }

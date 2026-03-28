@@ -169,7 +169,7 @@ target_include_directories(test_sort  PRIVATE "./")
 
 
 
-add_executable(test_core
+add_executable(test_core test/bbTest_core.c
         engine/data/bbIncludes.c
         engine/logic/bbBloatedPool.c
         engine/logic/bbDictionary.c
@@ -213,9 +213,12 @@ add_executable(test_core
         engine/core/bbAction.c
         engine/threadsafe/bbThreadedPool.c
         engine/threadsafe/bbThreadedQueue.c
+        engine/pong/bbBall.c
+        engine/pong/bbPaddle.c
 )
 
-target_include_directories(test_core  PRIVATE "./")
+target_include_directories(test_core  PRIVATE "./"
+        PRIVATE "./games/game0/maps/pong/")
 
 target_link_libraries(test_core PRIVATE
         csfml-graphics

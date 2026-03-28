@@ -449,6 +449,53 @@ bbFlag bbInstruction_setPaddleDirection_fn(bbCore* core, bbInstruction* instruct
 
 bbFlag bbInstruction_setPaddleVelocity_fn(bbCore* core, bbInstruction* instruction)
 {
+    bbInstruction* undo_instruction;
+    bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+    undo_instruction->type = bbInstruction_unsetPaddleVelocity;
+    undo_instruction->data.three_handles.handle1.i32x2.x =
+        instruction->data.three_handles.handle1.i32x2.x;
+    undo_instruction->source = instruction->source;
+
+    if (instruction->data.three_handles.handle1.i32x2.x == 0)
+    {
+        bbPaddle* paddle = &home.core.paddle1;
+        undo_instruction->data.three_handles.handle1.i32x2.y = paddle->velocity.y;
+        paddle->velocity.y = instruction->data.three_handles.handle1.i32x2.y;
+    } else {
+        bbPaddle* paddle = &home.core.paddle2;
+        undo_instruction->data.three_handles.handle1.i32x2.y = paddle->velocity.y;
+        paddle->velocity.y = instruction->data.three_handles.handle1.i32x2.y;
+    }
+
+    //printf("+time = %lu\n", core->simulation_time);
+    if (instruction->source == bbInstructionSource_internal)
+    {
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        undo_instruction->redo_instruction.u64 = 0;
+        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_input)
+    {
+        bbHandle handle;
+        bbVPool_reverseLookup(core->instruction_pool, instruction, &handle);
+        undo_instruction->redo_instruction = handle;
+        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_action)
+    {
+        undo_instruction->redo_instruction = instruction->redo_instruction;
+        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+        return bbSuccess;
+    }
+    bbNotHere()
+}
+
+
+bbFlag bbInstruction_unsetPaddleVelocity_fn(bbCore* core, bbInstruction* instruction)
+{
+bbHere()
     if (instruction->data.three_handles.handle1.i32x2.x == 0)
     {
         bbPaddle* paddle = &home.core.paddle1;
@@ -458,9 +505,31 @@ bbFlag bbInstruction_setPaddleVelocity_fn(bbCore* core, bbInstruction* instructi
         paddle->velocity.y = instruction->data.three_handles.handle1.i32x2.y;
     }
 
-    return bbSuccess;
-}
+    if (instruction->source == bbInstructionSource_internal)
+    {
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_input)
+    {
+        bbInstruction* redo_instruction;
+        bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction, instruction->redo_instruction);
+        bbList_pushL(&core->do_stack, redo_instruction);
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_action)
+    {
+        bbAction* redo_action;
 
+        bbVPool_lookup(core->action_pool, (void**)&redo_action, instruction->redo_instruction);
+        bbList_sortL(&core->action_queue,(void*)redo_action);
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        return bbSuccess;
+    }
+
+    bbNotHere()
+}
 ///check actions using the new algorithm
 bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
 {
