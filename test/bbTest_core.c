@@ -85,6 +85,24 @@ int main(void)
         bbCore_react(&core);
     }
 
+    for (I32 i = 12; i < 24;i++)
+    {
+        bbCoreInput_setTime(&core, i, bbInstructionSource_input, no_handle);
+        bbCore_react(&core);
+
+        sprintf(str, "(%d)", i-10);
+
+        bbAction_setString(&core,
+                         0,
+                         collision++,
+                         i-10,
+                         i-10,
+                         str);
+
+        bbCoreInput_checkActions(&core,i,bbInstructionSource_input, no_handle);
+        bbCore_react(&core);
+    }
+
     bbLocalMessage_SetString(&core, "\"I made this world for you\"");
     bbCore_checkLocalMessages(&core);
 

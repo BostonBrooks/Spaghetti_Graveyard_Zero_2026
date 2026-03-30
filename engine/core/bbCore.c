@@ -101,6 +101,7 @@ bbFlag bbCore_react(bbCore* core)
             break;
 
         case bbInstruction_setPaddleVelocity:
+            bbHere()
             bbInstruction_setPaddleVelocity_fn(core, instruction);
             break;
         default:

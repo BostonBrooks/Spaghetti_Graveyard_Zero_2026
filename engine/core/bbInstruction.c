@@ -448,7 +448,7 @@ bbFlag bbInstruction_setPaddleDirection_fn(bbCore* core, bbInstruction* instruct
 }
 
 bbFlag bbInstruction_setPaddleVelocity_fn(bbCore* core, bbInstruction* instruction)
-{
+{bbHere()
     bbInstruction* undo_instruction;
     bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
     undo_instruction->type = bbInstruction_unsetPaddleVelocity;
@@ -467,7 +467,6 @@ bbFlag bbInstruction_setPaddleVelocity_fn(bbCore* core, bbInstruction* instructi
         paddle->velocity.y = instruction->data.three_handles.handle1.i32x2.y;
     }
 
-    //printf("+time = %lu\n", core->simulation_time);
     if (instruction->source == bbInstructionSource_internal)
     {
         bbVPool_free(core->instruction_pool, (void*)instruction);
@@ -528,8 +527,10 @@ bbHere()
         return bbSuccess;
     }
 
+
     bbNotHere()
 }
+
 ///check actions using the new algorithm
 bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
 {
@@ -547,8 +548,12 @@ bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
 
     if (action->header.act_tick < core->simulation_time)
     {
-        bbCore_rewindUntil(core, action->header.act_tick-1);
+
+        bbDebug("simulation time = %d\n", core->simulation_time);
+        bbCore_rewindUntil(core, action->header.act_tick);
+        bbDebug("simulation time = %d\n", core->simulation_time);
         bbCore_react(core);
+        bbDebug("simulation time = %d\n", core->simulation_time);
     }
 
     bbInstruction* undo_instruction;

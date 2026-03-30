@@ -107,7 +107,7 @@ bbFlag bbCoreInput_setPaddleDirection(bbCore* core, I32 direction, U64 time,
 
 bbFlag bbCoreInput_setPaddleVelocity(bbCore* core, U8 player, I32 velocity, U64 time,
                                   bbInstruction_source source, bbHandle action)
-{
+{bbHere()
     bbInstruction* instruction;
     bbFlag flag = bbList_alloc(&core->do_stack,(void**)&instruction);
 
