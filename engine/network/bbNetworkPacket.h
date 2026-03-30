@@ -21,6 +21,43 @@
 #define PACKETTYPE_KEYDOWN           8
 #define PACKETTYPE_PADDLEVELOCITY    9
 
+#define bbPacketType_print(flag)\
+{\
+switch (flag)\
+{\
+case PACKETTYPE_STRING:\
+bbDebug ("Packet Type: PACKETTYPE_STRING\n");\
+break;\
+case PACKETTYPE_TIMESTAMP:\
+bbDebug ("Packet Type: PACKETTYPE_TIMESTAMP\n");\
+break;\
+case PACKETTYPE_REQUESTTIMESTAMP:\
+bbDebug ("Packet Type: PACKETTYPE_REQUESTTIMESTAMP\n");\
+break;\
+case PACKETTYPE_SETGOALPOINT:\
+bbDebug ("Packet Type: PACKETTYPE_SETGOALPOINT\n");\
+break;\
+case PACKETTYPE_UNFREEZEBUTTON:\
+bbDebug ("Packet Type: PACKETTYPE_UNFREEZEBUTTON\n");\
+break;\
+case PACKETTYPE_NETCODEBUTTON:\
+bbDebug ("Packet Type: PACKETTYPE_NETCODEBUTTON\n");\
+break;\
+case PACKETTYPE_PAUSE:\
+bbDebug ("Packet Type: PACKETTYPE_PAUSE\n");\
+break;\
+case PACKETTYPE_KEYUP:\
+bbDebug ("Packet Type: PACKETTYPE_KEYUP\n");\
+break;\
+case PACKETTYPE_KEYDOWN:\
+bbDebug ("Packet Type: PACKETTYPE_KEYDOWN\n");\
+break;\
+case PACKETTYPE_PADDLEVELOCITY:\
+bbDebug ("Packet Type: PACKETTYPE_PADDLEVELOCITY\n");\
+break;\
+\
+}\
+}\
 
 typedef union
 {

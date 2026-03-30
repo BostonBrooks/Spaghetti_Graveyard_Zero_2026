@@ -181,7 +181,7 @@ bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
 
         case bbInstruction_unsetPaddleVelocity:
             bbHere()
-            //bbInstruction_unsetPaddleVelocity_fn(core, instruction);
+            bbInstruction_unsetPaddleVelocity_fn(core, instruction);
             break;
 
 
