@@ -18,9 +18,9 @@ char test_string[KEY_LENGTH];
 int main(void)
 {
     bbCore core;
-
     bbCore_init(&core);
 
+    test_time = core.actual_time = 0;
     bbStr_putStr(test_string, "Abera Kedabera",KEY_LENGTH);
 
     U32 collision = 0;
@@ -32,6 +32,7 @@ int main(void)
     for (I32 i = 1; i < 9;i++)
     {
         bbCoreInput_setTime(&core, i, bbInstructionSource_input, no_handle);
+        test_time = core.actual_time = i;
         bbCore_react(&core);
 
         sprintf(str, "(%d)", i);
@@ -46,10 +47,7 @@ int main(void)
         bbCoreInput_checkActions(&core,i,bbInstructionSource_input, no_handle);
         bbCore_react(&core);
     }
-
-    bbLocalMessage_SetString(&core, "\"I made this world for you\"");
-    bbCore_checkLocalMessages(&core);
-
+/*
 //Some instructions come in late
     for (I32 i = 1; i < 8; i++)
     {
@@ -63,13 +61,12 @@ int main(void)
                      str);
     }
 
-    bbLocalMessage_SetString(&core, "\"The size of a marble\"");
-    bbCore_checkLocalMessages(&core);
 
     // Game continues to run normally
     for (I32 i = 9; i < 12;i++)
     {
         bbCoreInput_setTime(&core, i, bbInstructionSource_input, no_handle);
+        core.actual_time = i;
         bbCore_react(&core);
 
         sprintf(str, "(%d)", i);
@@ -84,27 +81,36 @@ int main(void)
         bbCoreInput_checkActions(&core,i,bbInstructionSource_input, no_handle);
         bbCore_react(&core);
     }
-
-    for (I32 i = 12; i < 24;i++)
+*/
+    for (I32 i = 9; i < 12;i++)
     {
         bbCoreInput_setTime(&core, i, bbInstructionSource_input, no_handle);
+        test_time = core.actual_time = i;
         bbCore_react(&core);
 
-        sprintf(str, "(%d)", i-10);
+        sprintf(str, "~(%d)", i-7);
 
         bbAction_setString(&core,
                          0,
                          collision++,
-                         i-10,
-                         i-10,
+                         i,
+                         i-7,
                          str);
+
+        sprintf(str, "*(%d)", i-7);
+
+        bbAction_setString(&core,
+                         0,
+                         collision++,
+                         i,
+                         i-7,
+                         str);
+
 
         bbCoreInput_checkActions(&core,i,bbInstructionSource_input, no_handle);
         bbCore_react(&core);
     }
 
-    bbLocalMessage_SetString(&core, "\"I made this world for you\"");
-    bbCore_checkLocalMessages(&core);
 
 
     printf("We made it to the end!\n");

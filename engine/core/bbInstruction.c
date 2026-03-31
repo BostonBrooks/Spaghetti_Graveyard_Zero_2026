@@ -183,6 +183,8 @@ bbFlag bbInstruction_setTime_fn(bbCore* core, bbInstruction* instruction)
     undo_instruction->data.unsigned_long = core->simulation_time;
     undo_instruction->source = instruction->source;
 
+    bbDebug ("time was %lu, now is %lu, actual %lu\n", undo_instruction->data.unsigned_long,
+        instruction->data.unsigned_long, core->actual_time);
 
     core->simulation_time = instruction->data.unsigned_long ;
 
@@ -216,7 +218,13 @@ bbFlag bbInstruction_setTime_fn(bbCore* core, bbInstruction* instruction)
 
 bbFlag bbInstruction_unsetTime_fn(bbCore* core, bbInstruction* instruction)
 {
+    bbDebug ("unset time was %lu, now is %lu, actual is %lu\n", core->simulation_time,
+    instruction->data.unsigned_long, core->actual_time);
+
     core->simulation_time = instruction->data.unsigned_long ;
+
+
+
 
     //printf("-time = %lu\n", core->simulation_time);
     if (instruction->source == bbInstructionSource_internal)
@@ -548,12 +556,8 @@ bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
 
     if (action->header.act_tick < core->simulation_time)
     {
-
-        bbDebug("simulation time = %d\n", core->simulation_time);
-        bbCore_rewindUntil(core, action->header.act_tick);
-        bbDebug("simulation time = %d\n", core->simulation_time);
-        bbCore_react(core);
-        bbDebug("simulation time = %d\n", core->simulation_time);
+        bbCore_rewindUntil(core, action->header.act_tick-1);
+        //bbCore_react(core);
     }
 
     bbInstruction* undo_instruction;
@@ -598,9 +602,10 @@ bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
     //Loop by placing self on stack
     bbCoreInput_checkActions(core, core->simulation_time,bbInstructionSource_internal,no_handle);
 
-    bbWarning(action->header.act_tick <= core->simulation_time, "action  executed early\n"
-        "action->header.act_tick = %lu core->simulation_time = %lu\n",
-        action->header.act_tick, core->simulation_time);
+
+    bbAssert(action->header.act_tick == core->simulation_time, "action  executed early/late\n"
+         "action->header.act_tick = %lu core->simulation_time = %lu\n",
+         action->header.act_tick, core->simulation_time);
 
     if (action->header.type == bbActionType_setString)
     {
