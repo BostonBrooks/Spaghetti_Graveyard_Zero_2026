@@ -190,6 +190,10 @@ bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
             bbInstruction_unupdatePaddle_fn(core, instruction);
             break;
 
+        case bbInstruction_unupdateBall:
+            bbInstruction_unupdateBall_fn(core, instruction);
+            break;
+
 
         default:
             bbDebug("Unknown undo instruction type %d\n", instruction->type);
