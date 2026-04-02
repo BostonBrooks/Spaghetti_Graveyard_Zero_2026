@@ -259,7 +259,7 @@ bbFlag bbInstruction_updateBall_fn(bbCore* core, bbInstruction* instruction)
     bbInstruction* undo_instruction;
     bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
     undo_instruction->type = bbInstruction_unupdateBall;
-    undo_instruction->data.unsigned_long = core->simulation_time;
+    //undo_instruction->data.unsigned_long = core->simulation_time;
 
     undo_instruction->data.three_handles.handle1.i32x2.x = ball->position.x;
     undo_instruction->data.three_handles.handle1.i32x2.y = ball->position.y;
@@ -273,7 +273,7 @@ bbFlag bbInstruction_updateBall_fn(bbCore* core, bbInstruction* instruction)
 
 
 
-    core->simulation_time = instruction->data.unsigned_long ;
+    //core->simulation_time = instruction->data.unsigned_long ;
 
     //printf("+time = %lu\n", core->simulation_time);
     if (instruction->source == bbInstructionSource_internal)
@@ -304,7 +304,7 @@ bbFlag bbInstruction_updateBall_fn(bbCore* core, bbInstruction* instruction)
 
 bbFlag bbInstruction_unupdateBall_fn(bbCore* core, bbInstruction* instruction)
 {
-    core->simulation_time = instruction->data.unsigned_long ;
+    //core->simulation_time = instruction->data.unsigned_long ;
 
     bbBall* ball = instruction->data.three_handles.handle3.ptr;
 
@@ -346,7 +346,7 @@ bbFlag bbInstruction_updatePaddle_fn(bbCore* core, bbInstruction* instruction)
     bbInstruction* undo_instruction;
     bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
     undo_instruction->type = bbInstruction_unupdateBall;
-    undo_instruction->data.unsigned_long = core->simulation_time;
+    //undo_instruction->data.unsigned_long = core->simulation_time;
 
     undo_instruction->data.three_handles.handle1.i32x2.x = paddle->position.x;
     undo_instruction->data.three_handles.handle1.i32x2.y = paddle->position.y;
@@ -360,7 +360,7 @@ bbFlag bbInstruction_updatePaddle_fn(bbCore* core, bbInstruction* instruction)
 
 
 
-    core->simulation_time = instruction->data.unsigned_long ;
+    //core->simulation_time = instruction->data.unsigned_long ;
 
     //printf("+time = %lu\n", core->simulation_time);
     if (instruction->source == bbInstructionSource_internal)
@@ -391,7 +391,7 @@ bbFlag bbInstruction_updatePaddle_fn(bbCore* core, bbInstruction* instruction)
 
 bbFlag bbInstruction_unupdatePaddle_fn(bbCore* core, bbInstruction* instruction)
 {
-    core->simulation_time = instruction->data.unsigned_long ;
+    //core->simulation_time = instruction->data.unsigned_long ;
 
     bbPaddle* paddle = instruction->data.three_handles.handle3.ptr;
 
@@ -555,7 +555,7 @@ bbFlag bbInstruction_checkActions2_fn(bbCore* core, bbInstruction* instruction)
         bbInstruction* undo_instruction;
         bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
         undo_instruction->type = bbInstruction_uncheckActions;
-        undo_instruction->data.unsigned_long = core->simulation_time;
+        //undo_instruction->data.unsigned_long = core->simulation_time;
         undo_instruction->source = instruction->source;
 
         if (instruction->source == bbInstructionSource_internal)
@@ -667,6 +667,7 @@ bbFlag bbInstruction_checkActions2_fn(bbCore* core, bbInstruction* instruction)
 
         flag = bbList_popL(&core->action_temp_fifo,(void**)&action);
     }
+    //may or may not need the following call
     bbCore_react(core);
 }
 
@@ -687,7 +688,7 @@ bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
         bbInstruction* undo_instruction;
         bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
         undo_instruction->type = bbInstruction_uncheckActions;
-        undo_instruction->data.unsigned_long = core->simulation_time;
+        //undo_instruction->data.unsigned_long = core->simulation_time;
         undo_instruction->source = instruction->source;
 
         if (instruction->source == bbInstructionSource_internal)
