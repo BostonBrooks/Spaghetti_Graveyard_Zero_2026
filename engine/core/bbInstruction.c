@@ -183,8 +183,8 @@ bbFlag bbInstruction_setTime_fn(bbCore* core, bbInstruction* instruction)
     undo_instruction->data.unsigned_long = core->simulation_time;
     undo_instruction->source = instruction->source;
 
-    bbDebug ("time was %lu, now is %lu, actual %lu\n", undo_instruction->data.unsigned_long,
-        instruction->data.unsigned_long, core->actual_time);
+    //bbDebug ("time was %lu, now is %lu, actual %lu\n", undo_instruction->data.unsigned_long,
+    //    instruction->data.unsigned_long, core->actual_time);
 
     core->simulation_time = instruction->data.unsigned_long ;
 
@@ -456,7 +456,7 @@ bbFlag bbInstruction_setPaddleDirection_fn(bbCore* core, bbInstruction* instruct
 }
 
 bbFlag bbInstruction_setPaddleVelocity_fn(bbCore* core, bbInstruction* instruction)
-{bbHere()
+{
     bbInstruction* undo_instruction;
     bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
     undo_instruction->type = bbInstruction_unsetPaddleVelocity;
@@ -502,7 +502,6 @@ bbFlag bbInstruction_setPaddleVelocity_fn(bbCore* core, bbInstruction* instructi
 
 bbFlag bbInstruction_unsetPaddleVelocity_fn(bbCore* core, bbInstruction* instruction)
 {
-bbHere()
     if (instruction->data.three_handles.handle1.i32x2.x == 0)
     {
         bbPaddle* paddle = &home.core.paddle1;
@@ -654,13 +653,11 @@ bbFlag bbInstruction_checkActions2_fn(bbCore* core, bbInstruction* instruction)
         }
         if (action->header.type == bbActionType_setPaddleDirection)
         {
-            bbHere()
             bbCoreInput_setPaddleDirection(core,action->integer,action->header.act_tick,bbInstructionSource_action,handle);
 
         }
         if (action->header.type == bbActionType_setPaddleVelocity)
         {
-            bbHere()
             bbCoreInput_setPaddleVelocity(core,action->header.player, action->integer,action->header.act_tick,bbInstructionSource_action,handle);
 
         }
