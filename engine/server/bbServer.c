@@ -173,7 +173,7 @@ int main(void){
                         packetStruct.type = PACKETTYPE_PADDLEVELOCITY;
                         packetStruct.data.paddle_and_velocity.x = 0;
                         packetStruct.data.paddle_and_velocity.y = 0;
-                        packetStruct.act_tick -= 30;
+                        //packetStruct.act_tick -= 10;
                         sfPacket_clear(packet);
                         bbNetworkPacket_fromStruct(packet, &packetStruct);
 
@@ -211,7 +211,7 @@ int main(void){
                         packetStruct.type = PACKETTYPE_PADDLEVELOCITY;
                         packetStruct.data.paddle_and_velocity.x = 0;
                         packetStruct.data.paddle_and_velocity.y = -7 * SCREEN_PPP;
-                        packetStruct.act_tick -= 30;
+                        //packetStruct.act_tick -= 10;
                         sfPacket_clear(packet);
                         bbNetworkPacket_fromStruct(packet, &packetStruct);
 
@@ -221,7 +221,7 @@ int main(void){
                         packetStruct.type = PACKETTYPE_PADDLEVELOCITY;
                         packetStruct.data.paddle_and_velocity.x = 0;
                         packetStruct.data.paddle_and_velocity.y = 7 * SCREEN_PPP;
-                        packetStruct.act_tick -= 30;
+                        //packetStruct.act_tick -= 10;
                         sfPacket_clear(packet);
                         bbNetworkPacket_fromStruct(packet, &packetStruct);
 
