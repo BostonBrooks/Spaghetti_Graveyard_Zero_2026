@@ -176,6 +176,7 @@ void* userinterface_thread(void* arg)
 
     sfRenderWindow* window = sfRenderWindow_create(mode, "early demo", sfResize | sfClose, NULL);
     sfRenderWindow_setMouseCursorVisible(window, sfFalse);
+    sfRenderWindow_setKeyRepeatEnabled(window,sfFalse);
     sfRenderWindow_setFramerateLimit(window, 60);
     sfRenderWindow_drawSprite(window, splash_sprite, NULL);
     sfRenderWindow_display(window);
