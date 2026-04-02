@@ -345,7 +345,7 @@ bbFlag bbInstruction_updatePaddle_fn(bbCore* core, bbInstruction* instruction)
     bbPaddle* paddle = instruction->data.three_handles.handle1.ptr;
     bbInstruction* undo_instruction;
     bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
-    undo_instruction->type = bbInstruction_unupdateBall;
+    undo_instruction->type = bbInstruction_unupdatePaddle;
     //undo_instruction->data.unsigned_long = core->simulation_time;
 
     undo_instruction->data.three_handles.handle1.i32x2.x = paddle->position.x;
