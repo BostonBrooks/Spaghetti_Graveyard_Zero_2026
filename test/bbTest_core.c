@@ -47,7 +47,7 @@ int main(void)
         bbCoreInput_checkActions(&core,i,bbInstructionSource_input, no_handle);
         bbCore_react(&core);
     }
-/*
+
 //Some instructions come in late
     for (I32 i = 1; i < 8; i++)
     {
@@ -81,29 +81,29 @@ int main(void)
         bbCoreInput_checkActions(&core,i,bbInstructionSource_input, no_handle);
         bbCore_react(&core);
     }
-*/
-    for (I32 i = 9; i < 12;i++)
+
+    for (I32 i =12; i < 50;i++)
     {
         bbCoreInput_setTime(&core, i, bbInstructionSource_input, no_handle);
         test_time = core.actual_time = i;
         bbCore_react(&core);
 
-        sprintf(str, "~(%d)", i-7);
+        sprintf(str, "~(%d)", i-5);
 
         bbAction_setString(&core,
                          0,
                          collision++,
                          i,
-                         i-7,
+                         i-5,
                          str);
 
-        sprintf(str, "*(%d)", i-7);
+        sprintf(str, "*(%d)", i-5);
 
         bbAction_setString(&core,
                          0,
                          collision++,
                          i,
-                         i-7,
+                         i-5,
                          str);
 
 

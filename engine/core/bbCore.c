@@ -24,6 +24,7 @@ bbFlag bbCore_init(bbCore* core)
 
     bbVPool_newBloated(&core->action_pool,sizeof(bbAction),100,1000);
     bbList_init(&core->action_queue, core->action_pool, NULL, offsetof(bbAction, header.list_element),bbAction_compare);
+    bbList_init(&core->action_temp_fifo, core->action_pool, NULL, offsetof(bbAction, header.list_element),bbAction_compare);
 
     core->simulation_time = 0;
  return bbSuccess;
@@ -57,7 +58,7 @@ bbFlag bbCore_react(bbCore* core)
             break;
 
         case bbInstruction_checkActions:
-            bbInstruction_checkActions_fn(core, instruction);
+            bbInstruction_checkActions2_fn(core, instruction);
             break;
 
         case bbInstruction_netsendButton:
@@ -184,6 +185,7 @@ bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
             bbHere()
             bbInstruction_unsetPaddleVelocity_fn(core, instruction);
             break;
+
 
 
         default:

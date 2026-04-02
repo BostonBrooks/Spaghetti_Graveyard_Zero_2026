@@ -539,6 +539,137 @@ bbHere()
     bbNotHere()
 }
 
+
+bbFlag bbInstruction_checkActions2_fn(bbCore* core, bbInstruction* instruction)
+{
+
+    bbAction* action;
+    bbFlag flag;
+
+    //Go back and process late arrival actions
+
+    flag = bbList_peakL(&core->action_queue,(void**)&action);
+
+    if (flag != bbSuccess) // list empty
+    {
+        bbInstruction* undo_instruction;
+        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        undo_instruction->type = bbInstruction_uncheckActions;
+        undo_instruction->data.unsigned_long = core->simulation_time;
+        undo_instruction->source = instruction->source;
+
+        if (instruction->source == bbInstructionSource_internal)
+        {
+            bbVPool_free(core->instruction_pool, (void*)instruction);
+            undo_instruction->redo_instruction.u64 = 0;
+            bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+
+        }
+        if (instruction->source == bbInstructionSource_input)
+        {
+            bbHandle handle;
+            bbVPool_reverseLookup(core->instruction_pool, instruction, &handle);
+            undo_instruction->redo_instruction = handle;
+            bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+
+        }
+        if (instruction->source == bbInstructionSource_action)
+        {
+            undo_instruction->redo_instruction = instruction->redo_instruction;
+            bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+
+        }
+
+        return bbSuccess;
+    }
+    if (action->header.act_tick < core->simulation_time) //or < the previous time this instruction was called?
+    {
+        bbCore_rewindUntil(core, action->header.act_tick-1);
+        bbCore_react(core);
+    }
+
+    bbInstruction* undo_instruction;
+    bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+    undo_instruction->type = bbInstruction_uncheckActions;
+    undo_instruction->data.unsigned_long = core->simulation_time;
+    undo_instruction->source = instruction->source;
+
+    if (instruction->source == bbInstructionSource_internal)
+    {
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        undo_instruction->redo_instruction.u64 = 0;
+        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+
+    }
+    if (instruction->source == bbInstructionSource_input)
+    {
+        bbHandle handle;
+        bbVPool_reverseLookup(core->instruction_pool, instruction, &handle);
+        undo_instruction->redo_instruction = handle;
+        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+
+    }
+    if (instruction->source == bbInstructionSource_action)
+    {
+        undo_instruction->redo_instruction = instruction->redo_instruction;
+        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+
+    }
+
+
+    //Reverse the order of objects in queue
+    flag = bbList_popL(&core->action_queue,(void**)&action);
+    while (flag == bbSuccess && action->header.act_tick <= core->simulation_time)
+    {
+        bbList_pushL(&core->action_temp_fifo,(void*)action);
+        flag = bbList_popL(&core->action_queue,(void**)&action);
+    }
+    //(if we go too far along in the queue, undo last instruction
+    if (flag == bbSuccess) bbList_pushL(&core->action_queue,(void*)action);
+
+    //take from one lifo and add to another
+    flag = bbList_popL(&core->action_temp_fifo,(void**)&action);
+    while (flag == bbSuccess)
+    {
+        bbHandle handle;
+        bbVPool_reverseLookup(core->action_pool,action,&handle);
+
+        if (action->header.type == bbActionType_setString)
+        {
+            bbCoreInput_setString(core,action->header.key,bbInstructionSource_action,handle);
+
+        }
+
+        if (action->header.type == bbActionType_unfreezeButton)
+        {
+            bbDebug("unfreeze button %s\n", action->header.key);
+            bbCoreInput_unfreezeButton(core, action->header.key, bbInstructionSource_action,handle);
+
+        }
+
+        if (action->header.type == bbActionType_loop)
+        {
+            bbCoreInput_loop(core,action->header.key,action->header.act_tick,bbInstructionSource_action,handle);
+
+        }
+        if (action->header.type == bbActionType_setPaddleDirection)
+        {
+            bbHere()
+            bbCoreInput_setPaddleDirection(core,action->integer,action->header.act_tick,bbInstructionSource_action,handle);
+
+        }
+        if (action->header.type == bbActionType_setPaddleVelocity)
+        {
+            bbHere()
+            bbCoreInput_setPaddleVelocity(core,action->header.player, action->integer,action->header.act_tick,bbInstructionSource_action,handle);
+
+        }
+
+        flag = bbList_popL(&core->action_temp_fifo,(void**)&action);
+    }
+    bbCore_react(core);
+}
+
 ///check actions using the new algorithm
 bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
 {
@@ -551,8 +682,37 @@ bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
 
     bbFlag flag = bbList_peakL(&core->action_queue,(void**)&action);
 
-    if (flag != bbSuccess) return bbBreak;
-    if (action->header.act_tick > core->simulation_time) return bbBreak;
+    if (flag != bbSuccess || action->header.act_tick > core->simulation_time)
+    {
+        bbInstruction* undo_instruction;
+        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        undo_instruction->type = bbInstruction_uncheckActions;
+        undo_instruction->data.unsigned_long = core->simulation_time;
+        undo_instruction->source = instruction->source;
+
+        if (instruction->source == bbInstructionSource_internal)
+        {
+            bbVPool_free(core->instruction_pool, (void*)instruction);
+            undo_instruction->redo_instruction.u64 = 0;
+            bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+
+        }
+        if (instruction->source == bbInstructionSource_input)
+        {
+            bbHandle handle;
+            bbVPool_reverseLookup(core->instruction_pool, instruction, &handle);
+            undo_instruction->redo_instruction = handle;
+            bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+
+        }
+        if (instruction->source == bbInstructionSource_action)
+        {
+            undo_instruction->redo_instruction = instruction->redo_instruction;
+            bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+
+        }
+        return bbBreak;
+    }
 
     if (action->header.act_tick < core->simulation_time)
     {
