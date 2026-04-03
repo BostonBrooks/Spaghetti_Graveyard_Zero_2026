@@ -16,7 +16,7 @@ bbFlag bbNetwork_init(bbNetwork* network,
 {
     //not a thread
     //thread = "init";
-    const I32 queue_length = 500;
+    const I32 queue_length = 4098;
 
     network->packet_to_struct = packet_to_struct;
     network->struct_to_packet = struct_to_packet;
