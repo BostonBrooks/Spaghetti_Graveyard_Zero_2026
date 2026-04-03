@@ -25,6 +25,7 @@ bbFlag bbNetworkPacket_toStruct (sfPacket* packet, void* Struct)
     struct1->act_tick = actTick_upper * 0x100000000 + actTick_lower;
 
     struct1->player = sfPacket_readUint8(packet);
+    struct1->collision = sfPacket_readUint32(packet);
 
     switch (struct1->type)
     {
@@ -103,6 +104,8 @@ bbFlag bbNetworkPacket_fromStruct (sfPacket* packet, void* Struct)
     sfPacket_writeUint32(packet, (U32)actTick_upper);
 
     sfPacket_writeUint8(packet, struct1->player);
+
+    sfPacket_writeUint32(packet, struct1->collision);
 
     switch (struct1->type)
     {

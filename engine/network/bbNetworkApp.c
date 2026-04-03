@@ -215,7 +215,7 @@ bbFlag bbNetworkApp_checkInbox(bbNetwork* network)
 
             bbAction_setPaddleVelocity(&home.core.core,
                                         packet->data.paddle_and_velocity.x,
-                                        rand(),
+                                        packet->collision,
                                         packet->send_tick,
                                         packet->act_tick,
                                         packet->data.paddle_and_velocity.y);
@@ -309,22 +309,24 @@ bbFlag bbNetworkApp_netcodeButton(bbNetwork* network, char* key, U64 time){
     return bbSuccess;
 }
 
-bbFlag bbNetworkApp_keyUp(bbNetwork* network, I32 key_code, U64 time){
+bbFlag bbNetworkApp_keyUp(bbNetwork* network, I32 key_code, U64 time, U32 collision){
     bbNetworkPacket* packet;
     bbThreadedQueue_alloc(&network->outbox, (void**)&packet);
     packet->type = PACKETTYPE_KEYUP;
     packet->act_tick = time;
     packet->data.integer = key_code;
+    packet->collision = collision;
     bbThreadedQueue_pushL(&network->outbox,packet);
 
     return bbSuccess;
 }
-bbFlag bbNetworkApp_keyDown(bbNetwork* network, I32 key_code, U64 time){
+bbFlag bbNetworkApp_keyDown(bbNetwork* network, I32 key_code, U64 time, U32 collision){
     bbNetworkPacket* packet;
     bbThreadedQueue_alloc(&network->outbox, (void**)&packet);
     packet->type = PACKETTYPE_KEYDOWN;
     packet->act_tick = time;
     packet->data.integer = key_code;
+    packet->collision = collision;
     bbThreadedQueue_pushL(&network->outbox,packet);
 
     return bbSuccess;

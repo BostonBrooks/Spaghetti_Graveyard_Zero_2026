@@ -68,6 +68,7 @@ typedef struct
     bbInstruction_type type;
     bbInstruction_data data;
     U64 act_time;
+    U32 collision;
     bbListElement_Handle list_element;
     bbHandle redo_instruction;
     bbInstruction_source source;

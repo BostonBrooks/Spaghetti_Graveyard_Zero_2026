@@ -119,6 +119,7 @@ bbFlag bbThreadedPool_allocImpl(bbThreadedPool* pool, void** address, char* file
     {
         //assert available list empty
         bbMutexUnlock(&pool->mutex);
+        bbDebug("Threaded Pool Full\n");
 
         //there is a bug when mutex is unlocked in between the following lines
         pthread_cond_wait(&pool->pool_full_cond, &pool->pool_full);
@@ -130,6 +131,7 @@ bbFlag bbThreadedPool_allocImpl(bbThreadedPool* pool, void** address, char* file
         //assert available list empty
         bbMutexUnlock(&pool->mutex);
 
+        bbDebug("Threaded Pool Full\n");
         //there is a bug when mutex is unlocked in between the following lines
         pthread_cond_wait(&pool->pool_full_cond, &pool->pool_full);
         bbMutexLock(&pool->mutex);

@@ -10,6 +10,8 @@
 #include "engine/userinterface/bbUI_Inbox.h"
 extern char test_string[KEY_LENGTH];
 
+U32 collision = 0;
+
 bbFlag bbInstruction_netsendButton_fn(bbCore* core, bbInstruction* instruction)
 {
     bbNetworkApp_netsendButton(&home.network, instruction->data.string);
@@ -31,13 +33,13 @@ bbFlag bbInstruction_netcodeButton_fn(bbCore* core, bbInstruction* instruction)
 
 bbFlag bbInstruction_keyUp_fn(bbCore* core, bbInstruction* instruction)
 {
-    bbNetworkApp_keyUp(&home.network, instruction->data.three_handles.handle1.u64, instruction->act_time);
+    bbNetworkApp_keyUp(&home.network, instruction->data.three_handles.handle1.u64, instruction->act_time, collision++);
     return bbSuccess;
 }
 
 bbFlag bbInstruction_keyDown_fn(bbCore* core, bbInstruction* instruction)
 {
-    bbNetworkApp_keyDown(&home.network, instruction->data.three_handles.handle1.u64, instruction->act_time);
+    bbNetworkApp_keyDown(&home.network, instruction->data.three_handles.handle1.u64, instruction->act_time, collision++);
     return bbSuccess;
 }
 
@@ -46,7 +48,7 @@ bbFlag bbInstruction_loopAction_fn(bbCore* core, bbInstruction* instruction)
     bbDebug("Loop instruction at time = %lu, simulation time = %lu\n", instruction->act_time, core->simulation_time);
     bbAction_loop(core,
                   0,
-                  rand(),
+                  collision++,
                   0,
                   instruction->act_time + 1,
                   instruction->data.string);
@@ -218,8 +220,8 @@ bbFlag bbInstruction_setTime_fn(bbCore* core, bbInstruction* instruction)
 
 bbFlag bbInstruction_unsetTime_fn(bbCore* core, bbInstruction* instruction)
 {
-    bbDebug ("unset time was %lu, now is %lu, actual is %lu\n", core->simulation_time,
-    instruction->data.unsigned_long, core->actual_time);
+    //bbDebug ("unset time was %lu, now is %lu, actual is %lu\n", core->simulation_time,
+    //instruction->data.unsigned_long, core->actual_time);
 
     core->simulation_time = instruction->data.unsigned_long ;
 
@@ -658,6 +660,7 @@ bbFlag bbInstruction_checkActions2_fn(bbCore* core, bbInstruction* instruction)
         }
         if (action->header.type == bbActionType_setPaddleVelocity)
         {
+            bbDebug("set paddle velocity collision = %u\n", action->header.collision);
             bbCoreInput_setPaddleVelocity(core,action->header.player, action->integer,action->header.act_tick,bbInstructionSource_action,handle);
 
         }
@@ -796,7 +799,7 @@ bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
     if (action->header.type == bbActionType_setPaddleVelocity)
     {
         bbHere()
-        bbCoreInput_setPaddleVelocity(core,action->header.player, action->integer,action->header.act_tick,bbInstructionSource_action,handle);
+
         bbCore_react(core);
 
     }

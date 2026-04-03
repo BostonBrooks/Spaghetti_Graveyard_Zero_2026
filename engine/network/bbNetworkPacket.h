@@ -79,6 +79,7 @@ typedef struct
     U64 send_tick;
     U64 act_tick;
     U8 player;
+    U32 collision;
     bbNetworkPacket_data data;
 
 } bbNetworkPacket;
