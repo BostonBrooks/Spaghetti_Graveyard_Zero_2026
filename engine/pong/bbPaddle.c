@@ -52,6 +52,9 @@ bbFlag bbPaddle_Update(bbPaddle* paddle)
     bbHandle ball_position;
     ball_position.i32x2.x = new_position.x;
     ball_position.i32x2.y = new_position.y;
+
+
+    if (home.core.core.actual_time == home.core.core.simulation_time)
     bbUI_Inbox_SetWidgetPosition(&home.UI.inbox, paddle->key, ball_position);
 
     return bbSuccess;

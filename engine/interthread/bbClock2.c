@@ -3,7 +3,7 @@
 #include "bbClock.h"
 #include "engine/threadsafe/bbThreadedPool.h"
 
-#define CLOCK_MESSAGE_POOL_SIZE 193
+#define CLOCK_MESSAGE_POOL_SIZE 4096
 
 void* clock2_thread(void* arg)
 {

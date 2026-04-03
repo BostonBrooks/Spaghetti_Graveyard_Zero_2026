@@ -5,16 +5,18 @@
 #include "engine/logic/bbString.h"
 #include "engine/logic/bbTerminal.h"
 
+#define UI_INBOX_SIZE 4097
+
 bbFlag bbUI_Inbox_init(bbUI_Inbox* inbox)
 {
     bbVPool_newThreaded(&inbox->local_message_pool,
                  sizeof(bbUI_Inbox_message),
-                 1001);
+                 UI_INBOX_SIZE);
 
     bbThreadedQueue_init(&inbox->local_message_queue,
                       inbox->local_message_pool,
                       sizeof(bbUI_Inbox_message),
-                      1001,offsetof(bbUI_Inbox_message, list_element));
+                      UI_INBOX_SIZE,offsetof(bbUI_Inbox_message, list_element));
 
     return bbSuccess;
 }
