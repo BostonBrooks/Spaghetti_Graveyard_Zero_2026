@@ -303,6 +303,9 @@ void* userinterface_thread(void* arg)
                 bbClock2_handle_init(&home.clock2, &home.UI.clock2_handle, 1);
             }
             bbClock2_waitTick(&home.clock2,&home.UI.clock2_handle,home.UI.clock2_handle.map_tick+1);
+
+
+            test_time = home.UI.clock2_handle.map_tick;
             cl.map_time = home.UI.clock2_handle.map_tick;
             cl.GUI_time = home.UI.clock2_handle.server_tick;
         }
