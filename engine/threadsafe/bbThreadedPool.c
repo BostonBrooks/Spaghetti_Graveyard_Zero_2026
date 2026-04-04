@@ -129,6 +129,9 @@ bbFlag bbThreadedPool_allocImpl(bbThreadedPool* pool, void** address, char* file
     if (pool->available_head == -1 || pool->available_tail == -1)
     {
         //assert available list empty
+        head_tail(pool)
+        bbDebug("Threaded Pool Full - size = %d, in_use = %d\n", pool->num, pool->in_use);
+
         bbMutexUnlock(&pool->mutex);
 
         bbDebug("Threaded Pool Full - size = %d\n", pool->num);
