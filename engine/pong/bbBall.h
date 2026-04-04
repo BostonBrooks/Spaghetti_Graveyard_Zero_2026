@@ -4,6 +4,8 @@
 #include "engine/data/bbConstants.h"
 #include "engine/geometry/bbCoordinates.h"
 
+#define N_BALLS 8
+
 typedef struct
 {
     bbScreenPoints position;
