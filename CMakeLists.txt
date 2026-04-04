@@ -252,4 +252,11 @@ add_executable(Test_Threaded_Queue test/bbTest_ThreadedQueue.c
         engine/threadsafe/bbThreadedQueue.c
         engine/threadsafe/bbThreadedPool.c)
 
+target_link_libraries(Test_Threaded_Queue PRIVATE
+        csfml-graphics
+        csfml-window
+        csfml-system
+        csfml-network
+)
+
 target_include_directories(Test_Threaded_Queue  PRIVATE "./")
