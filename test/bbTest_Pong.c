@@ -63,6 +63,16 @@ int main(void)
         bbScreenPoints velocity = {6*SCREEN_PPP,3*SCREEN_PPP};
         bbBall_Init(&home.core.ball,position,velocity,"BALL");
 
+        char BALLN[KEY_LENGTH];
+        velocity.y = -N_BALLS / 2;
+
+        for (int i = 0; i < N_BALLS; i++)
+        {
+            sprintf(BALLN, "BALL%d", i);
+            bbBall_Init(&home.core.balls[i],position,velocity,BALLN);
+            velocity.y++;
+        }
+
 
         bbScreenPoints position2 = {50*SCREEN_PPP,240*SCREEN_PPP};
         bbScreenPoints velocity2 = {0*SCREEN_PPP,7*SCREEN_PPP};
@@ -135,6 +145,13 @@ int main(void)
                 bbInstructionSource_input, no_handle );
 
             bbCoreInput_updateBall(&home.core.core, &home.core.ball, bbInstructionSource_input, no_handle);
+
+            for (int i = 0; i < N_BALLS; i++)
+            {
+                bbCoreInput_updateBall(&home.core.core, &home.core.balls[i], bbInstructionSource_input, no_handle);
+            }
+
+
             bbCoreInput_updatePaddle(&home.core.core, &home.core.paddle1, bbInstructionSource_input, no_handle);
             bbCoreInput_updatePaddle(&home.core.core, &home.core.paddle2, bbInstructionSource_input, no_handle);
             bbCore_react(&home.core.core);
@@ -223,6 +240,19 @@ void* userinterface_thread(void* arg)
                      "LAYOUT",
                      "BALL",
                      (bbScreenPoints){100*SCREEN_PPP,100*SCREEN_PPP});
+
+    char BALLN[KEY_LENGTH];
+
+    for (int i = 0; i < N_BALLS; i++)
+    {
+        sprintf(BALLN, "BALL%d", i);
+        bbWidget_constructor(&ball,
+                         &home.UI.widgets,
+                         "BALL",
+                         "LAYOUT",
+                         BALLN,
+                         (bbScreenPoints){100*SCREEN_PPP,100*SCREEN_PPP});
+    }
 
     bbWidget_constructor(&ball,
                  &home.UI.widgets,

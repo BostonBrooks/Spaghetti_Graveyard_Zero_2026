@@ -27,6 +27,7 @@ typedef struct
     I64 test_int;
     bbClock2_handle clock2_handle;
     bbBall ball;
+    bbBall balls[N_BALLS];
     bbPaddle paddle1;
     bbPaddle paddle2;
 } bbHome_core;
