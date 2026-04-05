@@ -70,8 +70,8 @@ void* clock2_thread(void* arg)
         while (1)
         {
             bbFlag flag = bbThreadedQueue_popR(&clock->inbox,(void**)&message_in);
-            if (flag == bbNone) break;
-            if (message_in->clock_thread_index >= MAX_CONNECTIONS)
+            if (flag != bbSuccess) break;
+            if (message_in->clock_thread_index >= 3)
             {
                 bbDebug("index (%d) too large! message_type = %d\n",
                     message_in->clock_thread_index, message_in->message_type );
