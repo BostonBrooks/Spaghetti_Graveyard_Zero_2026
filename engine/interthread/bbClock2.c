@@ -76,7 +76,15 @@ void* clock2_thread(void* arg)
                 bbDebug("index (%d) too large! message_type = %d\n",
                     message_in->clock_thread_index, message_in->message_type );
                 bbThreadedQueue_free(&clock->inbox,(void**)&message_in);
-                break;
+                continue;
+            }
+
+            if (message_in->clock_thread_index < 0)
+            {
+                bbDebug("index (%d) negative! message_type = %d\n",
+                    message_in->clock_thread_index, message_in->message_type );
+                bbThreadedQueue_free(&clock->inbox,(void**)&message_in);
+                continue;
             }
 
             if (message_in->message_type == bbClock2MessageType_request)
