@@ -4,7 +4,7 @@
 #include "engine/data/bbConstants.h"
 #include "engine/geometry/bbCoordinates.h"
 
-#define N_BALLS 1
+#define N_BALLS 4
 
 typedef struct
 {

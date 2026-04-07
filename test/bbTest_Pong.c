@@ -61,7 +61,6 @@ int main(void)
     {
         bbScreenPoints position = {360*SCREEN_PPP,240*SCREEN_PPP};
         bbScreenPoints velocity = {6*SCREEN_PPP,3*SCREEN_PPP};
-        bbBall_Init(&home.core.ball,position,velocity,"BALL");
 
         char BALLN[KEY_LENGTH];
         velocity.y = -N_BALLS / 2;
@@ -144,7 +143,6 @@ int main(void)
                 home.core.core.actual_time,
                 bbInstructionSource_input, no_handle );
 
-            bbCoreInput_updateBall(&home.core.core, &home.core.ball, bbInstructionSource_input, no_handle);
 
             for (int i = 0; i < N_BALLS; i++)
             {
@@ -233,13 +231,6 @@ void* userinterface_thread(void* arg)
 
 
     bbWidget* ball;
-
-    bbWidget_constructor(&ball,
-                     &home.UI.widgets,
-                     "BALL",
-                     "LAYOUT",
-                     "BALL",
-                     (bbScreenPoints){100*SCREEN_PPP,100*SCREEN_PPP});
 
     char BALLN[KEY_LENGTH];
 
