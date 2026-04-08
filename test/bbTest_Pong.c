@@ -219,7 +219,7 @@ void* userinterface_thread(void* arg)
                      &home.UI.widgets,
                      "NETPAUSE_BUTTON",
                      "LAYOUT",
-                     "NETPAUSE",
+                     "(UN)PAUSE",
                      (bbScreenPoints){6*SCREEN_PPP,6*SCREEN_PPP});
 
     /*bbWidget_constructor(NULL,

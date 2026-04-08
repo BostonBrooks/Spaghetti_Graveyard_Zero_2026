@@ -173,7 +173,7 @@ bbFlag bbNetworkApp_checkInbox(bbNetwork* network)
                               packet->data.pause.reference_server_tick,
                               packet->data.pause.reference_map_tick,
                               packet->data.pause.is_paused);
-            bbLocalMessage_UnfreezeButton(&home.core.core,"NETPAUSE");
+            bbLocalMessage_UnfreezeButton(&home.core.core,"(UN)PAUSE");
 
         }
 
