@@ -668,7 +668,7 @@ bbFlag bbInstruction_checkActions2_fn(bbCore* core, bbInstruction* instruction)
         flag = bbList_popL(&core->action_temp_fifo,(void**)&action);
     }
     //may or may not need the following call
-    bbCore_react(core);
+    //bbCore_react(core);
 }
 
 ///check actions using the new algorithm
