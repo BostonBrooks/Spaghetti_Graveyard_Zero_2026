@@ -115,30 +115,24 @@ bbFlag bbThreadedPool_allocImpl(bbThreadedPool* pool, void** address, char* file
 {
     bbMutexLock(&pool->mutex);
 
-    if (pool->in_use >= pool->num-1)
+    if (pool->in_use >= pool->num || pool->available_head == -1 || pool->available_tail == -1)
     {
+        head_tail(pool)
         //assert available list empty
         bbMutexUnlock(&pool->mutex);
-        bbDebug("Threaded Pool Full - size = %d\n", pool->num);
-
-        //we wait here forever
-        pthread_cond_wait(&pool->pool_full_cond, &pool->pool_full);
-        bbMutexLock(&pool->mutex);
-    }
-
-    if (pool->available_head == -1 || pool->available_tail == -1)
-    {
-        //assert available list empty
-        head_tail(pool)
         bbDebug("Threaded Pool Full - size = %d, in_use = %d\n", pool->num, pool->in_use);
 
-        bbMutexUnlock(&pool->mutex);
-
-        bbDebug("Threaded Pool Full - size = %d\n", pool->num);
-        //there is a bug when mutex is unlocked in between the following lines
+        bbMutexLock(&pool->pool_full);
+        //we wait here forever
         pthread_cond_wait(&pool->pool_full_cond, &pool->pool_full);
+
+
+        bbMutexUnlock(&pool->pool_full);
+        bbHere()
         bbMutexLock(&pool->mutex);
+        bbHere()
     }
+
     pool->in_use++;
 
     bbHandle handle;
@@ -177,6 +171,8 @@ bbFlag bbThreadedPool_free(bbThreadedPool* pool, void* address)
 {
     bbMutexLock(&pool->mutex);
     pool->in_use--;
+
+    //We can put this signal here,
     pthread_cond_signal(&pool->pool_full_cond);
 
     //pool full, reserve empty
@@ -189,13 +185,17 @@ bbFlag bbThreadedPool_free(bbThreadedPool* pool, void* address)
         pool->available_head = handle.u64;
         pool->available_tail = handle.u64;
 
+        bbDebug("handle = %lu\n", handle.u64);
+
         bbThreadedPool_available* element = address;
         element->prev = -1;
         element->next = -1;
 
 
-        bbMutexUnlock(&pool->pool_full);
         bbMutexUnlock(&pool->mutex);
+
+        pthread_cond_signal(&pool->pool_full_cond);
+        bbMutexUnlock(&pool->pool_full);
         return bbSuccess;
     }
 
@@ -217,10 +217,14 @@ bbFlag bbThreadedPool_free(bbThreadedPool* pool, void* address)
     element->next = next_handle.u64;
     element->prev = -1;
 
+
+    bbMutexUnlock(&pool->mutex);
+
+
     //the following line may not be necessary because the pool is not full
 
+    pthread_cond_signal(&pool->pool_full_cond);
     bbMutexUnlock(&pool->pool_full);
-    bbMutexUnlock(&pool->mutex);
     return bbSuccess;
 }
 
