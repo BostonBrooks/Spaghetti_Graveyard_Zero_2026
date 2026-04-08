@@ -144,8 +144,6 @@ void* clock2_thread(void* arg)
                     message_out->map_tick = clock->map_tick;
                     message_out->clock_paused = clock->is_paused;
 
-                    connection->wait_until_tick = 0xFFFFFFFFFFFFFFFF;
-
                     bbThreadedQueue_pushR(&connection->outbox,message_out);
                 }
 
