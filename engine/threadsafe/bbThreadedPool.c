@@ -120,12 +120,11 @@ bbFlag bbThreadedPool_allocImpl(bbThreadedPool* pool, void** address, char* file
     {
         head_tail(pool)
         //assert available list empty
-        bbMutexUnlock(&pool->mutex);
-        bbDebug("Threaded Pool Full - size = %d\n", pool->num);
 
-        usleep(1000);
-        pthread_cond_wait(&pool->pool_full_cond, &pool->pool_full);
-        bbMutexLock(&pool->mutex);
+        bbDebug("Threaded Pool Full - size = %d, in use = %d\n", pool->num, pool->in_use);
+
+        pthread_cond_wait(&pool->pool_full_cond, &pool->mutex);
+
     }
 
     pool->in_use++;
@@ -166,7 +165,6 @@ bbFlag bbThreadedPool_free(bbThreadedPool* pool, void* address)
 {
     bbMutexLock(&pool->mutex);
     pool->in_use--;
-    pthread_cond_signal(&pool->pool_full_cond);
 
     //pool full, reserve empty
     if (pool->available_head == -1)
@@ -183,7 +181,8 @@ bbFlag bbThreadedPool_free(bbThreadedPool* pool, void* address)
         element->next = -1;
 
 
-        bbMutexUnlock(&pool->pool_full);
+        pthread_cond_signal(&pool->pool_full_cond);
+
         bbMutexUnlock(&pool->mutex);
         return bbSuccess;
     }
@@ -208,7 +207,8 @@ bbFlag bbThreadedPool_free(bbThreadedPool* pool, void* address)
 
     //the following line may not be necessary because the pool is not full
 
-    bbMutexUnlock(&pool->pool_full);
+
+    pthread_cond_signal(&pool->pool_full_cond);
     bbMutexUnlock(&pool->mutex);
     return bbSuccess;
 }
@@ -259,6 +259,7 @@ bbFlag bbThreadedPool_clear(void* Pool)
     pool->available_tail = pool->num - 1;
 
 
+    pthread_cond_signal(&pool->pool_full_cond);
     bbMutexUnlock(&pool->mutex);
     return bbSuccess;
 }
