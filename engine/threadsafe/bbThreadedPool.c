@@ -1,6 +1,7 @@
 #include "engine/threadsafe/bbThreadedPool.h"
 
 #include <string.h>
+#include <unistd.h>
 
 #include "engine/logic/bbArithmetic.h"
 #include "engine/logic/bbTerminal.h"
@@ -115,30 +116,18 @@ bbFlag bbThreadedPool_allocImpl(bbThreadedPool* pool, void** address, char* file
 {
     bbMutexLock(&pool->mutex);
 
-    if (pool->in_use >= pool->num-1)
+    if (pool->in_use >= pool->num || pool->available_head == -1 || pool->available_tail == -1)
     {
-        //assert available list empty
-        bbMutexUnlock(&pool->mutex);
-        bbDebug("Threaded Pool Full - size = %d\n", pool->num);
-
-        //we wait here forever
-        pthread_cond_wait(&pool->pool_full_cond, &pool->pool_full);
-        bbMutexLock(&pool->mutex);
-    }
-
-    if (pool->available_head == -1 || pool->available_tail == -1)
-    {
-        //assert available list empty
         head_tail(pool)
-        bbDebug("Threaded Pool Full - size = %d, in_use = %d\n", pool->num, pool->in_use);
-
+        //assert available list empty
         bbMutexUnlock(&pool->mutex);
-
         bbDebug("Threaded Pool Full - size = %d\n", pool->num);
-        //there is a bug when mutex is unlocked in between the following lines
+
+        usleep(1000);
         pthread_cond_wait(&pool->pool_full_cond, &pool->pool_full);
         bbMutexLock(&pool->mutex);
     }
+
     pool->in_use++;
 
     bbHandle handle;
