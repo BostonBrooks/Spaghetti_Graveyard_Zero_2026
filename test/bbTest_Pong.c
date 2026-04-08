@@ -293,6 +293,7 @@ void* userinterface_thread(void* arg)
             {
                 bbClock2_handle_init(&home.clock2, &home.UI.clock2_handle, 1);
             }
+            //may  not need this line:
             bbClock2_waitTick(&home.clock2,&home.UI.clock2_handle,home.UI.clock2_handle.map_tick+1);
 
 
