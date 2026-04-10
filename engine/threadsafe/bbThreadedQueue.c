@@ -90,11 +90,11 @@ bbFlag bbThreadedQueue_pushL(bbThreadedQueue* queue, void* element)
         list_element->prev = queue->pool->null;
         list_element->next = queue->pool->null;
 
+
+        pthread_cond_signal(&queue->empty_cond);
         bbMutexUnlock(&queue->mutex);
 
 
-        pthread_cond_signal(&queue->empty_cond);
-        pthread_mutex_unlock(&queue->empty);
         return bbSuccess;
     }
 
@@ -118,6 +118,7 @@ bbFlag bbThreadedQueue_pushL(bbThreadedQueue* queue, void* element)
     head_listElement->prev = handle_element;
     queue->head = (I32)handle_element.u64;
 
+    pthread_cond_signal(&queue->empty_cond);
     bbMutexUnlock(&queue->mutex);
     return bbSuccess;
 }
@@ -149,11 +150,10 @@ bbFlag bbThreadedQueue_pushR(bbThreadedQueue* queue, void* element)
         list_element->prev = queue->pool->null;
         list_element->next = queue->pool->null;
 
-        bbMutexUnlock(&queue->mutex);
 
 
         pthread_cond_signal(&queue->empty_cond);
-        pthread_mutex_unlock(&queue->empty);
+        bbMutexUnlock(&queue->mutex);
         return bbSuccess;
     }
 
@@ -170,6 +170,7 @@ bbFlag bbThreadedQueue_pushR(bbThreadedQueue* queue, void* element)
     queue->tail = handle_element.u64;
 
 
+    pthread_cond_signal(&queue->empty_cond);
     bbMutexUnlock(&queue->mutex);
     return bbSuccess;
 }
@@ -305,12 +306,13 @@ bbFlag bbThreadedQueue_popR_block(bbThreadedQueue* queue, void** Element)
     if (queue->head == -1 || queue->tail == -1)
     {
         bbAssert(queue->head == -1 && queue->tail == -1, "head/tail mismatch");
-        bbMutexUnlock(&queue->mutex);
 
-        //bbDebug("Threaded Queue Empty\n");
-        pthread_cond_wait(&queue->empty_cond, &queue->empty);
 
-        bbMutexLock(&queue->mutex);
+        bbDebug("Threaded Queue Empty\n");
+        pthread_cond_wait(&queue->empty_cond, &queue->mutex);
+
+
+        bbDebug("Threaded Queue No Longer Empty\n");
     }
 
     //Case 2: One Element
@@ -369,11 +371,9 @@ bbFlag bbThreadedQueue_popL_block(bbThreadedQueue* queue, void** Element)
     if (queue->head == -1 || queue->tail == -1)
     {
         bbAssert(queue->head == -1 && queue->tail == -1, "head/tail mismatch");
-        bbMutexUnlock(&queue->mutex);
-        //bbDebug("Threaded Queue Empty\n");
-        pthread_cond_wait(&queue->empty_cond, &queue->empty);
 
-        bbMutexLock(&queue->mutex);
+        pthread_cond_wait(&queue->empty_cond, &queue->mutex);
+
     }
 
     //Case 2: One Element
