@@ -46,6 +46,7 @@ add_executable(Pong test/bbTest_Pong.c
         engine/core/bbLocalMessage.c
         engine/core/bbLocalMessageInputs.c
         engine/core/bbAction.c
+        engine/core/bbCoreDiscard.c
         engine/threadsafe/bbThreadedPool.c
         engine/threadsafe/bbThreadedQueue.c
         engine/pong/bbBall.c

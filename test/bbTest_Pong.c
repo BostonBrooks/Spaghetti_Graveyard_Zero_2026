@@ -5,6 +5,7 @@
 #include <pthread.h>
 #include <math.h>
 
+#include "engine/core/bbCoreDiscard.h"
 #include "engine/core/bbCoreInputs.h"
 #include "engine/core/bbLocalMessage.h"
 #include "engine/core/bbLocalMessageInputs.h"
@@ -156,7 +157,6 @@ int main(void)
 
 
 
-
         }
 
         if (home.clock2.is_paused == false)
@@ -164,6 +164,8 @@ int main(void)
         }
 
         bbCore_react(&home.core.core);
+
+        bbCoreDiscard(&home.core.core, home.core.clock2_handle.map_tick-180);
         //bbActions_react(&home.core.core, core_time);
 
         if (clock_handle_init == false) sfSleep(sfSeconds(1.f/60.f));
