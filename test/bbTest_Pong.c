@@ -113,9 +113,8 @@ int main(void)
                 clock_handle_init = true;
                 //core_time = home.clock2.map_tick;
             }
-            //core_time += 3;
-            //bbClock_waitTick(&home.clock,  core_time, clock_index);
-            bbClock2_waitTick(&home.clock2,&home.core.clock2_handle,home.core.clock2_handle.map_tick%3+3);
+            U64 new_map_tick = home.core.clock2_handle.map_tick / 6 * 6 + 6;
+            bbClock2_waitTick(&home.clock2,&home.core.clock2_handle,new_map_tick);
 
 
         } else
