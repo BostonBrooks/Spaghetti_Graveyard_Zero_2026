@@ -5,8 +5,8 @@
  * viewport has a bbViewport object which does the actual rendering of
  * the ground surface and bbDrawables
  **/
-#ifndef BBVIEWPORT_H
-#define BBVIEWPORT_H
+#ifndef BB_VIEWPORT_H
+#define BB_VIEWPORT_H
 
 #include "engine/data/bbIncludes.c"
 #include "engine/logic/bbFlag.h"
@@ -43,4 +43,4 @@ bbFlag bbViewport_new(bbViewport** viewport,  I32 height, I32 width);
 bbFlag bbViewport_draw(sfRenderWindow* window, bbViewport* viewport);
 bbFlag bbViewport_clear(bbViewport* viewport);
 
-#endif // BBVIEWPORT_H
+#endif // BB_VIEWPORT_H
