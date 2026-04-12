@@ -115,7 +115,7 @@ int main(void)
             }
             //core_time += 3;
             //bbClock_waitTick(&home.clock,  core_time, clock_index);
-            bbClock2_waitTick(&home.clock2,&home.core.clock2_handle,home.core.clock2_handle.map_tick+1);
+            bbClock2_waitTick(&home.clock2,&home.core.clock2_handle,home.core.clock2_handle.map_tick%3+3);
 
 
         } else
