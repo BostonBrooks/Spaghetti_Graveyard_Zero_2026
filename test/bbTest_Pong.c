@@ -117,6 +117,8 @@ int main(void)
             //bbClock_waitTick(&home.clock,  core_time, clock_index);
             bbClock2_waitTick(&home.clock2,&home.core.clock2_handle,home.core.clock2_handle.map_tick+1);
 
+            bbPrintf("map tick = %lu\n", home.core.clock2_handle.map_tick);
+
         } else
         {
 
