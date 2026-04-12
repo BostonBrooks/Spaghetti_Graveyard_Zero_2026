@@ -59,30 +59,7 @@ int main(void)
     bool once = false;
 
 
-    {
-        bbScreenPoints position = {360*SCREEN_PPP,240*SCREEN_PPP};
-        bbScreenPoints velocity = {6*SCREEN_PPP,3*SCREEN_PPP};
 
-        char BALLN[KEY_LENGTH];
-        velocity.y = -N_BALLS / 2;
-
-        for (int i = 0; i < N_BALLS; i++)
-        {
-            sprintf(BALLN, "BALL%d", i);
-            bbBall_Init(&home.core.balls[i],position,velocity,BALLN);
-            velocity.y++;
-        }
-
-
-        bbScreenPoints position2 = {50*SCREEN_PPP,240*SCREEN_PPP};
-        bbScreenPoints velocity2 = {0*SCREEN_PPP,7*SCREEN_PPP};
-        bbPaddle_Init(&home.core.paddle1, position2,velocity2,"PADDLE1");
-
-
-        bbScreenPoints position3 = {670*SCREEN_PPP,240*SCREEN_PPP};
-        bbScreenPoints velocity3 = {0*SCREEN_PPP,6*SCREEN_PPP};
-        bbPaddle_Init(&home.core.paddle2, position3,velocity3,"PADDLE2");
-    }
     while (1)
     {
 
@@ -145,16 +122,6 @@ int main(void)
                 home.core.core.actual_time,
                 bbInstructionSource_input, no_handle );
 
-
-            for (int i = 0; i < N_BALLS; i++)
-            {
-                bbCoreInput_updateBall(&home.core.core, &home.core.balls[i], bbInstructionSource_input, no_handle);
-            }
-
-
-            bbCoreInput_updatePaddle(&home.core.core, &home.core.paddle1, bbInstructionSource_input, no_handle);
-            bbCoreInput_updatePaddle(&home.core.core, &home.core.paddle2, bbInstructionSource_input, no_handle);
-            bbCore_react(&home.core.core);
 
 
 
@@ -234,34 +201,6 @@ void* userinterface_thread(void* arg)
 
 
     bbWidget* ball;
-
-    char BALLN[KEY_LENGTH];
-
-    for (int i = 0; i < N_BALLS; i++)
-    {
-        sprintf(BALLN, "BALL%d", i);
-        bbWidget_constructor(&ball,
-                         &home.UI.widgets,
-                         "BALL",
-                         "LAYOUT",
-                         BALLN,
-                         (bbScreenPoints){100*SCREEN_PPP,100*SCREEN_PPP});
-    }
-
-    bbWidget_constructor(&ball,
-                 &home.UI.widgets,
-                 "PADDLE",
-                 "LAYOUT",
-                 "PADDLE1",
-                 (bbScreenPoints){50*SCREEN_PPP,150*SCREEN_PPP});
-
-
-    bbWidget_constructor(&ball,
-                 &home.UI.widgets,
-                 "PADDLE",
-                 "LAYOUT",
-                 "PADDLE2",
-                 (bbScreenPoints){670*SCREEN_PPP,150*SCREEN_PPP});
 
     home.UI.UI_time = 0;
 

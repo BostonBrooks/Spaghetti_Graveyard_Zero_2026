@@ -261,3 +261,66 @@ target_link_libraries(Test_Threaded_Queue PRIVATE
 )
 
 target_include_directories(Test_Threaded_Queue  PRIVATE "./")
+
+add_executable(SkellyChase test/bbTest_SkellyChase.c
+        engine/graphics/bbFonts.c
+        engine/graphics/bbSprites.c
+        engine/graphics/bbTextures.c
+        engine/graphics/bbColours.c
+        engine/graphics/bbCompositions.c
+        engine/graphics/bbGraphicsApp.c
+        engine/graphics/bbAnimations.c
+        engine/core/bbInstruction.c
+        engine/core/bbLocalMessage.c
+        engine/core/bbCoreInputs.c
+        engine/core/bbCoreDiscard.c
+        engine/core/bbLocalMessageInputs.c
+        engine/core/bbCore.c
+        engine/core/bbAction.c
+        engine/geometry/bbCoordinates.c
+        engine/data/bbIncludes.c
+        engine/viewport/bbViewportApp.c
+        engine/viewport/bbDrawables.c
+        engine/viewport/bbMapIcons.c
+        engine/viewport/bbUnits.c
+        engine/viewport/bbViewport.c
+        engine/server/bbServer.c
+        #engine/pong/bbBall.c
+        #engine/pong/bbPaddle.c
+        engine/interthread/bbClock.c
+        engine/interthread/bbClock2.c
+        engine/network/bbNetworkTime.c
+        engine/network/bbNetworkPacket.c
+        engine/network/bbNetworkApp.c
+        engine/network/bbNetwork.c
+        engine/logic/bbList_getNth.c
+        engine/logic/bbDictionary.c
+        engine/logic/bbTree.c
+        engine/logic/bbList_map.c
+        engine/logic/bbBloatedPool.c
+        engine/logic/bbList_sort.c
+        engine/logic/bbList.c
+        engine/logic/bbList_iterate.c
+        engine/userinterface/bbInput.c
+        engine/userinterface/bbMouseFunctions.c
+        engine/userinterface/bbUI_Inbox.c
+        engine/userinterface/bbWidgetFunctions.c
+        engine/userinterface/bbMouse.c
+        engine/userinterface/bbWidgets.c
+        engine/threadsafe/bbThreadedQueue.c
+        engine/threadsafe/bbThreadedPool.c
+        engine/threadsafe/bbThreadedQueue_search.c)
+
+target_compile_definitions(SkellyChase PRIVATE
+        DEFINE_SKELLYCHASE)
+
+target_include_directories(SkellyChase  PRIVATE "./"
+                            PRIVATE "./games/game0/maps/skellychase/")
+
+target_link_libraries(SkellyChase PRIVATE
+        csfml-graphics
+        csfml-window
+        csfml-system
+        csfml-network
+        m
+)
