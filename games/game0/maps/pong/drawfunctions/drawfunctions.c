@@ -9,7 +9,7 @@
 #include "games/game0/maps/map0/drawfunctions/button_state.h"
 #include "games/game0/maps/map0/drawfunctions/widget_text.h"
 
-#define NUM_DRAWFUNCTIONS 12
+#define NUM_DRAWFUNCTIONS 13
 
 bbFlag bbDF_NULL(void* drawable, void* frameDescriptor, void* cl)
 {
@@ -124,6 +124,40 @@ bbFlag bbDF_widgetMapTimeAnimation(void* drawable, void* frameDescriptor, void* 
     I32 frames = animation->frames;
 
     double time = home.UI.clock2_handle.map_tick;
+
+    //bbDebug("key = %s, maptime = %d, starttime= %d, framerate = %f, frames = %d\n",
+    //		animation->key, mapTime, frame_descriptor->startTime,animation->framerate, animation->frames );
+    I32 frame = (int)((double)(time - frame_descriptor->start_time) *
+                      (double)animation->framerate * frame_descriptor->framerate) % animation->frames;
+    I32 sprite_int = animation->Sprites[angle*frames+frame].u64;
+    sfSprite* sprite = animation->sprites->sprites[sprite_int];
+
+
+
+    bbScreenPoints SP;
+    SP.x = widget->rect.left + frame_descriptor->offset.x;
+    SP.y = widget->rect.top + frame_descriptor->offset.y;
+    sfVector2f position = bbScreenPoints_getV2f(SP);
+
+    sfSprite_setPosition(sprite, position);
+    sfRenderWindow_drawSprite(closure->target, sprite, NULL);
+
+    return bbSuccess;
+}
+
+bbFlag bbDF_widgetCoreTimeAnimation(void* drawable, void* frameDescriptor, void* cl){
+
+    bbWidget* widget = drawable;
+    bbFrame* frame_descriptor = frameDescriptor;
+    drawFuncClosure* closure = cl;
+    bbGraphicsApp* graphics = closure->graphics;
+
+    bbAnimation* animation = graphics->animations->animations[frame_descriptor->handle.u64];
+
+    I32 angle = 0;
+    I32 frames = animation->frames;
+
+    double time = home.core.clock2_handle.map_tick;
 
     //bbDebug("key = %s, maptime = %d, starttime= %d, framerate = %f, frames = %d\n",
     //		animation->key, mapTime, frame_descriptor->startTime,animation->framerate, animation->frames );
@@ -298,6 +332,11 @@ bbFlag bbDrawfunctions_new(bbDrawfunctions** drawfunctions){
     handle.u64 = 11;
     bbDictionary_add(functions->dictionary, "WIDGET_SERVERTIME_ANIMATION", handle);
 
+    functions->functions[12] = bbDF_widgetCoreTimeAnimation;
+    handle.u64 = 12;
+    bbDictionary_add(functions->dictionary, "WIDGET_CORETIME_ANIMATION", handle);
+
     *drawfunctions = functions;
     return bbSuccess;
 }
+

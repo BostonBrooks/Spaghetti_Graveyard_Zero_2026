@@ -139,7 +139,7 @@ bbFlag bbWidget_Constructor_Clock(bbWidget** self,
 
     bbHandle drawfunctionHandle;
     bbDictionary_lookup(graphics->drawfunctions->dictionary,
-                     "WIDGET_MAPTIME_ANIMATION",
+                     "WIDGET_CORETIME_ANIMATION",
                      &drawfunctionHandle);
 
     widget->frames[0].drawfunction = drawfunctionHandle.u64;
