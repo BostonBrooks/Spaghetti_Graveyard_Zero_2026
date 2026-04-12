@@ -14,7 +14,6 @@ bbFlag bbCoreDiscard(bbCore* core, U64 time)
 
         if (flag != bbSuccess) return bbSuccess;
 
-        bbDebug("undo instruction type %d\n", undo_instruction->type);
 
         if (undo_instruction->type == bbInstruction_unsetTime)
         {

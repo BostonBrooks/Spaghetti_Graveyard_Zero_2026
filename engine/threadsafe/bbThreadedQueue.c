@@ -308,18 +308,15 @@ bbFlag bbThreadedQueue_popR_block(bbThreadedQueue* queue, void** Element)
         bbAssert(queue->head == -1 && queue->tail == -1, "head/tail mismatch");
 
 
-        bbDebug("Threaded Queue Empty\n");
         pthread_cond_wait(&queue->empty_cond, &queue->mutex);
 
 
-        bbDebug("Threaded Queue No Longer Empty\n");
     }
 
     //Case 2: One Element
 
     if (queue->head == queue->tail)
     {
-        bbAssert(queue->head == queue->tail, "how did we get here?\n");
         bbHandle handle;
         handle.u64 = queue->head;
         void* element;
