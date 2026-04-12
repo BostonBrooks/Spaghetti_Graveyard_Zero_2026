@@ -224,12 +224,12 @@ void* userinterface_thread(void* arg)
                      "(UN)PAUSE",
                      (bbScreenPoints){6*SCREEN_PPP,6*SCREEN_PPP});
 
-    /*bbWidget_constructor(NULL,
+    bbWidget_constructor(NULL,
                      &home.UI.widgets,
                      "CLOCK",
                      "LAYOUT",
                      "CLOCK",
-                     (bbScreenPoints){150*SCREEN_PPP,80*SCREEN_PPP});*/
+                     (bbScreenPoints){150*SCREEN_PPP,80*SCREEN_PPP});
 
 
     bbWidget* ball;
