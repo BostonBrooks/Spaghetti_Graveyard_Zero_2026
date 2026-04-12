@@ -11,7 +11,7 @@ bbFlag bbMapIcon_new(bbMapIcon** self, bbMapIcons* mapicons,
     bbVPool_alloc(pool, (void**)&drawable);
     drawable->coords = MC;
 
-    bbPool_Handle drawfunctionHandle;
+    bbHandle drawfunctionHandle;
 
     bbDictionary_lookup(graphics->drawfunctions->dictionary,
                         "MAPICONTEST",
@@ -25,5 +25,5 @@ bbFlag bbMapIcon_new(bbMapIcon** self, bbMapIcons* mapicons,
     }
 
     bbList_sortL(&drawableSquare.list, drawable);
-    return Success;
+    return bbSuccess;
 }

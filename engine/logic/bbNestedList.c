@@ -1,8 +1,8 @@
-
+#include <stddef.h>
 
 #include "engine/logic/bbNestedList.h"
 
-#include "bbLeanPool.h"
+#include "engine/logic/bbBloatedPool.h"
 
 bbVPool* bbNestedList_pool;
 
@@ -10,7 +10,7 @@ bbVPool* bbNestedList_pool;
 
 bbFlag bbNestedList_init(bbNestedList* nestedList) {
     if (bbNestedList_pool == NULL){
-        bbVPool_newLean(&bbNestedList_pool, sizeof(bbNestedListElement), 1000);
+        bbVPool_newBloated(&bbNestedList_pool, sizeof(bbNestedListElement), 100, 100);
     }
     bbList_init(&nestedList->list,
                 bbNestedList_pool,
@@ -19,7 +19,7 @@ bbFlag bbNestedList_init(bbNestedList* nestedList) {
                 compare_list);
 
 
-    return Success;
+    return bbSuccess;
 }
 
 
@@ -30,7 +30,7 @@ bbFlag bbNestedList_attach(bbNestedList* nestedList, bbList* list){
 
     bbFlag flag = bbList_setHead(list, NULL);
 
-    if(flag == None) return None;
+    if(flag == bbNone) return bbNone;
     bbNestedListElement* nestedListElement;
     bbVPool_alloc(bbNestedList_pool, (void**) &nestedListElement);
     nestedListElement->list = list;
@@ -41,29 +41,29 @@ bbFlag bbNestedList_attach(bbNestedList* nestedList, bbList* list){
 
 
 
-    return Success;
+    return bbSuccess;
 }
 
 
 bbFlag bbNestedList_getNext(bbNestedList* nestedList, void** element){
     bbNestedListElement* nestedListElement;
     bbFlag flag = bbList_popL(&nestedList->list, (void**) &nestedListElement);
-    if(flag != Success) return flag;
+    if(flag != bbSuccess) return flag;
 
 
     void* element1;
     flag = bbList_getCurrent(nestedListElement->list, &element1);
-    if(flag != Success) return flag;
+    if(flag != bbSuccess) return flag;
 
     flag = bbList_increment(nestedListElement->list, NULL);
-    if(flag == Success){
+    if(flag == bbSuccess){
         bbList_sortL(&nestedList->list, nestedListElement);
     } else {
         bbVPool_free(bbNestedList_pool, nestedListElement);
     }
 
     *element = element1;
-    return Success;
+    return bbSuccess;
 }
 
 
@@ -72,7 +72,7 @@ bbFlag bbNestedList_map(bbNestedList* list, bbNestedList_mapFunction* fn, void* 
 
     while(1){
         bbFlag flag = bbNestedList_getNext(list, &element);
-        if (flag != Success) break;
+        if (flag != bbSuccess) break;
         fn(element, cl);
     }
 }

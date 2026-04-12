@@ -10,6 +10,7 @@
 #include "engine/pong/bbPaddle.h"
 #include "engine/userinterface/bbUI_Inbox.h"
 #include "engine/userinterface/bbWidgets.h"
+#include "engine/viewport/bbViewportApp.h"
 
 typedef struct
 {
@@ -19,6 +20,9 @@ typedef struct
     U64 UI_time;
     bbClock2_handle clock2_handle;
 } bbHome_UI;
+
+
+
 
 typedef struct
 {
@@ -39,7 +43,7 @@ typedef struct
     //bbClock clock;
     bbClock2 clock2;
     bbHome_core core;
-
+    bbViewportApp viewport_app;
 } bbHome;
 
 

@@ -17,7 +17,7 @@ bbFlag bbRenderable_init(bbRenderable* renderable, I32 height, I32 width){
     bbAssert(renderable->sprite != NULL, "bad sfml\n");
     sfSprite_setTexture(renderable->sprite, renderable->texture, sfTrue);
 
-    return Success;
+    return bbSuccess;
 }
 
 bbFlag bbViewport_init(bbViewport* viewport, I32 height, I32 width)
@@ -92,7 +92,7 @@ bbFlag bbViewport_init(bbViewport* viewport, I32 height, I32 width)
     sfShader_setTextureUniform(VP->shader,"Main", VP->main.texture);
     sfShader_setTextureUniform(VP->shader,"MapIcon", VP->mapicon.texture);
 
-    return Success;
+    return bbSuccess;
 }
 
 bbFlag bbViewport_new(bbViewport** viewport, I32 height, I32 width){
@@ -164,7 +164,7 @@ bbFlag bbViewport_new(bbViewport** viewport, I32 height, I32 width){
 
     *viewport = VP;
 
-    return Success;
+    return bbSuccess;
 }
 
 
@@ -177,7 +177,7 @@ bbFlag bbViewport_draw(sfRenderWindow* window, bbViewport* viewport){
     sfRenderWindow_drawSprite(window, viewport->background.sprite,
                               &viewport->renderStates);
 
-    return Success;
+    return bbSuccess;
 }
 
 

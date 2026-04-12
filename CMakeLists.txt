@@ -282,7 +282,6 @@ add_executable(SkellyChase test/bbTest_SkellyChase.c
         engine/viewport/bbViewportApp.c
         engine/viewport/bbDrawables.c
         engine/viewport/bbMapIcons.c
-        engine/viewport/bbUnits.c
         engine/viewport/bbViewport.c
         engine/server/bbServer.c
         #engine/pong/bbBall.c
@@ -301,6 +300,7 @@ add_executable(SkellyChase test/bbTest_SkellyChase.c
         engine/logic/bbList_sort.c
         engine/logic/bbList.c
         engine/logic/bbList_iterate.c
+        engine/logic/bbNestedList.c
         engine/userinterface/bbInput.c
         engine/userinterface/bbMouseFunctions.c
         engine/userinterface/bbUI_Inbox.c

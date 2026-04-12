@@ -1,6 +1,6 @@
 #include "engine/viewport/bbDrawables.h"
 #include "engine/logic/bbNestedList.h"
-#include "engine/viewport/bbUnits.h"
+//#include "engine/viewport/bbUnits.h"
 #include "engine/data/bbHome.h"
 #include "engine/logic/bbBloatedPool.h"
 
@@ -50,7 +50,7 @@ squares_j, I32 sizeOf){
         }
     }
     *self = drawables;
-    return Success;
+    return bbSuccess;
 }
 
 
@@ -90,9 +90,9 @@ bbFlag bbDrawables_draw(bbDrawables* drawables, drawFuncClosure* cl,
         for (int j = square_j_min; j < square_j_max; ++j) {
             I32 n = i + squares_i * j;
 
-            bbUnits* units = home.private.viewportApp.units;
+            //bbUnits* units = home.private.viewportApp.units;
             bbNestedList_attach(&list, &drawables->squares[n].list);
-            bbNestedList_attach(&list, &units->squares[n].list);
+            //bbNestedList_attach(&list, &units->squares[n].list);
         }
 
     }
@@ -100,15 +100,15 @@ bbFlag bbDrawables_draw(bbDrawables* drawables, drawFuncClosure* cl,
     bbNestedList_map(&list, bbDrawable_drawFunc, cl);
 
     //TODO bbNestedList_cleanup;
-    return Success;
+    return bbSuccess;
 }
 
 bbFlag bbDrawablesPlus_draw(drawFuncClosure* cl,
                             I32 square_i_min, I32 square_j_min,
                             I32 square_i_max, I32 square_j_max){
-    bbDrawables* drawables = home.private.viewportApp.drawables;
-    bbDrawables* mapicons = home.private.viewportApp.mapIcons;
-    bbDrawables* units = home.private.viewportApp.units;
+    bbDrawables* drawables = home.viewport_app.drawables;
+    bbDrawables* mapicons = home.viewport_app.mapIcons;
+    //bbDrawables* units = home.viewport_app.units;
 
     bbNestedList list;
     bbNestedList_init(&list);
@@ -121,7 +121,7 @@ bbFlag bbDrawablesPlus_draw(drawFuncClosure* cl,
             I32 n = i + squares_i * j;
 
             bbNestedList_attach(&list, &drawables->squares[n].list);
-            bbNestedList_attach(&list, &units->squares[n].list);
+            //bbNestedList_attach(&list, &units->squares[n].list);
         }
 
     }
@@ -143,7 +143,7 @@ bbFlag bbDrawablesPlus_draw(drawFuncClosure* cl,
     bbDebug("pool->inUse = %d\n", leanPool->inUse);
 */
 
-    return Success;
+    return bbSuccess;
 }
 
 
@@ -160,7 +160,7 @@ bbFlag bbDrawable_newTree(bbDrawable** self, bbDrawables* drawables,
     bbVPool_alloc(pool, (void**)&drawable);
     drawable->coords = MC;
 
-    bbPool_Handle drawfunctionHandle;
+    bbHandle drawfunctionHandle;
 
     bbDictionary_lookup(graphics->drawfunctions->dictionary,
                         "DRAWABLESPRITE",
@@ -175,7 +175,7 @@ bbFlag bbDrawable_newTree(bbDrawable** self, bbDrawables* drawables,
 
     drawable->frames[1].drawfunction = drawfunctionHandle.u64;
     drawable->frames[1].handle.u64 = 8;
-    drawable->frames[1].startTime =  -(rand()%6);
+    drawable->frames[1].start_time =  -(rand()%6);
     drawable->frames[1].framerate = 1;
 
     for (I32 k = 2; k < FRAMES_PER_DRAWABLE; k++){
@@ -184,7 +184,7 @@ bbFlag bbDrawable_newTree(bbDrawable** self, bbDrawables* drawables,
 
     bbList_sortL(&drawableSquare.list, drawable);
     *self = drawable;
-    return Success;
+    return bbSuccess;
 }
 bbFlag bbDrawable_newCat(bbDrawable** self, bbDrawables* drawables,
                           bbGraphicsApp* graphics, bbMapCoords MC)
@@ -198,7 +198,7 @@ bbFlag bbDrawable_newCat(bbDrawable** self, bbDrawables* drawables,
     bbVPool_alloc(pool, (void**)&drawable);
     drawable->coords = MC;
 
-    bbPool_Handle drawfunctionHandle;
+    bbHandle drawfunctionHandle;
 
 
 
@@ -208,7 +208,7 @@ bbFlag bbDrawable_newCat(bbDrawable** self, bbDrawables* drawables,
 
     drawable->frames[0].drawfunction = drawfunctionHandle.u64;
     drawable->frames[0].handle.u64 = 7;
-    drawable->frames[0].startTime =  -(rand()%6);
+    drawable->frames[0].start_time =  -(rand()%6);
     drawable->frames[0].framerate = 1;
 
     for (I32 k = 1; k < FRAMES_PER_DRAWABLE; k++){
@@ -217,7 +217,7 @@ bbFlag bbDrawable_newCat(bbDrawable** self, bbDrawables* drawables,
 
     bbList_sortL(&drawableSquare.list, drawable);
     *self = drawable;
-    return Success;
+    return bbSuccess;
 }
 
 bbFlag bbDrawable_newFire(bbDrawable** self, bbDrawables* drawables,
@@ -232,7 +232,7 @@ bbFlag bbDrawable_newFire(bbDrawable** self, bbDrawables* drawables,
     bbVPool_alloc(pool, (void**)&drawable);
     drawable->coords = MC;
 
-    bbPool_Handle drawfunctionHandle;
+    bbHandle drawfunctionHandle;
 
 
 
@@ -249,7 +249,7 @@ bbFlag bbDrawable_newFire(bbDrawable** self, bbDrawables* drawables,
 
     bbList_sortL(&drawableSquare.list, drawable);
     *self = drawable;
-    return Success;
+    return bbSuccess;
 }
 //TODO what if MC or drawable is out of bounds?
 //TODO it might be faster, if the drawable stays in the same square,
@@ -278,5 +278,5 @@ bbFlag bbDrawable_setLocation(bbDrawable* drawable, bbDrawables* drawables,
 
     bbList_sortL(&newSquare->list, drawable);
 
-    return Success;
+    return bbSuccess;
 }

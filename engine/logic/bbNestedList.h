@@ -8,7 +8,7 @@ extern bbVPool* bbNestedList_pool;
 
 typedef struct {
     bbList* list; //pointer to existing list
-    bbPool_ListElement listElement; //element of list list
+    bbListElement_Handle listElement; //element of list list
 } bbNestedListElement;
 
 typedef struct {
