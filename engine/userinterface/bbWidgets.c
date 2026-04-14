@@ -217,7 +217,7 @@ bbFlag bbWidget_newLayout(bbWidget** self,
 
     return bbSuccess;
 }
-
+#ifdef DEFINE_PONG
 bbFlag bbWidget_newLayoutPong(bbWidget** self,
                           bbGraphicsApp* graphics,
                           bbWidgets* widgets,
@@ -264,3 +264,4 @@ bbFlag bbWidget_newLayoutPong(bbWidget** self,
 
     return bbSuccess;
 }
+#endif //DEFINE_PONG

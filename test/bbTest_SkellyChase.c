@@ -150,43 +150,11 @@ int main(void)
 void* userinterface_thread(void* arg)
 {
     thread = "USER INTERFACE";
-    sfTexture* splash_texture = sfTexture_createFromFile("./graphics/Splash.png", NULL);
-    sfSprite* splash_sprite = sfSprite_create();
-    sfSprite_setTexture(splash_sprite, splash_texture, sfTrue);
 
-    home.UI.widgets.selected_textbox = NULL;
-
-    sfVideoMode mode;
-    mode.width = 720;
-    mode.height = 480;
-    mode.bitsPerPixel = 32;
-
-    sfRenderWindow* window = sfRenderWindow_create(mode, "early demo", sfResize | sfClose, NULL);
-    sfRenderWindow_setMouseCursorVisible(window, sfFalse);
-    sfRenderWindow_setKeyRepeatEnabled(window,sfFalse);
-    sfRenderWindow_setFramerateLimit(window, 60);
-    sfRenderWindow_setTitle(window, "Skelly Chase");
-    sfRenderWindow_drawSprite(window, splash_sprite, NULL);
-    sfRenderWindow_display(window);
-
-
-    bbGraphicsApp_init(&home.UI.graphics);
-
-    bbWidgets_init(&home.UI.widgets);
-
-    bbMouse mouse;
-    bbMouse_Init(&mouse, &home.UI.widgets, &home.UI.graphics);
-
-    bbMouseFunctions_init(&mouse.functions);
-    bbMouseFunctions_populate(&mouse.functions);
-
-    bbInput input;
-    bbInput_init(&input, window, &mouse, &home.UI.widgets);
-
-    bbUI_Inbox_init(&home.UI.inbox);
+    bbUIApp_init(&home.UI);
 
     bbWidget* root;
-    bbWidget_newLayoutPong(&root, &home.UI.graphics, &home.UI.widgets, NULL);
+    bbWidget_newLayout(&root, &home.UI.graphics, &home.UI.widgets, NULL);
 
     bbWidget_constructor(NULL,
                      &home.UI.widgets,
@@ -212,7 +180,7 @@ void* userinterface_thread(void* arg)
     cl.map_time = 0;
     cl.GUI_time = 0;
     cl.graphics = &home.UI.graphics;
-    cl.target = window;
+    cl.target = home.UI.window;
 
     bbNetworkTime* network_time = (bbNetworkTime*)home.network.extra_data;
 
@@ -222,16 +190,16 @@ void* userinterface_thread(void* arg)
 
 
 
-        bbInput_poll(&input, window);
+        bbInput_poll(&home.UI.input, home.UI.window);
 
-        bbMouse_isOver(&mouse, &home.UI.widgets);
-        bbMouse_Update(&mouse, &home.UI.widgets, &home.UI.graphics);
+        bbMouse_isOver(&home.UI.mouse, &home.UI.widgets);
+        bbMouse_Update(&home.UI.mouse, &home.UI.widgets, &home.UI.graphics);
 
         bbUI_Inbox_check(&home.UI.inbox);
-        sfRenderWindow_clear(window, bbLight);
+        sfRenderWindow_clear(home.UI.window, bbLight);
         bbWidgets_draw(&home.UI.widgets, &cl);
-        bbMouse_Draw(&mouse,&home.UI.widgets, &home.UI.graphics, window);
-        sfRenderWindow_display(window);
+        bbMouse_Draw(&home.UI.mouse,&home.UI.widgets, &home.UI.graphics, home.UI.window);
+        sfRenderWindow_display(home.UI.window);
 
         if (home.clock2.is_running){
             if (home.UI.clock2_handle.clock_thread_index == 255)

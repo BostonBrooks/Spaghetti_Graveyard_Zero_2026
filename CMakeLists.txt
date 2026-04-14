@@ -28,6 +28,7 @@ add_executable(Pong test/bbTest_Pong.c
         engine/userinterface/bbMouse.c
         engine/userinterface/bbMouseFunctions.c
         engine/userinterface/bbUI_Inbox.c
+        engine/userinterface/bbUIApp.c
         games/game0/maps/pong/mouse/mouse.c
         engine/logic/bbList.c
         engine/logic/bbList_getNth.c
@@ -304,6 +305,7 @@ add_executable(SkellyChase test/bbTest_SkellyChase.c
         engine/userinterface/bbWidgetFunctions.c
         engine/userinterface/bbMouse.c
         engine/userinterface/bbWidgets.c
+        engine/userinterface/bbUIApp.c
         engine/threadsafe/bbThreadedQueue.c
         engine/threadsafe/bbThreadedPool.c
         engine/threadsafe/bbThreadedQueue_search.c

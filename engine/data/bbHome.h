@@ -12,14 +12,7 @@
 #include "engine/userinterface/bbUI_Inbox.h"
 #include "engine/userinterface/bbWidgets.h"
 
-typedef struct
-{
-    bbGraphicsApp graphics;
-    bbWidgets widgets;
-    bbUI_Inbox inbox;
-    U64 UI_time;
-    bbClock2_handle clock2_handle;
-} bbHome_UI;
+#include "engine/userinterface/bbUIApp.h"
 
 
 
@@ -37,7 +30,7 @@ typedef struct
 
 typedef struct
 {
-    bbHome_UI UI;
+    bbUIApp UI;
     bbNetwork network;
     bbNetworkTime* network_time;
     //bbClock clock;

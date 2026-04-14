@@ -11,7 +11,28 @@
 
 #define NUM_DRAWFUNCTIONS 69
 
+bbFlag bbDF_widgetSprite(void* drawable, void* frame_descriptor, void* cl){
+    bbWidget* widget = drawable;
+    bbFrame* frame = frame_descriptor;
+    drawFuncClosure* closure = cl;
+    bbGraphicsApp* graphics = closure->graphics;
 
+    I32 spriteInt = frame->handle.u64;
+    sfSprite* sprite = graphics->sprites->sprites[spriteInt];
+
+
+    bbScreenPoints SP;
+    SP.x = widget->rect.left + frame->offset.x;
+    SP.y = widget->rect.top + frame->offset.y;
+
+    sfVector2f position = bbScreenPoints_getV2f(SP);
+    sfSprite_setPosition(sprite, position);
+
+
+    sfRenderWindow_drawSprite(closure->target, sprite, NULL);
+
+    return bbSuccess;
+}
 
 bbFlag bbDrawfunctions_new(bbDrawfunctions** drawfunctions){
 
@@ -21,6 +42,11 @@ bbFlag bbDrawfunctions_new(bbDrawfunctions** drawfunctions){
 
     functions->num = NUM_DRAWFUNCTIONS;
 
+    bbHandle handle;
+
+    functions->functions[1] = bbDF_widgetSprite;
+    handle.u64 = 1;
+    bbDictionary_add(functions->dictionary, "WIDGET_SPRITE", handle);
 
     *drawfunctions = functions;
     return bbSuccess;
