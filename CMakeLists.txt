@@ -311,7 +311,8 @@ add_executable(SkellyChase test/bbTest_SkellyChase.c
         engine/threadsafe/bbThreadedQueue_search.c
         games/game0/maps/skellychase/mouse/mouse.c
         games/game0/maps/skellychase/drawfunctions/drawfunctions.c
-        games/game0/maps/skellychase/widgets/widgets.c)
+        games/game0/maps/skellychase/widgets/widgets.c
+        games/game0/maps/skellychase/widgets/spawn_widgets.c)
 
 target_compile_definitions(SkellyChase PRIVATE
         DEFINE_SKELLYCHASE)

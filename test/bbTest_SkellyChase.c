@@ -49,7 +49,7 @@ int main(void)
 
     bbNetworkApp_init(&home.network);
 
-    char address[64] = "10.86.224.70";
+    char address[64] = "127.0.0.1";
     char port[64] = "1701";
     bbNetworkApp_connect(&home.network, address, port);
     home.network_time = (bbNetworkTime*)home.network.extra_data;
@@ -93,7 +93,8 @@ int main(void)
                 //core_time = home.clock2.map_tick;
             }
             U64 ticks_per_frame = 6;
-            U64 new_map_tick = home.core.clock2_handle.map_tick / ticks_per_frame * ticks_per_frame + ticks_per_frame;
+            U64 new_map_tick = home.core.clock2_handle.map_tick
+                - home.core.clock2_handle.map_tick % ticks_per_frame + ticks_per_frame;
             bbClock2_waitTick(&home.clock2,&home.core.clock2_handle,new_map_tick);
 
 
@@ -153,25 +154,10 @@ void* userinterface_thread(void* arg)
 
     bbUIApp_init(&home.UI);
 
-    bbWidget* root;
-    bbWidget_newLayout(&root, &home.UI.graphics, &home.UI.widgets, NULL);
-
-    bbWidget_constructor(NULL,
-                     &home.UI.widgets,
-                     "NETPAUSE_BUTTON",
-                     "LAYOUT",
-                     "(UN)PAUSE",
-                     (bbScreenPoints){6*SCREEN_PPP,6*SCREEN_PPP});
-
-    bbWidget_constructor(NULL,
-                     &home.UI.widgets,
-                     "CLOCK",
-                     "LAYOUT",
-                     "CLOCK",
-                     (bbScreenPoints){150*SCREEN_PPP,80*SCREEN_PPP});
+    bbUIApp_spawnWidgets(&home.UI);
 
 
-    bbWidget* ball;
+
 
     home.UI.UI_time = 0;
 

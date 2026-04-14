@@ -22,6 +22,7 @@ typedef struct
 } bbUIApp;
 
 
+bbFlag bbUIApp_spawnWidgets(bbUIApp* app);
 bbFlag bbUIApp_init(bbUIApp* app);
 
 #endif //BB_UIAPP_H

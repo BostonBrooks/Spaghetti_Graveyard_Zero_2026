@@ -5,9 +5,10 @@
 #include "engine/logic/bbPrime.h"
 #include "engine/logic/bbTerminal.h"
 #include "engine/userinterface/bbWidgets.h"
-#include "games/game0/maps/map0/drawfunctions/textboxindicator.h"
-#include "games/game0/maps/map0/drawfunctions/button_state.h"
-#include "games/game0/maps/map0/drawfunctions/widget_text.h"
+#include "games/game0/maps/skellychase/drawfunctions/textboxindicator.h"
+#include "games/game0/maps/skellychase/drawfunctions/button_state.h"
+#include "games/game0/maps/skellychase/drawfunctions/widget_text.h"
+#include "games/game0/maps/skellychase/drawfunctions/clock.h"
 
 #define NUM_DRAWFUNCTIONS 69
 
@@ -47,6 +48,27 @@ bbFlag bbDrawfunctions_new(bbDrawfunctions** drawfunctions){
     functions->functions[1] = bbDF_widgetSprite;
     handle.u64 = 1;
     bbDictionary_add(functions->dictionary, "WIDGET_SPRITE", handle);
+
+
+    functions->functions[4] = bbDF_widgetMapTimeAnimation;
+    handle.u64 = 4;
+    bbDictionary_add(functions->dictionary, "WIDGET_MAPTIME_ANIMATION", handle);
+
+    functions->functions[11] = bbDF_widgetServerTimeAnimation;
+    handle.u64 = 11;
+    bbDictionary_add(functions->dictionary, "WIDGET_SERVERTIME_ANIMATION", handle);
+
+    functions->functions[12] = bbDF_widgetCoreTimeAnimation;
+    handle.u64 = 12;
+    bbDictionary_add(functions->dictionary, "WIDGET_CORETIME_ANIMATION", handle);
+
+    functions->functions[8] = bbDF_buttonState;
+    handle.u64 = 8;
+    bbDictionary_add(functions->dictionary, "BUTTON_STATE", handle);
+
+    functions->functions[9] = bbDF_widgetText;
+    handle.u64 = 9;
+    bbDictionary_add(functions->dictionary, "WIDGET_TEXT", handle);
 
     *drawfunctions = functions;
     return bbSuccess;
