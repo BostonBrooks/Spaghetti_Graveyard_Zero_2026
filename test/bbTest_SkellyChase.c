@@ -28,6 +28,8 @@ U64 test_time = 0;
 
 char test_string[KEY_LENGTH];
 
+bbMapCoords testGoalPoint;
+
 void* userinterface_thread(void* arg);
 int main(void)
 {
@@ -163,6 +165,7 @@ void* userinterface_thread(void* arg)
     sfRenderWindow_setMouseCursorVisible(window, sfFalse);
     sfRenderWindow_setKeyRepeatEnabled(window,sfFalse);
     sfRenderWindow_setFramerateLimit(window, 60);
+    sfRenderWindow_setTitle(window, "Skelly Chase");
     sfRenderWindow_drawSprite(window, splash_sprite, NULL);
     sfRenderWindow_display(window);
 

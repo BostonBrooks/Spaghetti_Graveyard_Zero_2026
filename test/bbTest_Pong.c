@@ -47,7 +47,7 @@ int main(void)
 
     bbNetworkApp_init(&home.network);
 
-    char address[64] = "10.86.224.70";
+    char address[64] = "127.0.0.1";
     char port[64] = "1701";
     bbNetworkApp_connect(&home.network, address, port);
     home.network_time = (bbNetworkTime*)home.network.extra_data;

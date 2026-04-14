@@ -1,6 +1,7 @@
 #ifndef	BB_HOME_H
 #define BB_HOME_H
 
+#include "engine/viewport/bbViewportApp.h"
 #include "engine/core/bbCore.h"
 #include "engine/graphics/bbGraphicsApp.h"
 #include "engine/interthread/bbClock.h"
@@ -10,7 +11,6 @@
 #include "engine/pong/bbPaddle.h"
 #include "engine/userinterface/bbUI_Inbox.h"
 #include "engine/userinterface/bbWidgets.h"
-#include "engine/viewport/bbViewportApp.h"
 
 typedef struct
 {

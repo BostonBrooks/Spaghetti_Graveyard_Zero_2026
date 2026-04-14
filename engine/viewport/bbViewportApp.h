@@ -6,8 +6,8 @@
 //#include "engine/viewport/bbUnits.h"
 #include "engine/viewport/bbDrawables.h"
 //#include "engine/avoidance/bbAvoidables.h"
-#include "engine/logic/bbFlag.h"
 #include "engine/viewport/bbViewport.h"
+#include "engine/logic/bbFlag.h"
 
 typedef struct
 {

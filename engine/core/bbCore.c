@@ -79,7 +79,7 @@ bbFlag bbCore_react(bbCore* core)
 
             bbInstruction_netpauseButton_fn(core, instruction);
             break;
-
+#ifdef DEFINE_PONG
         case bbInstruction_updateBall:
             bbInstruction_updateBall_fn(core, instruction);
             break;
@@ -105,6 +105,7 @@ bbFlag bbCore_react(bbCore* core)
             bbHere()
             bbInstruction_setPaddleVelocity_fn(core, instruction);
             break;
+#endif //DEFINE_PONG
         default:
             bbDebug("Unknown instruction type: %d\n", instruction->type);
         }
@@ -138,15 +139,15 @@ bbFlag bbCore_rewind(bbCore* core)
         case bbInstruction_uncheckActions:
             bbInstruction_uncheckActions_fn(core, instruction);
             break;
-
+#ifdef DEFINE_PONG
         case bbInstruction_unupdateBall:
             bbInstruction_unupdateBall_fn(core, instruction);
             break;
 
         case bbInstruction_unupdatePaddle:
-            //bbInstruction_unupdatePaddle_fn(core, instruction);
+            bbInstruction_unupdatePaddle_fn(core, instruction);
             break;
-
+#endif //DEFINE_PONG
 
         default:
             bbDebug("Unknown undo instruction type");
@@ -180,7 +181,7 @@ bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
         case bbInstruction_uncheckActions:
             bbInstruction_uncheckActions_fn(core, instruction);
             break;
-
+#ifdef DEFINE_PONG
         case bbInstruction_unsetPaddleVelocity:
             bbHere()
             bbInstruction_unsetPaddleVelocity_fn(core, instruction);
@@ -193,7 +194,7 @@ bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
         case bbInstruction_unupdateBall:
             bbInstruction_unupdateBall_fn(core, instruction);
             break;
-
+#endif //DEFINE_PONG
 
         default:
             bbDebug("Unknown undo instruction type %d\n", instruction->type);

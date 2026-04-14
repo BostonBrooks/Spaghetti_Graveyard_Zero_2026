@@ -254,7 +254,7 @@ bbFlag bbInstruction_unsetTime_fn(bbCore* core, bbInstruction* instruction)
     bbNotHere()
 
 }
-
+#ifdef DEFINE_PONG
 bbFlag bbInstruction_updateBall_fn(bbCore* core, bbInstruction* instruction)
 {
     bbBall* ball = instruction->data.three_handles.handle1.ptr;
@@ -430,7 +430,6 @@ bbFlag bbInstruction_unupdatePaddle_fn(bbCore* core, bbInstruction* instruction)
 
 }
 
-
 bbFlag bbInstruction_setPaddleDirection_fn(bbCore* core, bbInstruction* instruction)
 {
     if (instruction->data.three_handles.handle1.u64 == left_up)
@@ -540,6 +539,7 @@ bbFlag bbInstruction_unsetPaddleVelocity_fn(bbCore* core, bbInstruction* instruc
     bbNotHere()
 }
 
+#endif //DEFINE_PONG
 
 bbFlag bbInstruction_checkActions2_fn(bbCore* core, bbInstruction* instruction)
 {

@@ -10,8 +10,9 @@
 #define FRAMES_PER_WIDGET 8
 
 #define KEY_LENGTH            33
-/* The following refer to the viewport, which we are not using
 
+
+// The following refer to the viewport, which we are not using
 #define POINTS_PER_PIXEL      8
 #define PIXELS_PER_TILE       16
 #define POINTS_PER_TILE       (POINTS_PER_PIXEL*PIXELS_PER_TILE)
@@ -29,8 +30,8 @@
 #define MILLS_PER_SQUARE      (MILLS_PER_POINT * POINTS_PER_SQUARE)
 
 #define MAPICON_SCALE         8
-*/
 
+//The following do not refer to the viewport
 #define SCREEN_PPP            8
 #define SCREEN_PPPf           8.f
 

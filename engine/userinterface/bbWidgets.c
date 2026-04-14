@@ -39,7 +39,7 @@ bbFlag bbWidget_draw(bbWidget* widget, drawFuncClosure* cl){
 
             bbDrawFunction *drawFunction =
                     graphics->drawfunctions->functions[frame->drawfunction];
-
+            if (drawFunction == NULL) return bbContinue;
             drawFunction(widget, frame, cl);
 
         }
@@ -146,7 +146,7 @@ bbFlag bbWidget_constructor(bbWidget** self,
 
     bbWidget_Constructor* function;
     bbFlag flag = bbWidgetFunctions_getFunction((void**)&function,widgets->functions,WidgetConstructor, type);
-    if (flag == bbNone)
+    if (flag == bbNone || function == NULL)
     {
         bbDebug("Constructor not found\n");
         return bbNone;

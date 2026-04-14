@@ -283,9 +283,6 @@ add_executable(SkellyChase test/bbTest_SkellyChase.c
         engine/viewport/bbDrawables.c
         engine/viewport/bbMapIcons.c
         engine/viewport/bbViewport.c
-        engine/server/bbServer.c
-        #engine/pong/bbBall.c
-        #engine/pong/bbPaddle.c
         engine/interthread/bbClock.c
         engine/interthread/bbClock2.c
         engine/network/bbNetworkTime.c
@@ -309,7 +306,10 @@ add_executable(SkellyChase test/bbTest_SkellyChase.c
         engine/userinterface/bbWidgets.c
         engine/threadsafe/bbThreadedQueue.c
         engine/threadsafe/bbThreadedPool.c
-        engine/threadsafe/bbThreadedQueue_search.c)
+        engine/threadsafe/bbThreadedQueue_search.c
+        games/game0/maps/skellychase/mouse/mouse.c
+        games/game0/maps/skellychase/drawfunctions/drawfunctions.c
+        games/game0/maps/skellychase/widgets/widgets.c)
 
 target_compile_definitions(SkellyChase PRIVATE
         DEFINE_SKELLYCHASE)
