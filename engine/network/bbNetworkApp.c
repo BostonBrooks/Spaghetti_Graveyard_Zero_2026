@@ -229,7 +229,14 @@ bbFlag bbNetworkApp_checkInbox(bbNetwork* network)
                                         packet->send_tick,
                                         packet->act_tick);
         }
-
+        if (packet->type == PACKETTYPE_GOALPOINT)
+        {
+            bbAction_setGoalpoint(&home.core.core,
+                                        packet->data.map_coords,
+                                        packet->collision,
+                                        packet->send_tick,
+                                        packet->act_tick);
+        }
 
         bbThreadedQueue_free(&network->inbox, (void**)&packet);
     }
@@ -348,6 +355,19 @@ bbFlag bbNetworkApp_setViewpointOut(bbNetwork* network, bbMapCoords MC, U64 time
     bbNetworkPacket* packet;
     bbThreadedQueue_alloc(&network->outbox, (void**)&packet);
     packet->type = PACKETTYPE_VIEWPOINT;
+    packet->act_tick = time;
+    packet->data.map_coords = MC;
+    packet->collision = collision;
+    bbThreadedQueue_pushL(&network->outbox,packet);
+
+    return bbSuccess;
+}
+
+bbFlag bbNetworkApp_setGoalpointOut(bbNetwork* network, bbMapCoords MC, U64 time, U32 collision)
+{bbHere()
+    bbNetworkPacket* packet;
+    bbThreadedQueue_alloc(&network->outbox, (void**)&packet);
+    packet->type = PACKETTYPE_GOALPOINT;
     packet->act_tick = time;
     packet->data.map_coords = MC;
     packet->collision = collision;

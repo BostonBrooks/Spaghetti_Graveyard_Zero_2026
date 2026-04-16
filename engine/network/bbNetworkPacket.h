@@ -21,6 +21,7 @@
 #define PACKETTYPE_KEYDOWN           8
 #define PACKETTYPE_PADDLEVELOCITY    9
 #define PACKETTYPE_VIEWPOINT         10
+#define PACKETTYPE_GOALPOINT         11
 
 #define bbPacketType_print(flag)\
 {\

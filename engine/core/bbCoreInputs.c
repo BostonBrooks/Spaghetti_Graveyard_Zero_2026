@@ -223,7 +223,7 @@ bbFlag bbCoreInput_setGoalpointOut(bbCore* core, bbMapCoords MC, U64 time,
 {
     bbInstruction* instruction;
     bbList_alloc(&core->do_stack, (void**) &instruction);
-    instruction->type = bbInstruction_setViewpointOut;
+    instruction->type = bbInstruction_setGoalpointOut;
     instruction->data.map_coords = MC;
     instruction->act_time = time;
     bbList_pushL(&core->do_stack, instruction);
