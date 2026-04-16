@@ -203,7 +203,7 @@ bbFlag bbDrawable_newCat(bbDrawable** self, bbDrawables* drawables,
 
 
     bbDictionary_lookup(graphics->drawfunctions->dictionary,
-                        "EYE CANDY",
+                        "EYE_CANDY",
                         &drawfunctionHandle);
 
     drawable->frames[0].drawfunction = drawfunctionHandle.u64;

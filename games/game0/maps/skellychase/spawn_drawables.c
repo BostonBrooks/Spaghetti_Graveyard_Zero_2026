@@ -21,8 +21,8 @@ bbFlag spawnDrawables(void)
             bbDrawable* drawable;
             bbDrawable_newCat(&drawable, app->drawables, &home.UI.graphics,
                                MC);
-            //bbMapIcon* mapicon;
-            //bbMapIcon_new(&mapicon, app->mapIcons,&home.UI.graphics, MC);
+            bbMapIcon* mapicon;
+            bbMapIcon_new(&mapicon, app->mapIcons,&home.UI.graphics, MC);
             //bbAvoidable* avoidable;
             //bbAvoidable_new(&avoidable, app->avoidables, MC, 160);
 
