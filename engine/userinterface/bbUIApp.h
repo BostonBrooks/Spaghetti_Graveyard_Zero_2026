@@ -19,10 +19,12 @@ typedef struct
     sfSprite* SplashSprite;
     bbMouse mouse;
     bbInput input;
+
 } bbUIApp;
 
 
 bbFlag bbUIApp_spawnWidgets(bbUIApp* app);
 bbFlag bbUIApp_init(bbUIApp* app);
 
+bbFlag bbUIApp_draw(bbUIApp* app);
 #endif //BB_UIAPP_H

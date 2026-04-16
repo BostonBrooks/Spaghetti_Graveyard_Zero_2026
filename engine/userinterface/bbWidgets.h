@@ -114,4 +114,8 @@ bbFlag bbWidget_newLayoutPong(bbWidget** self,
                           bbGraphicsApp* graphics,
                           bbWidgets* widgets,
                           bbWidget* parent);
+
+bbFlag bbWidget_newViewport(bbWidget** self, bbGraphicsApp* graphics,
+                            bbWidgets* widgets, bbWidget* parent,
+                            void* viewport);
 #endif //BB_WIDGET_H

@@ -154,10 +154,11 @@ void* userinterface_thread(void* arg)
 
     bbUIApp_init(&home.UI);
 
+
+    bbViewportApp_init(&home.viewport_app);
+
     bbUIApp_spawnWidgets(&home.UI);
-
-
-
+    spawnDrawables();
 
     home.UI.UI_time = 0;
 
@@ -182,10 +183,8 @@ void* userinterface_thread(void* arg)
         bbMouse_Update(&home.UI.mouse, &home.UI.widgets, &home.UI.graphics);
 
         bbUI_Inbox_check(&home.UI.inbox);
-        sfRenderWindow_clear(home.UI.window, bbLight);
-        bbWidgets_draw(&home.UI.widgets, &cl);
-        bbMouse_Draw(&home.UI.mouse,&home.UI.widgets, &home.UI.graphics, home.UI.window);
-        sfRenderWindow_display(home.UI.window);
+
+        bbUIApp_draw(&home.UI);
 
         if (home.clock2.is_running){
             if (home.UI.clock2_handle.clock_thread_index == 255)

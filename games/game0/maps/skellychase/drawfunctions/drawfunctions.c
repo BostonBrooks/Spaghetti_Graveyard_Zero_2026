@@ -5,10 +5,13 @@
 #include "engine/logic/bbPrime.h"
 #include "engine/logic/bbTerminal.h"
 #include "engine/userinterface/bbWidgets.h"
-#include "games/game0/maps/skellychase/drawfunctions/textboxindicator.h"
+#include "games/game0/maps/skellychase/drawfunctions/textbox_indicator.h"
 #include "games/game0/maps/skellychase/drawfunctions/button_state.h"
 #include "games/game0/maps/skellychase/drawfunctions/widget_text.h"
 #include "games/game0/maps/skellychase/drawfunctions/clock.h"
+#include "games/game0/maps/skellychase/drawfunctions/viewport.h"
+#include "games/game0/maps/skellychase/drawfunctions/eye_candy.h"
+#include "games/game0/maps/skellychase/drawfunctions/drawable_animation.h"
 
 #define NUM_DRAWFUNCTIONS 69
 
@@ -45,30 +48,43 @@ bbFlag bbDrawfunctions_new(bbDrawfunctions** drawfunctions){
 
     bbHandle handle;
 
-    functions->functions[1] = bbDF_widgetSprite;
-    handle.u64 = 1;
+    functions->functions[0] = bbDF_widgetSprite;
+    handle.u64 = 0;
     bbDictionary_add(functions->dictionary, "WIDGET_SPRITE", handle);
 
 
-    functions->functions[4] = bbDF_widgetMapTimeAnimation;
-    handle.u64 = 4;
+    functions->functions[1] = bbDF_widgetMapTimeAnimation;
+    handle.u64 = 1;
     bbDictionary_add(functions->dictionary, "WIDGET_MAPTIME_ANIMATION", handle);
 
-    functions->functions[11] = bbDF_widgetServerTimeAnimation;
-    handle.u64 = 11;
+    functions->functions[2] = bbDF_widgetServerTimeAnimation;
+    handle.u64 = 2;
     bbDictionary_add(functions->dictionary, "WIDGET_SERVERTIME_ANIMATION", handle);
 
-    functions->functions[12] = bbDF_widgetCoreTimeAnimation;
-    handle.u64 = 12;
+    functions->functions[3] = bbDF_widgetCoreTimeAnimation;
+    handle.u64 = 3;
     bbDictionary_add(functions->dictionary, "WIDGET_CORETIME_ANIMATION", handle);
 
-    functions->functions[8] = bbDF_buttonState;
-    handle.u64 = 8;
+    functions->functions[4] = bbDF_buttonState;
+    handle.u64 = 4;
     bbDictionary_add(functions->dictionary, "BUTTON_STATE", handle);
 
-    functions->functions[9] = bbDF_widgetText;
-    handle.u64 = 9;
+    functions->functions[5] = bbDF_widgetText;
+    handle.u64 = 5;
     bbDictionary_add(functions->dictionary, "WIDGET_TEXT", handle);
+
+    functions->functions[6] = bbDF_widgetViewport;
+    handle.u64 = 6;
+    bbDictionary_add(functions->dictionary, "WIDGET_VIEWPORT", handle);
+
+    functions->functions[7] = bbDF_eyeCandyTest;
+    handle.u64 = 7;
+    bbDictionary_add(functions->dictionary, "EYE CANDY", handle);
+
+
+    functions->functions[8] = bbDF_drawableAnimation;
+    handle.u64 = 8;
+    bbDictionary_add(functions->dictionary, "DRAWABLE ANIMATION", handle);
 
     *drawfunctions = functions;
     return bbSuccess;

@@ -264,4 +264,69 @@ bbFlag bbWidget_newLayoutPong(bbWidget** self,
 
     return bbSuccess;
 }
+
+
+
+
 #endif //DEFINE_PONG
+
+bbFlag bbWidget_newViewport(bbWidget** self, bbGraphicsApp* graphics,
+                            bbWidgets* widgets, bbWidget* parent,
+                            void* viewport){
+
+    bbWidget* widget;
+    bbWidget_newEmpty(&widget, widgets, parent, "VIEWPORT");
+    widget->extra_data = viewport;
+
+    bbViewport* viewport1 = viewport;
+    viewport1->widget = widget;
+
+
+    bbScreenPointsRect rect;
+    rect.left = 12 * POINTS_PER_PIXEL;
+    rect.top = 12 * POINTS_PER_PIXEL;
+    rect.width = 466 * POINTS_PER_PIXEL;
+    rect.height = 456 * POINTS_PER_PIXEL;
+
+
+    int funcInt = bbMouseFunctions_getInt(&widgets->mouse->functions,
+                                          MouseIsOver,
+                                      "VIEWPORT");
+    widget->mtable.is_over = funcInt;
+
+    funcInt = bbMouseFunctions_getInt(&widgets->mouse->functions,
+                                          MouseLeftDown,
+                                      "VIEWPORT");
+    widget->mtable.left_down = funcInt;
+
+    widget->mtable.mouse_icon = 85;
+    widget->mtable.drag_icon = -1;
+
+    widget->mtable.enter = -1;
+    widget->mtable.leave = -1;
+    widget->mtable.left_up = -1;
+    widget->mtable.left_drag = -1;
+
+    widget->rect = rect;
+
+    bbHandle drawfunctionHandle;
+
+    bbDictionary_lookup(graphics->drawfunctions->dictionary, "WIDGET_VIEWPORT",
+                        &drawfunctionHandle);
+
+    widget->frames[0].drawfunction = drawfunctionHandle.u64;
+
+    for (I32 i = 1; i < FRAMES_PER_WIDGET; i++) {
+        widget->frames[i].drawfunction = -1;
+    }
+
+    bbHandle handle;
+    bbVPool_reverseLookup(widgets->pool, widget, &handle);
+    bbDictionary_add(widgets->dict, "VIEWPORT", handle);
+
+
+    *self = widget;
+
+    return bbSuccess;
+
+}

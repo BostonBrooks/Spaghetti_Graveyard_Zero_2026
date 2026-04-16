@@ -48,3 +48,23 @@ bbFlag bbUIApp_init(bbUIApp* app)
 
     bbUI_Inbox_init(&home.UI.inbox);
 }
+
+
+bbFlag bbUIApp_draw(bbUIApp* app)
+{
+    drawFuncClosure cl;
+    cl.map_time = home.UI.clock2_handle.map_tick;
+    cl.GUI_time = home.UI.clock2_handle.server_tick;
+    cl.graphics = &home.UI.graphics;
+    cl.target = &home.viewport_app.viewport;
+
+    bbDrawablesPlus_draw( &cl, 0, 0, 12, 12);
+    //bbAvoidables_draw(home.private.viewportApp.avoidables, &cl, 0, 0, 12, 12);
+    cl.target = app->window;
+    bbWidgets_draw(&app->widgets, &cl);
+    bbMouse_Draw(&app->mouse, &app->widgets, &home.UI.graphics, app->window);
+    sfRenderWindow_display(app->window);
+   bbViewport_clear(&home.viewport_app.viewport);
+
+    return bbSuccess;
+}

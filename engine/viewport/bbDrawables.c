@@ -71,7 +71,7 @@ bbFlag bbDrawable_draw(bbDrawable* drawable, drawFuncClosure* cl){
 
             bbDrawFunction *drawFunction =
                     graphics->drawfunctions->functions[frame->drawfunction];
-
+            if (drawFunction == NULL) continue;
             drawFunction(drawable, frame, cl);
 
         }
@@ -203,7 +203,7 @@ bbFlag bbDrawable_newCat(bbDrawable** self, bbDrawables* drawables,
 
 
     bbDictionary_lookup(graphics->drawfunctions->dictionary,
-                        "DRAWABLEANIMATION",
+                        "EYE CANDY",
                         &drawfunctionHandle);
 
     drawable->frames[0].drawfunction = drawfunctionHandle.u64;

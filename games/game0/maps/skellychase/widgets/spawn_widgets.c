@@ -4,14 +4,19 @@
 
 bbFlag bbUIApp_spawnWidgets(bbUIApp* app)
 {
-    bbWidget_newLayout(NULL, &home.UI.graphics, &home.UI.widgets, NULL);
+    bbWidget* layout;
+    bbWidget_newLayout(&layout, &home.UI.graphics, &home.UI.widgets, NULL);
+
+
+    bbWidget_newViewport(&home.viewport_app.viewport_widget, &home.UI.graphics, &app->widgets, layout,
+                         &home.viewport_app.viewport);
 
     bbWidget_constructor(NULL,
                      &home.UI.widgets,
                      "NETPAUSE_BUTTON",
                      "LAYOUT",
                      "(UN)PAUSE",
-                     (bbScreenPoints){13*SCREEN_PPP,13*SCREEN_PPP});
+                     (bbScreenPoints){12*SCREEN_PPP,13*SCREEN_PPP});
 
     bbWidget_constructor(NULL,
                      &home.UI.widgets,

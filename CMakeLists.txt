@@ -128,7 +128,7 @@ target_link_libraries(Spaghetti_Graveyard_Zero_2026 PRIVATE
         csfml-window
         csfml-system
         csfml-network
-
+        m
 
 )
 
@@ -279,6 +279,7 @@ add_executable(SkellyChase test/bbTest_SkellyChase.c
         engine/core/bbCore.c
         engine/core/bbAction.c
         engine/geometry/bbCoordinates.c
+        engine/geometry/bbViewportCoords.c
         engine/data/bbIncludes.c
         engine/viewport/bbViewportApp.c
         engine/viewport/bbDrawables.c
@@ -312,7 +313,9 @@ add_executable(SkellyChase test/bbTest_SkellyChase.c
         games/game0/maps/skellychase/mouse/mouse.c
         games/game0/maps/skellychase/drawfunctions/drawfunctions.c
         games/game0/maps/skellychase/widgets/widgets.c
-        games/game0/maps/skellychase/widgets/spawn_widgets.c)
+        games/game0/maps/skellychase/widgets/spawn_widgets.c
+        games/game0/maps/skellychase/spawn_drawables.c
+)
 
 target_compile_definitions(SkellyChase PRIVATE
         DEFINE_SKELLYCHASE)

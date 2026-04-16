@@ -8,6 +8,7 @@
 //#include "engine/avoidance/bbAvoidables.h"
 #include "engine/viewport/bbViewport.h"
 #include "engine/logic/bbFlag.h"
+#include "engine/userinterface/bbWidgets.h"
 
 typedef struct
 {
@@ -15,9 +16,11 @@ typedef struct
     bbMapIcons* mapIcons;
     //bbUnits* units;
     bbViewport viewport;
+    bbWidget* viewport_widget;
 
 } bbViewportApp;
 
 bbFlag bbViewportApp_init(bbViewportApp* app);
 
+bbFlag spawnDrawables(void);
 #endif //BB_VIEWPORTAPP_H
