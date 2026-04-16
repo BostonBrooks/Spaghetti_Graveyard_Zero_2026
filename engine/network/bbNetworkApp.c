@@ -221,6 +221,12 @@ bbFlag bbNetworkApp_checkInbox(bbNetwork* network)
                                         packet->data.paddle_and_velocity.y);
         }
 
+        if (packet->type == PACKETTYPE_VIEWPOINT)
+        {
+
+        }
+
+
         bbThreadedQueue_free(&network->inbox, (void**)&packet);
     }
 }
@@ -337,11 +343,11 @@ bbFlag bbNetworkApp_setViewpoint(bbNetwork* network, bbMapCoords MC, U64 time, U
 {
     bbNetworkPacket* packet;
     bbThreadedQueue_alloc(&network->outbox, (void**)&packet);
-    packet->type = PACKETTYPE_KEYDOWN;
+    packet->type = PACKETTYPE_VIEWPOINT;
     packet->act_tick = time;
     packet->data.map_coords = MC;
     packet->collision = collision;
-    //bbThreadedQueue_pushL(&network->outbox,packet);
+    bbThreadedQueue_pushL(&network->outbox,packet);
 
     return bbSuccess;
 }

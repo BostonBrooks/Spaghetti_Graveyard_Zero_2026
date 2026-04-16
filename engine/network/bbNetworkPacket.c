@@ -81,7 +81,13 @@ bbFlag bbNetworkPacket_toStruct (sfPacket* packet, void* Struct)
         struct1->data.paddle_and_velocity.y = sfPacket_readInt32(packet);
 
         break;
+    case PACKETTYPE_VIEWPOINT:
 
+        struct1->data.map_coords.i = sfPacket_readInt32(packet);
+        struct1->data.map_coords.j = sfPacket_readInt32(packet);
+        struct1->data.map_coords.k = sfPacket_readInt32(packet);
+
+        break;
     }
     return bbSuccess;
 }
@@ -166,7 +172,16 @@ bbFlag bbNetworkPacket_fromStruct (sfPacket* packet, void* Struct)
     case PACKETTYPE_PADDLEVELOCITY:
         sfPacket_writeInt32(packet, struct1->data.paddle_and_velocity.x);
         sfPacket_writeInt32(packet, struct1->data.paddle_and_velocity.y);
+
+        break;
+
+    case PACKETTYPE_VIEWPOINT:
+        sfPacket_writeInt32(packet, struct1->data.map_coords.i);
+        sfPacket_writeInt32(packet, struct1->data.map_coords.j);
+        sfPacket_writeInt32(packet, struct1->data.map_coords.k);
+        break;
     }
+
     return bbSuccess;
 }
 
