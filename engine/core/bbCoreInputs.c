@@ -107,7 +107,7 @@ bbFlag bbCoreInput_setPaddleDirection(bbCore* core, I32 direction, U64 time,
 
 bbFlag bbCoreInput_setPaddleVelocity(bbCore* core, U8 player, I32 velocity, U64 time,
                                   bbInstruction_source source, bbHandle action)
-{bbHere()
+{
     bbInstruction* instruction;
     bbFlag flag = bbList_alloc(&core->do_stack,(void**)&instruction);
 
@@ -206,7 +206,21 @@ bbFlag bbCoreInput_loop(bbCore* core, char* string, U64 time,
 
 bbFlag bbCoreInput_setViewpointOut(bbCore* core, bbMapCoords MC, U64 time,
                                   bbInstruction_source source, bbHandle action)
-{bbHere()
+{
+    bbInstruction* instruction;
+    bbList_alloc(&core->do_stack, (void**) &instruction);
+    instruction->type = bbInstruction_setViewpointOut;
+    instruction->data.map_coords = MC;
+    instruction->act_time = time;
+    bbList_pushL(&core->do_stack, instruction);
+    return bbSuccess;
+}
+
+
+
+bbFlag bbCoreInput_setGoalpointOut(bbCore* core, bbMapCoords MC, U64 time,
+                                  bbInstruction_source source, bbHandle action)
+{
     bbInstruction* instruction;
     bbList_alloc(&core->do_stack, (void**) &instruction);
     instruction->type = bbInstruction_setViewpointOut;
@@ -218,7 +232,7 @@ bbFlag bbCoreInput_setViewpointOut(bbCore* core, bbMapCoords MC, U64 time,
 
 bbFlag bbCoreInput_setViewpointIn(bbCore* core, bbMapCoords MC, U64 time,
                                   bbInstruction_source source, bbHandle action)
-{bbHere()
+{
     bbInstruction* instruction;
     bbList_alloc(&core->do_stack, (void**) &instruction);
     instruction->type = bbInstruction_setViewpointIn;

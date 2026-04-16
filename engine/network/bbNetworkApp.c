@@ -222,7 +222,7 @@ bbFlag bbNetworkApp_checkInbox(bbNetwork* network)
         }
 
         if (packet->type == PACKETTYPE_VIEWPOINT)
-        {bbHere()
+        {
             bbAction_setViewpoint(&home.core.core,
                                         packet->data.map_coords,
                                         packet->collision,
@@ -344,7 +344,7 @@ bbFlag bbNetworkApp_keyDown(bbNetwork* network, I32 key_code, U64 time, U32 coll
 
 
 bbFlag bbNetworkApp_setViewpointOut(bbNetwork* network, bbMapCoords MC, U64 time, U32 collision)
-{bbHere()
+{
     bbNetworkPacket* packet;
     bbThreadedQueue_alloc(&network->outbox, (void**)&packet);
     packet->type = PACKETTYPE_VIEWPOINT;

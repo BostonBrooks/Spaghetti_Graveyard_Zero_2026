@@ -19,7 +19,6 @@ bbFlag bbWidget_Constructor_LoopButton(bbWidget** self,
                                   bbGraphicsApp* graphics){
 
 
-    bbHere()
     bbWidget* widget;
 
     bbWidget_newEmpty(&widget, widgets, parent, name);

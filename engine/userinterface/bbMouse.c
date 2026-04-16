@@ -299,7 +299,7 @@ bbFlag bbMouse_RightDownWidget(void* Mouse, void* widgets, void* Widget,
 }
 bbFlag bbMouse_RightUpWidget(void* Mouse, void* widgets, void* Widget,
                                   void* graphics)
-{bbHere()
+{
     bbWidget* widget = Widget;
     bbMouse* mouse = Mouse;
     I32 funcInt = widget->mtable.right_up;
@@ -314,7 +314,7 @@ bbFlag bbMouse_RightUpWidget(void* Mouse, void* widgets, void* Widget,
 
 bbFlag bbMouse_RightDragWidget(void* Mouse, void* widgets, void* Widget,
                             void* graphics)
-{bbHere()
+{
     bbWidget* widget = Widget;
     bbMouse* mouse = Mouse;
     I32 funcInt = widget->mtable.right_drag;

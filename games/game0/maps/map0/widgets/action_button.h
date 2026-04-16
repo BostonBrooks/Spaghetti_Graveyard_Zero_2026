@@ -19,7 +19,7 @@ bbFlag bbWidget_Constructor_ActionButton(bbWidget** self,
                                   bbGraphicsApp* graphics){
 
 
-    bbHere()
+
     bbWidget* widget;
 
     bbWidget_newEmpty(&widget, widgets, parent, name);

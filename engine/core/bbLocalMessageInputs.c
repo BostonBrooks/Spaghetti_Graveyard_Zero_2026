@@ -117,7 +117,7 @@ bbFlag bbLocalMessage_NetpauseButton(bbCore* core, char* key)
 
 
 bbFlag bbLocalMessage_SetViewpoint(bbCore* core, bbMapCoords mapCoords)
-{bbHere()
+{
     bbLocalMessage* message;
     bbThreadedQueue_alloc(&core->local_message_queue, (void** ) &message);
     message->type = bbLocalMessage_setViewpoint;
@@ -131,10 +131,10 @@ bbFlag bbLocalMessage_SetViewpoint(bbCore* core, bbMapCoords mapCoords)
 
 
 bbFlag bbLocalMessage_SetGoalpoint(bbCore* core, bbMapCoords mapCoords)
-{bbHere()
+{
     bbLocalMessage* message;
     bbThreadedQueue_alloc(&core->local_message_queue, (void** ) &message);
-    message->type = bbLocalMessage_setViewpoint;
+    message->type = bbLocalMessage_setGoalpoint;
 
     message->act_time = home.core.core.actual_time;
     message->data.map_coords = mapCoords;

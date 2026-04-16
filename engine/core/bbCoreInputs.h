@@ -47,4 +47,7 @@ bbFlag bbCoreInput_setViewpointOut(bbCore* core, bbMapCoords MC, U64 time,
 bbFlag bbCoreInput_setViewpointIn(bbCore* core, bbMapCoords MC, U64 time,
                                   bbInstruction_source source, bbHandle action);
 
+bbFlag bbCoreInput_setGoalpointOut(bbCore* core, bbMapCoords MC, U64 time,
+                                  bbInstruction_source source, bbHandle action);
+
 #endif //BB_CORE_INPUTS

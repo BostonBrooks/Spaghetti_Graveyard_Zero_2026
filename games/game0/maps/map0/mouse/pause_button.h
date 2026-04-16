@@ -14,6 +14,6 @@ bbFlag PauseButton_LeftDown (void* Mouse, void* Widgets, void* Widget, void*
 
     bbClock2_testPause(&home.clock2,widget->is_frozen);
 
-    bbHere()
+
     return bbSuccess;
 }

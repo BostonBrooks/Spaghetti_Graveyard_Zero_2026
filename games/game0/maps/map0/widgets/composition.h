@@ -14,7 +14,6 @@ bbFlag bbWidget_Constructor_Composition(bbWidget** self,
                                   bbGraphicsApp* graphics){
 
 
-    bbHere()
     bbWidget* widget;
 
     bbWidget_newEmpty(&widget, widgets, parent, name);

@@ -14,7 +14,8 @@ typedef enum
     bbLocalMessage_netpauseButton,
     bbLocalMessage_keyDown,
     bbLocalMessage_keyUp,
-    bbLocalMessage_setViewpoint
+    bbLocalMessage_setViewpoint,
+    bbLocalMessage_setGoalpoint
 } bbLocalMessage_type;
 
 typedef struct
@@ -41,5 +42,6 @@ bbFlag bbLocalMessage_keyDown_fn(bbCore* core, bbLocalMessage* message);
 
 
 bbFlag bbLocalMessage_setViewpointOut_fn(bbCore* core, bbLocalMessage* message);
+bbFlag bbLocalMessage_setGoalpointOut_fn(bbCore* core, bbLocalMessage* message);
 
 #endif // BB_LOCAL_MESSAGE_H

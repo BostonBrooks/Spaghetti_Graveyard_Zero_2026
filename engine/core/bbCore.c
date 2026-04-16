@@ -86,7 +86,7 @@ bbFlag bbCore_react(bbCore* core)
             bbInstruction_setViewpointOut_fn(core, instruction);
             break;
         case bbInstruction_setViewpointIn:
-bbHere()
+
             bbInstruction_setViewpointIn_fn(core, instruction);
             break;
 #ifdef DEFINE_PONG
@@ -112,7 +112,7 @@ bbHere()
             break;
 
         case bbInstruction_setPaddleVelocity:
-            bbHere()
+
             bbInstruction_setPaddleVelocity_fn(core, instruction);
             break;
 #endif //DEFINE_PONG
@@ -194,7 +194,7 @@ bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
 
 #ifdef DEFINE_PONG
         case bbInstruction_unsetPaddleVelocity:
-            bbHere()
+
             bbInstruction_unsetPaddleVelocity_fn(core, instruction);
             break;
 

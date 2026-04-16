@@ -146,7 +146,7 @@ bbFlag bbAction_setViewpoint(void* Core,
                             U32 collision,
                             U64 created_tick,
                             U64 act_tick)
-{bbHere()
+{
     bbCore* core = (bbCore*)Core;
 
     bbAction* action;

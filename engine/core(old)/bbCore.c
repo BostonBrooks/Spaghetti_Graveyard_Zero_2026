@@ -148,7 +148,7 @@ bbFlag bbCore_rewind(bbCore* core)
 
 
         case bbInstruction_uncheckActions:
-            bbHere()
+
             bbInstruction_uncheckActions_fn(core, instruction);
             break;
 

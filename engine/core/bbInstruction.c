@@ -796,7 +796,7 @@ bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
     }
     if (action->header.type == bbActionType_setPaddleDirection)
     {
-        bbHere()
+
         bbCoreInput_setPaddleDirection(core,action->integer,action->header.act_tick,bbInstructionSource_action,handle);
         bbCore_react(core);
 
@@ -847,13 +847,13 @@ bbFlag bbInstruction_uncheckActions_fn(bbCore* core, bbInstruction* instruction)
 
 
 bbFlag bbInstruction_setViewpointOut_fn(bbCore* core, bbInstruction* instruction)
-{bbHere()
+{
     bbNetworkApp_setViewpointOut(&home.network, instruction->data.map_coords, instruction->act_time, collision++);
     return bbSuccess;
 }
 
 bbFlag bbInstruction_setViewpointIn_fn(bbCore* core, bbInstruction* instruction)
-{bbHere()
+{
 
 
         bbInstruction* undo_instruction;
