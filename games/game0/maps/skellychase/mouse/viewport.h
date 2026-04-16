@@ -5,11 +5,21 @@
 bbFlag Viewport_LeftDown (void* Mouse, void* Widgets, void* Widget, void*
                           Graphics)
 {
+    bbMouse* mouse = (bbMouse*)Mouse;
+    bbWidget* widget = (bbWidget*)Widget;
 
-    bbHere()
-    bbMapCoords MC = home.viewport_app.viewport.viewpoint;
+    bbScreenPoints screen_points = mouse->position;
+    screen_points.x -= widget->rect.left;
+    screen_points.y -= widget->rect.top;
 
-    MC.i += 2000;
+    bbMapCoords MC = bbScreenCoords_getMapCoords(screen_points, widget->extra_data);
+    bbLocalMessage_SetViewpoint(&home.core.core, MC);
+    return bbSuccess;
+}
+
+bbFlag Viewport_RightDown (void* Mouse, void* Widgets, void* Widget, void*
+                          Graphics)
+{
 
     bbMouse* mouse = (bbMouse*)Mouse;
     bbWidget* widget = (bbWidget*)Widget;
@@ -18,7 +28,7 @@ bbFlag Viewport_LeftDown (void* Mouse, void* Widgets, void* Widget, void*
     screen_points.x -= widget->rect.left;
     screen_points.y -= widget->rect.top;
 
-    MC = bbScreenCoords_getMapCoords(screen_points, widget->extra_data);
-    bbLocalMessage_SetViewpoint(&home.core.core, MC);
+    bbMapCoords MC = bbScreenCoords_getMapCoords(screen_points, widget->extra_data);
+    bbLocalMessage_SetGoalpoint(&home.core.core, MC);
     return bbSuccess;
 }

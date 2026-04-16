@@ -128,3 +128,17 @@ bbFlag bbLocalMessage_SetViewpoint(bbCore* core, bbMapCoords mapCoords)
     bbThreadedQueue_pushL(&core->local_message_queue, message);
     return bbSuccess;
 }
+
+
+bbFlag bbLocalMessage_SetGoalpoint(bbCore* core, bbMapCoords mapCoords)
+{bbHere()
+    bbLocalMessage* message;
+    bbThreadedQueue_alloc(&core->local_message_queue, (void** ) &message);
+    message->type = bbLocalMessage_setViewpoint;
+
+    message->act_time = home.core.core.actual_time;
+    message->data.map_coords = mapCoords;
+
+    bbThreadedQueue_pushL(&core->local_message_queue, message);
+    return bbSuccess;
+}
