@@ -40,6 +40,6 @@ bbFlag bbLocalMessage_keyUp_fn(bbCore* core, bbLocalMessage* message);
 bbFlag bbLocalMessage_keyDown_fn(bbCore* core, bbLocalMessage* message);
 
 
-bbFlag bbLocalMessage_setViewpoint_fn(bbCore* core, bbLocalMessage* message);
+bbFlag bbLocalMessage_setViewpointOut_fn(bbCore* core, bbLocalMessage* message);
 
 #endif // BB_LOCAL_MESSAGE_H

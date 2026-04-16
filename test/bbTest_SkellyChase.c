@@ -129,8 +129,8 @@ int main(void)
             //bbMoveables_update(&home.agents_app.movables);
 
 
-            bbMapCoords MC = {0,0,0};
-            bbCoreInput_setViewpoint(&home.core.core, MC,home.core.clock2_handle.map_tick, bbInstructionSource_input, no_handle);
+            //bbMapCoords MC = {0,0,0};
+            //bbCoreInput_setViewpointOut(&home.core.core, MC,home.core.clock2_handle.map_tick, bbInstructionSource_input, no_handle);
 
             bbCore_react(&home.core.core);
         }

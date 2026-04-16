@@ -122,7 +122,6 @@ bbFlag bbAction_setPaddleVelocity(void* Core,
                             I32 velocity)
 {
 
-bbHere()
     bbCore* core = (bbCore*)Core;
 
 
@@ -136,6 +135,27 @@ bbHere()
     action->header.created_tick = created_tick;
     action->header.act_tick = act_tick;
     action->integer = velocity;
+    bbList_sortL(&core->action_queue,(void*)action);
+
+    return bbSuccess;
+}
+
+
+bbFlag bbAction_setViewpoint(void* Core,
+                            bbMapCoords map_coords,
+                            U32 collision,
+                            U64 created_tick,
+                            U64 act_tick)
+{bbHere()
+    bbCore* core = (bbCore*)Core;
+
+    bbAction* action;
+    bbList_alloc(&core->action_queue,(void**)&action);
+    action->header.type = bbActionType_setViewpoint;
+    action->header.collision = collision;
+    action->header.created_tick = created_tick;
+    action->header.act_tick = act_tick;
+    action->map_coords = map_coords;
     bbList_sortL(&core->action_queue,(void*)action);
 
     return bbSuccess;

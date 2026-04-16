@@ -38,7 +38,8 @@ typedef enum
     bbInstruction_setPaddleVelocity,
     bbInstruction_unsetPaddleVelocity,
 
-    bbInstruction_setViewpoint,
+    bbInstruction_setViewpointOut,
+    bbInstruction_setViewpointIn
 } bbInstruction_type;
 
 
@@ -115,6 +116,11 @@ bbFlag bbInstruction_keyUp_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_keyDown_fn(bbCore* core, bbInstruction* instruction);
 
 
-bbFlag bbInstruction_setViewpoint_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbInstruction_setViewpointOut_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_unsetViewpoint_fn(bbCore* core, bbInstruction* instruction);
+
+
+bbFlag bbInstruction_setViewpointIn_fn(bbCore* core, bbInstruction* instruction);
+
+
 #endif //BB_INSTRUCTION_H

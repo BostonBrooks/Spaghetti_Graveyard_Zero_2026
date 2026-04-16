@@ -1,6 +1,7 @@
 #ifndef BB_ACTION_H
 #define BB_ACTION_H
 #include "engine/data/bbConstants.h"
+#include "engine/geometry/bbCoordinates.h"
 #include "engine/logic/bbFlag.h"
 #include "engine/logic/bbHandle.h"
 
@@ -11,7 +12,8 @@ typedef enum
     bbActionType_unfreezeButton,
     bbActionType_loop,
     bbActionType_setPaddleDirection,
-    bbActionType_setPaddleVelocity
+    bbActionType_setPaddleVelocity,
+    bbActionType_setViewpoint
 } bbAction_type;
 
 ///Action header used to figure out what order to enact actions
@@ -30,6 +32,7 @@ typedef struct
 {
     bbAction_header header;
     I32 integer;
+    bbMapCoords map_coords;
 } bbAction;
 
 ///actions are sorted by time in a total-ordering
@@ -84,4 +87,9 @@ bbFlag bbAction_setPaddleVelocity(void* Core,
                             U64 act_tick,
                             I32 velocity);
 
+bbFlag bbAction_setViewpoint(void* core,
+                            bbMapCoords map_coords,
+                            U32 collision,
+                            U64 created_tick,
+                            U64 act_tick);
 #endif //BB_ACTION_H

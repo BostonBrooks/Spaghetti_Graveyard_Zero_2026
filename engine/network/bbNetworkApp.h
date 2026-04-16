@@ -26,5 +26,5 @@ bbFlag bbNetworkApp_netcodeButton(bbNetwork* network, char* key, U64 time);
 bbFlag bbNetworkApp_keyUp(bbNetwork* network, I32 key_code, U64 time, U32 collision);
 bbFlag bbNetworkApp_keyDown(bbNetwork* network, I32 key_code, U64 time, U32 collision);
 
-bbFlag bbNetworkApp_setViewpoint(bbNetwork* network, bbMapCoords MC, U64 time, U32 collision);
+bbFlag bbNetworkApp_setViewpointOut(bbNetwork* network, bbMapCoords MC, U64 time, U32 collision);
 #endif // BBNWETWORKAPP_H

@@ -81,9 +81,13 @@ bbFlag bbCore_react(bbCore* core)
             break;
 
 
-        case bbInstruction_setViewpoint:
+        case bbInstruction_setViewpointOut:
 
-            bbInstruction_setViewpoint_fn(core, instruction);
+            bbInstruction_setViewpointOut_fn(core, instruction);
+            break;
+        case bbInstruction_setViewpointIn:
+
+            bbInstruction_setViewpointIn_fn(core, instruction);
             break;
 #ifdef DEFINE_PONG
         case bbInstruction_updateBall:

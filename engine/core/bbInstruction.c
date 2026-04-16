@@ -664,6 +664,11 @@ bbFlag bbInstruction_checkActions2_fn(bbCore* core, bbInstruction* instruction)
             bbCoreInput_setPaddleVelocity(core,action->header.player, action->integer,action->header.act_tick,bbInstructionSource_action,handle);
 
         }
+        if (action->header.type == bbActionType_setViewpoint)
+        {
+            bbCoreInput_setViewpointIn(core, action->map_coords,action->header.act_tick,bbInstructionSource_action,handle);
+
+        }
 
         flag = bbList_popL(&core->action_temp_fifo,(void**)&action);
     }
@@ -839,8 +844,14 @@ bbFlag bbInstruction_uncheckActions_fn(bbCore* core, bbInstruction* instruction)
 }
 
 
-bbFlag bbInstruction_setViewpoint_fn(bbCore* core, bbInstruction* instruction)
+bbFlag bbInstruction_setViewpointOut_fn(bbCore* core, bbInstruction* instruction)
+{bbHere()
+    bbNetworkApp_setViewpointOut(&home.network, instruction->data.map_coords, instruction->act_time, collision++);
+    return bbSuccess;
+}
+
+bbFlag bbInstruction_setViewpointIn_fn(bbCore* core, bbInstruction* instruction)
 {
-    bbNetworkApp_setViewpoint(&home.network, instruction->data.map_coords, instruction->act_time, collision++);
+    bbHere()
     return bbSuccess;
 }
