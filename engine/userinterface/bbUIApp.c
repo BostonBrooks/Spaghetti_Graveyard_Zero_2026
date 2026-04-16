@@ -58,13 +58,17 @@ bbFlag bbUIApp_draw(bbUIApp* app)
     cl.graphics = &home.UI.graphics;
     cl.target = &home.viewport_app.viewport;
 
+#ifndef DEFINE_PONG
     bbDrawablesPlus_draw( &cl, 0, 0, 12, 12);
     //bbAvoidables_draw(home.private.viewportApp.avoidables, &cl, 0, 0, 12, 12);
+#endif
     cl.target = app->window;
     bbWidgets_draw(&app->widgets, &cl);
     bbMouse_Draw(&app->mouse, &app->widgets, &home.UI.graphics, app->window);
     sfRenderWindow_display(app->window);
-   bbViewport_clear(&home.viewport_app.viewport);
 
+#ifndef DEFINE_PONG
+   bbViewport_clear(&home.viewport_app.viewport);
+#endif
     return bbSuccess;
 }
