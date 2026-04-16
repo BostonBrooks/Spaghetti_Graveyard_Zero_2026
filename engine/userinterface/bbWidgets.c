@@ -299,6 +299,11 @@ bbFlag bbWidget_newViewport(bbWidget** self, bbGraphicsApp* graphics,
                                       "VIEWPORT");
     widget->mtable.left_down = funcInt;
 
+    funcInt = bbMouseFunctions_getInt(&widgets->mouse->functions,
+                                          MouseRightDown,
+                                      "VIEWPORT");
+    widget->mtable.right_down = funcInt;
+
     widget->mtable.mouse_icon = 85;
     widget->mtable.drag_icon = -1;
 

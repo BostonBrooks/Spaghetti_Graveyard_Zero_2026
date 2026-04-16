@@ -42,6 +42,7 @@ bbFlag bbMouse_Event(bbMouse* mouse, sfEvent* event)
             {
                 mouse->right_changed = true;
                 mouse->right_down = true;
+                mouse->previous_position = mouse->position;
             }
             break;
         case sfEvtMouseButtonReleased:
@@ -52,10 +53,12 @@ bbFlag bbMouse_Event(bbMouse* mouse, sfEvent* event)
             {
                 mouse->left_changed = true;
                 mouse->left_down = false;
+                mouse->previous_position = mouse->position;
             } else if (button == sfMouseRight)
             {
                 mouse->right_changed = true;
                 mouse->right_down = false;
+                mouse->previous_position = mouse->position;
             }
             break;
     default:{
@@ -114,6 +117,26 @@ bbFlag bbMouse_Update(bbMouse* mouse, void* Widgets, bbGraphicsApp* graphics)
         if(!bbVPool_handleIsEqual(pool, mouse->selected, pool->null)) {
             bbVPool_lookup(pool, (void **) &widget, mouse->selected);
             bbMouse_LeftDragWidget(mouse, widgets, widget, graphics);
+        }
+    }
+
+    if (mouse->right_down && mouse->right_changed){
+
+        bbWidget* widget;
+        bbVPool_lookup(pool, (void**)&widget, mouse->is_over);
+        bbMouse_RightDownWidget (mouse, widgets, widget, graphics);
+
+    } else if (!mouse->right_down && mouse->right_changed) {
+        bbWidget* widget;
+        if(!bbVPool_handleIsEqual(pool, mouse->selected, pool->null)) {
+            bbVPool_lookup(pool, (void **) &widget, mouse->selected);
+            bbMouse_RightUpWidget(mouse, widgets, widget, graphics);
+        }
+    } else if (mouse->right_down && !mouse->right_changed) {
+        bbWidget* widget;
+        if(!bbVPool_handleIsEqual(pool, mouse->selected, pool->null)) {
+            bbVPool_lookup(pool, (void **) &widget, mouse->selected);
+            bbMouse_RightDragWidget(mouse, widgets, widget, graphics);
         }
     }
 
@@ -254,6 +277,51 @@ bbFlag bbMouse_LeftDragWidget(void* Mouse, void* widgets, void* Widget,
     if (funcInt == -1) return bbSuccess;
 
     bbMouse_Leave* func = mouse->functions.LeftDrag[funcInt];
+
+    return func(Mouse, widgets, Widget, graphics);
+}
+
+
+bbFlag bbMouse_RightDownWidget(void* Mouse, void* widgets, void* Widget,
+                                void* graphics)
+{
+    bbWidget* widget = Widget;
+    bbMouse* mouse = Mouse;
+    I32 funcInt = widget->mtable.right_down;
+
+    bbDebug("you right clicked widget %s\n", widget->key);
+
+    if (funcInt == -1) return bbSuccess;
+
+    bbMouse_Leave* func = mouse->functions.RightDown[funcInt];
+
+    return func(Mouse, widgets, Widget, graphics);
+}
+bbFlag bbMouse_RightUpWidget(void* Mouse, void* widgets, void* Widget,
+                                  void* graphics)
+{bbHere()
+    bbWidget* widget = Widget;
+    bbMouse* mouse = Mouse;
+    I32 funcInt = widget->mtable.right_up;
+
+    bbDebug("you unclicked widget %s\n", widget->key);
+    if (funcInt == -1) return bbSuccess;
+
+    bbMouse_Leave* func = mouse->functions.RightUp[funcInt];
+
+    return func(Mouse, widgets, Widget, graphics);
+}
+
+bbFlag bbMouse_RightDragWidget(void* Mouse, void* widgets, void* Widget,
+                            void* graphics)
+{bbHere()
+    bbWidget* widget = Widget;
+    bbMouse* mouse = Mouse;
+    I32 funcInt = widget->mtable.right_drag;
+
+    if (funcInt == -1) return bbSuccess;
+
+    bbMouse_Leave* func = mouse->functions.RightDrag[funcInt];
 
     return func(Mouse, widgets, Widget, graphics);
 }

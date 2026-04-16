@@ -50,6 +50,23 @@ bbFlag bbMouseFunctions_init(bbMouseFunctions* functions)
     functions->LeftDrag_available = 0;
 
 
+    functions->RightDown = calloc(magic_number, sizeof(bbMouse_RightDown ));
+    bbAssert(functions->RightDown != NULL, "bad calloc\n");
+    bbDictionary_new(&functions->RightDown_dict, magic_number);
+    functions->RightDown_available = 0;
+
+
+    functions->RightUp = calloc(magic_number, sizeof(bbMouse_RightUp ));
+    bbAssert(functions->RightUp != NULL, "bad calloc\n");
+    bbDictionary_new(&functions->RightUp_dict, magic_number);
+    functions->RightUp_available = 0;
+
+
+    functions->RightDrag = calloc(magic_number, sizeof(bbMouse_RightDrag ));
+    bbAssert(functions->RightDrag != NULL, "bad calloc\n");
+    bbDictionary_new(&functions->RightDrag_dict, magic_number);
+    functions->RightDrag_available = 0;
+
     return bbSuccess;
 }
 
@@ -116,6 +133,33 @@ bbFlag bbMouseFunctions_add(bbMouseFunctions* functions, MouseFunctionType fnTyp
             bbDictionary_add(functions->LeftDrag_dict, key, handle);
             return bbSuccess;
 
+    case MouseRightDown:
+
+        available = functions->RightDown_available++;
+        bbAssert(available < magic_number, "out of bounds error\n");
+        functions->RightDown[available] = fnPointer;
+        handle.u64 = available;
+        bbDictionary_add(functions->RightDown_dict, key, handle);
+        return bbSuccess;
+
+    case MouseRightUp:
+
+        available = functions->RightUp_available++;
+        bbAssert(available < magic_number, "out of bounds error\n");
+        functions->RightUp[available] = fnPointer;
+        handle.u64 = available;
+        bbDictionary_add(functions->RightUp_dict, key, handle);
+        return bbSuccess;
+
+    case MouseRightDrag:
+
+        available = functions->RightDrag_available++;
+        bbAssert(available < magic_number, "out of bounds error\n");
+        functions->RightDrag[available] = fnPointer;
+        handle.u64 = available;
+        bbDictionary_add(functions->RightDrag_dict, key, handle);
+        return bbSuccess;
+
     default:
         bbAssert(0, "bad widget function type\n");
     }
@@ -143,7 +187,16 @@ I32 bbMouseFunctions_getInt(bbMouseFunctions* functions,
             break;
         case MouseLeftDrag:
             dict = functions->LeftDrag_dict;
-            break;
+        break;
+    case MouseRightDown:
+        dict = functions->RightDown_dict;
+        break;
+    case MouseRightUp:
+        dict = functions->RightUp_dict;
+        break;
+    case MouseRightDrag:
+        dict = functions->RightDrag_dict;
+        break;
 
     default:
         bbAssert(0, "bad widget function type\n");

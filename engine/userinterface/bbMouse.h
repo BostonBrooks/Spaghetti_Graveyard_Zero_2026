@@ -84,6 +84,15 @@ bbFlag bbMouse_LeftUpWidget(void* mouse, void* widgets, void* widget,
 
 
 bbFlag bbMouse_LeftDragWidget(void* mouse, void* widgets, void* widget,
+void* graphics);
+
+bbFlag bbMouse_RightDownWidget(void* mouse, void* widgets, void* widget,
+                                void* graphics);
+bbFlag bbMouse_RightUpWidget(void* mouse, void* widgets, void* widget,
+                                  void* graphics);
+
+
+bbFlag bbMouse_RightDragWidget(void* mouse, void* widgets, void* widget,
                             void* graphics);
 
 //Function to be called recursively
