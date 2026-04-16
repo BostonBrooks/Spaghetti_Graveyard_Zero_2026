@@ -17,7 +17,7 @@
 
 
 
-
+//TODO bbCoreApp
 typedef struct
 {
     bbCore core;
