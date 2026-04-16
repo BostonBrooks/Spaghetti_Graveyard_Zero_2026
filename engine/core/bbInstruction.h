@@ -39,7 +39,6 @@ typedef enum
     bbInstruction_unsetPaddleVelocity,
 
     bbInstruction_setViewpoint,
-    bbInstruction_unsetViewpoint,
 } bbInstruction_type;
 
 
@@ -80,8 +79,8 @@ typedef struct
 } bbInstruction;
 
 
-//bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction);
-//bbFlag bbInstruction_uncheckActions_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbInstruction_uncheckActions_fn(bbCore* core, bbInstruction* instruction);
 
 
 bbFlag bbInstruction_checkActions2_fn(bbCore* core, bbInstruction* instruction);

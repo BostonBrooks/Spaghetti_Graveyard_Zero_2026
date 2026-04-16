@@ -17,6 +17,7 @@
 
 #include "games/game0/maps/skellychase/mouse/netpause_button.h"
 #include "games/game0/maps/skellychase/mouse/hover.h"
+#include "games/game0/maps/skellychase/mouse/viewport.h"
 bbFlag bbMouseFunctions_populate(bbMouseFunctions* self)
 {
 
@@ -31,6 +32,7 @@ bbFlag bbMouseFunctions_populate(bbMouseFunctions* self)
    // bbMouseFunctions_add(self, MouseLeftDown,LoopButton_LeftDown,"LOOP_BUTTON");
    // bbMouseFunctions_add(self, MouseLeftDown,PauseButton_LeftDown,"PAUSE_BUTTON");
     bbMouseFunctions_add(self, MouseLeftDown,NetpauseButton_LeftDown,"NETPAUSE_BUTTON");
+    bbMouseFunctions_add(self, MouseLeftDown,Viewport_LeftDown,"VIEWPORT");
 
     return bbSuccess;
 }

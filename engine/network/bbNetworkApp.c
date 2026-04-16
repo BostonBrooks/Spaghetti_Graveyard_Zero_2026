@@ -331,3 +331,17 @@ bbFlag bbNetworkApp_keyDown(bbNetwork* network, I32 key_code, U64 time, U32 coll
 
     return bbSuccess;
 }
+
+
+bbFlag bbNetworkApp_setViewpoint(bbNetwork* network, bbMapCoords MC, U64 time, U32 collision)
+{
+    bbNetworkPacket* packet;
+    bbThreadedQueue_alloc(&network->outbox, (void**)&packet);
+    packet->type = PACKETTYPE_KEYDOWN;
+    packet->act_tick = time;
+    packet->data.map_coords = MC;
+    packet->collision = collision;
+    //bbThreadedQueue_pushL(&network->outbox,packet);
+
+    return bbSuccess;
+}

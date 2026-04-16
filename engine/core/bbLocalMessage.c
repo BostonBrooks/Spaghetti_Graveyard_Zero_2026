@@ -101,6 +101,14 @@ bbFlag bbLocalMessage_keyDown_fn(bbCore* core, bbLocalMessage* message)
 
     return bbSuccess;
 }
+bbFlag bbLocalMessage_setViewpoint_fn(bbCore* core, bbLocalMessage* message)
+{
+    bbHandle handle = {0};
+    bbCoreInput_setViewpoint(core,
+        message->data.map_coords, message->act_time,bbInstructionSource_input,handle);
+
+    return bbSuccess;
+}
 
 
 bbFlag bbCore_checkLocalMessages(bbCore* core)
@@ -174,7 +182,10 @@ bbFlag bbCore_checkLocalMessages(bbCore* core)
             bbLocalMessage_keyDown_fn(core, message);
             bbCore_react(core);
             break;
-
+        case bbLocalMessage_setViewpoint:
+            bbLocalMessage_setViewpoint_fn(core, message);
+            bbCore_react(core);
+            break;
 
         default:
 

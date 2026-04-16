@@ -130,7 +130,7 @@ int main(void)
 
 
             bbMapCoords MC = {0,0,0};
-            bbCoreInput_setViewpoint(&home.core.core, MC, bbInstructionSource_input, no_handle);
+            bbCoreInput_setViewpoint(&home.core.core, MC,home.core.clock2_handle.map_tick, bbInstructionSource_input, no_handle);
 
             bbCore_react(&home.core.core);
         }

@@ -24,4 +24,7 @@ bbFlag bbLocalMessage_KeyDown(bbCore* core, I32 key);
 
 bbFlag bbLocalMessage_NetpauseButton(bbCore* core, char* key);
 
+
+bbFlag bbLocalMessage_SetViewpoint(bbCore* core, bbMapCoords mapCoords);
+
 #endif //BB_LOCAL_MESSAGE_INPUTS_H
