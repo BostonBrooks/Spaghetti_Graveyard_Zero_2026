@@ -13,6 +13,7 @@
 #include "engine/userinterface/bbWidgets.h"
 
 #include "engine/userinterface/bbUIApp.h"
+#include "engine/agents/bbAgentApp.h"
 
 
 
@@ -37,6 +38,7 @@ typedef struct
     bbClock2 clock2;
     bbHome_core core;
     bbViewportApp viewport_app;
+    bbAgentsApp agents_app;
 } bbHome;
 
 
