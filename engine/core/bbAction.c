@@ -171,7 +171,7 @@ bbFlag bbAction_setGoalpoint(void* Core,
 
     bbAction* action;
     bbList_alloc(&core->action_queue,(void**)&action);
-    action->header.type = bbActionType_setViewpoint;
+    action->header.type = bbActionType_setGoalpoint;
     action->header.collision = collision;
     action->header.created_tick = created_tick;
     action->header.act_tick = act_tick;

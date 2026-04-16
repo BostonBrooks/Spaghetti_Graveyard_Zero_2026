@@ -13,7 +13,8 @@ typedef enum
     bbActionType_loop,
     bbActionType_setPaddleDirection,
     bbActionType_setPaddleVelocity,
-    bbActionType_setViewpoint
+    bbActionType_setViewpoint,
+    bbActionType_setGoalpoint
 } bbAction_type;
 
 ///Action header used to figure out what order to enact actions

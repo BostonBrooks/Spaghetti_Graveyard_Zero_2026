@@ -243,3 +243,17 @@ bbFlag bbCoreInput_setViewpointIn(bbCore* core, bbMapCoords MC, U64 time,
     bbList_pushL(&core->do_stack, instruction);
     return bbSuccess;
 }
+
+bbFlag bbCoreInput_setGoalpointIn(bbCore* core, bbMapCoords MC, U64 time,
+                                  bbInstruction_source source, bbHandle action)
+{
+    bbInstruction* instruction;
+    bbList_alloc(&core->do_stack, (void**) &instruction);
+    instruction->type = bbInstruction_setGoalpointIn;
+    instruction->data.map_coords = MC;
+    instruction->act_time = time;
+    instruction->source = source;
+    instruction->redo_instruction = action;
+    bbList_pushL(&core->do_stack, instruction);
+    return bbSuccess;
+}

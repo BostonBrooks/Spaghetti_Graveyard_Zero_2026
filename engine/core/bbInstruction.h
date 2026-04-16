@@ -43,6 +43,7 @@ typedef enum
     bbInstruction_unsetViewpoint,
 
     bbInstruction_setGoalpointOut,
+    bbInstruction_setGoalpointIn,
 } bbInstruction_type;
 
 
@@ -125,6 +126,7 @@ bbFlag bbInstruction_unsetViewpoint_fn(bbCore* core, bbInstruction* instruction)
 
 
 bbFlag bbInstruction_setGoalpointOut_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbInstruction_setGoalpointIn_fn(bbCore* core, bbInstruction* instruction);
 
 
 #endif //BB_INSTRUCTION_H

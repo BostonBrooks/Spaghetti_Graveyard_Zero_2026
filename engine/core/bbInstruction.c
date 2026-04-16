@@ -669,6 +669,11 @@ bbFlag bbInstruction_checkActions2_fn(bbCore* core, bbInstruction* instruction)
             bbCoreInput_setViewpointIn(core, action->map_coords,action->header.act_tick,bbInstructionSource_action,handle);
 
         }
+        if (action->header.type == bbActionType_setGoalpoint)
+        {
+            bbCoreInput_setGoalpointIn(core, action->map_coords,action->header.act_tick,bbInstructionSource_action,handle);
+
+        }
 
         flag = bbList_popL(&core->action_temp_fifo,(void**)&action);
     }
@@ -897,4 +902,46 @@ bbFlag bbInstruction_setViewpointIn_fn(bbCore* core, bbInstruction* instruction)
 
 
     return bbSuccess;
+}
+
+
+bbFlag bbInstruction_setGoalpointIn_fn(bbCore* core, bbInstruction* instruction)
+{
+bbHere()
+
+    bbInstruction* undo_instruction;
+    bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+    undo_instruction->type = bbInstruction_unsetViewpoint;
+    undo_instruction->data.map_coords = home.core.viewpoint;
+    undo_instruction->source = instruction->source;
+
+    bbUI_Inbox_SetViewpoint(&home.UI.inbox, instruction->data.map_coords);
+
+
+    if (instruction->source == bbInstructionSource_internal)
+    {
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        undo_instruction->redo_instruction.u64 = 0;
+        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_input)
+    {
+        bbHandle handle;
+        bbVPool_reverseLookup(core->instruction_pool, instruction, &handle);
+        undo_instruction->redo_instruction = handle;
+        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_action)
+    {
+        undo_instruction->redo_instruction = instruction->redo_instruction;
+        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+        return bbSuccess;
+    }
+    bbNotHere()
+
+
+
+return bbSuccess;
 }
