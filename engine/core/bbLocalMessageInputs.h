@@ -23,4 +23,5 @@ bbFlag bbLocalMessage_KeyDown(bbCore* core, I32 key);
 
 
 bbFlag bbLocalMessage_NetpauseButton(bbCore* core, char* key);
+
 #endif //BB_LOCAL_MESSAGE_INPUTS_H

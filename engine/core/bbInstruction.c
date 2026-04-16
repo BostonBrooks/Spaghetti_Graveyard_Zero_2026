@@ -905,7 +905,7 @@ bbFlag bbInstruction_unsetViewpoint_fn(bbCore* core, bbInstruction* instruction)
         }
         if (instruction->source == bbInstructionSource_action)
         {
-            //TODO place instruction->redo_instruction into core->action_queue
+
             bbAction* redo_action;
             bbVPool_lookup(core->action_pool, (void**)&redo_action, instruction->redo_instruction);
             bbList_sortL(&core->action_queue,(void*)redo_action);
