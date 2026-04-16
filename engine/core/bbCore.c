@@ -79,6 +79,12 @@ bbFlag bbCore_react(bbCore* core)
 
             bbInstruction_netpauseButton_fn(core, instruction);
             break;
+
+
+        case bbInstruction_setViewpoint:
+
+            bbInstruction_setViewpoint_fn(core, instruction);
+            break;
 #ifdef DEFINE_PONG
         case bbInstruction_updateBall:
             bbInstruction_updateBall_fn(core, instruction);
@@ -114,7 +120,7 @@ bbFlag bbCore_react(bbCore* core)
 
     return bbSuccess;
 }
-
+/*
 bbFlag bbCore_rewind(bbCore* core)
 {
     bbFlag flag;
@@ -155,7 +161,7 @@ bbFlag bbCore_rewind(bbCore* core)
 
     }
     return bbSuccess;
-}
+}*/
 
 bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
 {
@@ -180,6 +186,13 @@ bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
 
         case bbInstruction_uncheckActions:
             bbInstruction_uncheckActions_fn(core, instruction);
+            break;
+
+
+
+        case bbInstruction_unsetViewpoint:
+
+            bbInstruction_unsetViewpoint_fn(core, instruction);
             break;
 #ifdef DEFINE_PONG
         case bbInstruction_unsetPaddleVelocity:

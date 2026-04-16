@@ -39,5 +39,8 @@ bbFlag bbCoreInput_setPaddleDirection(bbCore* core, I32 direction, U64 time,
 bbFlag bbCoreInput_setPaddleVelocity(bbCore* core, U8 player, I32 velocity, U64 time,
                                   bbInstruction_source source, bbHandle action);
 
+///Send message to graphics thread.
+
+bbFlag bbCoreInput_setViewpoint(bbCore* core, bbMapCoords coords, bbInstruction_source source, bbHandle action);
 
 #endif //BB_CORE_INPUTS

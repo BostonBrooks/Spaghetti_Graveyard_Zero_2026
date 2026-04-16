@@ -3,6 +3,7 @@
 #define BB_INSTRUCTION_H
 #include "engine/core/bbCore.h"
 #include "engine/data/bbConstants.h"
+#include "engine/geometry/bbCoordinates.h"
 #include "engine/logic/bbHandle.h"
 
 typedef enum
@@ -35,7 +36,10 @@ typedef enum
 
     bbInstruction_setPaddleDirection,
     bbInstruction_setPaddleVelocity,
-    bbInstruction_unsetPaddleVelocity
+    bbInstruction_unsetPaddleVelocity,
+
+    bbInstruction_setViewpoint,
+    bbInstruction_unsetViewpoint,
 } bbInstruction_type;
 
 
@@ -61,6 +65,7 @@ typedef union
     char string[KEY_LENGTH];
     U64 unsigned_long;
     bbThreeHandles three_handles;
+    bbMapCoords map_coords;
 } bbInstruction_data;
 
 typedef struct
@@ -75,8 +80,8 @@ typedef struct
 } bbInstruction;
 
 
-bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction);
-bbFlag bbInstruction_uncheckActions_fn(bbCore* core, bbInstruction* instruction);
+//bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction);
+//bbFlag bbInstruction_uncheckActions_fn(bbCore* core, bbInstruction* instruction);
 
 
 bbFlag bbInstruction_checkActions2_fn(bbCore* core, bbInstruction* instruction);
@@ -109,4 +114,8 @@ bbFlag bbInstruction_netpauseButton_fn(bbCore* core, bbInstruction* instruction)
 
 bbFlag bbInstruction_keyUp_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_keyDown_fn(bbCore* core, bbInstruction* instruction);
+
+
+bbFlag bbInstruction_setViewpoint_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbInstruction_unsetViewpoint_fn(bbCore* core, bbInstruction* instruction);
 #endif //BB_INSTRUCTION_H

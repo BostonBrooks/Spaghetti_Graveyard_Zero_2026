@@ -202,3 +202,14 @@ bbFlag bbCoreInput_loop(bbCore* core, char* string, U64 time,
     bbList_pushL(&core->do_stack, instruction);
     return bbSuccess;
 }
+
+
+bbFlag bbCoreInput_setViewpoint(bbCore* core, bbMapCoords coords, bbInstruction_source source, bbHandle action)
+{
+    bbInstruction* instruction;
+    bbList_alloc(&core->do_stack, (void**) &instruction);
+    instruction->type = bbInstruction_setViewpoint;
+    instruction->data.map_coords = coords;
+    bbList_pushL(&core->do_stack, instruction);
+    return bbSuccess;
+}

@@ -53,7 +53,7 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
                 case bbMoveableType_Unused:
                     continue;
                 case bbMoveableType_Player:
-                    {bbHere()
+                    {
                         bbMilliCoords currentLocation = moveable->coordsA;
                         bbMilliCoords goalPoint = moveable->goalPoint;
 
@@ -93,7 +93,7 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
             case bbMoveableType_Unused:
                 continue;
             case bbMoveableType_Player:
-                {bbHere()
+                {
                     bbMilliCoords currentLocation = moveable->coordsB;
                     bbMilliCoords goalPoint = moveable->goalPoint;
 

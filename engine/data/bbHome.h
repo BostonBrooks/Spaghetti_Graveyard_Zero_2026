@@ -27,6 +27,9 @@ typedef struct
     bbBall balls[N_BALLS];
     bbPaddle paddle1;
     bbPaddle paddle2;
+
+    ///in order to rewind the viewpoint, we mist keep a record of where it was before updating
+    bbMapCoords viewpoint;
 } bbHome_core;
 
 typedef struct

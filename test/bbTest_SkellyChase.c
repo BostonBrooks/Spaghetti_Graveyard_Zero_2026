@@ -60,7 +60,7 @@ int main(void)
     bool once2 = false;
     bool once = false;
 
-
+    bbMoveables_init(&home.agents_app.movables);
 
     while (1)
     {
@@ -126,8 +126,13 @@ int main(void)
                 bbInstructionSource_input, no_handle );
 
 
+            //bbMoveables_update(&home.agents_app.movables);
 
 
+            bbMapCoords MC = {0,0,0};
+            bbCoreInput_setViewpoint(&home.core.core, MC, bbInstructionSource_input, no_handle);
+
+            bbCore_react(&home.core.core);
         }
 
         if (home.clock2.is_paused == false)
