@@ -39,7 +39,8 @@ typedef enum
     bbInstruction_unsetPaddleVelocity,
 
     bbInstruction_setViewpointOut,
-    bbInstruction_setViewpointIn
+    bbInstruction_setViewpointIn,
+    bbInstruction_unsetViewpoint
 } bbInstruction_type;
 
 

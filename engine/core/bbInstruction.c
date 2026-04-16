@@ -851,7 +851,48 @@ bbFlag bbInstruction_setViewpointOut_fn(bbCore* core, bbInstruction* instruction
 }
 
 bbFlag bbInstruction_setViewpointIn_fn(bbCore* core, bbInstruction* instruction)
-{
-    bbHere()
+{bbHere()
+
+
+        bbInstruction* undo_instruction;
+        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        undo_instruction->type = bbInstruction_unsetViewpoint;
+        undo_instruction->data.map_coords = home.core.viewpoint;
+        undo_instruction->source = instruction->source;
+
+        //bbDebug ("time was %lu, now is %lu, actual %lu\n", undo_instruction->data.unsigned_long,
+        //    instruction->data.unsigned_long, core->actual_time);
+
+        home.core.viewpoint = instruction->data.map_coords;
+
+        //TODO use bbUI_Inbox
+        home.viewport_app.viewport.viewpoint = instruction->data.map_coords;
+
+        //printf("+time = %lu\n", core->simulation_time);
+        if (instruction->source == bbInstructionSource_internal)
+        {
+            bbVPool_free(core->instruction_pool, (void*)instruction);
+            undo_instruction->redo_instruction.u64 = 0;
+            bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+            return bbSuccess;
+        }
+        if (instruction->source == bbInstructionSource_input)
+        {
+            bbHandle handle;
+            bbVPool_reverseLookup(core->instruction_pool, instruction, &handle);
+            undo_instruction->redo_instruction = handle;
+            bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+            return bbSuccess;
+        }
+        if (instruction->source == bbInstructionSource_action)
+        {
+            undo_instruction->redo_instruction = instruction->redo_instruction;
+            bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+            return bbSuccess;
+        }
+        bbNotHere()
+
+
+
     return bbSuccess;
 }
