@@ -10,7 +10,8 @@ typedef enum
 {
     bbUI_Inbox_unpressButton,
     bbUI_Inbox_unpressButton2,
-    bbUI_Inbox_setWidgetPosition
+    bbUI_Inbox_setWidgetPosition,
+    bbUI_Inbox_setViewpoint
 } bbUI_Inbox_type;
 
 typedef struct
@@ -27,6 +28,7 @@ typedef struct
 {
     bbUI_Inbox_handle handle;
     bbUI_Inbox_string string;
+    bbMapCoords coords;
 } bbUI_Inbox_data;
 
 typedef struct
@@ -51,9 +53,12 @@ bbFlag bbUI_Inbox_init(bbUI_Inbox* inbox);
 bbFlag bbUI_Inbox_check(bbUI_Inbox* inbox);
 bbFlag bbUI_Inbox_unpressButton_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message);
 bbFlag bbUI_Inbox_unpressButton2_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message);
+bbFlag bbUI_Inbox_setViewpoint_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message);
 
 
 bbFlag bbUI_Inbox_UnpressButton(bbUI_Inbox* inbox);
 bbFlag bbUI_Inbox_UnpressButton2(bbUI_Inbox* inbox, char* key);
 bbFlag bbUI_Inbox_SetWidgetPosition(bbUI_Inbox* inbox, char* key, bbHandle position);
+
+bbFlag bbUI_Inbox_SetViewpoint(bbUI_Inbox* inbox, bbMapCoords MC);
 #endif // BB_UI_INBOX_H

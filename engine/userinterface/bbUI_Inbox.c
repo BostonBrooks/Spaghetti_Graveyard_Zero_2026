@@ -47,6 +47,10 @@ bbFlag bbUI_Inbox_check(bbUI_Inbox* inbox)
             bbUI_Inbox_setWidgetPosition_fn(inbox, message);
             break;
 
+        case bbUI_Inbox_setViewpoint:
+            bbUI_Inbox_setViewpoint_fn(inbox, message);
+            break;
+
         default:
 
             bbDebug("Unknown UI local message type\nmessage->type = %d\n", message->type);
@@ -101,6 +105,13 @@ bbFlag bbUI_Inbox_setWidgetPosition_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* me
     return bbSuccess;
 }
 
+bbFlag bbUI_Inbox_setViewpoint_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
+{
+    home.viewport_app.viewport.viewpoint = message->data.coords;
+
+    return bbSuccess;
+}
+
 bbFlag bbUI_Inbox_UnpressButton(bbUI_Inbox* inbox)
 {
     bbUI_Inbox_message* message;
@@ -131,6 +142,17 @@ bbFlag bbUI_Inbox_SetWidgetPosition(bbUI_Inbox* inbox, char* key, bbHandle posit
     message->type = bbUI_Inbox_setWidgetPosition;
     bbStr_setStr(message->data.string.string, key, KEY_LENGTH);
     message->data.handle.handle = position;
+    bbThreadedQueue_pushL(&inbox->local_message_queue, (void*)message);
+    return bbSuccess;
+}
+
+
+bbFlag bbUI_Inbox_SetViewpoint(bbUI_Inbox* inbox, bbMapCoords MC)
+{
+    bbUI_Inbox_message* message;
+    bbThreadedQueue_alloc(&inbox->local_message_queue,(void**)&message);
+    message->type = bbUI_Inbox_setViewpoint;
+    message->data.coords = MC;
     bbThreadedQueue_pushL(&inbox->local_message_queue, (void*)message);
     return bbSuccess;
 }

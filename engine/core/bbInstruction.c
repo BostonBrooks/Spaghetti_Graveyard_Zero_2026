@@ -862,8 +862,7 @@ bbFlag bbInstruction_setViewpointIn_fn(bbCore* core, bbInstruction* instruction)
 
         //bbDebug ("time was %lu, now is %lu, actual %lu\n", undo_instruction->data.unsigned_long,
         //    instruction->data.unsigned_long, core->actual_time);
-
-        home.core.viewpoint = instruction->data.map_coords;
+        bbUI_Inbox_SetViewpoint(&home.UI.inbox, instruction->data.map_coords);
 
         //TODO use bbUI_Inbox
         home.viewport_app.viewport.viewpoint = instruction->data.map_coords;
