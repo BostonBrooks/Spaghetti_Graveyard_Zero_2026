@@ -44,6 +44,7 @@ typedef enum
 
     bbInstruction_setGoalpointOut,
     bbInstruction_setGoalpointIn,
+    bbInstruction_unsetGoalpoint,
 } bbInstruction_type;
 
 

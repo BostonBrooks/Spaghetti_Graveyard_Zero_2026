@@ -873,6 +873,7 @@ bbFlag bbInstruction_setViewpointIn_fn(bbCore* core, bbInstruction* instruction)
         undo_instruction->data.map_coords = home.core.viewpoint;
         undo_instruction->source = instruction->source;
 
+        home.core.viewpoint = instruction->data.map_coords;
         bbUI_Inbox_SetViewpoint(&home.UI.inbox, instruction->data.map_coords);
 
 
@@ -911,10 +912,11 @@ bbHere()
 
     bbInstruction* undo_instruction;
     bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
-    undo_instruction->type = bbInstruction_unsetViewpoint;
+    undo_instruction->type = bbInstruction_unsetGoalpoint;
     undo_instruction->data.map_coords = home.core.viewpoint;
     undo_instruction->source = instruction->source;
 
+    home.core.viewpoint = instruction->data.map_coords;
     bbUI_Inbox_SetViewpoint(&home.UI.inbox, instruction->data.map_coords);
 
 
