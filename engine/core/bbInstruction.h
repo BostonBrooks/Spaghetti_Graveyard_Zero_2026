@@ -130,7 +130,9 @@ bbFlag bbInstruction_unsetViewpoint_fn(bbCore* core, bbInstruction* instruction)
 
 bbFlag bbInstruction_setGoalpointOut_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_setGoalpointIn_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbInstruction_unsetGoalpoint_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_approachGoalpoint_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbInstruction_unapproachGoalpoint_fn(bbCore* core, bbInstruction* instruction);
 
 
 #endif //BB_INSTRUCTION_H
