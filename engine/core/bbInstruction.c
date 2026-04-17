@@ -873,9 +873,8 @@ bbFlag bbInstruction_setViewpointIn_fn(bbCore* core, bbInstruction* instruction)
         undo_instruction->data.map_coords = home.core.viewpoint;
         undo_instruction->source = instruction->source;
 
-        home.core.viewpoint = instruction->data.map_coords;
         bbUI_Inbox_SetViewpoint(&home.UI.inbox, instruction->data.map_coords);
-
+        home.core.viewpoint = instruction->data.map_coords;
 
         if (instruction->source == bbInstructionSource_internal)
         {
@@ -910,15 +909,84 @@ bbFlag bbInstruction_setGoalpointIn_fn(bbCore* core, bbInstruction* instruction)
 {
 bbHere()
 
+    bbDebug("goal point = (%d,%d)\n", home.core.goalpoint.i, home.core.goalpoint.j);
+
     bbInstruction* undo_instruction;
     bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
     undo_instruction->type = bbInstruction_unsetGoalpoint;
-    undo_instruction->data.map_coords = home.core.viewpoint;
+    undo_instruction->data.map_coords = home.core.goalpoint;
     undo_instruction->source = instruction->source;
 
-    home.core.viewpoint = instruction->data.map_coords;
-    bbUI_Inbox_SetViewpoint(&home.UI.inbox, instruction->data.map_coords);
+    home.core.goalpoint = instruction->data.map_coords;
 
+    bbDebug("goal point = (%d,%d)\n", home.core.goalpoint.i, home.core.goalpoint.j);
+
+    if (instruction->source == bbInstructionSource_internal)
+    {
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        undo_instruction->redo_instruction.u64 = 0;
+        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_input)
+    {
+        bbHandle handle;
+        bbVPool_reverseLookup(core->instruction_pool, instruction, &handle);
+        undo_instruction->redo_instruction = handle;
+        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_action)
+    {
+        undo_instruction->redo_instruction = instruction->redo_instruction;
+        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+        return bbSuccess;
+    }
+    bbNotHere()
+
+
+
+return bbSuccess;
+}
+
+bbFlag bbInstruction_approachGoalpoint_fn(bbCore* core, bbInstruction* instruction)
+{
+
+
+    bbInstruction* undo_instruction;
+    bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+    undo_instruction->type = bbInstruction_unapproachGoalpoint;
+    undo_instruction->data.map_coords = home.core.goalpoint;
+    undo_instruction->source = instruction->source;
+
+    bbMapCoords goal, current, final;
+
+    current = home.core.viewpoint;
+    goal = home.core.goalpoint;
+
+    //TODO: dont use doubles
+
+    double distance_i = goal.i - current.i;
+    double distance_j = goal.j - current.j;
+
+    double distance = sqrt(distance_i * distance_i + distance_j * distance_j);
+    if (distance <POINTS_PER_PIXEL*8)
+   {
+       final = goal;
+   } else {
+        double delta_i = distance_i / distance;
+        double delta_j = distance_j / distance;
+
+        bbDebug("delta_i = %f, delta_j = %f\n", delta_i, delta_j);
+
+        final.i = current.i + delta_i * POINTS_PER_PIXEL*8;
+        final.j = current.j + delta_j  * POINTS_PER_PIXEL*8;
+        final.k = 0;
+    }
+    bbHandle noHandle = {0};
+
+    bbCoreInput_setViewpointIn(core, final, home.core.clock2_handle.map_tick,
+                                      bbInstructionSource_internal, noHandle);
 
     if (instruction->source == bbInstructionSource_internal)
     {

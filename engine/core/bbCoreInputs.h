@@ -54,4 +54,7 @@ bbFlag bbCoreInput_setGoalpointOut(bbCore* core, bbMapCoords MC, U64 time,
 bbFlag bbCoreInput_setGoalpointIn(bbCore* core, bbMapCoords MC, U64 time,
                                   bbInstruction_source source, bbHandle action);
 
+
+bbFlag bbCoreInput_approachGoalpoint(bbCore* core);
+
 #endif //BB_CORE_INPUTS

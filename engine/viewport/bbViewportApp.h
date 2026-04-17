@@ -23,4 +23,5 @@ typedef struct
 bbFlag bbViewportApp_init(bbViewportApp* app);
 
 bbFlag spawnDrawables(void);
+
 #endif //BB_VIEWPORTAPP_H

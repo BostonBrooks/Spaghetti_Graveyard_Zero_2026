@@ -134,6 +134,17 @@ bbFlag bbCoreInput_netsendButton(bbCore* core, char* string)
     return bbSuccess;
 }
 
+bbFlag bbCoreInput_approachGoalpoint(bbCore* core)
+{
+    bbInstruction* instruction;
+    bbList_alloc(&core->do_stack, (void**) &instruction);
+
+    instruction->type = bbInstruction_approachGoalpoint;
+
+    bbList_pushL(&core->do_stack, instruction);
+
+    return bbSuccess;
+}
 
 
 bbFlag bbCoreInput_netpauseButton(bbCore* core, char* string)

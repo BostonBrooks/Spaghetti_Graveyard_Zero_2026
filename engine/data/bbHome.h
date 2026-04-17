@@ -30,6 +30,7 @@ typedef struct
 
     ///in order to rewind the viewpoint, we mist keep a record of where it was before updating
     bbMapCoords viewpoint;
+    bbMapCoords goalpoint;
 } bbHome_core;
 
 typedef struct

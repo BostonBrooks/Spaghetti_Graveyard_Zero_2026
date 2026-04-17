@@ -42,6 +42,14 @@ int main(void)
     home.UI.clock2_handle.clock_thread_index = 255;
     home.core.clock2_handle.clock_paused = true;
 
+    home.core.viewpoint.i = 10000;
+    home.core.viewpoint.j = 10000;
+    home.core.viewpoint.k = 0;
+
+    home.core.goalpoint.i = 10000;
+    home.core.goalpoint.j = 10000;
+    home.core.goalpoint.k = 0;
+
     bbCore_init(&home.core.core);
 
     pthread_t graphics_pthread;
@@ -129,8 +137,7 @@ int main(void)
             //bbMoveables_update(&home.agents_app.movables);
 
 
-            //bbMapCoords MC = {0,0,0};
-            //bbCoreInput_setViewpointOut(&home.core.core, MC,home.core.clock2_handle.map_tick, bbInstructionSource_input, no_handle);
+            bbCoreInput_approachGoalpoint(&home.core.core);
 
             bbCore_react(&home.core.core);
         }
