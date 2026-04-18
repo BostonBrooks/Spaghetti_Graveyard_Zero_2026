@@ -1109,3 +1109,42 @@ bbFlag bbInstruction_unsetViewpoint_fn(bbCore* core, bbInstruction* instruction)
 
     bbNotHere()
 }
+
+
+bbFlag bbInstruction_updateMoveables_fn(bbCore* core, bbInstruction* instruction)
+{
+    bbMoveables_update(&home.agents_app.movables);
+
+
+    bbInstruction* undo_instruction;
+    bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+    undo_instruction->type = bbInstruction_unupdateMoveables;
+    undo_instruction->source = instruction->source;
+
+    bbMoveables_update(&home.agents_app.movables);
+
+    if (instruction->source == bbInstructionSource_internal)
+    {
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        undo_instruction->redo_instruction.u64 = 0;
+        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_input)
+    {
+        bbHandle handle;
+        bbVPool_reverseLookup(core->instruction_pool, instruction, &handle);
+        undo_instruction->redo_instruction = handle;
+        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_action)
+    {
+        undo_instruction->redo_instruction = instruction->redo_instruction;
+        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+        return bbSuccess;
+    }
+    bbNotHere()
+
+    bbNotHere()
+}

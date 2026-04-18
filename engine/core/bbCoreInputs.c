@@ -134,11 +134,13 @@ bbFlag bbCoreInput_netsendButton(bbCore* core, char* string)
     return bbSuccess;
 }
 
-bbFlag bbCoreInput_approachGoalpoint(bbCore* core)
+bbFlag bbCoreInput_approachGoalpoint(bbCore* core,bbInstruction_source source, bbHandle action)
 {
     bbInstruction* instruction;
     bbList_alloc(&core->do_stack, (void**) &instruction);
 
+    instruction->source = source;
+    instruction->redo_instruction = action;
     instruction->type = bbInstruction_approachGoalpoint;
 
     bbList_pushL(&core->do_stack, instruction);
@@ -263,6 +265,19 @@ bbFlag bbCoreInput_setGoalpointIn(bbCore* core, bbMapCoords MC, U64 time,
     instruction->type = bbInstruction_setGoalpointIn;
     instruction->data.map_coords = MC;
     instruction->act_time = time;
+    instruction->source = source;
+    instruction->redo_instruction = action;
+    bbList_pushL(&core->do_stack, instruction);
+    return bbSuccess;
+}
+
+
+bbFlag bbCoreInput_updateMoveables(bbCore* core,
+                                  bbInstruction_source source, bbHandle action)
+{
+    bbInstruction* instruction;
+    bbList_alloc(&core->do_stack, (void**) &instruction);
+    instruction->type = bbInstruction_updateMoveables;
     instruction->source = source;
     instruction->redo_instruction = action;
     bbList_pushL(&core->do_stack, instruction);

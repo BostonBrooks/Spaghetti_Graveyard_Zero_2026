@@ -107,6 +107,12 @@ bbFlag bbCore_react(bbCore* core)
             bbInstruction_approachGoalpoint_fn(core, instruction);
             break;
 
+        case bbInstruction_updateMoveables:
+
+            bbInstruction_updateMoveables_fn(core, instruction);
+            break;
+
+
 #ifdef DEFINE_PONG
         case bbInstruction_updateBall:
             bbInstruction_updateBall_fn(core, instruction);

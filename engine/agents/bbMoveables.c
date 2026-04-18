@@ -51,6 +51,9 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
             switch (moveable->type)
             {
                 case bbMoveableType_Unused:
+
+                moveable->coordsB.i = moveable->coordsA.i;
+                moveable->coordsB.j = moveable->coordsA.j;
                     continue;
                 case bbMoveableType_Player:
                     {
@@ -64,13 +67,13 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
 
                         double distance = sqrt(distance_i * distance_i + distance_j * distance_j);
 
-                        if (distance < 2048)
+                        if (distance < 4048)
                         {
                             moveable->coordsB = goalPoint;
                         } else
                         {
-                            double delta_i = distance_i / distance * 2048;
-                            double delta_j = distance_j / distance * 2048;
+                            double delta_i = distance_i / distance * 4048;
+                            double delta_j = distance_j / distance * 4048;
 
 
                             moveable->coordsB.i = currentLocation.i + delta_i;
@@ -91,6 +94,9 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
             switch (moveable->type)
             {
             case bbMoveableType_Unused:
+
+                moveable->coordsA.i = moveable->coordsB.i;
+                moveable->coordsA.j = moveable->coordsB.j;
                 continue;
             case bbMoveableType_Player:
                 {
@@ -104,13 +110,13 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
 
                     double distance = sqrt(distance_i * distance_i + distance_j * distance_j);
 
-                    if (distance < 2048)
+                    if (distance < 4048)
                     {
                         moveable->coordsA = goalPoint;
                     } else
                     {
-                        double delta_i = distance_i / distance * 2048;
-                        double delta_j = distance_j / distance * 2048;
+                        double delta_i = distance_i / distance * 4048;
+                        double delta_j = distance_j / distance * 4048;
 
 
                         moveable->coordsA.i = currentLocation.i + delta_i;
@@ -128,12 +134,21 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
 
 bbFlag bbMoveables_update(bbMoveables* moveables)
 {
+    bbMapCoords goalPoint = home.core.goalpoint;
+
+    bbMilliCoords goalCoords = bbMapCoords_getMilliCoords(goalPoint);
+
+    moveables->moveables[0].goalPoint = goalCoords;
+
     for (I32 i = 0; i < moveables->updatesPerFrame; i++)
     {
         bbMoveables_updateOnce(moveables);
     }
+    bbMapCoords MC;
+    if (moveables->useCoordsA)
+        MC = bbMilliCoords_getMapCoords(moveables->moveables[0].coordsA);
+    else MC = bbMilliCoords_getMapCoords(moveables->moveables[0].coordsB);
 
-    bbMapCoords MC = bbMilliCoords_getMapCoords(moveables->moveables[0].coordsA);
     home.viewport_app.viewport.viewpoint = MC;
     return bbSuccess;
 }
