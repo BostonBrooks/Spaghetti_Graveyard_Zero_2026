@@ -1,5 +1,7 @@
 #include "engine/core/bbCoreDiscard.h"
 
+#include "engine/data/bbHome.h"
+
 
 bbFlag bbCoreDiscard(bbCore* core, U64 time)
 {
@@ -36,6 +38,13 @@ bbFlag bbCoreDiscard(bbCore* core, U64 time)
             bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction, undo_instruction->redo_instruction);
             bbVPool_free(core->instruction_pool,redo_instruction);
 
+        }
+
+        if (undo_instruction->type == bbInstruction_unupdateMoveables)
+        {
+            bbMoveables_snapshot* snapshot;
+            bbVPool_lookup(home.agents_app.movables.snapshots, (void**)&snapshot, undo_instruction->snapshot);
+            bbVPool_free(home.agents_app.movables.snapshots, snapshot);
         }
 
         bbVPool_free(core->instruction_pool, undo_instruction);
