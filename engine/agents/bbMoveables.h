@@ -18,25 +18,8 @@ typedef enum
 
 } bbMoveable_type;
 
-typedef struct
-{
-    bbMoveable_type type;
-    bbMilliCoords coords_original;
-    bbMilliCoords coordsA;
-    bbMilliCoords coordsB;
-    //goalPoint could be a pointer to another avoidable, but for now it is updated once per frame
-    bbMilliCoords goal_point;
-} bbMoveable;
 
-typedef struct
-{
-    I32 updatesPerFrame;
-    bool useCoordsA;
-    bbMoveable moveables[numMoveables];
 
-    bbVPool* snapshots;
-
-} bbMoveables;
 
 typedef struct
 {
@@ -46,8 +29,38 @@ typedef struct
 
 typedef struct
 {
-    bbMoveable_snapshot movables[numMoveables];
+    bbMoveable_snapshot moveables[numMoveables];
 } bbMoveables_snapshot;
+
+typedef struct
+{
+    bbMoveable_type type;
+    bbMilliCoords position;
+    bbMilliCoords coords_a;
+    bbMilliCoords coords_b;
+    //goalPoint could be a pointer to another avoidable, but for now it is updated once per frame
+    bbMilliCoords goalpoint;
+} bbMoveable;
+
+typedef struct
+{
+    I32 updates_per_frame;
+    bool use_coords_a;
+    bbMoveable moveables[numMoveables];
+
+    bbVPool* snapshots;
+
+    //Producer owns mutex when swapping buffers
+    //Consumer owns mutex when reading from buffers
+    pthread_mutex_t buffer_mutex;
+
+    bbMoveables_snapshot buffer_a;
+    bbMoveables_snapshot buffer_b;
+
+    bbMoveables_snapshot* buffer_front;
+    bbMoveables_snapshot* buffer_back;
+
+} bbMoveables;
 
 bbFlag bbMoveables_init(bbMoveables* moveables);
 bbFlag bbMoveables_update(bbMoveables* moveables);
@@ -55,5 +68,6 @@ bbFlag bbMoveables_update(bbMoveables* moveables);
 bbMilliCoords getForce(bbMoveables* moveables, bbMoveable* moveableA, bbMoveable* moveableB);
 bbFlag bbMoveable_setGoalPoint(bbMoveables* moveables, bbHandle handle, bbMilliCoords goal_point);
 
+bbFlag bbMoveables_copyBuffer(bbMoveables* moveables, bbMoveables_snapshot* target);
 
 #endif  //BBMOVEABLE

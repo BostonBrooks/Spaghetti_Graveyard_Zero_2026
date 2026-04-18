@@ -182,11 +182,14 @@ void* userinterface_thread(void* arg)
 
     bbNetworkTime* network_time = (bbNetworkTime*)home.network.extra_data;
 
+    bbMoveables_snapshot moveables_snapshot;
+
     U8 clock_index = 255;
     while (1)
     {
 
 
+        bbMoveables_copyBuffer(&home.agents_app.movables, &moveables_snapshot);
 
         bbInput_poll(&home.UI.input, home.UI.window);
 

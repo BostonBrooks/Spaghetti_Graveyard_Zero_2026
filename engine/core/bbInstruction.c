@@ -1126,8 +1126,8 @@ bbFlag bbInstruction_updateMoveables_fn(bbCore* core, bbInstruction* instruction
 
     for (I32 i = 0; i < numMoveables; i++)
     {
-        snapshot->movables[i].position = home.agents_app.movables.moveables[i].coords_original;
-        snapshot->movables[i].goalpoint = home.agents_app.movables.moveables[i].goal_point;
+        snapshot->moveables[i].position = home.agents_app.movables.moveables[i].position;
+        snapshot->moveables[i].goalpoint = home.agents_app.movables.moveables[i].goalpoint;
     }
 
 
@@ -1166,8 +1166,8 @@ bbFlag bbInstruction_unupdateMoveables_fn(bbCore* core, bbInstruction* instructi
 
     for (I32 i = 0; i < numMoveables; i++)
     {
-        home.agents_app.movables.moveables[i].coords_original = snapshot->movables[i].position;
-        home.agents_app.movables.moveables[i].goal_point = snapshot->movables[i].goalpoint;
+        home.agents_app.movables.moveables[i].position = snapshot->moveables[i].position;
+        home.agents_app.movables.moveables[i].goalpoint = snapshot->moveables[i].goalpoint;
     }
 
     bbVPool_free(home.agents_app.movables.snapshots, snapshot);

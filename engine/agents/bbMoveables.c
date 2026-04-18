@@ -6,10 +6,15 @@
 
 bbFlag bbMoveables_init(bbMoveables* moveables)
 {
-    moveables->updatesPerFrame = 8;
-    moveables->useCoordsA = true;
+    moveables->updates_per_frame = 8;
+    moveables->use_coords_a = true;
 
     bbVPool_newBloated(&moveables->snapshots,sizeof(bbMoveables_snapshot),100,100);
+
+    moveables->buffer_back = &moveables->buffer_a;
+    moveables->buffer_front = &moveables->buffer_b;
+
+    pthread_mutex_init(&moveables->buffer_mutex,NULL);
 
     for (I32 i = 0; i < numMoveables; i++)
     {
@@ -17,37 +22,37 @@ bbFlag bbMoveables_init(bbMoveables* moveables)
 
         moveable->type = bbMoveableType_Unused;
 
-        moveable->coords_original.i = 0;
-        moveable->coords_original.j = 0;
-        moveable->coords_original.k = 0;
+        moveable->position.i = 0;
+        moveable->position.j = 0;
+        moveable->position.k = 0;
 
-        moveable->coordsA.i = 0;
-        moveable->coordsA.j = 0;
-        moveable->coordsA.k = 0;
+        moveable->coords_a.i = 0;
+        moveable->coords_a.j = 0;
+        moveable->coords_a.k = 0;
 
-        moveable->coordsB.i = 0;
-        moveable->coordsB.j = 0;
-        moveable->coordsB.k = 0;
+        moveable->coords_b.i = 0;
+        moveable->coords_b.j = 0;
+        moveable->coords_b.k = 0;
 
-        moveable->goal_point.i = 0;
-        moveable->goal_point.j = 0;
-        moveable->goal_point.k = 0;
+        moveable->goalpoint.i = 0;
+        moveable->goalpoint.j = 0;
+        moveable->goalpoint.k = 0;
 
 
 
     }
 
     moveables->moveables[0].type = bbMoveableType_Player;
-    moveables->moveables[0].goal_point.i = 10000000;
-    moveables->moveables[0].goal_point.j = 10000000;
-    moveables->moveables[0].goal_point.k = 10000000;
+    moveables->moveables[0].goalpoint.i = 10000000;
+    moveables->moveables[0].goalpoint.j = 10000000;
+    moveables->moveables[0].goalpoint.k = 10000000;
     return bbSuccess;
 }
 
 bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
 {
     //for now, just move 2048 mills toward goal point
-    if (moveables->useCoordsA)
+    if (moveables->use_coords_a)
     {
         for (I32 i = 0; i < numMoveables; i++)
         {
@@ -56,13 +61,13 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
             {
                 case bbMoveableType_Unused:
 
-                moveable->coordsB.i = moveable->coordsA.i;
-                moveable->coordsB.j = moveable->coordsA.j;
+                moveable->coords_b.i = moveable->coords_a.i;
+                moveable->coords_b.j = moveable->coords_a.j;
                     continue;
                 case bbMoveableType_Player:
                     {
-                        bbMilliCoords currentLocation = moveable->coordsA;
-                        bbMilliCoords goalPoint = moveable->goal_point;
+                        bbMilliCoords currentLocation = moveable->coords_a;
+                        bbMilliCoords goalPoint = moveable->goalpoint;
 
 
                         //TODO don't use floats or doubles
@@ -73,22 +78,22 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
 
                         if (distance < 4048)
                         {
-                            moveable->coordsB = goalPoint;
+                            moveable->coords_b = goalPoint;
                         } else
                         {
                             double delta_i = distance_i / distance * 4048;
                             double delta_j = distance_j / distance * 4048;
 
 
-                            moveable->coordsB.i = currentLocation.i + delta_i;
-                            moveable->coordsB.j = currentLocation.j + delta_j;
+                            moveable->coords_b.i = currentLocation.i + delta_i;
+                            moveable->coords_b.j = currentLocation.j + delta_j;
                         }
                     }
             }
 
         }
 
-        moveables->useCoordsA = false;
+        moveables->use_coords_a = false;
         return bbSuccess;
     } else {
 
@@ -99,13 +104,13 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
             {
             case bbMoveableType_Unused:
 
-                moveable->coordsA.i = moveable->coordsB.i;
-                moveable->coordsA.j = moveable->coordsB.j;
+                moveable->coords_a.i = moveable->coords_b.i;
+                moveable->coords_a.j = moveable->coords_b.j;
                 continue;
             case bbMoveableType_Player:
                 {
-                    bbMilliCoords currentLocation = moveable->coordsB;
-                    bbMilliCoords goalPoint = moveable->goal_point;
+                    bbMilliCoords currentLocation = moveable->coords_b;
+                    bbMilliCoords goalPoint = moveable->goalpoint;
 
 
                     //TODO don't use floats or doubles
@@ -116,22 +121,22 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
 
                     if (distance < 4048)
                     {
-                        moveable->coordsA = goalPoint;
+                        moveable->coords_a = goalPoint;
                     } else
                     {
                         double delta_i = distance_i / distance * 4048;
                         double delta_j = distance_j / distance * 4048;
 
 
-                        moveable->coordsA.i = currentLocation.i + delta_i;
-                        moveable->coordsA.j = currentLocation.j + delta_j;
+                        moveable->coords_a.i = currentLocation.i + delta_i;
+                        moveable->coords_a.j = currentLocation.j + delta_j;
                     }
                 }
             }
 
         }
 
-        moveables->useCoordsA = true;
+        moveables->use_coords_a = true;
         return bbSuccess;
     }
 }
@@ -145,17 +150,55 @@ bbFlag bbMoveables_update(bbMoveables* moveables)
 
     bbMilliCoords goalCoords = bbMapCoords_getMilliCoords(goalPoint);
 
-    moveables->moveables[0].goal_point = goalCoords;
+    moveables->moveables[0].goalpoint = goalCoords;
 
-    for (I32 i = 0; i < moveables->updatesPerFrame; i++)
+    for (I32 i = 0; i < moveables->updates_per_frame; i++)
     {
         bbMoveables_updateOnce(moveables);
     }
-    bbMapCoords MC;
-    if (moveables->useCoordsA)
-        MC = bbMilliCoords_getMapCoords(moveables->moveables[0].coordsA);
-    else MC = bbMilliCoords_getMapCoords(moveables->moveables[0].coordsB);
 
-    home.viewport_app.viewport.viewpoint = MC;
+    for (I32 i = 0; i < numMoveables; i++)
+    {
+        if (moveables->use_coords_a)
+            moveables->moveables[i].position = moveables->moveables[i].coords_a;
+        else
+            moveables->moveables[i].position = moveables->moveables[i].coords_b;
+
+
+        moveables->buffer_back->moveables[i].goalpoint = moveables->moveables[i].goalpoint;
+        moveables->buffer_back->moveables[i].position = moveables->moveables[i].position;
+    }
+
+    bbMutexLock(&moveables->buffer_mutex);
+
+    bbMoveables_snapshot* temp = moveables->buffer_back;
+    moveables->buffer_back = moveables->buffer_front;
+    moveables->buffer_front = temp;
+
+    bbMutexUnlock(&moveables->buffer_mutex);
+
+
+
+    return bbSuccess;
+}
+
+
+bbFlag bbMoveables_copyBuffer(bbMoveables* moveables, bbMoveables_snapshot* target)
+{
+    bbMutexLock(&moveables->buffer_mutex);
+
+
+    for (I32 i = 0; i < numMoveables; i++)
+    {
+        target->moveables[i].goalpoint = moveables->moveables[i].goalpoint;
+        target->moveables[i].position = moveables->moveables[i].position;
+    }
+
+    bbMutexUnlock(&moveables->buffer_mutex);
+
+    bbMapCoords MC = bbMilliCoords_getMapCoords(target->moveables[0].position);
+
+    home.viewport_app.viewport.viewpoint = MC;;
+
     return bbSuccess;
 }
