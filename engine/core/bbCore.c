@@ -230,6 +230,10 @@ bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
             bbInstruction_unapproachGoalpoint_fn(core, instruction);
             break;
 
+        case bbInstruction_unupdateMoveables:
+            bbHere()
+            bbInstruction_unupdateMoveables_fn(core, instruction);
+            break;
 
 #ifdef DEFINE_PONG
         case bbInstruction_unsetPaddleVelocity:

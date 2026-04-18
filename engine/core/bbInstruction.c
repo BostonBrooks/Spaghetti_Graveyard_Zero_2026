@@ -907,9 +907,6 @@ bbFlag bbInstruction_setViewpointIn_fn(bbCore* core, bbInstruction* instruction)
 
 bbFlag bbInstruction_setGoalpointIn_fn(bbCore* core, bbInstruction* instruction)
 {
-bbHere()
-
-    bbDebug("goal point = (%d,%d)\n", home.core.goalpoint.i, home.core.goalpoint.j);
 
     bbInstruction* undo_instruction;
     bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
@@ -919,7 +916,6 @@ bbHere()
 
     home.core.goalpoint = instruction->data.map_coords;
 
-    bbDebug("goal point = (%d,%d)\n", home.core.goalpoint.i, home.core.goalpoint.j);
 
     if (instruction->source == bbInstructionSource_internal)
     {
@@ -1113,13 +1109,28 @@ bbFlag bbInstruction_unsetViewpoint_fn(bbCore* core, bbInstruction* instruction)
 
 bbFlag bbInstruction_updateMoveables_fn(bbCore* core, bbInstruction* instruction)
 {
-    bbMoveables_update(&home.agents_app.movables);
 
 
     bbInstruction* undo_instruction;
     bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
     undo_instruction->type = bbInstruction_unupdateMoveables;
     undo_instruction->source = instruction->source;
+
+    bbMoveables_snapshot* snapshot;
+    bbHandle snapshot_handle;
+    bbVPool_alloc(home.agents_app.movables.snapshots, (void**)&snapshot);
+
+    bbVPool_reverseLookup(home.agents_app.movables.snapshots, (void*)snapshot, &snapshot_handle);
+
+    undo_instruction->snapshot = snapshot_handle;
+
+    for (I32 i = 0; i < numMoveables; i++)
+    {
+        snapshot->movables[i].position = home.agents_app.movables.moveables[i].coords_original;
+        snapshot->movables[i].goalpoint = home.agents_app.movables.moveables[i].goal_point;
+    }
+
+
 
     bbMoveables_update(&home.agents_app.movables);
 
@@ -1145,6 +1156,45 @@ bbFlag bbInstruction_updateMoveables_fn(bbCore* core, bbInstruction* instruction
         return bbSuccess;
     }
     bbNotHere()
+}
+
+bbFlag bbInstruction_unupdateMoveables_fn(bbCore* core, bbInstruction* instruction)
+{
+
+    bbMoveables_snapshot* snapshot;
+    bbVPool_lookup(home.agents_app.movables.snapshots, (void**)&snapshot, instruction->snapshot);
+
+    for (I32 i = 0; i < numMoveables; i++)
+    {
+        home.agents_app.movables.moveables[i].coords_original = snapshot->movables[i].position;
+        home.agents_app.movables.moveables[i].goal_point = snapshot->movables[i].goalpoint;
+    }
+
+    bbVPool_free(home.agents_app.movables.snapshots, snapshot);
+
+    if (instruction->source == bbInstructionSource_internal)
+    {
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_input)
+    {
+        bbInstruction* redo_instruction;
+        bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction, instruction->redo_instruction);
+        bbList_pushL(&core->do_stack, redo_instruction);
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_action)
+    {
+        bbAction* redo_action;
+
+        bbVPool_lookup(core->action_pool, (void**)&redo_action, instruction->redo_instruction);
+        bbList_sortL(&core->action_queue,(void*)redo_action);
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        return bbSuccess;
+    }
+
 
     bbNotHere()
 }

@@ -364,7 +364,7 @@ bbFlag bbNetworkApp_setViewpointOut(bbNetwork* network, bbMapCoords MC, U64 time
 }
 
 bbFlag bbNetworkApp_setGoalpointOut(bbNetwork* network, bbMapCoords MC, U64 time, U32 collision)
-{bbHere()
+{
     bbNetworkPacket* packet;
     bbThreadedQueue_alloc(&network->outbox, (void**)&packet);
     packet->type = PACKETTYPE_GOALPOINT;

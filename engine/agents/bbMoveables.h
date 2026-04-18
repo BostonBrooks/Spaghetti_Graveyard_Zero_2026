@@ -6,6 +6,7 @@
 #define BB_MOVEABLE_H
 #include "engine/geometry/bbCoordinates.h"
 #include "engine/logic/bbHandle.h"
+#include "engine/logic/bbVPool.h"
 
 
 #define numMoveables 256
@@ -20,11 +21,11 @@ typedef enum
 typedef struct
 {
     bbMoveable_type type;
-    bbMilliCoords coordsOriginal;
+    bbMilliCoords coords_original;
     bbMilliCoords coordsA;
     bbMilliCoords coordsB;
     //goalPoint could be a pointer to another avoidable, but for now it is updated once per frame
-    bbMilliCoords goalPoint;
+    bbMilliCoords goal_point;
 } bbMoveable;
 
 typedef struct
@@ -33,7 +34,20 @@ typedef struct
     bool useCoordsA;
     bbMoveable moveables[numMoveables];
 
+    bbVPool* snapshots;
+
 } bbMoveables;
+
+typedef struct
+{
+    bbMilliCoords position;
+    bbMilliCoords goalpoint;
+} bbMoveable_snapshot;
+
+typedef struct
+{
+    bbMoveable_snapshot movables[numMoveables];
+} bbMoveables_snapshot;
 
 bbFlag bbMoveables_init(bbMoveables* moveables);
 bbFlag bbMoveables_update(bbMoveables* moveables);

@@ -1,21 +1,25 @@
 #include "engine/agents/bbMoveables.h"
 
 #include "engine/data/bbHome.h"
+#include "engine/logic/bbBloatedPool.h"
 
 
 bbFlag bbMoveables_init(bbMoveables* moveables)
 {
     moveables->updatesPerFrame = 8;
     moveables->useCoordsA = true;
+
+    bbVPool_newBloated(&moveables->snapshots,sizeof(bbMoveables_snapshot),100,100);
+
     for (I32 i = 0; i < numMoveables; i++)
     {
         bbMoveable* moveable = &moveables->moveables[i];
 
         moveable->type = bbMoveableType_Unused;
 
-        moveable->coordsOriginal.i = 0;
-        moveable->coordsOriginal.j = 0;
-        moveable->coordsOriginal.k = 0;
+        moveable->coords_original.i = 0;
+        moveable->coords_original.j = 0;
+        moveable->coords_original.k = 0;
 
         moveable->coordsA.i = 0;
         moveable->coordsA.j = 0;
@@ -25,18 +29,18 @@ bbFlag bbMoveables_init(bbMoveables* moveables)
         moveable->coordsB.j = 0;
         moveable->coordsB.k = 0;
 
-        moveable->goalPoint.i = 0;
-        moveable->goalPoint.j = 0;
-        moveable->goalPoint.k = 0;
+        moveable->goal_point.i = 0;
+        moveable->goal_point.j = 0;
+        moveable->goal_point.k = 0;
 
 
 
     }
 
     moveables->moveables[0].type = bbMoveableType_Player;
-    moveables->moveables[0].goalPoint.i = 10000000;
-    moveables->moveables[0].goalPoint.j = 10000000;
-    moveables->moveables[0].goalPoint.k = 10000000;
+    moveables->moveables[0].goal_point.i = 10000000;
+    moveables->moveables[0].goal_point.j = 10000000;
+    moveables->moveables[0].goal_point.k = 10000000;
     return bbSuccess;
 }
 
@@ -58,7 +62,7 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
                 case bbMoveableType_Player:
                     {
                         bbMilliCoords currentLocation = moveable->coordsA;
-                        bbMilliCoords goalPoint = moveable->goalPoint;
+                        bbMilliCoords goalPoint = moveable->goal_point;
 
 
                         //TODO don't use floats or doubles
@@ -101,7 +105,7 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
             case bbMoveableType_Player:
                 {
                     bbMilliCoords currentLocation = moveable->coordsB;
-                    bbMilliCoords goalPoint = moveable->goalPoint;
+                    bbMilliCoords goalPoint = moveable->goal_point;
 
 
                     //TODO don't use floats or doubles
@@ -134,11 +138,14 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
 
 bbFlag bbMoveables_update(bbMoveables* moveables)
 {
+
+
+
     bbMapCoords goalPoint = home.core.goalpoint;
 
     bbMilliCoords goalCoords = bbMapCoords_getMilliCoords(goalPoint);
 
-    moveables->moveables[0].goalPoint = goalCoords;
+    moveables->moveables[0].goal_point = goalCoords;
 
     for (I32 i = 0; i < moveables->updatesPerFrame; i++)
     {
