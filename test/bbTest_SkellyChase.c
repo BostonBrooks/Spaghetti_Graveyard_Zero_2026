@@ -189,7 +189,6 @@ void* userinterface_thread(void* arg)
     {
 
 
-        bbMoveables_copyBuffer(&home.agents_app.movables, &moveables_snapshot);
 
         bbInput_poll(&home.UI.input, home.UI.window);
 
@@ -198,6 +197,8 @@ void* userinterface_thread(void* arg)
 
         bbUI_Inbox_check(&home.UI.inbox);
 
+
+        bbMoveables_copyBuffer(&home.agents_app.movables, &moveables_snapshot);
         bbUIApp_draw(&home.UI);
 
         if (home.clock2.is_running){
