@@ -53,10 +53,15 @@ bbFlag spawnDrawables(void)
     //home.shared.player = NULL;
 
     bbMapCoords MC;
-    MC.i = 10000;
-    MC.j = 10000;
+    MC.i = 0;
+    MC.j = 0;
     MC.k = 0;
+    bbUnit* cat;
 
+    for (I32 i = 0; i<numMoveables;i++)
+    {
+        bbUnit_newCat(&cat,home.viewport_app.units, &home.UI.graphics, MC, 1);
+    }
     //bbAgent* agent;
     //bbAgent_constructor(&agent, home.shared.agents, "PLAYER", "PLAYER", MC);
 

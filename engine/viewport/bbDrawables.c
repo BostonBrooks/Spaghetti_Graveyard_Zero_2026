@@ -108,7 +108,7 @@ bbFlag bbDrawablesPlus_draw(drawFuncClosure* cl,
                             I32 square_i_max, I32 square_j_max){
     bbDrawables* drawables = home.viewport_app.drawables;
     bbDrawables* mapicons = home.viewport_app.mapIcons;
-    //bbDrawables* units = home.viewport_app.units;
+    bbDrawables* units = home.viewport_app.units;
 
     bbNestedList list;
     bbNestedList_init(&list);
@@ -121,7 +121,7 @@ bbFlag bbDrawablesPlus_draw(drawFuncClosure* cl,
             I32 n = i + squares_i * j;
 
             bbNestedList_attach(&list, &drawables->squares[n].list);
-            //bbNestedList_attach(&list, &units->squares[n].list);
+            bbNestedList_attach(&list, &units->squares[n].list);
         }
 
     }
@@ -177,6 +177,8 @@ bbFlag bbDrawable_newTree(bbDrawable** self, bbDrawables* drawables,
     drawable->frames[1].handle.u64 = 8;
     drawable->frames[1].start_time =  -(rand()%6);
     drawable->frames[1].framerate = 1;
+    drawable->frames[0].offset.x = 0;
+    drawable->frames[0].offset.y = 0;
 
     for (I32 k = 2; k < FRAMES_PER_DRAWABLE; k++){
         drawable->frames[k].drawfunction = -1;

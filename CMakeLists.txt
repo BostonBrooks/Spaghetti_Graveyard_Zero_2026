@@ -286,6 +286,7 @@ add_executable(SkellyChase test/bbTest_SkellyChase.c
         engine/viewport/bbDrawables.c
         engine/viewport/bbMapIcons.c
         engine/viewport/bbViewport.c
+        engine/viewport/bbUnits.c
         engine/interthread/bbClock.c
         engine/interthread/bbClock2.c
         engine/network/bbNetworkTime.c
