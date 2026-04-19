@@ -4,9 +4,64 @@
 #include "engine/logic/bbBloatedPool.h"
 
 
+bbMilliCoords getForce(bbMoveables* moveables, bbMoveable* moveableA, bbMoveable* moveableB)
+{
+
+    //SpriteUnits[subject].Forces.i += (10000*idist)/dist/(dist - footprint)/(dist - footprint);
+    //from Spaghetti_Graveyard_Demos/OldNoTerrainDemo/06_Units.h
+
+    bbMilliCoords coords_a, coords_b, output;
+
+    if (moveables->use_coords_a)
+    {
+        coords_a = moveableA->coords_a;
+        coords_b = moveableB->coords_a;
+    } else
+    {
+        coords_a = moveableA->coords_b;
+        coords_b = moveableB->coords_b;
+    }
+
+
+    double delta_i = (coords_a.i - coords_b.i);
+    double delta_j = (coords_a.j - coords_b.j);
+    double distance = sqrt(delta_i * delta_i + delta_j * delta_j);
+    double distanceReduced = (distance - 0.2l*MILLS_PER_TILE)/10000.l;
+    double distanceReduced2 = distance/100000.l;
+
+    bbMilliCoords mC;
+    mC.i = ((delta_i)/(distanceReduced2*distanceReduced*distanceReduced));
+    mC.j = ((delta_j)/(distanceReduced2*distanceReduced*distanceReduced));
+    mC.k = 0;
+
+    return mC;
+}
+
+bbMilliCoords sumForces(bbMoveables* moveables, bbMoveable* moveableA)
+{
+    bbMoveable* moveableB;
+    bbMilliCoords single, total;
+    total.i = 0;
+    total.j = 0;
+    total.k = 0;
+
+    for (I32 i=0; i < numMoveables; i++)
+    {
+        moveableB = &moveables->moveables[i];
+        if (moveableB->type == bbMoveableType_Unused) continue;
+        if (moveableA == moveableB) continue;
+        single = getForce(moveables,moveableA, moveableB);
+        total.i += single.i;
+        total.j += single.j;
+
+    }
+    return total;
+}
+
+
 bbFlag bbMoveables_init(bbMoveables* moveables)
 {
-    moveables->updates_per_frame = 8;
+    moveables->updates_per_frame = 12;
     moveables->use_coords_a = true;
 
     bbVPool_newBloated(&moveables->snapshots,sizeof(bbMoveables_snapshot),10,10);
@@ -20,22 +75,22 @@ bbFlag bbMoveables_init(bbMoveables* moveables)
     {
         bbMoveable* moveable = &moveables->moveables[i];
 
-        moveable->type = bbMoveableType_Unused;
+        moveable->type = bbMoveableType_Cat;
 
-        moveable->position.i = 0;
-        moveable->position.j = 0;
+        moveable->position.i = rand() % MILLS_PER_SQUARE;
+        moveable->position.j = rand() % MILLS_PER_SQUARE;
         moveable->position.k = 0;
 
-        moveable->coords_a.i = 0;
-        moveable->coords_a.j = 0;
+        moveable->coords_a.i = moveable->position.i;
+        moveable->coords_a.j = moveable->position.j;
         moveable->coords_a.k = 0;
 
-        moveable->coords_b.i = 0;
-        moveable->coords_b.j = 0;
+        moveable->coords_b.i = moveable->position.i;
+        moveable->coords_b.j = moveable->position.j;
         moveable->coords_b.k = 0;
 
-        moveable->goalpoint.i = 0;
-        moveable->goalpoint.j = 0;
+        moveable->goalpoint.i = 11110;
+        moveable->goalpoint.j = 11110;
         moveable->goalpoint.k = 0;
 
 
@@ -46,6 +101,7 @@ bbFlag bbMoveables_init(bbMoveables* moveables)
     moveables->moveables[0].goalpoint.i = 10000000;
     moveables->moveables[0].goalpoint.j = 10000000;
     moveables->moveables[0].goalpoint.k = 10000000;
+
     return bbSuccess;
 }
 
@@ -87,8 +143,41 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
 
                             moveable->coords_b.i = currentLocation.i + delta_i;
                             moveable->coords_b.j = currentLocation.j + delta_j;
+
                         }
+                            moveable->position = moveable->coords_b;
                     }
+                break;
+                case bbMoveableType_Cat:
+                   {
+                    moveable->goalpoint = moveables->moveables[0].position;
+                        bbMilliCoords currentLocation = moveable->coords_a;
+                        bbMilliCoords goalPoint = moveable->goalpoint;
+
+
+                        //TODO don't use floats or doubles
+                        double distance_i = goalPoint.i - currentLocation.i;
+                        double distance_j = goalPoint.j - currentLocation.j;
+
+                        double distance = sqrt(distance_i * distance_i + distance_j * distance_j);
+
+                        if (distance < 3048)
+                        {
+                            moveable->coords_b = goalPoint;
+                        } else
+                        {
+                            double delta_i = distance_i / distance * 3048;
+                            double delta_j = distance_j / distance * 3048;
+
+                            bbMilliCoords forces = sumForces(moveables, moveable);
+
+                            moveable->coords_b.i = currentLocation.i + delta_i + forces.i;
+                            moveable->coords_b.j = currentLocation.j + delta_j + forces.j;
+                        }
+                            moveable->position = moveable->coords_b;
+
+                    }
+                break;
             }
 
         }
@@ -131,7 +220,40 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
                         moveable->coords_a.i = currentLocation.i + delta_i;
                         moveable->coords_a.j = currentLocation.j + delta_j;
                     }
+
+                    moveable->position = moveable->coords_a;
                 }
+                break;
+            case bbMoveableType_Cat:
+                {
+                    moveable->goalpoint = moveables->moveables[0].position;
+                    bbMilliCoords currentLocation = moveable->coords_b;
+                    bbMilliCoords goalPoint = moveable->goalpoint;
+
+
+                    //TODO don't use floats or doubles
+                    double distance_i = goalPoint.i - currentLocation.i;
+                    double distance_j = goalPoint.j - currentLocation.j;
+
+                    double distance = sqrt(distance_i * distance_i + distance_j * distance_j);
+
+                    if (distance < 3048)
+                    {
+                        moveable->coords_a = goalPoint;
+                    } else
+                    {
+                        double delta_i = distance_i / distance * 3048;
+                        double delta_j = distance_j / distance * 3048;
+
+                        bbMilliCoords forces = sumForces(moveables, moveable);
+
+                        moveable->coords_a.i = currentLocation.i + forces.i;
+                        moveable->coords_a.j = currentLocation.j + forces.j;
+                    }
+
+                    moveable->position = moveable->coords_a;
+                }
+                break;
             }
 
         }
@@ -140,6 +262,8 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
         return bbSuccess;
     }
 }
+
+
 
 bbFlag bbMoveables_update(bbMoveables* moveables)
 {

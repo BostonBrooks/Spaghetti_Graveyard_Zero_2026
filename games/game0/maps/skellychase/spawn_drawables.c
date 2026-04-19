@@ -60,7 +60,7 @@ bbFlag spawnDrawables(void)
 
     for (I32 i = 0; i<numMoveables;i++)
     {
-        bbUnit_newCat(&cat,home.viewport_app.units, &home.UI.graphics, MC, 1);
+        bbUnit_newCat(&cat,home.viewport_app.units, &home.UI.graphics, MC, i);
     }
     //bbAgent* agent;
     //bbAgent_constructor(&agent, home.shared.agents, "PLAYER", "PLAYER", MC);

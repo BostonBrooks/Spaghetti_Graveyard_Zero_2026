@@ -43,3 +43,29 @@ bbMapCoords MC, I32 index){
     *self = unit;
     return bbSuccess;
 }
+
+
+bbFlag bbUnits_consumeBuffer(bbUnits* units, bbHandle* unit_array, bbMoveables_snapshot* snapshot)
+{
+    bbHandle unit_handle;
+    bbVPool* pool = units->pool;
+    bbUnit* unit;
+    bbDrawable* drawable;
+    for (I32 i = 0; i < numMoveables; i++)
+    {
+        unit_handle = unit_array[i];
+        bbFlag flag =  bbVPool_lookup(pool, (void**)&unit, unit_handle);
+        //bbFlag_print(flag);
+        drawable = &unit->drawable;
+
+        if (drawable == NULL)
+        {
+bbHere()
+            continue;
+        }
+        bbMapCoords position = bbMilliCoords_getMapCoords(snapshot->moveables[i].position);
+
+        bbDrawable_setLocation(drawable, units,position);
+    }
+    return bbSuccess;
+}

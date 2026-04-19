@@ -9,12 +9,13 @@
 #include "engine/logic/bbVPool.h"
 
 
-#define numMoveables 256
+#define numMoveables 12
 
 typedef enum
 {
     bbMoveableType_Unused,
-    bbMoveableType_Player
+    bbMoveableType_Player,
+    bbMoveableType_Cat,
 
 } bbMoveable_type;
 
