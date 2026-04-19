@@ -114,3 +114,31 @@ bbMapCoords bbSquareCoords_getMapCoords(bbSquareCoords SC){
 	return MC;
 }
 
+bbMilliCoords bbMillicoords_interpolate(bbMilliCoords MC1, bbMilliCoords MC2, I64 T0, I64 T1, I64 T2)
+{
+
+    if (T2 == T0)
+    {
+        return MC2;
+    }
+
+    bbMilliCoords delta;
+    delta.i = MC2.i - MC1.i;
+    delta.j = MC2.j - MC1.j;
+    delta.k = MC2.k - MC1.k;
+
+    delta.i *= (T1 - T0);
+    delta.j *= (T1 - T0);
+    delta.k *= (T1 - T0);
+
+    delta.i /= (T2 - T0);
+    delta.j /= (T2 - T0);
+    delta.k /= (T2 - T0);
+
+    delta.i += MC1.i;
+    delta.j += MC1.j;
+    delta.k += MC1.k;
+
+    return delta;
+
+}

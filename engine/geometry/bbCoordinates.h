@@ -92,4 +92,6 @@ I32 bbScreenPoints_inScreenPointsRect(bbScreenPoints SP, bbScreenPointsRect rect
 
 //We need to convert mouse coords to map coords...
 
+bbMilliCoords bbMillicoords_interpolate(bbMilliCoords MC1, bbMilliCoords MC2, I64 T0, I64 T1, I64 T2);
+
 #endif // BB_COORDINATES_H

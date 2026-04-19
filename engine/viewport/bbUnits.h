@@ -6,13 +6,13 @@ typedef struct
     bbDrawable drawable;
 
     //the following are used for interpolation
-    bbMapCoords prev_coords;
+    bbMilliCoords prev_coords;
     U64 prev_time;
-    bbMapCoords prev_goalpoint;
+    bbMilliCoords prev_goalpoint;
 
-    bbMapCoords next_coords;
+    bbMilliCoords next_coords;
     U64 next_time;
-    bbMapCoords next_goalpoint;
+    bbMilliCoords next_goalpoint;
 
 
 } bbUnit;

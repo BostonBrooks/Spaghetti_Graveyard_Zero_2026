@@ -292,6 +292,7 @@ bbFlag bbMoveables_update(bbMoveables* moveables)
 
         moveables->buffer_back->moveables[i].goalpoint = moveables->moveables[i].goalpoint;
         moveables->buffer_back->moveables[i].position = moveables->moveables[i].position;
+        moveables->buffer_back->time = home.core.clock2_handle.map_tick;
     }
 
     bbMutexLock(&moveables->buffer_mutex);
@@ -318,16 +319,15 @@ bbFlag bbMoveables_copyBuffer(bbMoveables* moveables, bbMoveables_snapshot* targ
     {
         for (I32 i = 0; i < numMoveables; i++)
         {
-            target->moveables[i].goalpoint = moveables->moveables[i].goalpoint;
-            target->moveables[i].position = moveables->moveables[i].position;
+            target->moveables[i].goalpoint = moveables->buffer_front->moveables[i].goalpoint;
+            target->moveables[i].position = moveables->buffer_front->moveables[i].position;
         }
+        target->time = moveables->buffer_front->time;
         moveables->buffer_fresh = false;
     }
     bbMutexUnlock(&moveables->buffer_mutex);
 
-    bbMapCoords MC = bbMilliCoords_getMapCoords(target->moveables[0].position);
 
-    home.viewport_app.viewport.viewpoint = MC;;
 
     return bbSuccess;
 }

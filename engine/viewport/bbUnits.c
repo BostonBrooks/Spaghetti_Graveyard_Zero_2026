@@ -85,36 +85,55 @@ bbMapCoords MC, I32 index){
 }
 
 
+
 bbFlag bbUnits_consumeBuffer(bbUnits* units, bbHandle* unit_array, bbMoveables_snapshot* snapshot)
 {
     bbHandle unit_handle;
     bbVPool* pool = units->pool;
     bbUnit* unit;
     bbDrawable* drawable;
+
+
+
     for (I32 i = 0; i < numMoveables; i++)
     {
+
         unit_handle = unit_array[i];
         bbFlag flag =  bbVPool_lookup(pool, (void**)&unit, unit_handle);
-        //bbFlag_print(flag);
         drawable = &unit->drawable;
+
 
         if (drawable == NULL)
         {
-bbHere()
-            continue;
+            bbHere()
+                        continue;
         }
-        bbMapCoords position = bbMilliCoords_getMapCoords(snapshot->moveables[i].position);
-        bbMilliCoords m_position = snapshot->moveables[i].position;
-        bbMilliCoords m_goal = snapshot->moveables[i].goalpoint;
 
-        I32 delta_i = m_goal.i - m_position.i;
-        I32 delta_j = m_goal.j - m_position.j;
+        if (snapshot->time >= unit->next_time)
+        {
+            unit->prev_coords = unit->next_coords;
+            unit->prev_goalpoint = unit->next_goalpoint;
+            unit->prev_time = unit->next_time;
+
+            unit->next_coords = snapshot->moveables[i].position;
+            unit->next_goalpoint = snapshot->moveables[i].goalpoint;
+            unit->next_time = snapshot->time;
+            I32 delta_i = unit->next_goalpoint.i - unit->prev_coords.i;
+            I32 delta_j = unit->next_goalpoint.j - unit->prev_coords.j;
+            float rotation = atan2(delta_i, delta_j);
+            drawable->rotation = rotation;
+        }
+        bbMilliCoords position
+            = bbMillicoords_interpolate(unit->prev_coords, unit->next_coords, unit->prev_time,
+                home.UI.clock2_handle.map_tick, unit->next_time);
+
+        bbMapCoords MC = bbMilliCoords_getMapCoords(position);
+
+        if (i==0) home.viewport_app.viewport.viewpoint = MC;;
+
+        bbDrawable_setLocation(drawable, units,MC);
 
 
-        float rotation = atan2(delta_i, delta_j);
-
-        drawable->rotation = rotation;
-        bbDrawable_setLocation(drawable, units,position);
     }
     return bbSuccess;
 }

@@ -32,6 +32,7 @@ typedef struct
 
 typedef struct
 {
+    U64 time;
     bbMoveable_snapshot moveables[numMoveables];
 } bbMoveables_snapshot;
 
