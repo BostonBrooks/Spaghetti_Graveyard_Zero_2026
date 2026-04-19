@@ -18,12 +18,12 @@ bbFlag bbUIApp_spawnWidgets(bbUIApp* app)
                      "(UN)PAUSE",
                      (bbScreenPoints){12*SCREEN_PPP,13*SCREEN_PPP});
 
-    bbWidget_constructor(NULL,
+    /*bbWidget_constructor(NULL,
                      &home.UI.widgets,
                      "CLOCK",
                      "LAYOUT",
                      "CLOCK",
                      (bbScreenPoints){150*SCREEN_PPP,80*SCREEN_PPP});
-
+*/
     return bbSuccess;
 }

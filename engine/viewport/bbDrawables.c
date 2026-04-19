@@ -137,11 +137,6 @@ bbFlag bbDrawablesPlus_draw(drawFuncClosure* cl,
 
     bbNestedList_map(&list, bbDrawable_drawFunc, cl);
 
-/* The following gives "pool->inUse = 0", so we do not have a memory leak
-    bbVPool* vPool = list.list.pool;
-    bbLeanPool* leanPool = vPool->pool;
-    bbDebug("pool->inUse = %d\n", leanPool->inUse);
-*/
 
     return bbSuccess;
 }
@@ -256,37 +251,7 @@ bbFlag bbDrawable_newSkeleton(bbDrawable** self, bbDrawables* drawables,
     return bbSuccess;
 }
 
-bbFlag bbDrawable_newFire(bbDrawable** self, bbDrawables* drawables,
-                         bbGraphicsApp* graphics, bbMapCoords MC)
-{
-    bbVPool* pool = drawables->pool;
-    bbSquareCoords SC = bbMapCoords_getSquareCoords(MC);
-    I32 index = bbDrawables_getSquareIndex(SC.i, SC.j, drawables->squares_i);
-    bbDrawableSquare drawableSquare = drawables->squares[index];
 
-    bbDrawable* drawable;
-    bbVPool_alloc(pool, (void**)&drawable);
-    drawable->coords = MC;
-
-    bbHandle drawfunctionHandle;
-
-
-
-    bbDictionary_lookup(graphics->drawfunctions->dictionary,
-                        "DRAWABLESPRITE",
-                        &drawfunctionHandle);
-
-    drawable->frames[0].drawfunction = drawfunctionHandle.u64;
-    drawable->frames[0].handle.u64 = 142;
-
-    for (I32 k = 1; k < FRAMES_PER_DRAWABLE; k++){
-        drawable->frames[k].drawfunction = -1;
-    }
-
-    bbList_sortL(&drawableSquare.list, drawable);
-    *self = drawable;
-    return bbSuccess;
-}
 //TODO what if MC or drawable is out of bounds?
 //TODO it might be faster, if the drawable stays in the same square,
 //that we move the drawable up or down in the list instead of removing it
