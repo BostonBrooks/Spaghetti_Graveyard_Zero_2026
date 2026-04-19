@@ -11,8 +11,9 @@
 #include "games/game0/maps/skellychase/drawfunctions/clock.h"
 #include "games/game0/maps/skellychase/drawfunctions/viewport.h"
 #include "games/game0/maps/skellychase/drawfunctions/eye_candy.h"
-#include "games/game0/maps/skellychase/drawfunctions/drawable_animation.h"
 #include "games/game0/maps/skellychase/drawfunctions/map_icon.h"
+#include "games/game0/maps/skellychase/drawfunctions/drawable_animation.h"
+#include "games/game0/maps/skellychase/drawfunctions/drawable_sprite.h"
 
 #define NUM_DRAWFUNCTIONS 69
 
@@ -92,7 +93,10 @@ bbFlag bbDrawfunctions_new(bbDrawfunctions** drawfunctions){
     handle.u64 = 9;
     bbDictionary_add(functions->dictionary, "MAPICON_TEST", handle);
 
-    *drawfunctions = functions;
+    functions->functions[10] = bbDF_drawableSprite;
+    handle.u64 = 10;
+    bbDictionary_add(functions->dictionary, "DRAWABLE_SPRITE", handle);
+
 
     *drawfunctions = functions;
     return bbSuccess;

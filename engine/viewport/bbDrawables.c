@@ -163,14 +163,14 @@ bbFlag bbDrawable_newTree(bbDrawable** self, bbDrawables* drawables,
     bbHandle drawfunctionHandle;
 
     bbDictionary_lookup(graphics->drawfunctions->dictionary,
-                        "DRAWABLESPRITE",
+                        "DRAWABLE_SPRITE",
                         &drawfunctionHandle);
 
     drawable->frames[0].drawfunction = drawfunctionHandle.u64;
     drawable->frames[0].handle.u64 = 134;
 
     bbDictionary_lookup(graphics->drawfunctions->dictionary,
-                        "DRAWABLEANIMATION",
+                        "DRAWABLE_ANIMATION",
                         &drawfunctionHandle);
 
     drawable->frames[1].drawfunction = drawfunctionHandle.u64;

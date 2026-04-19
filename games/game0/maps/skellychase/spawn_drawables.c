@@ -19,7 +19,7 @@ bbFlag spawnDrawables(void)
             MC.j += rand()%(100 * POINTS_PER_PIXEL);
 
             bbDrawable* drawable;
-            bbDrawable_newCat(&drawable, app->drawables, &home.UI.graphics,
+            bbDrawable_newTree(&drawable, app->drawables, &home.UI.graphics,
                                MC);
             bbMapIcon* mapicon;
             bbMapIcon_new(&mapicon, app->mapIcons,&home.UI.graphics, MC);
