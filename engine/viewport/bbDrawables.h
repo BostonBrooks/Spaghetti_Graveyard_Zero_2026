@@ -76,6 +76,7 @@ bbFlag bbDrawable_newFire(bbDrawable** self, bbDrawables* drawables,
 bbFlag bbDrawable_setLocation(bbDrawable* self, bbDrawables* drawables,
                               bbMapCoords MC);
 
-
+bbFlag bbDrawable_newSkeleton(bbDrawable** self, bbDrawables* drawables,
+                          bbGraphicsApp* graphics, bbMapCoords MC);
 #endif //BBDRAWABLES_H
 

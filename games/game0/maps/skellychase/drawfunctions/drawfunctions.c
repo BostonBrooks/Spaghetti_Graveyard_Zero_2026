@@ -97,6 +97,12 @@ bbFlag bbDrawfunctions_new(bbDrawfunctions** drawfunctions){
     handle.u64 = 10;
     bbDictionary_add(functions->dictionary, "DRAWABLE_SPRITE", handle);
 
+    functions->functions[11] = bbDF_drawableAnimationWAngle;
+    handle.u64 = 11;
+    bbDictionary_add(functions->dictionary, "DRAWABLE_ANIMATION_ANGLE", handle);
+
+
+
 
     *drawfunctions = functions;
     return bbSuccess;

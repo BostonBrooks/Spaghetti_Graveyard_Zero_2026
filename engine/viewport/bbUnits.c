@@ -44,6 +44,46 @@ bbMapCoords MC, I32 index){
     return bbSuccess;
 }
 
+bbFlag bbUnit_newSkeleton(bbUnit** self,bbUnits* units, bbGraphicsApp* graphics,
+bbMapCoords MC, I32 index){
+
+    bbVPool* pool = units->pool;
+    bbSquareCoords SC = bbMapCoords_getSquareCoords(MC);
+    I32 square_index = bbDrawables_getSquareIndex(SC.i, SC.j, units->squares_i);
+    bbUnitSquare unitSquare = units->squares[square_index];
+
+    bbUnit* unit;
+    bbFlag flag = bbVPool_alloc(pool, (void**)&unit);
+
+    bbHandle unit_handle;
+    bbVPool_reverseLookup(pool, unit, &unit_handle);
+
+    unit->drawable.coords = MC;
+    bbHandle drawfunctionHandle;
+
+
+
+    bbDictionary_lookup(graphics->drawfunctions->dictionary,
+                        "DRAWABLE_ANIMATION_ANGLE",
+                        &drawfunctionHandle);
+
+    unit->drawable.frames[0].drawfunction = drawfunctionHandle.u64;
+    unit->drawable.frames[0].handle.u64 = 9;
+    unit->drawable.frames[0].start_time=  -(rand()%6);
+    unit->drawable.frames[0].framerate = 1;
+    unit->drawable.frames[0].offset.x = 0;
+    unit->drawable.frames[0].offset.y = 0;
+
+    for (I32 k = 1; k < FRAMES_PER_DRAWABLE; k++){
+        unit->drawable.frames[k].drawfunction = -1;
+    }
+
+    home.viewport_app.unit_array[index] = unit_handle;
+    bbList_sortL(&unitSquare.list, unit);
+    *self = unit;
+    return bbSuccess;
+}
+
 
 bbFlag bbUnits_consumeBuffer(bbUnits* units, bbHandle* unit_array, bbMoveables_snapshot* snapshot)
 {
@@ -64,7 +104,16 @@ bbHere()
             continue;
         }
         bbMapCoords position = bbMilliCoords_getMapCoords(snapshot->moveables[i].position);
+        bbMilliCoords m_position = snapshot->moveables[i].position;
+        bbMilliCoords m_goal = snapshot->moveables[i].goalpoint;
 
+        I32 delta_i = m_goal.i - m_position.i;
+        I32 delta_j = m_goal.j - m_position.j;
+
+
+        float rotation = atan2(delta_i, delta_j);
+
+        drawable->rotation = rotation;
         bbDrawable_setLocation(drawable, units,position);
     }
     return bbSuccess;

@@ -4,6 +4,8 @@
 
 #ifndef BB_MOVEABLE_H
 #define BB_MOVEABLE_H
+#include <stdatomic.h>
+
 #include "engine/geometry/bbCoordinates.h"
 #include "engine/logic/bbHandle.h"
 #include "engine/logic/bbVPool.h"
@@ -60,6 +62,8 @@ typedef struct
 
     bbMoveables_snapshot* buffer_front;
     bbMoveables_snapshot* buffer_back;
+
+    bool buffer_fresh;
 
 } bbMoveables;
 

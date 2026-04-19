@@ -68,6 +68,7 @@ bbFlag bbMoveables_init(bbMoveables* moveables)
 
     moveables->buffer_back = &moveables->buffer_a;
     moveables->buffer_front = &moveables->buffer_b;
+    moveables->buffer_fresh = true;
 
     pthread_mutex_init(&moveables->buffer_mutex,NULL);
 
@@ -299,6 +300,8 @@ bbFlag bbMoveables_update(bbMoveables* moveables)
     moveables->buffer_back = moveables->buffer_front;
     moveables->buffer_front = temp;
 
+    moveables->buffer_fresh = true;
+
     bbMutexUnlock(&moveables->buffer_mutex);
 
 
@@ -311,13 +314,15 @@ bbFlag bbMoveables_copyBuffer(bbMoveables* moveables, bbMoveables_snapshot* targ
 {
     bbMutexLock(&moveables->buffer_mutex);
 
-
-    for (I32 i = 0; i < numMoveables; i++)
+    if (moveables->buffer_fresh == true)
     {
-        target->moveables[i].goalpoint = moveables->moveables[i].goalpoint;
-        target->moveables[i].position = moveables->moveables[i].position;
+        for (I32 i = 0; i < numMoveables; i++)
+        {
+            target->moveables[i].goalpoint = moveables->moveables[i].goalpoint;
+            target->moveables[i].position = moveables->moveables[i].position;
+        }
+        moveables->buffer_fresh = false;
     }
-
     bbMutexUnlock(&moveables->buffer_mutex);
 
     bbMapCoords MC = bbMilliCoords_getMapCoords(target->moveables[0].position);

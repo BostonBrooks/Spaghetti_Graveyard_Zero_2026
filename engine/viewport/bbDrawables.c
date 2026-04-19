@@ -222,6 +222,40 @@ bbFlag bbDrawable_newCat(bbDrawable** self, bbDrawables* drawables,
     return bbSuccess;
 }
 
+bbFlag bbDrawable_newSkeleton(bbDrawable** self, bbDrawables* drawables,
+                          bbGraphicsApp* graphics, bbMapCoords MC)
+{
+    bbVPool* pool = drawables->pool;
+    bbSquareCoords SC = bbMapCoords_getSquareCoords(MC);
+    I32 index = bbDrawables_getSquareIndex(SC.i, SC.j, drawables->squares_i);
+    bbDrawableSquare drawableSquare = drawables->squares[index];
+
+    bbDrawable* drawable;
+    bbVPool_alloc(pool, (void**)&drawable);
+    drawable->coords = MC;
+
+    bbHandle drawfunctionHandle;
+
+
+
+    bbDictionary_lookup(graphics->drawfunctions->dictionary,
+                        "DRAWABLE_ANIMATION",
+                        &drawfunctionHandle);
+
+    drawable->frames[0].drawfunction = drawfunctionHandle.u64;
+    drawable->frames[0].handle.u64 = 9;
+    drawable->frames[0].start_time =  -(rand()%6);
+    drawable->frames[0].framerate = 1;
+
+    for (I32 k = 1; k < FRAMES_PER_DRAWABLE; k++){
+        drawable->frames[k].drawfunction = -1;
+    }
+
+    bbList_sortL(&drawableSquare.list, drawable);
+    *self = drawable;
+    return bbSuccess;
+}
+
 bbFlag bbDrawable_newFire(bbDrawable** self, bbDrawables* drawables,
                          bbGraphicsApp* graphics, bbMapCoords MC)
 {
