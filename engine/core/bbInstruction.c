@@ -1106,7 +1106,7 @@ bbFlag bbInstruction_unsetViewpoint_fn(bbCore* core, bbInstruction* instruction)
     bbNotHere()
 }
 
-
+#ifndef DEFINE_PONG
 bbFlag bbInstruction_updateMoveables_fn(bbCore* core, bbInstruction* instruction)
 {
 
@@ -1198,3 +1198,5 @@ bbFlag bbInstruction_unupdateMoveables_fn(bbCore* core, bbInstruction* instructi
 
     bbNotHere()
 }
+
+#endif
