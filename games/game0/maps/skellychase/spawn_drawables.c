@@ -53,8 +53,8 @@ bbFlag spawnDrawables(void)
     //home.shared.player = NULL;
 
     bbMapCoords MC;
-    MC.i = 0;
-    MC.j = 0;
+    MC.i = 50;
+    MC.j = 100;
     MC.k = 0;
     bbUnit* cat;
 
@@ -63,6 +63,8 @@ bbFlag spawnDrawables(void)
 
     for (I32 i = 1; i<numMoveables;i++)
     {
+        MC.i = i*POINTS_PER_TILE;
+        MC.j = i*POINTS_PER_TILE;
         bbUnit_newSkeleton(&cat,home.viewport_app.units, &home.UI.graphics, MC, i);
     }
     //bbAgent* agent;
