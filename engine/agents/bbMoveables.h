@@ -27,8 +27,8 @@ typedef enum
 
 typedef struct
 {
-    bbMilliCoords position;
-    bbMilliCoords goalpoint;
+    bbMapCoords position;
+    bbMapCoords goalpoint;
 } bbMoveable_snapshot;
 
 typedef struct
@@ -40,11 +40,11 @@ typedef struct
 typedef struct
 {
     bbMoveable_type type;
-    bbMilliCoords position;
+    bbMapCoords position;
     bbMilliCoords coords_a;
     bbMilliCoords coords_b;
     //goalPoint could be a pointer to another avoidable, but for now it is updated once per frame
-    bbMilliCoords goalpoint;
+    bbMapCoords goalpoint;
 } bbMoveable;
 
 typedef struct

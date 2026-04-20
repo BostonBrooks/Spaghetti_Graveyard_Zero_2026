@@ -124,18 +124,15 @@ bbFlag bbUnits_consumeBuffer(bbUnits* units, bbHandle* unit_array, bbMoveables_s
             drawable->rotation = rotation;
         }
 
-        bbMilliCoords position
-            = bbMillicoords_interpolate(unit->prev_coords, unit->next_coords, unit->prev_time,
+        bbMapCoords position
+            = bbMapCoords_interpolate(unit->prev_coords, unit->next_coords, unit->prev_time,
                 home.UI.clock2_handle.map_tick, unit->next_time);
 
-        bbMapCoords MC = bbMilliCoords_getMapCoords(position);
-
-        if (i==0) home.viewport_app.viewport.viewpoint = MC;
-
+        if (i==0) home.viewport_app.viewport.viewpoint = position;
         //TODO add list of out of bounds units
-        if (MC.i<0 || MC.j < 0) continue;
-        if (MC.i >= POINTS_PER_MAP || MC.j >= POINTS_PER_MAP) continue;
-        bbDrawable_setLocation(drawable, units,MC);
+        if (position.i<0 || position.j < 0) continue;
+        if (position.i >= POINTS_PER_MAP || position.j >= POINTS_PER_MAP) continue;
+        bbDrawable_setLocation(drawable, units,position);
 
 
     }

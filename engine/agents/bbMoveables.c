@@ -78,20 +78,15 @@ bbFlag bbMoveables_init(bbMoveables* moveables)
 
         moveable->type = bbMoveableType_Cat;
 
-        moveable->position.i = i*MILLS_PER_TILE;
-        moveable->position.j = i*MILLS_PER_TILE;
+        moveable->position.i = i*PIXELS_PER_TILE;
+        moveable->position.j = i*PIXELS_PER_TILE;
         moveable->position.k = 0;
 
-        moveable->coords_a.i = moveable->position.i;
-        moveable->coords_a.j = moveable->position.j;
-        moveable->coords_a.k = 0;
+        moveable->coords_a = bbMapCoords_getMilliCoords(moveable->position);
+        moveable->coords_b = bbMapCoords_getMilliCoords(moveable->position);
 
-        moveable->coords_b.i = moveable->position.i;
-        moveable->coords_b.j = moveable->position.j;
-        moveable->coords_b.k = 0;
-
-        moveable->goalpoint.i = 11110;
-        moveable->goalpoint.j = 11110;
+        moveable->goalpoint.i = POINTS_PER_SQUARE;
+        moveable->goalpoint.j = POINTS_PER_SQUARE;
         moveable->goalpoint.k = 0;
 
 
@@ -101,7 +96,7 @@ bbFlag bbMoveables_init(bbMoveables* moveables)
     moveables->moveables[0].type = bbMoveableType_Player;
     moveables->moveables[0].goalpoint.i = 10000000;
     moveables->moveables[0].goalpoint.j = 10000000;
-    moveables->moveables[0].goalpoint.k = 10000000;
+    moveables->moveables[0].goalpoint.k = 0;
 
     return bbSuccess;
 }
@@ -124,7 +119,8 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
                 case bbMoveableType_Player:
                     {
                         bbMilliCoords currentLocation = moveable->coords_a;
-                        bbMilliCoords goalPoint = moveable->goalpoint;
+                        bbMilliCoords goalPoint
+                           = bbMapCoords_getMilliCoords(moveable->goalpoint);
 
 
                         //TODO don't use floats or doubles
@@ -146,14 +142,15 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
                             moveable->coords_b.j = currentLocation.j + delta_j;
 
                         }
-                            moveable->position = moveable->coords_b;
+                           // moveable->position = moveable->coords_b;
                     }
                 break;
                 case bbMoveableType_Cat:
                    {
                     moveable->goalpoint = moveables->moveables[0].position;
                         bbMilliCoords currentLocation = moveable->coords_a;
-                        bbMilliCoords goalPoint = moveable->goalpoint;
+                        bbMilliCoords goalPoint
+                           = bbMapCoords_getMilliCoords(moveable->goalpoint);
 
 
                         //TODO don't use floats or doubles
@@ -175,7 +172,6 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
                             moveable->coords_b.i = currentLocation.i + delta_i + forces.i;
                             moveable->coords_b.j = currentLocation.j + delta_j + forces.j;
                         }
-                            moveable->position = moveable->coords_b;
 
                     }
                 break;
@@ -200,7 +196,8 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
             case bbMoveableType_Player:
                 {
                     bbMilliCoords currentLocation = moveable->coords_b;
-                    bbMilliCoords goalPoint = moveable->goalpoint;
+                    bbMilliCoords goalPoint
+                           = bbMapCoords_getMilliCoords(moveable->goalpoint);
 
 
                     //TODO don't use floats or doubles
@@ -222,14 +219,14 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
                         moveable->coords_a.j = currentLocation.j + delta_j;
                     }
 
-                    moveable->position = moveable->coords_a;
                 }
                 break;
             case bbMoveableType_Cat:
                 {
                     moveable->goalpoint = moveables->moveables[0].position;
                     bbMilliCoords currentLocation = moveable->coords_b;
-                    bbMilliCoords goalPoint = moveable->goalpoint;
+                    bbMilliCoords goalPoint
+                           = bbMapCoords_getMilliCoords(moveable->goalpoint);
 
 
                     //TODO don't use floats or doubles
@@ -252,7 +249,6 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
                         moveable->coords_a.j = currentLocation.j + delta_j + forces.j;
                     }
 
-                    moveable->position = moveable->coords_a;
                 }
                 break;
             }
@@ -269,13 +265,12 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
 bbFlag bbMoveables_update(bbMoveables* moveables)
 {
 
+    moveables->moveables[0].goalpoint = home.core.goalpoint;
 
-
-    bbMapCoords goalPoint = home.core.goalpoint;
-
-    bbMilliCoords goalCoords = bbMapCoords_getMilliCoords(goalPoint);
-
-    moveables->moveables[0].goalpoint = goalCoords;
+    for (I32 i = 1; i < numMoveables; i++)
+    {
+        moveables->moveables[i].goalpoint = moveables->moveables[0].position;
+    }
 
     for (I32 i = 0; i < moveables->updates_per_frame; i++)
     {
@@ -285,9 +280,11 @@ bbFlag bbMoveables_update(bbMoveables* moveables)
     for (I32 i = 0; i < numMoveables; i++)
     {
         if (moveables->use_coords_a)
-            moveables->moveables[i].position = moveables->moveables[i].coords_a;
+            moveables->moveables[i].position
+            = bbMilliCoords_getMapCoords(moveables->moveables[i].coords_a);
         else
-            moveables->moveables[i].position = moveables->moveables[i].coords_b;
+            moveables->moveables[i].position
+            = bbMilliCoords_getMapCoords(moveables->moveables[i].coords_b);
 
 
         moveables->buffer_back->moveables[i].goalpoint = moveables->moveables[i].goalpoint;
