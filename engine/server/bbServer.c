@@ -126,7 +126,7 @@ int main(void){
 
                 bbNetworkPacket_toStruct(packet, &packetStruct);
 
-                bbPacketType_print(packetStruct.type);
+                //bbPacketType_print(packetStruct.type);
 
                 if (packetStruct.type == PACKETTYPE_SETGOALPOINT)
                 {

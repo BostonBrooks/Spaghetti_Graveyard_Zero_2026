@@ -267,9 +267,15 @@ bbFlag bbMoveables_update(bbMoveables* moveables)
 
     moveables->moveables[0].goalpoint = home.core.goalpoint;
 
+    moveables->moveables[0].coords_a = bbMapCoords_getMilliCoords(moveables->moveables[0].position);
+    moveables->moveables[0].coords_b = bbMapCoords_getMilliCoords(moveables->moveables[0].position);
+
     for (I32 i = 1; i < numMoveables; i++)
     {
         moveables->moveables[i].goalpoint = moveables->moveables[0].position;
+
+        moveables->moveables[i].coords_a = bbMapCoords_getMilliCoords(moveables->moveables[i].position);
+        moveables->moveables[i].coords_b = bbMapCoords_getMilliCoords(moveables->moveables[i].position);
     }
 
     for (I32 i = 0; i < moveables->updates_per_frame; i++)
