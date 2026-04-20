@@ -133,6 +133,7 @@ bbFlag bbUnits_consumeBuffer(bbUnits* units, bbHandle* unit_array, bbMoveables_s
 
         //TODO add list of out of bounds units
         if (MC.i<0 || MC.j < 0) continue;
+        if (MC.i >= POINTS_PER_MAP || MC.j >= POINTS_PER_MAP) continue;
         bbDrawable_setLocation(drawable, units,MC);
 
 
