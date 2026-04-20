@@ -4,6 +4,7 @@
 
 #ifndef BB_MOVEABLE_H
 #define BB_MOVEABLE_H
+#include <pthread.h>
 #include <stdatomic.h>
 
 #include "engine/geometry/bbCoordinates.h"
