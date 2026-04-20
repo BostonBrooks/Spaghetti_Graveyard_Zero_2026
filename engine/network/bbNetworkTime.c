@@ -255,8 +255,8 @@ bbFlag bbNetworkTime_waitInt(bbNetworkTime* network_time, U64 tick)
         return bbSuccess;
     }
 
-    //bbDebug("current_time = %lld, target_time = %lld, wait_time = %lld\n",
-    //      current_time, target_time, wait_time);
+    //bbDebug("current_time = %f, target_time = %f, wait_time = %f\n",
+    //      current_time/1000000.f, target_time/1000000.f, wait_time/1000000.f);
     sfSleep(sfMicroseconds(wait_time));
 
     network_time->network_tick_time = tick;
