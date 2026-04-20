@@ -78,8 +78,8 @@ bbFlag bbMoveables_init(bbMoveables* moveables)
 
         moveable->type = bbMoveableType_Cat;
 
-        moveable->position.i = rand() % MILLS_PER_SQUARE;
-        moveable->position.j = rand() % MILLS_PER_SQUARE;
+        moveable->position.i = i*MILLS_PER_TILE;
+        moveable->position.j = i*MILLS_PER_TILE;
         moveable->position.k = 0;
 
         moveable->coords_a.i = moveable->position.i;
@@ -133,13 +133,13 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
 
                         double distance = sqrt(distance_i * distance_i + distance_j * distance_j);
 
-                        if (distance < 4048)
+                        if (distance < 6048)
                         {
                             moveable->coords_b = goalPoint;
                         } else
                         {
-                            double delta_i = distance_i / distance * 4048;
-                            double delta_j = distance_j / distance * 4048;
+                            double delta_i = distance_i / distance * 6048;
+                            double delta_j = distance_j / distance * 6048;
 
 
                             moveable->coords_b.i = currentLocation.i + delta_i;
@@ -162,13 +162,13 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
 
                         double distance = sqrt(distance_i * distance_i + distance_j * distance_j);
 
-                        if (distance < 3048)
+                        if (distance < 4548)
                         {
                             moveable->coords_b = goalPoint;
                         } else
                         {
-                            double delta_i = distance_i / distance * 3048;
-                            double delta_j = distance_j / distance * 3048;
+                            double delta_i = distance_i / distance * 4548;
+                            double delta_j = distance_j / distance * 4548;
 
                             bbMilliCoords forces = sumForces(moveables, moveable);
 
@@ -209,13 +209,13 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
 
                     double distance = sqrt(distance_i * distance_i + distance_j * distance_j);
 
-                    if (distance < 4048)
+                    if (distance < 6048)
                     {
                         moveable->coords_a = goalPoint;
                     } else
                     {
-                        double delta_i = distance_i / distance * 4048;
-                        double delta_j = distance_j / distance * 4048;
+                        double delta_i = distance_i / distance * 6048;
+                        double delta_j = distance_j / distance * 6048;
 
 
                         moveable->coords_a.i = currentLocation.i + delta_i;
@@ -238,18 +238,18 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
 
                     double distance = sqrt(distance_i * distance_i + distance_j * distance_j);
 
-                    if (distance < 3048)
+                    if (distance < 4548)
                     {
                         moveable->coords_a = goalPoint;
                     } else
                     {
-                        double delta_i = distance_i / distance * 3048;
-                        double delta_j = distance_j / distance * 3048;
+                        double delta_i = distance_i / distance * 4548;
+                        double delta_j = distance_j / distance * 4548;
 
                         bbMilliCoords forces = sumForces(moveables, moveable);
 
-                        moveable->coords_a.i = currentLocation.i + forces.i;
-                        moveable->coords_a.j = currentLocation.j + forces.j;
+                        moveable->coords_a.i = currentLocation.i + delta_i + forces.i;
+                        moveable->coords_a.j = currentLocation.j + delta_j + forces.j;
                     }
 
                     moveable->position = moveable->coords_a;
