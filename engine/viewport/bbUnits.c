@@ -129,8 +129,10 @@ bbFlag bbUnits_consumeBuffer(bbUnits* units, bbHandle* unit_array, bbMoveables_s
 
         bbMapCoords MC = bbMilliCoords_getMapCoords(position);
 
-        if (i==0) home.viewport_app.viewport.viewpoint = MC;;
+        if (i==0) home.viewport_app.viewport.viewpoint = MC;
 
+        //TODO add list of out of bounds units
+        if (MC.i<0 || MC.j < 0) continue;
         bbDrawable_setLocation(drawable, units,MC);
 
 
