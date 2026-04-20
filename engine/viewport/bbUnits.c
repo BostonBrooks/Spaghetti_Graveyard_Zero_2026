@@ -109,7 +109,7 @@ bbFlag bbUnits_consumeBuffer(bbUnits* units, bbHandle* unit_array, bbMoveables_s
                         continue;
         }
 
-        if (snapshot->time >= unit->next_time)
+        if (snapshot->time > unit->next_time)
         {
             unit->prev_coords = unit->next_coords;
             unit->prev_goalpoint = unit->next_goalpoint;
@@ -123,6 +123,7 @@ bbFlag bbUnits_consumeBuffer(bbUnits* units, bbHandle* unit_array, bbMoveables_s
             float rotation = atan2(delta_i, delta_j);
             drawable->rotation = rotation;
         }
+
         bbMilliCoords position
             = bbMillicoords_interpolate(unit->prev_coords, unit->next_coords, unit->prev_time,
                 home.UI.clock2_handle.map_tick, unit->next_time);
