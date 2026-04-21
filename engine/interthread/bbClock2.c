@@ -189,6 +189,15 @@ bbFlag bbClock2_handle_init(bbClock2* clock,
 
 bbFlag bbClock2_waitTick(bbClock2* clock, bbClock2_handle* handle, U64 until_map_tick)
 {
+
+    if (until_map_tick < clock->map_tick)
+    {
+
+        handle->map_tick = until_map_tick;
+        handle->server_tick = clock->server_tick;
+        return bbSuccess;
+    }
+
     bbClock2_message* message;
     bbThreadedQueue_alloc(&clock->inbox, (void**)&message);
 
