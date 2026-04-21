@@ -100,7 +100,7 @@ int main(void)
                 clock_handle_init = true;
                 //core_time = home.clock2.map_tick;
             }
-            U64 ticks_per_frame = 15;
+            U64 ticks_per_frame = 6;
             U64 new_map_tick = home.core.clock2_handle.map_tick
                 - home.core.clock2_handle.map_tick % ticks_per_frame + ticks_per_frame;
             bbClock2_waitTick(&home.clock2,&home.core.clock2_handle,new_map_tick);

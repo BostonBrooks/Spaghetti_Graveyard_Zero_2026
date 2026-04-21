@@ -297,18 +297,18 @@ bbFlag bbMoveables_update(bbMoveables* moveables)
         moveables->buffer_back->moveables[i].position = moveables->moveables[i].position;
         moveables->buffer_back->time = home.core.clock2_handle.map_tick;
     }
+    if (home.core.core.simulation_time == home.core.core.actual_time)
+    {
+        bbMutexLock(&moveables->buffer_mutex);
 
-    bbMutexLock(&moveables->buffer_mutex);
+        bbMoveables_snapshot* temp = moveables->buffer_back;
+        moveables->buffer_back = moveables->buffer_front;
+        moveables->buffer_front = temp;
 
-    bbMoveables_snapshot* temp = moveables->buffer_back;
-    moveables->buffer_back = moveables->buffer_front;
-    moveables->buffer_front = temp;
+        moveables->buffer_fresh = true;
 
-    moveables->buffer_fresh = true;
-
-    bbMutexUnlock(&moveables->buffer_mutex);
-
-
+        bbMutexUnlock(&moveables->buffer_mutex);
+    }
 
     return bbSuccess;
 }

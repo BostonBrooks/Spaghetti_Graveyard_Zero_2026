@@ -69,7 +69,7 @@ bbMapCoords MC, I32 index){
 
     unit->drawable.frames[0].drawfunction = drawfunctionHandle.u64;
     unit->drawable.frames[0].handle.u64 = 9;
-    unit->drawable.frames[0].start_time=  -(rand()%6);
+    unit->drawable.frames[0].start_time=  -(rand()%60);
     unit->drawable.frames[0].framerate = 1;
     unit->drawable.frames[0].offset.x = 0;
     unit->drawable.frames[0].offset.y = 0;
