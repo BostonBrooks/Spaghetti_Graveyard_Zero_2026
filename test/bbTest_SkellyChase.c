@@ -15,7 +15,6 @@
 #include "engine/graphics/bbGraphicsApp.h"
 #include "engine/data/bbHome.h"
 #include "engine/graphics/bbColours.h"
-#include "engine/interthread/bbClock.h"
 #include "engine/userinterface/bbInput.h"
 #include "engine/userinterface/bbMouse.h"
 

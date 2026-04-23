@@ -1,6 +1,4 @@
 #include "engine/interthread/bbClock2.h"
-
-#include "bbClock.h"
 #include "engine/threadsafe/bbThreadedPool.h"
 
 #define CLOCK_MESSAGE_POOL_SIZE 4096

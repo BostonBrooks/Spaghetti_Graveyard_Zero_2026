@@ -39,7 +39,6 @@ add_executable(Pong test/bbTest_Pong.c
         engine/network/bbNetworkApp.c
         engine/network/bbNetworkPacket.c
         engine/network/bbNetworkTime.c
-        engine/interthread/bbClock.c
         engine/interthread/bbClock2.c
         engine/core/bbCore.c
         engine/core/bbInstruction.c
@@ -287,7 +286,6 @@ add_executable(SkellyChase test/bbTest_SkellyChase.c
         engine/viewport/bbMapIcons.c
         engine/viewport/bbViewport.c
         engine/viewport/bbUnits.c
-        engine/interthread/bbClock.c
         engine/interthread/bbClock2.c
         engine/network/bbNetworkTime.c
         engine/network/bbNetworkPacket.c

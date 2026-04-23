@@ -4,7 +4,6 @@
 #include "engine/viewport/bbViewportApp.h"
 #include "engine/core/bbCore.h"
 #include "engine/graphics/bbGraphicsApp.h"
-#include "engine/interthread/bbClock.h"
 #include "engine/interthread/bbClock2.h"
 #include "engine/network/bbNetwork.h"
 #include "engine/pong/bbBall.h"
@@ -38,7 +37,6 @@ typedef struct
     bbUIApp UI;
     bbNetwork network;
     bbNetworkTime* network_time;
-    //bbClock clock;
     bbClock2 clock2;
     bbHome_core core;
     bbViewportApp viewport_app;
