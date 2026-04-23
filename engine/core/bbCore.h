@@ -1,12 +1,12 @@
 /** The core is responsible for maintaining the state shared between computers
- * in the multplayer game. The core needs to rewind and recalculate state in the
+ * in the multiplayer game. The core needs to rewind and recalculate state in the
  * event that a network packet comes in late and needs to be dealt with.
  *
  * The core is based on a stack of instructions that are executed in a LIFO order.
- * Instructions are popped and then can puch new instructions to the top of the
+ * Instructions are popped and then can push new instructions to the top of the
  * stack.A second stack is maintained that stores the reverse of the instructions
  * executed, which is used to rewind the game state. In order to fast-forward
- * the game state back to where is was, input instructions are pushed onto the
+ * the game state back to where it was, input instructions are pushed onto the
  * first stack.
  */
 
@@ -23,7 +23,7 @@ typedef struct bbInstruction bbInstruction;
 
 typedef  bbFlag bbInstruction_fn(bbCore* core, bbInstruction* instruction);
 
-typedef struct bbCore
+struct bbCore
 {
     U64 core_time;
 

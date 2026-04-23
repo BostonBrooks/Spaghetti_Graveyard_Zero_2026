@@ -40,110 +40,116 @@ bbFlag bbCore_react(bbCore* core)
         flag = bbList_popL(&core->do_stack, (void**)&instruction);
         if (flag != bbSuccess) return bbSuccess;
 
-        switch (instruction->type)
+        if (instruction->type >= bbInstruction_numTypes)
         {
+            bbInstruction_fn* instruction_fn = core->instruction_functions[instruction->type-bbInstruction_numTypes];
+            instruction_fn(core, instruction);
+        } else
+        {
+            switch (instruction->type)
+            {
 
-///(2) core reacts to instruction
+                ///(2) core reacts to instruction
 
-        case bbInstruction_setTime:
-            bbInstruction_setTime_fn(core, instruction);
-            break;
+            case bbInstruction_setTime:
+                bbInstruction_setTime_fn(core, instruction);
+                break;
 
-        case bbInstruction_setString:
-            bbInstruction_setString_fn(core, instruction);
-            break;
+            case bbInstruction_setString:
+                bbInstruction_setString_fn(core, instruction);
+                break;
 
-        case bbInstruction_unfreezeButton:
-            bbInstruction_unfreezeButton_fn(core, instruction);
-            break;
+            case bbInstruction_unfreezeButton:
+                bbInstruction_unfreezeButton_fn(core, instruction);
+                break;
 
-        case bbInstruction_checkActions:
-            bbInstruction_checkActions2_fn(core, instruction);
-            break;
+            case bbInstruction_checkActions:
+                bbInstruction_checkActions2_fn(core, instruction);
+                break;
 
-        case bbInstruction_netsendButton:
-            bbInstruction_netsendButton_fn(core, instruction);
-            break;
-        case bbInstruction_netcodeButton:
+            case bbInstruction_netsendButton:
+                bbInstruction_netsendButton_fn(core, instruction);
+                break;
+            case bbInstruction_netcodeButton:
 
-            bbInstruction_netcodeButton_fn(core, instruction);
-            break;
+                bbInstruction_netcodeButton_fn(core, instruction);
+                break;
 
-        case bbInstruction_loopAction:
+            case bbInstruction_loopAction:
 
-            bbInstruction_loopAction_fn(core, instruction);
-            break;
+                bbInstruction_loopAction_fn(core, instruction);
+                break;
 
 
-        case bbInstruction_netpauseButton:
+            case bbInstruction_netpauseButton:
 
-            bbInstruction_netpauseButton_fn(core, instruction);
-            break;
+                bbInstruction_netpauseButton_fn(core, instruction);
+                break;
 #ifndef DEFINE_PONG
 
-        case bbInstruction_setViewpointOut:
+            case bbInstruction_setViewpointOut:
 
-            bbInstruction_setViewpointOut_fn(core, instruction);
-            break;
-        case bbInstruction_setViewpointIn:
+                bbInstruction_setViewpointOut_fn(core, instruction);
+                break;
+            case bbInstruction_setViewpointIn:
 
-            bbInstruction_setViewpointIn_fn(core, instruction);
-            break;
-
-
-        case bbInstruction_setGoalpointOut:
-
-            bbInstruction_setGoalpointOut_fn(core, instruction);
-            break;
-
-        case bbInstruction_setGoalpointIn:
-
-            bbInstruction_setGoalpointIn_fn(core, instruction);
-            break;
+                bbInstruction_setViewpointIn_fn(core, instruction);
+                break;
 
 
-        case bbInstruction_approachGoalpoint:
+            case bbInstruction_setGoalpointOut:
 
-            bbInstruction_approachGoalpoint_fn(core, instruction);
-            break;
+                bbInstruction_setGoalpointOut_fn(core, instruction);
+                break;
 
-        case bbInstruction_updateMoveables:
+            case bbInstruction_setGoalpointIn:
 
-            bbInstruction_updateMoveables_fn(core, instruction);
-            break;
+                bbInstruction_setGoalpointIn_fn(core, instruction);
+                break;
+
+
+            case bbInstruction_approachGoalpoint:
+
+                bbInstruction_approachGoalpoint_fn(core, instruction);
+                break;
+
+            case bbInstruction_updateMoveables:
+
+                bbInstruction_updateMoveables_fn(core, instruction);
+                break;
 #endif
 
 #ifdef DEFINE_PONG
-        case bbInstruction_updateBall:
-            bbInstruction_updateBall_fn(core, instruction);
-            break;
+            case bbInstruction_updateBall:
+                bbInstruction_updateBall_fn(core, instruction);
+                break;
 
-        case bbInstruction_updatePaddle:
-            bbInstruction_updatePaddle_fn(core, instruction);
-            break;
+            case bbInstruction_updatePaddle:
+                bbInstruction_updatePaddle_fn(core, instruction);
+                break;
 
-        case bbInstruction_keyDown:
-            bbInstruction_keyDown_fn(core, instruction);
-            break;
+            case bbInstruction_keyDown:
+                bbInstruction_keyDown_fn(core, instruction);
+                break;
 
-        case bbInstruction_keyUp:
-            bbInstruction_keyUp_fn(core, instruction);
-            break;
+            case bbInstruction_keyUp:
+                bbInstruction_keyUp_fn(core, instruction);
+                break;
 
 
-        case bbInstruction_setPaddleDirection:
-            bbInstruction_setPaddleDirection_fn(core, instruction);
-            break;
+            case bbInstruction_setPaddleDirection:
+                bbInstruction_setPaddleDirection_fn(core, instruction);
+                break;
 
-        case bbInstruction_setPaddleVelocity:
+            case bbInstruction_setPaddleVelocity:
 
-            bbInstruction_setPaddleVelocity_fn(core, instruction);
-            break;
+                bbInstruction_setPaddleVelocity_fn(core, instruction);
+                break;
 #endif //DEFINE_PONG
-        default:
-            bbDebug("Unknown instruction type: %d\n", instruction->type);
+            default:
+                bbDebug("Unknown instruction type: %d\n", instruction->type);
+            }
         }
-
     }
 
     return bbSuccess;

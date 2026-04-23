@@ -1,5 +1,6 @@
 #include "bbCore.h"
 #include "bbInstruction.h"
+#include "core/instructions.h"
 #include "engine/logic/bbFlag.h"
 #include "engine/logic/bbString.h"
 #include "engine/pong/bbBall.h"
@@ -69,7 +70,7 @@ bbFlag bbCoreInput_updateBall(bbCore* core, bbBall* ball, bbInstruction_source s
     bbFlag flag = bbList_alloc(&core->do_stack,(void**)&instruction);
 
     instruction->data.three_handles.handle1.ptr = ball;
-    instruction->type = bbInstruction_updateBall;
+    instruction->type = bbVInstruction_updateBall;
     instruction->source = source;
     instruction->redo_instruction = action;
 
@@ -83,7 +84,7 @@ bbFlag bbCoreInput_updatePaddle(bbCore* core, bbPaddle* paddle, bbInstruction_so
     bbFlag flag = bbList_alloc(&core->do_stack,(void**)&instruction);
 
     instruction->data.three_handles.handle1.ptr = paddle;
-    instruction->type = bbInstruction_updatePaddle;
+    instruction->type = bbVInstruction_updatePaddle;
     instruction->source = source;
     instruction->redo_instruction = action;
 

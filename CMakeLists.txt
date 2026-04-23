@@ -20,6 +20,8 @@ add_executable(Pong test/bbTest_Pong.c
         engine/graphics/bbCompositions.c
         engine/graphics/bbGraphicsApp.c
         games/game0/maps/pong/drawfunctions/drawfunctions.c
+        games/game0/maps/pong/core/core.c
+        games/game0/maps/pong/core/instructions.c
         engine/userinterface/bbWidgets.c
         engine/userinterface/bbWidgetFunctions.c
         games/game0/maps/pong/widgets/widgets.c
