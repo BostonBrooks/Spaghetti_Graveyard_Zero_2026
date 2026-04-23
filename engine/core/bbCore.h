@@ -12,14 +12,22 @@
 
 #ifndef BB_CORE_H
 #define BB_CORE_H
+
 #include "engine/logic/bbIntTypes.h"
 #include "engine/logic/bbList.h"
 #include "engine/logic/bbVPool.h"
 #include "engine/threadsafe/bbThreadedQueue.h"
 
-typedef struct
+typedef struct bbCore bbCore;
+typedef struct bbInstruction bbInstruction;
+
+typedef  bbFlag bbInstruction_fn(bbCore* core, bbInstruction* instruction);
+
+typedef struct bbCore
 {
     U64 core_time;
+
+    bbInstruction_fn** instruction_functions;
 
     bbVPool* instruction_pool;
     bbList do_stack;
@@ -41,7 +49,7 @@ typedef struct
     /// Set by clock / incremented at end of loop
     U64 actual_time;
 
-} bbCore;
+};
 
 bbFlag bbCore_init(bbCore* core);
 
@@ -50,7 +58,7 @@ bbFlag bbCore_rewind(bbCore* core);
 bbFlag bbCore_clearFuture(bbCore* core);
 //bbFlag bbCore_rewindUntil(bbCore* core, bbCallback* callback);
 bbFlag bbCore_rewindUntil(bbCore* core, U64 time);
-
+bbFlag bbCore_initVInstructions(bbCore* core);
 
 #endif // BB_CORE_H
 

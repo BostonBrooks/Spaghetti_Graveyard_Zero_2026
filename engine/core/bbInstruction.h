@@ -50,7 +50,9 @@ typedef enum
 
 
     bbInstruction_updateMoveables,
-    bbInstruction_unupdateMoveables
+    bbInstruction_unupdateMoveables,
+
+    bbInstruction_numTypes
 } bbInstruction_type;
 
 
@@ -79,7 +81,7 @@ typedef union
     bbMapCoords map_coords;
 } bbInstruction_data;
 
-typedef struct
+typedef struct bbInstruction
 {
     bbInstruction_type type;
     bbInstruction_data data;
