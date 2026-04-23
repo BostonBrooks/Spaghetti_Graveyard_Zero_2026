@@ -1,5 +1,5 @@
 
-bbFlag bbDF_widgetMapTimeAnimation(void* drawable, void* frameDescriptor, void* cl){
+bbFlag bbDF_widgetGraphicsTimeAnimation(void* drawable, void* frameDescriptor, void* cl){
 
     bbWidget* widget = drawable;
     bbFrame* frame_descriptor = frameDescriptor;

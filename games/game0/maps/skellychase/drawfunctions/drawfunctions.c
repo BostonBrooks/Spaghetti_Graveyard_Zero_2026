@@ -55,9 +55,9 @@ bbFlag bbDrawfunctions_new(bbDrawfunctions** drawfunctions){
     bbDictionary_add(functions->dictionary, "WIDGET_SPRITE", handle);
 
 
-    functions->functions[1] = bbDF_widgetMapTimeAnimation;
+    functions->functions[1] = bbDF_widgetGraphicsTimeAnimation;
     handle.u64 = 1;
-    bbDictionary_add(functions->dictionary, "WIDGET_MAPTIME_ANIMATION", handle);
+    bbDictionary_add(functions->dictionary, "WIDGET_GRAPHICSTIME_ANIMATION", handle);
 
     functions->functions[2] = bbDF_widgetServerTimeAnimation;
     handle.u64 = 2;

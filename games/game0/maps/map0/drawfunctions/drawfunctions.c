@@ -111,7 +111,7 @@ bbFlag bbDF_widgetAngle(void* drawable, void* frameDescriptor, void* cl){
     return bbSuccess;
 }
 
-bbFlag bbDF_widgetMapTimeAnimation(void* drawable, void* frameDescriptor, void* cl){
+bbFlag bbDF_widgetGraphicsTimeAnimation(void* drawable, void* frameDescriptor, void* cl){
 
     bbWidget* widget = drawable;
     bbFrame* frame_descriptor = frameDescriptor;
@@ -265,9 +265,9 @@ bbFlag bbDrawfunctions_new(bbDrawfunctions** drawfunctions){
     bbDictionary_add(functions->dictionary, "TEXTBOX", handle);
 
 
-    functions->functions[4] = bbDF_widgetMapTimeAnimation;
+    functions->functions[4] = bbDF_widgetGraphicsTimeAnimation;
     handle.u64 = 4;
-    bbDictionary_add(functions->dictionary, "WIDGET_MAPTIME_ANIMATION", handle);
+    bbDictionary_add(functions->dictionary, "WIDGET_GRAPHICSTIME_ANIMATION", handle);
 
     functions->functions[5] = bbDF_textboxIndicator;
     handle.u64 = 5;
