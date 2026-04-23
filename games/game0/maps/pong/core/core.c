@@ -33,4 +33,13 @@ bbFlag bbCore_initVInstructions(bbCore* core)
 
     core->instruction_functions[bbVInstruction_unsetPaddleVelocity-bbInstruction_numTypes]
         = bbVInstruction_unsetPaddleVelocity_fn;
+
+
+    core->instruction_functions[bbVInstruction_keyUp-bbInstruction_numTypes]
+        = bbVInstruction_keyUp_fn;
+
+    core->instruction_functions[bbVInstruction_keyDown-bbInstruction_numTypes]
+        = bbVInstruction_keyDown_fn;
+
+    return bbSuccess;
 }

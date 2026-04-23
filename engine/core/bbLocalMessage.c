@@ -84,7 +84,7 @@ bbFlag bbLocalMessage_actionLoop_fn(bbCore* core, bbLocalMessage* message)
 
     return bbSuccess;
 }
-#ifdef DEFIBE_PONG
+#ifdef DEFINE_PONG
 bbFlag bbLocalMessage_keyUp_fn(bbCore* core, bbLocalMessage* message)
 {
 

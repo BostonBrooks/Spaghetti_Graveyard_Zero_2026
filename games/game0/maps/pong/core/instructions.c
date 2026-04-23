@@ -7,7 +7,11 @@
 #include "engine/pong/bbBall.h"
 #include "engine/core/bbInstruction.h"
 #include "engine/data/bbHome.h"
+#include "engine/network/bbNetworkApp.h"
 #include "engine/pong/bbPaddle.h"
+
+
+extern U32 collision;
 
 bbFlag bbVInstruction_updateBall_fn(bbCore* core, bbInstruction* instruction)
 {
@@ -291,4 +295,17 @@ bbFlag bbVInstruction_unsetPaddleVelocity_fn(bbCore* core, bbInstruction* instru
 
 
     bbNotHere()
+}
+
+
+bbFlag bbVInstruction_keyUp_fn(bbCore* core, bbInstruction* instruction)
+{
+    bbNetworkApp_keyUp(&home.network, instruction->data.three_handles.handle1.u64, instruction->act_time, collision++);
+    return bbSuccess;
+}
+
+bbFlag bbVInstruction_keyDown_fn(bbCore* core, bbInstruction* instruction)
+{
+    bbNetworkApp_keyDown(&home.network, instruction->data.three_handles.handle1.u64, instruction->act_time, collision++);
+    return bbSuccess;
 }
