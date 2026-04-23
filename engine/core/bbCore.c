@@ -120,13 +120,7 @@ bbFlag bbCore_react(bbCore* core)
 #endif
 
 #ifdef DEFINE_PONG
-            case bbInstruction_updateBall:
-                bbInstruction_updateBall_fn(core, instruction);
-                break;
 
-            case bbInstruction_updatePaddle:
-                bbInstruction_updatePaddle_fn(core, instruction);
-                break;
 
             case bbInstruction_keyDown:
                 bbInstruction_keyDown_fn(core, instruction);
@@ -137,14 +131,6 @@ bbFlag bbCore_react(bbCore* core)
                 break;
 
 
-            case bbInstruction_setPaddleDirection:
-                bbInstruction_setPaddleDirection_fn(core, instruction);
-                break;
-
-            case bbInstruction_setPaddleVelocity:
-
-                bbInstruction_setPaddleVelocity_fn(core, instruction);
-                break;
 #endif //DEFINE_PONG
             default:
                 bbDebug("Unknown instruction type: %d\n", instruction->type);
@@ -154,48 +140,7 @@ bbFlag bbCore_react(bbCore* core)
 
     return bbSuccess;
 }
-/*
-bbFlag bbCore_rewind(bbCore* core)
-{
-    bbFlag flag;
-    bbInstruction* instruction;
 
-    while (1)
-    {
-        flag = bbList_popL(&core->undo_stack, (void**)&instruction);
-        if (flag != bbSuccess) return bbSuccess;
-
-        switch (instruction->type)
-        {
-        case bbInstruction_unsetTime:
-            bbInstruction_unsetTime_fn(core, instruction);
-            break;
-
-            ///(6) core "un-reacts" to instruction
-        case bbInstruction_unsetString:
-            bbInstruction_unsetString_fn(core, instruction);
-            break;
-
-        case bbInstruction_uncheckActions:
-            bbInstruction_uncheckActions_fn(core, instruction);
-            break;
-#ifdef DEFINE_PONG
-        case bbInstruction_unupdateBall:
-            bbInstruction_unupdateBall_fn(core, instruction);
-            break;
-
-        case bbInstruction_unupdatePaddle:
-            bbInstruction_unupdatePaddle_fn(core, instruction);
-            break;
-#endif //DEFINE_PONG
-
-        default:
-            bbDebug("Unknown undo instruction type");
-        }
-
-    }
-    return bbSuccess;
-}*/
 
 bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
 {
@@ -207,59 +152,57 @@ bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
         flag = bbList_popL(&core->undo_stack, (void**)&instruction);
         if (flag != bbSuccess) return bbSuccess;
 
-        switch (instruction->type)
+        if (instruction->type >= bbInstruction_numTypes)
         {
-        case bbInstruction_unsetTime:
-            bbInstruction_unsetTime_fn(core, instruction);
-            break;
 
-            ///(6) core "un-reacts" to instruction
-        case bbInstruction_unsetString:
-            bbInstruction_unsetString_fn(core, instruction);
-            break;
+            bbInstruction_fn* instruction_fn = core->instruction_functions[instruction->type-bbInstruction_numTypes];
 
-        case bbInstruction_uncheckActions:
-            bbInstruction_uncheckActions_fn(core, instruction);
-            break;
+            bbDebug("instruction->type = %d\n", instruction->type);
+            instruction_fn(core, instruction);
 
-        case bbInstruction_unsetViewpoint:
-            bbInstruction_unsetViewpoint_fn(core, instruction);
-            break;
+        } else
+        {
+            switch (instruction->type)
+            {
+            case bbInstruction_unsetTime:
+                bbInstruction_unsetTime_fn(core, instruction);
+                break;
+
+                ///(6) core "un-reacts" to instruction
+            case bbInstruction_unsetString:
+                bbInstruction_unsetString_fn(core, instruction);
+                break;
+
+            case bbInstruction_uncheckActions:
+                bbInstruction_uncheckActions_fn(core, instruction);
+                break;
+
+            case bbInstruction_unsetViewpoint:
+                bbInstruction_unsetViewpoint_fn(core, instruction);
+                break;
 #ifndef DEFINE_PONG
 
 
-        case bbInstruction_unsetGoalpoint:
-            bbInstruction_unsetGoalpoint_fn(core, instruction);
-            break;
+            case bbInstruction_unsetGoalpoint:
+                bbInstruction_unsetGoalpoint_fn(core, instruction);
+                break;
 
-        case bbInstruction_unapproachGoalpoint:
-            bbInstruction_unapproachGoalpoint_fn(core, instruction);
-            break;
+            case bbInstruction_unapproachGoalpoint:
+                bbInstruction_unapproachGoalpoint_fn(core, instruction);
+                break;
 
-        case bbInstruction_unupdateMoveables:
-            bbHere()
-            bbInstruction_unupdateMoveables_fn(core, instruction);
-            break;
+            case bbInstruction_unupdateMoveables:
+                bbHere()
+                bbInstruction_unupdateMoveables_fn(core, instruction);
+                break;
 #endif
-#ifdef DEFINE_PONG
-        case bbInstruction_unsetPaddleVelocity:
 
-            bbInstruction_unsetPaddleVelocity_fn(core, instruction);
-            break;
 
-        case bbInstruction_unupdatePaddle:
-            bbInstruction_unupdatePaddle_fn(core, instruction);
-            break;
+            default:
+                bbDebug("Unknown undo instruction type %d\n", instruction->type);
 
-        case bbInstruction_unupdateBall:
-            bbInstruction_unupdateBall_fn(core, instruction);
-            break;
-#endif //DEFINE_PONG
-
-        default:
-            bbDebug("Unknown undo instruction type %d\n", instruction->type);
-
-            bbVPool_free(core->instruction_pool, (void*)instruction);
+                bbVPool_free(core->instruction_pool, (void*)instruction);
+            }
         }
 
     }

@@ -24,19 +24,19 @@ typedef enum
     bbInstruction_loopAction,
     bbInstruction_netpauseButton,
 
-    bbInstruction_updateBall,
-    bbInstruction_unupdateBall,
+    //bbInstruction_updateBall,
+    //bbInstruction_unupdateBall,
 
-    bbInstruction_updatePaddle,
-    bbInstruction_unupdatePaddle,
+    //bbInstruction_updatePaddle,
+    //bbInstruction_unupdatePaddle,
 
 
     bbInstruction_keyUp,
     bbInstruction_keyDown,
 
-    bbInstruction_setPaddleDirection,
-    bbInstruction_setPaddleVelocity,
-    bbInstruction_unsetPaddleVelocity,
+    //bbInstruction_setPaddleDirection,
+    //bbInstruction_setPaddleVelocity,
+    //bbInstruction_unsetPaddleVelocity,
 
     bbInstruction_setViewpointOut,
     bbInstruction_setViewpointIn,

@@ -1,6 +1,10 @@
 #include "bbCore.h"
 #include "bbInstruction.h"
+
+#ifdef DEFINE_PONG
 #include "core/instructions.h"
+#endif
+
 #include "engine/logic/bbFlag.h"
 #include "engine/logic/bbString.h"
 #include "engine/pong/bbBall.h"
@@ -64,6 +68,7 @@ bbFlag bbCoreInput_setTime(bbCore* core, U64 time, bbInstruction_source source, 
     return bbSuccess;
 }
 
+#ifdef DEFINE_PONG
 bbFlag bbCoreInput_updateBall(bbCore* core, bbBall* ball, bbInstruction_source source, bbHandle action)
 {
     bbInstruction* instruction;
@@ -98,7 +103,7 @@ bbFlag bbCoreInput_setPaddleDirection(bbCore* core, I32 direction, U64 time,
     bbFlag flag = bbList_alloc(&core->do_stack,(void**)&instruction);
 
     instruction->data.three_handles.handle1.u64 = direction;
-    instruction->type = bbInstruction_setPaddleDirection;
+    instruction->type = bbVInstruction_setPaddleDirection;
     instruction->source = source;
     instruction->redo_instruction = action;
 
@@ -114,14 +119,14 @@ bbFlag bbCoreInput_setPaddleVelocity(bbCore* core, U8 player, I32 velocity, U64 
 
     instruction->data.three_handles.handle1.i32x2.x = player;
     instruction->data.three_handles.handle1.i32x2.y = velocity;
-    instruction->type = bbInstruction_setPaddleVelocity;
+    instruction->type = bbVInstruction_setPaddleVelocity;
     instruction->source = source;
     instruction->redo_instruction = action;
 
     bbList_pushL(&core->do_stack, instruction);
     return bbSuccess;
 }
-
+#endif //DEFINE_PONG
 bbFlag bbCoreInput_netsendButton(bbCore* core, char* string)
 {
     bbInstruction* instruction;

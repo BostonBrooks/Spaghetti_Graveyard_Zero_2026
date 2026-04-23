@@ -1,4 +1,6 @@
 
+#include "instructions.h"
+
 #include "engine/core/bbAction.h"
 #include "engine/core/bbCore.h"
 #include "engine/logic/bbFlag.h"
@@ -12,7 +14,7 @@ bbFlag bbVInstruction_updateBall_fn(bbCore* core, bbInstruction* instruction)
     bbBall* ball = instruction->data.three_handles.handle1.ptr;
     bbInstruction* undo_instruction;
     bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
-    undo_instruction->type = bbInstruction_unupdateBall;
+    undo_instruction->type = bbVInstruction_unupdateBall;
     //undo_instruction->data.unsigned_long = core->simulation_time;
 
     undo_instruction->data.three_handles.handle1.i32x2.x = ball->position.x;
@@ -99,7 +101,7 @@ bbFlag bbVInstruction_updatePaddle_fn(bbCore* core, bbInstruction* instruction)
     bbPaddle* paddle = instruction->data.three_handles.handle1.ptr;
     bbInstruction* undo_instruction;
     bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
-    undo_instruction->type = bbInstruction_unupdatePaddle;
+    undo_instruction->type = bbVInstruction_unupdatePaddle;
     //undo_instruction->data.unsigned_long = core->simulation_time;
 
     undo_instruction->data.three_handles.handle1.i32x2.x = paddle->position.x;
@@ -212,7 +214,7 @@ bbFlag bbVInstruction_setPaddleVelocity_fn(bbCore* core, bbInstruction* instruct
 {
     bbInstruction* undo_instruction;
     bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
-    undo_instruction->type = bbInstruction_unsetPaddleVelocity;
+    undo_instruction->type = bbVInstruction_unsetPaddleVelocity;
     undo_instruction->data.three_handles.handle1.i32x2.x =
         instruction->data.three_handles.handle1.i32x2.x;
     undo_instruction->source = instruction->source;
