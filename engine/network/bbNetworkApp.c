@@ -169,7 +169,7 @@ bbFlag bbNetworkApp_checkInbox(bbNetwork* network)
 
         if (packet->type == PACKETTYPE_PAUSE)
         {
-            bbClock2_setPause(&home.clock2,
+            bbClock_setPause(&home.clock2,
                               packet->data.pause.reference_server_tick,
                               packet->data.pause.reference_map_tick,
                               packet->data.pause.is_paused);

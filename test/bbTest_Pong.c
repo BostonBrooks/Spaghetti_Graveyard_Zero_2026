@@ -96,7 +96,7 @@ int main(void)
         {
             once = true;
             //bbClock_init(&home.clock, home.network_time);
-            bbClock2_init(&home.clock2, home.network_time);
+            bbClock_init(&home.clock2, home.network_time);
         }
 
         //if (home.clock.clock_running == true && home.clock2.is_running == true)
@@ -108,14 +108,14 @@ int main(void)
                 //U64 time;
                 //bbClock_getTick(&home.clock, &time);
                 //core_time = time;
-                bbClock2_handle_init(&home.clock2, &home.core.clock2_handle, 1);
+                bbClock_handle_init(&home.clock2, &home.core.clock2_handle, 1);
                 clock_handle_init = true;
                 //core_time = home.clock2.map_tick;
             }
             U64 ticks_per_frame = 6;
             U64 new_map_tick = home.core.clock2_handle.map_tick
                  - home.core.clock2_handle.map_tick % ticks_per_frame + ticks_per_frame;
-            bbClock2_waitTick(&home.clock2,&home.core.clock2_handle,new_map_tick);
+            bbClock_waitTick(&home.clock2,&home.core.clock2_handle,new_map_tick);
 
 
         } else
@@ -263,10 +263,10 @@ void* userinterface_thread(void* arg)
         if (home.clock2.is_running){
             if (home.UI.clock2_handle.clock_thread_index == 255)
             {
-                bbClock2_handle_init(&home.clock2, &home.UI.clock2_handle, 1);
+                bbClock_handle_init(&home.clock2, &home.UI.clock2_handle, 1);
             }
             //may  not need this line:
-            bbClock2_waitTick(&home.clock2,&home.UI.clock2_handle,home.UI.clock2_handle.map_tick+1);
+            bbClock_waitTick(&home.clock2,&home.UI.clock2_handle,home.UI.clock2_handle.map_tick+1);
 
 
             test_time = home.UI.clock2_handle.map_tick;

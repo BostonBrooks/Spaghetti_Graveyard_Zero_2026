@@ -4,7 +4,7 @@
 #include "engine/viewport/bbViewportApp.h"
 #include "engine/core/bbCore.h"
 #include "engine/graphics/bbGraphicsApp.h"
-#include "engine/interthread/bbClock2.h"
+#include "engine/interthread/bbClock.h"
 #include "engine/network/bbNetwork.h"
 #include "engine/pong/bbBall.h"
 #include "engine/pong/bbPaddle.h"
@@ -22,7 +22,7 @@ typedef struct
     bbCore core;
     char quote[KEY_LENGTH];
     I64 test_int;
-    bbClock2_handle clock2_handle;
+    bbClock_handle clock2_handle;
     bbBall balls[N_BALLS];
     bbPaddle paddle1;
     bbPaddle paddle2;
@@ -37,7 +37,7 @@ typedef struct
     bbUIApp UI;
     bbNetwork network;
     bbNetworkTime* network_time;
-    bbClock2 clock2;
+    bbClock clock2;
     bbHome_core core;
     bbViewportApp viewport_app;
     bbAgentsApp agents_app;

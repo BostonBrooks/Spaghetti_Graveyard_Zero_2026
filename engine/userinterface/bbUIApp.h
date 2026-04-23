@@ -2,7 +2,7 @@
 #define BB_UIAPP_H
 
 #include "engine/userinterface/bbUI_Inbox.h"
-#include "engine/interthread/bbClock2.h"
+#include "engine/interthread/bbClock.h"
 #include "engine/userinterface/bbInput.h"
 
 typedef struct
@@ -13,7 +13,7 @@ typedef struct
     bbWidgets widgets;
     bbUI_Inbox inbox;
     U64 UI_time;
-    bbClock2_handle clock2_handle;
+    bbClock_handle clock2_handle;
 
     sfTexture* SplashTexture;
     sfSprite* SplashSprite;

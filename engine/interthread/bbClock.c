@@ -1,4 +1,4 @@
-#include "engine/interthread/bbClock2.h"
+#include "engine/interthread/bbClock.h"
 #include "engine/threadsafe/bbThreadedPool.h"
 
 #define CLOCK_MESSAGE_POOL_SIZE 4096
@@ -6,7 +6,7 @@
 void* clock2_thread(void* arg)
 {
     thread = "CLOCK_THREAD";
-    bbClock2 *clock = (bbClock2*) arg;
+    bbClock *clock = (bbClock*) arg;
 
     I64 time;
     bbNetworkTime* network_time = clock->network_time;
@@ -19,21 +19,21 @@ void* clock2_thread(void* arg)
     clock->reference_map_tick = 0;
     clock->is_paused = true;
 
-    bbVPool_newThreaded(&clock->message_pool,sizeof(bbClock2_message),CLOCK_MESSAGE_POOL_SIZE);
+    bbVPool_newThreaded(&clock->message_pool,sizeof(bbClock_message),CLOCK_MESSAGE_POOL_SIZE);
 
     bbThreadedQueue_init(&clock->inbox,
                        clock->message_pool,
-                       sizeof(bbClock2_message),
+                       sizeof(bbClock_message),
                        CLOCK_MESSAGE_POOL_SIZE,
-                       offsetof(bbClock2_message, list_element));
+                       offsetof(bbClock_message, list_element));
 
     for (I32 i = 0; i < MAX_CONNECTIONS; i++)
     {
         bbThreadedQueue_init(&clock->connections[i].outbox,
                       clock->message_pool,
-                      sizeof(bbClock2_message),
+                      sizeof(bbClock_message),
                       CLOCK_MESSAGE_POOL_SIZE,
-                      offsetof(bbClock2_message, list_element));
+                      offsetof(bbClock_message, list_element));
 
         clock->connections[i].wait_until_tick = 0;
         clock->connections[i].update_when_paused = 0;
@@ -45,7 +45,7 @@ void* clock2_thread(void* arg)
     clock->is_running = true;
 
     //debug code:
-    bbClock2_message* message;
+    bbClock_message* message;
     bbThreadedQueue_alloc(&clock->inbox, (void**)&message);
 
     while (1)
@@ -63,7 +63,7 @@ void* clock2_thread(void* arg)
 
         //check inbox
 
-        bbClock2_message* message_in;
+        bbClock_message* message_in;
 
         while (1)
         {
@@ -85,9 +85,9 @@ void* clock2_thread(void* arg)
                 continue;
             }
 
-            if (message_in->message_type == bbClock2MessageType_request)
+            if (message_in->message_type == bbClockMessageType_request)
             {
-                bbClock2_connection* connection;
+                bbClock_connection* connection;
                 connection = &clock->connections[message_in->clock_thread_index];
 
                 connection->wait_until_tick = message_in->map_tick;
@@ -104,16 +104,16 @@ void* clock2_thread(void* arg)
             for (I32 i = 0; i < MAX_CONNECTIONS; i++)
             {
 
-                bbClock2_connection* connection;
+                bbClock_connection* connection;
                 connection = &clock->connections[i];
 
                 if (connection->in_use == false) continue;
 
                 if (connection->wait_until_tick <= clock->map_tick)
                 {
-                    bbClock2_message* message_out;
+                    bbClock_message* message_out;
                     bbThreadedQueue_alloc(&connection->outbox,(void**)&message_out);
-                    message_out->message_type = bbClock2MessageType_send;
+                    message_out->message_type = bbClockMessageType_send;
                     message_out->server_tick = clock->server_tick;
                     message_out->map_tick = clock->map_tick;
                     message_out->clock_paused = clock->is_paused;
@@ -127,7 +127,7 @@ void* clock2_thread(void* arg)
         {
             for (I32 i = 0; i < MAX_CONNECTIONS; i++)
             {
-                bbClock2_connection* connection;
+                bbClock_connection* connection;
                 connection = &clock->connections[i];
 
                 if (connection->in_use == false) continue;
@@ -135,9 +135,9 @@ void* clock2_thread(void* arg)
                 if (connection->update_when_paused > 0
                     && clock->server_tick % connection->update_when_paused == 0)
                 {
-                    bbClock2_message* message_out;
+                    bbClock_message* message_out;
                     bbThreadedQueue_alloc(&connection->outbox,(void**)&message_out);
-                    message_out->message_type = bbClock2MessageType_sendPaused;
+                    message_out->message_type = bbClockMessageType_sendPaused;
                     message_out->server_tick = clock->server_tick;
                     message_out->map_tick = clock->map_tick;
                     message_out->clock_paused = clock->is_paused;
@@ -151,7 +151,7 @@ void* clock2_thread(void* arg)
     }
 }
 
-bbFlag bbClock2_init(bbClock2* clock, bbNetworkTime* network_time)
+bbFlag bbClock_init(bbClock* clock, bbNetworkTime* network_time)
 {
     clock->network_time = network_time;
 
@@ -161,8 +161,8 @@ bbFlag bbClock2_init(bbClock2* clock, bbNetworkTime* network_time)
 }
 
 //TODO not threadsafe, test and set clock->connections[i].in_use or use mutex
-bbFlag bbClock2_handle_init(bbClock2* clock,
-                            bbClock2_handle* handle,
+bbFlag bbClock_handle_init(bbClock* clock,
+                            bbClock_handle* handle,
                             U8 update_when_paused)
 {
     for (I32 i = 0; i < MAX_CONNECTIONS; i++)
@@ -185,7 +185,7 @@ bbFlag bbClock2_handle_init(bbClock2* clock,
 }
 
 
-bbFlag bbClock2_waitTick(bbClock2* clock, bbClock2_handle* handle, U64 until_map_tick)
+bbFlag bbClock_waitTick(bbClock* clock, bbClock_handle* handle, U64 until_map_tick)
 {
 
     if (until_map_tick <= clock->map_tick)
@@ -196,10 +196,10 @@ bbFlag bbClock2_waitTick(bbClock2* clock, bbClock2_handle* handle, U64 until_map
         return bbSuccess;
     }
 
-    bbClock2_message* message;
+    bbClock_message* message;
     bbThreadedQueue_alloc(&clock->inbox, (void**)&message);
 
-    message->message_type = bbClock2MessageType_request;
+    message->message_type = bbClockMessageType_request;
     message->map_tick = until_map_tick;
     message->clock_thread_index = handle->clock_thread_index;
     bbAssert(handle->clock_thread_index < MAX_CONNECTIONS, "index too large\n");
@@ -223,7 +223,7 @@ bbFlag bbClock2_waitTick(bbClock2* clock, bbClock2_handle* handle, U64 until_map
     return bbSuccess;
 }
 
-bbFlag bbClock2_setPause(bbClock2* clock,
+bbFlag bbClock_setPause(bbClock* clock,
                 U64 reference_server_tick,
                 U64 reference_map_tick,
                 bool is_paused)
@@ -235,9 +235,9 @@ bbFlag bbClock2_setPause(bbClock2* clock,
 }
 
 
-bbFlag bbClock2_testPause(bbClock2* clock,bool is_paused)
+bbFlag bbClock_testPause(bbClock* clock,bool is_paused)
 {
-    bbClock2_setPause(clock,
+    bbClock_setPause(clock,
                 clock->server_tick,
                 clock->map_tick,
                 is_paused);
