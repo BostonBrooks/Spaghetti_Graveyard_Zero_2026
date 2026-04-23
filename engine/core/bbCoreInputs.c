@@ -167,14 +167,14 @@ bbFlag bbCoreInput_netpauseButton(bbCore* core, char* string)
 
     return bbSuccess;
 }
-
+#ifdef DEFINE_PONG
 bbFlag bbCoreInput_keyUp(bbCore* core, I32 key_code, U64 time,
                                   bbInstruction_source source, bbHandle action)
 {
     bbInstruction* instruction;
     bbList_alloc(&core->do_stack, (void**) &instruction);
 
-    instruction->type = bbInstruction_keyUp;
+    instruction->type = bbVInstruction_keyUp;
     instruction->data.three_handles.handle1.u64 = key_code;
     instruction->act_time = time;
     bbList_pushL(&core->do_stack, instruction);
@@ -185,13 +185,13 @@ bbFlag bbCoreInput_keyDown(bbCore* core, I32 key_code, U64 time,
 {
     bbInstruction* instruction;
     bbList_alloc(&core->do_stack, (void**) &instruction);
-    instruction->type = bbInstruction_keyDown;
+    instruction->type = bbVInstruction_keyDown;
     instruction->data.three_handles.handle1.u64 = key_code;
     instruction->act_time = time;
     bbList_pushL(&core->do_stack, instruction);
     return bbSuccess;
 }
-
+#endif //DEFINE_PONG
 bbFlag bbCoreInput_netcodeButton(bbCore* core, char* string, U64 time,
                                   bbInstruction_source source, bbHandle action)
 {

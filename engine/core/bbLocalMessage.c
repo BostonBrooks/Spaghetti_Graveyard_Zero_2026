@@ -84,7 +84,7 @@ bbFlag bbLocalMessage_actionLoop_fn(bbCore* core, bbLocalMessage* message)
 
     return bbSuccess;
 }
-
+#ifdef DEFIBE_PONG
 bbFlag bbLocalMessage_keyUp_fn(bbCore* core, bbLocalMessage* message)
 {
 
@@ -101,6 +101,7 @@ bbFlag bbLocalMessage_keyDown_fn(bbCore* core, bbLocalMessage* message)
 
     return bbSuccess;
 }
+#endif //DEFINE_PONG
 bbFlag bbLocalMessage_setViewpointOut_fn(bbCore* core, bbLocalMessage* message)
 {
     bbHandle handle = {0};
@@ -179,7 +180,7 @@ bbFlag bbCore_checkLocalMessages(bbCore* core)
             break;
 
 
-
+#ifdef DEFINE_PONG
         case bbLocalMessage_keyUp:
             bbLocalMessage_keyUp_fn(core, message);
             bbCore_react(core);
@@ -191,6 +192,8 @@ bbFlag bbCore_checkLocalMessages(bbCore* core)
             bbLocalMessage_keyDown_fn(core, message);
             bbCore_react(core);
             break;
+
+#endif //DEFINE_PONG
         case bbLocalMessage_setViewpoint:
             bbLocalMessage_setViewpointOut_fn(core, message);
             bbCore_react(core);

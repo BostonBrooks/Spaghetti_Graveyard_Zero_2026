@@ -255,7 +255,7 @@ bbFlag bbInstruction_unsetTime_fn(bbCore* core, bbInstruction* instruction)
 
 }
 
-bbFlag bbInstruction_checkActions2_fn(bbCore* core, bbInstruction* instruction)
+bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
 {
 
     bbAction* action;
