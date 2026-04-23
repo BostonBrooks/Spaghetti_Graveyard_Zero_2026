@@ -150,7 +150,7 @@ bbFlag bbWidget_Constructor_Clock(bbWidget** self,
     widget->frames[0].offset.y = 0;
 
     bbDictionary_lookup(graphics->drawfunctions->dictionary,
-                 "WIDGET_SERVERTIME_ANIMATION",
+                 "WIDGET_CORETIME_ANIMATION",
                  &drawfunctionHandle);
 
     widget->frames[1].drawfunction = drawfunctionHandle.u64;
