@@ -64,7 +64,7 @@ bbMapCoords MC, I32 index){
 
 
     bbDictionary_lookup(graphics->drawfunctions->dictionary,
-                        "DRAWABLE_ANIMATION_ANGLE",
+                        "UNIT_ANIMATION_ANGLE",
                         &drawfunctionHandle);
 
     unit->drawable.frames[0].drawfunction = drawfunctionHandle.u64;
