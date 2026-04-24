@@ -51,6 +51,8 @@ int main(void)
 
     bbCore_init(&home.core.core);
 
+    bbCore_initVInstructions(&home.core.core);
+
     pthread_t graphics_pthread;
     pthread_create(&graphics_pthread, NULL, userinterface_thread, NULL);
 

@@ -4,6 +4,7 @@
 
 #include "bbAction.h"
 #include "bbCoreInputs.h"
+#include "core/instructions.h"
 #include "engine/data/bbHome.h"
 #include "engine/logic/bbString.h"
 #include "engine/network/bbNetworkApp.h"
@@ -380,17 +381,18 @@ bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
 
         }
 #endif //DEFINE_PONG
-        if (action->header.type == bbActionType_setViewpoint)
-        {
-            bbCoreInput_setViewpointIn(core, action->map_coords,action->header.act_tick,bbInstructionSource_action,handle);
+#ifdef DEFINE_SKELLYCHASE
+ //       if (action->header.type == bbActionType_setViewpoint)
+//        {
+//            bbCoreInput_setViewpointIn(core, action->map_coords,action->header.act_tick,bbInstructionSource_action,handle);
 
-        }
+//        }
         if (action->header.type == bbActionType_setGoalpoint)
         {
             bbCoreInput_setGoalpointIn(core, action->map_coords,action->header.act_tick,bbInstructionSource_action,handle);
 
         }
-
+#endif
         flag = bbList_popL(&core->action_temp_fifo,(void**)&action);
     }
     //may or may not need the following call
@@ -428,19 +430,20 @@ bbFlag bbInstruction_uncheckActions_fn(bbCore* core, bbInstruction* instruction)
     return bbSuccess;
 }
 
-
+/*
 bbFlag bbInstruction_setViewpointOut_fn(bbCore* core, bbInstruction* instruction)
 {
     bbNetworkApp_setViewpointOut(&home.network, instruction->data.map_coords, instruction->act_time, collision++);
     return bbSuccess;
-}
-
+}*/
+/*
 bbFlag bbInstruction_setGoalpointOut_fn(bbCore* core, bbInstruction* instruction)
 {
     bbNetworkApp_setGoalpointOut(&home.network, instruction->data.map_coords, instruction->act_time, collision++);
     return bbSuccess;
 }
-
+*/
+/*
 bbFlag bbInstruction_setViewpointIn_fn(bbCore* core, bbInstruction* instruction)
 {
 
@@ -481,14 +484,14 @@ bbFlag bbInstruction_setViewpointIn_fn(bbCore* core, bbInstruction* instruction)
 
     return bbSuccess;
 }
-
-
+*/
+/*
 bbFlag bbInstruction_setGoalpointIn_fn(bbCore* core, bbInstruction* instruction)
 {
 
     bbInstruction* undo_instruction;
     bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
-    undo_instruction->type = bbInstruction_unsetGoalpoint;
+    undo_instruction->type = bbVInstruction_unsetGoalpoint;
     undo_instruction->data.map_coords = home.core.goalpoint;
     undo_instruction->source = instruction->source;
 
@@ -522,7 +525,9 @@ bbFlag bbInstruction_setGoalpointIn_fn(bbCore* core, bbInstruction* instruction)
 
 return bbSuccess;
 }
-
+*/
+#ifdef DEFINE_SKELLYCHASE
+/*
 bbFlag bbInstruction_approachGoalpoint_fn(bbCore* core, bbInstruction* instruction)
 {
 
@@ -589,7 +594,8 @@ bbFlag bbInstruction_approachGoalpoint_fn(bbCore* core, bbInstruction* instructi
 
 return bbSuccess;
 }
-
+*/
+/*
 bbFlag bbInstruction_unapproachGoalpoint_fn(bbCore* core, bbInstruction* instruction)
 {
 
@@ -619,7 +625,8 @@ bbFlag bbInstruction_unapproachGoalpoint_fn(bbCore* core, bbInstruction* instruc
 
     bbNotHere()
 }
-
+*/
+/*
 bbFlag bbInstruction_unsetGoalpoint_fn(bbCore* core, bbInstruction* instruction)
 {
     home.core.goalpoint = instruction->data.map_coords;
@@ -651,7 +658,7 @@ bbFlag bbInstruction_unsetGoalpoint_fn(bbCore* core, bbInstruction* instruction)
     bbNotHere()
 }
 
-
+*/
 
 bbFlag bbInstruction_unsetViewpoint_fn(bbCore* core, bbInstruction* instruction)
 {
@@ -683,15 +690,17 @@ bbFlag bbInstruction_unsetViewpoint_fn(bbCore* core, bbInstruction* instruction)
 
     bbNotHere()
 }
-
+#endif
 #ifndef DEFINE_PONG
+
+/*
 bbFlag bbInstruction_updateMoveables_fn(bbCore* core, bbInstruction* instruction)
 {
 
 
     bbInstruction* undo_instruction;
     bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
-    undo_instruction->type = bbInstruction_unupdateMoveables;
+    undo_instruction->type = bbVInstruction_unupdateMoveables;
     undo_instruction->source = instruction->source;
 
     bbMoveables_snapshot* snapshot;
@@ -735,7 +744,8 @@ bbFlag bbInstruction_updateMoveables_fn(bbCore* core, bbInstruction* instruction
     }
     bbNotHere()
 }
-
+*/
+/*
 bbFlag bbInstruction_unupdateMoveables_fn(bbCore* core, bbInstruction* instruction)
 {
 
@@ -776,5 +786,5 @@ bbFlag bbInstruction_unupdateMoveables_fn(bbCore* core, bbInstruction* instructi
 
     bbNotHere()
 }
-
+*/
 #endif

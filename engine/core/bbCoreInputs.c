@@ -5,6 +5,11 @@
 #include "core/instructions.h"
 #endif
 
+#ifdef DEFINE_SKELLYCHASE
+#include "core/instructions.h"
+#endif
+
+
 #include "engine/logic/bbFlag.h"
 #include "engine/logic/bbString.h"
 #include "engine/pong/bbBall.h"
@@ -139,7 +144,7 @@ bbFlag bbCoreInput_netsendButton(bbCore* core, char* string)
 
     return bbSuccess;
 }
-
+/*
 bbFlag bbCoreInput_approachGoalpoint(bbCore* core,bbInstruction_source source, bbHandle action)
 {
     bbInstruction* instruction;
@@ -152,7 +157,7 @@ bbFlag bbCoreInput_approachGoalpoint(bbCore* core,bbInstruction_source source, b
     bbList_pushL(&core->do_stack, instruction);
 
     return bbSuccess;
-}
+}*/
 
 
 bbFlag bbCoreInput_netpauseButton(bbCore* core, char* string)
@@ -221,8 +226,8 @@ bbFlag bbCoreInput_loop(bbCore* core, char* string, U64 time,
     bbList_pushL(&core->do_stack, instruction);
     return bbSuccess;
 }
-
-
+#ifdef DEFINE_SKELLYCHASE
+/*
 bbFlag bbCoreInput_setViewpointOut(bbCore* core, bbMapCoords MC, U64 time,
                                   bbInstruction_source source, bbHandle action)
 {
@@ -234,7 +239,7 @@ bbFlag bbCoreInput_setViewpointOut(bbCore* core, bbMapCoords MC, U64 time,
     bbList_pushL(&core->do_stack, instruction);
     return bbSuccess;
 }
-
+*/
 
 
 bbFlag bbCoreInput_setGoalpointOut(bbCore* core, bbMapCoords MC, U64 time,
@@ -242,14 +247,14 @@ bbFlag bbCoreInput_setGoalpointOut(bbCore* core, bbMapCoords MC, U64 time,
 {
     bbInstruction* instruction;
     bbList_alloc(&core->do_stack, (void**) &instruction);
-    instruction->type = bbInstruction_setGoalpointOut;
+    instruction->type = bbVInstruction_setGoalpointOut;
     instruction->data.map_coords = MC;
     instruction->act_time = time;
     bbList_pushL(&core->do_stack, instruction);
     return bbSuccess;
 }
 
-bbFlag bbCoreInput_setViewpointIn(bbCore* core, bbMapCoords MC, U64 time,
+/*bbFlag bbCoreInput_setViewpointIn(bbCore* core, bbMapCoords MC, U64 time,
                                   bbInstruction_source source, bbHandle action)
 {
     bbInstruction* instruction;
@@ -262,13 +267,13 @@ bbFlag bbCoreInput_setViewpointIn(bbCore* core, bbMapCoords MC, U64 time,
     bbList_pushL(&core->do_stack, instruction);
     return bbSuccess;
 }
-
+*/
 bbFlag bbCoreInput_setGoalpointIn(bbCore* core, bbMapCoords MC, U64 time,
                                   bbInstruction_source source, bbHandle action)
 {
     bbInstruction* instruction;
     bbList_alloc(&core->do_stack, (void**) &instruction);
-    instruction->type = bbInstruction_setGoalpointIn;
+    instruction->type = bbVInstruction_setGoalpointIn;
     instruction->data.map_coords = MC;
     instruction->act_time = time;
     instruction->source = source;
@@ -283,9 +288,11 @@ bbFlag bbCoreInput_updateMoveables(bbCore* core,
 {
     bbInstruction* instruction;
     bbList_alloc(&core->do_stack, (void**) &instruction);
-    instruction->type = bbInstruction_updateMoveables;
+    instruction->type = bbVInstruction_updateMoveables;
     instruction->source = source;
     instruction->redo_instruction = action;
     bbList_pushL(&core->do_stack, instruction);
     return bbSuccess;
 }
+
+#endif

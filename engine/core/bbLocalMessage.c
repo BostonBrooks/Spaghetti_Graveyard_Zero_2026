@@ -102,14 +102,15 @@ bbFlag bbLocalMessage_keyDown_fn(bbCore* core, bbLocalMessage* message)
     return bbSuccess;
 }
 #endif //DEFINE_PONG
-bbFlag bbLocalMessage_setViewpointOut_fn(bbCore* core, bbLocalMessage* message)
+#ifdef DEFINE_SKELLYCHASE
+/*bbFlag bbLocalMessage_setViewpointOut_fn(bbCore* core, bbLocalMessage* message)
 {
     bbHandle handle = {0};
     bbCoreInput_setViewpointOut(core,
         message->data.map_coords, message->act_time,bbInstructionSource_input,handle);
 
     return bbSuccess;
-}
+}*/
 
 bbFlag bbLocalMessage_setGoalpointOut_fn(bbCore* core, bbLocalMessage* message)
 {
@@ -119,7 +120,7 @@ bbFlag bbLocalMessage_setGoalpointOut_fn(bbCore* core, bbLocalMessage* message)
 
     return bbSuccess;
 }
-
+#endif
 
 bbFlag bbCore_checkLocalMessages(bbCore* core)
 {
@@ -194,15 +195,17 @@ bbFlag bbCore_checkLocalMessages(bbCore* core)
             break;
 
 #endif //DEFINE_PONG
-        case bbLocalMessage_setViewpoint:
-            bbLocalMessage_setViewpointOut_fn(core, message);
-            bbCore_react(core);
-            break;
+
+#ifdef DEFINE_SKELLYCHASE
+//        case bbLocalMessage_setViewpoint:
+//            bbLocalMessage_setViewpointOut_fn(core, message);
+//            bbCore_react(core);
+//            break;
         case bbLocalMessage_setGoalpoint:
             bbLocalMessage_setGoalpointOut_fn(core, message);
             bbCore_react(core);
             break;
-
+#endif
         default:
 
             bbDebug("Unknown local message type\n");

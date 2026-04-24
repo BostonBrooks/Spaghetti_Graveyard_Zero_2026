@@ -317,6 +317,9 @@ add_executable(SkellyChase test/bbTest_SkellyChase.c
         games/game0/maps/skellychase/widgets/widgets.c
         games/game0/maps/skellychase/widgets/spawn_widgets.c
         games/game0/maps/skellychase/spawn_drawables.c
+        games/game0/maps/skellychase/core/core.c
+        games/game0/maps/skellychase/core/instructions.c
+        games/game0/maps/skellychase/core/instructions.c
 )
 
 target_compile_definitions(SkellyChase PRIVATE

@@ -31,26 +31,26 @@ typedef enum
     //bbInstruction_unupdatePaddle,
 
 
-    bbInstruction_keyUp,
-    bbInstruction_keyDown,
+   // bbInstruction_keyUp,
+    //bbInstruction_keyDown,
 
     //bbInstruction_setPaddleDirection,
     //bbInstruction_setPaddleVelocity,
     //bbInstruction_unsetPaddleVelocity,
 
-    bbInstruction_setViewpointOut,
-    bbInstruction_setViewpointIn,
-    bbInstruction_unsetViewpoint,
+    //bbInstruction_setViewpointOut,
+    //bbInstruction_setViewpointIn,
+    //bbInstruction_unsetViewpoint,
 
-    bbInstruction_setGoalpointOut,
-    bbInstruction_setGoalpointIn,
-    bbInstruction_unsetGoalpoint,
-    bbInstruction_approachGoalpoint,
-    bbInstruction_unapproachGoalpoint,
+    //bbInstruction_setGoalpointOut,
+    //bbInstruction_setGoalpointIn,
+    //bbInstruction_unsetGoalpoint,
+    //bbInstruction_approachGoalpoint,
+    //bbInstruction_unapproachGoalpoint,
 
 
-    bbInstruction_updateMoveables,
-    bbInstruction_unupdateMoveables,
+    //bbInstruction_updateMoveables,
+    //bbInstruction_unupdateMoveables,
 
     bbInstruction_numTypes
 } bbInstruction_type;

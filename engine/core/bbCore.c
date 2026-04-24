@@ -87,48 +87,48 @@ bbFlag bbCore_react(bbCore* core)
                 break;
 #ifndef DEFINE_PONG
 
-            case bbInstruction_setViewpointOut:
+          //  case bbInstruction_setViewpointOut:
 
-                bbInstruction_setViewpointOut_fn(core, instruction);
-                break;
-            case bbInstruction_setViewpointIn:
+          //      bbInstruction_setViewpointOut_fn(core, instruction);
+           //     break;
+//case bbInstruction_setViewpointIn:
 
-                bbInstruction_setViewpointIn_fn(core, instruction);
-                break;
-
-
-            case bbInstruction_setGoalpointOut:
-
-                bbInstruction_setGoalpointOut_fn(core, instruction);
-                break;
-
-            case bbInstruction_setGoalpointIn:
-
-                bbInstruction_setGoalpointIn_fn(core, instruction);
-                break;
+//                bbInstruction_setViewpointIn_fn(core, instruction);
+//                break;
 
 
-            case bbInstruction_approachGoalpoint:
+           // case bbInstruction_setGoalpointOut:
 
-                bbInstruction_approachGoalpoint_fn(core, instruction);
-                break;
+            //    bbInstruction_setGoalpointOut_fn(core, instruction);
+            //    break;
 
-            case bbInstruction_updateMoveables:
+           // case bbInstruction_setGoalpointIn:
 
-                bbInstruction_updateMoveables_fn(core, instruction);
-                break;
+           //     bbInstruction_setGoalpointIn_fn(core, instruction);
+           //     break;
+
+
+//            case bbInstruction_approachGoalpoint:
+
+//                bbInstruction_approachGoalpoint_fn(core, instruction);
+//                break;
+
+            //case bbInstruction_updateMoveables:
+
+            //    bbInstruction_updateMoveables_fn(core, instruction);
+            //    break;
 #endif
 
 #ifdef DEFINE_PONG
 
 
-            case bbInstruction_keyDown:
-                bbInstruction_keyDown_fn(core, instruction);
-                break;
+          //  case bbInstruction_keyDown:
+      //          bbInstruction_keyDown_fn(core, instruction);
+      //          break;
 
-            case bbInstruction_keyUp:
-                bbInstruction_keyUp_fn(core, instruction);
-                break;
+      //      case bbInstruction_keyUp:
+       //         bbInstruction_keyUp_fn(core, instruction);
+       //         break;
 
 
 #endif //DEFINE_PONG
@@ -177,24 +177,25 @@ bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
                 bbInstruction_uncheckActions_fn(core, instruction);
                 break;
 
-            case bbInstruction_unsetViewpoint:
-                bbInstruction_unsetViewpoint_fn(core, instruction);
-                break;
+        //    case bbInstruction_unsetViewpoint:
+        //        bbInstruction_unsetViewpoint_fn(core, instruction);
+       //         break;
+
 #ifndef DEFINE_PONG
 
 
-            case bbInstruction_unsetGoalpoint:
-                bbInstruction_unsetGoalpoint_fn(core, instruction);
-                break;
+            //case bbInstruction_unsetGoalpoint:
+            //    bbInstruction_unsetGoalpoint_fn(core, instruction);
+            //    break;
 
-            case bbInstruction_unapproachGoalpoint:
-                bbInstruction_unapproachGoalpoint_fn(core, instruction);
-                break;
+            //case bbInstruction_unapproachGoalpoint:
+            //    bbInstruction_unapproachGoalpoint_fn(core, instruction);
+            //    break;
 
-            case bbInstruction_unupdateMoveables:
-                bbHere()
-                bbInstruction_unupdateMoveables_fn(core, instruction);
-                break;
+            //case bbInstruction_unupdateMoveables:
+            //    bbHere()
+            //    bbInstruction_unupdateMoveables_fn(core, instruction);
+            //    break;
 #endif
 
 
