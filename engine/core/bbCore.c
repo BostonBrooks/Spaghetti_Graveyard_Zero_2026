@@ -156,8 +156,6 @@ bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
         {
 
             bbInstruction_fn* instruction_fn = core->instruction_functions[instruction->type-bbInstruction_numTypes];
-
-            bbDebug("instruction->type = %d\n", instruction->type);
             instruction_fn(core, instruction);
 
         } else

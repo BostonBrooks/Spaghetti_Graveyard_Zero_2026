@@ -20,7 +20,7 @@ bbFlag bbUIApp_init(bbUIApp* app)
     home.UI.window = sfRenderWindow_create(mode, "early demo", sfResize | sfClose, NULL);
     sfRenderWindow_setMouseCursorVisible(home.UI.window, sfFalse);
     sfRenderWindow_setKeyRepeatEnabled(home.UI.window,sfFalse);
-    sfRenderWindow_setFramerateLimit(home.UI.window, 60);
+    sfRenderWindow_setFramerateLimit(home.UI.window, 0);
 
 
 #ifdef DEFINE_PONG
