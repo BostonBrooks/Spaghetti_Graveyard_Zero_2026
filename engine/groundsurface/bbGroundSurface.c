@@ -324,9 +324,9 @@ bbFlag bbGroundSurface_draw(bbGroundSurface* surface, bbViewport* viewport, I32 
 // This code makes the square grey
     sfRenderTexture_clear(square->Base_Render_Texture, bbGrey);
     //sfRenderTexture_clear(square->Hill_Shading_Render_Texture, bbGrey);
-    sfRenderTexture_clear(square->Footprints_Render_Texture, bbGrey);
-    sfRenderTexture_clear(square->Auras_Render_Texture, bbGrey);
-    sfRenderTexture_clear(square->Circles_Render_Texture, bbGrey);
+    sfRenderTexture_clear(square->Footprints_Render_Texture, sfTransparent);
+    sfRenderTexture_clear(square->Auras_Render_Texture, sfTransparent);
+    sfRenderTexture_clear(square->Circles_Render_Texture, sfTransparent);
 //
 
 
