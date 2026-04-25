@@ -3,11 +3,12 @@
 #include <assert.h>
 
 #include "engine/data/bbHome.h"
+#include "engine/graphics/bbColours.h"
 #include "engine/groundsurface/bbHillShading.h"
 #include "engine/viewport/bbViewport.h"
 
 #define HEIGHT_MAP_PADDING    16
-#define ELEVATION_SCALE         32
+#define ELEVATION_SCALE         0
 //#define HEIGHT_MAP_SIZE       (TILES_PER_MAP + 1 + 2 * HEIGHT_MAP_PADDING)
 
 bbFlag Create_Ground_Shaders (bbGroundSurface* surface){
@@ -47,10 +48,10 @@ bbFlag Create_Ground_Shaders (bbGroundSurface* surface){
             vec4 mix3 = mix(mix2, auras, auras.a);\
             vec4 mix4 = mix(mix3, circles, circles.a);\
             gl_FragColor = mix4;\
+            gl_FragColor = vec4(1.0,1.0,1.0,1.0);\
         }\
     ";
 
-//            gl_FragColor =  gl_Color * Light * pixel;\
 
     surface->null_render_texture = sfRenderTexture_create (PIXELS_PER_TILE * TILES_PER_SQUARE, PIXELS_PER_TILE * TILES_PER_SQUARE, sfFalse);
     sfRenderTexture_clear(surface->null_render_texture, sfGreen);
@@ -148,6 +149,8 @@ sfVector2f bbGetVertex(bbGroundSurface* surface, int tile_i, int tile_j, int squ
 
     int k = bbTileCoords_getElevation(surface,TC);
 
+    //debug
+    //k=0;
 
     int i, j;
 
@@ -204,7 +207,7 @@ bbFlag bbGroundSquare_initVertexArray(bbGroundSurface* surface, bbSquareCoords S
 
             top_vertex.color = sfWhite;
             bottom_vertex.color = sfWhite;
-            left_vertex.color = sfWhite;
+            left_vertex.color = sfBlack;
             right_vertex.color = sfWhite;
 
 
@@ -246,36 +249,41 @@ bbFlag bbGroundSurface_init(bbGroundSurface* surface, bbSquareCoords size, char*
                 PIXELS_PER_SQUARE,PIXELS_PER_SQUARE,sfFalse);
             square->Base_Texture
             = sfRenderTexture_getTexture(square->Base_Render_Texture);
+            sfRenderTexture_clear(square->Base_Render_Texture, bbTeal);
 
             square->Hill_Shading_Render_Texture
             = sfRenderTexture_create(
                 PIXELS_PER_SQUARE,PIXELS_PER_SQUARE,sfFalse);
             square->Hill_Shading_Texture
             = sfRenderTexture_getTexture(square->Hill_Shading_Render_Texture);
+            sfRenderTexture_clear(square->Hill_Shading_Render_Texture, bbTeal);
 
             square->Footprints_Render_Texture
             = sfRenderTexture_create(
                 PIXELS_PER_SQUARE,PIXELS_PER_SQUARE,sfFalse);
             square->Footprints_Texture
             = sfRenderTexture_getTexture(square->Footprints_Render_Texture);
+            sfRenderTexture_clear(square->Footprints_Render_Texture, bbTeal);
 
             square->Auras_Render_Texture
             = sfRenderTexture_create(
                 PIXELS_PER_SQUARE,PIXELS_PER_SQUARE,sfFalse);
             square->Auras_Texture
             = sfRenderTexture_getTexture(square->Auras_Render_Texture);
+            sfRenderTexture_clear(square->Auras_Render_Texture, bbTeal);
 
             square->Circles_Render_Texture
             = sfRenderTexture_create(
                 PIXELS_PER_SQUARE,PIXELS_PER_SQUARE,sfFalse);
             square->Circles_Texture
             = sfRenderTexture_getTexture(square->Circles_Render_Texture);
+            sfRenderTexture_clear(square->Circles_Render_Texture, bbTeal);
 
 
             bbHillshading_calculate(&surface->hill_shading,
                                    square->Hill_Shading_Render_Texture, coords);
 
-
+            sfRenderTexture_display(square->Hill_Shading_Render_Texture);
 
             bbGroundSquare_initVertexArray(surface, coords);
 
@@ -293,7 +301,7 @@ sfVector2f bbTileCoords_getScreenCoords_centre (bbViewport* viewport, bbTileCoor
 
     int mci = TC.i * POINTS_PER_TILE;
     int mcj = TC.j * POINTS_PER_TILE;
-    int mck = TC.k;
+    int mck = 0;
 
     sfVector2f sc;
     sc.x = viewport->width/2.0
@@ -313,6 +321,15 @@ bbFlag bbGroundSurface_draw(bbGroundSurface* surface, bbViewport* viewport, I32 
 
     bbGroundSquare* square = &surface->ground_squares[Square_i*surface->map_size.j + Square_j];
 
+//Debug this does nothing
+    sfRenderTexture_clear(square->Base_Render_Texture, bbGrey);
+    sfRenderTexture_clear(square->Hill_Shading_Render_Texture, bbGrey);
+    sfRenderTexture_clear(square->Footprints_Render_Texture, bbGrey);
+    sfRenderTexture_clear(square->Auras_Render_Texture, bbGrey);
+    sfRenderTexture_clear(square->Circles_Render_Texture, bbGrey);
+//end debug
+
+
     sfRenderTexture_display(square->Base_Render_Texture);
     sfRenderTexture_display(square->Hill_Shading_Render_Texture);
     sfRenderTexture_display(square->Footprints_Render_Texture);
@@ -326,10 +343,16 @@ bbFlag bbGroundSurface_draw(bbGroundSurface* surface, bbViewport* viewport, I32 
 
     sfVector2f sf_left_corner = bbTileCoords_getScreenCoords_centre(viewport, TC);
 
+
+    //sf_left_corner.x = 100;
+    //sf_left_corner.y = 100;
+
+
     sfVertexArray* VA = square->vertex_array;
 
     sfShader_setVec2Uniform (surface->ground_shader, "offset", sf_left_corner);
 
+    sfRenderTexture_clear(square->Hill_Shading_Render_Texture, bbGrey);
 
     sfShader_setTextureUniform(surface->ground_shader,"Base_Texture", square->Base_Texture);
     sfShader_setTextureUniform(surface->ground_shader,"Hill_Shading_Texture", square->Hill_Shading_Texture);
@@ -338,6 +361,10 @@ bbFlag bbGroundSurface_draw(bbGroundSurface* surface, bbViewport* viewport, I32 
     sfShader_setTextureUniform(surface->ground_shader,"Circles_Texture", square->Circles_Texture);
 
     sfRenderTexture_drawVertexArray (viewport->ground.renderTexture, VA, &surface->ground_renderer);
+
+    //sfRenderTexture_clear(viewport->ground.renderTexture, bbGrey);
+    //This works to set the viewport background grey
+
 
     sfRenderTexture_clear(square->Footprints_Render_Texture, sfTransparent);
     sfRenderTexture_clear(square->Auras_Render_Texture, sfTransparent);
@@ -352,30 +379,30 @@ bbFlag bbGroundSurface_draw(bbGroundSurface* surface, bbViewport* viewport, I32 
 
 bbFlag bbGroundSurface_drawVisible(bbGroundSurface* surface, bbViewport* viewport){
 
-    sfVector2f sc;
-    bbMapCoords TopLeft, TopRight, BottomLeft, BottomRight;
+    //sfVector2f sc;
+    //bbMapCoords TopLeft, TopRight, BottomLeft, BottomRight;
 
-    bbMapCoords viewpoint = viewport->viewpoint;
+    //bbMapCoords viewpoint = viewport->viewpoint;
 
     //not sure if I should add VIEWPORT_TOP and VIEWPORT_LEFT
     //Im going to say no
-    sc.x = 0;
-    sc.y = -viewpoint.k;
+    //sc.x = 0;
+    //sc.y = -viewpoint.k;
 
     //TopLeft = bbScreenCoords_getMapCoords_k0(sc);
 
-    sc.x = viewport->width;
-    sc.y = -viewpoint.k;
+    //sc.x = viewport->width;
+    //sc.y = -viewpoint.k;
 
     //TopRight = bbScreenCoords_getMapCoords_k0(sc);
 
-    sc.x = 0;
-    sc.y = viewport->height + ELEVATION_MAX -viewpoint.k;
+    //sc.x = 0;
+    //sc.y = viewport->height + ELEVATION_MAX -viewpoint.k;
 
     //BottomLeft = bbScreenCoords_getMapCoords_k0(sc);
 
-    sc.x = viewport->width;
-    sc.y = viewport->height + ELEVATION_MAX -viewpoint.k;
+    //sc.x = viewport->width;
+    //sc.y = viewport->height + ELEVATION_MAX -viewpoint.k;
 
     //BottomRight = bbScreenCoords_getMapCoords_k0(sc);
 
@@ -386,14 +413,14 @@ bbFlag bbGroundSurface_drawVisible(bbGroundSurface* surface, bbViewport* viewpor
     LeftCorner.i = 0; //bbArith_div(TopLeft.i,POINTS_PER_SQUARE);
     LeftCorner.j = 0; //bbArith_div(BottomLeft.j,POINTS_PER_SQUARE);
 
-    if (LeftCorner.i < 0) LeftCorner.i = 0;
-    if (LeftCorner.j < 0) LeftCorner.j = 0;
+    //if (LeftCorner.i < 0) LeftCorner.i = 0;
+    //if (LeftCorner.j < 0) LeftCorner.j = 0;
 
-    RightCorner.i =  12; //bbArith_div(BottomRight.i,POINTS_PER_SQUARE);
-    RightCorner.j =  12; //bbArith_div(TopRight.j,POINTS_PER_SQUARE);
+    RightCorner.i =  6; //bbArith_div(BottomRight.i,POINTS_PER_SQUARE);
+    RightCorner.j =  6; //bbArith_div(TopRight.j,POINTS_PER_SQUARE);
 
-    if (RightCorner.i > SQUARES_PER_MAP-1) RightCorner.i = SQUARES_PER_MAP-1;
-    if (RightCorner.j > SQUARES_PER_MAP-1) RightCorner.j = SQUARES_PER_MAP-1;
+    //if (RightCorner.i > SQUARES_PER_MAP-1) RightCorner.i = SQUARES_PER_MAP-1;
+    //if (RightCorner.j > SQUARES_PER_MAP-1) RightCorner.j = SQUARES_PER_MAP-1;
     //indexing starts at zero
 
     int m,n;

@@ -61,12 +61,15 @@ bbFlag bbUIApp_draw(bbUIApp* app)
 #ifndef DEFINE_PONG
     bbDrawablesPlus_draw( &cl, 0, 0, 12, 12);
     //bbAvoidables_draw(home.private.viewportApp.avoidables, &cl, 0, 0, 12, 12);
-    bbGroundSurface_drawVisible(&home.ground_surface, &home.viewport_app.viewport);
+    //bbGroundSurface_drawVisible(&home.ground_surface, &home.viewport_app.viewport);
+    bbGroundSurface_draw(&home.ground_surface, &home.viewport_app.viewport, 0, 0);
+
 
 #endif
     cl.target = app->window;
     bbWidgets_draw(&app->widgets, &cl);
     bbMouse_Draw(&app->mouse, &app->widgets, &home.UI.graphics, app->window);
+
     sfRenderWindow_display(app->window);
 
 #ifndef DEFINE_PONG

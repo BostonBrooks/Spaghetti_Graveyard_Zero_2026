@@ -180,6 +180,10 @@ bbFlag bbViewport_new(bbViewport** viewport, I32 height, I32 width){
 
 
 bbFlag bbViewport_draw(sfRenderWindow* window, bbViewport* viewport){
+
+    //sfRenderTexture_clear(viewport->ground.renderTexture, bbYellow);
+    //This works to make the viewport background yellow
+
     sfRenderTexture_display(viewport->background.renderTexture);
     sfRenderTexture_display(viewport->ground.renderTexture);
     sfRenderTexture_display(viewport->main.renderTexture);

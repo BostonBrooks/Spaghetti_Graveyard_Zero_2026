@@ -65,4 +65,7 @@ I32 bbMapCoords_getElevation(bbGroundSurface* ground_surface, bbMapCoords coords
 
 bbFlag bbGroundSurface_drawVisible(bbGroundSurface* surface, bbViewport* viewport);
 
+
+bbFlag bbGroundSurface_draw(bbGroundSurface* surface, bbViewport* viewport, I32 Square_i, I32 Square_j);
+
 #endif //BB_GROUNDSURFACE_H
