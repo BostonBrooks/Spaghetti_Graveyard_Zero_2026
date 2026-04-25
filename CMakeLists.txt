@@ -320,6 +320,7 @@ add_executable(SkellyChase test/bbTest_SkellyChase.c
         games/game0/maps/skellychase/core/core.c
         games/game0/maps/skellychase/core/instructions.c
         games/game0/maps/skellychase/core/instructions.c
+        engine/groundsurface/bbHillShading.c
 )
 
 target_compile_definitions(SkellyChase PRIVATE

@@ -1,0 +1,58 @@
+#include "engine/groundsurface/bbHillShading.h"
+#include "engine/geometry/bbCoordinates.h"
+
+typedef struct
+{
+    bbSquareCoords SC;
+
+    sfRenderTexture*  Base_Render_Texture;
+    sfTexture*        Base_Texture;
+
+
+    sfImage*          Hill_Shading_CPU;
+    sfUint8*          Hill_Shading_Data;
+    sfRenderTexture*  Hill_Shading_Render_Texture;
+    sfTexture*        Hill_Shading_Texture;
+
+    sfRenderTexture*  Footprints_Render_Texture;
+    sfTexture*        Footprints_Texture;
+
+    sfRenderTexture*  Auras_Render_Texture;
+    sfTexture*        Auras_Texture;
+
+    sfRenderTexture*  Circles_Render_Texture;
+    sfTexture*        Circles_Texture;
+
+    sfVertexArray*    Vertex_Array;
+
+
+} bbGroundSquare;
+
+typedef struct
+{
+    bbSquareCoords mapSize;
+    bbGroundSquare* ground_squares;
+
+    sfRenderStates* ground_renderer;
+    sfShader*       ground_shader;
+
+    sfTexture*      null_texture;
+
+    bbHillShading hill_shading;
+
+    I32* elevations;
+
+} bbGroundSurface;
+
+bbFlag bbGroundSurface_getSquare(bbGroundSquare** square, bbGroundSurface* surface, bbSquareCoords SC);
+
+/** Initialise vertex array for one map square */
+bbFlag bbGroundSquare_initVertexArray(int square_i, int square_j);
+
+/** Initialise hill shading for one map square */
+bbFlag bbGroundSquare_calcHillShading(int Square_i, int Square_j);
+
+bbFlag bbGroundSurface_init(bbGroundSurface* surface, bbSquareCoords size, char* elevation_file);
+
+I32 bbTileCoords_getElevation(bbGroundSurface* ground_surface, bbTileCoords* coords);
+I32 bbMapCoords_getElevation(bbGroundSurface* ground_surface, bbMapCoords* coords);

@@ -13,6 +13,7 @@
 
 #include "engine/userinterface/bbUIApp.h"
 #include "engine/agents/bbAgentApp.h"
+#include "engine/groundsurface/bbGoundSurface.h"
 
 
 
@@ -41,6 +42,7 @@ typedef struct
     bbHome_core core;
     bbViewportApp viewport_app;
     bbAgentsApp agents_app;
+    bbGroundSurface ground_surface;
 } bbHome;
 
 

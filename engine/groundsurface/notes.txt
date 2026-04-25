@@ -1,0 +1,21 @@
+initialise array of terrain squares
+
+load elevations as image
+scan heights into elevation array
+close image
+
+
+(in gpu_hillshading file)
+create shaders
+load elevations as texture
+
+for each terrain square
+    init render textures
+    draw sprite to base texture
+    calc hill shading
+        set uniforms
+        render ground square hill shading
+
+    create vertex array
+
+create shaders to draw textures to viewport
