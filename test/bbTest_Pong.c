@@ -42,8 +42,6 @@ int main(void)
     bbCore_init(&home.core.core);
     bbCore_initVInstructions(&home.core.core);
 
-    bbHillShading_init(&home.ground_surface.hill_shading, "./maps/skellychase/graphics/HeightMap.bmp");
-
     pthread_t graphics_pthread;
     pthread_create(&graphics_pthread, NULL, userinterface_thread, NULL);
 
