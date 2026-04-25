@@ -13,7 +13,7 @@
 
 #include "engine/userinterface/bbUIApp.h"
 #include "engine/agents/bbAgentApp.h"
-#include "engine/groundsurface/bbGoundSurface.h"
+#include "engine/groundsurface/bbGroundSurface.h"
 
 
 
