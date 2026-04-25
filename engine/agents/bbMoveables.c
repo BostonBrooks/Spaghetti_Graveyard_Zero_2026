@@ -78,8 +78,8 @@ bbFlag bbMoveables_init(bbMoveables* moveables)
 
         moveable->type = bbMoveableType_Cat;
 
-        moveable->position.i = (i%32)*PIXELS_PER_TILE;
-        moveable->position.j = (i/32)*PIXELS_PER_TILE;
+        moveable->position.i = (i%32)*PIXELS_PER_TILE*2;
+        moveable->position.j = (i/32)*PIXELS_PER_TILE*2;
         moveable->position.k = 0;
 
         moveable->coords_a = bbMapCoords_getMilliCoords(moveable->position);
@@ -94,8 +94,8 @@ bbFlag bbMoveables_init(bbMoveables* moveables)
     }
 
     moveables->moveables[0].type = bbMoveableType_Player;
-    moveables->moveables[0].goalpoint.i = 10000000;
-    moveables->moveables[0].goalpoint.j = 10000000;
+    moveables->moveables[0].goalpoint.i = 1000;
+    moveables->moveables[0].goalpoint.j = 1000;
     moveables->moveables[0].goalpoint.k = 0;
 
     return bbSuccess;

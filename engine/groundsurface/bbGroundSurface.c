@@ -8,7 +8,7 @@
 #include "engine/viewport/bbViewport.h"
 
 #define HEIGHT_MAP_PADDING    16
-#define ELEVATION_SCALE         0
+#define ELEVATION_SCALE        8
 //#define HEIGHT_MAP_SIZE       (TILES_PER_MAP + 1 + 2 * HEIGHT_MAP_PADDING)
 
 bbFlag Create_Ground_Shaders (bbGroundSurface* surface){
@@ -48,7 +48,6 @@ bbFlag Create_Ground_Shaders (bbGroundSurface* surface){
             vec4 mix3 = mix(mix2, auras, auras.a);\
             vec4 mix4 = mix(mix3, circles, circles.a);\
             gl_FragColor = mix4;\
-            gl_FragColor = vec4(1.0,1.0,1.0,1.0);\
         }\
     ";
 
@@ -171,6 +170,7 @@ bbFlag bbGroundSquare_initVertexArray(bbGroundSurface* surface, bbSquareCoords S
 {
     bbGroundSquare* square = &surface->ground_squares[SC.i*surface->map_size.j + SC.j];
     square->vertex_array = sfVertexArray_create();
+    sfVertexArray_setPrimitiveType(square->vertex_array, sfTriangles);
 
     sfVertex top_vertex, bottom_vertex, left_vertex, right_vertex;
 
@@ -321,13 +321,13 @@ bbFlag bbGroundSurface_draw(bbGroundSurface* surface, bbViewport* viewport, I32 
 
     bbGroundSquare* square = &surface->ground_squares[Square_i*surface->map_size.j + Square_j];
 
-//Debug this does nothing
+// This code makes the square grey
     sfRenderTexture_clear(square->Base_Render_Texture, bbGrey);
-    sfRenderTexture_clear(square->Hill_Shading_Render_Texture, bbGrey);
+    //sfRenderTexture_clear(square->Hill_Shading_Render_Texture, bbGrey);
     sfRenderTexture_clear(square->Footprints_Render_Texture, bbGrey);
     sfRenderTexture_clear(square->Auras_Render_Texture, bbGrey);
     sfRenderTexture_clear(square->Circles_Render_Texture, bbGrey);
-//end debug
+//
 
 
     sfRenderTexture_display(square->Base_Render_Texture);

@@ -210,7 +210,7 @@ bbFlag bbHillshading_calculate(bbHillShading* hill_shading,
 
 	sfRenderTexture_drawSprite(target, hill_shading->null_sprite, hill_shading->render_states);
 
-	sfRenderTexture_clear(target,bbGrey);
+	//sfRenderTexture_clear(target,bbGrey);
 	sfRenderTexture_display(target);
 
 }
