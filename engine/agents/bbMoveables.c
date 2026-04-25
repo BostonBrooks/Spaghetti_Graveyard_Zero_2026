@@ -292,6 +292,8 @@ bbFlag bbMoveables_update(bbMoveables* moveables)
             moveables->moveables[i].position
             = bbMilliCoords_getMapCoords(moveables->moveables[i].coords_b);
 
+        moveables->moveables[i].position.k
+            = bbMapCoords_getElevation(&home.ground_surface, moveables->moveables[i].position);
 
         moveables->buffer_back->moveables[i].goalpoint = moveables->moveables[i].goalpoint;
         moveables->buffer_back->moveables[i].position = moveables->moveables[i].position;

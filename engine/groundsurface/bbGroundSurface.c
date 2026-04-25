@@ -433,3 +433,76 @@ bbFlag bbGroundSurface_drawVisible(bbGroundSurface* surface, bbViewport* viewpor
 
     return bbSuccess;
 }
+
+
+I32 bbMapCoords_getElevation(bbGroundSurface* ground_surface, bbMapCoords coords)
+{
+    I32 pixel_i, pixel_j;
+
+    pixel_i = coords.i;
+    pixel_j = coords.j;
+
+    I32 tile_i, tile_j;
+
+    tile_i = pixel_i / POINTS_PER_TILE;
+    tile_j = pixel_j / POINTS_PER_TILE;
+
+    I32 residual_i, residual_j;
+
+    residual_i = coords.i % POINTS_PER_TILE;
+    residual_j = coords.j % POINTS_PER_TILE;
+    bbTileCoords tile_coords;
+    if (residual_i == 0 && residual_j == 0) {
+
+        tile_coords.i = tile_i;
+        tile_coords.j = tile_j;
+        tile_coords.k = 0;
+        return bbTileCoords_getElevation(ground_surface, tile_coords);
+    }
+
+
+    I32 left_elevation, middle_elevation, right_elevation, elevation;
+    float normalised_residual_i, normalised_residual_j;
+
+    normalised_residual_i =
+     residual_i / (1.f * (POINTS_PER_TILE));
+
+    normalised_residual_j =
+         residual_j / (1.f * (POINTS_PER_TILE));
+
+    tile_coords.i = tile_i;
+    tile_coords.j = tile_j;
+    left_elevation =  bbTileCoords_getElevation(ground_surface, tile_coords);
+
+    tile_coords.i = tile_i+1;
+    tile_coords.j = tile_j+1;
+    right_elevation =  bbTileCoords_getElevation(ground_surface, tile_coords);
+
+    if (residual_i <= residual_j){  //Upper triangle of tile
+
+
+        tile_coords.i = tile_i;
+        tile_coords.j = tile_j+1;
+        middle_elevation = bbTileCoords_getElevation(ground_surface, tile_coords);
+
+        elevation =
+            (right_elevation - middle_elevation) * normalised_residual_i
+            + (middle_elevation - left_elevation) * normalised_residual_j
+            + left_elevation;
+
+        return elevation;
+
+    } else { //Lower triangle of tile
+
+        tile_coords.i = tile_i+1;
+        tile_coords.j = tile_j;
+        middle_elevation = bbTileCoords_getElevation(ground_surface, tile_coords);
+
+        elevation =
+            (middle_elevation - left_elevation) * normalised_residual_i
+            + (right_elevation - middle_elevation) * normalised_residual_j
+            + left_elevation;
+
+        return elevation;
+    }
+}
