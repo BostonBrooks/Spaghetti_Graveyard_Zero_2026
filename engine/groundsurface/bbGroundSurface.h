@@ -4,6 +4,7 @@
 
 #include "engine/groundsurface/bbHillShading.h"
 #include "engine/geometry/bbCoordinates.h"
+#include "engine/viewport/bbViewport.h"
 
 typedef struct
 {
@@ -62,5 +63,6 @@ bbFlag bbGroundSurface_init(bbGroundSurface* surface, bbSquareCoords size, char*
 I32 bbTileCoords_getElevation(bbGroundSurface* surface, bbTileCoords coords);
 I32 bbMapCoords_getElevation(bbGroundSurface* ground_surface, bbMapCoords coords);
 
+bbFlag bbGroundSurface_drawVisible(bbGroundSurface* surface, bbViewport* viewport);
 
 #endif //BB_GROUNDSURFACE_H

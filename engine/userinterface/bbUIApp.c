@@ -61,6 +61,8 @@ bbFlag bbUIApp_draw(bbUIApp* app)
 #ifndef DEFINE_PONG
     bbDrawablesPlus_draw( &cl, 0, 0, 12, 12);
     //bbAvoidables_draw(home.private.viewportApp.avoidables, &cl, 0, 0, 12, 12);
+    bbGroundSurface_drawVisible(&home.ground_surface, &home.viewport_app.viewport);
+
 #endif
     cl.target = app->window;
     bbWidgets_draw(&app->widgets, &cl);

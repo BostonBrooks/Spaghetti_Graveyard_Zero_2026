@@ -2,6 +2,7 @@
 
 #include <assert.h>
 
+#include "engine/data/bbHome.h"
 #include "engine/groundsurface/bbHillShading.h"
 #include "engine/viewport/bbViewport.h"
 
@@ -347,48 +348,49 @@ bbFlag bbGroundSurface_draw(bbGroundSurface* surface, bbViewport* viewport, I32 
 
 }
 
-#define ELEVATION_MAX       (ELEVATION_SCALE * PIXEL_VALUE_MAX)
+#define ELEVATION_MAX       (ELEVATION_SCALE * 2^8)
 
-int bbGroundSurface_drawVisible(bbGroundSurface* surface, bbViewport* viewport){
+bbFlag bbGroundSurface_drawVisible(bbGroundSurface* surface, bbViewport* viewport){
 
-    bbScreenCoords sc;
+    sfVector2f sc;
     bbMapCoords TopLeft, TopRight, BottomLeft, BottomRight;
 
+    bbMapCoords viewpoint = viewport->viewpoint;
 
     //not sure if I should add VIEWPORT_TOP and VIEWPORT_LEFT
     //Im going to say no
     sc.x = 0;
     sc.y = -viewpoint.k;
 
-    TopLeft = bbScreenCoords_getMapCoords_k0(sc);
+    //TopLeft = bbScreenCoords_getMapCoords_k0(sc);
 
-    sc.x = VIEWPORT_WIDTH;
+    sc.x = viewport->width;
     sc.y = -viewpoint.k;
 
-    TopRight = bbScreenCoords_getMapCoords_k0(sc);
+    //TopRight = bbScreenCoords_getMapCoords_k0(sc);
 
     sc.x = 0;
-    sc.y = VIEWPORT_HEIGHT + ELEVATION_MAX -viewpoint.k;
+    sc.y = viewport->height + ELEVATION_MAX -viewpoint.k;
 
-    BottomLeft = bbScreenCoords_getMapCoords_k0(sc);
+    //BottomLeft = bbScreenCoords_getMapCoords_k0(sc);
 
-    sc.x = VIEWPORT_WIDTH;
-    sc.y = VIEWPORT_HEIGHT + ELEVATION_MAX -viewpoint.k;
+    sc.x = viewport->width;
+    sc.y = viewport->height + ELEVATION_MAX -viewpoint.k;
 
-    BottomRight = bbScreenCoords_getMapCoords_k0(sc);
+    //BottomRight = bbScreenCoords_getMapCoords_k0(sc);
 
 
     bbSquareCoords LeftCorner;
     bbSquareCoords RightCorner;
 
-    LeftCorner.i = floordiv(TopLeft.i,POINTS_PER_SQUARE);
-    LeftCorner.j = floordiv(BottomLeft.j,POINTS_PER_SQUARE);
+    LeftCorner.i = 0; //bbArith_div(TopLeft.i,POINTS_PER_SQUARE);
+    LeftCorner.j = 0; //bbArith_div(BottomLeft.j,POINTS_PER_SQUARE);
 
     if (LeftCorner.i < 0) LeftCorner.i = 0;
     if (LeftCorner.j < 0) LeftCorner.j = 0;
 
-    RightCorner.i = floordiv(BottomRight.i,POINTS_PER_SQUARE);
-    RightCorner.j = floordiv(TopRight.j,POINTS_PER_SQUARE);
+    RightCorner.i =  12; //bbArith_div(BottomRight.i,POINTS_PER_SQUARE);
+    RightCorner.j =  12; //bbArith_div(TopRight.j,POINTS_PER_SQUARE);
 
     if (RightCorner.i > SQUARES_PER_MAP-1) RightCorner.i = SQUARES_PER_MAP-1;
     if (RightCorner.j > SQUARES_PER_MAP-1) RightCorner.j = SQUARES_PER_MAP-1;
@@ -398,7 +400,9 @@ int bbGroundSurface_drawVisible(bbGroundSurface* surface, bbViewport* viewport){
 
     for (n = RightCorner.j; n >= LeftCorner.j; n--){
         for (m = LeftCorner.i; m <= RightCorner.i; m++){
-            bbGroundSurface_draw(m,n);
+            bbGroundSurface_draw(surface, &home.viewport_app.viewport, m, n);
         }
     }
+
+    return bbSuccess;
 }
