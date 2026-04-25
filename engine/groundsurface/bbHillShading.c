@@ -176,11 +176,16 @@ const float GD_Kernel[97] = {-0.000370, -0.000525, -0.000739, -0.001032,
 bbFlag bbHillShading_init( bbHillShading* hill_shading, char* file)
 {
     hill_shading->render_states = malloc(sizeof(sfRenderStates));
+	    bbAssert(hill_shading->render_states != NULL, "constructor returned NULL\n");
     hill_shading->height_texture = sfTexture_createFromFile(file, NULL);
+	    bbAssert(hill_shading->height_texture != NULL, "constructor returned NULL\n");
     hill_shading->null_texture = sfTexture_createFromFile("./MAGENTA.png", NULL);
+	    bbAssert(hill_shading->null_texture != NULL, "constructor returned NULL\n");
     hill_shading->null_sprite = sfSprite_create();
+	    bbAssert(hill_shading->null_sprite != NULL, "constructor returned NULL\n");
     sfSprite_setTexture(hill_shading->null_sprite, hill_shading->null_texture, sfTrue);
     hill_shading->hill_shader = sfShader_createFromMemory(vertShader, NULL, hillShader);
+	    bbAssert(hill_shading->hill_shader != NULL, "constructor returned NULL\n");
 
 	sfShader_setFloatUniformArray(hill_shading->hill_shader, "L_Kernel", L_Kernel, 65);
 	sfShader_setFloatUniformArray(hill_shading->hill_shader, "GD_Kernel", GD_Kernel, 97);
@@ -196,10 +201,10 @@ bbFlag bbHillShading_init( bbHillShading* hill_shading, char* file)
 
 
 bbFlag bbHillshading_calculate(bbHillShading* hill_shading,
-	sfRenderTexture* target, bbSquareCoords* square_coords)
+	sfRenderTexture* target, bbSquareCoords square_coords)
 {
-	sfShader_setIntUniform(hill_shading->render_states->shader, "square_x", square_coords->j);
-	sfShader_setIntUniform(hill_shading->render_states->shader, "square_y", square_coords->i);
+	sfShader_setIntUniform(hill_shading->render_states->shader, "square_x", square_coords.j);
+	sfShader_setIntUniform(hill_shading->render_states->shader, "square_y", square_coords.i);
 
 	sfRenderTexture_drawSprite(target, hill_shading->null_sprite, hill_shading->render_states);
 

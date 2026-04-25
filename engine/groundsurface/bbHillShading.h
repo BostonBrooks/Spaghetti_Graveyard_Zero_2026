@@ -16,4 +16,4 @@ typedef struct
 bbFlag bbHillShading_init( bbHillShading* hill_shading, char* file);
 
 bbFlag bbHillshading_calculate(bbHillShading* hill_shading,
-    sfRenderTexture* target, bbSquareCoords* square_coords);
+    sfRenderTexture* target, bbSquareCoords square_coords);
