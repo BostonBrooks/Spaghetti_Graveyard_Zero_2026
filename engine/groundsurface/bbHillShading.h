@@ -1,3 +1,6 @@
+#ifndef BB_HILLSHADING_H
+#define BB_HILLSHADING_H
+
 #include "engine/geometry/bbCoordinates.h"
 #include "engine/graphics/bbTextures.h"
 
@@ -12,8 +15,10 @@ typedef struct
 
 } bbHillShading;
 
-//
 bbFlag bbHillShading_init( bbHillShading* hill_shading, char* file);
 
 bbFlag bbHillshading_calculate(bbHillShading* hill_shading,
     sfRenderTexture* target, bbSquareCoords square_coords);
+
+
+#endif //BB_HILLSHADING_H

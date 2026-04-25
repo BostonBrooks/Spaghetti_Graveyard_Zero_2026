@@ -53,8 +53,9 @@ int main(void)
 
     bbCore_initVInstructions(&home.core.core);
 
+    bbSquareCoords size; size.i = 12; size.j = 12; size.k = 0;
+    bbGroundSurface_init(&home.ground_surface, size, "./maps/skellychase/graphics/HeightMap.bmp");
 
-    bbHillShading_init(&home.ground_surface.hill_shading, "./maps/skellychase/graphics/HeightMap.bmp");
 
     pthread_t graphics_pthread;
     pthread_create(&graphics_pthread, NULL, userinterface_thread, NULL);
