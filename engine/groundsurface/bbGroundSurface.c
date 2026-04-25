@@ -352,7 +352,7 @@ bbFlag bbGroundSurface_draw(bbGroundSurface* surface, bbViewport* viewport, I32 
 
     sfShader_setVec2Uniform (surface->ground_shader, "offset", sf_left_corner);
 
-    sfRenderTexture_clear(square->Hill_Shading_Render_Texture, bbGrey);
+    //sfRenderTexture_clear(square->Hill_Shading_Render_Texture, bbGrey);
 
     sfShader_setTextureUniform(surface->ground_shader,"Base_Texture", square->Base_Texture);
     sfShader_setTextureUniform(surface->ground_shader,"Hill_Shading_Texture", square->Hill_Shading_Texture);

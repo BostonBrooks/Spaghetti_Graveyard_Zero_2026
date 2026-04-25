@@ -179,12 +179,16 @@ bbFlag bbHillShading_init( bbHillShading* hill_shading, char* file)
 {
     hill_shading->render_states = malloc(sizeof(sfRenderStates));
 	    bbAssert(hill_shading->render_states != NULL, "constructor returned NULL\n");
+
     hill_shading->height_texture = sfTexture_createFromFile(file, NULL);
 	    bbAssert(hill_shading->height_texture != NULL, "constructor returned NULL\n");
+
     hill_shading->null_texture = sfTexture_createFromFile("./MAGENTA.png", NULL);
 	    bbAssert(hill_shading->null_texture != NULL, "constructor returned NULL\n");
+
     hill_shading->null_sprite = sfSprite_create();
 	    bbAssert(hill_shading->null_sprite != NULL, "constructor returned NULL\n");
+
     sfSprite_setTexture(hill_shading->null_sprite, hill_shading->null_texture, sfTrue);
     hill_shading->hill_shader = sfShader_createFromMemory(vertShader, NULL, hillShader);
 	    bbAssert(hill_shading->hill_shader != NULL, "constructor returned NULL\n");
@@ -212,5 +216,6 @@ bbFlag bbHillshading_calculate(bbHillShading* hill_shading,
 
 	//sfRenderTexture_clear(target,bbGrey);
 	sfRenderTexture_display(target);
+
 
 }
