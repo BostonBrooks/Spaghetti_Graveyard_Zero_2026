@@ -3,6 +3,7 @@
 #include <assert.h>
 
 #include "engine/groundsurface/bbHillShading.h"
+#include "engine/viewport/bbViewport.h"
 
 #define HEIGHT_MAP_PADDING    16
 #define ELEVATION_SCALE         32
@@ -164,7 +165,7 @@ sfVector2f bbGetVertex(bbGroundSurface* surface, int tile_i, int tile_j, int squ
 
 bbFlag bbGroundSquare_initVertexArray(bbGroundSurface* surface, bbSquareCoords SC)
 {
-    bbGroundSquare* square = &surface->ground_squares[SC.i*surface->map_size.j + SC.j];;
+    bbGroundSquare* square = &surface->ground_squares[SC.i*surface->map_size.j + SC.j];
     square->vertex_array = sfVertexArray_create();
 
     sfVertex top_vertex, bottom_vertex, left_vertex, right_vertex;
@@ -284,3 +285,120 @@ bbFlag bbGroundSurface_init(bbGroundSurface* surface, bbSquareCoords size, char*
     return bbNone;
 }
 
+
+sfVector2f bbTileCoords_getScreenCoords_centre (bbViewport* viewport, bbTileCoords TC){
+
+
+
+    int mci = TC.i * POINTS_PER_TILE;
+    int mcj = TC.j * POINTS_PER_TILE;
+    int mck = TC.k;
+
+    sfVector2f sc;
+    sc.x = viewport->width/2.0
+           + (mci - viewport->viewpoint.i) / (1.0 * POINTS_PER_PIXEL)
+           + (mcj - viewport->viewpoint.j) / (1.0 * POINTS_PER_PIXEL);
+
+    sc.y = viewport->height/2.0
+           + (mci - viewport->viewpoint.i) / (1.0 * ISOMETRIC_FACTOR * POINTS_PER_PIXEL)
+           - (mcj - viewport->viewpoint.j) / (1.0 * ISOMETRIC_FACTOR * POINTS_PER_PIXEL)
+           - (mck - viewport->viewpoint.k) / (1.0 * POINTS_PER_PIXEL);
+
+    return sc;
+}
+
+
+bbFlag bbGroundSurface_draw(bbGroundSurface* surface, bbViewport* viewport, I32 Square_i, I32 Square_j){
+
+    bbGroundSquare* square = &surface->ground_squares[Square_i*surface->map_size.j + Square_j];
+
+    sfRenderTexture_display(square->Base_Render_Texture);
+    sfRenderTexture_display(square->Hill_Shading_Render_Texture);
+    sfRenderTexture_display(square->Footprints_Render_Texture);
+    sfRenderTexture_display(square->Auras_Render_Texture);
+    sfRenderTexture_display(square->Circles_Render_Texture);
+
+    bbTileCoords TC;
+    TC.i = Square_i * TILES_PER_SQUARE;
+    TC.j = Square_j * TILES_PER_SQUARE;
+    TC.k = 0;
+
+    sfVector2f sf_left_corner = bbTileCoords_getScreenCoords_centre(viewport, TC);
+
+    sfVertexArray* VA = square->vertex_array;
+
+    sfShader_setVec2Uniform (surface->ground_shader, "offset", sf_left_corner);
+
+
+    sfShader_setTextureUniform(surface->ground_shader,"Base_Texture", square->Base_Texture);
+    sfShader_setTextureUniform(surface->ground_shader,"Hill_Shading_Texture", square->Hill_Shading_Texture);
+    sfShader_setTextureUniform(surface->ground_shader,"Footprints_Texture", square->Footprints_Texture);
+    sfShader_setTextureUniform(surface->ground_shader,"Auras_Texture", square->Auras_Texture);
+    sfShader_setTextureUniform(surface->ground_shader,"Circles_Texture", square->Circles_Texture);
+
+    sfRenderTexture_drawVertexArray (viewport->ground.renderTexture, VA, &surface->ground_renderer);
+
+    sfRenderTexture_clear(square->Footprints_Render_Texture, sfTransparent);
+    sfRenderTexture_clear(square->Auras_Render_Texture, sfTransparent);
+    sfRenderTexture_clear(square->Circles_Render_Texture, sfTransparent);
+
+    return bbSuccess;
+
+
+}
+
+#define ELEVATION_MAX       (ELEVATION_SCALE * PIXEL_VALUE_MAX)
+
+int bbGroundSurface_drawVisible(bbGroundSurface* surface, bbViewport* viewport){
+
+    bbScreenCoords sc;
+    bbMapCoords TopLeft, TopRight, BottomLeft, BottomRight;
+
+
+    //not sure if I should add VIEWPORT_TOP and VIEWPORT_LEFT
+    //Im going to say no
+    sc.x = 0;
+    sc.y = -viewpoint.k;
+
+    TopLeft = bbScreenCoords_getMapCoords_k0(sc);
+
+    sc.x = VIEWPORT_WIDTH;
+    sc.y = -viewpoint.k;
+
+    TopRight = bbScreenCoords_getMapCoords_k0(sc);
+
+    sc.x = 0;
+    sc.y = VIEWPORT_HEIGHT + ELEVATION_MAX -viewpoint.k;
+
+    BottomLeft = bbScreenCoords_getMapCoords_k0(sc);
+
+    sc.x = VIEWPORT_WIDTH;
+    sc.y = VIEWPORT_HEIGHT + ELEVATION_MAX -viewpoint.k;
+
+    BottomRight = bbScreenCoords_getMapCoords_k0(sc);
+
+
+    bbSquareCoords LeftCorner;
+    bbSquareCoords RightCorner;
+
+    LeftCorner.i = floordiv(TopLeft.i,POINTS_PER_SQUARE);
+    LeftCorner.j = floordiv(BottomLeft.j,POINTS_PER_SQUARE);
+
+    if (LeftCorner.i < 0) LeftCorner.i = 0;
+    if (LeftCorner.j < 0) LeftCorner.j = 0;
+
+    RightCorner.i = floordiv(BottomRight.i,POINTS_PER_SQUARE);
+    RightCorner.j = floordiv(TopRight.j,POINTS_PER_SQUARE);
+
+    if (RightCorner.i > SQUARES_PER_MAP-1) RightCorner.i = SQUARES_PER_MAP-1;
+    if (RightCorner.j > SQUARES_PER_MAP-1) RightCorner.j = SQUARES_PER_MAP-1;
+    //indexing starts at zero
+
+    int m,n;
+
+    for (n = RightCorner.j; n >= LeftCorner.j; n--){
+        for (m = LeftCorner.i; m <= RightCorner.i; m++){
+            bbGroundSurface_draw(m,n);
+        }
+    }
+}
