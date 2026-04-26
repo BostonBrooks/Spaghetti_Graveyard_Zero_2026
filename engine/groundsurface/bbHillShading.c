@@ -183,7 +183,7 @@ bbFlag bbHillShading_init( bbHillShading* hill_shading, char* file)
     hill_shading->height_texture = sfTexture_createFromFile(file, NULL);
 	    bbAssert(hill_shading->height_texture != NULL, "constructor returned NULL\n");
 
-    hill_shading->null_texture = sfTexture_createFromFile("./MAGENTA.png", NULL);
+    hill_shading->null_texture = sfTexture_createFromFile("./graphics/MAGENTA.png", NULL);
 	    bbAssert(hill_shading->null_texture != NULL, "constructor returned NULL\n");
 
     hill_shading->null_sprite = sfSprite_create();

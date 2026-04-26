@@ -176,6 +176,8 @@ void* userinterface_thread(void* arg)
     bbUIApp_spawnWidgets(&home.UI);
     spawnDrawables();
 
+    bbGroundSurface_setTexture(&home.ground_surface);
+
     home.UI.UI_time = 0;
 
 

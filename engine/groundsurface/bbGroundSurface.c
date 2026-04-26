@@ -322,9 +322,9 @@ bbFlag bbGroundSurface_draw(bbGroundSurface* surface, bbViewport* viewport, I32 
     bbGroundSquare* square = &surface->ground_squares[Square_i*surface->map_size.j + Square_j];
 
 // This code makes the square grey
-    sfRenderTexture_clear(square->Base_Render_Texture, bbGrey);
+    //sfRenderTexture_clear(square->Base_Render_Texture, bbGrey);
     //sfRenderTexture_clear(square->Hill_Shading_Render_Texture, bbGrey);
-    sfRenderTexture_clear(square->Footprints_Render_Texture, sfTransparent);
+    //sfRenderTexture_clear(square->Footprints_Render_Texture, sfTransparent);
     sfRenderTexture_clear(square->Auras_Render_Texture, sfTransparent);
     sfRenderTexture_clear(square->Circles_Render_Texture, sfTransparent);
 //
@@ -505,4 +505,30 @@ I32 bbMapCoords_getElevation(bbGroundSurface* ground_surface, bbMapCoords coords
 
         return elevation;
     }
+}
+
+bbFlag bbGroundSurface_setTexture(bbGroundSurface* surface)
+{
+    bbSquareCoords size = surface->map_size;
+
+    for (I32 i = 0; i < 6; i++)
+    {
+        for (I32 j = 0; j < 6; j++)
+        {
+
+            bbGroundSquare* square = &surface->ground_squares[i*surface->map_size.j + j];
+            sfRenderTexture* ground_texture = square->Base_Render_Texture;
+
+            bbHandle sprite_int;
+            bbDictionary_lookup(home.UI.graphics.sprites->dictionary, "GRASS", &sprite_int);
+
+            sfSprite* sprite = home.UI.graphics.sprites->sprites[sprite_int.u64];
+
+            sfRenderTexture_drawSprite(ground_texture, sprite, NULL);
+
+            sfRenderTexture_display(ground_texture);
+        }
+    }
+
+    return bbSuccess;
 }

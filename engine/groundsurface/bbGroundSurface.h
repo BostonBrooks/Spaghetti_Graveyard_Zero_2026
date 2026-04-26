@@ -67,5 +67,5 @@ bbFlag bbGroundSurface_drawVisible(bbGroundSurface* surface, bbViewport* viewpor
 
 
 bbFlag bbGroundSurface_draw(bbGroundSurface* surface, bbViewport* viewport, I32 Square_i, I32 Square_j);
-
+bbFlag bbGroundSurface_setTexture(bbGroundSurface* surface);
 #endif //BB_GROUNDSURFACE_H
