@@ -19,6 +19,9 @@ typedef struct
     sfRenderTexture*  Hill_Shading_Render_Texture;
     sfTexture*        Hill_Shading_Texture;
 
+    sfRenderTexture*  Shadows_Render_Texture;
+    sfTexture*        Shadows_Texture;
+
     sfRenderTexture*  Footprints_Render_Texture;
     sfTexture*        Footprints_Texture;
 

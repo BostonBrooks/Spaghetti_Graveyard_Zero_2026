@@ -49,7 +49,7 @@ bbFlag bbDF_drawableShadow(void* Drawable, void* frameDescriptor, void* cl)
         position.x = point_j / POINTS_PER_PIXEL;
         position.y = point_i / POINTS_PER_PIXEL;
         sfSprite_setPosition(sprite, position);
-        Render_Texture = square->Footprints_Render_Texture;
+        Render_Texture = square->Shadows_Render_Texture;
         sfRenderTexture_drawSprite(Render_Texture, sprite, NULL);
     }
 
@@ -66,7 +66,7 @@ bbFlag bbDF_drawableShadow(void* Drawable, void* frameDescriptor, void* cl)
         position.x = point_j / POINTS_PER_PIXEL;
         position.y = point_i / POINTS_PER_PIXEL;
         sfSprite_setPosition(sprite, position);
-        Render_Texture = square->Footprints_Render_Texture;
+        Render_Texture = square->Shadows_Render_Texture;
         sfRenderTexture_drawSprite(Render_Texture, sprite, NULL);
     }
 
@@ -83,7 +83,7 @@ bbFlag bbDF_drawableShadow(void* Drawable, void* frameDescriptor, void* cl)
         position.x = point_j / POINTS_PER_PIXEL;
         position.y = point_i / POINTS_PER_PIXEL;
         sfSprite_setPosition(sprite, position);
-        Render_Texture = square->Footprints_Render_Texture;
+        Render_Texture = square->Shadows_Render_Texture;
         sfRenderTexture_drawSprite(Render_Texture, sprite, NULL);
     }
 
@@ -100,7 +100,7 @@ bbFlag bbDF_drawableShadow(void* Drawable, void* frameDescriptor, void* cl)
         position.x = point_j / POINTS_PER_PIXEL;
         position.y = point_i / POINTS_PER_PIXEL;
         sfSprite_setPosition(sprite, position);
-        Render_Texture = square->Footprints_Render_Texture;
+        Render_Texture = square->Shadows_Render_Texture;
         sfRenderTexture_drawSprite(Render_Texture, sprite, NULL);
     }
 

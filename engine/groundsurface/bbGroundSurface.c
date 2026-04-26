@@ -31,6 +31,7 @@ bbFlag Create_Ground_Shaders (bbGroundSurface* surface){
     char fragShader[] = "\
         uniform sampler2D Base_Texture;\
         uniform sampler2D Hill_Shading_Texture;\
+        uniform sampler2D Shadow_Texture;\
         uniform sampler2D Footprints_Texture;\
         uniform sampler2D Auras_Texture;\
         uniform sampler2D Circles_Texture;\
@@ -38,13 +39,14 @@ bbFlag Create_Ground_Shaders (bbGroundSurface* surface){
         void main()\
         {\
             vec4 base = texture2D(Base_Texture, gl_TexCoord[0].xy);\
+            vec4 shadows = texture2D(Shadow_Texture, gl_TexCoord[0].xy);\
             vec4 hill_shading = texture2D(Hill_Shading_Texture, gl_TexCoord[0].xy);\
             vec4 footprints = texture2D(Footprints_Texture, gl_TexCoord[0].xy);\
             vec4 auras = texture2D(Auras_Texture, gl_TexCoord[0].xy);\
             vec4 circles = texture2D(Circles_Texture, gl_TexCoord[0].xy);\
         \
             vec4 mix1 = mix(base, footprints, footprints.a);\
-            vec4 mix2 = mix1 * hill_shading;\
+            vec4 mix2 = mix1 * hill_shading * shadows;\
             vec4 mix3 = mix(mix2, auras, auras.a);\
             vec4 mix4 = mix(mix3, circles, circles.a);\
             gl_FragColor = mix4;\
@@ -255,6 +257,13 @@ bbFlag bbGroundSurface_init(bbGroundSurface* surface, bbSquareCoords size, char*
             = sfRenderTexture_getTexture(square->Base_Render_Texture);
             sfRenderTexture_clear(square->Base_Render_Texture, bbTeal);
 
+            square->Shadows_Render_Texture
+            = sfRenderTexture_create(
+               PIXELS_PER_SQUARE,PIXELS_PER_SQUARE,sfFalse);
+            square->Shadows_Texture
+            = sfRenderTexture_getTexture(square->Shadows_Render_Texture);
+            sfRenderTexture_clear(square->Shadows_Render_Texture, bbTeal);
+
             square->Hill_Shading_Render_Texture
             = sfRenderTexture_create(
                 PIXELS_PER_SQUARE,PIXELS_PER_SQUARE,sfFalse);
@@ -328,6 +337,7 @@ bbFlag bbGroundSurface_draw(bbGroundSurface* surface, bbViewport* viewport, I32 
 
 
     sfRenderTexture_display(square->Base_Render_Texture);
+    sfRenderTexture_display(square->Shadows_Render_Texture);
     sfRenderTexture_display(square->Hill_Shading_Render_Texture);
     sfRenderTexture_display(square->Footprints_Render_Texture);
     sfRenderTexture_display(square->Auras_Render_Texture);
@@ -352,6 +362,7 @@ bbFlag bbGroundSurface_draw(bbGroundSurface* surface, bbViewport* viewport, I32 
     //sfRenderTexture_clear(square->Hill_Shading_Render_Texture, bbGrey);
 
     sfShader_setTextureUniform(surface->ground_shader,"Base_Texture", square->Base_Texture);
+    sfShader_setTextureUniform(surface->ground_shader,"Shadow_Texture", square->Shadows_Texture);
     sfShader_setTextureUniform(surface->ground_shader,"Hill_Shading_Texture", square->Hill_Shading_Texture);
     sfShader_setTextureUniform(surface->ground_shader,"Footprints_Texture", square->Footprints_Texture);
     sfShader_setTextureUniform(surface->ground_shader,"Auras_Texture", square->Auras_Texture);
@@ -363,6 +374,7 @@ bbFlag bbGroundSurface_draw(bbGroundSurface* surface, bbViewport* viewport, I32 
     //This works to set the viewport background grey
 
 
+    sfRenderTexture_clear(square->Shadows_Render_Texture, sfWhite);
     sfRenderTexture_clear(square->Footprints_Render_Texture, sfTransparent);
     sfRenderTexture_clear(square->Auras_Render_Texture, sfTransparent);
     sfRenderTexture_clear(square->Circles_Render_Texture, sfTransparent);
