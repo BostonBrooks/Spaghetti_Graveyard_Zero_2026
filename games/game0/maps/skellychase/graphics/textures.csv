@@ -1,4 +1,4 @@
-Number of Textures:,37,,,,
+Number of Textures:,38,,,,
 Label:,Integer Address:,File:,Smooth:,Comment:,
 NULL,0,./graphics/NULL.png,F,Exception,
 LAYOUT_480,1,./graphics/Layout_480.png,F,The root of the widget tree,
@@ -37,4 +37,5 @@ REDCLOCK,33,./graphics/Clockface_red.png,T, a red clock hand
 PONGLAYOUT,34,./graphics/Pong_480.png,F, a pong layout
 BALL,35,./graphics/Ball.png,F, a pong ball
 SHADOW1,36,./graphics/Shadow.png,F, a shadow for a tree
+GRASS,37,./graphics/Grass.png,F, Grass for the ground surface
 
