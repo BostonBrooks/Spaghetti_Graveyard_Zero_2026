@@ -15,6 +15,7 @@
 #include "games/game0/maps/skellychase/drawfunctions/drawable_animation.h"
 #include "games/game0/maps/skellychase/drawfunctions/drawable_sprite.h"
 #include "games/game0/maps/skellychase/drawfunctions/unit_animation.h"
+#include "games/game0/maps/skellychase/drawfunctions/drawable_shadow.h"
 
 #define NUM_DRAWFUNCTIONS 69
 
@@ -105,6 +106,10 @@ bbFlag bbDrawfunctions_new(bbDrawfunctions** drawfunctions){
     functions->functions[12] = bbDF_unitAnimationWAngle;
     handle.u64 = 12;
     bbDictionary_add(functions->dictionary, "UNIT_ANIMATION_ANGLE", handle);
+
+    functions->functions[13] = bbDF_drawableShadow;
+    handle.u64 = 13;
+    bbDictionary_add(functions->dictionary, "DRAWABLE_SHADOW", handle);
 
 
 

@@ -43,14 +43,18 @@ bbFlag Create_Ground_Shaders (bbGroundSurface* surface){
             vec4 auras = texture2D(Auras_Texture, gl_TexCoord[0].xy);\
             vec4 circles = texture2D(Circles_Texture, gl_TexCoord[0].xy);\
         \
-            vec4 mix1 = base * hill_shading;\
-            vec4 mix2 = mix(mix1, footprints, footprints.a);\
+            vec4 mix1 = mix(base, footprints, footprints.a);\
+            vec4 mix2 = mix1 * hill_shading;\
             vec4 mix3 = mix(mix2, auras, auras.a);\
             vec4 mix4 = mix(mix3, circles, circles.a);\
             gl_FragColor = mix4;\
         }\
     ";
-
+  //  vec4 mix1 = mix(base, footprints, footprints.a);\
+  //  vec4 mix2 = mix1 * hill_shading;\
+  //  vec4 mix3 = mix(mix2, auras, auras.a);\
+  //  vec4 mix4 = mix(mix3, circles, circles.a);\
+  //  gl_FragColor = mix4;\
 
     surface->null_render_texture = sfRenderTexture_create (PIXELS_PER_TILE * TILES_PER_SQUARE, PIXELS_PER_TILE * TILES_PER_SQUARE, sfFalse);
     sfRenderTexture_clear(surface->null_render_texture, sfGreen);
@@ -321,13 +325,6 @@ bbFlag bbGroundSurface_draw(bbGroundSurface* surface, bbViewport* viewport, I32 
 
     bbGroundSquare* square = &surface->ground_squares[Square_i*surface->map_size.j + Square_j];
 
-// This code makes the square grey
-    //sfRenderTexture_clear(square->Base_Render_Texture, bbGrey);
-    //sfRenderTexture_clear(square->Hill_Shading_Render_Texture, bbGrey);
-    //sfRenderTexture_clear(square->Footprints_Render_Texture, sfTransparent);
-    sfRenderTexture_clear(square->Auras_Render_Texture, sfTransparent);
-    sfRenderTexture_clear(square->Circles_Render_Texture, sfTransparent);
-//
 
 
     sfRenderTexture_display(square->Base_Render_Texture);

@@ -74,7 +74,18 @@ bbMapCoords MC, I32 index){
     unit->drawable.frames[0].offset.x = 0;
     unit->drawable.frames[0].offset.y = 0;
 
-    for (I32 k = 1; k < FRAMES_PER_DRAWABLE; k++){
+    bbDictionary_lookup(graphics->drawfunctions->dictionary,
+                    "DRAWABLE_SHADOW",
+                    &drawfunctionHandle);
+
+    unit->drawable.frames[1].drawfunction = drawfunctionHandle.u64;
+    unit->drawable.frames[1].handle.u64 = 612;
+    unit->drawable.frames[1].start_time =  -(rand()%6);
+    unit->drawable.frames[1].framerate = 1;
+    unit->drawable.frames[1].offset.x = 0;
+    unit->drawable.frames[1].offset.y = 0;
+
+    for (I32 k = 2; k < FRAMES_PER_DRAWABLE; k++){
         unit->drawable.frames[k].drawfunction = -1;
     }
 
