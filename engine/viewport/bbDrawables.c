@@ -190,6 +190,10 @@ bbFlag bbDrawable_newTree(bbDrawable** self, bbDrawables* drawables,
     }
 
     bbList_sortL(&drawableSquare.list, drawable);
+
+    bbAvoidable_newCircle(home.agents_app.avoidables, MC, 193);
+
+
     *self = drawable;
     return bbSuccess;
 }

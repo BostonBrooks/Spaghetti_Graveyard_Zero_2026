@@ -5,6 +5,7 @@
 #include <pthread.h>
 #include <math.h>
 
+#include "engine/agents/bbAvoidables.h"
 #include "engine/core/bbCoreDiscard.h"
 #include "engine/core/bbCoreInputs.h"
 #include "engine/core/bbLocalMessage.h"
@@ -49,6 +50,12 @@ int main(void)
     home.core.goalpoint.j = 10000;
     home.core.goalpoint.k = 0;
 
+
+
+
+
+
+
     bbCore_init(&home.core.core);
 
     bbCore_initVInstructions(&home.core.core);
@@ -73,6 +80,7 @@ int main(void)
     bool once2 = false;
     bool once = false;
 
+    bbAvoidables_new(&home.agents_app.avoidables, 12, 12);
     bbMoveables_init(&home.agents_app.movables);
 
     while (1)
