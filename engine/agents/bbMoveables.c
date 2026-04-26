@@ -168,9 +168,10 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
                             double delta_j = distance_j / distance * 4548;
 
                             bbMilliCoords forces = sumForces(moveables, moveable);
+                            bbMilliCoords avoidables_forces = bbAvoidables_sumForces (home.agents_app.avoidables, moveable);
 
-                            moveable->coords_b.i = currentLocation.i + delta_i + forces.i;
-                            moveable->coords_b.j = currentLocation.j + delta_j + forces.j;
+                            moveable->coords_b.i = currentLocation.i + delta_i + forces.i+avoidables_forces.i;
+                            moveable->coords_b.j = currentLocation.j + delta_j + forces.j+avoidables_forces.j;
                         }
 
                     }

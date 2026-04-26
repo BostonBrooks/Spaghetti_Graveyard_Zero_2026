@@ -3,6 +3,8 @@
 #include "bbMoveables.h"
 #include "engine/data/bbConstants.h"
 #include "engine/logic/bbBloatedPool.h"
+#include "engine/logic/bbList.h"
+#include "engine/data/bbHome.h"
 
 bbMilliCoords bbAvoidable_getForce(bbMoveables* moveables, bbMoveable* moveableA, bbAvoidable* avoidable)
 {
@@ -25,7 +27,7 @@ bbMilliCoords bbAvoidable_getForce(bbMoveables* moveables, bbMoveable* moveableA
     double delta_i = (coords_a.i - coords_b.i);
     double delta_j = (coords_a.j - coords_b.j);
     double distance = sqrt(delta_i * delta_i + delta_j * delta_j);
-    double distanceReduced = (distance - 0.5l*MILLS_PER_TILE)/10000.l;
+    double distanceReduced = (distance - 2.l*MILLS_PER_TILE)/10000.l;
     double distanceReduced2 = distance/100000.l;
 
     bbMilliCoords mC;
@@ -80,4 +82,120 @@ bbFlag bbAvoidable_newCircle(bbAvoidables* avoidables, bbMapCoords MC, I32 radiu
     bbList_pushL(&square->list, (void*)avoidable);
 
     return bbSuccess;
+}
+
+
+bbMilliCoords bbAvoidables_sumForces (bbAvoidables* avoidables, bbMoveable* moveable)
+{
+    bbMapCoords MC = moveable->position;
+
+    bbMapCoords MC_offset;
+    bbSquareCoords SC;
+    bbAvoidableSquare* square;
+    bbMilliCoords single, total;
+    total.i = 0;
+    total.j = 0;
+    total.k = 0;
+
+    bbAvoidable* avoidable;
+
+    MC_offset = MC;
+    MC_offset.i -= POINTS_PER_SQUARE /2 ;
+    MC_offset.j -= POINTS_PER_SQUARE /2 ;
+
+    SC = bbMapCoords_getSquareCoords(MC_offset);
+
+
+    if (SC.i>=0 && SC.j>=0 && SC.i < avoidables->size.i && SC.j < avoidables->size.j)
+    {
+        square = &avoidables->squares[SC.i * avoidables->size.j + SC.j];
+
+        bbFlag flag;
+        flag = bbList_setHead(&square->list, (void**)&avoidable);
+
+        while (flag == bbSuccess)
+        {
+            single = bbAvoidable_getForce(&home.agents_app.movables, moveable,avoidable);
+            total.i += single.i;
+            total.j += single.j;
+            flag = bbList_increment(&square->list, (void**)&avoidable);
+        }
+
+    }
+
+
+    MC_offset.i -= POINTS_PER_SQUARE /2 ;
+    MC_offset.j += POINTS_PER_SQUARE /2 ;
+
+    SC = bbMapCoords_getSquareCoords(MC_offset);
+
+
+    if (SC.i>=0 && SC.j>=0 && SC.i < avoidables->size.i && SC.j < avoidables->size.j)
+    {
+        square = &avoidables->squares[SC.i * avoidables->size.j + SC.j];
+
+        bbFlag flag;
+        flag = bbList_setHead(&square->list, (void**)&avoidable);
+
+        while (flag == bbSuccess)
+        {
+            single = bbAvoidable_getForce(&home.agents_app.movables, moveable,avoidable);
+            total.i += single.i;
+            total.j += single.j;
+            flag = bbList_increment(&square->list, (void**)&avoidable);
+        }
+
+    }
+
+
+    MC_offset.i += POINTS_PER_SQUARE /2 ;
+    MC_offset.j -= POINTS_PER_SQUARE /2 ;
+
+    SC = bbMapCoords_getSquareCoords(MC_offset);
+
+
+    if (SC.i>=0 && SC.j>=0 && SC.i < avoidables->size.i && SC.j < avoidables->size.j)
+    {
+        square = &avoidables->squares[SC.i * avoidables->size.j + SC.j];
+
+        bbFlag flag;
+        flag = bbList_setHead(&square->list, (void**)&avoidable);
+
+        while (flag == bbSuccess)
+        {
+            single = bbAvoidable_getForce(&home.agents_app.movables, moveable,avoidable);
+            total.i += single.i;
+            total.j += single.j;
+            flag = bbList_increment(&square->list, (void**)&avoidable);
+        }
+
+    }
+
+
+    MC_offset.i += POINTS_PER_SQUARE /2 ;
+    MC_offset.j += POINTS_PER_SQUARE /2 ;
+
+    SC = bbMapCoords_getSquareCoords(MC_offset);
+
+
+    if (SC.i>=0 && SC.j>=0 && SC.i < avoidables->size.i && SC.j < avoidables->size.j)
+    {
+        square = &avoidables->squares[SC.i * avoidables->size.j + SC.j];
+
+        bbFlag flag;
+        flag = bbList_setHead(&square->list, (void**)&avoidable);
+
+        while (flag == bbSuccess)
+        {
+            single = bbAvoidable_getForce(&home.agents_app.movables, moveable,avoidable);
+            total.i += single.i;
+            total.j += single.j;
+            flag = bbList_increment(&square->list, (void**)&avoidable);
+        }
+
+    }
+
+
+    return total;
+
 }
