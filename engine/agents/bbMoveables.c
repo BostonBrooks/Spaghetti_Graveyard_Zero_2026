@@ -78,8 +78,8 @@ bbFlag bbMoveables_init(bbMoveables* moveables)
 
         moveable->type = bbMoveableType_Cat;
 
-        moveable->position.i = (i%32)*PIXELS_PER_TILE*2;
-        moveable->position.j = (i/32)*PIXELS_PER_TILE*2;
+        moveable->position.i = (i%32)*PIXELS_PER_TILE*2+1028;
+        moveable->position.j = (i/32)*PIXELS_PER_TILE*2+1028;
         moveable->position.k = 0;
 
         moveable->coords_a = bbMapCoords_getMilliCoords(moveable->position);
@@ -93,11 +93,10 @@ bbFlag bbMoveables_init(bbMoveables* moveables)
 
     }
 
-    moveables->moveables[0].type = bbMoveableType_Player;
-    moveables->moveables[0].goalpoint.i = 1000;
-    moveables->moveables[0].goalpoint.j = 1000;
-    moveables->moveables[0].goalpoint.k = 0;
-
+    for (I32 i = 0;i<NUM_AGENTS;i++)
+    {
+        moveables->moveables[i].type = bbMoveableType_Player;
+    }
     return bbSuccess;
 }
 
@@ -265,13 +264,16 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
 
 bbFlag bbMoveables_update(bbMoveables* moveables)
 {
+    for (I32 i = 0; i < NUM_AGENTS; i++)
+    {
+        moveables->moveables[i].goalpoint = home.agents_app.agents.agents[i].goalpoint;
 
-    moveables->moveables[0].goalpoint = home.core.goalpoint;
+        moveables->moveables[i].coords_a = bbMapCoords_getMilliCoords(moveables->moveables[i].position);
+        moveables->moveables[i].coords_b = bbMapCoords_getMilliCoords(moveables->moveables[i].position);
+    }
 
-    moveables->moveables[0].coords_a = bbMapCoords_getMilliCoords(moveables->moveables[0].position);
-    moveables->moveables[0].coords_b = bbMapCoords_getMilliCoords(moveables->moveables[0].position);
 
-    for (I32 i = 1; i < numMoveables; i++)
+    for (I32 i = NUM_AGENTS; i < numMoveables; i++)
     {
         moveables->moveables[i].goalpoint = moveables->moveables[0].position;
 

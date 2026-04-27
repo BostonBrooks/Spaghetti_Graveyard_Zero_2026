@@ -26,10 +26,10 @@ bbFlag bbVInstruction_setGoalpointIn_fn(bbCore* core, bbInstruction* instruction
     bbInstruction* undo_instruction;
     bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
     undo_instruction->type = bbVInstruction_unsetGoalpoint;
-    undo_instruction->data.map_coords = home.core.goalpoint;
+    undo_instruction->data.map_coords = home.agents_app.agents.agents[0].goalpoint;
     undo_instruction->source = instruction->source;
 
-    home.core.goalpoint = instruction->data.map_coords;
+    home.agents_app.agents.agents[0].goalpoint = instruction->data.map_coords;
 
 
     if (instruction->source == bbInstructionSource_internal)
@@ -60,7 +60,7 @@ bbFlag bbVInstruction_setGoalpointIn_fn(bbCore* core, bbInstruction* instruction
 
 bbFlag bbVInstruction_unsetGoalpoint_fn(bbCore* core, bbInstruction* instruction)
 {
-    home.core.goalpoint = instruction->data.map_coords;
+    home.agents_app.agents.agents[0].goalpoint = instruction->data.map_coords;
 
     if (instruction->source == bbInstructionSource_internal)
     {

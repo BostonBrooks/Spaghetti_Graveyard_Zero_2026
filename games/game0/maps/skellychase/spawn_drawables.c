@@ -59,14 +59,19 @@ bbFlag spawnDrawables(void)
     MC.k = 0;
     bbUnit* cat;
 
-    bbUnit_newSkeleton(&cat,home.viewport_app.units, &home.UI.graphics, MC, 0);
-    cat->drawable.frames[0].handle.u64 = 10;
-
-    for (I32 i = 1; i<numMoveables;i++)
+    for (I32 i = 0; i<NUM_AGENTS;i++)
     {
 
-        MC.i = (i%32)*PIXELS_PER_TILE;
-        MC.j = (i/32)*PIXELS_PER_TILE;
+        MC.i = (i%32)*PIXELS_PER_TILE*2+1028;
+        MC.j = (i/32)*PIXELS_PER_TILE*2+1028;
+        bbUnit_newSkeleton(&cat,home.viewport_app.units, &home.UI.graphics, MC, 0);
+        cat->drawable.frames[0].handle.u64 = 10;
+    }
+    for (I32 i = NUM_AGENTS; i<numMoveables;i++)
+    {
+
+        MC.i = (i%32)*PIXELS_PER_TILE*2+1028;
+        MC.j = (i/32)*PIXELS_PER_TILE*2+1028;
         bbUnit_newSkeleton(&cat,home.viewport_app.units, &home.UI.graphics, MC, i);
     }
     //bbAgent* agent;

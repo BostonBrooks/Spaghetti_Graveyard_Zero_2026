@@ -23,8 +23,30 @@
 #ifndef BB_AGENT_H
 #define BB_AGENT_H
 #include "engine/logic/bbFlag.h"
+#include "engine/geometry/bbCoordinates.h"
+
+#define NUM_AGENTS 8
+
+typedef struct
+{
+    bbMapCoords goalpoint;
+} bbAgent;
+
+
+
+typedef struct
+{
+    bbAgent agents[NUM_AGENTS];
+
+    I32 current_agent;
+} bbAgents;
+
 
 ///This instruction call screenshots all the transient data and then sets new values
 bbFlag bbCoreInput_updateAgents();
+
+bbFlag bbAgents_init(bbAgents* agents);
+
+
 
 #endif //BB_AGENT_H
