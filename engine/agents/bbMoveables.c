@@ -78,8 +78,8 @@ bbFlag bbMoveables_init(bbMoveables* moveables)
 
         moveable->type = bbMoveableType_Cat;
 
-        moveable->position.i = (i%8)*POINTS_PER_TILE*2+10208;
-        moveable->position.j = (i/8)*POINTS_PER_TILE*2+10208;
+        moveable->position.i = (i%8)*POINTS_PER_TILE*4+10208;
+        moveable->position.j = (i/8)*POINTS_PER_TILE*4+10208;
         moveable->position.k = 0;
 
         moveable->coords_a = bbMapCoords_getMilliCoords(moveable->position);

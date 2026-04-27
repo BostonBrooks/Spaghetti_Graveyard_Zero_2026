@@ -62,16 +62,16 @@ bbFlag spawnDrawables(void)
     for (I32 i = 0; i<NUM_AGENTS;i++)
     {
 
-        MC.i = (i%8)*POINTS_PER_TILE*2+10208;
-        MC.j = (i/8)*POINTS_PER_TILE*2+10028;
+        MC.i = (i%8)*POINTS_PER_TILE*4+10208;
+        MC.j = (i/8)*POINTS_PER_TILE*4+10028;
         bbUnit_newSkeleton(&cat,home.viewport_app.units, &home.UI.graphics, MC, 0);
         cat->drawable.frames[0].handle.u64 = 10;
     }
     for (I32 i = NUM_AGENTS; i<numMoveables;i++)
     {
 
-        MC.i = (i%8)*POINTS_PER_TILE*2+10028;
-        MC.j = (i/8)*POINTS_PER_TILE*2+10028;
+        MC.i = (i%8)*POINTS_PER_TILE*4+10028;
+        MC.j = (i/8)*POINTS_PER_TILE*4+10028;
         bbUnit_newSkeleton(&cat,home.viewport_app.units, &home.UI.graphics, MC, i);
     }
     //bbAgent* agent;

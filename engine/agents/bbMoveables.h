@@ -12,7 +12,7 @@
 #include "engine/logic/bbVPool.h"
 
 
-#define numMoveables 32
+#define numMoveables 64
 
 typedef enum
 {
