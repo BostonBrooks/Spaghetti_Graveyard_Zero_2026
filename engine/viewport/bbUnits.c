@@ -61,6 +61,12 @@ bbMapCoords MC, I32 index){
     unit->drawable.coords = MC;
     bbHandle drawfunctionHandle;
 
+    unit->prev_coords = MC;
+    unit->prev_time = 0;
+    unit->prev_goalpoint = MC;
+    unit->next_coords = MC;
+    unit->next_time = 2;
+    unit->next_goalpoint = MC;
 
 
     bbDictionary_lookup(graphics->drawfunctions->dictionary,
