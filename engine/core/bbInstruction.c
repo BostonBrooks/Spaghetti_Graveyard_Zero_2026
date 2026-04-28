@@ -389,7 +389,7 @@ bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
 //        }
         if (action->header.type == bbActionType_setGoalpoint)
         {
-            bbCoreInput_setGoalpointIn(core, action->map_coords,action->header.act_tick,bbInstructionSource_action,handle);
+            bbCoreInput_setGoalpointIn(core, action->map_coords,action->header.act_tick, action->header.player,bbInstructionSource_action,handle);
 
         }
 #endif

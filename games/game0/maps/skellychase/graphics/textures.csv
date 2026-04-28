@@ -1,4 +1,4 @@
-Number of Textures:,38,,,,
+Number of Textures:,39,,,,
 Label:,Integer Address:,File:,Smooth:,Comment:,
 NULL,0,./graphics/NULL.png,F,Exception,
 LAYOUT_480,1,./graphics/Layout_480.png,F,The root of the widget tree,
@@ -38,4 +38,5 @@ PONGLAYOUT,34,./graphics/Pong_480.png,F, a pong layout
 BALL,35,./graphics/Ball.png,F, a pong ball
 SHADOW1,36,./graphics/Shadow.png,F, a shadow for a tree
 GRASS,37,./graphics/Grass.png,F, Grass for the ground surface
+DIAMOND,38,./graphics/Diamond.png,F, A diamond shaped wisp
 

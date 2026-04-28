@@ -1,4 +1,4 @@
-Number of Sprites:,614,,,,,,,,,,,,
+Number of Sprites:,615,,,,,,,,,,,,
 Label:,Integer Address:,Texture:,Left:,Top:,Width:,Height:,Origin X:,Origin Y:,Scale X:,Scale Y:,Scale By:,Comment:,
 NULL,0,NULL,0,0,128,128,0,0,1,1,None,Exception,
 LAYOUT_480,1,LAYOUT_480,0,0,720,480,0,0,1,1,None,The root of the widget tree,
@@ -614,6 +614,7 @@ LAYOUT_480,610,LAYOUT_480,0,0,720,480,0,0,1,1,None,The root of the widget tree,
 SHADOW1,611,SHADOW1,0,0,100,100,50,50,1,1,DRAWABLE,The shadow of a tree drawable,
 SHADOW2,612,SHADOW1,100,0,100,100,50,50,1,1,DRAWABLE,The shadow of a tree drawable,
 GRASS,613,GRASS,0,0,512,512,0,0,1,1,DRAWABLE, Grass for the ground surface
+DIAMOND,614,DIAMOND,0,0,75,131,37,124,0.1,0.1,DRAWABLE, A diamond shaped indicator
 
 
 Label:,Integer Address:,Texture:,Left:,Top:,Width:,Height:,Origin X:,Origin Y:,Scale X:,Scale Y:,Scale By:,Comment:,

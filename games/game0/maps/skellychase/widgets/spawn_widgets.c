@@ -19,6 +19,13 @@ bbFlag bbUIApp_spawnWidgets(bbUIApp* app)
                      (bbScreenPoints){12*SCREEN_PPP,13*SCREEN_PPP});
 
     bbWidget_constructor(NULL,
+                 &home.UI.widgets,
+                 "SWITCH_CHARACTER_BUTTON",
+                 "LAYOUT",
+                 "CHARACTER",
+                 (bbScreenPoints){12*SCREEN_PPP,35*SCREEN_PPP});
+
+    bbWidget_constructor(NULL,
                      &home.UI.widgets,
                      "CLOCK",
                      "LAYOUT",

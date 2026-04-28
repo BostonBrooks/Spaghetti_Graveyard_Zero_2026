@@ -268,7 +268,9 @@ bbFlag bbCoreInput_setGoalpointOut(bbCore* core, bbMapCoords MC, U64 time,
     return bbSuccess;
 }
 */
-bbFlag bbCoreInput_setGoalpointIn(bbCore* core, bbMapCoords MC, U64 time,
+
+//bbCoreInput_setGoalpointIn(core, action->map_coords,action->header.act_tick, action->header.player,bbInstructionSource_action,handle);
+bbFlag bbCoreInput_setGoalpointIn(bbCore* core, bbMapCoords MC, U64 time,U8 player,
                                   bbInstruction_source source, bbHandle action)
 {
     bbInstruction* instruction;
@@ -277,6 +279,7 @@ bbFlag bbCoreInput_setGoalpointIn(bbCore* core, bbMapCoords MC, U64 time,
     instruction->data.map_coords = MC;
     instruction->act_time = time;
     instruction->source = source;
+    instruction->player = player;
     instruction->redo_instruction = action;
     bbList_pushL(&core->do_stack, instruction);
     return bbSuccess;

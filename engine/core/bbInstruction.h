@@ -87,6 +87,7 @@ typedef struct bbInstruction
     bbInstruction_data data;
     U64 act_time;
     U32 collision;
+    U8 player;
     bbListElement_Handle list_element;
     bbHandle redo_instruction;
     bbInstruction_source source;

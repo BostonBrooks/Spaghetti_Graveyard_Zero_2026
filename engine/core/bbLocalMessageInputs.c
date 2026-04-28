@@ -142,3 +142,14 @@ bbFlag bbLocalMessage_SetGoalpoint(bbCore* core, bbMapCoords mapCoords)
     bbThreadedQueue_pushL(&core->local_message_queue, message);
     return bbSuccess;
 }
+
+
+bbFlag bbLocalMessage_SwitchCharacterButton(bbCore* core, char* key)
+{
+    bbLocalMessage* message;
+    bbThreadedQueue_alloc(&core->local_message_queue, (void** ) &message);
+    message->type = bbLocalMessage_switchCharacterButton;
+
+    bbThreadedQueue_pushL(&core->local_message_queue, message);
+    return bbSuccess;
+}

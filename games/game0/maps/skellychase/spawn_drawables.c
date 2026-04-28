@@ -66,6 +66,23 @@ bbFlag spawnDrawables(void)
         MC.j = (i/8)*POINTS_PER_TILE*4+10028;
         bbUnit_newSkeleton(&cat,home.viewport_app.units, &home.UI.graphics, MC, i);
         cat->drawable.frames[0].handle.u64 = 10;
+
+
+        bbHandle drawfunctionHandle;
+        bbDictionary_lookup(home.UI.graphics.drawfunctions->dictionary,
+                    "MAPICON_TEST",
+                    &drawfunctionHandle);
+
+
+
+
+        cat->drawable.frames[2].drawfunction = drawfunctionHandle.u64;
+        cat->drawable.frames[2].handle.u64 = 614;
+        cat->drawable.frames[2].start_time =  -(rand()%6);
+        cat->drawable.frames[2].framerate = 1;
+        cat->drawable.frames[2].offset.x = 0;
+        cat->drawable.frames[2].offset.y = 0;
+
     }
     for (I32 i = NUM_AGENTS; i<numMoveables;i++)
     {

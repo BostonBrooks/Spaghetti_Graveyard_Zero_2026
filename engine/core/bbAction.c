@@ -165,7 +165,8 @@ bbFlag bbAction_setGoalpoint(void* Core,
                             bbMapCoords map_coords,
                             U32 collision,
                             U64 created_tick,
-                            U64 act_tick)
+                            U64 act_tick,
+                            U8 player)
 {
     bbCore* core = (bbCore*)Core;
 
@@ -176,6 +177,7 @@ bbFlag bbAction_setGoalpoint(void* Core,
     action->header.created_tick = created_tick;
     action->header.act_tick = act_tick;
     action->map_coords = map_coords;
+    action->header.player = player;
     bbList_sortL(&core->action_queue,(void*)action);
 
     return bbSuccess;

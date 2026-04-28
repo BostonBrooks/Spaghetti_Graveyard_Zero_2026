@@ -27,5 +27,5 @@ bbFlag bbLocalMessage_NetpauseButton(bbCore* core, char* key);
 
 bbFlag bbLocalMessage_SetViewpoint(bbCore* core, bbMapCoords mapCoords);
 bbFlag bbLocalMessage_SetGoalpoint(bbCore* core, bbMapCoords mapCoords);
-
+bbFlag bbLocalMessage_SwitchCharacterButton(bbCore* core, char* key);
 #endif //BB_LOCAL_MESSAGE_INPUTS_H

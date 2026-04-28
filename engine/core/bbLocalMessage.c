@@ -2,6 +2,7 @@
 
 #include "engine/core/bbAction.h"
 #include "engine/core/bbCoreInputs.h"
+#include "engine/data/bbHome.h"
 #include "engine/threadsafe/bbThreadedQueue.h"
 
 bbFlag bbLocalMessage_setString_fn(bbCore* core, bbLocalMessage* message)
@@ -120,6 +121,14 @@ bbFlag bbLocalMessage_setGoalpointOut_fn(bbCore* core, bbLocalMessage* message)
 
     return bbSuccess;
 }
+
+bbFlag bbLocalMessage_switchCharacterButton_fn(bbCore* core, bbLocalMessage* message)
+{
+    home.agents_app.agents.current_agent = (home.agents_app.agents.current_agent + 1)%NUM_AGENTS;
+
+    return bbSuccess;
+}
+
 #endif
 
 bbFlag bbCore_checkLocalMessages(bbCore* core)
@@ -205,6 +214,12 @@ bbFlag bbCore_checkLocalMessages(bbCore* core)
             bbLocalMessage_setGoalpointOut_fn(core, message);
             bbCore_react(core);
             break;
+
+        case bbLocalMessage_switchCharacterButton:
+            bbLocalMessage_switchCharacterButton_fn(core, message);
+            bbCore_react(core);
+            break;
+
 #endif
         default:
 
