@@ -89,13 +89,14 @@ bbFlag bbMoveables_init(bbMoveables* moveables)
         moveable->goalpoint.j = POINTS_PER_SQUARE;
         moveable->goalpoint.k = 0;
 
-
+        moveable->goal_moveable = i%8;
 
     }
 
     for (I32 i = 0;i<NUM_AGENTS;i++)
     {
         moveables->moveables[i].type = bbMoveableType_Player;
+        moveables->moveables[i].goal_moveable = -1;
     }
     return bbSuccess;
 }
@@ -146,7 +147,7 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
                 break;
                 case bbMoveableType_Cat:
                    {
-                    moveable->goalpoint = moveables->moveables[0].position;
+                    moveable->goalpoint = moveables->moveables[moveable->goal_moveable].position;
                         bbMilliCoords currentLocation = moveable->coords_a;
                         bbMilliCoords goalPoint
                            = bbMapCoords_getMilliCoords(moveable->goalpoint);
@@ -223,7 +224,7 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
                 break;
             case bbMoveableType_Cat:
                 {
-                    moveable->goalpoint = moveables->moveables[0].position;
+                    moveable->goalpoint = moveables->moveables[moveable->goal_moveable].position;
                     bbMilliCoords currentLocation = moveable->coords_b;
                     bbMilliCoords goalPoint
                            = bbMapCoords_getMilliCoords(moveable->goalpoint);

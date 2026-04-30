@@ -12,7 +12,7 @@
 #include "engine/logic/bbVPool.h"
 
 
-#define numMoveables 64
+#define numMoveables 256
 
 typedef enum
 {
@@ -41,6 +41,7 @@ typedef struct
 {
     bbMoveable_type type;
     bbMapCoords position;
+    I32 goal_moveable;
     bbMilliCoords coords_a;
     bbMilliCoords coords_b;
     //goalPoint could be a pointer to another avoidable, but for now it is updated once per frame
