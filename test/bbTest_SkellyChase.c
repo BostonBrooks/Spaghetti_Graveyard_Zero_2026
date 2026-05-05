@@ -227,11 +227,11 @@ void* userinterface_thread(void* arg)
         if (home.clock2.is_running){
             if (home.UI.clock2_handle.clock_thread_index == 255)
             {
-                bbClock_handle_init(&home.clock2, &home.UI.clock2_handle, 1,"USER INTERFACE");
+                bbClock_handle_init(&home.clock2, &home.UI.clock2_handle, 0,"USER INTERFACE");
             }
             //may  not need this line:
             //bbClock_waitTick(&home.clock2,&home.UI.clock2_handle,home.UI.clock2_handle.map_tick+1);
-            bbClock_waitTick(&home.clock2,&home.UI.clock2_handle,0);
+            //bbClock_waitTick(&home.clock2,&home.UI.clock2_handle,0);
             home.UI.clock2_handle.map_tick = home.clock2.map_tick;
 
             test_time = home.UI.clock2_handle.map_tick;
