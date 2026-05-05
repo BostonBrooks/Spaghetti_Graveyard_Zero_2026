@@ -26,7 +26,7 @@ squares_j, I32 sizeOf){
 
     bbVPool* pool;
 
-    bbVPool_newBloated(&pool, sizeOf, 1000, 1000);
+    bbVPool_newBloated(&pool, sizeOf, 1000, 1000,"bbDrawable_Impl");
 
     drawables->pool = pool;
     bbList_init(&drawables->list, pool,NULL,offsetof(bbDrawable, listElement)

@@ -23,7 +23,7 @@ I32 compare (void* A, void* B){
 int main(void){
 
 	bbVPool* pool;
-	bbVPool_newBloated(&pool, sizeof (testStruct),64, 64);
+	bbVPool_newBloated(&pool, sizeof (testStruct),64, 64, "testStruct");
 
 	testStruct* aStruct;
 

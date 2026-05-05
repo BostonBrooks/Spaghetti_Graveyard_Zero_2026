@@ -12,6 +12,7 @@
 
 typedef struct
 {
+    char pool_name[KEY_LENGTH];
     bbHandle null;
     U32 level1;
     U32 level2;
@@ -31,9 +32,9 @@ typedef struct
 } bbBloatedPool_Header;
 
 
-bbFlag bbVPool_newBloated(bbVPool** pool, I32 size_of, I32 level1, I32 level2);
+bbFlag bbVPool_newBloated(bbVPool** pool, I32 size_of, I32 level1, I32 level2, char* key);
 bbFlag bbBloatedPool_new(
-        bbBloatedPool** pool, I32 size_of, I32 level1, I32 level2);
+        bbBloatedPool** pool, I32 size_of, I32 level1, I32 level2, char* key);
 bbFlag bbBloatedPool_delete(bbBloatedPool* pool);
 bbFlag bbBloatedPool_clear(bbBloatedPool* pool);
 bbFlag bbBloatedPool_allocImpl(bbBloatedPool* pool, void** address, char* file, I32 line);

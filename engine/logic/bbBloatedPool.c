@@ -26,9 +26,9 @@ bbFlag bbBloatedPool_getHeader(bbBloatedPool_Header** header, void* address){
 	return bbSuccess;
 }
 
-bbFlag bbVPool_newBloated(bbVPool** Pool, I32 sizeOf, I32 level1, I32 level2){
+bbFlag bbVPool_newBloated(bbVPool** Pool, I32 sizeOf, I32 level1, I32 level2, char* key){
     bbBloatedPool* BloatedPool;
-    bbBloatedPool_new(&BloatedPool, sizeOf, level1, level2);
+    bbBloatedPool_new(&BloatedPool, sizeOf, level1, level2, key);
     bbVPool* pool = malloc(sizeof(bbVPool));
     pool->pool = BloatedPool;
     pool->type = VPoolType_bloated;
@@ -50,7 +50,7 @@ bbFlag bbVPool_newBloated(bbVPool** Pool, I32 sizeOf, I32 level1, I32 level2){
 }
 
 bbFlag bbBloatedPool_new(bbBloatedPool** Pool, I32 sizeOf, I32 level1, I32
-level2){
+level2, char* key){
     //We might get errors if leve1, level2 are too small
     if (level1 < 1) level1 = 1;
     if (level2 < 5) level2 = 5;
@@ -61,6 +61,7 @@ level2){
     pool->null.bloated.index = 0;
     pool->null.bloated.collision = 0;
 
+	bbStr_putStr(pool->pool_name,key, KEY_LENGTH);
     pool->size_of = size;
     pool->level1 = level1;
     pool->level2 = level2;
@@ -111,7 +112,7 @@ bbFlag bbBloatedPool_expand(bbBloatedPool* pool){
 	U32 i = 0;
 	while (pool->elements[i] != NULL){
 		i++;
-		bbAssert(i < pool->level1, "Pool full\n");
+		bbAssert(i < pool->level1, "%s pool full\n", pool->pool_name);
 	}
 
 //each element in level 2 has size = size of header + size of user data

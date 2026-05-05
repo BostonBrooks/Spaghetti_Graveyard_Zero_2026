@@ -64,7 +64,7 @@ bbFlag bbMoveables_init(bbMoveables* moveables)
     moveables->updates_per_frame = 12;
     moveables->use_coords_a = true;
 
-    bbVPool_newBloated(&moveables->snapshots,sizeof(bbMoveables_snapshot),100,100);
+    bbVPool_newBloated(&moveables->snapshots,sizeof(bbMoveables_snapshot),100,100,"bbMoveables_snapshot");
 
     moveables->buffer_back = &moveables->buffer_a;
     moveables->buffer_front = &moveables->buffer_b;

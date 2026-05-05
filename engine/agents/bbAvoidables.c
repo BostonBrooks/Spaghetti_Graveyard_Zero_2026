@@ -45,7 +45,7 @@ bbFlag bbAvoidables_new(bbAvoidables** self, I32 squares_i, I32 squares_j)
     avoidables->size.i = squares_i;
     avoidables->size.j = squares_j;
 
-    bbVPool_newBloated(&avoidables->pool, sizeof(bbAvoidable),100,100);
+    bbVPool_newBloated(&avoidables->pool, sizeof(bbAvoidable),100,100, "bbAvoidable");
 
     for (I32 i = 0; i < avoidables->size.i; i++)
     {

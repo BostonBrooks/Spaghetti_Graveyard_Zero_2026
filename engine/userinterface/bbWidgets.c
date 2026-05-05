@@ -13,7 +13,7 @@
 #include "engine/userinterface/bbWidgetFunctions.h"
 
 bbFlag bbWidgets_init(bbWidgets* widgets){
-    bbVPool_newBloated(&widgets->pool, sizeof(bbWidget), 1024, 1024);
+    bbVPool_newBloated(&widgets->pool, sizeof(bbWidget), 1024, 1024, "bbWidget");
     bbTree_new(&widgets->tree, widgets->pool, offsetof(bbWidget, tree));
 
     bbDictionary_new(&widgets->dict, nextPrime(256));
