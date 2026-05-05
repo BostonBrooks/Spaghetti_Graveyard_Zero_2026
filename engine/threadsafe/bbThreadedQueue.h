@@ -14,6 +14,7 @@ typedef struct
     I32 head;
     I32 tail;
     I32 offset_of;
+    I32 length;
 
     pthread_mutex_t empty;
     pthread_cond_t empty_cond;
@@ -45,4 +46,5 @@ bbFlag bbThreadedQueue_popR(bbThreadedQueue* queue, void** element);
 bbFlag bbThreadedQueue_popL_block(bbThreadedQueue* queue, void** element);
 bbFlag bbThreadedQueue_popR_block(bbThreadedQueue* queue, void** element);
 
+I32 bbThreadedQueue_getLength(bbThreadedQueue* queue);
 #endif //BB_THREADED_QUEUE_H

@@ -79,7 +79,7 @@ int main(void)
                 //U64 time;
                 //bbClock_getTick(&home.clock, &time);
                 //core_time = time;
-                bbClock_handle_init(&home.clock2, &home.core.clock2_handle, 3);
+                bbClock_handle_init(&home.clock2, &home.core.clock2_handle, 3, "MAIN");
                 clock_handle_init = true;
                 //core_time = home.clock2.map_tick;
             }
@@ -271,7 +271,7 @@ void* userinterface_thread(void* arg)
         if (home.clock2.is_running){
             if (home.UI.clock2_handle.clock_thread_index == 255)
             {
-                bbClock_handle_init(&home.clock2, &home.UI.clock2_handle, 1);
+                bbClock_handle_init(&home.clock2, &home.UI.clock2_handle, 1, "USER INTERFACE");
             }
             bbClock_waitTick(&home.clock2,&home.UI.clock2_handle,home.UI.clock2_handle.map_tick+1);
             cl.map_time = home.UI.clock2_handle.map_tick;

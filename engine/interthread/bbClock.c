@@ -1,4 +1,6 @@
 #include "engine/interthread/bbClock.h"
+
+#include "engine/logic/bbString.h"
 #include "engine/threadsafe/bbThreadedPool.h"
 
 #define CLOCK_MESSAGE_POOL_SIZE 4096
@@ -38,6 +40,7 @@ void* clock2_thread(void* arg)
         clock->connections[i].wait_until_tick = 0;
         clock->connections[i].update_when_paused = 0;
         clock->connections[i].in_use = false;
+        bbStr_setStr(clock->connections[i].thread_name, "UNUSED", KEY_LENGTH);
 
 
     }
@@ -161,9 +164,10 @@ bbFlag bbClock_init(bbClock* clock, bbNetworkTime* network_time)
 }
 
 //TODO not threadsafe, test and set clock->connections[i].in_use or use mutex
-bbFlag bbClock_handle_init(bbClock* clock,
+bbFlag bbClock_handle_init( bbClock* clock,
                             bbClock_handle* handle,
-                            U8 update_when_paused)
+                            U8 update_when_paused,
+                            char* thread_name)
 {
     for (I32 i = 0; i < MAX_CONNECTIONS; i++)
     {
@@ -171,6 +175,7 @@ bbFlag bbClock_handle_init(bbClock* clock,
         {
             clock->connections[i].in_use = true;
             clock->connections[i].update_when_paused = update_when_paused;
+            bbStr_setStr(clock->connections[i].thread_name, thread_name, KEY_LENGTH);
 
             handle->server_tick = clock->server_tick;
             handle->map_tick = clock->map_tick;
@@ -241,5 +246,25 @@ bbFlag bbClock_testPause(bbClock* clock,bool is_paused)
                 clock->server_tick,
                 clock->map_tick,
                 is_paused);
+    return bbSuccess;
+}
+
+
+bbFlag bbClock_printQueueLengths(bbClock* clock)
+{
+    I32 queue_length;
+
+    queue_length = bbThreadedQueue_getLength(&clock->inbox);
+
+    printf("clock inbox contains %d messages\n", queue_length);
+
+    for (I32 i = 0; i < MAX_CONNECTIONS; i++)
+    {
+
+        queue_length = bbThreadedQueue_getLength(&clock->connections[i].outbox);
+        printf("clock outbox %d, %s contains %d messages\n",i,clock->connections[i].thread_name, queue_length);
+
+    }
+
     return bbSuccess;
 }

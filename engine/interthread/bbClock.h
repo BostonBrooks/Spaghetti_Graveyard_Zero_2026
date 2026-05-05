@@ -1,5 +1,6 @@
 #ifndef BB_CLOCK_H
 #define BB_CLOCK_H
+#include "engine/data/bbConstants.h"
 #include "engine/logic/bbIntTypes.h"
 #include "engine/network/bbNetworkTime.h"
 #include "engine/threadsafe/bbThreadedQueue.h"
@@ -34,6 +35,7 @@ typedef struct bbClock2_message
 
 typedef struct
 {
+    char thread_name[KEY_LENGTH];
     bbThreadedQueue outbox;
     //send a wakeup message when send_time == current_tick
     U64 wait_until_tick;
@@ -67,9 +69,10 @@ typedef struct
 
 bbFlag bbClock_init(bbClock* clock, bbNetworkTime* network_time);
 
-bbFlag bbClock_handle_init(bbClock* clock,
+bbFlag bbClock_handle_init( bbClock* clock,
                             bbClock_handle* handle,
-                            U8 update_when_paused);
+                            U8 update_when_paused,
+                            char* thread_name);
 
 
 bbFlag bbClock_waitTick(bbClock* clock, bbClock_handle* handle, U64 until_map_tick);
@@ -80,5 +83,7 @@ bbFlag bbClock_setPause(bbClock* clock,
                 bool is_paused);
 
 bbFlag bbClock_testPause(bbClock* clock,bool is_paused);
+
+bbFlag bbClock_printQueueLengths(bbClock* clock);
 
 #endif// BB_CLOCK_H

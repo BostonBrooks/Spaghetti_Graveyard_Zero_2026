@@ -21,6 +21,7 @@ bbFlag bbThreadedQueue_init(bbThreadedQueue* queue, bbVPool* pool, I32 sizeOf, I
     queue->head = -1;
     queue->tail = -1;
     queue->offset_of = offset_of;
+    queue->length = 0;
 
 
     int flag = pthread_mutex_init(&queue->mutex, NULL);
@@ -86,6 +87,7 @@ bbFlag bbThreadedQueue_pushL(bbThreadedQueue* queue, void* element)
         queue->head = handle_element.u64;
         queue->tail = handle_element.u64;
 
+        queue->length = 1;
         //I guess we're using null for endpoints of lists, IE not a circular list
         list_element->prev = queue->pool->null;
         list_element->next = queue->pool->null;
@@ -117,6 +119,7 @@ bbFlag bbThreadedQueue_pushL(bbThreadedQueue* queue, void* element)
 
     head_listElement->prev = handle_element;
     queue->head = (I32)handle_element.u64;
+    queue->length++;
 
     pthread_cond_signal(&queue->empty_cond);
     bbMutexUnlock(&queue->mutex);
@@ -145,6 +148,7 @@ bbFlag bbThreadedQueue_pushR(bbThreadedQueue* queue, void* element)
 
         queue->head = handle_element.u64;
         queue->tail = handle_element.u64;
+        queue->length = 1;
 
         //I guess we're using null for endpoints of lists, IE not a circular list
         list_element->prev = queue->pool->null;
@@ -168,7 +172,7 @@ bbFlag bbThreadedQueue_pushR(bbThreadedQueue* queue, void* element)
 
     tail_list_element->next = handle_element;
     queue->tail = handle_element.u64;
-
+    queue->length++;
 
     pthread_cond_signal(&queue->empty_cond);
     bbMutexUnlock(&queue->mutex);
@@ -186,6 +190,8 @@ bbFlag bbThreadedQueue_popL(bbThreadedQueue* queue, void** Element)
     {
         bbAssert(queue->head == -1 && queue->tail == -1, "head/tail mismatch");
         *Element = NULL;
+
+        bbAssert(queue->length == 0, "bad queue length\n");
         bbMutexUnlock(&queue->mutex);
         return bbNone;
     }
@@ -203,7 +209,7 @@ bbFlag bbThreadedQueue_popL(bbThreadedQueue* queue, void** Element)
         listElement->next = queue->pool->null;
         queue->head = -1;
         queue->tail = -1;
-
+        queue->length = 0;
         *Element = element;
         bbMutexUnlock(&queue->mutex);
         return bbSuccess;
@@ -227,6 +233,7 @@ bbFlag bbThreadedQueue_popL(bbThreadedQueue* queue, void** Element)
 
     next_listElement->prev = queue->pool->null;
     queue->head = next_handle.u64;
+    queue->length--;
 
     *Element = head_element;
     bbMutexUnlock(&queue->mutex);
@@ -246,6 +253,7 @@ bbFlag bbThreadedQueue_popR(bbThreadedQueue* queue, void** Element)
     {
         bbAssert(queue->head == -1 && queue->tail == -1, "head/tail mismatch");
         *Element = NULL;
+        bbAssert(queue->length == 0, "bad queue length\n");
         bbMutexUnlock(&queue->mutex);
         return bbNone;
     }
@@ -263,6 +271,7 @@ bbFlag bbThreadedQueue_popR(bbThreadedQueue* queue, void** Element)
         listElement->next = queue->pool->null;
         queue->head = -1;
         queue->tail = -1;
+        queue->length = 0;
 
         *Element = element;
         bbMutexUnlock(&queue->mutex);
@@ -289,7 +298,7 @@ bbFlag bbThreadedQueue_popR(bbThreadedQueue* queue, void** Element)
 
     prev_listElement->next = queue->pool->null;
     queue->tail = prev_handle.u64;
-
+    queue->length--;
     *Element = tail_element;
     bbMutexUnlock(&queue->mutex);
     return bbSuccess;
@@ -307,6 +316,7 @@ bbFlag bbThreadedQueue_popR_block(bbThreadedQueue* queue, void** Element)
     {
         bbAssert(queue->head == -1 && queue->tail == -1, "head/tail mismatch");
 
+        bbAssert(queue->length == 0, "bad queue length\n");
 
         pthread_cond_wait(&queue->empty_cond, &queue->mutex);
 
@@ -326,7 +336,7 @@ bbFlag bbThreadedQueue_popR_block(bbThreadedQueue* queue, void** Element)
         list_element->next = queue->pool->null;
         queue->head = -1;
         queue->tail = -1;
-
+        queue->length = 0;
         *Element = element;
         bbMutexUnlock(&queue->mutex);
         return bbSuccess;
@@ -351,7 +361,7 @@ bbFlag bbThreadedQueue_popR_block(bbThreadedQueue* queue, void** Element)
 
     prev_listElement->next = queue->pool->null;
     queue->tail = prev_handle.u64;
-
+    queue->length--;
     *Element = tail_element;
     bbMutexUnlock(&queue->mutex);
     return bbSuccess;
@@ -369,6 +379,7 @@ bbFlag bbThreadedQueue_popL_block(bbThreadedQueue* queue, void** Element)
     {
         bbAssert(queue->head == -1 && queue->tail == -1, "head/tail mismatch");
 
+        bbAssert(queue->length == 0, "bad queue length\n");
         pthread_cond_wait(&queue->empty_cond, &queue->mutex);
 
     }
@@ -386,7 +397,7 @@ bbFlag bbThreadedQueue_popL_block(bbThreadedQueue* queue, void** Element)
         list_element->next = queue->pool->null;
         queue->head = -1;
         queue->tail = -1;
-
+        queue->length = 0;
         *Element = element;
         bbMutexUnlock(&queue->mutex);
         return bbSuccess;
@@ -410,8 +421,13 @@ bbFlag bbThreadedQueue_popL_block(bbThreadedQueue* queue, void** Element)
 
     next_list_element->prev = queue->pool->null;
     queue->head = next_handle.u64;
-
+    queue->length--;
     *Element = head_element;
     bbMutexUnlock(&queue->mutex);
     return bbSuccess;
+}
+
+I32 bbThreadedQueue_getLength(bbThreadedQueue* queue)
+{
+    return queue->length;
 }
