@@ -18,7 +18,7 @@
 #include "engine/graphics/bbColours.h"
 #include "engine/userinterface/bbInput.h"
 #include "engine/userinterface/bbMouse.h"
-
+#include "engine/spawner/bbSpawner.h"
 #include "engine/network/bbNetworkApp.h"
 
 thread_local char* thread;
@@ -67,6 +67,11 @@ int main(void)
     bbMoveables_init(&home.agents_app.movables);
     bbAgents_init(&home.agents_app.agents);
 
+    bbSpawner_init(&home.spawner, 696969);
+    bbSpawner_populate(&home.spawner);
+
+
+
     pthread_t graphics_pthread;
     pthread_create(&graphics_pthread, NULL, userinterface_thread, NULL);
 
@@ -85,6 +90,9 @@ int main(void)
 
     bbAvoidables_new(&home.agents_app.avoidables, 12, 12);
     bbMoveables_init(&home.agents_app.movables);
+
+
+    bbSpawner_spawnCore(&home.spawner, "./maps/skellychase/spawner/spawner.csv");
 
     while (1)
     {
@@ -187,6 +195,7 @@ void* userinterface_thread(void* arg)
     bbUIApp_spawnWidgets(&home.UI);
     spawnDrawables();
 
+
     bbGroundSurface_setTexture(&home.ground_surface);
 
     home.UI.UI_time = 0;
@@ -205,6 +214,9 @@ void* userinterface_thread(void* arg)
     U8 clock_index = 255;
 
     I32 counter = 0;
+
+
+    bbSpawner_spawnGraphics(&home.spawner, "./maps/skellychase/spawner/spawner.csv");
 
     while (1)
     {

@@ -19,6 +19,7 @@ int main(void)
 {
     bbCore core;
     bbCore_init(&core);
+    bbSpawner_init(&home.spawner);
 
     test_time = core.actual_time = 0;
     bbStr_putStr(test_string, "Abera Kedabera",KEY_LENGTH);

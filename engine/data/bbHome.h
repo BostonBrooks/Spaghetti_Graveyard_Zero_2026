@@ -14,7 +14,7 @@
 #include "engine/userinterface/bbUIApp.h"
 #include "engine/agents/bbAgentApp.h"
 #include "engine/groundsurface/bbGroundSurface.h"
-
+#include "engine/spawner/bbSpawner.h"
 
 
 //TODO bbCoreApp
@@ -43,6 +43,7 @@ typedef struct
     bbViewportApp viewport_app;
     bbAgentsApp agents_app;
     bbGroundSurface ground_surface;
+    bbSpawner spawner;
 } bbHome;
 
 
