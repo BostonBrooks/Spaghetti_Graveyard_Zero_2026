@@ -19,7 +19,7 @@
 #include "engine/userinterface/bbMouse.h"
 
 #include "engine/network/bbNetworkApp.h"
-#include "engine/pong/bbBall.h"
+#include "games/game0/maps/pong/code/bbBall.h"
 thread_local char* thread;
 bbHome home;
 

@@ -2,8 +2,8 @@
 #define BB_CORE_INPUTS_H
 #include "engine/core/bbInstruction.h"
 #include "engine/core/bbCore.h"
-#include "engine/pong/bbBall.h"
-#include "engine/pong/bbPaddle.h"
+#include "games/game0/maps/pong/code/bbBall.h"
+#include "games/game0/maps/pong/code/bbPaddle.h"
 
 
 bbFlag bbCoreInput_setString(bbCore* core, char* string, bbInstruction_source source, bbHandle action);

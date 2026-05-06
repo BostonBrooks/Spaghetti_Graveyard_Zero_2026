@@ -6,8 +6,8 @@
 #include "engine/graphics/bbGraphicsApp.h"
 #include "engine/interthread/bbClock.h"
 #include "engine/network/bbNetwork.h"
-#include "engine/pong/bbBall.h"
-#include "engine/pong/bbPaddle.h"
+#include "games/game0/maps/pong/code/bbBall.h"
+#include "games/game0/maps/pong/code/bbPaddle.h"
 #include "engine/userinterface/bbUI_Inbox.h"
 #include "engine/userinterface/bbWidgets.h"
 

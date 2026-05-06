@@ -4,11 +4,9 @@
 #include "engine/core/bbAction.h"
 #include "engine/core/bbCore.h"
 #include "engine/logic/bbFlag.h"
-#include "engine/pong/bbBall.h"
 #include "engine/core/bbInstruction.h"
 #include "engine/data/bbHome.h"
 #include "engine/network/bbNetworkApp.h"
-#include "engine/pong/bbPaddle.h"
 
 
 extern U32 collision;

@@ -51,8 +51,8 @@ add_executable(Pong test/bbTest_Pong.c
         engine/core/bbCoreDiscard.c
         engine/threadsafe/bbThreadedPool.c
         engine/threadsafe/bbThreadedQueue.c
-        engine/pong/bbBall.c
-        engine/pong/bbPaddle.c)
+        games/game0/maps/pong/code/bbBall.c
+        games/game0/maps/pong/code/bbPaddle.c)
 
 target_compile_definitions(Pong PRIVATE
         DEFINE_PONG)
@@ -114,8 +114,8 @@ add_executable(Spaghetti_Graveyard_Zero_2026 test/incremental_test.c
         engine/core/bbAction.c
         engine/threadsafe/bbThreadedPool.c
         engine/threadsafe/bbThreadedQueue.c
-        engine/pong/bbBall.c
-        engine/pong/bbPaddle.c
+        games/game0/maps/pong/code/bbBall.c
+        games/game0/maps/pong/code/bbPaddle.c
 )
 
 target_compile_definitions(Spaghetti_Graveyard_Zero_2026 PRIVATE
@@ -216,8 +216,8 @@ add_executable(test_core test/bbTest_core.c
         engine/core/bbAction.c
         engine/threadsafe/bbThreadedPool.c
         engine/threadsafe/bbThreadedQueue.c
-        engine/pong/bbBall.c
-        engine/pong/bbPaddle.c
+        games/game0/maps/pong/code/bbBall.c
+        games/game0/maps/pong/code/bbPaddle.c
 )
 
 target_include_directories(test_core  PRIVATE "./"
