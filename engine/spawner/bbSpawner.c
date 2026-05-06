@@ -1,8 +1,8 @@
-#include "bbSpawner.h"
+#include "../bbSpawner.h"
 
 #include <stdlib.h>
 
-#include "logic/bbPrime.h"
+#include "../logic/bbPrime.h"
 
 
 bbFlag bbSpawner_init(bbSpawner* spawner, I32 num)
