@@ -193,7 +193,6 @@ void* userinterface_thread(void* arg)
     bbViewportApp_init(&home.viewport_app);
 
     bbUIApp_spawnWidgets(&home.UI);
-    spawnDrawables();
 
 
     bbGroundSurface_setTexture(&home.ground_surface);

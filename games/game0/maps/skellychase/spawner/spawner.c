@@ -81,10 +81,54 @@ bbFlag bbSF_skeletonCore(char* string)
     return bbSuccess;
 }
 
+bbFlag bbSF_zombieGraphics(char* string)
+{
+
+    bbViewportApp* app = &home.viewport_app;
+    bbMapCoords MC;
+    I32 index;
+    char key[KEY_LENGTH];
+    sscanf(string, "%[^','],%d,%d,%d", key, &MC.i, &MC.j,&index);
+
+
+    MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
+
+    bbUnit* unit;
+    bbUnit_newSkeleton(&unit,home.viewport_app.units, &home.UI.graphics, MC, index);
+    unit->drawable.frames[0].handle.u64 = 10;
+
+
+    bbHandle drawfunctionHandle;
+    bbDictionary_lookup(home.UI.graphics.drawfunctions->dictionary,
+                "MAPICON_TEST",
+                &drawfunctionHandle);
+
+
+
+
+    unit->drawable.frames[2].drawfunction = drawfunctionHandle.u64;
+    unit->drawable.frames[2].handle.u64 = 614;
+    unit->drawable.frames[2].start_time =  -(rand()%6);
+    unit->drawable.frames[2].framerate = 1;
+    unit->drawable.frames[2].offset.x = 0;
+    unit->drawable.frames[2].offset.y = 0;
+
+    return bbSuccess;
+}
+
+bbFlag bbSF_zombieCore(char* string)
+{
+
+    bbHere()
+
+    return bbSuccess;
+}
+
 bbFlag bbSpawner_populate(bbSpawner* spawner)
 {
     bbSpawner_add(spawner,bbSF_null, bbSF_null, "NULL");
     bbSpawner_add(spawner,bbSF_treeCore, bbSF_treeGraphics, "TREE");
     bbSpawner_add(spawner,bbSF_skeletonCore, bbSF_skeletonGraphics, "SKELETON");
+    bbSpawner_add(spawner,bbSF_zombieCore, bbSF_zombieGraphics, "ZOMBIE");
     return bbSuccess;
 }
