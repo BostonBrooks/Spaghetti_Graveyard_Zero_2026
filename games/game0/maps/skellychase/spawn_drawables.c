@@ -7,30 +7,7 @@
 bbFlag spawnDrawables(void)
 {
     bbViewportApp* app = &home.viewport_app;
-    for (I32 i = 0; i<24;i++){
-        for (I32 j=0; j<24;j++){
 
-            bbMapCoords MC;
-            MC.i = i * (POINTS_PER_SQUARE / 2);
-            MC.j = j * (POINTS_PER_SQUARE / 2);
-            MC.k = 0;
-
-            MC.i += rand()%(100 * POINTS_PER_PIXEL);
-            MC.j += rand()%(100 * POINTS_PER_PIXEL);
-
-            MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);;
-
-            bbDrawable* drawable;
-            bbDrawable_newTree(&drawable, app->drawables, &home.UI.graphics,
-                               MC);
-            bbMapIcon* mapicon;
-            bbMapIcon_new(&mapicon, app->mapIcons,&home.UI.graphics, MC);
-            //bbAvoidable* avoidable;
-            //bbAvoidable_new(&avoidable, app->avoidables, MC, 160);
-
-
-        }
-    }
 
     for (I32 i = 0; i<8;i++) {
         for (I32 j = 0; j < 8; j++) {
@@ -64,6 +41,7 @@ bbFlag spawnDrawables(void)
 
         MC.i = (i%8)*POINTS_PER_TILE*4+10208;
         MC.j = (i/8)*POINTS_PER_TILE*4+10028;
+        MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
         bbUnit_newSkeleton(&cat,home.viewport_app.units, &home.UI.graphics, MC, i);
         cat->drawable.frames[0].handle.u64 = 10;
 
@@ -89,6 +67,7 @@ bbFlag spawnDrawables(void)
 
         MC.i = (i%8)*POINTS_PER_TILE*4+10028;
         MC.j = (i/8)*POINTS_PER_TILE*4+10028;
+        MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
         bbUnit_newSkeleton(&cat,home.viewport_app.units, &home.UI.graphics, MC, i);
     }
     //bbAgent* agent;
