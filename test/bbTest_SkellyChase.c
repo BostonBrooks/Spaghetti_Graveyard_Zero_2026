@@ -220,7 +220,7 @@ void* userinterface_thread(void* arg)
     bbMapCoords MC;
     MC.i = 10000;
     MC.j = 10000;
-    MC.k = 200;
+    MC.k = 1500;
     bbDrawable* sphere;
     bbDrawable_newSphere(&sphere, home.viewport_app.drawables,
                           &home.UI.graphics, MC);
