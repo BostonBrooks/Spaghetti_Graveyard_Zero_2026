@@ -216,6 +216,15 @@ void* userinterface_thread(void* arg)
 
     bbSpawner_spawnGraphics(&home.spawner, "./maps/skellychase/spawner/spawner.csv");
 
+    bbHere()
+    bbMapCoords MC;
+    MC.i = 10000;
+    MC.j = 10000;
+    MC.k = 200;
+    bbDrawable* sphere;
+    bbDrawable_newSphere(&sphere, home.viewport_app.drawables,
+                          &home.UI.graphics, MC);
+bbHere()
     while (1)
     {
 

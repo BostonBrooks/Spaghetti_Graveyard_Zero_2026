@@ -4,9 +4,6 @@
 
 #include "engine/geometry/bbCoordinates.h"
 
-
-
-
 bbMapCoords bbScreenCoords_getMapCoords(bbScreenPoints SP);
 
 
