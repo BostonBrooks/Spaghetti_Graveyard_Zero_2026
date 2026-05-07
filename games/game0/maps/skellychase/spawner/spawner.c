@@ -27,8 +27,6 @@ bbFlag bbSF_treeGraphics(char* string)
     MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
 
 
-    bbDebug("%s,%d,%d,%d\n", key, MC.i, MC.j, MC.j);
-
     bbDrawable* drawable;
     bbDrawable_newTree(&drawable, app->drawables, &home.UI.graphics,MC);
     bbMapIcon* mapicon;
@@ -47,8 +45,6 @@ bbFlag bbSF_treeCore(char* string)
 
     MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
 
-
-    bbDebug("%s,%d,%d,%d\n", key, MC.i, MC.j, MC.j);
 
 
     bbAvoidable_newCircle(home.agents_app.avoidables, MC, 193);
@@ -76,7 +72,26 @@ bbFlag bbSF_skeletonGraphics(char* string)
 bbFlag bbSF_skeletonCore(char* string)
 {
 
-    bbHere()
+    bbMapCoords MC;
+    I32 index;
+    char key[KEY_LENGTH];
+    sscanf(string, "%[^','],%d,%d,%d", key, &MC.i, &MC.j,&index);
+
+    MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
+
+
+    bbMoveable* moveable = &home.agents_app.movables.moveables[index];
+
+    moveable->type = bbMoveableType_Cat;
+    moveable->position = MC;
+    moveable->goalpoint = MC;
+
+    moveable->coords_a = bbMapCoords_getMilliCoords(moveable->position);
+    moveable->coords_b = bbMapCoords_getMilliCoords(moveable->position);
+
+    moveable->goal_moveable = index%8;
+
+
 
     return bbSuccess;
 }
@@ -118,8 +133,26 @@ bbFlag bbSF_zombieGraphics(char* string)
 
 bbFlag bbSF_zombieCore(char* string)
 {
+    bbMapCoords MC;
+    I32 index;
+    char key[KEY_LENGTH];
+    sscanf(string, "%[^','],%d,%d,%d", key, &MC.i, &MC.j,&index);
 
-    bbHere()
+    MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
+
+
+    bbMoveable* moveable = &home.agents_app.movables.moveables[index];
+
+    moveable->type = bbMoveableType_Player;
+    moveable->position = MC;
+    moveable->goalpoint = MC;
+
+    moveable->coords_a = bbMapCoords_getMilliCoords(moveable->position);
+    moveable->coords_b = bbMapCoords_getMilliCoords(moveable->position);
+
+    moveable->goal_moveable = -1;
+
+
 
     return bbSuccess;
 }

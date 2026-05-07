@@ -63,8 +63,7 @@ int main(void)
     bbSquareCoords size; size.i = 12; size.j = 12; size.k = 0;
     bbGroundSurface_init(&home.ground_surface, size, "./maps/skellychase/graphics/HeightMap.bmp");
 
-    bbAvoidables_new(&home.agents_app.avoidables, 12, 12);
-    bbMoveables_init(&home.agents_app.movables);
+
     bbAgents_init(&home.agents_app.agents);
 
     bbSpawner_init(&home.spawner, 696969);
@@ -220,7 +219,7 @@ void* userinterface_thread(void* arg)
     while (1)
     {
 
-        if (counter%360 == 0) bbClock_printQueueLengths(&home.clock2);
+        //if (counter%360 == 0) bbClock_printQueueLengths(&home.clock2);
         counter++;
 
         bbInput_poll(&home.UI.input, home.UI.window);

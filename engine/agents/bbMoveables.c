@@ -76,27 +76,7 @@ bbFlag bbMoveables_init(bbMoveables* moveables)
     {
         bbMoveable* moveable = &moveables->moveables[i];
 
-        moveable->type = bbMoveableType_Cat;
-
-        moveable->position.i = (i%8)*POINTS_PER_TILE*4+10208;
-        moveable->position.j = (i/8)*POINTS_PER_TILE*4+10208;
-        moveable->position.k = 0;
-
-        moveable->coords_a = bbMapCoords_getMilliCoords(moveable->position);
-        moveable->coords_b = bbMapCoords_getMilliCoords(moveable->position);
-
-        moveable->goalpoint.i = POINTS_PER_SQUARE;
-        moveable->goalpoint.j = POINTS_PER_SQUARE;
-        moveable->goalpoint.k = 0;
-
-        moveable->goal_moveable = i%8;
-
-    }
-
-    for (I32 i = 0;i<NUM_AGENTS;i++)
-    {
-        moveables->moveables[i].type = bbMoveableType_Player;
-        moveables->moveables[i].goal_moveable = -1;
+        moveable->type = bbMoveableType_Unused;
     }
     return bbSuccess;
 }
