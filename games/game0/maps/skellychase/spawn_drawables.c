@@ -62,14 +62,14 @@ bbFlag spawnDrawables(void)
         cat->drawable.frames[2].offset.y = 0;
 
     }
-    for (I32 i = NUM_AGENTS; i<numMoveables;i++)
+  /*  for (I32 i = NUM_AGENTS; i<numMoveables;i++)
     {
 
         MC.i = (i%8)*POINTS_PER_TILE*4+10028;
         MC.j = (i/8)*POINTS_PER_TILE*4+10028;
         MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
         bbUnit_newSkeleton(&cat,home.viewport_app.units, &home.UI.graphics, MC, i);
-    }
+    }*/
     //bbAgent* agent;
     //bbAgent_constructor(&agent, home.shared.agents, "PLAYER", "PLAYER", MC);
 

@@ -15,7 +15,7 @@ bbFlag bbSF_null(char* string)
     return bbSuccess;
 }
 
-bbFlag bbSF_treeGrpahics(char* string)
+bbFlag bbSF_treeGraphics(char* string)
 {
 
     bbViewportApp* app = &home.viewport_app;
@@ -55,9 +55,36 @@ bbFlag bbSF_treeCore(char* string)
     return bbSuccess;
 }
 
+bbFlag bbSF_skeletonGraphics(char* string)
+{
+
+    bbViewportApp* app = &home.viewport_app;
+    bbMapCoords MC;
+    I32 index;
+    char key[KEY_LENGTH];
+    sscanf(string, "%[^','],%d,%d,%d", key, &MC.i, &MC.j,&index);
+
+
+    MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
+
+    bbUnit* unit;
+    bbUnit_newSkeleton(&unit,home.viewport_app.units, &home.UI.graphics, MC, index);
+
+    return bbSuccess;
+}
+
+bbFlag bbSF_skeletonCore(char* string)
+{
+
+    bbHere()
+
+    return bbSuccess;
+}
+
 bbFlag bbSpawner_populate(bbSpawner* spawner)
 {
     bbSpawner_add(spawner,bbSF_null, bbSF_null, "NULL");
-    bbSpawner_add(spawner,bbSF_treeCore, bbSF_treeGrpahics, "TREE");
+    bbSpawner_add(spawner,bbSF_treeCore, bbSF_treeGraphics, "TREE");
+    bbSpawner_add(spawner,bbSF_skeletonCore, bbSF_skeletonGraphics, "SKELETON");
     return bbSuccess;
 }
