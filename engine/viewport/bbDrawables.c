@@ -4,8 +4,25 @@
 #include "engine/data/bbHome.h"
 #include "engine/logic/bbBloatedPool.h"
 
-I32 bbDrawables_getSquareIndex(I32 i, I32 j, I32 squares_i){
+I32 bbDrawables_getSquareIndex(I32 i, I32 j, I32 squares_i, I32 squares_j){
+
+    if (i<0 || i>=squares_i) return -1;
+    if (j<0 || j>=squares_j) return -1;
+
+
     return i + squares_i * j;
+}
+
+bbDrawableSquare* bbDrawables_getSquare(bbDrawables* drawables, I32 i, I32 j, I32 squares_i, I32 squares_j)
+{
+    bbDrawableSquare* square;
+    I32 index = bbDrawables_getSquareIndex(i, j, squares_i, squares_j);
+    if (index == -1)
+    {
+        square = &drawables->lost;
+    } else square = &drawables->squares[index];
+
+    return square;
 }
 
 I32 bbDrawable_isCloser(void* one, void* two){
@@ -37,9 +54,17 @@ squares_j, I32 sizeOf){
     drawables->squares_i = squares_i;
     drawables->squares_j = squares_j;
 
+    bbDrawableSquare* drawableSquare = &drawables->lost;
+    drawableSquare->coords.i = -1;
+    drawableSquare->coords.j = -1;
+    drawableSquare->coords.k = 0;
+
+    bbList_init(&drawableSquare->list, pool, NULL,offsetof
+    (bbDrawable, listElement),bbDrawable_isCloser);
+
     for (I32 i = 0; i < squares_i;i++){
         for (I32 j = 0; j < squares_j; j++){
-            I32 n = bbDrawables_getSquareIndex(i, j, squares_i);
+            I32 n = bbDrawables_getSquareIndex(i, j, squares_i, squares_j);
             bbDrawableSquare* drawableSquare = &drawables->squares[n];
             drawableSquare->coords.i = i;
             drawableSquare->coords.j = j;
@@ -148,8 +173,7 @@ bbFlag bbDrawable_newTree(bbDrawable** self, bbDrawables* drawables,
 {
     bbVPool* pool = drawables->pool;
     bbSquareCoords SC = bbMapCoords_getSquareCoords(MC);
-    I32 index = bbDrawables_getSquareIndex(SC.i, SC.j, drawables->squares_i);
-    bbDrawableSquare drawableSquare = drawables->squares[index];
+    bbDrawableSquare* drawableSquare = bbDrawables_getSquare(drawables,SC.i, SC.j, drawables->squares_i, drawables->squares_j);
 
     bbDrawable* drawable;
     bbVPool_alloc(pool, (void**)&drawable);
@@ -189,7 +213,7 @@ bbFlag bbDrawable_newTree(bbDrawable** self, bbDrawables* drawables,
         drawable->frames[k].drawfunction = -1;
     }
 
-    bbList_sortL(&drawableSquare.list, drawable);
+    bbList_sortL(&drawableSquare->list, drawable);
 
     //bbAvoidable_newCircle(home.agents_app.avoidables, MC, 193);
 
@@ -202,8 +226,7 @@ bbFlag bbDrawable_newCat(bbDrawable** self, bbDrawables* drawables,
 {
     bbVPool* pool = drawables->pool;
     bbSquareCoords SC = bbMapCoords_getSquareCoords(MC);
-    I32 index = bbDrawables_getSquareIndex(SC.i, SC.j, drawables->squares_i);
-    bbDrawableSquare drawableSquare = drawables->squares[index];
+    bbDrawableSquare* drawableSquare =  bbDrawables_getSquare(drawables,SC.i, SC.j, drawables->squares_i, drawables->squares_j);
 
     bbDrawable* drawable;
     bbVPool_alloc(pool, (void**)&drawable);
@@ -226,7 +249,7 @@ bbFlag bbDrawable_newCat(bbDrawable** self, bbDrawables* drawables,
         drawable->frames[k].drawfunction = -1;
     }
 
-    bbList_sortL(&drawableSquare.list, drawable);
+    bbList_sortL(&drawableSquare->list, drawable);
     *self = drawable;
     return bbSuccess;
 }
@@ -236,8 +259,7 @@ bbFlag bbDrawable_newSkeleton(bbDrawable** self, bbDrawables* drawables,
 {
     bbVPool* pool = drawables->pool;
     bbSquareCoords SC = bbMapCoords_getSquareCoords(MC);
-    I32 index = bbDrawables_getSquareIndex(SC.i, SC.j, drawables->squares_i);
-    bbDrawableSquare drawableSquare = drawables->squares[index];
+    bbDrawableSquare* drawableSquare = bbDrawables_getSquare(drawables,SC.i, SC.j, drawables->squares_i, drawables->squares_j);
 
     bbDrawable* drawable;
     bbVPool_alloc(pool, (void**)&drawable);
@@ -260,7 +282,7 @@ bbFlag bbDrawable_newSkeleton(bbDrawable** self, bbDrawables* drawables,
         drawable->frames[k].drawfunction = -1;
     }
 
-    bbList_sortL(&drawableSquare.list, drawable);
+    bbList_sortL(&drawableSquare->list, drawable);
     *self = drawable;
     return bbSuccess;
 }
@@ -276,21 +298,18 @@ bbFlag bbDrawable_setLocation(bbDrawable* drawable, bbDrawables* drawables,
     bbSquareCoords oldSC = bbMapCoords_getSquareCoords(drawable->coords);
     I32 newIndex = bbDrawables_getSquareIndex(newSC.i,
                                            newSC.j,
-                                           drawables->squares_i);
+                                           drawables->squares_i, drawables->squares_j);
     I32 oldIndex = bbDrawables_getSquareIndex(oldSC.i,
                                               oldSC.j,
-                                              drawables->squares_i);
-    bbDrawableSquare* newSquare = &drawables->squares[newIndex];
-    bbDrawableSquare* oldSquare = &drawables->squares[oldIndex];
+                                              drawables->squares_i, drawables->squares_j);
+    bbDrawableSquare* newSquare= bbDrawables_getSquare(drawables,newSC.i, newSC.j, drawables->squares_i, drawables->squares_j);
+
+
+    bbDrawableSquare* oldSquare= bbDrawables_getSquare(drawables,oldSC.i, oldSC.j, drawables->squares_i, drawables->squares_j);
 
 
     bbList_remove(&oldSquare->list, drawable);
-
-
-
     drawable->coords = MC;
-
-
     bbList_sortL(&newSquare->list, drawable);
 
     return bbSuccess;
@@ -301,8 +320,7 @@ bbFlag bbDrawable_newSphere(bbDrawable** self, bbDrawables* drawables,
 {
     bbVPool* pool = drawables->pool;
     bbSquareCoords SC = bbMapCoords_getSquareCoords(MC);
-    I32 index = bbDrawables_getSquareIndex(SC.i, SC.j, drawables->squares_i);
-    bbDrawableSquare drawableSquare = drawables->squares[index];
+    bbDrawableSquare* drawableSquare = bbDrawables_getSquare(drawables,SC.i, SC.j, drawables->squares_i, drawables->squares_j);
 
     bbDrawable* drawable;
     bbVPool_alloc(pool, (void**)&drawable);
@@ -330,7 +348,7 @@ bbFlag bbDrawable_newSphere(bbDrawable** self, bbDrawables* drawables,
         drawable->frames[k].drawfunction = -1;
     }
 
-    bbList_sortL(&drawableSquare.list, drawable);
+    bbList_sortL(&drawableSquare->list, drawable);
     *self = drawable;
     return bbSuccess;
 }

@@ -41,6 +41,8 @@ typedef struct
 
     I32 squares_i;
     I32 squares_j;
+
+    bbDrawableSquare lost;
     bbDrawableSquare squares[];
 } bbDrawables;
 
@@ -65,8 +67,8 @@ bbFlag bbDrawablesPlus_draw(drawFuncClosure* cl,
 bbFlag bbDrawables_drawFunc(void* node, void* cl);
 /** bbbDrawable_draw draws a drawable to the screen*/
 bbFlag bbDrawable_draw(bbDrawable* drawable, drawFuncClosure* cl);
-I32 bbDrawables_getSquareIndex(I32 i, I32 j, I32 squares_i);
-
+I32 bbDrawables_getSquareIndex(I32 i, I32 j, I32 squares_i, I32 squares_j);
+bbDrawableSquare* bbDrawables_getSquare(bbDrawables* drawables, I32 i, I32 j, I32 squares_i, I32 squares_j);
 bbFlag bbDrawable_newTree(bbDrawable** self, bbDrawables* drawables,
                           bbGraphicsApp* graphics, bbMapCoords MC);
 bbFlag bbDrawable_newCat(bbDrawable** self, bbDrawables* drawables,

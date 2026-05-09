@@ -5,8 +5,7 @@ bbFlag bbMapIcon_new(bbMapIcon** self, bbMapIcons* mapicons,
 {
     bbVPool* pool = mapicons->pool;
     bbSquareCoords SC = bbMapCoords_getSquareCoords(MC);
-    I32 index = bbDrawables_getSquareIndex(SC.i, SC.j, mapicons->squares_i);
-    bbDrawableSquare drawableSquare = mapicons->squares[index];
+    bbDrawableSquare* drawableSquare = bbDrawables_getSquare(mapicons,SC.i, SC.j, mapicons->squares_i, mapicons->squares_j);
     bbDrawable* drawable;
     bbVPool_alloc(pool, (void**)&drawable);
     drawable->coords = MC;
@@ -24,6 +23,6 @@ bbFlag bbMapIcon_new(bbMapIcon** self, bbMapIcons* mapicons,
         drawable->frames[k].drawfunction = -1;
     }
 
-    bbList_sortL(&drawableSquare.list, drawable);
+    bbList_sortL(&drawableSquare->list, drawable);
     return bbSuccess;
 }

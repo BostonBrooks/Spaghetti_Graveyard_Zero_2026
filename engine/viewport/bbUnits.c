@@ -9,8 +9,8 @@ bbMapCoords MC, I32 index){
 
     bbVPool* pool = units->pool;
     bbSquareCoords SC = bbMapCoords_getSquareCoords(MC);
-    I32 square_index = bbDrawables_getSquareIndex(SC.i, SC.j, units->squares_i);
-    bbUnitSquare unitSquare = units->squares[square_index];
+    bbUnitSquare* unitSquare = bbDrawables_getSquare(units,SC.i, SC.j, units->squares_i, units->squares_j);
+
 
     bbUnit* unit;
     bbFlag flag = bbVPool_alloc(pool, (void**)&unit);
@@ -39,7 +39,7 @@ bbMapCoords MC, I32 index){
     }
 
     home.viewport_app.unit_array[index] = unit_handle;
-    bbList_sortL(&unitSquare.list, unit);
+    bbList_sortL(&unitSquare->list, unit);
     *self = unit;
     return bbSuccess;
 }
@@ -49,8 +49,7 @@ bbMapCoords MC, I32 index){
 
     bbVPool* pool = units->pool;
     bbSquareCoords SC = bbMapCoords_getSquareCoords(MC);
-    I32 square_index = bbDrawables_getSquareIndex(SC.i, SC.j, units->squares_i);
-    bbUnitSquare unitSquare = units->squares[square_index];
+    bbUnitSquare* unitSquare = bbDrawables_getSquare(units,SC.i, SC.j, units->squares_i, units->squares_j);
 
     bbUnit* unit;
     bbFlag flag = bbVPool_alloc(pool, (void**)&unit);
@@ -96,7 +95,7 @@ bbMapCoords MC, I32 index){
     }
 
     home.viewport_app.unit_array[index] = unit_handle;
-    bbList_sortL(&unitSquare.list, unit);
+    bbList_sortL(&unitSquare->list, unit);
     *self = unit;
     return bbSuccess;
 }
