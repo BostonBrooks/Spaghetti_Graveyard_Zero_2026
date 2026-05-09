@@ -35,12 +35,12 @@ bbViewportCoords bbMapCoords_getViewportCoords(bbMapCoords MC, bbViewport* VP)
 {
     bbViewportCoords viewport_points;
     viewport_points.x = VP->width/2.0* SCREEN_PPP
-          + (MC.i - VP->viewpoint.i)* SCREEN_PPP / (1.0 * POINTS_PER_PIXEL * MAPICON_SCALE)
-          + (MC.j - VP->viewpoint.j)* SCREEN_PPP  / (1.0 * POINTS_PER_PIXEL * MAPICON_SCALE);
+          + (MC.i - VP->viewpoint.i)* SCREEN_PPP / (1.0 * POINTS_PER_PIXEL)
+          + (MC.j - VP->viewpoint.j)* SCREEN_PPP  / (1.0 * POINTS_PER_PIXEL);
 
     viewport_points.y = VP->height/2.0* SCREEN_PPP
-          + (MC.i - VP->viewpoint.i)* SCREEN_PPP  / (2.0 * POINTS_PER_PIXEL * MAPICON_SCALE)
-          - (MC.j - VP->viewpoint.j)* SCREEN_PPP  / (2.0 * POINTS_PER_PIXEL * MAPICON_SCALE);
+          + (MC.i - VP->viewpoint.i)* SCREEN_PPP  / (2.0 * POINTS_PER_PIXEL)
+          - (MC.j - VP->viewpoint.j)* SCREEN_PPP  / (2.0 * POINTS_PER_PIXEL);
 
     return viewport_points;
 }
