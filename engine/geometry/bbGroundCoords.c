@@ -14,9 +14,9 @@
 //static I32 bbArith_div (I32 x, I32 y);
 //bbSquareCoords bbMapCoords_getSquareCoords(bbMapCoords MC);
 
-
+#ifdef DEBUG_GROUNGSURFACE
 bbDrawable *orange_dot,*yellow_dot,*green_dot,*cyan_dot,*cobalt_dot,*magenta_dot,*red_dot;
-
+#endif
 
 bbFlag matrix_multiply (float A[4][4], float B[4][4], float C[4][4]){
 
@@ -139,13 +139,13 @@ I32 bbViewportCoords_withinTile (bbTileCoords tile, bbViewportCoords p) {
 
 
     if (bbViewportCoords_withinTriangle_map (p, left_vertex, top_vertex, right_vertex) != 0){
-        bbHere()
+
         return 1; //Top
 
     }
 
     if (bbViewportCoords_withinTriangle_map (p, left_vertex, bottom_vertex, right_vertex ) != 0){
-        bbHere()
+
         return 2; //Bottom
     }
 
@@ -261,6 +261,8 @@ int bbMapCoords_withinTile_LR (bbMapCoords point) {
 
 bbMapCoords bbViewportCoords_getMapCoords (bbViewportCoords point){
 
+
+#ifdef DEBUG_GROUNGSURFACE
     if (orange_dot == NULL)
     {
 
@@ -291,7 +293,7 @@ bbMapCoords bbViewportCoords_getMapCoords (bbViewportCoords point){
         red_dot->frames[0].handle.u64 = 616;
     }
 
-
+#endif
     bbMapCoords point_max_k = bbViewportCoords_getMapCoords_k_fixed (point, 2000, &home.viewport_app.viewport );
     // the highest point on the map that could correspond to the point on the screen
 
@@ -299,9 +301,12 @@ bbMapCoords bbViewportCoords_getMapCoords (bbViewportCoords point){
 
     bbMapCoords point_0_k = bbViewportCoords_getMapCoords_k_fixed (point, 00, &home.viewport_app.viewport );
     // the lowest point on the map that could correspond to the point on the screen
-    bbDrawable_setLocation(orange_dot, home.viewport_app.drawables,point_0_k);
 
-    point_0_k = bbViewportCoords_getMapCoords_k_fixed (point, -500, &home.viewport_app.viewport );
+
+#ifdef DEBUG_GROUNGSURFACE
+    bbDrawable_setLocation(orange_dot, home.viewport_app.drawables,point_0_k);
+#endif
+    point_0_k = bbViewportCoords_getMapCoords_k_fixed (point, -100, &home.viewport_app.viewport );
 
     //return point_0_k;
 
@@ -377,8 +382,9 @@ bbMapCoords bbViewportCoords_getMapCoords (bbViewportCoords point){
     left_vertex.j = tile.j * POINTS_PER_PIXEL * PIXELS_PER_TILE;
     left_vertex.k = bbMapCoords_getElevation(&home.ground_surface, left_vertex);
 
+#ifdef DEBUG_GROUNGSURFACE
     bbDrawable_setLocation(yellow_dot, home.viewport_app.drawables,left_vertex);
-
+#endif
 
     //assert (point_top_or_bottom != 0);
     if (point_top_or_bottom == 0){
@@ -407,23 +413,28 @@ bbMapCoords bbViewportCoords_getMapCoords (bbViewportCoords point){
     right_vertex.j = (tile.j + 1) * POINTS_PER_PIXEL * PIXELS_PER_TILE;
     right_vertex.k =  bbMapCoords_getElevation(&home.ground_surface, right_vertex);
 
+#ifdef DEBUG_GROUNGSURFACE
     bbDrawable_setLocation(green_dot, home.viewport_app.drawables,right_vertex);
-
+#endif
     if (point_top_or_bottom == 1){ //Top
 
         middle_vertex.i = tile.i * POINTS_PER_PIXEL * PIXELS_PER_TILE;
         middle_vertex.j = (tile.j + 1) * POINTS_PER_PIXEL * PIXELS_PER_TILE;
         middle_vertex.k = bbMapCoords_getElevation(&home.ground_surface, middle_vertex);
 
+#ifdef DEBUG_GROUNGSURFACE
         bbDrawable_setLocation(cyan_dot, home.viewport_app.drawables,middle_vertex);
-
+#endif
     } else { //bottom
 
         middle_vertex.i = (tile.i + 1) * POINTS_PER_PIXEL * PIXELS_PER_TILE;
         middle_vertex.j = tile.j * POINTS_PER_PIXEL * PIXELS_PER_TILE;
         middle_vertex.k = bbMapCoords_getElevation(&home.ground_surface, middle_vertex);
-        bbDrawable_setLocation(cyan_dot, home.viewport_app.drawables,middle_vertex);
 
+
+#ifdef DEBUG_GROUNGSURFACE
+        bbDrawable_setLocation(cyan_dot, home.viewport_app.drawables,middle_vertex);
+#endif
     }
 
 
@@ -431,6 +442,8 @@ bbMapCoords bbViewportCoords_getMapCoords (bbViewportCoords point){
     bbMapCoords foo;
     foo = bbViewportCoords_interpolateMapCoords (point, left_vertex, middle_vertex, right_vertex);
 
+#ifdef DEBUG_GROUNGSURFACE
     bbDrawable_setLocation(cobalt_dot, home.viewport_app.drawables,foo);
+#endif
     return foo;
 }

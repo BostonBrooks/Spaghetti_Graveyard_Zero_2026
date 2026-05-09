@@ -223,10 +223,12 @@ void* userinterface_thread(void* arg)
     MC.i = 10000;
     MC.j = 10000;
     MC.k = 1500;
+
+    /*
     bbDrawable* sphere;
     bbDrawable_newPoint(&sphere, home.viewport_app.drawables,
                           &home.UI.graphics, MC);
-    sphere->frames[0].handle.u64 = 616;
+    sphere->frames[0].handle.u64 = 623;*/
 bbHere()
     while (1)
     {
@@ -241,14 +243,29 @@ bbHere()
 
         bbUI_Inbox_check(&home.UI.inbox);
 
-        // test bbScreenCoords_getMapCoords_k_fixed
+       /* // test bbScreenCoords_getMapCoords_k_fixed
         bbScreenPoints mouse_position = home.UI.mouse.position;
         bbViewportCoords viewport_points =
             bbScreenPoints_getViewportPoints(&home.viewport_app.viewport, mouse_position);
-        bbMapCoords mouseCoords = bbViewportCoords_getMapCoords (viewport_points);
-        mouseCoords.k = 1000;
-        bbDrawable_setLocation(sphere, home.viewport_app.drawables,mouseCoords);
 
+        bbMapCoords vertex1, vertex2, vertex3;bbMapCoords mouseCoords;
+        vertex1.i = 0;
+        vertex1.j = 0;
+        vertex1.k = 500;
+
+        vertex2.i = 10000;
+        vertex2.j = 0;
+        vertex2.k = 500;
+
+        vertex3.i = 0;
+        vertex3.j = 10000;
+        vertex3.k = 500;
+        //mouseCoords =  bbViewportCoords_interpolateMapCoords (viewport_points, vertex1, vertex2, vertex3);
+        //mouseCoords  = bbViewportCoords_getMapCoords_k_fixed (viewport_points, 500, &home.viewport_app.viewport);
+        mouseCoords = bbViewportCoords_getMapCoords (viewport_points);
+        //mouseCoords.k = 1000;
+        bbDrawable_setLocation(sphere, home.viewport_app.drawables,mouseCoords);
+//end test*/
 
         bbMoveables_copyBuffer(&home.agents_app.movables, &moveables_snapshot);
         bbUnits_consumeBuffer(home.viewport_app.units, home.viewport_app.unit_array,&moveables_snapshot);
