@@ -242,10 +242,23 @@ bbHere()
 
         // test bbScreenCoords_getMapCoords_k_fixed
         bbScreenPoints mouse_position = home.UI.mouse.position;
-        bbViewportPoints viewport_points =
+        bbViewportCoords viewport_points =
             bbScreenPoints_getViewportPoints(&home.viewport_app.viewport, mouse_position);
 
-        bbMapCoords MC = bbViewportPoints_getMapCoords_k_fixed (viewport_points, 1500, &home.viewport_app.viewport);
+        bbMapCoords vertex1, vertex2, vertex3;
+        vertex1.i = 0;
+        vertex1.j = 0;
+        vertex1.k = 1500;
+
+        vertex2.i = 10000;
+        vertex2.j = 0;
+        vertex2.k = 1500;
+
+        vertex3.i = 0;
+        vertex3.j = 10000;
+        vertex3.k = 1500;
+        bbMapCoords MC =  bbViewportCoords_interpolateMapCoords (viewport_points, vertex1, vertex2, vertex3);
+        //bbMapCoords MC = bbViewportCoords_getMapCoords_k_fixed (viewport_points, 1500, &home.viewport_app.viewport);
         bbDrawable_setLocation(sphere, home.viewport_app.drawables,MC);
 
 

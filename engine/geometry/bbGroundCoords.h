@@ -5,7 +5,8 @@
 #include "engine/geometry/bbCoordinates.h"
 #include "engine/viewport/bbViewport.h"
 
-bbMapCoords bbViewportPoints_getMapCoords(bbViewportPoints VP);
-bbMapCoords bbViewportPoints_getMapCoords_k_fixed (bbViewportPoints sc, I32 k, bbViewport* viewport );
-
+bbMapCoords bbViewportCoords_getMapCoords(bbViewportCoords VP);
+bbMapCoords bbViewportCoords_getMapCoords_k_fixed (bbViewportCoords sc, I32 k, bbViewport* viewport );
+bbMapCoords bbViewportCoords_interpolateMapCoords (bbViewportCoords p,
+    bbMapCoords vertex1, bbMapCoords vertex2, bbMapCoords vertex3);
 #endif  // BB_GROUND_COORDS_H

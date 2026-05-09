@@ -31,9 +31,9 @@ sfVector2f bbMapCoords_getV2f_mapicon(bbMapCoords MC, bbViewport* VP){
     return V2F;
 }
 
-bbViewportPoints bbMapCoords_getViewportCoords(bbMapCoords MC, bbViewport* VP)
+bbViewportCoords bbMapCoords_getViewportCoords(bbMapCoords MC, bbViewport* VP)
 {
-    bbViewportPoints viewport_points;
+    bbViewportCoords viewport_points;
     viewport_points.x = VP->width/2.0* SCREEN_PPP
           + (MC.i - VP->viewpoint.i)* SCREEN_PPP / (1.0 * POINTS_PER_PIXEL * MAPICON_SCALE)
           + (MC.j - VP->viewpoint.j)* SCREEN_PPP  / (1.0 * POINTS_PER_PIXEL * MAPICON_SCALE);
@@ -86,7 +86,7 @@ bbMapCoords bbScreenCoords_getMapCoords(bbScreenPoints SP, bbViewport* VP){
 }
 
 
-bbViewportPoints bbScreenPoints_getViewportPoints(bbViewport* viewport,
+bbViewportCoords bbScreenPoints_getViewportPoints(bbViewport* viewport,
     bbScreenPoints screen_points)
 {
     bbWidget* viewport_widget = viewport->widget;
@@ -94,7 +94,7 @@ bbViewportPoints bbScreenPoints_getViewportPoints(bbViewport* viewport,
     viewport_position.x = viewport_widget->rect.left;
     viewport_position.y = viewport_widget->rect.top;
 
-    bbViewportPoints VP;
+    bbViewportCoords VP;
     VP.x = screen_points.x - viewport_position.x;
     VP.y = screen_points.y - viewport_position.y;
     return VP;

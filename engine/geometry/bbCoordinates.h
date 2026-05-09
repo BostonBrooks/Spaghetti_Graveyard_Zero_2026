@@ -48,7 +48,7 @@ typedef struct {
 typedef struct {
     I32 x; // x axis points to the right
     I32 y; // y axis points down
-} bbViewportPoints;
+} bbViewportCoords;
 
 typedef struct {
 

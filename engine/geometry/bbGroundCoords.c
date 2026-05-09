@@ -35,7 +35,7 @@ bbFlag matrix_multiply (float A[4][4], float B[4][4], float C[4][4]){
     return bbSuccess;
 }
 
-float signed_area (bbViewportPoints p1, bbViewportPoints p2, bbViewportPoints p3) {
+float signed_area (bbViewportCoords p1, bbViewportCoords p2, bbViewportCoords p3) {
     //positive is clockwise
 
     float x1, y1, x2, y2;
@@ -51,8 +51,8 @@ float signed_area (bbViewportPoints p1, bbViewportPoints p2, bbViewportPoints p3
     return area;
 }
 
-I32 bbViewportPoints_withinTriangle_screen (bbViewportPoints point,
-    bbViewportPoints vertex1, bbViewportPoints vertex2, bbViewportPoints vertex3){
+I32 bbViewportCoords_withinTriangle_screen (bbViewportCoords point,
+    bbViewportCoords vertex1, bbViewportCoords vertex2, bbViewportCoords vertex3){
 
     float area = signed_area (vertex1, vertex2, vertex3);
 
@@ -84,20 +84,20 @@ I32 bbViewportPoints_withinTriangle_screen (bbViewportPoints point,
     return 0;
 }
 
-I32 bbViewportPoints_withinTriangle_map (bbViewportPoints point,
+I32 bbViewportCoords_withinTriangle_map (bbViewportCoords point,
     bbMapCoords vertex1, bbMapCoords vertex2, bbMapCoords vertex3)
 {
-    bbViewportPoints VP1, VP2, VP3;
+    bbViewportCoords VP1, VP2, VP3;
 
     VP1 = bbMapCoords_getViewportCoords(vertex1, &home.viewport_app.viewport);
     VP2 = bbMapCoords_getViewportCoords(vertex2, &home.viewport_app.viewport);
     VP3 = bbMapCoords_getViewportCoords(vertex3, &home.viewport_app.viewport);
 
-    return bbViewportPoints_withinTriangle_screen (point, VP1, VP2, VP3);
+    return bbViewportCoords_withinTriangle_screen (point, VP1, VP2, VP3);
 
 }
 
-I32 bbViewportPoints_withinTile (bbTileCoords tile, bbViewportPoints p) {
+I32 bbViewportCoords_withinTile (bbTileCoords tile, bbViewportCoords p) {
     // is the point in the northern or southern half of the tile being examined,
     // or neither.
 
@@ -130,11 +130,11 @@ I32 bbViewportPoints_withinTile (bbTileCoords tile, bbViewportPoints p) {
 
 
 
-    if (bbViewportPoints_withinTriangle_map (p, left_vertex, top_vertex, right_vertex) != 0){
+    if (bbViewportCoords_withinTriangle_map (p, left_vertex, top_vertex, right_vertex) != 0){
         return 1; //Top
     }
 
-    if (bbViewportPoints_withinTriangle_map (p, left_vertex, bottom_vertex, right_vertex ) != 0){
+    if (bbViewportCoords_withinTriangle_map (p, left_vertex, bottom_vertex, right_vertex ) != 0){
         return 2; //Bottom
     }
 
@@ -142,13 +142,13 @@ I32 bbViewportPoints_withinTile (bbTileCoords tile, bbViewportPoints p) {
     return 0;
 }
 
-bbMapCoords bbScreenCoords_interpolateMapCoords (bbScreenCoords p, bbMapCoords vertex1, bbMapCoords vertex2, bbMapCoords vertex3){
+bbMapCoords bbViewportCoords_interpolateMapCoords (bbViewportCoords p, bbMapCoords vertex1, bbMapCoords vertex2, bbMapCoords vertex3){
 
-    bbScreenCoords v1, v2, v3;
+    bbViewportCoords v1, v2, v3;
 
-    v1 = bbMapCoords_getScreenCoords_centre(vertex1);
-    v2 = bbMapCoords_getScreenCoords_centre(vertex2);
-    v3 = bbMapCoords_getScreenCoords_centre(vertex3);
+    v1 = bbMapCoords_getViewportCoords(vertex1, &home.viewport_app.viewport);
+    v2 = bbMapCoords_getViewportCoords(vertex2, &home.viewport_app.viewport);
+    v3 = bbMapCoords_getViewportCoords(vertex3, &home.viewport_app.viewport);
 
     bbMapCoords point;
 
@@ -167,7 +167,7 @@ bbMapCoords bbScreenCoords_interpolateMapCoords (bbScreenCoords p, bbMapCoords v
     det4 = v1.x * v2.y + v2.x * v3.y + v3.x * v1.y
          - v1.x * v3.y - v2.x * v1.y - v3.x * v2.y;
 
-    assert(det4 != 0);
+    bbAssert(det4 != 0, "Matrix singular!\n");
 
     point.i = (det1 * p.x + det2 * p.y + det3) / det4;
 
@@ -214,7 +214,7 @@ bbMapCoords bbScreenCoords_interpolateMapCoords (bbScreenCoords p, bbMapCoords v
 
 
 
-bbMapCoords bbViewportPoints_getMapCoords_k_fixed (bbViewportPoints sc, I32 k, bbViewport* viewport ) {
+bbMapCoords bbViewportCoords_getMapCoords_k_fixed (bbViewportCoords sc, I32 k, bbViewport* viewport ) {
 
     bbMapCoords mc;
     I32 vp_width = viewport->width * SCREEN_PPP;
