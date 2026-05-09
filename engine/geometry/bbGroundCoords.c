@@ -1,5 +1,7 @@
 #include "engine/geometry/bbGroundCoords.h"
 
+#include <iso646.h>
+
 #include "bbViewportCoords.h"
 #include "engine/data/bbConstants.h"
 #include "engine/data/bbHome.h"
@@ -13,8 +15,7 @@
 //bbSquareCoords bbMapCoords_getSquareCoords(bbMapCoords MC);
 
 
-bbDrawable *test_drawable_1, *test_drawable_2, *test_drawable_3, *test_drawable_4,
-*test_drawable_5, *test_drawable_6, *test_drawable_7;
+bbDrawable *orange_dot,*yellow_dot,*green_dot,*cyan_dot,*cobalt_dot,*magenta_dot,*red_dot;
 
 
 bbFlag matrix_multiply (float A[4][4], float B[4][4], float C[4][4]){
@@ -260,27 +261,34 @@ int bbMapCoords_withinTile_LR (bbMapCoords point) {
 
 bbMapCoords bbViewportCoords_getMapCoords (bbViewportCoords point){
 
-    if (test_drawable_1 == NULL)
+    if (orange_dot == NULL)
     {
 
         bbMapCoords no_coords;
         no_coords.i = 1;
         no_coords.j = 1;
         no_coords.k = 1;
-        bbDrawable_newPoint(&test_drawable_1, home.viewport_app.drawables,
+        bbDrawable_newPoint(&orange_dot, home.viewport_app.drawables,
         &home.UI.graphics, no_coords);
-        bbDrawable_newPoint(&test_drawable_2, home.viewport_app.drawables,
+        orange_dot->frames[0].handle.u64 = 617;
+        bbDrawable_newPoint(&yellow_dot, home.viewport_app.drawables,
         &home.UI.graphics, no_coords);
-        bbDrawable_newPoint(&test_drawable_3, home.viewport_app.drawables,
+        yellow_dot->frames[0].handle.u64 = 618;
+        bbDrawable_newPoint(&green_dot, home.viewport_app.drawables,
         &home.UI.graphics, no_coords);
-        bbDrawable_newPoint(&test_drawable_4, home.viewport_app.drawables,
+        green_dot->frames[0].handle.u64 = 619;
+        bbDrawable_newPoint(&cyan_dot, home.viewport_app.drawables,
         &home.UI.graphics, no_coords);
-        bbDrawable_newPoint(&test_drawable_5, home.viewport_app.drawables,
+        cyan_dot->frames[0].handle.u64 = 620;
+        bbDrawable_newPoint(&cobalt_dot, home.viewport_app.drawables,
         &home.UI.graphics, no_coords);
-        bbDrawable_newPoint(&test_drawable_6, home.viewport_app.drawables,
+        cobalt_dot->frames[0].handle.u64 = 621;
+        bbDrawable_newPoint(&magenta_dot, home.viewport_app.drawables,
         &home.UI.graphics, no_coords);
-        bbDrawable_newPoint(&test_drawable_7, home.viewport_app.drawables,
+        magenta_dot->frames[0].handle.u64 = 622;
+        bbDrawable_newPoint(&red_dot, home.viewport_app.drawables,
                           &home.UI.graphics, no_coords);
+        red_dot->frames[0].handle.u64 = 616;
     }
 
 
@@ -291,7 +299,7 @@ bbMapCoords bbViewportCoords_getMapCoords (bbViewportCoords point){
 
     bbMapCoords point_0_k = bbViewportCoords_getMapCoords_k_fixed (point, 00, &home.viewport_app.viewport );
     // the lowest point on the map that could correspond to the point on the screen
-    bbDrawable_setLocation(test_drawable_1, home.viewport_app.drawables,point_0_k);
+    bbDrawable_setLocation(orange_dot, home.viewport_app.drawables,point_0_k);
 
     point_0_k = bbViewportCoords_getMapCoords_k_fixed (point, -500, &home.viewport_app.viewport );
 
@@ -369,7 +377,7 @@ bbMapCoords bbViewportCoords_getMapCoords (bbViewportCoords point){
     left_vertex.j = tile.j * POINTS_PER_PIXEL * PIXELS_PER_TILE;
     left_vertex.k = bbMapCoords_getElevation(&home.ground_surface, left_vertex);
 
-    bbDrawable_setLocation(test_drawable_2, home.viewport_app.drawables,left_vertex);
+    bbDrawable_setLocation(yellow_dot, home.viewport_app.drawables,left_vertex);
 
 
     //assert (point_top_or_bottom != 0);
@@ -399,7 +407,7 @@ bbMapCoords bbViewportCoords_getMapCoords (bbViewportCoords point){
     right_vertex.j = (tile.j + 1) * POINTS_PER_PIXEL * PIXELS_PER_TILE;
     right_vertex.k =  bbMapCoords_getElevation(&home.ground_surface, right_vertex);
 
-    bbDrawable_setLocation(test_drawable_3, home.viewport_app.drawables,right_vertex);
+    bbDrawable_setLocation(green_dot, home.viewport_app.drawables,right_vertex);
 
     if (point_top_or_bottom == 1){ //Top
 
@@ -407,14 +415,14 @@ bbMapCoords bbViewportCoords_getMapCoords (bbViewportCoords point){
         middle_vertex.j = (tile.j + 1) * POINTS_PER_PIXEL * PIXELS_PER_TILE;
         middle_vertex.k = bbMapCoords_getElevation(&home.ground_surface, middle_vertex);
 
-        bbDrawable_setLocation(test_drawable_4, home.viewport_app.drawables,middle_vertex);
+        bbDrawable_setLocation(cyan_dot, home.viewport_app.drawables,middle_vertex);
 
     } else { //bottom
 
         middle_vertex.i = (tile.i + 1) * POINTS_PER_PIXEL * PIXELS_PER_TILE;
         middle_vertex.j = tile.j * POINTS_PER_PIXEL * PIXELS_PER_TILE;
         middle_vertex.k = bbMapCoords_getElevation(&home.ground_surface, middle_vertex);
-        bbDrawable_setLocation(test_drawable_4, home.viewport_app.drawables,middle_vertex);
+        bbDrawable_setLocation(cyan_dot, home.viewport_app.drawables,middle_vertex);
 
     }
 
@@ -423,6 +431,6 @@ bbMapCoords bbViewportCoords_getMapCoords (bbViewportCoords point){
     bbMapCoords foo;
     foo = bbViewportCoords_interpolateMapCoords (point, left_vertex, middle_vertex, right_vertex);
 
-    bbDrawable_setLocation(test_drawable_5, home.viewport_app.drawables,foo);
+    bbDrawable_setLocation(cobalt_dot, home.viewport_app.drawables,foo);
     return foo;
 }

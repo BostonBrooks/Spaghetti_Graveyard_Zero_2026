@@ -1,4 +1,4 @@
-Number of Sprites:,616,,,,,,,,,,,,
+Number of Sprites:,624,,,,,,,,,,,,
 Label:,Integer Address:,Texture:,Left:,Top:,Width:,Height:,Origin X:,Origin Y:,Scale X:,Scale Y:,Scale By:,Comment:,
 NULL,0,NULL,0,0,128,128,0,0,1,1,None,Exception,
 LAYOUT_480,1,LAYOUT_480,0,0,720,480,0,0,1,1,None,The root of the widget tree,
@@ -616,6 +616,13 @@ SHADOW2,612,SHADOW1,100,0,100,100,50,50,1,1,DRAWABLE,The shadow of a tree drawab
 GRASS,613,GRASS,0,0,512,512,0,0,1,1,DRAWABLE, Grass for the ground surface
 DIAMOND,614,DIAMOND,0,0,75,131,37,124,0.1,0.1,DRAWABLE, A diamond shaped indicator
 CENTRE_SPHERE,615,SPHERE,0,0,52,52,26,26,1,1,Widget,A simple asset,
-
+RED_DOT,616,DOTS,0,0,9,9,4,4,1,1,None,the layout of the pong game
+ORANGE_DOT,617,DOTS,10,0,9,9,4,4,1,1,None,dots for tracking vertices
+YELLOW_DOT,618,DOTS,20,0,9,9,4,4,1,1,None,dots for tracking vertices
+GREEN_DOT,619,DOTS,30,0,9,9,4,4,1,1,None,dots for tracking vertices
+CYAN_DOT,620,DOTS,40,0,9,9,4,4,1,1,None,dots for tracking vertices
+COBALT_DOT,621,DOTS,50,0,9,9,4,4,1,1,None,dots for tracking vertices
+MAGENTA_DOT,622,DOTS,60,0,9,9,4,4,1,1,None,dots for tracking vertices
+BLACK_DOT,623,DOTS,70,0,9,9,4,4,1,1,None,dots for tracking vertices
 
 Label:,Integer Address:,Texture:,Left:,Top:,Width:,Height:,Origin X:,Origin Y:,Scale X:,Scale Y:,Scale By:,Comment:,

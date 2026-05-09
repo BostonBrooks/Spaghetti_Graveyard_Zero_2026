@@ -380,7 +380,7 @@ bbFlag bbDrawable_newPoint(bbDrawable** self, bbDrawables* drawables,
                     &drawfunctionHandle);
 
     drawable->frames[1].drawfunction = drawfunctionHandle.u64;
-    drawable->frames[1].handle.u64 = 612;
+    drawable->frames[1].handle.u64 = 623;
 
     for (I32 k = 2; k < FRAMES_PER_DRAWABLE; k++){
         drawable->frames[k].drawfunction = -1;

@@ -224,8 +224,9 @@ void* userinterface_thread(void* arg)
     MC.j = 10000;
     MC.k = 1500;
     bbDrawable* sphere;
-    bbDrawable_newSphere(&sphere, home.viewport_app.drawables,
+    bbDrawable_newPoint(&sphere, home.viewport_app.drawables,
                           &home.UI.graphics, MC);
+    sphere->frames[0].handle.u64 = 616;
 bbHere()
     while (1)
     {
