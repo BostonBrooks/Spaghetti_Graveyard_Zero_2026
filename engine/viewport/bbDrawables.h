@@ -83,5 +83,8 @@ bbFlag bbDrawable_newSkeleton(bbDrawable** self, bbDrawables* drawables,
 
 bbFlag bbDrawable_newSphere(bbDrawable** self, bbDrawables* drawables,
                           bbGraphicsApp* graphics, bbMapCoords MC);
+
+bbFlag bbDrawable_newPoint(bbDrawable** self, bbDrawables* drawables,
+                          bbGraphicsApp* graphics, bbMapCoords MC);
 #endif //BBDRAWABLES_H
 

@@ -121,7 +121,6 @@ bbFlag bbUnits_consumeBuffer(bbUnits* units, bbHandle* unit_array, bbMoveables_s
 
         if (drawable == NULL)
         {
-            bbDebug("i= %d\n",i);
                         continue;
         }
 

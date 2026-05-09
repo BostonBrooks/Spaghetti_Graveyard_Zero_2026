@@ -353,3 +353,41 @@ bbFlag bbDrawable_newSphere(bbDrawable** self, bbDrawables* drawables,
     return bbSuccess;
 }
 
+bbFlag bbDrawable_newPoint(bbDrawable** self, bbDrawables* drawables,
+                          bbGraphicsApp* graphics, bbMapCoords MC)
+{
+    bbVPool* pool = drawables->pool;
+    bbSquareCoords SC = bbMapCoords_getSquareCoords(MC);
+    bbDrawableSquare* drawableSquare = bbDrawables_getSquare(drawables,SC.i, SC.j, drawables->squares_i, drawables->squares_j);
+
+    bbDrawable* drawable;
+    bbVPool_alloc(pool, (void**)&drawable);
+    drawable->coords = MC;
+
+    bbHandle drawfunctionHandle;
+
+
+
+    bbDictionary_lookup(graphics->drawfunctions->dictionary,
+                        "DRAWABLE_SPRITE",
+                        &drawfunctionHandle);
+
+    drawable->frames[0].drawfunction = drawfunctionHandle.u64;
+    drawable->frames[0].handle.u64 = 154;
+
+    bbDictionary_lookup(graphics->drawfunctions->dictionary,
+                    "DRAWABLE_SHADOW",
+                    &drawfunctionHandle);
+
+    drawable->frames[1].drawfunction = drawfunctionHandle.u64;
+    drawable->frames[1].handle.u64 = 612;
+
+    for (I32 k = 2; k < FRAMES_PER_DRAWABLE; k++){
+        drawable->frames[k].drawfunction = -1;
+    }
+
+    bbList_sortL(&drawableSquare->list, drawable);
+    *self = drawable;
+    return bbSuccess;
+}
+

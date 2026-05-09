@@ -245,7 +245,7 @@ bbHere()
         bbViewportCoords viewport_points =
             bbScreenPoints_getViewportPoints(&home.viewport_app.viewport, mouse_position);
 
-        bbMapCoords vertex1, vertex2, vertex3;
+        /*bbMapCoords vertex1, vertex2, vertex3;
         vertex1.i = 0;
         vertex1.j = 0;
         vertex1.k = 1500;
@@ -257,9 +257,12 @@ bbHere()
         vertex3.i = 0;
         vertex3.j = 10000;
         vertex3.k = 1500;
-        bbMapCoords MC =  bbViewportCoords_interpolateMapCoords (viewport_points, vertex1, vertex2, vertex3);
-        //bbMapCoords MC = bbViewportCoords_getMapCoords_k_fixed (viewport_points, 1500, &home.viewport_app.viewport);
-        bbDrawable_setLocation(sphere, home.viewport_app.drawables,MC);
+        //bbMapCoords MC =  bbViewportCoords_interpolateMapCoords (viewport_points, vertex1, vertex2, vertex3);
+        // MC = bbViewportCoords_getMapCoords_k_fixed (viewport_points, 1500, &home.viewport_app.viewport);*/
+        bbMapCoords mouseCoords = bbViewportCoords_getMapCoords (viewport_points);
+
+        //bbDrawable_setLocation(sphere, home.viewport_app.drawables,mouseCoords);
+        //bbDebug("mouse is hovering over i=%d, j=%d\n", mouseCoords.i, mouseCoords.j);
 
 
         bbMoveables_copyBuffer(&home.agents_app.movables, &moveables_snapshot);
