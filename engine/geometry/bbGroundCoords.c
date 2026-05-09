@@ -1,6 +1,8 @@
 #include "engine/geometry/bbGroundCoords.h"
 
+#include "bbViewportCoords.h"
 #include "engine/data/bbConstants.h"
+#include "engine/data/bbHome.h"
 #include "engine/viewport/bbViewport.h"
 
 
@@ -82,15 +84,133 @@ I32 bbViewportPoints_withinTriangle_screen (bbViewportPoints point,
     return 0;
 }
 
-I32 bbScreenCoords_withinTriangle_map (bbScreenPoints point,
+I32 bbViewportPoints_withinTriangle_map (bbViewportPoints point,
     bbMapCoords vertex1, bbMapCoords vertex2, bbMapCoords vertex3)
 {
+    bbViewportPoints VP1, VP2, VP3;
+
+    VP1 = bbMapCoords_getViewportCoords(vertex1, &home.viewport_app.viewport);
+    VP2 = bbMapCoords_getViewportCoords(vertex2, &home.viewport_app.viewport);
+    VP3 = bbMapCoords_getViewportCoords(vertex3, &home.viewport_app.viewport);
+
+    return bbViewportPoints_withinTriangle_screen (point, VP1, VP2, VP3);
 
 }
 
+I32 bbViewportPoints_withinTile (bbTileCoords tile, bbViewportPoints p) {
+    // is the point in the northern or southern half of the tile being examined,
+    // or neither.
+
+    bbMapCoords left_vertex, top_vertex, right_vertex, bottom_vertex;
+
+    bbTileCoords left_tile, top_tile, right_tile, bottom_tile;
+
+    left_tile = top_tile = right_tile = bottom_tile = tile;
+
+    top_tile.j++;
+    right_tile.i++;
+    right_tile.j++;
+    bottom_tile.i++;
+
+    left_vertex.i = tile.i * POINTS_PER_PIXEL * PIXELS_PER_TILE;
+    left_vertex.j = tile.j * POINTS_PER_PIXEL * PIXELS_PER_TILE;
+    left_vertex.k = bbTileCoords_getElevation(&home.ground_surface,left_tile);
+
+    top_vertex.i = tile.i * POINTS_PER_PIXEL * PIXELS_PER_TILE;
+    top_vertex.j = (tile.j + 1) * POINTS_PER_PIXEL * PIXELS_PER_TILE;
+    top_vertex.k = bbTileCoords_getElevation(&home.ground_surface,top_tile);
+
+    right_vertex.i = (tile.i + 1) * POINTS_PER_PIXEL * PIXELS_PER_TILE;
+    right_vertex.j = (tile.j + 1) * POINTS_PER_PIXEL * PIXELS_PER_TILE;
+    right_vertex.k = bbTileCoords_getElevation(&home.ground_surface,right_tile);
+
+    bottom_vertex.i = (tile.i + 1) * POINTS_PER_PIXEL * PIXELS_PER_TILE;
+    bottom_vertex.j = tile.j * POINTS_PER_PIXEL * PIXELS_PER_TILE;
+    bottom_vertex.k = bbTileCoords_getElevation(&home.ground_surface,bottom_tile);
 
 
 
+    if (bbViewportPoints_withinTriangle_map (p, left_vertex, top_vertex, right_vertex) != 0){
+        return 1; //Top
+    }
+
+    if (bbViewportPoints_withinTriangle_map (p, left_vertex, bottom_vertex, right_vertex ) != 0){
+        return 2; //Bottom
+    }
+
+
+    return 0;
+}
+
+bbMapCoords bbScreenCoords_interpolateMapCoords (bbScreenCoords p, bbMapCoords vertex1, bbMapCoords vertex2, bbMapCoords vertex3){
+
+    bbScreenCoords v1, v2, v3;
+
+    v1 = bbMapCoords_getScreenCoords_centre(vertex1);
+    v2 = bbMapCoords_getScreenCoords_centre(vertex2);
+    v3 = bbMapCoords_getScreenCoords_centre(vertex3);
+
+    bbMapCoords point;
+
+    float det1, det2, det3, det4;
+
+    det1 = vertex1.i * v2.y + vertex2.i * v3.y + vertex3.i * v1.y
+         - vertex1.i * v3.y - vertex2.i * v1.y - vertex3.i * v2.y;
+
+    det2 = v1.x * vertex2.i + v2.x * vertex3.i + v3.x * vertex1.i
+         - v1.x * vertex3.i - v2.x * vertex1.i - v3.x * vertex2.i;
+
+    det3 = v1.x * v2.y * vertex3.i + v2.x * v3.y * vertex1.i + v3.x * v1.y * vertex2.i
+         - v1.x * v3.y * vertex2.i - v2.x * v1.y * vertex3.i - v3.x * v2.y * vertex1.i   ;
+
+
+    det4 = v1.x * v2.y + v2.x * v3.y + v3.x * v1.y
+         - v1.x * v3.y - v2.x * v1.y - v3.x * v2.y;
+
+    assert(det4 != 0);
+
+    point.i = (det1 * p.x + det2 * p.y + det3) / det4;
+
+
+
+    det1 = vertex1.j * v2.y + vertex2.j * v3.y + vertex3.j * v1.y
+         - vertex1.j * v3.y - vertex2.j * v1.y - vertex3.j * v2.y;
+
+    det2 = v1.x * vertex2.j + v2.x * vertex3.j + v3.x * vertex1.j
+         - v1.x * vertex3.j - v2.x * vertex1.j - v3.x * vertex2.j;
+
+    det3 = v1.x * v2.y * vertex3.j + v2.x * v3.y * vertex1.j + v3.x * v1.y * vertex2.j
+         - v1.x * v3.y * vertex2.j - v2.x * v1.y * vertex3.j - v3.x * v2.y * vertex1.j;
+
+
+    //det4 = v1.x * v2.y + v2.x * v3.y + v3.x * v1.y
+    //     - v1.x * v3.y - v2.x * v1.y - v3.x * v2.y;
+
+    //assert(det4 != 0);
+
+    point.j = (det1 * p.x + det2 * p.y + det3) / det4;
+
+
+
+    det1 = vertex1.k * v2.y + vertex2.k * v3.y + vertex3.k * v1.y
+         - vertex1.k * v3.y - vertex2.k * v1.y - vertex3.k * v2.y;
+
+    det2 = v1.x * vertex2.k + v2.x * vertex3.k + v3.x * vertex1.k
+         - v1.x * vertex3.k - v2.x * vertex1.k - v3.x * vertex2.k;
+
+    det3 = v1.x * v2.y * vertex3.k + v2.x * v3.y * vertex1.k + v3.x * v1.y * vertex2.k
+         - v1.x * v3.y * vertex2.k - v2.x * v1.y * vertex3.k - v3.x * v2.y * vertex1.k;
+
+
+    //det4 = v1.x * v2.y + v2.x * v3.y + v3.x * v1.y
+    //     - v1.x * v3.y - v2.x * v1.y - v3.x * v2.y;
+
+    //assert(det4 != 0);
+
+    point.k = (det1 * p.x + det2 * p.y + det3) / det4;
+
+    return point;
+}
 
 
 

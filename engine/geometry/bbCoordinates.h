@@ -83,7 +83,6 @@ bbMapCoords bbSquareCoords_getMapCoords(bbSquareCoords SC);
 
 
 bbScreenPoints bbMapCoords_getMapIconCoords(bbMapCoords MC);
-bbScreenPoints bbMapCoords_getViewportCoords(bbMapCoords MC);
 
 /// get a vector from A to B, as seen on the 2d isometric projection
 bbScreenPoints bbMapCoords_getScreenPoints_relative (bbMapCoords A,
