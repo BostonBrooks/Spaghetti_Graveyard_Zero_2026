@@ -63,7 +63,7 @@ I32 bbViewportCoords_withinTriangle_screen (bbViewportCoords point,
     float area = signed_area (vertex1, vertex2, vertex3);
 
     if (area == 0) {
-
+        bbHere()
         return 0;
     }
 
@@ -120,19 +120,19 @@ I32 bbViewportCoords_withinTile (bbTileCoords tile, bbViewportCoords p) {
 
     left_vertex.i = tile.i * POINTS_PER_PIXEL * PIXELS_PER_TILE;
     left_vertex.j = tile.j * POINTS_PER_PIXEL * PIXELS_PER_TILE;
-    left_vertex.k = 0;//bbTileCoords_getElevation(&home.ground_surface,left_tile);
+    left_vertex.k = bbTileCoords_getElevation(&home.ground_surface,left_tile);
 
     top_vertex.i = tile.i * POINTS_PER_PIXEL * PIXELS_PER_TILE;
     top_vertex.j = (tile.j + 1) * POINTS_PER_PIXEL * PIXELS_PER_TILE;
-    top_vertex.k = 0;//bbTileCoords_getElevation(&home.ground_surface,top_tile);
+    top_vertex.k = bbTileCoords_getElevation(&home.ground_surface,top_tile);
 
     right_vertex.i = (tile.i + 1) * POINTS_PER_PIXEL * PIXELS_PER_TILE;
     right_vertex.j = (tile.j + 1) * POINTS_PER_PIXEL * PIXELS_PER_TILE;
-    right_vertex.k = 0;//bbTileCoords_getElevation(&home.ground_surface,right_tile);
+    right_vertex.k = bbTileCoords_getElevation(&home.ground_surface,right_tile);
 
     bottom_vertex.i = (tile.i + 1) * POINTS_PER_PIXEL * PIXELS_PER_TILE;
     bottom_vertex.j = tile.j * POINTS_PER_PIXEL * PIXELS_PER_TILE;
-    bottom_vertex.k = 0;//bbTileCoords_getElevation(&home.ground_surface,bottom_tile);
+    bottom_vertex.k = bbTileCoords_getElevation(&home.ground_surface,bottom_tile);
 
 
 
@@ -289,9 +289,11 @@ bbMapCoords bbViewportCoords_getMapCoords (bbViewportCoords point){
 
     //return point_max_k;
 
-    bbMapCoords point_0_k = bbViewportCoords_getMapCoords_k_fixed (point, -500, &home.viewport_app.viewport );
+    bbMapCoords point_0_k = bbViewportCoords_getMapCoords_k_fixed (point, 00, &home.viewport_app.viewport );
     // the lowest point on the map that could correspond to the point on the screen
     bbDrawable_setLocation(test_drawable_1, home.viewport_app.drawables,point_0_k);
+
+    point_0_k = bbViewportCoords_getMapCoords_k_fixed (point, -500, &home.viewport_app.viewport );
 
     //return point_0_k;
 
@@ -397,7 +399,7 @@ bbMapCoords bbViewportCoords_getMapCoords (bbViewportCoords point){
     right_vertex.j = (tile.j + 1) * POINTS_PER_PIXEL * PIXELS_PER_TILE;
     right_vertex.k =  bbMapCoords_getElevation(&home.ground_surface, right_vertex);
 
-    //bbDrawable_setLocation(test_drawable_2, home.viewport_app.drawables,right_vertex);
+    bbDrawable_setLocation(test_drawable_3, home.viewport_app.drawables,right_vertex);
 
     if (point_top_or_bottom == 1){ //Top
 
@@ -405,25 +407,22 @@ bbMapCoords bbViewportCoords_getMapCoords (bbViewportCoords point){
         middle_vertex.j = (tile.j + 1) * POINTS_PER_PIXEL * PIXELS_PER_TILE;
         middle_vertex.k = bbMapCoords_getElevation(&home.ground_surface, middle_vertex);
 
-        //bbDrawable_setLocation(test_drawable_3, home.viewport_app.drawables,middle_vertex);
+        bbDrawable_setLocation(test_drawable_4, home.viewport_app.drawables,middle_vertex);
 
     } else { //bottom
 
         middle_vertex.i = (tile.i + 1) * POINTS_PER_PIXEL * PIXELS_PER_TILE;
         middle_vertex.j = tile.j * POINTS_PER_PIXEL * PIXELS_PER_TILE;
         middle_vertex.k = bbMapCoords_getElevation(&home.ground_surface, middle_vertex);
-        //bbDrawable_setLocation(test_drawable_3, home.viewport_app.drawables,middle_vertex);
+        bbDrawable_setLocation(test_drawable_4, home.viewport_app.drawables,middle_vertex);
 
     }
 
 
-    bbDebug(" left.k = %d, right.k = %d, middle.k = %d\n",
-        left_vertex.k, right_vertex.k, middle_vertex.k);
 
     bbMapCoords foo;
     foo = bbViewportCoords_interpolateMapCoords (point, left_vertex, middle_vertex, right_vertex);
 
-    //bbDrawable_setLocation(test_drawable_4, home.viewport_app.drawables,foo);
-    bbDebug("foo.i = %d, foo.j = %d, foo.k = %d\n", foo.i, foo.j, foo.k);
+    bbDrawable_setLocation(test_drawable_5, home.viewport_app.drawables,foo);
     return foo;
 }
