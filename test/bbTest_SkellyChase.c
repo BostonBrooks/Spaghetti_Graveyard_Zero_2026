@@ -16,6 +16,7 @@
 #include "engine/graphics/bbGraphicsApp.h"
 #include "engine/data/bbHome.h"
 #include "engine/geometry/bbGroundCoords.h"
+#include "engine/geometry/bbViewportCoords.h"
 #include "engine/graphics/bbColours.h"
 #include "engine/userinterface/bbInput.h"
 #include "engine/userinterface/bbMouse.h"
@@ -241,10 +242,10 @@ bbHere()
 
         // test bbScreenCoords_getMapCoords_k_fixed
         bbScreenPoints mouse_position = home.UI.mouse.position;
-        bbWidget* viewport_widget =  home.viewport_app.viewport.widget;
-        mouse_position.x -= viewport_widget->rect.left;
-        mouse_position.y -= viewport_widget->rect.top;
-        bbMapCoords MC = bbScreenCoords_getMapCoords_k_fixed (mouse_position, 1500, &home.viewport_app.viewport);
+        bbViewportPoints viewport_points =
+            bbScreenPoints_getViewportPoints(&home.viewport_app.viewport, mouse_position);
+
+        bbMapCoords MC = bbViewportPoints_getMapCoords_k_fixed (viewport_points, 1500, &home.viewport_app.viewport);
         bbDrawable_setLocation(sphere, home.viewport_app.drawables,MC);
 
 

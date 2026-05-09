@@ -44,6 +44,12 @@ typedef struct {
     I32 y; // y axis points down
 } bbScreenPoints;
 
+
+typedef struct {
+    I32 x; // x axis points to the right
+    I32 y; // y axis points down
+} bbViewportPoints;
+
 typedef struct {
 
     I32 top;

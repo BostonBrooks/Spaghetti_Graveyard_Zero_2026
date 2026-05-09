@@ -34,7 +34,9 @@ bbFlag matrix_multiply (float A[4][4], float B[4][4], float C[4][4]){
 }
 
 
-bbMapCoords bbScreenCoords_getMapCoords_k_fixed (bbScreenPoints sc, I32 k, bbViewport* viewport ) {
+
+
+bbMapCoords bbViewportPoints_getMapCoords_k_fixed (bbViewportPoints sc, I32 k, bbViewport* viewport ) {
 
     bbMapCoords mc;
     I32 vp_width = viewport->width * SCREEN_PPP;

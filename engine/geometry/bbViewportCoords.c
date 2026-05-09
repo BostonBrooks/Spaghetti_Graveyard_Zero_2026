@@ -1,6 +1,7 @@
 #include "engine/geometry/bbViewportCoords.h"
 
 #include "engine/data/bbConstants.h"
+#include "engine/userinterface/bbWidgets.h"
 
 
 sfVector2f bbMapCoords_getV2f(bbMapCoords MC, bbViewport* VP){
@@ -68,4 +69,20 @@ bbMapCoords bbScreenCoords_getMapCoords(bbScreenPoints SP, bbViewport* VP){
     MC.k = 0;
 
     return MC;
+}
+
+
+bbViewportPoints bbScreenPoints_getViewportPoints(bbViewport* viewport,
+    bbScreenPoints screen_points)
+{
+    bbWidget* viewport_widget = viewport->widget;
+    bbScreenPoints viewport_position;
+    viewport_position.x = viewport_widget->rect.left;
+    viewport_position.y = viewport_widget->rect.top;
+
+    bbViewportPoints VP;
+    VP.x = screen_points.x - viewport_position.x;
+    VP.y = screen_points.y - viewport_position.y;
+    return VP;
+
 }
