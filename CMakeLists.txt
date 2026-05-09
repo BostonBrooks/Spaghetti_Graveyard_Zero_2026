@@ -325,6 +325,7 @@ add_executable(SkellyChase test/bbTest_SkellyChase.c
         engine/groundsurface/bbGroundSurface.c
         games/game0/maps/skellychase/spawner/spawner.c
         engine/spawner/bbSpawner.c
+        engine/geometry/bbGroundCoords.c
 )
 
 target_compile_definitions(SkellyChase PRIVATE

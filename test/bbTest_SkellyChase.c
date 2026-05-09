@@ -15,6 +15,7 @@
 #include "engine/logic/bbFlag.h"
 #include "engine/graphics/bbGraphicsApp.h"
 #include "engine/data/bbHome.h"
+#include "engine/geometry/bbGroundCoords.h"
 #include "engine/graphics/bbColours.h"
 #include "engine/userinterface/bbInput.h"
 #include "engine/userinterface/bbMouse.h"
@@ -237,6 +238,14 @@ bbHere()
         bbMouse_Update(&home.UI.mouse, &home.UI.widgets, &home.UI.graphics);
 
         bbUI_Inbox_check(&home.UI.inbox);
+
+        // test bbScreenCoords_getMapCoords_k_fixed
+        bbScreenPoints mouse_position = home.UI.mouse.position;
+        bbWidget* viewport_widget =  home.viewport_app.viewport.widget;
+        mouse_position.x -= viewport_widget->rect.left;
+        mouse_position.y -= viewport_widget->rect.top;
+        bbMapCoords MC = bbScreenCoords_getMapCoords_k_fixed (mouse_position, 1500, &home.viewport_app.viewport);
+        bbDrawable_setLocation(sphere, home.viewport_app.drawables,MC);
 
 
         bbMoveables_copyBuffer(&home.agents_app.movables, &moveables_snapshot);
