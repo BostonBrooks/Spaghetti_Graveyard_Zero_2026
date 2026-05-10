@@ -254,6 +254,20 @@ bbFlag bbCoreInput_setGoalpointOut(bbCore* core, bbMapCoords MC, U64 time,
     return bbSuccess;
 }
 
+bbFlag bbCoreInput_setGoalMoveable(bbCore* core,U64 time, I32 moveable, I32 goal_moveable,
+                                 bbInstruction_source source, bbHandle action)
+{
+    bbInstruction* instruction;
+    bbList_alloc(&core->do_stack, (void**) &instruction);
+    instruction->type = bbVInstruction_setGoalMoveable;
+    instruction->data.three_handles.handle1.i32x2.x = moveable;
+    instruction->data.three_handles.handle1.i32x2.y = goal_moveable;
+
+    instruction->act_time = time;
+    bbList_pushL(&core->do_stack, instruction);
+    return bbSuccess;
+}
+
 /*bbFlag bbCoreInput_setViewpointIn(bbCore* core, bbMapCoords MC, U64 time,
                                   bbInstruction_source source, bbHandle action)
 {
@@ -297,5 +311,6 @@ bbFlag bbCoreInput_updateMoveables(bbCore* core,
     bbList_pushL(&core->do_stack, instruction);
     return bbSuccess;
 }
+
 
 #endif

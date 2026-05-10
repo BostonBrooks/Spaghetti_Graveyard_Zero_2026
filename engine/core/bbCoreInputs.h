@@ -59,4 +59,6 @@ bbFlag bbCoreInput_approachGoalpoint(bbCore* core,bbInstruction_source source, b
 
 bbFlag bbCoreInput_updateMoveables(bbCore* core,bbInstruction_source source, bbHandle action);
 
+bbFlag bbCoreInput_setGoalMoveable(bbCore* core,U64 time, I32 moveable, I32 goal_moveable,
+                                 bbInstruction_source source, bbHandle action);
 #endif //BB_CORE_INPUTS

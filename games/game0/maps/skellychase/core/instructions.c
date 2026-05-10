@@ -177,3 +177,79 @@ bbFlag bbVInstruction_unupdateMoveables_fn(bbCore* core, bbInstruction* instruct
 
     bbNotHere()
 }
+
+bbFlag bbVInstruction_setGoalMoveable_fn(bbCore* core, bbInstruction* instruction)
+{
+
+    bbInstruction* undo_instruction;
+    bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+
+    bbMoveable* moveable = &home.agents_app.movables.moveables[
+        instruction->data.three_handles.handle1.i32x2.x];
+
+    undo_instruction->type = bbVInstruction_unsetGoalMoveable;
+    undo_instruction->data.three_handles.handle1.i32x2.x =
+        instruction->data.three_handles.handle1.i32x2.x;
+    undo_instruction->data.three_handles.handle1.i32x2.y = moveable->goal_moveable;
+
+    moveable->goal_moveable = instruction->data.three_handles.handle1.i32x2.y;
+
+    home.agents_app.agents.agents[instruction->player].goalpoint = instruction->data.map_coords;
+
+
+    if (instruction->source == bbInstructionSource_internal)
+    {
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        undo_instruction->redo_instruction.u64 = 0;
+        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_input)
+    {
+        bbHandle handle;
+        bbVPool_reverseLookup(core->instruction_pool, instruction, &handle);
+        undo_instruction->redo_instruction = handle;
+        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_action)
+    {
+        undo_instruction->redo_instruction = instruction->redo_instruction;
+        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+        return bbSuccess;
+    }
+    bbNotHere()
+    return bbSuccess;
+}
+
+bbFlag bbVInstruction_unsetGoalMoveable_fn(bbCore* core, bbInstruction* instruction)
+{
+
+    bbMoveable* moveable = &home.agents_app.movables.moveables[
+        instruction->data.three_handles.handle1.i32x2.x];
+    moveable->goal_moveable = instruction->data.three_handles.handle1.i32x2.y;
+
+    if (instruction->source == bbInstructionSource_internal)
+    {
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_input)
+    {
+        bbInstruction* redo_instruction;
+        bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction, instruction->redo_instruction);
+        bbList_pushL(&core->do_stack, redo_instruction);
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_action)
+    {
+        bbAction* redo_action;
+
+        bbVPool_lookup(core->action_pool, (void**)&redo_action, instruction->redo_instruction);
+        bbList_sortL(&core->action_queue,(void*)redo_action);
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        return bbSuccess;
+    }
+    bbNotHere()
+}

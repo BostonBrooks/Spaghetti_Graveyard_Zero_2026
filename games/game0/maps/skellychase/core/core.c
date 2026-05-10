@@ -29,5 +29,13 @@ bbFlag bbCore_initVInstructions(bbCore* core)
         = bbVInstruction_unupdateMoveables_fn;
 
 
+    core->instruction_functions[bbVInstruction_setGoalMoveable-bbInstruction_numTypes]
+        = bbVInstruction_setGoalMoveable_fn;
+
+
+    core->instruction_functions[bbVInstruction_unsetGoalMoveable-bbInstruction_numTypes]
+        = bbVInstruction_unsetGoalMoveable_fn;
+
+
     return bbSuccess;
 }

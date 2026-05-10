@@ -9,6 +9,9 @@ typedef enum
     bbVInstruction_updateMoveables,
     bbVInstruction_unupdateMoveables,
 
+    bbVInstruction_setGoalMoveable,
+    bbVInstruction_unsetGoalMoveable,
+
     bbVInstruction_numTypes
 }bbVInstruction_type;
 
@@ -19,4 +22,7 @@ bbFlag bbVInstruction_unsetGoalpoint_fn(bbCore* core, bbInstruction* instruction
 
 bbFlag bbVInstruction_updateMoveables_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbVInstruction_unupdateMoveables_fn(bbCore* core, bbInstruction* instruction);
+
+bbFlag bbVInstruction_setGoalMoveable_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbVInstruction_unsetGoalMoveable_fn(bbCore* core, bbInstruction* instruction);
 

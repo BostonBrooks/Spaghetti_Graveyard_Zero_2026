@@ -1,5 +1,6 @@
 #include "engine/agents/bbMoveables.h"
 
+#include "engine/core/bbCoreInputs.h"
 #include "engine/data/bbHome.h"
 #include "engine/logic/bbBloatedPool.h"
 
@@ -261,7 +262,7 @@ bbFlag bbMoveables_update(bbMoveables* moveables)
 
     for (I32 i = NUM_AGENTS; i < numMoveables; i++)
     {
-        moveables->moveables[i].goalpoint = moveables->moveables[0].position;
+        //moveables->moveables[i].goalpoint = moveables->moveables[0].position;
 
         moveables->moveables[i].coords_a = bbMapCoords_getMilliCoords(moveables->moveables[i].position);
         moveables->moveables[i].coords_b = bbMapCoords_getMilliCoords(moveables->moveables[i].position);
@@ -325,3 +326,5 @@ bbFlag bbMoveables_copyBuffer(bbMoveables* moveables, bbMoveables_snapshot* targ
 
     return bbSuccess;
 }
+
+
