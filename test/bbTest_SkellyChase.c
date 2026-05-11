@@ -108,6 +108,8 @@ int main(void)
     bbCoreInput_setGoalMoveable(&home.core.core,69696969, 16, 17,bbInstructionSource_internal, no_handle);
     bbCoreInput_setGoalMoveable(&home.core.core,69696969, 17, 9,bbInstructionSource_internal, no_handle);
 
+    bbAgents2_new(&home.agents_app.agents2, 12,12);
+
     while (1)
     {
 

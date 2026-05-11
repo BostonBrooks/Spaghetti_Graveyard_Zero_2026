@@ -46,6 +46,7 @@ typedef struct
     bbMilliCoords coords_b;
     //goalPoint could be a pointer to another avoidable, but for now it is updated once per frame
     bbMapCoords goalpoint;
+    bbHandle agent2;
 } bbMoveable;
 
 typedef struct
@@ -77,5 +78,7 @@ bbMilliCoords getForce(bbMoveables* moveables, bbMoveable* moveableA, bbMoveable
 bbFlag bbMoveable_setGoalPoint(bbMoveables* moveables, bbHandle handle, bbMilliCoords goal_point);
 
 bbFlag bbMoveables_copyBuffer(bbMoveables* moveables, bbMoveables_snapshot* target);
+
+I32 bbMoveables_newTux(bbMoveables* moveables, bbMapCoords position, bbHandle agent);
 
 #endif  //BBMOVEABLE

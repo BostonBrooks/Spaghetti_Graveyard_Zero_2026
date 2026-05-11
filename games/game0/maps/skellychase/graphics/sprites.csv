@@ -1,4 +1,4 @@
-Number of Sprites:,624,,,,,,,,,,,,
+Number of Sprites:,625,,,,,,,,,,,,
 Label:,Integer Address:,Texture:,Left:,Top:,Width:,Height:,Origin X:,Origin Y:,Scale X:,Scale Y:,Scale By:,Comment:,
 NULL,0,NULL,0,0,128,128,0,0,1,1,None,Exception,
 LAYOUT_480,1,LAYOUT_480,0,0,720,480,0,0,1,1,None,The root of the widget tree,
@@ -624,5 +624,6 @@ CYAN_DOT,620,DOTS,40,0,9,9,4,4,1,1,None,dots for tracking vertices
 COBALT_DOT,621,DOTS,50,0,9,9,4,4,1,1,None,dots for tracking vertices
 MAGENTA_DOT,622,DOTS,60,0,9,9,4,4,1,1,None,dots for tracking vertices
 BLACK_DOT,623,DOTS,70,0,9,9,4,4,1,1,None,dots for tracking vertices
+TUX,623,TUX,0,0,128,128,66,123,1,1,None,a penguin
 
 Label:,Integer Address:,Texture:,Left:,Top:,Width:,Height:,Origin X:,Origin Y:,Scale X:,Scale Y:,Scale By:,Comment:,

@@ -268,6 +268,7 @@ add_executable(SkellyChase test/bbTest_SkellyChase.c
         engine/agents/bbMoveables.c
         engine/agents/bbAvoidables.c
         engine/agents/bbAgents.c
+        engine/agents/bbAgents2.c
         engine/graphics/bbFonts.c
         engine/graphics/bbSprites.c
         engine/graphics/bbTextures.c
