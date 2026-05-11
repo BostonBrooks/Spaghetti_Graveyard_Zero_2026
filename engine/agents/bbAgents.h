@@ -22,6 +22,9 @@
 
 #ifndef BB_AGENT_H
 #define BB_AGENT_H
+
+#include "engine/logic/bbHandle.h"
+#include "engine/logic/bbList.h"
 #include "engine/logic/bbFlag.h"
 #include "engine/geometry/bbCoordinates.h"
 
@@ -29,23 +32,35 @@
 
 typedef struct
 {
+    bbListElement_Handle full_list;
+    bbListElement_Handle square_list;
+    I32 moveable;
+    bbMapCoords position;
     bbMapCoords goalpoint;
 } bbAgent;
 
-
+typedef struct
+{
+    bbSquareCoords coords;
+    bbList agents;
+} bbAgents_square;
 
 typedef struct
 {
-    bbAgent agents[NUM_AGENTS];
+    bbVPool* pool;
+    bbList full_list;
+    bbList lost_list;
+    I32 squares_i;
+    I32 squares_j;
 
-    I32 current_agent;
+    bbAgents_square squares[];
 } bbAgents;
 
 
 ///This instruction call screenshots all the transient data and then sets new values
 bbFlag bbCoreInput_updateAgents();
 
-bbFlag bbAgents_init(bbAgents* agents);
+bbFlag bbAgents_new(bbAgents** agents, I32 squares_i, I32 squares_j);
 
 
 
