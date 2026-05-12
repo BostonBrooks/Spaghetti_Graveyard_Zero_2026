@@ -99,6 +99,7 @@ int main(void)
     bbMoveables_init(&home.agents_app.movables);
 
 
+    bbAgents2_new(&home.agents_app.agents2, 12,12);
     bbSpawner_spawnCore(&home.spawner, "./maps/skellychase/spawner/spawner.csv");
 
     bbHandle no_handle;
@@ -115,7 +116,6 @@ int main(void)
     bbCoreInput_setGoalMoveable(&home.core.core,69696969, 17, 9,bbInstructionSource_internal, no_handle);
 
 
-    bbAgents2_new(&home.agents_app.agents2, 12,12);
 
 
     pthread_barrier_wait(&barrier1);

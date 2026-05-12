@@ -64,5 +64,5 @@ bbFlag bbAgents2_new(bbAgents2** agents, I32 squares_i, I32 squares_j);
 
 
 bbFlag bbAgent2_newTux(bbAgents2* agents, bbMapCoords position);
-
+bbAgents_square2* bbAgents2_getSquare(bbAgents2* agents, I32 i, I32 j);
 #endif //BB_AGENT2_H
