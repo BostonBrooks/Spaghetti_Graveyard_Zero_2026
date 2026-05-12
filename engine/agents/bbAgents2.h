@@ -28,7 +28,13 @@
 #include "engine/logic/bbFlag.h"
 #include "engine/geometry/bbCoordinates.h"
 
-#define NUM_AGENTS 8
+
+typedef enum
+{
+    bbAgents2State_Idle,
+    bbAgents2State_Follow
+} bbAgents2_state;
+
 
 typedef struct
 {
@@ -37,6 +43,7 @@ typedef struct
     I32 moveable;
     bbMapCoords position;
     bbMapCoords goalpoint;
+    bbAgents2_state state;
 } bbAgent2;
 
 typedef struct
@@ -65,4 +72,6 @@ bbFlag bbAgents2_new(bbAgents2** agents, I32 squares_i, I32 squares_j);
 
 bbFlag bbAgent2_newTux(bbAgents2* agents, bbMapCoords position);
 bbAgents_square2* bbAgents2_getSquare(bbAgents2* agents, I32 i, I32 j);
+
+
 #endif //BB_AGENT2_H

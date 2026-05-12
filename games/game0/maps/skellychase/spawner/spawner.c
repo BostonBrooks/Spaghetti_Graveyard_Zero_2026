@@ -200,6 +200,7 @@ bbFlag bbSF_tuxCore(char* string)
     agent->moveable = index;
     bbMoveable* moveable = &home.agents_app.movables.moveables[index];
 
+    agent->state = bbAgents2State_Idle;
     home.agents_app.movables.available = index+1;
 
     moveable->type = bbMoveableType_Idle;
