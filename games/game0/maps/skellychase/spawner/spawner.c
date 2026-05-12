@@ -214,7 +214,7 @@ bbFlag bbSF_tuxCore(char* string)
 
 
     bbSquareCoords square_coords = bbMapCoords_getSquareCoords(MC);
-
+    agent->square_coords = square_coords;
     bbAgents_square2* square = bbAgents2_getSquare(agents, square_coords.i, square_coords.j);
 
     bbList_pushL(&square->agents,agent);

@@ -41,8 +41,7 @@ typedef struct
     bbListElement_Handle full_list;
     bbListElement_Handle square_list;
     I32 moveable;
-    bbMapCoords position;
-    bbMapCoords goalpoint;
+    bbSquareCoords square_coords;
     bbAgents2_state state;
 } bbAgent2;
 

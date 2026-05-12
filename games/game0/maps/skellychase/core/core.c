@@ -36,6 +36,11 @@ bbFlag bbCore_initVInstructions(bbCore* core)
     core->instruction_functions[bbVInstruction_unsetGoalMoveable-bbInstruction_numTypes]
         = bbVInstruction_unsetGoalMoveable_fn;
 
+    core->instruction_functions[bbVInstruction_updateAgentSquare-bbInstruction_numTypes]
+        = bbVInstruction_updateAgentSquare_fn;
+
+    core->instruction_functions[bbVInstruction_unupdateAgentSquare-bbInstruction_numTypes]
+        = bbVInstruction_unupdateAgentSquare_fn;
 
     return bbSuccess;
 }

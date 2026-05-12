@@ -73,12 +73,20 @@ typedef struct
     bbHandle handle3;
 } bbThreeHandles;
 
+typedef struct
+{
+    bbHandle agent;
+    bbSquareCoords square;
+} bbAgentSquare;
+
 typedef union
 {
     char string[KEY_LENGTH];
     U64 unsigned_long;
     bbThreeHandles three_handles;
     bbMapCoords map_coords;
+    bbSquareCoords square_coords;
+    bbAgentSquare agent_square;
 } bbInstruction_data;
 
 typedef struct bbInstruction

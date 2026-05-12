@@ -1,6 +1,5 @@
 #ifndef BB_CORE_INPUTS_H
 #define BB_CORE_INPUTS_H
-#include "engine/agents/bbAgents2.h"
 #include "engine/core/bbInstruction.h"
 #include "engine/core/bbCore.h"
 #include "games/game0/maps/pong/code/bbBall.h"
@@ -62,11 +61,4 @@ bbFlag bbCoreInput_updateMoveables(bbCore* core,bbInstruction_source source, bbH
 
 bbFlag bbCoreInput_setGoalMoveable(bbCore* core,U64 time, I32 moveable, I32 goal_moveable,
                                  bbInstruction_source source, bbHandle action);
-
-bbFlag bbCoreInput_agentUpdateSquare(bbCore* core, bbAgent2 agent, bbMapCoords MC);
-bbFlag bbCoreInput_agentUnupdateSquare(bbCore* core, bbAgent2 agent, bbMapCoords MC);
-
-bbFlag bbCoreInput_agentsUpdateSquare(bbCore* core, bbAgent2 agent, bbMapCoords MC);
-bbFlag bbCoreInput_agentsUnupdateSquare(bbCore* core, bbAgent2 agent, bbMapCoords MC);
-
 #endif //BB_CORE_INPUTS

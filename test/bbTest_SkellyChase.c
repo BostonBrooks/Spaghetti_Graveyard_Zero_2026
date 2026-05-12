@@ -22,6 +22,7 @@
 #include "engine/userinterface/bbMouse.h"
 #include "engine/spawner/bbSpawner.h"
 #include "engine/network/bbNetworkApp.h"
+#include "games/game0/maps/skellychase/core/core_inputs.h"
 
 #include <pthread.h>
 
@@ -114,6 +115,7 @@ int main(void)
     bbCoreInput_setGoalMoveable(&home.core.core,69696969, 15, 16,bbInstructionSource_internal, no_handle);
     bbCoreInput_setGoalMoveable(&home.core.core,69696969, 16, 17,bbInstructionSource_internal, no_handle);
     bbCoreInput_setGoalMoveable(&home.core.core,69696969, 17, 9,bbInstructionSource_internal, no_handle);
+    bbCore_react(&home.core.core);
 
 
 
@@ -135,6 +137,10 @@ int main(void)
 
     while (1)
     {
+
+        bbHandle handle = home.agents_app.agents2->full_list.list.head;
+        bbSquareCoords SC; SC.i = 1; SC.j = 1;
+        bbCoreInput_updateAgentSquare(&home.core.core, handle, SC);
 
         if (home.network.send_ready && home.network.receive_ready)
         {

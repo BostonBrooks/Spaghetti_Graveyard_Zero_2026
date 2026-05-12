@@ -66,14 +66,20 @@ bbFlag bbAgent2_newTux(bbAgents2* agents, bbMapCoords position)
 
     self->moveable = bbMoveables_newTux(&home.agents_app.movables, position, handle);
 
+    bbMoveable* moveable = &home.agents_app.movables.moveables[self->moveable];
 
     bbUI_Inbox_NewTux(&home.UI.inbox, position, self->moveable);
 
-    self->position = position;
-    self->goalpoint = position;
+
+    moveable->position = position;
+    moveable->goalpoint = position;
+
+    moveable->coords_a = bbMapCoords_getMilliCoords(moveable->position);
+    moveable->coords_b = bbMapCoords_getMilliCoords(moveable->position);
+    moveable->type = bbMoveableType_Idle;
 
     bbSquareCoords square_coords = bbMapCoords_getSquareCoords(position);
-
+    self->square_coords = square_coords;
     bbAgents_square2* square = bbAgents2_getSquare(agents, square_coords.i, square_coords.j);
 
     bbList_pushL(&square->agents,self);

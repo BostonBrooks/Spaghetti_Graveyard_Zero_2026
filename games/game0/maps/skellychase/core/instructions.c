@@ -253,3 +253,101 @@ bbFlag bbVInstruction_unsetGoalMoveable_fn(bbCore* core, bbInstruction* instruct
     }
     bbNotHere()
 }
+
+bbFlag bbVInstruction_updateAgentSquare_fn(bbCore* core, bbInstruction* instruction)
+{
+bbHere()
+
+    bbInstruction* undo_instruction;
+    bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+
+    bbAgent2* agent;
+    bbVPool_lookup(home.agents_app.agents2->pool, (void**)&agent,
+        instruction->data.agent_square.agent);
+
+    bbSquareCoords old_square_coords = agent->square_coords;
+    bbSquareCoords new_square_coords = instruction->data.agent_square.square;
+
+    undo_instruction->type = bbVInstruction_unupdateAgentSquare;
+    undo_instruction->data.agent_square.agent = instruction->data.agent_square.agent;
+    undo_instruction->data.agent_square.square = old_square_coords;
+
+    bbAgents_square2* old_square = bbAgents2_getSquare(home.agents_app.agents2,
+    old_square_coords.i, old_square_coords.j);
+
+    bbAgents_square2* new_square = bbAgents2_getSquare(home.agents_app.agents2,
+        new_square_coords.i, new_square_coords.j);
+
+    bbList_remove(&old_square->agents,agent);
+    agent->square_coords = new_square_coords;
+    bbList_pushL(&new_square->agents,agent);
+
+    if (instruction->source == bbInstructionSource_internal)
+    {
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        undo_instruction->redo_instruction.u64 = 0;
+        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_input)
+    {
+        bbHandle handle;
+        bbVPool_reverseLookup(core->instruction_pool, instruction, &handle);
+        undo_instruction->redo_instruction = handle;
+        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_action)
+    {
+        undo_instruction->redo_instruction = instruction->redo_instruction;
+        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+        return bbSuccess;
+    }
+    bbNotHere()
+    return bbSuccess;
+}
+
+bbFlag bbVInstruction_unupdateAgentSquare_fn(bbCore* core, bbInstruction* instruction)
+{
+bbHere()
+    bbAgent2* agent;
+    bbVPool_lookup(home.agents_app.agents2->pool, (void**)&agent,
+        instruction->data.agent_square.agent);
+
+    bbSquareCoords old_square_coords = agent->square_coords;
+    bbSquareCoords new_square_coords = instruction->data.agent_square.square;
+
+    bbAgents_square2* old_square = bbAgents2_getSquare(home.agents_app.agents2,
+    old_square_coords.i, old_square_coords.j);
+
+    bbAgents_square2* new_square = bbAgents2_getSquare(home.agents_app.agents2,
+        new_square_coords.i, new_square_coords.j);
+
+    bbList_remove(&old_square->agents,agent);
+    agent->square_coords = new_square_coords;
+    bbList_pushL(&new_square->agents,agent);
+
+    if (instruction->source == bbInstructionSource_internal)
+    {
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_input)
+    {
+        bbInstruction* redo_instruction;
+        bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction, instruction->redo_instruction);
+        bbList_pushL(&core->do_stack, redo_instruction);
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_action)
+    {
+        bbAction* redo_action;
+
+        bbVPool_lookup(core->action_pool, (void**)&redo_action, instruction->redo_instruction);
+        bbList_sortL(&core->action_queue,(void*)redo_action);
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        return bbSuccess;
+    }
+    bbNotHere()
+}
