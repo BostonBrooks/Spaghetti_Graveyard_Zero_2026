@@ -63,5 +63,6 @@ bbFlag bbCoreInput_updateAgents();
 bbFlag bbAgents2_new(bbAgents2** agents, I32 squares_i, I32 squares_j);
 
 
+bbFlag bbAgent2_newTux(bbAgents2* agents, bbMapCoords position);
 
 #endif //BB_AGENT2_H

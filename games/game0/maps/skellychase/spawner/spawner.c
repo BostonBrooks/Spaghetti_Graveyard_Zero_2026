@@ -82,6 +82,8 @@ bbFlag bbSF_skeletonCore(char* string)
 
     bbMoveable* moveable = &home.agents_app.movables.moveables[index];
 
+    home.agents_app.movables.available = index+1;
+
     moveable->type = bbMoveableType_Cat;
     moveable->position = MC;
     moveable->goalpoint = MC;
@@ -142,6 +144,8 @@ bbFlag bbSF_zombieCore(char* string)
 
 
     bbMoveable* moveable = &home.agents_app.movables.moveables[index];
+
+    home.agents_app.movables.available = index+1;
 
     moveable->type = bbMoveableType_Player;
     moveable->position = MC;

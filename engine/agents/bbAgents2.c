@@ -50,8 +50,7 @@ bbAgents_square2* bbAgents2_getSquare(bbAgents2* agents, I32 i, I32 j)
     return &agents->squares[index];
 }
 
-//send a message to the graphics thread?
-bbFlag bbUnits_newTux(bbCore* core, I32 moveable, bbMapCoords position);
+
 
 bbFlag bbAgent2_newTux(bbAgents2* agents, bbMapCoords position)
 {
@@ -67,7 +66,9 @@ bbFlag bbAgent2_newTux(bbAgents2* agents, bbMapCoords position)
 
     self->moveable = bbMoveables_newTux(&home.agents_app.movables, position, handle);
 
-    bbUnits_newTux(&home.core.core, self->moveable, position);
+
+    bbUI_Inbox_NewTux(&home.UI.inbox, position, self->moveable);
+
     self->position = position;
     self->goalpoint = position;
 
@@ -81,3 +82,4 @@ bbFlag bbAgent2_newTux(bbAgents2* agents, bbMapCoords position)
     return bbSuccess;
 
 }
+

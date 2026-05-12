@@ -36,3 +36,6 @@ bbMapCoords MC, I32 index);
 #define bbUnit_setLocation bbDrawable_setLocation
 
 bbFlag bbUnits_consumeBuffer(bbUnits* units, bbHandle* unit_array, bbMoveables_snapshot* snapshot);
+
+bbFlag bbUnit_newTux(bbUnit** self,bbUnits* units, bbGraphicsApp* graphics,
+bbMapCoords MC, I32 index);

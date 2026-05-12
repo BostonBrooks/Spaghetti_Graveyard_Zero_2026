@@ -19,6 +19,7 @@ typedef enum
     bbMoveableType_Unused,
     bbMoveableType_Player,
     bbMoveableType_Cat,
+    bbMoveableType_Idle,
 
 } bbMoveable_type;
 
@@ -53,7 +54,10 @@ typedef struct
 {
     I32 updates_per_frame;
     bool use_coords_a;
+
+    //arena allocator, could be made into a pool
     bbMoveable moveables[numMoveables];
+    I32 available;
 
     bbVPool* snapshots;
 

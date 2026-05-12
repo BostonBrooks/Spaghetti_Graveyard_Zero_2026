@@ -65,7 +65,7 @@ bbFlag bbMoveables_init(bbMoveables* moveables)
 {
     moveables->updates_per_frame = 12;
     moveables->use_coords_a = true;
-
+    moveables->available = 0;
     bbVPool_newBloated(&moveables->snapshots,sizeof(bbMoveables_snapshot),100,100,"bbMoveables_snapshot");
 
     moveables->buffer_back = &moveables->buffer_a;
@@ -172,6 +172,7 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
             switch (moveable->type)
             {
             case bbMoveableType_Unused:
+            case bbMoveableType_Idle:
 
                 moveable->coords_a.i = moveable->coords_b.i;
                 moveable->coords_a.j = moveable->coords_b.j;
@@ -328,3 +329,13 @@ bbFlag bbMoveables_copyBuffer(bbMoveables* moveables, bbMoveables_snapshot* targ
 }
 
 
+I32 bbMoveables_newTux(bbMoveables* moveables, bbMapCoords position, bbHandle agent)
+{
+    I32 index = moveables->available++;
+    bbMoveable* moveable = &moveables->moveables[index];
+    moveable->goalpoint = position;
+    moveable->position = position;
+    moveable->agent2 = agent;
+    moveable->type = bbMoveableType_Idle;
+    return index;
+}

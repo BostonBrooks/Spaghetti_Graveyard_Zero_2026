@@ -50,6 +50,9 @@ bbFlag bbUI_Inbox_check(bbUI_Inbox* inbox)
         case bbUI_Inbox_setViewpoint:
             bbUI_Inbox_setViewpoint_fn(inbox, message);
             break;
+        case bbUI_Inbox_newTux:
+            bbUI_Inbox_newTux_fn(inbox, message);
+            break;
 
         default:
 
@@ -112,6 +115,15 @@ bbFlag bbUI_Inbox_setViewpoint_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message
     return bbSuccess;
 }
 
+
+bbFlag bbUI_Inbox_newTux_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
+{
+    bbUnit* none;
+    bbUnit_newTux(&none,home.viewport_app.units, &home.UI.graphics,
+    message->data.coords, message->data.handle.handle.u64);
+    return bbSuccess;
+}
+
 bbFlag bbUI_Inbox_UnpressButton(bbUI_Inbox* inbox)
 {
     bbUI_Inbox_message* message;
@@ -153,6 +165,17 @@ bbFlag bbUI_Inbox_SetViewpoint(bbUI_Inbox* inbox, bbMapCoords MC)
     bbThreadedQueue_alloc(&inbox->local_message_queue,(void**)&message);
     message->type = bbUI_Inbox_setViewpoint;
     message->data.coords = MC;
+    bbThreadedQueue_pushL(&inbox->local_message_queue, (void*)message);
+    return bbSuccess;
+}
+
+bbFlag bbUI_Inbox_NewTux(bbUI_Inbox* inbox, bbMapCoords coords, I32 moveable)
+{
+    bbUI_Inbox_message* message;
+    bbThreadedQueue_alloc(&inbox->local_message_queue,(void**)&message);
+    message->type = bbUI_Inbox_newTux;
+    message->data.coords = coords;
+    message->data.handle.handle.u64 = moveable;
     bbThreadedQueue_pushL(&inbox->local_message_queue, (void*)message);
     return bbSuccess;
 }

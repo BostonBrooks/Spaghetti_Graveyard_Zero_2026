@@ -23,6 +23,10 @@
 #include "engine/spawner/bbSpawner.h"
 #include "engine/network/bbNetworkApp.h"
 
+#include <pthread.h>
+
+pthread_barrier_t barrier1;
+
 thread_local char* thread;
 bbHome home;
 
@@ -37,6 +41,8 @@ int main(void)
 {
     thread = "MAIN";
     printf("Hello, World!\n");
+
+    pthread_barrier_init(&barrier1, NULL, 2);
 
     //home.clock.clock_running = false;
     home.clock2.is_paused = true;
@@ -108,7 +114,24 @@ int main(void)
     bbCoreInput_setGoalMoveable(&home.core.core,69696969, 16, 17,bbInstructionSource_internal, no_handle);
     bbCoreInput_setGoalMoveable(&home.core.core,69696969, 17, 9,bbInstructionSource_internal, no_handle);
 
+
     bbAgents2_new(&home.agents_app.agents2, 12,12);
+
+
+    pthread_barrier_wait(&barrier1);
+
+    for (I32 i = 0; i < 12; i++)
+    {
+        for (I32 j = 0; j < 12; j++)
+        {
+            bbMapCoords coords;
+            coords.i = i*POINTS_PER_SQUARE + POINTS_PER_SQUARE / 2;
+            coords.j = j*POINTS_PER_SQUARE + POINTS_PER_SQUARE / 2;
+            coords.k = bbMapCoords_getElevation(&home.ground_surface,coords);
+            bbAgent2_newTux(home.agents_app.agents2, coords);
+        }
+    }
+
 
     while (1)
     {
@@ -244,6 +267,9 @@ void* userinterface_thread(void* arg)
     bbDrawable_newPoint(&sphere, home.viewport_app.drawables,
                           &home.UI.graphics, MC);
     sphere->frames[0].handle.u64 = 623;*/
+
+
+    pthread_barrier_wait(&barrier1);
 bbHere()
     while (1)
     {
