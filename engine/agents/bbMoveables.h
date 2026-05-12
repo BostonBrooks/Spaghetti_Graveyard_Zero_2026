@@ -18,7 +18,7 @@ typedef enum
 {
     bbMoveableType_Unused,
     bbMoveableType_Player,
-    bbMoveableType_Cat,
+    bbMoveableType_Follow,
     bbMoveableType_Idle,
 
 } bbMoveable_type;

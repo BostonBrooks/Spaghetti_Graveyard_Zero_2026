@@ -37,6 +37,9 @@ char test_string[KEY_LENGTH];
 
 bbMapCoords testGoalPoint;
 
+//test bbList_mapL()
+bbFlag bbVInstruction_updateAgentsSquare_fn(bbCore* core, bbInstruction* instruction);
+
 void* userinterface_thread(void* arg);
 int main(void)
 {
@@ -118,8 +121,9 @@ int main(void)
     bbCore_react(&home.core.core);
 
 
-
-
+    bbMoveable* penguin = &home.agents_app.movables.moveables[25];
+    penguin->goal_moveable = 0;
+    penguin->type = bbMoveableType_Follow;
     pthread_barrier_wait(&barrier1);
 
     for (I32 i = 0; i < 12; i++)
@@ -140,7 +144,9 @@ int main(void)
 
         bbHandle handle = home.agents_app.agents2->full_list.list.head;
         bbSquareCoords SC; SC.i = 1; SC.j = 1;
-        bbCoreInput_updateAgentSquare(&home.core.core, handle, SC);
+        //bbCoreInput_updateAgentSquare(&home.core.core, handle, SC,bbInstructionSource_input, no_handle);
+        bbCoreInput_updateAgentsSquare(&home.core.core, NULL,bbInstructionSource_input, no_handle);
+        bbCore_react(&home.core.core);
 
         if (home.network.send_ready && home.network.receive_ready)
         {

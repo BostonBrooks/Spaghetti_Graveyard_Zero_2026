@@ -42,5 +42,10 @@ bbFlag bbCore_initVInstructions(bbCore* core)
     core->instruction_functions[bbVInstruction_unupdateAgentSquare-bbInstruction_numTypes]
         = bbVInstruction_unupdateAgentSquare_fn;
 
+    core->instruction_functions[bbVInstruction_updateAgentsSquare-bbInstruction_numTypes]
+    = bbVInstruction_updateAgentsSquare_fn;
+
+    core->instruction_functions[bbVInstruction_unupdateAgentsSquare-bbInstruction_numTypes]
+        = bbVInstruction_unupdateAgentsSquare_fn;
     return bbSuccess;
 }

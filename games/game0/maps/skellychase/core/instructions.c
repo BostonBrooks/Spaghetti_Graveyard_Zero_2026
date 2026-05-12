@@ -1,6 +1,7 @@
 
 #include "instructions.h"
 
+#include "core_inputs.h"
 #include "engine/core/bbAction.h"
 #include "engine/core/bbCore.h"
 #include "engine/logic/bbFlag.h"
@@ -268,6 +269,7 @@ bbHere()
     bbSquareCoords old_square_coords = agent->square_coords;
     bbSquareCoords new_square_coords = instruction->data.agent_square.square;
 
+    undo_instruction->source = instruction->source;
     undo_instruction->type = bbVInstruction_unupdateAgentSquare;
     undo_instruction->data.agent_square.agent = instruction->data.agent_square.agent;
     undo_instruction->data.agent_square.square = old_square_coords;
@@ -350,4 +352,82 @@ bbHere()
         return bbSuccess;
     }
     bbNotHere()
+}
+
+//typedef bbFlag bbListFunction(bbList* list, void* node, void* cl);
+bbFlag updateAgentSquare_list_fn(bbList* list, void* node, void* cl)
+{
+
+    bbAgent2* agent = (bbAgent2*)node;
+    bbSquareCoords old_square_coords = agent->square_coords;
+    bbMoveable* moveable = &home.agents_app.movables.moveables[agent->moveable];
+    bbSquareCoords new_square_coords = bbMapCoords_getSquareCoords(moveable->position);
+
+    if (old_square_coords.i != new_square_coords.i || old_square_coords.j != new_square_coords.j)
+    {
+        bbHandle handle;
+        bbVPool_reverseLookup(list->pool, (void*)node, &handle);
+        bbCoreInput_updateAgentSquare(&home.core.core, handle, new_square_coords,bbInstructionSource_internal, no_handle);
+    }
+    return bbContinue;
+}
+
+bbFlag bbVInstruction_updateAgentsSquare_fn(bbCore* core, bbInstruction* instruction)
+{
+
+    bbList_mapL(&home.agents_app.agents2->full_list, updateAgentSquare_list_fn, NULL);
+
+    bbInstruction* undo_instruction;
+    bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+    undo_instruction->type = bbVInstruction_unupdateAgentsSquare;
+    undo_instruction->source = instruction->source;
+
+    if (instruction->source == bbInstructionSource_internal)
+    {
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        undo_instruction->redo_instruction.u64 = 0;
+        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_input)
+    {
+        bbHandle handle;
+        bbVPool_reverseLookup(core->instruction_pool, instruction, &handle);
+        undo_instruction->redo_instruction = handle;
+        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_action)
+    {
+        undo_instruction->redo_instruction = instruction->redo_instruction;
+        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+        return bbSuccess;
+    }
+    return bbSuccess;
+}
+bbFlag bbVInstruction_unupdateAgentsSquare_fn(bbCore* core, bbInstruction* instruction)
+{
+    if (instruction->source == bbInstructionSource_internal)
+    {
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_input)
+    {
+        bbInstruction* redo_instruction;
+        bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction, instruction->redo_instruction);
+        bbList_pushL(&core->do_stack, redo_instruction);
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_action)
+    {
+        bbAction* redo_action;
+
+        bbVPool_lookup(core->action_pool, (void**)&redo_action, instruction->redo_instruction);
+        bbList_sortL(&core->action_queue,(void*)redo_action);
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        return bbSuccess;
+    }
+    return bbSuccess;
 }

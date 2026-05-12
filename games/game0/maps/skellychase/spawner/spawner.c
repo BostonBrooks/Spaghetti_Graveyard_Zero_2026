@@ -85,7 +85,7 @@ bbFlag bbSF_skeletonCore(char* string)
 
     home.agents_app.movables.available = index+1;
 
-    moveable->type = bbMoveableType_Cat;
+    moveable->type = bbMoveableType_Follow;
     moveable->position = MC;
     moveable->goalpoint = MC;
 
