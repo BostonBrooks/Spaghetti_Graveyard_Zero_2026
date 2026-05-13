@@ -262,6 +262,8 @@ bbFlag bbCoreInput_setGoalMoveable(bbCore* core,U64 time, I32 moveable, I32 goal
     instruction->type = bbVInstruction_setGoalMoveable;
     instruction->data.moveable_goal.subject_moveable = moveable;
     instruction->data.moveable_goal.goal_moveable = goal_moveable;
+    instruction->data.moveable_goal.goal_coords.i = 0;
+    instruction->data.moveable_goal.goal_coords.j = 0;
     instruction->data.moveable_goal.type = bbMoveableType_Follow;
 
     instruction->act_time = time;

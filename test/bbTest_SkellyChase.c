@@ -115,8 +115,8 @@ int main(void)
     bbCoreInput_setGoalMoveable(&home.core.core,69696969, 12, 13,bbInstructionSource_internal, no_handle);
     bbCoreInput_setGoalMoveable(&home.core.core,69696969, 13, 14,bbInstructionSource_internal, no_handle);
     bbCoreInput_setGoalMoveable(&home.core.core,69696969, 14, 15,bbInstructionSource_internal, no_handle);
-    bbCoreInput_setGoalMoveable(&home.core.core,69696969, 15, 9,bbInstructionSource_internal, no_handle);
-    bbCoreInput_setGoalMoveable(&home.core.core,69696969, 16, 9,bbInstructionSource_internal, no_handle);
+    bbCoreInput_setGoalMoveable(&home.core.core,69696969, 15, 16,bbInstructionSource_internal, no_handle);
+    bbCoreInput_setGoalMoveable(&home.core.core,69696969, 16, 17,bbInstructionSource_internal, no_handle);
     bbCoreInput_setGoalMoveable(&home.core.core,69696969, 17, 9,bbInstructionSource_internal, no_handle);
     bbCore_react(&home.core.core);
 
