@@ -5,6 +5,7 @@
 #include "engine/data/bbConstants.h"
 #include "engine/geometry/bbCoordinates.h"
 #include "engine/logic/bbHandle.h"
+#include "engine/agents/bbMoveables.h"
 
 typedef enum
 {
@@ -79,6 +80,15 @@ typedef struct
     bbSquareCoords square;
 } bbAgentSquare;
 
+typedef struct
+{
+    bbMoveable_type type;
+    I32 subject_moveable;
+    I32 goal_moveable;
+    bbMapCoords goal_coords;
+} bbMoveable_goal;
+
+
 typedef union
 {
     char string[KEY_LENGTH];
@@ -87,6 +97,7 @@ typedef union
     bbMapCoords map_coords;
     bbSquareCoords square_coords;
     bbAgentSquare agent_square;
+    bbMoveable_goal moveable_goal;
 } bbInstruction_data;
 
 typedef struct bbInstruction

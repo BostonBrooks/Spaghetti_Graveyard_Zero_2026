@@ -260,8 +260,9 @@ bbFlag bbCoreInput_setGoalMoveable(bbCore* core,U64 time, I32 moveable, I32 goal
     bbInstruction* instruction;
     bbList_alloc(&core->do_stack, (void**) &instruction);
     instruction->type = bbVInstruction_setGoalMoveable;
-    instruction->data.three_handles.handle1.i32x2.x = moveable;
-    instruction->data.three_handles.handle1.i32x2.y = goal_moveable;
+    instruction->data.moveable_goal.subject_moveable = moveable;
+    instruction->data.moveable_goal.goal_moveable = goal_moveable;
+    instruction->data.moveable_goal.type = bbMoveableType_Follow;
 
     instruction->act_time = time;
     bbList_pushL(&core->do_stack, instruction);

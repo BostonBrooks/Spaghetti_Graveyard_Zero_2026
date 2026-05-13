@@ -186,16 +186,21 @@ bbFlag bbVInstruction_setGoalMoveable_fn(bbCore* core, bbInstruction* instructio
     bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
 
     bbMoveable* moveable = &home.agents_app.movables.moveables[
-        instruction->data.three_handles.handle1.i32x2.x];
+        instruction->data.moveable_goal.subject_moveable];
 
     undo_instruction->type = bbVInstruction_unsetGoalMoveable;
-    undo_instruction->data.three_handles.handle1.i32x2.x =
-        instruction->data.three_handles.handle1.i32x2.x;
-    undo_instruction->data.three_handles.handle1.i32x2.y = moveable->goal_moveable;
+    undo_instruction->source = instruction->source;
+    undo_instruction->player = instruction->player;
+    undo_instruction->data.moveable_goal.subject_moveable =
+        instruction->data.moveable_goal.subject_moveable;
+    undo_instruction->data.moveable_goal.goal_moveable = moveable->goal_moveable;
+    undo_instruction->data.moveable_goal.goal_coords = moveable->goalpoint;
+    undo_instruction->data.moveable_goal.type = moveable->type;
 
-    moveable->goal_moveable = instruction->data.three_handles.handle1.i32x2.y;
 
-    home.agents_app.agents.agents[instruction->player].goalpoint = instruction->data.map_coords;
+    moveable->goal_moveable = instruction->data.moveable_goal.goal_moveable;
+    moveable->goalpoint = instruction->data.moveable_goal.goal_coords;
+    moveable->type = instruction->data.moveable_goal.type;
 
 
     if (instruction->source == bbInstructionSource_internal)
@@ -227,8 +232,12 @@ bbFlag bbVInstruction_unsetGoalMoveable_fn(bbCore* core, bbInstruction* instruct
 {
 
     bbMoveable* moveable = &home.agents_app.movables.moveables[
-        instruction->data.three_handles.handle1.i32x2.x];
-    moveable->goal_moveable = instruction->data.three_handles.handle1.i32x2.y;
+        instruction->data.moveable_goal.subject_moveable];
+
+    moveable->goal_moveable = instruction->data.moveable_goal.goal_moveable;
+    moveable->goalpoint = instruction->data.moveable_goal.goal_coords;
+    moveable->type = instruction->data.moveable_goal.type;
+
 
     if (instruction->source == bbInstructionSource_internal)
     {
