@@ -236,7 +236,7 @@ bbFlag bbGroundSurface_init(bbGroundSurface* surface, bbSquareCoords size, char*
 
     surface->map_size = size;
 
-    surface->ground_squares = calloc(size.i * size.j, sizeof(bbGroundSquare*));
+    surface->ground_squares = calloc(size.i * size.j, sizeof(bbGroundSquare));
 
     Create_Ground_Shaders(surface);
 
