@@ -543,11 +543,23 @@ bbFlag bbVInstruction_updateAgent_fn(bbCore* core, bbInstruction* instruction)
             distance = new_distance;
         }
     }
-    if (closest_moveable!= agent_movable->goal_moveable)
+
+    if (distance > (36*POINTS_PER_TILE*POINTS_PER_TILE))
+    {
+        if (agent_movable->type != bbMoveableType_Idle)
+        {
+            bbCoreInput_setMoveableIdle(&home.core.core, 69696969, agent->moveable,
+                agent_movable->position, bbInstructionSource_internal, no_handle);
+        }
+
+    }else if (closest_moveable!= agent_movable->goal_moveable)
     {
         bbCoreInput_setGoalMoveable(&home.core.core, 69696969, agent->moveable,
             closest_moveable, bbInstructionSource_internal, no_handle);
     }
+
+    //No undo instruction because this does not directly modify data
+    bbVPool_free(core->instruction_pool, (void*)instruction);
     return bbSuccess;
 }
 bbFlag bbVInstruction_unupdateAgent_fn(bbCore* core, bbInstruction* instruction)

@@ -271,6 +271,40 @@ bbFlag bbCoreInput_setGoalMoveable(bbCore* core,U64 time, I32 moveable, I32 goal
     return bbSuccess;
 }
 
+
+bbFlag bbCoreInput_setGoalPosition(bbCore* core,U64 time, I32 moveable, bbMapCoords MC,
+                                 bbInstruction_source source, bbHandle action)
+{
+    bbInstruction* instruction;
+    bbList_alloc(&core->do_stack, (void**) &instruction);
+    instruction->type = bbVInstruction_setGoalMoveable;
+    instruction->data.moveable_goal.subject_moveable = moveable;
+    instruction->data.moveable_goal.goal_moveable = 0;
+    instruction->data.moveable_goal.goal_coords = MC;
+    instruction->data.moveable_goal.type = bbMoveableType_Player;
+
+    instruction->act_time = time;
+    bbList_pushL(&core->do_stack, instruction);
+    return bbSuccess;
+}
+bbFlag bbCoreInput_setMoveableIdle(bbCore* core,U64 time, I32 moveable, bbMapCoords MC,
+                                 bbInstruction_source source, bbHandle action)
+{
+    bbInstruction* instruction;
+    bbList_alloc(&core->do_stack, (void**) &instruction);
+    instruction->type = bbVInstruction_setGoalMoveable;
+    instruction->data.moveable_goal.subject_moveable = moveable;
+    instruction->data.moveable_goal.goal_moveable = -1;
+    instruction->data.moveable_goal.goal_coords = MC;
+    instruction->data.moveable_goal.type = bbMoveableType_Idle;
+
+    instruction->act_time = time;
+    bbList_pushL(&core->do_stack, instruction);
+    return bbSuccess;
+}
+
+
+
 /*bbFlag bbCoreInput_setViewpointIn(bbCore* core, bbMapCoords MC, U64 time,
                                   bbInstruction_source source, bbHandle action)
 {
