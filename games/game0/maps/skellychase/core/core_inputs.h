@@ -10,4 +10,10 @@ bbFlag bbCoreInput_updateAgentsSquare(bbCore* core, bbAgents2* agents,bbInstruct
 
 bbFlag bbCoreInput_updateAgentSquare(bbCore* core, bbHandle agent, bbSquareCoords SC,bbInstruction_source source, bbHandle action);
 
+bbFlag bbCoreInput_updateAgents(bbCore* core, bbAgents2* agents,bbInstruction_source source, bbHandle action);
+
+bbFlag bbCoreInput_updateAgent(bbCore* core, bbHandle agent,bbInstruction_source source, bbHandle action);
+
+
+
 #endif COREINPUTS_H

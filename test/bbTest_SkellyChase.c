@@ -109,15 +109,13 @@ int main(void)
     bbHandle no_handle;
 
     //This works, we have a bunch of skeletons going in circles!
-    bbCoreInput_setGoalMoveable(&home.core.core,69696969, 9, 10,bbInstructionSource_internal, no_handle);
-    bbCoreInput_setGoalMoveable(&home.core.core,69696969, 10, 11,bbInstructionSource_internal, no_handle);
     bbCoreInput_setGoalMoveable(&home.core.core,69696969, 11, 12,bbInstructionSource_internal, no_handle);
     bbCoreInput_setGoalMoveable(&home.core.core,69696969, 12, 13,bbInstructionSource_internal, no_handle);
     bbCoreInput_setGoalMoveable(&home.core.core,69696969, 13, 14,bbInstructionSource_internal, no_handle);
     bbCoreInput_setGoalMoveable(&home.core.core,69696969, 14, 15,bbInstructionSource_internal, no_handle);
     bbCoreInput_setGoalMoveable(&home.core.core,69696969, 15, 16,bbInstructionSource_internal, no_handle);
     bbCoreInput_setGoalMoveable(&home.core.core,69696969, 16, 17,bbInstructionSource_internal, no_handle);
-    bbCoreInput_setGoalMoveable(&home.core.core,69696969, 17, 9,bbInstructionSource_internal, no_handle);
+    bbCoreInput_setGoalMoveable(&home.core.core,69696969, 17, 11,bbInstructionSource_internal, no_handle);
     bbCore_react(&home.core.core);
 
 
@@ -142,10 +140,13 @@ int main(void)
     while (1)
     {
 
-        bbHandle handle = home.agents_app.agents2->full_list.list.head;
-        bbSquareCoords SC; SC.i = 1; SC.j = 1;
-        //bbCoreInput_updateAgentSquare(&home.core.core, handle, SC,bbInstructionSource_input, no_handle);
+
         bbCoreInput_updateAgentsSquare(&home.core.core, NULL,bbInstructionSource_input, no_handle);
+        bbCore_react(&home.core.core);
+
+
+        bbCoreInput_updateAgents(&home.core.core, home.agents_app.agents2,
+                                 bbInstructionSource_input, no_handle);
         bbCore_react(&home.core.core);
 
         if (home.network.send_ready && home.network.receive_ready)

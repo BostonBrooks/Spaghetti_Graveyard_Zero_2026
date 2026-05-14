@@ -43,7 +43,7 @@ typedef struct
 
 
 ///This instruction call screenshots all the transient data and then sets new values
-bbFlag bbCoreInput_updateAgents();
+//bbFlag bbCoreInput_updateAgents();
 
 bbFlag bbAgents_init(bbAgents* agents);
 

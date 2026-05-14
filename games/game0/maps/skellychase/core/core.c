@@ -43,9 +43,22 @@ bbFlag bbCore_initVInstructions(bbCore* core)
         = bbVInstruction_unupdateAgentSquare_fn;
 
     core->instruction_functions[bbVInstruction_updateAgentsSquare-bbInstruction_numTypes]
-    = bbVInstruction_updateAgentsSquare_fn;
+        = bbVInstruction_updateAgentsSquare_fn;
 
     core->instruction_functions[bbVInstruction_unupdateAgentsSquare-bbInstruction_numTypes]
         = bbVInstruction_unupdateAgentsSquare_fn;
+
+
+    core->instruction_functions[bbVInstruction_updateAgent-bbInstruction_numTypes]
+        = bbVInstruction_updateAgent_fn;
+
+    core->instruction_functions[bbVInstruction_unupdateAgent-bbInstruction_numTypes]
+        = bbVInstruction_unupdateAgent_fn;
+
+    core->instruction_functions[bbVInstruction_updateAgents-bbInstruction_numTypes]
+        = bbVInstruction_updateAgents_fn;
+
+    core->instruction_functions[bbVInstruction_unupdateAgents-bbInstruction_numTypes]
+        = bbVInstruction_unupdateAgents_fn;
     return bbSuccess;
 }

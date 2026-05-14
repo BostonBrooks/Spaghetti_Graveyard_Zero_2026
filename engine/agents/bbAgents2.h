@@ -43,6 +43,7 @@ typedef struct
     I32 moveable;
     bbSquareCoords square_coords;
     bbAgents2_state state;
+    I32 on_update;
 } bbAgent2;
 
 typedef struct
@@ -63,8 +64,6 @@ typedef struct
 } bbAgents2;
 
 
-///This instruction call screenshots all the transient data and then sets new values
-bbFlag bbCoreInput_updateAgents();
 
 bbFlag bbAgents2_new(bbAgents2** agents, I32 squares_i, I32 squares_j);
 

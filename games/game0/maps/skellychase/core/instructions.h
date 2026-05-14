@@ -20,6 +20,12 @@ typedef enum
     bbVInstruction_updateAgentsSquare,
     bbVInstruction_unupdateAgentsSquare,
 
+    bbVInstruction_updateAgent,
+    bbVInstruction_unupdateAgent,
+
+    bbVInstruction_updateAgents,
+    bbVInstruction_unupdateAgents,
+
     bbVInstruction_numTypes
 }bbVInstruction_type;
 
@@ -46,5 +52,13 @@ bbFlag bbVInstruction_unupdateAgentsSquare_fn(bbCore* core, bbInstruction* instr
 
 bbFlag bbVInstruction_updateAgentSquare_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbVInstruction_unupdateAgentSquare_fn(bbCore* core, bbInstruction* instruction);
+
+
+
+bbFlag bbVInstruction_updateAgents_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbVInstruction_unupdateAgents_fn(bbCore* core, bbInstruction* instruction);
+
+bbFlag bbVInstruction_updateAgent_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbVInstruction_unupdateAgent_fn(bbCore* core, bbInstruction* instruction);
 
 #endif// INSTRUCTIONS_H
