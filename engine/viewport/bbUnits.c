@@ -126,7 +126,7 @@ bbMapCoords MC, I32 index){
 
 
     bbDictionary_lookup(graphics->drawfunctions->dictionary,
-                        "DRAWABLE_SPRITE",
+                        "UNIT_SPRITE",
                         &drawfunctionHandle);
 
     unit->drawable.frames[0].drawfunction = drawfunctionHandle.u64;

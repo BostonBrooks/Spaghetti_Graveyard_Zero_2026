@@ -16,6 +16,7 @@
 #include "games/game0/maps/skellychase/drawfunctions/drawable_sprite.h"
 #include "games/game0/maps/skellychase/drawfunctions/unit_animation.h"
 #include "games/game0/maps/skellychase/drawfunctions/drawable_shadow.h"
+#include "games/game0/maps/skellychase/drawfunctions/unit_sprite.h"
 
 #define NUM_DRAWFUNCTIONS 69
 
@@ -110,6 +111,10 @@ bbFlag bbDrawfunctions_new(bbDrawfunctions** drawfunctions){
     functions->functions[13] = bbDF_drawableShadow;
     handle.u64 = 13;
     bbDictionary_add(functions->dictionary, "DRAWABLE_SHADOW", handle);
+
+    functions->functions[14] = bbDF_unitSprite;
+    handle.u64 = 14;
+    bbDictionary_add(functions->dictionary, "UNIT_SPRITE", handle);
 
 
 
