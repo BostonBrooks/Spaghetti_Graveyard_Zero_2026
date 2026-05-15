@@ -265,6 +265,7 @@ target_link_libraries(Test_Threaded_Queue PRIVATE
 target_include_directories(Test_Threaded_Queue  PRIVATE "./")
 
 add_executable(SkellyChase test/bbTest_SkellyChase.c
+        engine/agents/bbAgentFunctions.c
         engine/agents/bbMoveables.c
         engine/agents/bbAvoidables.c
         engine/agents/bbAgents.c
@@ -322,6 +323,7 @@ add_executable(SkellyChase test/bbTest_SkellyChase.c
         games/game0/maps/skellychase/core/core.c
         games/game0/maps/skellychase/core/instructions.c
         games/game0/maps/skellychase/core/core_inputs.c
+        games/game0/maps/skellychase/agents/agents.c
         engine/groundsurface/bbHillShading.c
         engine/groundsurface/bbGroundSurface.c
         games/game0/maps/skellychase/spawner/spawner.c

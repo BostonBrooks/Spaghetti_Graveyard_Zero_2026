@@ -35,6 +35,12 @@ typedef enum
     bbAgents2State_Follow
 } bbAgents2_state;
 
+typedef struct
+{
+    I32 update;
+    I32 command;
+} bbAgentFunctionTable;
+
 
 typedef struct
 {
@@ -43,7 +49,7 @@ typedef struct
     I32 moveable;
     bbSquareCoords square_coords;
     bbAgents2_state state;
-    I32 on_update;
+    bbAgentFunctionTable ftable;
 } bbAgent2;
 
 typedef struct

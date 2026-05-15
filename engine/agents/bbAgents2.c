@@ -63,6 +63,7 @@ bbFlag bbAgent2_newTux(bbAgents2* agents, bbMapCoords position)
     bbHandle handle;
     bbVPool_reverseLookup(agents->pool,self,&handle);
 
+    self->ftable.update = bbAgentFunctions_getInt(&home.agents_app.functions, AgentUpdate,"UPDATE_TUX");
 
     self->moveable = bbMoveables_newTux(&home.agents_app.movables, position, handle);
 
