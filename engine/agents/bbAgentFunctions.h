@@ -14,7 +14,7 @@ typedef enum
 
 typedef enum bbAgentCommandType
 {
-    bbAC_unused
+    bbAC_setGoalPoint
 } bbAgentCommandType;
 
 #endif //BB_AGENT_FUNCTION_ENUMS_H
@@ -60,4 +60,9 @@ I32 bbAgentFunctions_getInt(bbAgentFunctions* functions,
 
 
 bbFlag bbAgent2_update(bbAgent2* agent);
+
+bbFlag bbAgent2_onCommand(bbAgent2* agent,
+                          bbAgents2* agents,
+                          bbAgentCommandType type,
+                          bbHandle data);
 #endif

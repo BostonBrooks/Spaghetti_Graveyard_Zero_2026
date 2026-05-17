@@ -102,3 +102,16 @@ bbFlag bbAgent2_update(bbAgent2* agent)
     bbAgent_Update* function = home.agents_app.functions.updates[function_index];
     return function(agent);
 }
+
+bbFlag bbAgent2_onCommand(bbAgent2* agent,
+                          bbAgents2* agents,
+                          bbAgentCommandType type,
+                          bbHandle data)
+{
+    I32 function_index = agent->ftable.command;
+    if (function_index < 0) return bbNone;
+    bbFlag (*func_pointer) (bbAgent2*,bbAgentCommandType,bbHandle);
+    func_pointer = home.agents_app.functions.commands[function_index];
+    return func_pointer(agent,type,data);
+}
+

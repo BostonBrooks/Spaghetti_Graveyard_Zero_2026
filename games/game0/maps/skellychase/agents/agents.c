@@ -3,6 +3,7 @@
 #include "engine/agents/bbMoveables.h"
 #include "engine/core/bbCoreInputs.h"
 #include "engine/data/bbHome.h"
+#include "games/game0/maps/skellychase/agents/player.h"
 
 
 bbFlag bbAgent_Update_Tux(bbAgent2* agent)
@@ -54,5 +55,6 @@ bbFlag bbAgent_Update_Tux(bbAgent2* agent)
 bbFlag bbAgentFunctions_populate(bbAgentFunctions* self)
 {
     bbAgentFunctions_add(self, AgentUpdate, bbAgent_Update_Tux,"UPDATE_TUX");
+    bbAgentFunctions_add(self, AgentCommand, bbAgent_Command_Player,"COMMAND_PLAYER");
     return bbSuccess;
 }
