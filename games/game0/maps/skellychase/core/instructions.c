@@ -487,7 +487,6 @@ bbFlag bbVInstruction_updateAgents_fn(bbCore* core, bbInstruction* instruction)
 }
 bbFlag bbVInstruction_unupdateAgents_fn(bbCore* core, bbInstruction* instruction)
 {
-    bbDebug("TEST, TEST, TEST, TEST, TEST, TEST, TEST, TEST, TEST\n");
     if (instruction->source == bbInstructionSource_internal)
     {
         bbVPool_free(core->instruction_pool, (void*)instruction);
@@ -515,48 +514,13 @@ bbFlag bbVInstruction_unupdateAgents_fn(bbCore* core, bbInstruction* instruction
 
 bbFlag bbVInstruction_updateAgent_fn(bbCore* core, bbInstruction* instruction)
 {
+
+
     bbAgent2* agent;
     bbVPool_lookup(home.agents_app.agents2->pool, (void**)&agent,
         instruction->data.agent_square.agent);
 
-    bbMoveable* agent_movable= &home.agents_app.movables.moveables[agent->moveable];
-    bbMoveable* moveable = &home.agents_app.movables.moveables[0];
-    I32 closest_moveable = 0;
-    U32 distance = (agent_movable->position.i - moveable->position.i)*
-        (agent_movable->position.i - moveable->position.i) +
-            (agent_movable->position.j - moveable->position.j)*
-                (agent_movable->position.j - moveable->position.j);
-
-
-
-    for (I32 i = 1; i < 8; i++)
-    {
-        moveable = &home.agents_app.movables.moveables[i];
-        U32 new_distance = (agent_movable->position.i - moveable->position.i)*
-            (agent_movable->position.i - moveable->position.i) +
-                (agent_movable->position.j - moveable->position.j)*
-                    (agent_movable->position.j - moveable->position.j);
-
-        if (new_distance < distance)
-        {
-            closest_moveable = i;
-            distance = new_distance;
-        }
-    }
-
-    if (distance > (36*POINTS_PER_TILE*POINTS_PER_TILE))
-    {
-        if (agent_movable->type != bbMoveableType_Idle)
-        {
-            bbCoreInput_setMoveableIdle(&home.core.core, 69696969, agent->moveable,
-                agent_movable->position, bbInstructionSource_internal, no_handle);
-        }
-
-    }else if (closest_moveable!= agent_movable->goal_moveable)
-    {
-        bbCoreInput_setGoalMoveable(&home.core.core, 69696969, agent->moveable,
-            closest_moveable, bbInstructionSource_internal, no_handle);
-    }
+    bbAgent2_update(agent);
 
     //No undo instruction because this does not directly modify data
     bbVPool_free(core->instruction_pool, (void*)instruction);

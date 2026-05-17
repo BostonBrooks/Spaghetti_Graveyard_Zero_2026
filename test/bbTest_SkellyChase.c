@@ -5,6 +5,7 @@
 #include <pthread.h>
 #include <math.h>
 
+#include "engine/agents/bbAgentFunctions.h"
 #include "engine/agents/bbAvoidables.h"
 #include "engine/core/bbCoreDiscard.h"
 #include "engine/core/bbCoreInputs.h"
@@ -74,8 +75,8 @@ int main(void)
 
     bbSquareCoords size; size.i = 12; size.j = 12; size.k = 0;
     bbGroundSurface_init(&home.ground_surface, size, "./maps/skellychase/graphics/HeightMap.bmp");
-
-
+    bbAgentFunctions_init(&home.agents_app.functions);
+    bbAgentFunctions_populate(&home.agents_app.functions);
     bbAgents_init(&home.agents_app.agents);
 
     bbSpawner_init(&home.spawner, 696969);
@@ -123,8 +124,6 @@ int main(void)
     penguin->goal_moveable = 0;
     penguin->type = bbMoveableType_Follow;
     pthread_barrier_wait(&barrier1);
-
-
 
 
     while (1)

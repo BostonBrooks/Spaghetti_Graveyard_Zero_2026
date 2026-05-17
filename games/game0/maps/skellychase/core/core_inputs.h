@@ -16,4 +16,4 @@ bbFlag bbCoreInput_updateAgent(bbCore* core, bbHandle agent,bbInstruction_source
 
 
 
-#endif COREINPUTS_H
+#endif //COREINPUTS_H
