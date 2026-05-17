@@ -30,7 +30,13 @@ bbFlag bbVInstruction_setGoalpointIn_fn(bbCore* core, bbInstruction* instruction
     undo_instruction->source = instruction->source;
     undo_instruction->player = instruction->player;
 
-    home.agents_app.agents.agents[instruction->player].goalpoint = instruction->data.map_coords;
+
+    bbMapCoords MC = instruction->data.map_coords;
+    bbHandle handle; handle.ptr = &MC;
+    bbAgent2_onCommand(home.agents_app.player,
+                          home.agents_app.agents2,
+                          bbAC_setGoalPoint,
+                          handle);
 
 
     if (instruction->source == bbInstructionSource_internal)

@@ -249,20 +249,9 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
 
 bbFlag bbMoveables_update(bbMoveables* moveables)
 {
-    for (I32 i = 0; i < NUM_AGENTS; i++)
-    {
-        //debug
-        moveables->moveables[i].goalpoint = home.agents_app.agents.agents[i].goalpoint;
-
-        moveables->moveables[i].coords_a = bbMapCoords_getMilliCoords(moveables->moveables[i].position);
-        moveables->moveables[i].coords_b = bbMapCoords_getMilliCoords(moveables->moveables[i].position);
-
-        //bbDebug("position i = %d, position j = %d\n",
-        //    moveables->moveables[i].position.i, moveables->moveables[i].position.j);
-    }
 
 
-    for (I32 i = NUM_AGENTS; i < numMoveables; i++)
+    for (I32 i = 0; i < numMoveables; i++)
     {
         //moveables->moveables[i].goalpoint = moveables->moveables[0].position;
 

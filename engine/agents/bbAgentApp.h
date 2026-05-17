@@ -13,6 +13,7 @@ typedef struct
     bbAvoidables* avoidables;
     bbAgents agents;
     bbAgents2* agents2;
+    bbAgent2* player;
     bbAgentFunctions functions;
 } bbAgentsApp;
 

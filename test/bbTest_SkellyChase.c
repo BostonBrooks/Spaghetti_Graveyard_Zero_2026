@@ -120,9 +120,6 @@ int main(void)
     bbCore_react(&home.core.core);
 
 
-    bbMoveable* penguin = &home.agents_app.movables.moveables[25];
-    penguin->goal_moveable = 0;
-    penguin->type = bbMoveableType_Follow;
     pthread_barrier_wait(&barrier1);
 
 

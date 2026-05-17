@@ -9,5 +9,11 @@ typedef bbFlag bbAgent_Command (bbAgent2* agent,
 
 bbFlag bbAgent_Command_Player(bbAgent2* agent,bbAgentCommandType type,bbHandle data)
 {
-    bbHere()
+    bbDebug("agent->moveable = %d\n", agent->moveable);
+    bbMapCoords* MC = data.ptr;
+
+    home.agents_app.agents.agents[0].goalpoint = *MC;
+
+    bbCoreInput_setGoalPosition(&home.core.core,0, agent->moveable,*MC,bbInstructionSource_internal,no_handle);
+    return bbSuccess;
 }

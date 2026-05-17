@@ -133,7 +133,7 @@ bbFlag bbSF_zombieGraphics(char* string)
 
     return bbSuccess;
 }
-
+/*
 bbFlag bbSF_zombieCore(char* string)
 {
     bbMapCoords MC;
@@ -142,6 +142,7 @@ bbFlag bbSF_zombieCore(char* string)
     sscanf(string, "%[^','],%d,%d,%d", key, &MC.i, &MC.j,&index);
 
     MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
+
 
 
     bbMoveable* moveable = &home.agents_app.movables.moveables[index];
@@ -161,7 +162,53 @@ bbFlag bbSF_zombieCore(char* string)
 
     return bbSuccess;
 }
+*/
+bbFlag bbSF_zombieCore(char* string)
+{
 
+    bbMapCoords MC;
+    I32 index;
+    char key[KEY_LENGTH];
+    sscanf(string, "%[^','],%d,%d,%d", key, &MC.i, &MC.j,&index);
+
+    MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
+
+    bbAgents2* agents = home.agents_app.agents2;
+    bbAgent2* agent;
+
+    bbList_alloc(&agents->full_list, (void**)&agent);
+
+    home.agents_app.player = agent;
+    agent->square_list.prev = agents->pool->null;
+    agent->square_list.next = agents->pool->null;
+    agent->moveable = index;
+    agent->ftable.update = -1;
+    agent->ftable.command = bbAgentFunctions_getInt(&home.agents_app.functions,
+                             AgentCommand, "COMMAND_PLAYER");
+    bbMoveable* moveable = &home.agents_app.movables.moveables[index];
+
+    agent->state = bbAgents2State_Idle;
+    home.agents_app.movables.available = index+1;
+
+    moveable->type = bbMoveableType_Player;
+    moveable->position = MC;
+    moveable->goalpoint = MC;
+
+    moveable->coords_a = bbMapCoords_getMilliCoords(moveable->position);
+    moveable->coords_b = bbMapCoords_getMilliCoords(moveable->position);
+
+    moveable->goal_moveable = index%8;
+
+
+    bbSquareCoords square_coords = bbMapCoords_getSquareCoords(MC);
+    agent->square_coords = square_coords;
+    bbAgents_square2* square = bbAgents2_getSquare(agents, square_coords.i, square_coords.j);
+
+    bbList_pushL(&square->agents,agent);
+    bbList_pushL(&agents->full_list,agent);
+
+    return bbSuccess;
+}
 
 bbFlag bbSF_tuxGraphics(char* string)
 {
@@ -198,6 +245,9 @@ bbFlag bbSF_tuxCore(char* string)
     agent->square_list.prev = agents->pool->null;
     agent->square_list.next = agents->pool->null;
     agent->moveable = index;
+    agent->ftable.update = bbAgentFunctions_getInt(&home.agents_app.functions,
+                             AgentUpdate, "UPDATE_TUX");
+    agent->ftable.command = -1;
     bbMoveable* moveable = &home.agents_app.movables.moveables[index];
 
     agent->state = bbAgents2State_Idle;
