@@ -124,17 +124,7 @@ int main(void)
     penguin->type = bbMoveableType_Follow;
     pthread_barrier_wait(&barrier1);
 
-    for (I32 i = 0; i < 12; i++)
-    {
-        for (I32 j = 0; j < 12; j++)
-        {
-            bbMapCoords coords;
-            coords.i = i*POINTS_PER_SQUARE + POINTS_PER_SQUARE / 2;
-            coords.j = j*POINTS_PER_SQUARE + POINTS_PER_SQUARE / 2;
-            coords.k = bbMapCoords_getElevation(&home.ground_surface,coords);
-            bbAgent2_newTux(home.agents_app.agents2, coords);
-        }
-    }
+
 
 
     while (1)
