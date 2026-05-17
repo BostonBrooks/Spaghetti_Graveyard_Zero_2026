@@ -372,7 +372,7 @@ bbFlag bbNetworkApp_setGoalpointOut(bbNetwork* network, bbMapCoords MC, U64 time
     packet->act_tick = time;
     packet->data.map_coords = MC;
     packet->collision = collision;
-    packet->player = home.agents_app.agents.current_agent;
+    //packet->player = home.agents_app.agents.current_agent;
     bbThreadedQueue_pushL(&network->outbox,packet);
 
     return bbSuccess;

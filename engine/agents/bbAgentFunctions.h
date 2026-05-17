@@ -22,7 +22,6 @@ typedef enum bbAgentCommandType
 #ifndef BB_AGENT_FUNCTIONS_H
 #define BB_AGENT_FUNCTIONS_H
 
-#include "engine/agents/bbAgents.h"
 
 typedef bbFlag bbAgent_Update(bbAgent2* agent);
 typedef bbFlag bbAgent_Command (bbAgent2* agent,

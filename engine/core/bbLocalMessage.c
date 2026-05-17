@@ -124,7 +124,7 @@ bbFlag bbLocalMessage_setGoalpointOut_fn(bbCore* core, bbLocalMessage* message)
 
 bbFlag bbLocalMessage_switchCharacterButton_fn(bbCore* core, bbLocalMessage* message)
 {
-    home.agents_app.agents.current_agent = (home.agents_app.agents.current_agent + 1)%NUM_AGENTS;
+    //home.agents_app.agents.current_agent = (home.agents_app.agents.current_agent + 1)%NUM_AGENTS;
 
     return bbSuccess;
 }

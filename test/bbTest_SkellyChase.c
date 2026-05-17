@@ -77,7 +77,7 @@ int main(void)
     bbGroundSurface_init(&home.ground_surface, size, "./maps/skellychase/graphics/HeightMap.bmp");
     bbAgentFunctions_init(&home.agents_app.functions);
     bbAgentFunctions_populate(&home.agents_app.functions);
-    bbAgents_init(&home.agents_app.agents);
+    //bbAgents_init(&home.agents_app.agents);
 
     bbSpawner_init(&home.spawner, 696969);
     bbSpawner_populate(&home.spawner);

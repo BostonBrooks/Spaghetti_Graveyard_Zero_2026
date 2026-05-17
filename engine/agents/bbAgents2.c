@@ -1,6 +1,5 @@
 #include "engine/agents/bbAgents2.h"
 
-#include "engine/agents/bbAgents.h"
 #include "engine/agents/bbMoveables.h"
 #include "engine/data/bbConstants.h"
 #include "engine/data/bbHome.h"
