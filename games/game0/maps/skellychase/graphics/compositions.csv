@@ -1,4 +1,4 @@
-Number of Compositions:,4,,,,,,
+Number of Compositions:,5,,,,,,
 ,,,,,,,
 Label:,NULL,Integer Address:,0,num:,1,Comment,Void Composition
 Type:,Key:,Drawfunction:,startTime,Offest X:,Offset Y:,Frame Rate:,
@@ -22,3 +22,9 @@ SPRITE,CONNECT_DEFAULT,WIDGET_SPRITE,0,0,0,0,
 SPRITE,CONNECT_HOVER,WIDGET_SPRITE,0,0,0,0,
 SPRITE,CONNECT_CLICK,WIDGET_SPRITE,0,0,0,0,
 SPRITE,CONNECT_CLICK,WIDGET_SPRITE,0,0,0,0,
+,,,,,,,
+Label:,TREE,Integer Address:,4,num:,3,Comment,Test Composition
+Type:,Key:,Drawfunction:,startTime,Offest X:,Offset Y:,Frame Rate:,
+SPRITE,TREE,DRAWABLE_SPRITE,0,0,0,0,
+ANIMATION,LIGHTS,DRAWABLE_ANIMATION,0,0,0,1,
+SPRITE,SHADOW1,DRAWABLE_SHADOW,0,0,0,0,

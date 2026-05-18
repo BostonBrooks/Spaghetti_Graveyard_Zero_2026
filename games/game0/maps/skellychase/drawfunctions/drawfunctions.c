@@ -17,6 +17,7 @@
 #include "games/game0/maps/skellychase/drawfunctions/unit_animation.h"
 #include "games/game0/maps/skellychase/drawfunctions/drawable_shadow.h"
 #include "games/game0/maps/skellychase/drawfunctions/unit_sprite.h"
+#include "games/game0/maps/skellychase/drawfunctions/compositions.h"
 
 #define NUM_DRAWFUNCTIONS 69
 
@@ -116,7 +117,13 @@ bbFlag bbDrawfunctions_new(bbDrawfunctions** drawfunctions){
     handle.u64 = 14;
     bbDictionary_add(functions->dictionary, "UNIT_SPRITE", handle);
 
+    functions->functions[15] = bbDF_unitStillWAngle;
+    handle.u64 = 15;
+    bbDictionary_add(functions->dictionary, "UNIT_STILL_ANGLE", handle);
 
+    functions->functions[16] = bbDF_composition;
+    handle.u64 = 16;
+    bbDictionary_add(functions->dictionary, "COMPOSITION", handle);
 
 
     *drawfunctions = functions;

@@ -13,10 +13,17 @@
 
 #define FRAMES_PER_DRAWABLE 8
 
+typedef enum
+{
+    bbDrawableState_idle,
+    bbDrawableState_moving,
+} bbDrawableState;
+
 typedef struct
 {
     bbMapCoords coords;
     float rotation;
+    bbDrawableState state;
     bbList_Handle listElement;
     bbFrame frames[FRAMES_PER_DRAWABLE];
 } bbDrawable;

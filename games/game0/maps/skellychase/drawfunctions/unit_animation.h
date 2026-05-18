@@ -98,3 +98,48 @@ bbFlag bbDF_unitAnimationWAngle(void* Drawable, void* frameDescriptor, void* cl)
 
 
 }
+
+bbFlag bbDF_unitStillWAngle(void* Drawable, void* frameDescriptor, void* cl){
+    bbDrawable* drawable = Drawable;
+    bbFrame* frame = frameDescriptor;
+    drawFuncClosure* foo = cl;
+    bbGraphicsApp* graphics = foo->graphics;
+    bbViewport* VP = foo->target;
+
+    I32 animationInt = frame->handle.u64;
+    bbAnimation* animation = graphics->animations->animations[animationInt];
+
+    //TODO may vary
+    I32 numAngles = animation->angles;
+    I32 angle = getAngleXD(drawable->rotation, numAngles);
+
+    I32 frames = animation->frames;
+
+    I32 frameInt = 0;//(I64)((double)(foo->map_time - frame->start_time)
+            //*(double)animation->framerate*(double)frame->framerate) % frames;
+
+    I32 spriteInt = animation->Sprites[angle*frames+frameInt].u64;
+
+    if (animationInt == 9)
+    {
+        // bbDebug("rotation = %f, angles = %d, angle = %d, frames = %d, frameInt = %d, spriteInt = %d\n",
+        //drawable->rotation, numAngles, angle,frames,frameInt,spriteInt);
+
+    }
+
+    bbAssert(spriteInt >= 0, "Array index out of bounds");
+    sfSprite* sprite = animation->sprites->sprites[spriteInt];
+
+    sfVector2f V2F = bbMapCoords_getV2f(drawable->coords, VP);
+    sfSprite_setPosition(sprite,V2F);
+
+    sfRenderTexture* renderTexture = VP->main.renderTexture;
+    sfRenderTexture_drawSprite(renderTexture,sprite,NULL);
+
+    renderTexture = VP->highlight.renderTexture;
+    sfRenderTexture_drawSprite(renderTexture,sprite,NULL);
+
+    return bbSuccess;
+
+
+}
