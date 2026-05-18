@@ -50,10 +50,11 @@ bbFlag bbUI_Inbox_check(bbUI_Inbox* inbox)
         case bbUI_Inbox_setViewpoint:
             bbUI_Inbox_setViewpoint_fn(inbox, message);
             break;
+#ifdef DEFINE_SKELLYCHASE
         case bbUI_Inbox_newTux:
             bbUI_Inbox_newTux_fn(inbox, message);
             break;
-
+#endif
         default:
 
             bbDebug("Unknown UI local message type\nmessage->type = %d\n", message->type);
@@ -115,7 +116,7 @@ bbFlag bbUI_Inbox_setViewpoint_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message
     return bbSuccess;
 }
 
-
+#ifdef DEFINE_SKELLYCHASE
 bbFlag bbUI_Inbox_newTux_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
 {
     bbUnit* none;
@@ -123,6 +124,7 @@ bbFlag bbUI_Inbox_newTux_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
     message->data.coords, message->data.handle.handle.u64);
     return bbSuccess;
 }
+#endif
 
 bbFlag bbUI_Inbox_UnpressButton(bbUI_Inbox* inbox)
 {
