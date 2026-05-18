@@ -4,7 +4,7 @@
 #include "bbAgents.h"
 #include "engine/logic/bbHandle.h"
 #include "engine/userinterface/bbWidgetFunctions.h"
-
+#include "engine/agents/bbMoveables.h"
 
 typedef enum
 {
@@ -22,11 +22,17 @@ typedef enum bbAgentCommandType
 #ifndef BB_AGENT_FUNCTIONS_H
 #define BB_AGENT_FUNCTIONS_H
 
+typedef struct
+{
+    bbMoveable_type type;
+    bbMapCoords goal_point;
+    I32 moveable;
+} bbAgentCommandData;
 
 typedef bbFlag bbAgent_Update(bbAgent* agent);
 typedef bbFlag bbAgent_Command (bbAgent* agent,
                                    bbAgentCommandType type,
-                                   bbHandle data);
+                                   bbAgentCommandData data);
 
 typedef struct
 {
@@ -63,5 +69,5 @@ bbFlag bbAgent2_update(bbAgent* agent);
 bbFlag bbAgent2_onCommand(bbAgent* agent,
                           bbAgents* agents,
                           bbAgentCommandType type,
-                          bbHandle data);
+                          bbAgentCommandData data);
 #endif

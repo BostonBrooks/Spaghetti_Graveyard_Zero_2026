@@ -103,10 +103,13 @@ bbFlag bbAgent2_update(bbAgent* agent)
     return function(agent);
 }
 
+
+
+
 bbFlag bbAgent2_onCommand(bbAgent* agent,
                           bbAgents* agents,
                           bbAgentCommandType type,
-                          bbHandle data)
+                          bbAgentCommandData data)
 {
     I32 function_index = agent->ftable.command;
     if (function_index < 0)
@@ -114,7 +117,8 @@ bbFlag bbAgent2_onCommand(bbAgent* agent,
         bbHere()
         return bbNone;
     }
-    bbFlag (*func_pointer) (bbAgent*,bbAgentCommandType,bbHandle);
+    //bbAgent_Command_Player(bbAgent* agent,bbAgentCommandType type,bbAgentCommandData data)
+    bbFlag (*func_pointer) (bbAgent*,bbAgentCommandType,bbAgentCommandData);
     func_pointer = home.agents_app.functions.commands[function_index];
     return func_pointer(agent,type,data);
 }

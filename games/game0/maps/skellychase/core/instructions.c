@@ -40,7 +40,13 @@ bbFlag bbVInstruction_setGoalpointIn_fn(bbCore* core, bbInstruction* instruction
 
     bbVPool_reverseLookup(home.agents_app.agents2->pool, (void*)home.agents_app.player, &handle);
 
-    bbCoreInput_commandAgent_setGoalPoint(core, handle, MC,bbInstructionSource_internal, no_handle);
+    bbAgentCommandData data;
+    data.moveable = 0;
+    data.goal_point = MC;
+    data.type = bbMoveableType_Player;
+
+    bbCoreInput_setMoveableType(&home.core.core,0, home.agents_app.player->moveable, data,
+                                 bbInstructionSource_internal, no_handle);
 
     if (instruction->source == bbInstructionSource_internal)
     {
@@ -548,11 +554,12 @@ bbFlag bbVInstruction_commandAgent_fn(bbCore* core, bbInstruction* instruction)
     bbVPool_lookup(home.agents_app.agents2->pool, (void**)&agent,
         instruction->data.agent_square.agent);
 
+
     bbHandle handle; handle.ptr = &instruction->data.agent_MC.map_coords;
     bbAgent2_onCommand(home.agents_app.player,
                           home.agents_app.agents2,
                           bbAC_setGoalPoint,
-                          handle);
+                          instruction->data.agent_command);
 
     //No undo instruction because this does not directly modify data
     bbVPool_free(core->instruction_pool, (void*)instruction);

@@ -3,17 +3,15 @@
 #include "engine/data/bbHome.h"
 #include "engine/network/bbNetworkApp.h"
 
-typedef bbFlag bbAgent_Command (bbAgent* agent,
-                                bbAgentCommandType type,
-                                bbHandle data);
+//typedef bbFlag bbAgent_Command (bbAgent* agent,
+//                                   bbAgentCommandType type,
+//                                   bbAgentCommandData data);
 
-bbFlag bbAgent_Command_Player(bbAgent* agent,bbAgentCommandType type,bbHandle data)
+bbFlag bbAgent_Command_Player(bbAgent* agent,bbAgentCommandType type,bbAgentCommandData data)
 {
-    bbDebug("agent->moveable = %d\n", agent->moveable);
-    bbMapCoords* MC = data.ptr;
+    bbCoreInput_setMoveableType(&home.core.core,0, agent->moveable, data,
+                                     bbInstructionSource_internal,no_handle);
+    bbCore_react(&home.core.core);
 
-    //home.agents_app.agents.agents[0].goalpoint = *MC;
-
-    bbCoreInput_setGoalPosition(&home.core.core,0, agent->moveable,*MC,bbInstructionSource_internal,no_handle);
     return bbSuccess;
 }

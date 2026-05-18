@@ -1,6 +1,7 @@
 
 #ifndef BB_INSTRUCTION_H
 #define BB_INSTRUCTION_H
+#include "engine/agents/bbAgentFunctions.h"
 #include "engine/core/bbCore.h"
 #include "engine/data/bbConstants.h"
 #include "engine/geometry/bbCoordinates.h"
@@ -106,6 +107,7 @@ typedef union
     bbAgentSquare agent_square;
     bbAgentMapCoords agent_MC;
     bbMoveable_goal moveable_goal;
+    bbAgentCommandData agent_command;
 } bbInstruction_data;
 
 typedef struct bbInstruction

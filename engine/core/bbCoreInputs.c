@@ -14,6 +14,7 @@
 #include "engine/logic/bbString.h"
 #include "games/game0/maps/pong/code/bbBall.h"
 #include "games/game0/maps/pong/code/bbPaddle.h"
+#include "engine/agents/bbAgentFunctions.h"
 
 bbFlag bbCoreInput_setString(bbCore* core, char* string, bbInstruction_source source, bbHandle action)
 {
@@ -265,28 +266,11 @@ bbFlag bbCoreInput_setGoalMoveable(bbCore* core,U64 time, I32 moveable, I32 goal
     instruction->data.moveable_goal.goal_coords.i = 0;
     instruction->data.moveable_goal.goal_coords.j = 0;
     instruction->data.moveable_goal.type = bbMoveableType_Follow;
-
-    instruction->act_time = time;
-    bbList_pushL(&core->do_stack, instruction);
+bbList_pushL(&core->do_stack, instruction);
     return bbSuccess;
 }
 
 
-bbFlag bbCoreInput_setGoalPosition(bbCore* core,U64 time, I32 moveable, bbMapCoords MC,
-                                 bbInstruction_source source, bbHandle action)
-{
-    bbInstruction* instruction;
-    bbList_alloc(&core->do_stack, (void**) &instruction);
-    instruction->type = bbVInstruction_setGoalMoveable;
-    instruction->data.moveable_goal.subject_moveable = moveable;
-    instruction->data.moveable_goal.goal_moveable = 0;
-    instruction->data.moveable_goal.goal_coords = MC;
-    instruction->data.moveable_goal.type = bbMoveableType_Player;
-
-    instruction->act_time = time;
-    bbList_pushL(&core->do_stack, instruction);
-    return bbSuccess;
-}
 bbFlag bbCoreInput_setMoveableIdle(bbCore* core,U64 time, I32 moveable, bbMapCoords MC,
                                  bbInstruction_source source, bbHandle action)
 {
@@ -304,21 +288,21 @@ bbFlag bbCoreInput_setMoveableIdle(bbCore* core,U64 time, I32 moveable, bbMapCoo
 }
 
 
-
-/*bbFlag bbCoreInput_setViewpointIn(bbCore* core, bbMapCoords MC, U64 time,
-                                  bbInstruction_source source, bbHandle action)
+bbFlag bbCoreInput_setMoveableType(bbCore* core,U64 time, I32 moveable, bbAgentCommandData data,
+                                 bbInstruction_source source, bbHandle action)
 {
     bbInstruction* instruction;
     bbList_alloc(&core->do_stack, (void**) &instruction);
-    instruction->type = bbInstruction_setViewpointIn;
-    instruction->data.map_coords = MC;
+    instruction->type = bbVInstruction_setGoalMoveable;
+    instruction->data.moveable_goal.subject_moveable = moveable;
+    instruction->data.moveable_goal.goal_moveable = data.moveable;
+    instruction->data.moveable_goal.goal_coords = data.goal_point;
+    instruction->data.moveable_goal.type = data.type;
+
     instruction->act_time = time;
-    instruction->source = source;
-    instruction->redo_instruction = action;
     bbList_pushL(&core->do_stack, instruction);
     return bbSuccess;
 }
-*/
 
 //bbCoreInput_setGoalpointIn(core, action->map_coords,action->header.act_tick, action->header.player,bbInstructionSource_action,handle);
 bbFlag bbCoreInput_setGoalpointIn(bbCore* core, bbMapCoords MC, U64 time,U8 player,
