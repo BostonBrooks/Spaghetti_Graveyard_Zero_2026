@@ -3,11 +3,11 @@
 #include "engine/data/bbHome.h"
 #include "engine/network/bbNetworkApp.h"
 
-typedef bbFlag bbAgent_Command (bbAgent2* agent,
+typedef bbFlag bbAgent_Command (bbAgent* agent,
                                 bbAgentCommandType type,
                                 bbHandle data);
 
-bbFlag bbAgent_Command_Player(bbAgent2* agent,bbAgentCommandType type,bbHandle data)
+bbFlag bbAgent_Command_Player(bbAgent* agent,bbAgentCommandType type,bbHandle data)
 {
     bbDebug("agent->moveable = %d\n", agent->moveable);
     bbMapCoords* MC = data.ptr;

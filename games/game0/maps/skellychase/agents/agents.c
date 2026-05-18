@@ -6,7 +6,7 @@
 #include "games/game0/maps/skellychase/agents/player.h"
 
 
-bbFlag bbAgent_Update_Tux(bbAgent2* agent)
+bbFlag bbAgent_Update_Tux(bbAgent* agent)
 {
 
     bbMoveable* agent_movable= &home.agents_app.movables.moveables[agent->moveable];

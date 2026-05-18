@@ -95,7 +95,7 @@ bbFlag bbAgentFunctions_getFunction(void** function, bbAgentFunctions* functions
 }
 
 
-bbFlag bbAgent2_update(bbAgent2* agent)
+bbFlag bbAgent2_update(bbAgent* agent)
 {
     I32 function_index = agent->ftable.update;
     if (function_index < 0) return bbNone;
@@ -103,8 +103,8 @@ bbFlag bbAgent2_update(bbAgent2* agent)
     return function(agent);
 }
 
-bbFlag bbAgent2_onCommand(bbAgent2* agent,
-                          bbAgents2* agents,
+bbFlag bbAgent2_onCommand(bbAgent* agent,
+                          bbAgents* agents,
                           bbAgentCommandType type,
                           bbHandle data)
 {
@@ -114,7 +114,7 @@ bbFlag bbAgent2_onCommand(bbAgent2* agent,
         bbHere()
         return bbNone;
     }
-    bbFlag (*func_pointer) (bbAgent2*,bbAgentCommandType,bbHandle);
+    bbFlag (*func_pointer) (bbAgent*,bbAgentCommandType,bbHandle);
     func_pointer = home.agents_app.functions.commands[function_index];
     return func_pointer(agent,type,data);
 }

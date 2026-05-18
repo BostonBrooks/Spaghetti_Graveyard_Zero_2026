@@ -31,9 +31,9 @@
 
 typedef enum
 {
-    bbAgents2State_Idle,
-    bbAgents2State_Follow
-} bbAgents2_state;
+    bbAgentState_Idle,
+    bbAgentState_Follow
+} bbAgent_state;
 
 typedef struct
 {
@@ -48,34 +48,34 @@ typedef struct
     bbListElement_Handle square_list;
     I32 moveable;
     bbSquareCoords square_coords;
-    bbAgents2_state state;
+    bbAgent_state state;
     bbAgentFunctionTable ftable;
-} bbAgent2;
+} bbAgent;
 
 typedef struct
 {
     bbSquareCoords coords;
     bbList agents;
-} bbAgents_square2;
+} bbAgents_square;
 
 typedef struct
 {
     bbVPool* pool;
     bbList full_list;
-    bbAgents_square2 lost_square;
+    bbAgents_square lost_square;
     I32 squares_i;
     I32 squares_j;
 
-    bbAgents_square2 squares[];
-} bbAgents2;
+    bbAgents_square squares[];
+} bbAgents;
 
 
 
-bbFlag bbAgents2_new(bbAgents2** agents, I32 squares_i, I32 squares_j);
+bbFlag bbAgents_new(bbAgents** agents, I32 squares_i, I32 squares_j);
 
 
-bbFlag bbAgent2_newTux(bbAgents2* agents, bbMapCoords position);
-bbAgents_square2* bbAgents2_getSquare(bbAgents2* agents, I32 i, I32 j);
+bbFlag bbAgent_newTux(bbAgents* agents, bbMapCoords position);
+bbAgents_square* bbAgents_getSquare(bbAgents* agents, I32 i, I32 j);
 
 
 #endif //BB_AGENT2_H

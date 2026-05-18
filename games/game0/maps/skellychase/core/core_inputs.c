@@ -1,13 +1,13 @@
 
 
 #include "games/game0/maps/skellychase/core/instructions.h"
-#include "engine/agents/bbAgents2.h"
+#include "engine/agents/bbAgents.h"
 #include "engine/logic/bbList.h"
 
 
 
 ///Sort through agents and update square if necessary
-bbFlag bbCoreInput_updateAgentsSquare(bbCore* core, bbAgents2* agents,bbInstruction_source source, bbHandle action)
+bbFlag bbCoreInput_updateAgentsSquare(bbCore* core, bbAgents* agents,bbInstruction_source source, bbHandle action)
 {
     bbInstruction* instruction;
     bbList_alloc(&core->do_stack, (void**) &instruction);
@@ -38,7 +38,7 @@ bbFlag bbCoreInput_updateAgentSquare(bbCore* core, bbHandle agent, bbSquareCoord
     return bbSuccess;
 }
 
-bbFlag bbCoreInput_updateAgents(bbCore* core, bbAgents2* agents,bbInstruction_source source, bbHandle action)
+bbFlag bbCoreInput_updateAgents(bbCore* core, bbAgents* agents,bbInstruction_source source, bbHandle action)
 {
     bbInstruction* instruction;
     bbList_alloc(&core->do_stack, (void**) &instruction);

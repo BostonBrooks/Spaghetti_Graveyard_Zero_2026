@@ -281,7 +281,7 @@ bbHere()
     bbInstruction* undo_instruction;
     bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
 
-    bbAgent2* agent;
+    bbAgent* agent;
     bbVPool_lookup(home.agents_app.agents2->pool, (void**)&agent,
         instruction->data.agent_square.agent);
 
@@ -293,10 +293,10 @@ bbHere()
     undo_instruction->data.agent_square.agent = instruction->data.agent_square.agent;
     undo_instruction->data.agent_square.square = old_square_coords;
 
-    bbAgents_square2* old_square = bbAgents2_getSquare(home.agents_app.agents2,
+    bbAgents_square* old_square = bbAgents_getSquare(home.agents_app.agents2,
     old_square_coords.i, old_square_coords.j);
 
-    bbAgents_square2* new_square = bbAgents2_getSquare(home.agents_app.agents2,
+    bbAgents_square* new_square = bbAgents_getSquare(home.agents_app.agents2,
         new_square_coords.i, new_square_coords.j);
 
     bbList_remove(&old_square->agents,agent);
@@ -331,17 +331,17 @@ bbHere()
 bbFlag bbVInstruction_unupdateAgentSquare_fn(bbCore* core, bbInstruction* instruction)
 {
 bbHere()
-    bbAgent2* agent;
+    bbAgent* agent;
     bbVPool_lookup(home.agents_app.agents2->pool, (void**)&agent,
         instruction->data.agent_square.agent);
 
     bbSquareCoords old_square_coords = agent->square_coords;
     bbSquareCoords new_square_coords = instruction->data.agent_square.square;
 
-    bbAgents_square2* old_square = bbAgents2_getSquare(home.agents_app.agents2,
+    bbAgents_square* old_square = bbAgents_getSquare(home.agents_app.agents2,
     old_square_coords.i, old_square_coords.j);
 
-    bbAgents_square2* new_square = bbAgents2_getSquare(home.agents_app.agents2,
+    bbAgents_square* new_square = bbAgents_getSquare(home.agents_app.agents2,
         new_square_coords.i, new_square_coords.j);
 
     bbList_remove(&old_square->agents,agent);
@@ -377,7 +377,7 @@ bbHere()
 bbFlag updateAgentSquare_list_fn(bbList* list, void* node, void* cl)
 {
 
-    bbAgent2* agent = (bbAgent2*)node;
+    bbAgent* agent = (bbAgent*)node;
     bbSquareCoords old_square_coords = agent->square_coords;
     bbMoveable* moveable = &home.agents_app.movables.moveables[agent->moveable];
     bbSquareCoords new_square_coords = bbMapCoords_getSquareCoords(moveable->position);
@@ -525,7 +525,7 @@ bbFlag bbVInstruction_updateAgent_fn(bbCore* core, bbInstruction* instruction)
 {
 
 
-    bbAgent2* agent;
+    bbAgent* agent;
     bbVPool_lookup(home.agents_app.agents2->pool, (void**)&agent,
         instruction->data.agent_square.agent);
 
@@ -544,7 +544,7 @@ bbFlag bbVInstruction_unupdateAgent_fn(bbCore* core, bbInstruction* instruction)
 
 bbFlag bbVInstruction_commandAgent_fn(bbCore* core, bbInstruction* instruction)
 {
-    bbAgent2* agent;
+    bbAgent* agent;
     bbVPool_lookup(home.agents_app.agents2->pool, (void**)&agent,
         instruction->data.agent_square.agent);
 

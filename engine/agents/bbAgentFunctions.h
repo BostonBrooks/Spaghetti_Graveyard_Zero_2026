@@ -1,7 +1,7 @@
 
 #ifndef BB_AGENT_FUNCTION_ENUMS_H
 #define BB_AGENT_FUNCTION_ENUMS_H
-#include "bbAgents2.h"
+#include "bbAgents.h"
 #include "engine/logic/bbHandle.h"
 #include "engine/userinterface/bbWidgetFunctions.h"
 
@@ -23,8 +23,8 @@ typedef enum bbAgentCommandType
 #define BB_AGENT_FUNCTIONS_H
 
 
-typedef bbFlag bbAgent_Update(bbAgent2* agent);
-typedef bbFlag bbAgent_Command (bbAgent2* agent,
+typedef bbFlag bbAgent_Update(bbAgent* agent);
+typedef bbFlag bbAgent_Command (bbAgent* agent,
                                    bbAgentCommandType type,
                                    bbHandle data);
 
@@ -58,10 +58,10 @@ I32 bbAgentFunctions_getInt(bbAgentFunctions* functions,
                              char* key);
 
 
-bbFlag bbAgent2_update(bbAgent2* agent);
+bbFlag bbAgent2_update(bbAgent* agent);
 
-bbFlag bbAgent2_onCommand(bbAgent2* agent,
-                          bbAgents2* agents,
+bbFlag bbAgent2_onCommand(bbAgent* agent,
+                          bbAgents* agents,
                           bbAgentCommandType type,
                           bbHandle data);
 #endif

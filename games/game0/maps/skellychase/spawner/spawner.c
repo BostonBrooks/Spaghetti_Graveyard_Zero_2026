@@ -173,8 +173,8 @@ bbFlag bbSF_zombieCore(char* string)
 
     MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
 
-    bbAgents2* agents = home.agents_app.agents2;
-    bbAgent2* agent;
+    bbAgents* agents = home.agents_app.agents2;
+    bbAgent* agent;
 
     bbList_alloc(&agents->full_list, (void**)&agent);
 
@@ -187,7 +187,7 @@ bbFlag bbSF_zombieCore(char* string)
                              AgentCommand, "COMMAND_PLAYER");
     bbMoveable* moveable = &home.agents_app.movables.moveables[index];
 
-    agent->state = bbAgents2State_Idle;
+    agent->state = bbAgentState_Idle;
     home.agents_app.movables.available = index+1;
 
     moveable->type = bbMoveableType_Player;
@@ -202,7 +202,7 @@ bbFlag bbSF_zombieCore(char* string)
 
     bbSquareCoords square_coords = bbMapCoords_getSquareCoords(MC);
     agent->square_coords = square_coords;
-    bbAgents_square2* square = bbAgents2_getSquare(agents, square_coords.i, square_coords.j);
+    bbAgents_square* square = bbAgents_getSquare(agents, square_coords.i, square_coords.j);
 
     bbList_pushL(&square->agents,agent);
     bbList_pushL(&agents->full_list,agent);
@@ -238,8 +238,8 @@ bbFlag bbSF_tuxCore(char* string)
 
     MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
 
-    bbAgents2* agents = home.agents_app.agents2;
-    bbAgent2* agent;
+    bbAgents* agents = home.agents_app.agents2;
+    bbAgent* agent;
 
     bbList_alloc(&agents->full_list, (void**)&agent);
     agent->square_list.prev = agents->pool->null;
@@ -250,7 +250,7 @@ bbFlag bbSF_tuxCore(char* string)
     agent->ftable.command = -1;
     bbMoveable* moveable = &home.agents_app.movables.moveables[index];
 
-    agent->state = bbAgents2State_Idle;
+    agent->state = bbAgentState_Idle;
     home.agents_app.movables.available = index+1;
 
     moveable->type = bbMoveableType_Idle;
@@ -265,7 +265,7 @@ bbFlag bbSF_tuxCore(char* string)
 
     bbSquareCoords square_coords = bbMapCoords_getSquareCoords(MC);
     agent->square_coords = square_coords;
-    bbAgents_square2* square = bbAgents2_getSquare(agents, square_coords.i, square_coords.j);
+    bbAgents_square* square = bbAgents_getSquare(agents, square_coords.i, square_coords.j);
 
     bbList_pushL(&square->agents,agent);
     bbList_pushL(&agents->full_list,agent);
