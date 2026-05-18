@@ -80,6 +80,13 @@ typedef struct
     bbSquareCoords square;
 } bbAgentSquare;
 
+
+typedef struct
+{
+    bbHandle agent;
+    bbMapCoords map_coords;
+} bbAgentMapCoords;
+
 typedef struct
 {
     bbMoveable_type type;
@@ -97,6 +104,7 @@ typedef union
     bbMapCoords map_coords;
     bbSquareCoords square_coords;
     bbAgentSquare agent_square;
+    bbAgentMapCoords agent_MC;
     bbMoveable_goal moveable_goal;
 } bbInstruction_data;
 

@@ -15,5 +15,8 @@ bbFlag bbCoreInput_updateAgents(bbCore* core, bbAgents2* agents,bbInstruction_so
 bbFlag bbCoreInput_updateAgent(bbCore* core, bbHandle agent,bbInstruction_source source, bbHandle action);
 
 
+bbFlag bbCoreInput_commandAgent_setGoalPoint(bbCore* core, bbHandle agent, bbMapCoords MC,bbInstruction_source source, bbHandle action);
+
+
 
 #endif //COREINPUTS_H

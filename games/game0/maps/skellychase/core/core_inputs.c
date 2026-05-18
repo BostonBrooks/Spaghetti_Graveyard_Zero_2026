@@ -62,3 +62,19 @@ bbFlag bbCoreInput_updateAgent(bbCore* core, bbHandle agent,bbInstruction_source
     instruction->type = bbVInstruction_updateAgent;
     bbList_pushL(&core->do_stack, instruction);
 }
+
+
+bbFlag bbCoreInput_commandAgent_setGoalPoint(bbCore* core, bbHandle agent, bbMapCoords MC,bbInstruction_source source, bbHandle action)
+{
+    bbInstruction* instruction;
+    bbList_alloc(&core->do_stack, (void**) &instruction);
+
+    instruction->source = source;
+    instruction->redo_instruction = action;
+    instruction->data.agent_MC.agent = agent;
+    instruction->data.agent_MC.map_coords = MC;
+
+
+    instruction->type = bbVInstruction_commandAgent;
+    bbList_pushL(&core->do_stack, instruction);
+}

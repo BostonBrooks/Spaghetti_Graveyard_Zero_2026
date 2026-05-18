@@ -26,6 +26,8 @@ typedef enum
     bbVInstruction_updateAgents,
     bbVInstruction_unupdateAgents,
 
+    bbVInstruction_commandAgent,
+
     bbVInstruction_numTypes
 }bbVInstruction_type;
 
@@ -60,5 +62,8 @@ bbFlag bbVInstruction_unupdateAgents_fn(bbCore* core, bbInstruction* instruction
 
 bbFlag bbVInstruction_updateAgent_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbVInstruction_unupdateAgent_fn(bbCore* core, bbInstruction* instruction);
+
+
+bbFlag bbVInstruction_commandAgent_fn(bbCore* core, bbInstruction* instruction);
 
 #endif// INSTRUCTIONS_H
