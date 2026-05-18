@@ -5,6 +5,7 @@ typedef struct
     //to be draw to the screen
     bbDrawable drawable;
 
+    I32 enitity;
     //the following are used for interpolation
     bbMapCoords prev_coords;
     U64 prev_time;

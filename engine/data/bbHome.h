@@ -1,6 +1,7 @@
 #ifndef	BB_HOME_H
 #define BB_HOME_H
 
+#include "bbEntities.h"
 #include "engine/viewport/bbViewportApp.h"
 #include "engine/core/bbCore.h"
 #include "engine/graphics/bbGraphicsApp.h"
@@ -44,6 +45,7 @@ typedef struct
     bbAgentsApp agents_app;
     bbGroundSurface ground_surface;
     bbSpawner spawner;
+    bbEntities entities;
 } bbHome;
 
 

@@ -47,6 +47,7 @@ typedef struct
     bbListElement_Handle full_list;
     bbListElement_Handle square_list;
     I32 moveable;
+    I32 entity;
     bbSquareCoords square_coords;
     bbAgent_state state;
     bbAgentFunctionTable ftable;

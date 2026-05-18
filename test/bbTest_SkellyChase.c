@@ -67,8 +67,6 @@ int main(void)
 
 
 
-
-
     bbCore_init(&home.core.core);
 
     bbCore_initVInstructions(&home.core.core);
@@ -105,6 +103,10 @@ int main(void)
 
 
     bbAgents_new(&home.agents_app.agents2, 12,12);
+
+
+    bbEntities_init_core(&home.entities);
+
     bbSpawner_spawnCore(&home.spawner, "./maps/skellychase/spawner/spawner.csv");
 
     bbHandle no_handle;
@@ -253,6 +255,7 @@ void* userinterface_thread(void* arg)
     I32 counter = 0;
 
 
+    bbEntities_init_graphics(&home.entities);
     bbSpawner_spawnGraphics(&home.spawner, "./maps/skellychase/spawner/spawner.csv");
 
     bbHere()

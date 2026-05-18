@@ -63,6 +63,10 @@ bbFlag bbCoreInput_updateMoveables(bbCore* core,bbInstruction_source source, bbH
 bbFlag bbCoreInput_setGoalMoveable(bbCore* core,U64 time, I32 moveable, I32 goal_moveable,
                                  bbInstruction_source source, bbHandle action);
 
+
+bbFlag bbCoreInput_setMoveableIdle(bbCore* core,U64 time, I32 moveable, bbMapCoords MC,
+                                 bbInstruction_source source, bbHandle action);
+
 bbFlag bbCoreInput_setMoveableType(bbCore* core,U64 time, I32 moveable, bbAgentCommandData data,
                                  bbInstruction_source source, bbHandle action);
 #endif //BB_CORE_INPUTS

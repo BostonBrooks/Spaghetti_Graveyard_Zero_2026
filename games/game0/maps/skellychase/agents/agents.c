@@ -40,12 +40,18 @@ bbFlag bbAgent_Update_Tux(bbAgent* agent)
         {
             bbCoreInput_setMoveableIdle(&home.core.core, 69696969, agent->moveable,
                 agent_movable->position, bbInstructionSource_internal, no_handle);
+
+            bbEntity* entity = &home.entities.entity[agent->entity];
+            bbUI_Inbox_SetUnitSprite(&home.UI.inbox, entity->unit, 624);
         }
 
     }else if (closest_moveable!= agent_movable->goal_moveable)
     {
         bbCoreInput_setGoalMoveable(&home.core.core, 69696969, agent->moveable,
             closest_moveable, bbInstructionSource_internal, no_handle);
+
+        bbEntity* entity = &home.entities.entity[agent->entity];
+        bbUI_Inbox_SetUnitSprite(&home.UI.inbox, entity->unit, 8);
     }
 
     return bbSuccess;

@@ -66,6 +66,7 @@ bbFlag bbSF_skeletonGraphics(char* string)
     bbUnit* unit;
     bbUnit_newSkeleton(&unit,home.viewport_app.units, &home.UI.graphics, MC, index);
 
+
     return bbSuccess;
 }
 
@@ -116,6 +117,7 @@ bbFlag bbSF_zombieGraphics(char* string)
     unit->drawable.frames[0].handle.u64 = 10;
 
 
+
     bbHandle drawfunctionHandle;
     bbDictionary_lookup(home.UI.graphics.drawfunctions->dictionary,
                 "MAPICON_TEST",
@@ -131,6 +133,11 @@ bbFlag bbSF_zombieGraphics(char* string)
     unit->drawable.frames[2].offset.x = 0;
     unit->drawable.frames[2].offset.y = 0;
 
+
+    bbHandle unit_handle;
+    bbVPool_reverseLookup(home.viewport_app.units->pool,unit,&unit_handle);
+    unit->enitity = home.entities.num_entities_graphics++;
+    home.entities.entity[unit->enitity].unit = unit_handle;
     return bbSuccess;
 }
 /*
@@ -207,6 +214,13 @@ bbFlag bbSF_zombieCore(char* string)
     bbList_pushL(&square->agents,agent);
     bbList_pushL(&agents->full_list,agent);
 
+    bbHandle agent_handle;
+    bbVPool_reverseLookup(home.agents_app.agents2->pool,agent,&agent_handle);
+    agent->entity = home.entities.num_entities_core++;
+    home.entities.entity[agent->entity].agent = agent_handle;
+
+    home.entities.entity[agent->entity].moveable.u64 = index;
+
     return bbSuccess;
 }
 
@@ -224,6 +238,11 @@ bbFlag bbSF_tuxGraphics(char* string)
 
     bbUnit* unit;
     bbUnit_newTux(&unit,home.viewport_app.units, &home.UI.graphics, MC, index);
+
+    bbHandle unit_handle;
+    bbVPool_reverseLookup(home.viewport_app.units->pool,unit,&unit_handle);
+    unit->enitity = home.entities.num_entities_graphics++;
+    home.entities.entity[unit->enitity].unit = unit_handle;
 
     return bbSuccess;
 }
@@ -269,6 +288,13 @@ bbFlag bbSF_tuxCore(char* string)
 
     bbList_pushL(&square->agents,agent);
     bbList_pushL(&agents->full_list,agent);
+
+    bbHandle agent_handle;
+    bbVPool_reverseLookup(home.agents_app.agents2->pool,agent,&agent_handle);
+    agent->entity = home.entities.num_entities_core++;
+    home.entities.entity[agent->entity].agent = agent_handle;
+
+    home.entities.entity[agent->entity].moveable.u64 = index;
 
     return bbSuccess;
 }

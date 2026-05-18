@@ -54,6 +54,10 @@ bbFlag bbUI_Inbox_check(bbUI_Inbox* inbox)
         case bbUI_Inbox_newTux:
             bbUI_Inbox_newTux_fn(inbox, message);
             break;
+        case bbUI_Inbox_setUnitSprite:
+            bbHere()
+            bbUI_Inbox_setUnitSprite_fn(inbox, message);
+            break;
 #endif
         default:
 
@@ -179,5 +183,27 @@ bbFlag bbUI_Inbox_NewTux(bbUI_Inbox* inbox, bbMapCoords coords, I32 moveable)
     message->data.coords = coords;
     message->data.handle.handle.u64 = moveable;
     bbThreadedQueue_pushL(&inbox->local_message_queue, (void*)message);
+    return bbSuccess;
+}
+
+
+bbFlag bbUI_Inbox_SetUnitSprite(bbUI_Inbox* inbox, bbHandle unit, I32 sprite)
+{bbHere()
+    bbUI_Inbox_message* message;
+    bbThreadedQueue_alloc(&inbox->local_message_queue,(void**)&message);
+    message->type = bbUI_Inbox_setUnitSprite;
+    message->data.handle.handle = unit;
+    message->data.integer = sprite;
+    bbThreadedQueue_pushL(&inbox->local_message_queue, (void*)message);
+    return bbSuccess;
+}
+
+
+bbFlag bbUI_Inbox_setUnitSprite_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
+{
+    bbUnit* unit;
+    bbVPool_lookup(home.viewport_app.units->pool, (void**)&unit, message->data.handle.handle);
+    bbHere()
+    unit->drawable.frames[0].handle.u64 = message->data.integer;
     return bbSuccess;
 }
