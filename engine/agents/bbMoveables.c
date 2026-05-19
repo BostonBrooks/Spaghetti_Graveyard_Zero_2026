@@ -99,7 +99,7 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
                 moveable->coords_b.i = moveable->coords_a.i;
                 moveable->coords_b.j = moveable->coords_a.j;
                     continue;
-                case bbMoveableType_Player:
+                case bbMoveableType_GoalPoint:
                     {
                         bbMilliCoords currentLocation = moveable->coords_a;
                         bbMilliCoords goalPoint
@@ -128,7 +128,7 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
                            // moveable->position = moveable->coords_b;
                     }
                 break;
-                case bbMoveableType_Follow:
+                case bbMoveableType_GoalMoveable:
                    {
                     moveable->goalpoint = moveables->moveables[moveable->goal_moveable].position;
                         bbMilliCoords currentLocation = moveable->coords_a;
@@ -178,7 +178,7 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
                 moveable->coords_a.i = moveable->coords_b.i;
                 moveable->coords_a.j = moveable->coords_b.j;
                 continue;
-            case bbMoveableType_Player:
+            case bbMoveableType_GoalPoint:
                 {
                     bbMilliCoords currentLocation = moveable->coords_b;
                     bbMilliCoords goalPoint
@@ -206,7 +206,7 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
 
                 }
                 break;
-            case bbMoveableType_Follow:
+            case bbMoveableType_GoalMoveable:
                 {
                     moveable->goalpoint = moveables->moveables[moveable->goal_moveable].position;
                     bbMilliCoords currentLocation = moveable->coords_b;
