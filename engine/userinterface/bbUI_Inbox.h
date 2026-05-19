@@ -13,7 +13,7 @@ typedef enum
     bbUI_Inbox_setWidgetPosition,
     bbUI_Inbox_setViewpoint,
     bbUI_Inbox_newSkelly,
-    bbUI_Inbox_setUnitSprite
+    bbUI_Inbox_setUnitState
 } bbUI_Inbox_type;
 
 typedef struct
@@ -58,14 +58,14 @@ bbFlag bbUI_Inbox_unpressButton_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* messag
 bbFlag bbUI_Inbox_unpressButton2_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message);
 bbFlag bbUI_Inbox_setViewpoint_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message);
 bbFlag bbUI_Inbox_newSkelly_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message);
-bbFlag bbUI_Inbox_setUnitSprite_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message);
+bbFlag bbUI_Inbox_setUnitState_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message);
 
 
 bbFlag bbUI_Inbox_UnpressButton(bbUI_Inbox* inbox);
 bbFlag bbUI_Inbox_UnpressButton2(bbUI_Inbox* inbox, char* key);
 bbFlag bbUI_Inbox_SetWidgetPosition(bbUI_Inbox* inbox, char* key, bbHandle position);
 bbFlag bbUI_Inbox_NewSkelly(bbUI_Inbox* inbox, bbMapCoords coords, I32 moveable);
-bbFlag bbUI_Inbox_SetUnitSprite(bbUI_Inbox* inbox, bbHandle unit, I32 sprite);
+bbFlag bbUI_Inbox_SetUnitState(bbUI_Inbox* inbox, bbHandle unit, I32 sprite);
 
 bbFlag bbUI_Inbox_SetViewpoint(bbUI_Inbox* inbox, bbMapCoords MC);
 #endif // BB_UI_INBOX_H

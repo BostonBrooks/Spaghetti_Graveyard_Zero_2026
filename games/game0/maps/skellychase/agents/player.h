@@ -9,6 +9,8 @@
 
 bbFlag bbAgent_Command_Player(bbAgent* agent,bbAgentCommandType type,bbAgentCommandData data)
 {
+    bbEntity* entity = &home.entities.entity[agent->entity];
+    bbUI_Inbox_SetUnitState(&home.UI.inbox, entity->unit, bbDrawableState_moving);
     bbCoreInput_setMoveableType(&home.core.core,0, agent->moveable, data,
                                      bbInstructionSource_internal,no_handle);
     bbCore_react(&home.core.core);
@@ -25,11 +27,23 @@ bbFlag bbAgent_Update_Player(bbAgent* agent)
         (agent_movable->position.j - agent_movable->goalpoint.j)*
             (agent_movable->position.j - agent_movable->goalpoint.j);
 
-//TODO only do this once
-    if (distance < POINTS_PER_PIXEL*POINTS_PER_PIXEL)
+
+    if (agent_movable->type != bbMoveableType_Idle)
     {
-        bbEntity* entity = &home.entities.entity[agent->entity];
-        bbUI_Inbox_SetUnitSprite(&home.UI.inbox, entity->unit, bbDrawableState_idle);
+        //TODO only do this once
+        if (distance < POINTS_PER_PIXEL*POINTS_PER_PIXEL)
+        {
+            bbEntity* entity = &home.entities.entity[agent->entity];
+            bbUI_Inbox_SetUnitState(&home.UI.inbox, entity->unit, bbDrawableState_idle);
+
+            bbAgentCommandData data;
+            data.type = bbMoveableType_Idle;
+            data.goal_point = agent_movable->goalpoint;
+            data.moveable = 0;
+
+            bbCoreInput_setMoveableType(&home.core.core,0, agent->moveable, data,
+                                             bbInstructionSource_internal,no_handle);
+        }
     }
     return bbSuccess;
 }

@@ -46,11 +46,13 @@ bbFlag bbVInstruction_setGoalpointIn_fn(bbCore* core, bbInstruction* instruction
     data.type = bbMoveableType_Player;
 
     //TODO use bbAgent_Command_Player
-    bbCoreInput_setMoveableType(&home.core.core,0, home.agents_app.player->moveable, data,
-                                 bbInstructionSource_internal, no_handle);
 
-    bbEntity* entity = &home.entities.entity[home.agents_app.player->entity];
-    bbUI_Inbox_SetUnitSprite(&home.UI.inbox, entity->unit, bbDrawableState_moving);
+    bbAgent2_onCommand(home.agents_app.player, home.agents_app.agents2,0,data);
+    //bbCoreInput_setMoveableType(&home.core.core,0, home.agents_app.player->moveable, data,
+    //                             bbInstructionSource_internal, no_handle);
+
+    //bbEntity* entity = &home.entities.entity[home.agents_app.player->entity];
+    //bbUI_Inbox_SetUnitState(&home.UI.inbox, entity->unit, bbDrawableState_moving);
     //END TODO
 
     if (instruction->source == bbInstructionSource_internal)

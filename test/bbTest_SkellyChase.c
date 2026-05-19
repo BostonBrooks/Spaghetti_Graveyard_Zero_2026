@@ -130,13 +130,6 @@ int main(void)
     {
 
 
-        bbCoreInput_updateAgentsSquare(&home.core.core, NULL,bbInstructionSource_input, no_handle);
-        bbCore_react(&home.core.core);
-
-
-        bbCoreInput_updateAgents(&home.core.core, home.agents_app.agents2,
-                                 bbInstructionSource_input, no_handle);
-        bbCore_react(&home.core.core);
 
         if (home.network.send_ready && home.network.receive_ready)
         {
@@ -197,12 +190,22 @@ int main(void)
             bbCoreInput_checkActions(&home.core.core,
                 home.core.core.actual_time,
                 bbInstructionSource_input, no_handle );
+            bbCore_react(&home.core.core);
+
 
 
             //bbMoveables_update(&home.agents_app.movables);
             //bbCoreInput_approachGoalpoint(&home.core.core);
 
             bbCoreInput_updateMoveables(&home.core.core, bbInstructionSource_input, no_handle);
+
+            bbCore_react(&home.core.core);
+            bbCoreInput_updateAgentsSquare(&home.core.core, NULL,bbInstructionSource_input, no_handle);
+            bbCore_react(&home.core.core);
+
+
+            bbCoreInput_updateAgents(&home.core.core, home.agents_app.agents2,
+                                     bbInstructionSource_input, no_handle);
             bbCore_react(&home.core.core);
         }
 

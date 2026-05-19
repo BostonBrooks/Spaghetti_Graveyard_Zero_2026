@@ -54,9 +54,9 @@ bbFlag bbUI_Inbox_check(bbUI_Inbox* inbox)
         case bbUI_Inbox_newSkelly:
             bbUI_Inbox_newSkelly_fn(inbox, message);
             break;
-        case bbUI_Inbox_setUnitSprite:
+        case bbUI_Inbox_setUnitState:
             bbHere()
-            bbUI_Inbox_setUnitSprite_fn(inbox, message);
+            bbUI_Inbox_setUnitState_fn(inbox, message);
             break;
 #endif
         default:
@@ -187,11 +187,11 @@ bbFlag bbUI_Inbox_NewSkelly(bbUI_Inbox* inbox, bbMapCoords coords, I32 moveable)
 }
 
 
-bbFlag bbUI_Inbox_SetUnitSprite(bbUI_Inbox* inbox, bbHandle unit, I32 sprite)
+bbFlag bbUI_Inbox_SetUnitState(bbUI_Inbox* inbox, bbHandle unit, I32 sprite)
 {bbHere()
     bbUI_Inbox_message* message;
     bbThreadedQueue_alloc(&inbox->local_message_queue,(void**)&message);
-    message->type = bbUI_Inbox_setUnitSprite;
+    message->type = bbUI_Inbox_setUnitState;
     message->data.handle.handle = unit;
     message->data.integer = sprite;
     bbThreadedQueue_pushL(&inbox->local_message_queue, (void*)message);
@@ -199,7 +199,7 @@ bbFlag bbUI_Inbox_SetUnitSprite(bbUI_Inbox* inbox, bbHandle unit, I32 sprite)
 }
 
 
-bbFlag bbUI_Inbox_setUnitSprite_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
+bbFlag bbUI_Inbox_setUnitState_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
 {
     bbUnit* unit;
     bbVPool_lookup(home.viewport_app.units->pool, (void**)&unit, message->data.handle.handle);
