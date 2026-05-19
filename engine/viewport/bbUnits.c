@@ -207,8 +207,12 @@ bbFlag bbUnits_consumeBuffer(bbUnits* units, bbHandle* unit_array, bbMoveables_s
             unit->next_time = snapshot->time;
             I32 delta_i = unit->next_goalpoint.i - unit->prev_coords.i;
             I32 delta_j = unit->next_goalpoint.j - unit->prev_coords.j;
-            float rotation = atan2(delta_i, delta_j);
-            drawable->rotation = rotation;
+
+            if (delta_i * delta_i + delta_j * delta_j > POINTS_PER_PIXEL)
+            {
+                float rotation = atan2(delta_i, delta_j);
+                drawable->rotation = rotation;
+            }
         }
 
         bbMapCoords position
