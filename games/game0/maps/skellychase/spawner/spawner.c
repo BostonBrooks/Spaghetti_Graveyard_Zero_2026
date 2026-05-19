@@ -116,6 +116,7 @@ bbFlag bbSF_zombieGraphics(char* string)
     bbUnit_newSkelly(&unit,home.viewport_app.units, &home.UI.graphics, MC, index);
 
     unit->drawable.frames[0].handle.u64 = 6;
+    unit->drawable.frames[2].handle.u64 = 614;
 
     bbHandle unit_handle;
     bbVPool_reverseLookup(home.viewport_app.units->pool,unit,&unit_handle);
