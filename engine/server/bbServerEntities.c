@@ -9,6 +9,7 @@
 
 bbFlag bbServerEntities_init(bbServerEntities *entities)
 {
+    entities->num_entities = 0;
     for (I32 i = 0; i<NUM_ENTITIES;i++)
     {
         entities->entity[i].in_use = false;

@@ -6,8 +6,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "bbServerEntities.h"
 #include "engine/logic/bbPrime.h"
 #include "engine/logic/bbTerminal.h"
+
+
+extern bbServerEntities entities;
+extern bbServer_Spawner spawner;
 
 bbFlag bbServer_Spawner_init(bbServer_Spawner* spawner, I32 num)
 {
@@ -82,12 +87,26 @@ bbFlag bbSF_null(char* string)
     return bbSuccess;
 }
 
+bbFlag bbSF_skelly(char* string)
+{
+    printf("*%s", string);
+    I32 i, j;
+    I32 moveable_index, entity_index;
+    char key[KEY_LENGTH];
+    sscanf(string, "%[^','],%d,%d,%d", key, &i, &j,&moveable_index);
+    entity_index = entities.num_entities++;
+
+    entities.entity[entity_index].in_use = true;
+    entities.moveable[moveable_index].in_use = true;
+    return bbSuccess;
+}
+
 bbFlag bbServer_Spawner_populate(bbServer_Spawner* spawner)
 {
     bbServer_Spawner_add(spawner,bbSF_null, "NULL");
     bbServer_Spawner_add(spawner,bbSF_null, "TREE");
-    bbServer_Spawner_add(spawner,bbSF_null, "SKELETON");
-    bbServer_Spawner_add(spawner,bbSF_null, "SKELLY");
-    bbServer_Spawner_add(spawner,bbSF_null, "ZOMBIE");
+    bbServer_Spawner_add(spawner,bbSF_skelly, "SKELETON");
+    bbServer_Spawner_add(spawner,bbSF_skelly, "SKELLY");
+    bbServer_Spawner_add(spawner,bbSF_skelly, "ZOMBIE");
     return bbSuccess;
 }
