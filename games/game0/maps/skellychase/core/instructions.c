@@ -38,7 +38,12 @@ bbFlag bbVInstruction_setGoalpointIn_fn(bbCore* core, bbInstruction* instruction
                           bbAC_setGoalPoint,
                           handle);*/
 
-    bbVPool_reverseLookup(home.agents_app.agents->pool, (void*)home.agents_app.player, &handle);
+    bbAgent* player;
+    I32 player_entity_int = home.agents_app.player_entity;
+    bbEntity* player_entity = &home.entities.entity[player_entity_int];
+    bbVPool_lookup(home.agents_app.agents->pool,(void**)&player,player_entity->agent);
+
+    //bbVPool_reverseLookup(home.agents_app.agents->pool, (void*)player, &handle);
 
     bbAgentCommandData data;
     data.moveable = 0;
@@ -47,13 +52,8 @@ bbFlag bbVInstruction_setGoalpointIn_fn(bbCore* core, bbInstruction* instruction
 
     //TODO use bbAgent_Command_Player
 
-    bbAgent2_onCommand(home.agents_app.player, home.agents_app.agents,0,data);
-    //bbCoreInput_setMoveableType(&home.core.core,0, home.agents_app.player->moveable, data,
-    //                             bbInstructionSource_internal, no_handle);
+    bbAgent2_onCommand(player, home.agents_app.agents,0,data);
 
-    //bbEntity* entity = &home.entities.entity[home.agents_app.player->entity];
-    //bbUI_Inbox_SetUnitState(&home.UI.inbox, entity->unit, bbDrawableState_moving);
-    //END TODO
 
     if (instruction->source == bbInstructionSource_internal)
     {
@@ -561,9 +561,13 @@ bbFlag bbVInstruction_commandAgent_fn(bbCore* core, bbInstruction* instruction)
     bbVPool_lookup(home.agents_app.agents->pool, (void**)&agent,
         instruction->data.agent_square.agent);
 
+    bbAgent* player;
+    I32 player_entity_int = home.agents_app.player_entity;
+    bbEntity* player_entity = &home.entities.entity[player_entity_int];
+    bbVPool_lookup(home.agents_app.agents->pool,(void**)&player,player_entity->agent);
 
     bbHandle handle; handle.ptr = &instruction->data.agent_MC.map_coords;
-    bbAgent2_onCommand(home.agents_app.player,
+    bbAgent2_onCommand(player,
                           home.agents_app.agents,
                           bbAC_setGoalPoint,
                           instruction->data.agent_command);

@@ -10,7 +10,7 @@ typedef struct
     bbMoveables movables;
     bbAvoidables* avoidables;
     bbAgents* agents;
-    bbAgent* player;
+    I32 player_entity;
     bbAgentFunctions functions;
 } bbAgentsApp;
 

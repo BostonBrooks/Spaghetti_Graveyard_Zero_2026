@@ -210,7 +210,8 @@ bbFlag bbSF_zombieCore(char* string)
 
     bbList_alloc(&agents->full_list, (void**)&agent);
 
-    home.agents_app.player = agent;
+
+
     agent->square_list.prev = agents->pool->null;
     agent->square_list.next = agents->pool->null;
     agent->moveable = index;
@@ -248,6 +249,8 @@ bbFlag bbSF_zombieCore(char* string)
 
     home.entities.entity[agent->entity].moveable.u64 = index;
 
+
+    home.agents_app.player_entity = agent->entity;
     return bbSuccess;
 }
 
