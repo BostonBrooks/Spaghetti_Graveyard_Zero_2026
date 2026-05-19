@@ -47,7 +47,7 @@ bbMilliCoords sumForces(bbMoveables* moveables, bbMoveable* moveableA)
     total.j = 0;
     total.k = 0;
 
-    for (I32 i=0; i < numMoveables; i++)
+    for (I32 i=0; i < NUM_MOVEABLES; i++)
     {
         moveableB = &moveables->moveables[i];
         if (moveableB->type == bbMoveableType_Unused) continue;
@@ -74,7 +74,7 @@ bbFlag bbMoveables_init(bbMoveables* moveables)
 
     pthread_mutex_init(&moveables->buffer_mutex,NULL);
 
-    for (I32 i = 0; i < numMoveables; i++)
+    for (I32 i = 0; i < NUM_MOVEABLES; i++)
     {
         bbMoveable* moveable = &moveables->moveables[i];
 
@@ -88,7 +88,7 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
     //for now, just move 2048 mills toward goal point
     if (moveables->use_coords_a)
     {
-        for (I32 i = 0; i < numMoveables; i++)
+        for (I32 i = 0; i < NUM_MOVEABLES; i++)
         {
             bbMoveable* moveable = &moveables->moveables[i];
             switch (moveable->type)
@@ -167,7 +167,7 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
         return bbSuccess;
     } else {
 
-        for (I32 i = 0; i < numMoveables; i++)
+        for (I32 i = 0; i < NUM_MOVEABLES; i++)
         {
             bbMoveable* moveable = &moveables->moveables[i];
             switch (moveable->type)
@@ -251,7 +251,7 @@ bbFlag bbMoveables_update(bbMoveables* moveables)
 {
 
 
-    for (I32 i = 0; i < numMoveables; i++)
+    for (I32 i = 0; i < NUM_MOVEABLES; i++)
     {
         //moveables->moveables[i].goalpoint = moveables->moveables[0].position;
 
@@ -264,7 +264,7 @@ bbFlag bbMoveables_update(bbMoveables* moveables)
         bbMoveables_updateOnce(moveables);
     }
 
-    for (I32 i = 0; i < numMoveables; i++)
+    for (I32 i = 0; i < NUM_MOVEABLES; i++)
     {
         if (moveables->use_coords_a)
             moveables->moveables[i].position
@@ -303,7 +303,7 @@ bbFlag bbMoveables_copyBuffer(bbMoveables* moveables, bbMoveables_snapshot* targ
 
     if (moveables->buffer_fresh == true)
     {
-        for (I32 i = 0; i < numMoveables; i++)
+        for (I32 i = 0; i < NUM_MOVEABLES; i++)
         {
             target->moveables[i].goalpoint = moveables->buffer_front->moveables[i].goalpoint;
             target->moveables[i].position = moveables->buffer_front->moveables[i].position;

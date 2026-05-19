@@ -12,7 +12,7 @@
 #include "engine/logic/bbVPool.h"
 
 
-#define numMoveables 256
+#define NUM_MOVEABLES 256
 
 typedef enum
 {
@@ -35,7 +35,7 @@ typedef struct
 typedef struct
 {
     U64 time;
-    bbMoveable_snapshot moveables[numMoveables];
+    bbMoveable_snapshot moveables[NUM_MOVEABLES];
 } bbMoveables_snapshot;
 
 typedef struct
@@ -56,7 +56,7 @@ typedef struct
     bool use_coords_a;
 
     //arena allocator, could be made into a pool
-    bbMoveable moveables[numMoveables];
+    bbMoveable moveables[NUM_MOVEABLES];
     I32 available;
 
     bbVPool* snapshots;

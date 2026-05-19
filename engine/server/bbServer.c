@@ -1,5 +1,4 @@
-//Copied form https://github.com/BostonBrooks/chatroom-in-c
-//Which was translated from https://github.com/orichalcink/chatroom
+
 
 #include <stdio.h>
 #include <SFML/System.h>
@@ -10,16 +9,25 @@
 #include "engine/logic/bbTerminal.h"
 #include "engine/data/bbHome.h"
 #include "engine/network/bbNetworkPacket.h"
+#include "engine/server/bbServerEntities.h"
+#include "engine/server/bbServerSpawner.h"
 
 thread_local char* thread;
 U64 test_time = 0;
 
+bbServerEntities entities;
+bbServer_Spawner spawner;
 int main(void){
 
     //Use the tick values at the time the server was paused or unpaused as a reference
     U64 reference_server_tick = 0;
     U64 reference_map_tick = 0;
     bool is_paused = true;
+    bbServerEntities_init(&entities);
+
+    bbServer_Spawner_init(&spawner, 69);
+    bbServer_Spawner_populate(&spawner);
+    bbServer_Spawner_spawn(&spawner, "./maps/skellychase/spawner/spawner.csv");
 
     printf("Hello, server!\n");
 

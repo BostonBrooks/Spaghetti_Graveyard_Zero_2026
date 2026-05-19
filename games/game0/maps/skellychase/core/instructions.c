@@ -127,7 +127,7 @@ bbFlag bbVInstruction_updateMoveables_fn(bbCore* core, bbInstruction* instructio
 
     undo_instruction->snapshot = snapshot_handle;
 
-    for (I32 i = 0; i < numMoveables; i++)
+    for (I32 i = 0; i < NUM_MOVEABLES; i++)
     {
         snapshot->moveables[i].position = home.agents_app.movables.moveables[i].position;
         snapshot->moveables[i].goalpoint = home.agents_app.movables.moveables[i].goalpoint;
@@ -167,7 +167,7 @@ bbFlag bbVInstruction_unupdateMoveables_fn(bbCore* core, bbInstruction* instruct
     bbMoveables_snapshot* snapshot;
     bbVPool_lookup(home.agents_app.movables.snapshots, (void**)&snapshot, instruction->snapshot);
 
-    for (I32 i = 0; i < numMoveables; i++)
+    for (I32 i = 0; i < NUM_MOVEABLES; i++)
     {
         home.agents_app.movables.moveables[i].position = snapshot->moveables[i].position;
         home.agents_app.movables.moveables[i].goalpoint = snapshot->moveables[i].goalpoint;

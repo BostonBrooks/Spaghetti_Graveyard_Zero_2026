@@ -146,6 +146,8 @@ add_executable(Server engine/server/bbServer.c
         engine/logic/bbList_map.c
         engine/logic/bbList_sort.c
         engine/network/bbNetworkPacket.c
+        engine/server/bbServerSpawner.c
+        engine/server/bbServerEntities.c
 )
 
 target_compile_definitions(Server PRIVATE

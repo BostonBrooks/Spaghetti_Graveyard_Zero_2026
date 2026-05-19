@@ -77,7 +77,7 @@ int main(void)
     bbAgentFunctions_populate(&home.agents_app.functions);
     //bbAgents_init(&home.agents_app.agents);
 
-    bbSpawner_init(&home.spawner, 696969);
+    bbSpawner_init(&home.spawner, 69);
     bbSpawner_populate(&home.spawner);
 
 
