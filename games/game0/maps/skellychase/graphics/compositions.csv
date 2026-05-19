@@ -1,4 +1,4 @@
-Number of Compositions:,6,,,,,,
+Number of Compositions:,7,,,,,,
 ,,,,,,,
 Label:,NULL,Integer Address:,0,num:,1,Comment,Void Composition
 Type:,Key:,Drawfunction:,startTime,Offest X:,Offset Y:,Frame Rate:,
@@ -33,4 +33,9 @@ Label:,TUX,Integer Address:,5,num:,2,Comment,Testing conditional rendering
 Type:,Key:,Drawfunction:,startTime,Offest X:,Offset Y:,Frame Rate:,
 ANIMATION,SKELETON,UNIT_STILL_ANGLE,0,0,0,1,
 ANIMATION,SKELETON,UNIT_ANIMATION_ANGLE,0,0,0,1,
+,,,,,,,
+Label:,ZOMBIE,Integer Address:,6,num:,2,Comment,Testing conditional rendering
+Type:,Key:,Drawfunction:,startTime,Offest X:,Offset Y:,Frame Rate:,
+ANIMATION,ZOMBIE,UNIT_STILL_ANGLE,0,0,0,1,
+ANIMATION,ZOMBIE,UNIT_ANIMATION_ANGLE,0,0,0,1,
 ,,,,,,,

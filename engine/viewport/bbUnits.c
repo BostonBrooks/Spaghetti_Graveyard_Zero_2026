@@ -23,6 +23,7 @@ bbMapCoords MC, I32 index){
 
 
 
+
     bbDictionary_lookup(graphics->drawfunctions->dictionary,
                         "DRAWABLE_ANIMATION",
                         &drawfunctionHandle);

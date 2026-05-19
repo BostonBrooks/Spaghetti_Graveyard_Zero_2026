@@ -113,6 +113,31 @@ bbFlag bbSF_zombieGraphics(char* string)
     MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
 
     bbUnit* unit;
+    bbUnit_newSkelly(&unit,home.viewport_app.units, &home.UI.graphics, MC, index);
+
+    unit->drawable.frames[0].handle.u64 = 6;
+
+    bbHandle unit_handle;
+    bbVPool_reverseLookup(home.viewport_app.units->pool,unit,&unit_handle);
+    unit->enitity = home.entities.num_entities_graphics++;
+    home.entities.entity[unit->enitity].unit = unit_handle;
+
+    return bbSuccess;
+}
+/*
+bbFlag bbSF_zombieGraphics(char* string)
+{
+
+    bbViewportApp* app = &home.viewport_app;
+    bbMapCoords MC;
+    I32 index;
+    char key[KEY_LENGTH];
+    sscanf(string, "%[^','],%d,%d,%d", key, &MC.i, &MC.j,&index);
+
+
+    MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
+
+    bbUnit* unit;
     bbUnit_newSkeleton(&unit,home.viewport_app.units, &home.UI.graphics, MC, index);
     unit->drawable.frames[0].handle.u64 = 10;
 
@@ -139,7 +164,7 @@ bbFlag bbSF_zombieGraphics(char* string)
     unit->enitity = home.entities.num_entities_graphics++;
     home.entities.entity[unit->enitity].unit = unit_handle;
     return bbSuccess;
-}
+}*/
 /*
 bbFlag bbSF_zombieCore(char* string)
 {
@@ -192,6 +217,8 @@ bbFlag bbSF_zombieCore(char* string)
     agent->ftable.update = -1;
     agent->ftable.command = bbAgentFunctions_getInt(&home.agents_app.functions,
                              AgentCommand, "COMMAND_PLAYER");
+    agent->ftable.update = bbAgentFunctions_getInt(&home.agents_app.functions, AgentUpdate,"UPDATE_PLAYER");
+
     bbMoveable* moveable = &home.agents_app.movables.moveables[index];
 
     agent->state = bbAgentState_Idle;
