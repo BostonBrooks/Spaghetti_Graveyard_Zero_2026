@@ -319,7 +319,7 @@ bbFlag bbMoveables_copyBuffer(bbMoveables* moveables, bbMoveables_snapshot* targ
 }
 
 
-I32 bbMoveables_newTux(bbMoveables* moveables, bbMapCoords position, bbHandle agent)
+I32 bbMoveables_newSkelly(bbMoveables* moveables, bbMapCoords position, bbHandle agent)
 {
     I32 index = moveables->available++;
     bbMoveable* moveable = &moveables->moveables[index];

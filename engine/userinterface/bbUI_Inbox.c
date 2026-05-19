@@ -51,8 +51,8 @@ bbFlag bbUI_Inbox_check(bbUI_Inbox* inbox)
             bbUI_Inbox_setViewpoint_fn(inbox, message);
             break;
 #ifdef DEFINE_SKELLYCHASE
-        case bbUI_Inbox_newTux:
-            bbUI_Inbox_newTux_fn(inbox, message);
+        case bbUI_Inbox_newSkelly:
+            bbUI_Inbox_newSkelly_fn(inbox, message);
             break;
         case bbUI_Inbox_setUnitSprite:
             bbHere()
@@ -121,10 +121,10 @@ bbFlag bbUI_Inbox_setViewpoint_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message
 }
 
 #ifdef DEFINE_SKELLYCHASE
-bbFlag bbUI_Inbox_newTux_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
+bbFlag bbUI_Inbox_newSkelly_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
 {
     bbUnit* none;
-    bbUnit_newTux(&none,home.viewport_app.units, &home.UI.graphics,
+    bbUnit_newSkelly(&none,home.viewport_app.units, &home.UI.graphics,
     message->data.coords, message->data.handle.handle.u64);
     return bbSuccess;
 }
@@ -175,11 +175,11 @@ bbFlag bbUI_Inbox_SetViewpoint(bbUI_Inbox* inbox, bbMapCoords MC)
     return bbSuccess;
 }
 
-bbFlag bbUI_Inbox_NewTux(bbUI_Inbox* inbox, bbMapCoords coords, I32 moveable)
+bbFlag bbUI_Inbox_NewSkelly(bbUI_Inbox* inbox, bbMapCoords coords, I32 moveable)
 {
     bbUI_Inbox_message* message;
     bbThreadedQueue_alloc(&inbox->local_message_queue,(void**)&message);
-    message->type = bbUI_Inbox_newTux;
+    message->type = bbUI_Inbox_newSkelly;
     message->data.coords = coords;
     message->data.handle.handle.u64 = moveable;
     bbThreadedQueue_pushL(&inbox->local_message_queue, (void*)message);

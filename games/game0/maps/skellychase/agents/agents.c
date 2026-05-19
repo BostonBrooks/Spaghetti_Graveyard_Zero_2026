@@ -6,7 +6,7 @@
 #include "games/game0/maps/skellychase/agents/player.h"
 
 
-bbFlag bbAgent_Update_Tux(bbAgent* agent)
+bbFlag bbAgent_Update_Skelly(bbAgent* agent)
 {
 
     bbMoveable* agent_movable= &home.agents_app.movables.moveables[agent->moveable];
@@ -60,7 +60,7 @@ bbFlag bbAgent_Update_Tux(bbAgent* agent)
 
 bbFlag bbAgentFunctions_populate(bbAgentFunctions* self)
 {
-    bbAgentFunctions_add(self, AgentUpdate, bbAgent_Update_Tux,"UPDATE_TUX");
+    bbAgentFunctions_add(self, AgentUpdate, bbAgent_Update_Skelly,"UPDATE_SKELLY");
     bbAgentFunctions_add(self, AgentCommand, bbAgent_Command_Player,"COMMAND_PLAYER");
     return bbSuccess;
 }

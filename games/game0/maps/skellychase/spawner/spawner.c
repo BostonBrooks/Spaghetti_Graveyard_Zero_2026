@@ -224,7 +224,7 @@ bbFlag bbSF_zombieCore(char* string)
     return bbSuccess;
 }
 
-bbFlag bbSF_tuxGraphics(char* string)
+bbFlag bbSF_skellyGraphics(char* string)
 {
 
     bbViewportApp* app = &home.viewport_app;
@@ -237,7 +237,7 @@ bbFlag bbSF_tuxGraphics(char* string)
     MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
 
     bbUnit* unit;
-    bbUnit_newTux(&unit,home.viewport_app.units, &home.UI.graphics, MC, index);
+    bbUnit_newSkelly(&unit,home.viewport_app.units, &home.UI.graphics, MC, index);
 
     bbHandle unit_handle;
     bbVPool_reverseLookup(home.viewport_app.units->pool,unit,&unit_handle);
@@ -247,7 +247,7 @@ bbFlag bbSF_tuxGraphics(char* string)
     return bbSuccess;
 }
 
-bbFlag bbSF_tuxCore(char* string)
+bbFlag bbSF_skellyCore(char* string)
 {
 
     bbMapCoords MC;
@@ -265,7 +265,7 @@ bbFlag bbSF_tuxCore(char* string)
     agent->square_list.next = agents->pool->null;
     agent->moveable = index;
     agent->ftable.update = bbAgentFunctions_getInt(&home.agents_app.functions,
-                             AgentUpdate, "UPDATE_TUX");
+                             AgentUpdate, "UPDATE_SKELLY");
     agent->ftable.command = -1;
     bbMoveable* moveable = &home.agents_app.movables.moveables[index];
 
@@ -304,7 +304,7 @@ bbFlag bbSpawner_populate(bbSpawner* spawner)
     bbSpawner_add(spawner,bbSF_null, bbSF_null, "NULL");
     bbSpawner_add(spawner,bbSF_treeCore, bbSF_treeGraphics, "TREE");
     bbSpawner_add(spawner,bbSF_skeletonCore, bbSF_skeletonGraphics, "SKELETON");
-    bbSpawner_add(spawner,bbSF_tuxCore, bbSF_tuxGraphics, "TUX");
+    bbSpawner_add(spawner,bbSF_skellyCore, bbSF_skellyGraphics, "SKELLY");
     bbSpawner_add(spawner,bbSF_zombieCore, bbSF_zombieGraphics, "ZOMBIE");
     return bbSuccess;
 }

@@ -83,6 +83,6 @@ bbFlag bbMoveable_setGoalPoint(bbMoveables* moveables, bbHandle handle, bbMilliC
 
 bbFlag bbMoveables_copyBuffer(bbMoveables* moveables, bbMoveables_snapshot* target);
 
-I32 bbMoveables_newTux(bbMoveables* moveables, bbMapCoords position, bbHandle agent);
+I32 bbMoveables_newSkelly(bbMoveables* moveables, bbMapCoords position, bbHandle agent);
 
 #endif  //BBMOVEABLE

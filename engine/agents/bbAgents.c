@@ -51,7 +51,7 @@ bbAgents_square* bbAgents_getSquare(bbAgents* agents, I32 i, I32 j)
 
 
 
-bbFlag bbAgent_newTux(bbAgents* agents, bbMapCoords position)
+bbFlag bbAgent_newSkelly(bbAgents* agents, bbMapCoords position)
 {
     bbAgent* self;
 
@@ -62,13 +62,13 @@ bbFlag bbAgent_newTux(bbAgents* agents, bbMapCoords position)
     bbHandle handle;
     bbVPool_reverseLookup(agents->pool,self,&handle);
 
-    self->ftable.update = bbAgentFunctions_getInt(&home.agents_app.functions, AgentUpdate,"UPDATE_TUX");
+    self->ftable.update = bbAgentFunctions_getInt(&home.agents_app.functions, AgentUpdate,"UPDATE_SKELLY");
 
-    self->moveable = bbMoveables_newTux(&home.agents_app.movables, position, handle);
+    self->moveable = bbMoveables_newSkelly(&home.agents_app.movables, position, handle);
 
     bbMoveable* moveable = &home.agents_app.movables.moveables[self->moveable];
 
-    bbUI_Inbox_NewTux(&home.UI.inbox, position, self->moveable);
+    bbUI_Inbox_NewSkelly(&home.UI.inbox, position, self->moveable);
 
 
     moveable->position = position;

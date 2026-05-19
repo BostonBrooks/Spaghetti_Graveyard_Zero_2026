@@ -101,7 +101,7 @@ bbMapCoords MC, I32 index){
 }
 
 
-bbFlag bbUnit_newTux(bbUnit** self,bbUnits* units, bbGraphicsApp* graphics,
+bbFlag bbUnit_newSkelly(bbUnit** self,bbUnits* units, bbGraphicsApp* graphics,
 bbMapCoords MC, I32 index){
 
     bbVPool* pool = units->pool;
@@ -155,7 +155,7 @@ unit->drawable.state = 0;
 
 
     unit->drawable.frames[2].drawfunction = drawfunctionHandle.u64;
-    unit->drawable.frames[2].handle.u64 = 625;
+    unit->drawable.frames[2].handle.u64 = 626;
     unit->drawable.frames[2].start_time =  -(rand()%6);
     unit->drawable.frames[2].framerate = 1;
     unit->drawable.frames[2].offset.x = 0;

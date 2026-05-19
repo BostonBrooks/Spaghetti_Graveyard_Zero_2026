@@ -75,7 +75,7 @@ typedef struct
 bbFlag bbAgents_new(bbAgents** agents, I32 squares_i, I32 squares_j);
 
 
-bbFlag bbAgent_newTux(bbAgents* agents, bbMapCoords position);
+bbFlag bbAgent_newSkelly(bbAgents* agents, bbMapCoords position);
 bbAgents_square* bbAgents_getSquare(bbAgents* agents, I32 i, I32 j);
 
 
