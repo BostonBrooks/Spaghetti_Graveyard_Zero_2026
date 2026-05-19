@@ -15,6 +15,7 @@ typedef enum
     bbLocalMessage_keyDown,
     bbLocalMessage_keyUp,
     bbLocalMessage_setViewpoint,
+    bbLocalMessage_spawnBanana,
     bbLocalMessage_setGoalpoint,
     bbLocalMessage_switchCharacterButton
 } bbLocalMessage_type;
@@ -46,5 +47,6 @@ bbFlag bbLocalMessage_setViewpointOut_fn(bbCore* core, bbLocalMessage* message);
 bbFlag bbLocalMessage_setGoalpointOut_fn(bbCore* core, bbLocalMessage* message);
 
 
+bbFlag bbLocalMessage_spawnBananaOut_fn(bbCore* core, bbLocalMessage* message);
 bbFlag bbLocalMessage_switchCharacterButton_fn(bbCore* core, bbLocalMessage* message);
 #endif // BB_LOCAL_MESSAGE_H

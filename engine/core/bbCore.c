@@ -85,6 +85,9 @@ bbFlag bbCore_react(bbCore* core)
 
                 bbInstruction_netpauseButton_fn(core, instruction);
                 break;
+            case bbInstruction_spawnBananaOut:
+                bbInstruction_spawnBananaOut_fn(core, instruction);
+                break;
 #ifndef DEFINE_PONG
 
           //  case bbInstruction_setViewpointOut:

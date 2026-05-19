@@ -436,6 +436,13 @@ bbFlag bbInstruction_setViewpointOut_fn(bbCore* core, bbInstruction* instruction
     bbNetworkApp_setViewpointOut(&home.network, instruction->data.map_coords, instruction->act_time, collision++);
     return bbSuccess;
 }*/
+
+bbFlag bbInstruction_spawnBananaOut_fn(bbCore* core, bbInstruction* instruction)
+{
+    bbNetworkApp_spawnBananaOut(&home.network, instruction->data.map_coords, instruction->act_time, collision++);
+    return bbSuccess;
+}
+
 /*
 bbFlag bbInstruction_setGoalpointOut_fn(bbCore* core, bbInstruction* instruction)
 {

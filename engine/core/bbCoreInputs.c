@@ -241,6 +241,16 @@ bbFlag bbCoreInput_setViewpointOut(bbCore* core, bbMapCoords MC, U64 time,
     return bbSuccess;
 }
 */
+bbFlag bbCoreInput_spawnBananaOut(bbCore* core, bbMapCoords MC, U64 time,
+bbInstruction_source source, bbHandle action){
+    bbInstruction* instruction;
+    bbList_alloc(&core->do_stack, (void**) &instruction);
+    instruction->type = bbInstruction_spawnBananaOut;
+    instruction->data.map_coords = MC;
+    instruction->act_time = time;
+    bbList_pushL(&core->do_stack, instruction);
+    return bbSuccess;
+}
 
 
 bbFlag bbCoreInput_setGoalpointOut(bbCore* core, bbMapCoords MC, U64 time,

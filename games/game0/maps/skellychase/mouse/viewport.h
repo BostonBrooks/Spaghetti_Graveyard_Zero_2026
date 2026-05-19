@@ -12,7 +12,7 @@ bbFlag Viewport_LeftDown (void* Mouse, void* Widgets, void* Widget, void*
     bbScreenPoints screen_points = mouse->position;
     bbViewportCoords VC = bbScreenPoints_getViewportPoints(&home.viewport_app.viewport, screen_points);
     bbMapCoords MC = bbViewportCoords_getMapCoords(VC);
-    bbLocalMessage_SetViewpoint(&home.core.core, MC);
+    bbLocalMessage_SpawnBanana(&home.core.core, MC);
     return bbSuccess;
 }
 

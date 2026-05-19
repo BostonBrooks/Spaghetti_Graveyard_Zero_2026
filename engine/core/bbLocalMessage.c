@@ -113,6 +113,15 @@ bbFlag bbLocalMessage_keyDown_fn(bbCore* core, bbLocalMessage* message)
     return bbSuccess;
 }*/
 
+bbFlag bbLocalMessage_spawnBananaOut_fn(bbCore* core, bbLocalMessage* message)
+{
+    bbHandle handle = {0};
+    bbCoreInput_spawnBananaOut(core,
+        message->data.map_coords, message->act_time,bbInstructionSource_input,handle);
+
+    return bbSuccess;
+}
+
 bbFlag bbLocalMessage_setGoalpointOut_fn(bbCore* core, bbLocalMessage* message)
 {
     bbHandle handle = {0};
@@ -175,6 +184,10 @@ bbFlag bbCore_checkLocalMessages(bbCore* core)
             bbCore_react(core);
             break;
 
+        case bbLocalMessage_spawnBanana:
+            bbLocalMessage_spawnBananaOut_fn(core, message);
+            bbCore_react(core);
+            break;
 
 
         case bbLocalMessage_actionLoop:

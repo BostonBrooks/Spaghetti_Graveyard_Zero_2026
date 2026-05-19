@@ -26,6 +26,8 @@ typedef enum
     bbInstruction_loopAction,
     bbInstruction_netpauseButton,
 
+    bbInstruction_spawnBananaOut,
+
     //bbInstruction_updateBall,
     //bbInstruction_unupdateBall,
 
@@ -174,6 +176,6 @@ bbFlag bbInstruction_unapproachGoalpoint_fn(bbCore* core, bbInstruction* instruc
 
 bbFlag bbInstruction_updateMoveables_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_unupdateMoveables_fn(bbCore* core, bbInstruction* instruction);
-
+bbFlag bbInstruction_spawnBananaOut_fn(bbCore* core, bbInstruction* instruction);
 
 #endif //BB_INSTRUCTION_H
