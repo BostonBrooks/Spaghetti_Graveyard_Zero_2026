@@ -1,4 +1,4 @@
-Number of Compositions:,5,,,,,,
+Number of Compositions:,6,,,,,,
 ,,,,,,,
 Label:,NULL,Integer Address:,0,num:,1,Comment,Void Composition
 Type:,Key:,Drawfunction:,startTime,Offest X:,Offset Y:,Frame Rate:,
@@ -28,3 +28,9 @@ Type:,Key:,Drawfunction:,startTime,Offest X:,Offset Y:,Frame Rate:,
 SPRITE,TREE,DRAWABLE_SPRITE,0,0,0,0,
 ANIMATION,LIGHTS,DRAWABLE_ANIMATION,0,0,0,1,
 SPRITE,SHADOW1,DRAWABLE_SHADOW,0,0,0,0,
+,,,,,,,
+Label:,TUX,Integer Address:,5,num:,2,Comment,Testing conditional rendering
+Type:,Key:,Drawfunction:,startTime,Offest X:,Offset Y:,Frame Rate:,
+ANIMATION,SKELETON,UNIT_STILL_ANGLE,0,0,0,1,
+ANIMATION,SKELETON,UNIT_ANIMATION_ANGLE,0,0,0,1,
+,,,,,,,

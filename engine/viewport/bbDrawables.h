@@ -15,8 +15,8 @@
 
 typedef enum
 {
-    bbDrawableState_idle,
-    bbDrawableState_moving,
+    bbDrawableState_idle = 0,
+    bbDrawableState_moving = 1,
 } bbDrawableState;
 
 typedef struct

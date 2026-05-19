@@ -42,7 +42,7 @@ bbFlag bbAgent_Update_Tux(bbAgent* agent)
                 agent_movable->position, bbInstructionSource_internal, no_handle);
 
             bbEntity* entity = &home.entities.entity[agent->entity];
-            bbUI_Inbox_SetUnitSprite(&home.UI.inbox, entity->unit, 624);
+            bbUI_Inbox_SetUnitSprite(&home.UI.inbox, entity->unit, bbDrawableState_idle);
         }
 
     }else if (closest_moveable!= agent_movable->goal_moveable)
@@ -51,7 +51,7 @@ bbFlag bbAgent_Update_Tux(bbAgent* agent)
             closest_moveable, bbInstructionSource_internal, no_handle);
 
         bbEntity* entity = &home.entities.entity[agent->entity];
-        bbUI_Inbox_SetUnitSprite(&home.UI.inbox, entity->unit, 8);
+        bbUI_Inbox_SetUnitSprite(&home.UI.inbox, entity->unit, bbDrawableState_moving);
     }
 
     return bbSuccess;

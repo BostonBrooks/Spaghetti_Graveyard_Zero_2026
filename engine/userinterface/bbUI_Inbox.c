@@ -204,6 +204,6 @@ bbFlag bbUI_Inbox_setUnitSprite_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* messag
     bbUnit* unit;
     bbVPool_lookup(home.viewport_app.units->pool, (void**)&unit, message->data.handle.handle);
     bbHere()
-    unit->drawable.frames[0].handle.u64 = message->data.integer;
+    unit->drawable.state = message->data.integer;
     return bbSuccess;
 }

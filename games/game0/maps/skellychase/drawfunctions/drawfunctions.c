@@ -125,6 +125,10 @@ bbFlag bbDrawfunctions_new(bbDrawfunctions** drawfunctions){
     handle.u64 = 16;
     bbDictionary_add(functions->dictionary, "COMPOSITION", handle);
 
+    functions->functions[17] = bbDF_compositionState;
+    handle.u64 = 17;
+    bbDictionary_add(functions->dictionary, "COMPOSITION_STATE", handle);
+
 
     *drawfunctions = functions;
     return bbSuccess;

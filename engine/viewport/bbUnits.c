@@ -123,14 +123,14 @@ bbMapCoords MC, I32 index){
     unit->next_coords = MC;
     unit->next_time = 2;
     unit->next_goalpoint = MC;
-
+unit->drawable.state = 0;
 
     bbDictionary_lookup(graphics->drawfunctions->dictionary,
-                        "UNIT_SPRITE",
+                        "COMPOSITION_STATE",
                         &drawfunctionHandle);
 
     unit->drawable.frames[0].drawfunction = drawfunctionHandle.u64;
-    unit->drawable.frames[0].handle.u64 = 624;
+    unit->drawable.frames[0].handle.u64 = 5;
     unit->drawable.frames[0].start_time=  0;
     unit->drawable.frames[0].framerate = 1;
     unit->drawable.frames[0].offset.x = 0;
