@@ -221,7 +221,7 @@ bbFlag bbUnits_consumeBuffer(bbUnits* units, bbHandle* unit_array, bbMoveables_s
                 home.UI.clock2_handle.map_tick, unit->next_time);
 
 
-        if (i==7) home.viewport_app.viewport.viewpoint = position;
+        if (i==home.agents_app.player_entity) home.viewport_app.viewport.viewpoint = position;
         home.viewport_app.viewport.viewpoint.k += 1;
         //TODO add list of out of bounds units
         if (position.i<0 || position.j < 0) continue;
