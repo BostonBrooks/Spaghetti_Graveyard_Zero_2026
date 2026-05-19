@@ -7,7 +7,7 @@ bbFlag bbEntities_init_core(bbEntities* entities)
     bbHandle null_agent;
     bbHandle null_moveable;
 
-    null_agent = home.agents_app.agents2->pool->null;
+    null_agent = home.agents_app.agents->pool->null;
     null_moveable.u64 = UINT64_MAX;
 
     for (I32 i = 0; i < NUM_ENTITIES; i++)

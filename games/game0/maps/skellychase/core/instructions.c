@@ -34,11 +34,11 @@ bbFlag bbVInstruction_setGoalpointIn_fn(bbCore* core, bbInstruction* instruction
     bbMapCoords MC = instruction->data.map_coords;
     bbHandle handle; handle.ptr = &MC;
     /*bbAgent2_onCommand(home.agents_app.player,
-                          home.agents_app.agents2,
+                          home.agents_app.agents,
                           bbAC_setGoalPoint,
                           handle);*/
 
-    bbVPool_reverseLookup(home.agents_app.agents2->pool, (void*)home.agents_app.player, &handle);
+    bbVPool_reverseLookup(home.agents_app.agents->pool, (void*)home.agents_app.player, &handle);
 
     bbAgentCommandData data;
     data.moveable = 0;
@@ -47,7 +47,7 @@ bbFlag bbVInstruction_setGoalpointIn_fn(bbCore* core, bbInstruction* instruction
 
     //TODO use bbAgent_Command_Player
 
-    bbAgent2_onCommand(home.agents_app.player, home.agents_app.agents2,0,data);
+    bbAgent2_onCommand(home.agents_app.player, home.agents_app.agents,0,data);
     //bbCoreInput_setMoveableType(&home.core.core,0, home.agents_app.player->moveable, data,
     //                             bbInstructionSource_internal, no_handle);
 
@@ -295,7 +295,7 @@ bbHere()
     bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
 
     bbAgent* agent;
-    bbVPool_lookup(home.agents_app.agents2->pool, (void**)&agent,
+    bbVPool_lookup(home.agents_app.agents->pool, (void**)&agent,
         instruction->data.agent_square.agent);
 
     bbSquareCoords old_square_coords = agent->square_coords;
@@ -306,10 +306,10 @@ bbHere()
     undo_instruction->data.agent_square.agent = instruction->data.agent_square.agent;
     undo_instruction->data.agent_square.square = old_square_coords;
 
-    bbAgents_square* old_square = bbAgents_getSquare(home.agents_app.agents2,
+    bbAgents_square* old_square = bbAgents_getSquare(home.agents_app.agents,
     old_square_coords.i, old_square_coords.j);
 
-    bbAgents_square* new_square = bbAgents_getSquare(home.agents_app.agents2,
+    bbAgents_square* new_square = bbAgents_getSquare(home.agents_app.agents,
         new_square_coords.i, new_square_coords.j);
 
     bbList_remove(&old_square->agents,agent);
@@ -345,16 +345,16 @@ bbFlag bbVInstruction_unupdateAgentSquare_fn(bbCore* core, bbInstruction* instru
 {
 bbHere()
     bbAgent* agent;
-    bbVPool_lookup(home.agents_app.agents2->pool, (void**)&agent,
+    bbVPool_lookup(home.agents_app.agents->pool, (void**)&agent,
         instruction->data.agent_square.agent);
 
     bbSquareCoords old_square_coords = agent->square_coords;
     bbSquareCoords new_square_coords = instruction->data.agent_square.square;
 
-    bbAgents_square* old_square = bbAgents_getSquare(home.agents_app.agents2,
+    bbAgents_square* old_square = bbAgents_getSquare(home.agents_app.agents,
     old_square_coords.i, old_square_coords.j);
 
-    bbAgents_square* new_square = bbAgents_getSquare(home.agents_app.agents2,
+    bbAgents_square* new_square = bbAgents_getSquare(home.agents_app.agents,
         new_square_coords.i, new_square_coords.j);
 
     bbList_remove(&old_square->agents,agent);
@@ -407,7 +407,7 @@ bbFlag updateAgentSquare_list_fn(bbList* list, void* node, void* cl)
 bbFlag bbVInstruction_updateAgentsSquare_fn(bbCore* core, bbInstruction* instruction)
 {
 
-    bbList_mapL(&home.agents_app.agents2->full_list, updateAgentSquare_list_fn, NULL);
+    bbList_mapL(&home.agents_app.agents->full_list, updateAgentSquare_list_fn, NULL);
 
     bbInstruction* undo_instruction;
     bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
@@ -477,7 +477,7 @@ bbFlag updateAgent_list_fn(bbList* list, void* node, void* cl)
 bbFlag bbVInstruction_updateAgents_fn(bbCore* core, bbInstruction* instruction)
 {
 
-    bbList_mapL(&home.agents_app.agents2->full_list, updateAgent_list_fn, NULL);
+    bbList_mapL(&home.agents_app.agents->full_list, updateAgent_list_fn, NULL);
 
     bbInstruction* undo_instruction;
     bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
@@ -539,7 +539,7 @@ bbFlag bbVInstruction_updateAgent_fn(bbCore* core, bbInstruction* instruction)
 
 
     bbAgent* agent;
-    bbVPool_lookup(home.agents_app.agents2->pool, (void**)&agent,
+    bbVPool_lookup(home.agents_app.agents->pool, (void**)&agent,
         instruction->data.agent_square.agent);
 
     bbAgent2_update(agent);
@@ -558,13 +558,13 @@ bbFlag bbVInstruction_unupdateAgent_fn(bbCore* core, bbInstruction* instruction)
 bbFlag bbVInstruction_commandAgent_fn(bbCore* core, bbInstruction* instruction)
 {
     bbAgent* agent;
-    bbVPool_lookup(home.agents_app.agents2->pool, (void**)&agent,
+    bbVPool_lookup(home.agents_app.agents->pool, (void**)&agent,
         instruction->data.agent_square.agent);
 
 
     bbHandle handle; handle.ptr = &instruction->data.agent_MC.map_coords;
     bbAgent2_onCommand(home.agents_app.player,
-                          home.agents_app.agents2,
+                          home.agents_app.agents,
                           bbAC_setGoalPoint,
                           instruction->data.agent_command);
 

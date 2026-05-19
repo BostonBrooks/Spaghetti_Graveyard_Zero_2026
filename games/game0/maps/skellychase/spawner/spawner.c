@@ -205,7 +205,7 @@ bbFlag bbSF_zombieCore(char* string)
 
     MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
 
-    bbAgents* agents = home.agents_app.agents2;
+    bbAgents* agents = home.agents_app.agents;
     bbAgent* agent;
 
     bbList_alloc(&agents->full_list, (void**)&agent);
@@ -242,7 +242,7 @@ bbFlag bbSF_zombieCore(char* string)
     bbList_pushL(&agents->full_list,agent);
 
     bbHandle agent_handle;
-    bbVPool_reverseLookup(home.agents_app.agents2->pool,agent,&agent_handle);
+    bbVPool_reverseLookup(home.agents_app.agents->pool,agent,&agent_handle);
     agent->entity = home.entities.num_entities_core++;
     home.entities.entity[agent->entity].agent = agent_handle;
 
@@ -284,7 +284,7 @@ bbFlag bbSF_skellyCore(char* string)
 
     MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
 
-    bbAgents* agents = home.agents_app.agents2;
+    bbAgents* agents = home.agents_app.agents;
     bbAgent* agent;
 
     bbList_alloc(&agents->full_list, (void**)&agent);
@@ -317,7 +317,7 @@ bbFlag bbSF_skellyCore(char* string)
     bbList_pushL(&agents->full_list,agent);
 
     bbHandle agent_handle;
-    bbVPool_reverseLookup(home.agents_app.agents2->pool,agent,&agent_handle);
+    bbVPool_reverseLookup(home.agents_app.agents->pool,agent,&agent_handle);
     agent->entity = home.entities.num_entities_core++;
     home.entities.entity[agent->entity].agent = agent_handle;
 

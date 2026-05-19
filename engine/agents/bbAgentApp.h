@@ -9,7 +9,7 @@ typedef struct
 {
     bbMoveables movables;
     bbAvoidables* avoidables;
-    bbAgents* agents2;
+    bbAgents* agents;
     bbAgent* player;
     bbAgentFunctions functions;
 } bbAgentsApp;

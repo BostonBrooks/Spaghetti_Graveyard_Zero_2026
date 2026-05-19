@@ -102,7 +102,7 @@ int main(void)
     bbMoveables_init(&home.agents_app.movables);
 
 
-    bbAgents_new(&home.agents_app.agents2, 12,12);
+    bbAgents_new(&home.agents_app.agents, 12,12);
 
 
     bbEntities_init_core(&home.entities);
@@ -204,7 +204,7 @@ int main(void)
             bbCore_react(&home.core.core);
 
 
-            bbCoreInput_updateAgents(&home.core.core, home.agents_app.agents2,
+            bbCoreInput_updateAgents(&home.core.core, home.agents_app.agents,
                                      bbInstructionSource_input, no_handle);
             bbCore_react(&home.core.core);
         }
