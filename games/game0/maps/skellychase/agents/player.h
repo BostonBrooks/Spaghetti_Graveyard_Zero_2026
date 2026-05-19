@@ -25,7 +25,7 @@ bbFlag bbAgent_Update_Player(bbAgent* agent)
         (agent_movable->position.j - agent_movable->goalpoint.j)*
             (agent_movable->position.j - agent_movable->goalpoint.j);
 
-
+//TODO only do this once
     if (distance < POINTS_PER_PIXEL*POINTS_PER_PIXEL)
     {
         bbEntity* entity = &home.entities.entity[agent->entity];
