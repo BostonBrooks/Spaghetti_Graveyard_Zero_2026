@@ -68,7 +68,7 @@ break;\
 typedef struct
 {
     bbMapCoords position;
-    I32 agent_index;
+    I32 entity_index;
     I32 moveable_index;
 } bbNetworkPacket_banana;
 

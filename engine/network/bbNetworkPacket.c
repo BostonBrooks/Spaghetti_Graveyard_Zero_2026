@@ -94,7 +94,7 @@ bbFlag bbNetworkPacket_toStruct (sfPacket* packet, void* Struct)
         struct1->data.banana.position.i = sfPacket_readInt32(packet);
         struct1->data.banana.position.j = sfPacket_readInt32(packet);
         struct1->data.banana.position.k = sfPacket_readInt32(packet);
-        struct1->data.banana.agent_index = sfPacket_readInt32(packet);
+        struct1->data.banana.entity_index = sfPacket_readInt32(packet);
         struct1->data.banana.moveable_index = sfPacket_readInt32(packet);
         break;
     }
@@ -195,7 +195,7 @@ bbFlag bbNetworkPacket_fromStruct (sfPacket* packet, void* Struct)
         sfPacket_writeInt32(packet,struct1->data.banana.position.i);
         sfPacket_writeInt32(packet,struct1->data.banana.position.j);
         sfPacket_writeInt32(packet,struct1->data.banana.position.k);
-        sfPacket_writeInt32(packet,struct1->data.banana.agent_index);
+        sfPacket_writeInt32(packet,struct1->data.banana.entity_index);
         sfPacket_writeInt32(packet,struct1->data.banana.moveable_index);
         break;
     }

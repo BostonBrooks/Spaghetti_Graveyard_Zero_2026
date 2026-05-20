@@ -147,6 +147,14 @@ int main(void){
                     //bbDebug("type = %d, packetN = %llu, string  = %s\n",
                     //    packetStruct.type, packetStruct.data.timestamp.packetN, packetStruct.data.str);
                 }
+                if (packetStruct.type == PACKETTYPE_SPAWNBANANA)
+                {
+                    packetStruct.data.banana.entity_index = entities.num_entities++;
+                    packetStruct.data.banana.moveable_index = entities.num_moveables++;
+                    sfPacket_clear(packet);
+                    bbNetworkPacket_fromStruct(packet, &packetStruct);
+
+                }
                 if (packetStruct.type == PACKETTYPE_REQUESTTIMESTAMP)
                 {
                     packetStruct.type = PACKETTYPE_TIMESTAMP;

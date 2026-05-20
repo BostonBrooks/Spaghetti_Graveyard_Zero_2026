@@ -17,6 +17,7 @@ typedef struct
 typedef struct
 {
     I32 num_entities;
+    I32 num_moveables;
     bbServerEntity entity[NUM_ENTITIES];
     bbServerMoveable moveable[NUM_MOVEABLES];
 
