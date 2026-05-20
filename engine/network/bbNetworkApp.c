@@ -239,6 +239,11 @@ bbFlag bbNetworkApp_checkInbox(bbNetwork* network)
                                         packet->player);
         }
 
+        if (packet->type == PACKETTYPE_SPAWNBANANA)
+        {
+            bbDebug("Spawn Banana!\n");
+        }
+
         bbThreadedQueue_free(&network->inbox, (void**)&packet);
     }
 }
@@ -368,9 +373,11 @@ bbFlag bbNetworkApp_spawnBananaOut(bbNetwork* network, bbMapCoords MC, U64 time,
 {
     bbNetworkPacket* packet;
     bbThreadedQueue_alloc(&network->outbox, (void**)&packet);
-    packet->type = PACKETTYPE_GOALPOINT;
+    packet->type = PACKETTYPE_SPAWNBANANA;
     packet->act_tick = time;
-    packet->data.map_coords = MC;
+    packet->data.banana.position = MC;
+    packet->data.banana.entity_index = 0;
+    packet->data.banana.moveable_index = 0;
     packet->collision = collision;
     //packet->player = home.agents_app.agents.current_agent;
     bbThreadedQueue_pushL(&network->outbox,packet);
