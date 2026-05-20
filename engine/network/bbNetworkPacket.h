@@ -22,6 +22,7 @@
 #define PACKETTYPE_PADDLEVELOCITY    9
 #define PACKETTYPE_VIEWPOINT         10
 #define PACKETTYPE_GOALPOINT         11
+#define PACKETTYPE_SPAWNBANANA       12
 
 #define bbPacketType_print(flag)\
 {\
@@ -57,9 +58,19 @@ break;\
 case PACKETTYPE_PADDLEVELOCITY:\
 bbDebug ("Packet Type: PACKETTYPE_PADDLEVELOCITY\n");\
 break;\
+case PACKETTYPE_SPAWNBANANA:\
+bbDebug ("Packet Type: PACKETTYPE_SPAWNBANANA\n");\
+break;\
 \
 }\
 }\
+
+typedef struct
+{
+    bbMapCoords position;
+    I32 agent_index;
+    I32 moveable_index;
+} bbNetworkPacket_banana;
 
 typedef union
 {
@@ -68,7 +79,7 @@ typedef union
     bbNetwork_pauseMessage pause;
     char str[64];
     bbMapCoords map_coords;
-
+    bbNetworkPacket_banana banana;
     I32x2 paddle_and_velocity;
 } bbNetworkPacket_data;
 
