@@ -88,6 +88,9 @@ bbFlag bbCore_react(bbCore* core)
             case bbInstruction_spawnBananaOut:
                 bbInstruction_spawnBananaOut_fn(core, instruction);
                 break;
+            case bbInstruction_spawnBananaIn:
+                bbInstruction_spawnBananaIn_fn(core, instruction);
+                break;
 #ifndef DEFINE_PONG
 
           //  case bbInstruction_setViewpointOut:

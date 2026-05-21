@@ -1,4 +1,4 @@
-#include "engine/data/bbEntities.h"
+#include "engine/agents/bbEntities.h"
 #include "engine/data/bbHome.h"
 
 bbFlag bbEntities_init_core(bbEntities* entities)

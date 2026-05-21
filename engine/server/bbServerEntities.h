@@ -2,7 +2,7 @@
 #define BB_SERVER_ENTITY_H
 
 #include "engine/agents/bbMoveables.h"
-#include "engine/data/bbEntities.h"
+#include "engine/agents/bbEntities.h"
 
 typedef struct
 {

@@ -89,3 +89,82 @@ bbFlag bbAgent_newSkelly(bbAgents* agents, bbMapCoords position)
 
 }
 
+bbFlag bbAgent_newBanana(bbAgents* agents,bbAgent** self, bbMapCoords position,
+    I32 entity_index, I32 moveable_index)
+{
+
+    bbMapCoords MC = position;
+
+
+    bbDebug("spawn banana i = %d, j = %d, k = %d\n", MC.i, MC.j, MC.k);
+
+    I32 index = moveable_index;
+    //char key[KEY_LENGTH];
+    //sscanf(string, "%[^','],%d,%d,%d", key, &MC.i, &MC.j,&index);
+
+    //MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
+
+    //bbAgents* agents = home.agents_app.agents;
+    bbAgent* agent;
+
+    bbList_alloc(&agents->full_list, (void**)&agent);
+
+
+
+    agent->square_list.prev = agents->pool->null;
+    agent->square_list.next = agents->pool->null;
+    agent->moveable = index;
+    agent->ftable.update = -1;
+    agent->ftable.command = -1;
+
+
+    bbHandle agent_handle;
+    bbVPool_reverseLookup(home.agents_app.agents->pool,agent,&agent_handle);
+
+    bbMoveable* moveable = &home.agents_app.movables.moveables[index];
+
+    agent->state = bbAgentState_Idle;
+    home.agents_app.movables.available = index+1;
+
+    moveable->type = bbMoveableType_GoalPoint;
+    moveable->position = MC;
+    moveable->goalpoint = MC;
+    moveable->goalpoint.i +=5000;
+    moveable->coords_a = bbMapCoords_getMilliCoords(MC);
+    moveable->coords_b = bbMapCoords_getMilliCoords(MC);
+    moveable->goal_moveable = 0;
+    moveable->agent2 = agent_handle;
+
+    bbSquareCoords square_coords = bbMapCoords_getSquareCoords(MC);
+    agent->square_coords = square_coords;
+    bbAgents_square* square = bbAgents_getSquare(agents, square_coords.i, square_coords.j);
+
+    bbList_pushL(&square->agents,agent);
+    bbList_pushL(&agents->full_list,agent);
+
+    agent->entity = entity_index;
+    home.entities.num_entities_core = entity_index+1;
+    home.entities.entity[agent->entity].agent = agent_handle;
+
+    home.entities.entity[agent->entity].moveable.u64 = index;
+
+
+
+    bbUI_Inbox_NewBanana(&home.UI.inbox, MC, entity_index);
+
+    return bbSuccess;
+
+
+
+}
+
+bbFlag bbAgent_deleteBanana(bbAgents* agents,bbAgent** agent, bbMapCoords position,
+    I32 entity_index, I32 moveable_index)
+{
+    bbDebug("deleteBanana\n")
+    //delete banana
+    //delete moveable
+    //message UI_inbox to delete unit
+
+
+}

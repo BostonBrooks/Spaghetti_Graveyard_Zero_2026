@@ -289,7 +289,6 @@ bbFlag bbVInstruction_unsetGoalMoveable_fn(bbCore* core, bbInstruction* instruct
 
 bbFlag bbVInstruction_updateAgentSquare_fn(bbCore* core, bbInstruction* instruction)
 {
-bbHere()
 
     bbInstruction* undo_instruction;
     bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);

@@ -394,7 +394,6 @@ bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
         }
         if (action->header.type == bbActionType_spawnBanana)
         {
-            bbDebug("Spawn the mf banana!\n");
             bbCoreInput_spawnBananaIn(core, action->map_coords,action->integer,
                 action->integer2,action->header.act_tick,bbInstructionSource_action,handle);
 
@@ -704,6 +703,95 @@ bbFlag bbInstruction_unsetViewpoint_fn(bbCore* core, bbInstruction* instruction)
 
     bbNotHere()
 }
+
+
+bbFlag bbInstruction_spawnBananaIn_fn(bbCore* core, bbInstruction* instruction)
+{
+
+    bbInstruction* undo_instruction;
+    bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+    undo_instruction->type = bbInstruction_unspawnBanana;
+    //undo_instruction->data.map_coords = home.agents_app.agents.agents[instruction->player].goalpoint;
+    undo_instruction->source = instruction->source;
+    undo_instruction->player = instruction->player;
+    undo_instruction->data.unspawn.entity = home.entities.num_entities_core;
+    undo_instruction->data.unspawn.moveable = home.agents_app.movables.available;
+
+    bbAgent* agent;
+
+
+
+    bbAgent_newBanana(home.agents_app.agents,&agent, instruction->data.banana.position,
+        instruction->data.banana.entity, instruction->data.banana.moveable);
+
+    bbHandle agent_handle;
+    bbVPool_reverseLookup(home.agents_app.agents->pool, agent, &agent_handle);
+
+    undo_instruction->data.unspawn.agent = agent_handle;
+
+
+
+    if (instruction->source == bbInstructionSource_internal)
+    {
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        undo_instruction->redo_instruction.u64 = 0;
+        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_input)
+    {
+        bbHandle handle;
+        bbVPool_reverseLookup(core->instruction_pool, instruction, &handle);
+        undo_instruction->redo_instruction = handle;
+        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_action)
+    {
+        undo_instruction->redo_instruction = instruction->redo_instruction;
+        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+        return bbSuccess;
+    }
+    bbNotHere()
+    return bbSuccess;
+}
+
+bbFlag bbInstruction_unspawnBanana_fn(bbCore* core, bbInstruction* instruction)
+{
+
+
+    home.entities.num_entities_core = instruction->data.unspawn.entity;
+    home.agents_app.movables.available = instruction->data.unspawn.moveable;
+    //destroy banana agent
+
+
+    if (instruction->source == bbInstructionSource_internal)
+    {
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_input)
+    {
+        bbInstruction* redo_instruction;
+        bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction, instruction->redo_instruction);
+        bbList_pushL(&core->do_stack, redo_instruction);
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_action)
+    {
+        bbAction* redo_action;
+
+        bbVPool_lookup(core->action_pool, (void**)&redo_action, instruction->redo_instruction);
+        bbList_sortL(&core->action_queue,(void*)redo_action);
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        return bbSuccess;
+    }
+
+
+    bbNotHere()
+}
+
 #endif
 #ifndef DEFINE_PONG
 

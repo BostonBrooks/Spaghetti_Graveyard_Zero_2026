@@ -83,21 +83,43 @@ bbFlag bbServer_Spawner_spawn(bbServer_Spawner* spawner, char* file_name)
 
 bbFlag bbSF_null(char* string)
 {
-    printf("%s", string);
+    //printf("%s", string);
+
     return bbSuccess;
 }
 
 bbFlag bbSF_skelly(char* string)
 {
-    printf("*%s", string);
+    //printf("*%s", string);
     I32 i, j;
     I32 moveable_index, entity_index;
     char key[KEY_LENGTH];
     sscanf(string, "%[^','],%d,%d,%d", key, &i, &j,&moveable_index);
     entity_index = entities.num_entities++;
 
+    entities.num_moveables = moveable_index+1;
     entities.entity[entity_index].in_use = true;
     entities.moveable[moveable_index].in_use = true;
+
+
+    bbDebug("SKELLY/ZOMBIE, moveable = %d, entity = %d\n", moveable_index, entity_index);
+    return bbSuccess;
+}
+
+bbFlag bbSF_skeleton(char* string)
+{
+    //printf("*%s", string);
+    I32 i, j;
+    I32 moveable_index, entity_index;
+    char key[KEY_LENGTH];
+    sscanf(string, "%[^','],%d,%d,%d", key, &i, &j,&moveable_index);
+
+    entities.num_moveables = moveable_index+1;
+    entities.moveable[moveable_index].in_use = true;
+
+
+    bbDebug("SKELETON, moveable = %d\n", moveable_index);
+
     return bbSuccess;
 }
 
@@ -105,7 +127,7 @@ bbFlag bbServer_Spawner_populate(bbServer_Spawner* spawner)
 {
     bbServer_Spawner_add(spawner,bbSF_null, "NULL");
     bbServer_Spawner_add(spawner,bbSF_null, "TREE");
-    bbServer_Spawner_add(spawner,bbSF_skelly, "SKELETON");
+    bbServer_Spawner_add(spawner,bbSF_skeleton, "SKELETON");
     bbServer_Spawner_add(spawner,bbSF_skelly, "SKELLY");
     bbServer_Spawner_add(spawner,bbSF_skelly, "ZOMBIE");
     return bbSuccess;

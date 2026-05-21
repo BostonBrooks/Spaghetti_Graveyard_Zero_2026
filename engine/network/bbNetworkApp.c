@@ -241,7 +241,6 @@ bbFlag bbNetworkApp_checkInbox(bbNetwork* network)
 
         if (packet->type == PACKETTYPE_SPAWNBANANA)
         {
-            bbDebug("Spawn Banana!\n");
 
             bbAction_spawnBanana(&home.core.core,
                             packet->data.banana.position,

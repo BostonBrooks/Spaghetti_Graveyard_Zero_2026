@@ -253,6 +253,22 @@ bbInstruction_source source, bbHandle action){
 }
 
 
+bbFlag bbCoreInput_spawnBananaIn(bbCore* core, bbMapCoords MC, I32 entity_index,
+    I32 moveable_index, U64 time, bbInstruction_source source, bbHandle action)
+{
+    bbInstruction* instruction;
+    bbList_alloc(&core->do_stack, (void**) &instruction);
+    instruction->type = bbInstruction_spawnBananaIn;
+    instruction->data.banana.position = MC;
+    instruction->data.banana.entity = entity_index;
+    instruction->data.banana.moveable = moveable_index;
+    instruction->act_time = time;
+    bbList_pushL(&core->do_stack, instruction);
+    return bbSuccess;
+}
+
+
+
 bbFlag bbCoreInput_setGoalpointOut(bbCore* core, bbMapCoords MC, U64 time,
                                   bbInstruction_source source, bbHandle action)
 {

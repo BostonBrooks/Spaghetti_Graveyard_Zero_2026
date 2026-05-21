@@ -3,7 +3,7 @@
 #include "engine/server/bbServerEntities.h"
 
 #include "engine/agents/bbMoveables.h"
-#include "engine/data/bbEntities.h"
+#include "engine/agents/bbEntities.h"
 #include "engine/logic/bbVPool.h"
 #include "engine/logic/bbFlag.h"
 

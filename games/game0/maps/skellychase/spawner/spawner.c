@@ -96,6 +96,7 @@ bbFlag bbSF_skeletonCore(char* string)
     moveable->goal_moveable = index%8;
 
 
+    bbDebug("SKELETON, moveable = %d, entity = %d\n", index);
 
     return bbSuccess;
 }
@@ -122,6 +123,8 @@ bbFlag bbSF_zombieGraphics(char* string)
     bbVPool_reverseLookup(home.viewport_app.units->pool,unit,&unit_handle);
     unit->enitity = home.entities.num_entities_graphics++;
     home.entities.entity[unit->enitity].unit = unit_handle;
+
+
 
     return bbSuccess;
 }
@@ -252,6 +255,10 @@ bbFlag bbSF_zombieCore(char* string)
 
 
     home.agents_app.player_entity = agent->entity;
+
+
+    bbDebug("ZOMBIE, moveable = %d, entity = %d\n", index, agent->entity);
+
     return bbSuccess;
 }
 
@@ -326,6 +333,9 @@ bbFlag bbSF_skellyCore(char* string)
     home.entities.entity[agent->entity].agent = agent_handle;
 
     home.entities.entity[agent->entity].moveable.u64 = index;
+
+
+    bbDebug("SKELLY, moveable = %d, entity = %d\n", index, agent->entity);
 
     return bbSuccess;
 }

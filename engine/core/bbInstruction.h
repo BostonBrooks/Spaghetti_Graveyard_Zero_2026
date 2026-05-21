@@ -28,6 +28,7 @@ typedef enum
 
     bbInstruction_spawnBananaOut,
     bbInstruction_spawnBananaIn,
+    bbInstruction_unspawnBanana,
 
     //bbInstruction_updateBall,
     //bbInstruction_unupdateBall,
@@ -105,6 +106,12 @@ typedef struct {
     I32 moveable;
 } bbInstructionData_banana;
 
+typedef struct {
+    bbHandle agent;
+    I32 entity;
+    I32 moveable;
+} bbInstructionData_unspawn;
+
 typedef union
 {
     char string[KEY_LENGTH];
@@ -117,6 +124,7 @@ typedef union
     bbMoveable_goal moveable_goal;
     bbAgentCommandData agent_command;
     bbInstructionData_banana banana;
+    bbInstructionData_unspawn unspawn;
 } bbInstruction_data;
 
 typedef struct bbInstruction
@@ -183,6 +191,9 @@ bbFlag bbInstruction_unapproachGoalpoint_fn(bbCore* core, bbInstruction* instruc
 
 bbFlag bbInstruction_updateMoveables_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_unupdateMoveables_fn(bbCore* core, bbInstruction* instruction);
+
 bbFlag bbInstruction_spawnBananaOut_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbInstruction_spawnBananaIn_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbInstruction_unspawnBanana_fn(bbCore* core, bbInstruction* instruction);
 
 #endif //BB_INSTRUCTION_H

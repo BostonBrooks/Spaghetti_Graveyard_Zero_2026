@@ -154,6 +154,8 @@ int main(void){
                     sfPacket_clear(packet);
                     bbNetworkPacket_fromStruct(packet, &packetStruct);
 
+                    bbDebug("BANANA, entity = %d, moveable = %d\n", packetStruct.data.banana.entity_index, packetStruct.data.banana.moveable_index);
+
                 }
                 if (packetStruct.type == PACKETTYPE_REQUESTTIMESTAMP)
                 {

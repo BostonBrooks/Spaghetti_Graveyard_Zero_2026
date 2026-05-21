@@ -85,4 +85,6 @@ bbFlag bbMoveables_copyBuffer(bbMoveables* moveables, bbMoveables_snapshot* targ
 
 I32 bbMoveables_newSkelly(bbMoveables* moveables, bbMapCoords position, bbHandle agent);
 
+I32 bbMoveables_newBanana(bbMoveables* moveables, bbMapCoords position, bbHandle agent, I32 moveable_index);
+
 #endif  //BBMOVEABLE
