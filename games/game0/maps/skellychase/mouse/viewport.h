@@ -31,5 +31,8 @@ bbFlag Viewport_RightDown (void* Mouse, void* Widgets, void* Widget, void*
     bbViewportCoords VC = bbScreenPoints_getViewportPoints(&home.viewport_app.viewport, screen_points);
     bbMapCoords MC = bbViewportCoords_getMapCoords(VC);
     bbLocalMessage_SetGoalpoint(&home.core.core, MC);
+
+
+    bbDebug("move to i = %d, j = %d, k = %d\n", MC.i, MC.j, MC.k);
     return bbSuccess;
 }

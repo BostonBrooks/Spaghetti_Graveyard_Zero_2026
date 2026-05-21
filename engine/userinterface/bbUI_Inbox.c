@@ -286,8 +286,18 @@ bbFlag bbUI_Inbox_newBanana_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
         unit->drawable.frames[1].offset.y = 0;
 
 
+    bbDictionary_lookup(graphics->drawfunctions->dictionary,
+                    "MAPICON_TEST",
+                    &drawfunctionHandle);
 
-        for (I32 k = 2; k < FRAMES_PER_DRAWABLE; k++){
+    unit->drawable.frames[2].drawfunction = drawfunctionHandle.u64;
+    unit->drawable.frames[2].handle.u64 = 628;
+    unit->drawable.frames[2].start_time = 0;
+    unit->drawable.frames[2].framerate = 0;
+    unit->drawable.frames[2].offset.x = 0;
+    unit->drawable.frames[2].offset.y = 0;
+
+        for (I32 k = 3; k < FRAMES_PER_DRAWABLE; k++){
             unit->drawable.frames[k].drawfunction = -1;
         }
 
