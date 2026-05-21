@@ -392,6 +392,13 @@ bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
             bbCoreInput_setGoalpointIn(core, action->map_coords,action->header.act_tick, action->header.player,bbInstructionSource_action,handle);
 
         }
+        if (action->header.type == bbActionType_spawnBanana)
+        {
+            bbDebug("Spawn the mf banana!\n");
+            bbCoreInput_spawnBananaIn(core, action->map_coords,action->integer,
+                action->integer2,action->header.act_tick,bbInstructionSource_action,handle);
+
+        }
 #endif
         flag = bbList_popL(&core->action_temp_fifo,(void**)&action);
     }

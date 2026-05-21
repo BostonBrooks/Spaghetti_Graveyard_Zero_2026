@@ -27,6 +27,7 @@ typedef enum
     bbInstruction_netpauseButton,
 
     bbInstruction_spawnBananaOut,
+    bbInstruction_spawnBananaIn,
 
     //bbInstruction_updateBall,
     //bbInstruction_unupdateBall,
@@ -98,6 +99,11 @@ typedef struct
     bbMapCoords goal_coords;
 } bbMoveable_goal;
 
+typedef struct {
+    bbMapCoords position;
+    I32 entity;
+    I32 moveable;
+} bbInstructionData_banana;
 
 typedef union
 {
@@ -110,6 +116,7 @@ typedef union
     bbAgentMapCoords agent_MC;
     bbMoveable_goal moveable_goal;
     bbAgentCommandData agent_command;
+    bbInstructionData_banana banana;
 } bbInstruction_data;
 
 typedef struct bbInstruction

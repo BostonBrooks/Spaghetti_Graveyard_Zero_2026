@@ -43,10 +43,13 @@ bbFlag bbCoreInput_setPaddleVelocity(bbCore* core, U8 player, I32 velocity, U64 
 ///Send message to graphics thread.
 
 bbFlag bbCoreInput_setViewpointOut(bbCore* core, bbMapCoords MC, U64 time,
-                                  bbInstruction_source source, bbHandle action);
+bbInstruction_source source, bbHandle action);
 
 bbFlag bbCoreInput_spawnBananaOut(bbCore* core, bbMapCoords MC, U64 time,
-                                  bbInstruction_source source, bbHandle action);
+bbInstruction_source source, bbHandle action);
+
+bbFlag bbCoreInput_spawnBananaIn(bbCore* core, bbMapCoords MC, I32 entity_index,
+    I32 moveable_index, U64 time, bbInstruction_source source, bbHandle action);
 
 bbFlag bbCoreInput_setViewpointIn(bbCore* core, bbMapCoords MC, U64 time,
                                   bbInstruction_source source, bbHandle action);

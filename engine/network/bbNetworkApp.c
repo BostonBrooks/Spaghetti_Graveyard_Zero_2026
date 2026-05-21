@@ -242,6 +242,15 @@ bbFlag bbNetworkApp_checkInbox(bbNetwork* network)
         if (packet->type == PACKETTYPE_SPAWNBANANA)
         {
             bbDebug("Spawn Banana!\n");
+
+            bbAction_spawnBanana(&home.core.core,
+                            packet->data.banana.position,
+                            packet->data.banana.entity_index,
+                            packet->data.banana.moveable_index,
+                            packet->collision,
+                            packet->send_tick,
+                            packet->act_tick,
+                            packet->player);
         }
 
         bbThreadedQueue_free(&network->inbox, (void**)&packet);
