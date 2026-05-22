@@ -159,12 +159,40 @@ bbFlag bbAgent_newBanana(bbAgents* agents,bbAgent** self, bbMapCoords position,
 
 }
 
-bbFlag bbAgent_deleteBanana(bbAgents* agents,bbAgent** agent, bbMapCoords position,
-    I32 entity_index, I32 moveable_index)
+bbFlag bbAgent_deleteBanana(bbAgents* agents,bbAgent* agent)
 {
     bbDebug("deleteBanana\n")
+
+    bbSquareCoords SC = agent->square_coords;
+    bbAgents_square* square = bbAgents_getSquare(agents, SC.i, SC.j);
+
+    bbList_remove(&agents->full_list,agent);
+    bbList_remove(&square->agents,agent);
+
+    bbEntity* entity = &home.entities.entity[agent->entity];
+
+    bbHandle null_agent;
+    bbHandle null_moveable;
+
+    null_agent = home.agents_app.agents->pool->null;
+    null_moveable.u64 = UINT64_MAX;
+
+    entity->agent = null_agent;
+    entity->moveable = null_moveable;
+
+
+    bbMoveable* moveable = &home.agents_app.movables.moveables[agent->moveable];
+    moveable->type = bbMoveableType_Unused;
+
+
+
+
+    bbVPool_free(agents->pool,agent);
+
+
     //delete banana
     //delete moveable
+    //delete entity
     //message UI_inbox to delete unit
 
 

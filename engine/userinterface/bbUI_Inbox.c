@@ -61,6 +61,9 @@ bbFlag bbUI_Inbox_check(bbUI_Inbox* inbox)
         case bbUI_Inbox_newBanana:
             bbUI_Inbox_newBanana_fn(inbox, message);
             break;
+        case bbUI_Inbox_deleteBanana:
+            bbUI_Inbox_deleteBanana_fn(inbox, message);
+            break;
 #endif
         default:
 
@@ -225,6 +228,17 @@ bbFlag bbUI_Inbox_NewBanana(bbUI_Inbox* inbox, bbMapCoords MC, I32 entity_index,
     return bbSuccess;
 }
 
+bbFlag bbUI_Inbox_DeleteBanana(bbUI_Inbox* inbox, I32 entity_index, I32 moveable_index)
+{
+    bbUI_Inbox_message* message;
+    bbThreadedQueue_alloc(&inbox->local_message_queue,(void**)&message);
+    message->type = bbUI_Inbox_deleteBanana;
+    message->data.integer = entity_index;
+    message->data.integer2 = moveable_index;
+
+    bbThreadedQueue_pushL(&inbox->local_message_queue, (void*)message);
+    return bbSuccess;
+}
 
 bbFlag bbUI_Inbox_newBanana_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
 {
@@ -314,5 +328,36 @@ bbFlag bbUI_Inbox_newBanana_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
         home.entities.entity[entity_index].unit = unit_handle;
 
     return bbSuccess;
+
+}
+
+bbFlag bbUI_Inbox_deleteBanana_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
+{
+    I32 entity_index = message->data.integer;
+    I32 moveable_index = message->data.integer2;
+
+
+    bbHandle unit_handle = home.entities.entity[entity_index].unit;
+    home.entities.entity[entity_index].unit
+        = home.viewport_app.units->pool->null;
+
+
+    home.viewport_app.unit_array[moveable_index]
+        = home.viewport_app.units->pool->null;
+
+    bbUnit* unit;
+    bbUnits* units = home.viewport_app.units;
+    bbVPool_lookup(units->pool,(void**)&unit,unit_handle);
+
+    bbSquareCoords SC = bbMapCoords_getSquareCoords(unit->drawable.coords);
+    bbUnitSquare* unitSquare = bbDrawables_getSquare(units,SC.i, SC.j, units->squares_i, units->squares_j);
+
+    bbList_remove(&units->list, unit);
+    bbList_remove(&unitSquare->list, unit);
+
+    bbVPool_free(units->pool,unit);
+
+    return bbSuccess;
+
 
 }

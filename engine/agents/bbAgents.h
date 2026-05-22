@@ -80,4 +80,6 @@ bbAgents_square* bbAgents_getSquare(bbAgents* agents, I32 i, I32 j);
 
 bbFlag bbAgent_newBanana(bbAgents* agents,bbAgent** self, bbMapCoords position,
     I32 entity_index, I32 moveable_index);
+
+bbFlag bbAgent_deleteBanana(bbAgents* agents,bbAgent* agent);
 #endif //BB_AGENT2_H

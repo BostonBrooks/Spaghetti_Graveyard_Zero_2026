@@ -181,6 +181,9 @@ bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
                 bbInstruction_uncheckActions_fn(core, instruction);
                 break;
 
+            case bbInstruction_unspawnBanana:
+                bbInstruction_unspawnBanana_fn(core, instruction);
+                break;
         //    case bbInstruction_unsetViewpoint:
         //        bbInstruction_unsetViewpoint_fn(core, instruction);
        //         break;

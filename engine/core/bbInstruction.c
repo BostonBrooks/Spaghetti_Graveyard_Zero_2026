@@ -762,7 +762,12 @@ bbFlag bbInstruction_unspawnBanana_fn(bbCore* core, bbInstruction* instruction)
 
     home.entities.num_entities_core = instruction->data.unspawn.entity;
     home.agents_app.movables.available = instruction->data.unspawn.moveable;
-    //destroy banana agent
+
+
+    bbHandle agent_handle = instruction->data.unspawn.agent;
+    bbAgent* agent;
+    bbVPool_lookup(home.agents_app.agents->pool, (void**)&agent, agent_handle);
+    bbAgent_deleteBanana(home.agents_app.agents, agent);
 
 
     if (instruction->source == bbInstructionSource_internal)
