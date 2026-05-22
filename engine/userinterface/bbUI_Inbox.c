@@ -205,9 +205,9 @@ bbFlag bbUI_Inbox_SetUnitState(bbUI_Inbox* inbox, bbHandle unit, I32 sprite)
 bbFlag bbUI_Inbox_setUnitState_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
 {
     bbUnit* unit;
-    bbVPool_lookup(home.viewport_app.units->pool, (void**)&unit, message->data.handle.handle);
-    bbHere()
-    unit->drawable.state = message->data.integer;
+    bbFlag flag = bbVPool_lookup(home.viewport_app.units->pool, (void**)&unit, message->data.handle.handle);
+    if (flag == bbSuccess) unit->drawable.state = message->data.integer;
+    else {bbHere()}
     return bbSuccess;
 }
 

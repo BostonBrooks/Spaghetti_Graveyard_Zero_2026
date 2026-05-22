@@ -114,7 +114,7 @@ bbFlag bbAgent_newBanana(bbAgents* agents,bbAgent** self, bbMapCoords position,
     agent->square_list.prev = agents->pool->null;
     agent->square_list.next = agents->pool->null;
     agent->moveable = index;
-    agent->ftable.update = -1;
+    agent->ftable.update = bbAgentFunctions_getInt(&home.agents_app.functions, AgentUpdate,"UPDATE_SKELLY");
     agent->ftable.command = -1;
 
 
@@ -126,7 +126,7 @@ bbFlag bbAgent_newBanana(bbAgents* agents,bbAgent** self, bbMapCoords position,
     agent->state = bbAgentState_Idle;
     home.agents_app.movables.available = index+1;
 
-    moveable->type = bbMoveableType_GoalPoint;
+    moveable->type = bbMoveableType_Idle;
     moveable->position = MC;
     moveable->goalpoint = MC;
     moveable->goalpoint.i +=5000;
@@ -152,6 +152,7 @@ bbFlag bbAgent_newBanana(bbAgents* agents,bbAgent** self, bbMapCoords position,
 
     bbUI_Inbox_NewBanana(&home.UI.inbox, MC, entity_index, moveable_index);
 
+    *self = agent;
     return bbSuccess;
 
 
