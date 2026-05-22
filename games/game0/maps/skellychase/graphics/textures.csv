@@ -1,4 +1,4 @@
-Number of Textures:,42,,,,
+Number of Textures:,43,,,,
 Label:,Integer Address:,File:,Smooth:,Comment:,
 NULL,0,./graphics/NULL.png,F,Exception,
 LAYOUT_480,1,./graphics/Layout_480.png,F,The root of the widget tree,
@@ -42,3 +42,4 @@ DIAMOND,38,./graphics/Diamond.png,F, A diamond shaped wisp
 DOTS,39,./graphics/Dots.png,F,Dots for tracking vertices
 TUX,40,./graphics/supertuxkart/tux.png,F, a penguin
 BANANA,41,./graphics/banana-warrior.png,F, a roman banana
+BLUECLOCK,42,./graphics/Clockface_blue.png,T, a blue clock hand

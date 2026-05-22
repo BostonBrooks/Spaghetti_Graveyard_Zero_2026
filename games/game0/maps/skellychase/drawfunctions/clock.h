@@ -79,7 +79,13 @@ bbFlag bbDF_widgetServerTimeAnimation(void* drawable, void* frameDescriptor, voi
     I32 angle = 0;
     I32 frames = animation->frames;
 
-    double time = home.UI.clock2_handle.server_tick;
+
+    I64 itime;
+    bbNetworkTime* network_time = home.network_time;
+    bbNetworkTime_get(network_time, &itime);
+
+
+    double time = itime  / (1000000.f / 60.f);
 
     //bbDebug("key = %s, maptime = %d, starttime= %d, framerate = %f, frames = %d\n",
     //		animation->key, mapTime, frame_descriptor->startTime,animation->framerate, animation->frames );
