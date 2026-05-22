@@ -150,7 +150,7 @@ bbFlag bbAgent_newBanana(bbAgents* agents,bbAgent** self, bbMapCoords position,
 
 
 
-    bbUI_Inbox_NewBanana(&home.UI.inbox, MC, entity_index);
+    bbUI_Inbox_NewBanana(&home.UI.inbox, MC, entity_index, moveable_index);
 
     return bbSuccess;
 

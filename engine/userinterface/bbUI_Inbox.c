@@ -212,13 +212,15 @@ bbFlag bbUI_Inbox_setUnitState_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message
 }
 
 
-bbFlag bbUI_Inbox_NewBanana(bbUI_Inbox* inbox, bbMapCoords MC, I32 entity_index)
+bbFlag bbUI_Inbox_NewBanana(bbUI_Inbox* inbox, bbMapCoords MC, I32 entity_index, I32 moveable_index)
 {
     bbUI_Inbox_message* message;
     bbThreadedQueue_alloc(&inbox->local_message_queue,(void**)&message);
     message->type = bbUI_Inbox_newBanana;
     message->data.coords = MC;
     message->data.integer = entity_index;
+    message->data.integer2 = moveable_index;
+
     bbThreadedQueue_pushL(&inbox->local_message_queue, (void*)message);
     return bbSuccess;
 }
@@ -229,7 +231,10 @@ bbFlag bbUI_Inbox_newBanana_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
 
     bbViewportApp* app = &home.viewport_app;
     bbMapCoords MC = message->data.coords;
-    I32 index = message->data.integer;
+
+    I32 entity_index = message->data.integer;
+    I32 moveable_index = message->data.integer2;
+
     //char key[KEY_LENGTH];
     //sscanf(string, "%[^','],%d,%d,%d", key, &MC.i, &MC.j,&index);
 
@@ -301,12 +306,12 @@ bbFlag bbUI_Inbox_newBanana_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
             unit->drawable.frames[k].drawfunction = -1;
         }
 
-        home.viewport_app.unit_array[index] = unit_handle;
+        home.viewport_app.unit_array[moveable_index] = unit_handle;
 
         bbList_sortL(&unitSquare->list, unit);
 
-        unit->enitity = index;
-        home.entities.entity[unit->enitity].unit = unit_handle;
+        unit->enitity = entity_index;
+        home.entities.entity[entity_index].unit = unit_handle;
 
     return bbSuccess;
 

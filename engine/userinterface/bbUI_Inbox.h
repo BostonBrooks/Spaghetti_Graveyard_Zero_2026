@@ -27,12 +27,15 @@ typedef struct
     char string[KEY_LENGTH];
 } bbUI_Inbox_string;
 
+
+
 typedef struct
 {
     bbUI_Inbox_handle handle;
     bbUI_Inbox_string string;
     bbMapCoords coords;
     I32 integer;
+    I32 integer2;
 } bbUI_Inbox_data;
 
 typedef struct
@@ -72,5 +75,5 @@ bbFlag bbUI_Inbox_SetUnitState(bbUI_Inbox* inbox, bbHandle unit, I32 sprite);
 bbFlag bbUI_Inbox_SetViewpoint(bbUI_Inbox* inbox, bbMapCoords MC);
 
 
-bbFlag bbUI_Inbox_NewBanana(bbUI_Inbox* inbox, bbMapCoords MC, I32 entity_index);
+bbFlag bbUI_Inbox_NewBanana(bbUI_Inbox* inbox, bbMapCoords MC, I32 entity_index, I32 moveable_index);
 #endif // BB_UI_INBOX_H
