@@ -1,7 +1,7 @@
 #ifndef COREINPUTS_H
 #define COREINPUTS_H
 
-#include "engine/agents/bbAgents.h"
+#include "engine/entities/bbAgents.h"
 #include "engine/core/bbCore.h"
 #include "engine/geometry/bbCoordinates.h"
 #include "engine/logic/bbHandle.h"

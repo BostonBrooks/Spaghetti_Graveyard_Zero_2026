@@ -4,7 +4,7 @@
 #include "bbAgents.h"
 #include "engine/logic/bbHandle.h"
 #include "engine/userinterface/bbWidgetFunctions.h"
-#include "engine/agents/bbMoveables.h"
+#include "engine/entities/bbMoveables.h"
 
 typedef enum
 {

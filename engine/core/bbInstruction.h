@@ -1,12 +1,12 @@
 
 #ifndef BB_INSTRUCTION_H
 #define BB_INSTRUCTION_H
-#include "engine/agents/bbAgentFunctions.h"
+#include "engine/entities/bbAgentFunctions.h"
 #include "engine/core/bbCore.h"
 #include "engine/data/bbConstants.h"
 #include "engine/geometry/bbCoordinates.h"
 #include "engine/logic/bbHandle.h"
-#include "engine/agents/bbMoveables.h"
+#include "engine/entities/bbMoveables.h"
 
 typedef enum
 {

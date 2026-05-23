@@ -1,9 +1,9 @@
 #ifndef BB_AGENTSAPP_H
 #define BB_AGENTSAPP_H
-#include "engine/agents/bbAgentFunctions.h"
-#include "engine/agents/bbAgents.h"
-#include "engine/agents/bbAvoidables.h"
-#include "engine/agents/bbMoveables.h"
+#include "engine/entities/bbAgentFunctions.h"
+#include "engine/entities/bbAgents.h"
+#include "engine/entities/bbAvoidables.h"
+#include "engine/entities/bbMoveables.h"
 
 
 typedef struct

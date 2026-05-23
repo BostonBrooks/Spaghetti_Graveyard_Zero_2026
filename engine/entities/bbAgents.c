@@ -1,6 +1,6 @@
-#include "engine/agents/bbAgents.h"
+#include "engine/entities/bbAgents.h"
 
-#include "engine/agents/bbMoveables.h"
+#include "engine/entities/bbMoveables.h"
 #include "engine/data/bbConstants.h"
 #include "engine/data/bbHome.h"
 #include "engine/logic/bbBloatedPool.h"

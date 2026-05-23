@@ -1,7 +1,7 @@
 
 
 #include "games/game0/maps/skellychase/core/instructions.h"
-#include "engine/agents/bbAgents.h"
+#include "engine/entities/bbAgents.h"
 #include "engine/logic/bbList.h"
 
 

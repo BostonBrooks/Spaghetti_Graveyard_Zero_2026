@@ -5,8 +5,8 @@
 #include <pthread.h>
 #include <math.h>
 
-#include "engine/agents/bbAgentFunctions.h"
-#include "engine/agents/bbAvoidables.h"
+#include "engine/entities/bbAgentFunctions.h"
+#include "engine/entities/bbAvoidables.h"
 #include "engine/core/bbCoreDiscard.h"
 #include "engine/core/bbCoreInputs.h"
 #include "engine/core/bbLocalMessage.h"
