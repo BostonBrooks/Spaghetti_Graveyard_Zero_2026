@@ -320,7 +320,7 @@ bbFlag bbUI_Inbox_newBanana_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
             unit->drawable.frames[k].drawfunction = -1;
         }
 
-        home.viewport_app.unit_array[moveable_index] = unit_handle;
+        home.entities_app.arrays.moveable_units[moveable_index] = unit_handle;
 
         bbList_sortL(&unitSquare->list, unit);
 
@@ -342,7 +342,7 @@ bbFlag bbUI_Inbox_deleteBanana_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message
         = home.viewport_app.units->pool->null;
 
 
-    home.viewport_app.unit_array[moveable_index]
+    home.entities_app.arrays.moveable_units[moveable_index]
         = home.viewport_app.units->pool->null;
 
     bbUnit* unit;

@@ -20,7 +20,6 @@ typedef struct
     bbViewport viewport;
     bbWidget* viewport_widget;
 
-    bbHandle unit_array[NUM_MOVEABLES];
 } bbViewportApp;
 
 bbFlag bbViewportApp_init(bbViewportApp* app);

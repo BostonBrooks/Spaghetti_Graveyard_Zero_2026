@@ -315,7 +315,7 @@ bbHere()
 //end test*/
 
         bbMoveables_copyBuffer(&home.agents_app.movables, &moveables_snapshot);
-        bbUnits_consumeBuffer(home.viewport_app.units, home.viewport_app.unit_array,&moveables_snapshot);
+        bbUnits_consumeBuffer(home.viewport_app.units, home.entities_app.arrays.moveable_units,&moveables_snapshot);
         bbUIApp_draw(&home.UI);
 
         if (home.clock2.is_running){
