@@ -40,7 +40,7 @@ bbFlag bbVInstruction_setGoalpointIn_fn(bbCore* core, bbInstruction* instruction
 
     bbAgent* player;
     I32 player_entity_int = home.agents_app.player_entity;
-    bbEntity* player_entity = &home.entities.entity[player_entity_int];
+    bbEntity* player_entity = &home.agents_app.entities.entity[player_entity_int];
     bbVPool_lookup(home.agents_app.agents->pool,(void**)&player,player_entity->agent);
 
     //bbVPool_reverseLookup(home.agents_app.agents->pool, (void*)player, &handle);
@@ -562,7 +562,7 @@ bbFlag bbVInstruction_commandAgent_fn(bbCore* core, bbInstruction* instruction)
 
     bbAgent* player;
     I32 player_entity_int = home.agents_app.player_entity;
-    bbEntity* player_entity = &home.entities.entity[player_entity_int];
+    bbEntity* player_entity = &home.agents_app.entities.entity[player_entity_int];
     bbVPool_lookup(home.agents_app.agents->pool,(void**)&player,player_entity->agent);
 
     bbHandle handle; handle.ptr = &instruction->data.agent_MC.map_coords;

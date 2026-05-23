@@ -105,7 +105,7 @@ int main(void)
     bbAgents_new(&home.agents_app.agents, 12,12);
 
 
-    bbEntities_init_core(&home.entities);
+    bbEntities_init_core(&home.agents_app.entities);
 
     bbSpawner_spawnCore(&home.spawner, "./maps/skellychase/spawner/spawner.csv");
 
@@ -259,7 +259,7 @@ void* userinterface_thread(void* arg)
     I32 counter = 0;
 
 
-    bbEntities_init_graphics(&home.entities);
+    bbEntities_init_graphics(&home.agents_app.entities);
     bbSpawner_spawnGraphics(&home.spawner, "./maps/skellychase/spawner/spawner.csv");
 
     bbHere()
@@ -315,7 +315,7 @@ bbHere()
 //end test*/
 
         bbMoveables_copyBuffer(&home.agents_app.movables, &moveables_snapshot);
-        bbUnits_consumeBuffer(home.viewport_app.units, home.entities_app.arrays.moveable_units,&moveables_snapshot);
+        bbUnits_consumeBuffer(home.viewport_app.units, home.agents_app.entities.moveable_units,&moveables_snapshot);
         bbUIApp_draw(&home.UI);
 
         if (home.clock2.is_running){

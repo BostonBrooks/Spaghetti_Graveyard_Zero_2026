@@ -39,7 +39,7 @@ bbMapCoords MC, I32 index){
         unit->drawable.frames[k].drawfunction = -1;
     }
 
-    home.entities_app.arrays.moveable_units[index] = unit_handle;
+    home.agents_app.entities.moveable_units[index] = unit_handle;
     bbList_sortL(&unitSquare->list, unit);
     *self = unit;
     return bbSuccess;
@@ -95,7 +95,7 @@ bbMapCoords MC, I32 index){
         unit->drawable.frames[k].drawfunction = -1;
     }
 
-    home.entities_app.arrays.moveable_units[index] = unit_handle;
+    home.agents_app.entities.moveable_units[index] = unit_handle;
     bbList_sortL(&unitSquare->list, unit);
     *self = unit;
     return bbSuccess;
@@ -166,7 +166,7 @@ unit->drawable.state = 0;
         unit->drawable.frames[k].drawfunction = -1;
     }
 
-    home.entities_app.arrays.moveable_units[index] = unit_handle;
+    home.agents_app.entities.moveable_units[index] = unit_handle;
     bbList_sortL(&unitSquare->list, unit);
     *self = unit;
     return bbSuccess;

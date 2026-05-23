@@ -121,8 +121,8 @@ bbFlag bbSF_zombieGraphics(char* string)
 
     bbHandle unit_handle;
     bbVPool_reverseLookup(home.viewport_app.units->pool,unit,&unit_handle);
-    unit->enitity = home.entities.num_entities_graphics++;
-    home.entities.entity[unit->enitity].unit = unit_handle;
+    unit->enitity = home.agents_app.entities.num_entities_graphics++;
+    home.agents_app.entities.entity[unit->enitity].unit = unit_handle;
 
 
 
@@ -248,10 +248,10 @@ bbFlag bbSF_zombieCore(char* string)
 
     bbHandle agent_handle;
     bbVPool_reverseLookup(home.agents_app.agents->pool,agent,&agent_handle);
-    agent->entity = home.entities.num_entities_core++;
-    home.entities.entity[agent->entity].agent = agent_handle;
+    agent->entity = home.agents_app.entities.num_entities_core++;
+    home.agents_app.entities.entity[agent->entity].agent = agent_handle;
 
-    home.entities.entity[agent->entity].moveable.u64 = index;
+    home.agents_app.entities.entity[agent->entity].moveable.u64 = index;
 
 
     home.agents_app.player_entity = agent->entity;
@@ -279,8 +279,8 @@ bbFlag bbSF_skellyGraphics(char* string)
 
     bbHandle unit_handle;
     bbVPool_reverseLookup(home.viewport_app.units->pool,unit,&unit_handle);
-    unit->enitity = home.entities.num_entities_graphics++;
-    home.entities.entity[unit->enitity].unit = unit_handle;
+    unit->enitity = home.agents_app.entities.num_entities_graphics++;
+    home.agents_app.entities.entity[unit->enitity].unit = unit_handle;
 
     return bbSuccess;
 }
@@ -329,10 +329,10 @@ bbFlag bbSF_skellyCore(char* string)
 
     bbHandle agent_handle;
     bbVPool_reverseLookup(home.agents_app.agents->pool,agent,&agent_handle);
-    agent->entity = home.entities.num_entities_core++;
-    home.entities.entity[agent->entity].agent = agent_handle;
+    agent->entity = home.agents_app.entities.num_entities_core++;
+    home.agents_app.entities.entity[agent->entity].agent = agent_handle;
 
-    home.entities.entity[agent->entity].moveable.u64 = index;
+    home.agents_app.entities.entity[agent->entity].moveable.u64 = index;
 
 
     bbDebug("SKELLY, moveable = %d, entity = %d\n", index, agent->entity);

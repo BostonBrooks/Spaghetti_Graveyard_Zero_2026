@@ -143,10 +143,10 @@ bbFlag bbAgent_newBanana(bbAgents* agents,bbAgent** self, bbMapCoords position,
     bbList_pushL(&agents->full_list,agent);
 
     agent->entity = entity_index;
-    home.entities.num_entities_core = entity_index+1;
-    home.entities.entity[agent->entity].agent = agent_handle;
+    home.agents_app.entities.num_entities_core = entity_index+1;
+    home.agents_app.entities.entity[agent->entity].agent = agent_handle;
 
-    home.entities.entity[agent->entity].moveable.u64 = index;
+    home.agents_app.entities.entity[agent->entity].moveable.u64 = index;
 
 
 
@@ -169,7 +169,7 @@ bbFlag bbAgent_deleteBanana(bbAgents* agents,bbAgent* agent)
     bbList_remove(&agents->full_list,agent);
     bbList_remove(&square->agents,agent);
 
-    bbEntity* entity = &home.entities.entity[agent->entity];
+    bbEntity* entity = &home.agents_app.entities.entity[agent->entity];
 
     bbHandle null_agent;
     bbHandle null_moveable;

@@ -320,12 +320,12 @@ bbFlag bbUI_Inbox_newBanana_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
             unit->drawable.frames[k].drawfunction = -1;
         }
 
-        home.entities_app.arrays.moveable_units[moveable_index] = unit_handle;
+        home.agents_app.entities.moveable_units[moveable_index] = unit_handle;
 
         bbList_sortL(&unitSquare->list, unit);
 
         unit->enitity = entity_index;
-        home.entities.entity[entity_index].unit = unit_handle;
+        home.agents_app.entities.entity[entity_index].unit = unit_handle;
 
     return bbSuccess;
 
@@ -337,12 +337,12 @@ bbFlag bbUI_Inbox_deleteBanana_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message
     I32 moveable_index = message->data.integer2;
 
 
-    bbHandle unit_handle = home.entities.entity[entity_index].unit;
-    home.entities.entity[entity_index].unit
+    bbHandle unit_handle = home.agents_app.entities.entity[entity_index].unit;
+    home.agents_app.entities.entity[entity_index].unit
         = home.viewport_app.units->pool->null;
 
 
-    home.entities_app.arrays.moveable_units[moveable_index]
+    home.agents_app.entities.moveable_units[moveable_index]
         = home.viewport_app.units->pool->null;
 
     bbUnit* unit;

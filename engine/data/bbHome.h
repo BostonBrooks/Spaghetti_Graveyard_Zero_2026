@@ -11,9 +11,8 @@
 #include "games/game0/maps/pong/code/bbPaddle.h"
 #include "engine/userinterface/bbUI_Inbox.h"
 #include "engine/userinterface/bbWidgets.h"
-#include "engine/entities/bbEntitesApp.h"
 #include "engine/userinterface/bbUIApp.h"
-#include "engine/agents/bbAgentApp.h"
+#include "engine/agents/bbEntitiesApp.h"
 #include "engine/groundsurface/bbGroundSurface.h"
 #include "engine/spawner/bbSpawner.h"
 
@@ -45,8 +44,6 @@ typedef struct
     bbAgentsApp agents_app;
     bbGroundSurface ground_surface;
     bbSpawner spawner;
-    bbEntities entities;
-    bbEntitiesApp entities_app;
 } bbHome;
 
 

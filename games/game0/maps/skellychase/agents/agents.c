@@ -41,7 +41,7 @@ bbFlag bbAgent_Update_Skelly(bbAgent* agent)
             bbCoreInput_setMoveableIdle(&home.core.core, 69696969, agent->moveable,
                 agent_movable->position, bbInstructionSource_internal, no_handle);
 
-            bbEntity* entity = &home.entities.entity[agent->entity];
+            bbEntity* entity = &home.agents_app.entities.entity[agent->entity];
             bbUI_Inbox_SetUnitState(&home.UI.inbox, entity->unit, bbDrawableState_idle);
         }
 
@@ -50,7 +50,7 @@ bbFlag bbAgent_Update_Skelly(bbAgent* agent)
         bbCoreInput_setGoalMoveable(&home.core.core, 69696969, agent->moveable,
             closest_moveable, bbInstructionSource_internal, no_handle);
 
-        bbEntity* entity = &home.entities.entity[agent->entity];
+        bbEntity* entity = &home.agents_app.entities.entity[agent->entity];
         bbUI_Inbox_SetUnitState(&home.UI.inbox, entity->unit, bbDrawableState_moving);
     }
 

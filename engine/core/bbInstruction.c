@@ -714,7 +714,7 @@ bbFlag bbInstruction_spawnBananaIn_fn(bbCore* core, bbInstruction* instruction)
     //undo_instruction->data.map_coords = home.agents_app.agents.agents[instruction->player].goalpoint;
     undo_instruction->source = instruction->source;
     undo_instruction->player = instruction->player;
-    undo_instruction->data.unspawn.entity = home.entities.num_entities_core;
+    undo_instruction->data.unspawn.entity = home.agents_app.entities.num_entities_core;
     undo_instruction->data.unspawn.moveable = home.agents_app.movables.available;
 
     bbAgent* agent;
@@ -760,7 +760,7 @@ bbFlag bbInstruction_unspawnBanana_fn(bbCore* core, bbInstruction* instruction)
 {
 
 
-    home.entities.num_entities_core = instruction->data.unspawn.entity;
+    home.agents_app.entities.num_entities_core = instruction->data.unspawn.entity;
     home.agents_app.movables.available = instruction->data.unspawn.moveable;
 
 

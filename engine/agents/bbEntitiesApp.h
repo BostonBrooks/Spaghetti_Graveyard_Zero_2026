@@ -5,6 +5,7 @@
 #include "engine/agents/bbAvoidables.h"
 #include "engine/agents/bbMoveables.h"
 
+
 typedef struct
 {
     bbMoveables movables;
@@ -12,6 +13,7 @@ typedef struct
     bbAgents* agents;
     I32 player_entity;
     bbAgentFunctions functions;
+    bbEntities entities;
 } bbAgentsApp;
 
 
