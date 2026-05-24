@@ -243,9 +243,9 @@ bbFlag bbNetworkApp_checkInbox(bbNetwork* network)
         {
 
             bbAction_spawnBanana(&home.core.core,
-                            packet->data.banana.position,
-                            packet->data.banana.entity_index,
-                            packet->data.banana.moveable_index,
+                            packet->data.unit.position,
+                            packet->data.unit.entity_index,
+                            packet->data.unit.moveable_index,
                             packet->collision,
                             packet->send_tick,
                             packet->act_tick,
@@ -383,9 +383,9 @@ bbFlag bbNetworkApp_spawnBananaOut(bbNetwork* network, bbMapCoords MC, U64 time,
     bbThreadedQueue_alloc(&network->outbox, (void**)&packet);
     packet->type = PACKETTYPE_SPAWNBANANA;
     packet->act_tick = time;
-    packet->data.banana.position = MC;
-    packet->data.banana.entity_index = 0;
-    packet->data.banana.moveable_index = 0;
+    packet->data.unit.position = MC;
+    packet->data.unit.entity_index = 0;
+    packet->data.unit.moveable_index = 0;
     packet->collision = collision;
     //packet->player = home.agents_app.agents.current_agent;
     bbThreadedQueue_pushL(&network->outbox,packet);

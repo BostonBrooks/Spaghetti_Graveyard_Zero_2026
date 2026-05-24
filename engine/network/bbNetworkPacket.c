@@ -90,12 +90,14 @@ bbFlag bbNetworkPacket_toStruct (sfPacket* packet, void* Struct)
 
         break;
     case PACKETTYPE_SPAWNBANANA:
+    case PACKETTYPE_SPAWNUNIT:
 
-        struct1->data.banana.position.i = sfPacket_readInt32(packet);
-        struct1->data.banana.position.j = sfPacket_readInt32(packet);
-        struct1->data.banana.position.k = sfPacket_readInt32(packet);
-        struct1->data.banana.entity_index = sfPacket_readInt32(packet);
-        struct1->data.banana.moveable_index = sfPacket_readInt32(packet);
+        struct1->data.unit.position.i = sfPacket_readInt32(packet);
+        struct1->data.unit.position.j = sfPacket_readInt32(packet);
+        struct1->data.unit.position.k = sfPacket_readInt32(packet);
+        struct1->data.unit.entity_index = sfPacket_readInt32(packet);
+        struct1->data.unit.moveable_index = sfPacket_readInt32(packet);
+        struct1->data.unit.type_index = sfPacket_readInt32(packet);
         break;
     }
     return bbSuccess;
@@ -191,12 +193,14 @@ bbFlag bbNetworkPacket_fromStruct (sfPacket* packet, void* Struct)
         sfPacket_writeInt32(packet, struct1->data.map_coords.k);
         break;
     case PACKETTYPE_SPAWNBANANA:
+    case PACKETTYPE_SPAWNUNIT:
 
-        sfPacket_writeInt32(packet,struct1->data.banana.position.i);
-        sfPacket_writeInt32(packet,struct1->data.banana.position.j);
-        sfPacket_writeInt32(packet,struct1->data.banana.position.k);
-        sfPacket_writeInt32(packet,struct1->data.banana.entity_index);
-        sfPacket_writeInt32(packet,struct1->data.banana.moveable_index);
+        sfPacket_writeInt32(packet,struct1->data.unit.position.i);
+        sfPacket_writeInt32(packet,struct1->data.unit.position.j);
+        sfPacket_writeInt32(packet,struct1->data.unit.position.k);
+        sfPacket_writeInt32(packet,struct1->data.unit.entity_index);
+        sfPacket_writeInt32(packet,struct1->data.unit.moveable_index);
+        sfPacket_writeInt32(packet,struct1->data.unit.type_index);
         break;
     }
 
