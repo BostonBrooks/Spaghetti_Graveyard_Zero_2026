@@ -148,6 +148,8 @@ int main(void)
     MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
     bbSpawner_spawnEntityI(&home.spawner,&agent, MC, 73, 73, 0);
 
+    bbCoreInput_spawnUnitOut(&home.core.core, 0, MC, 69,bbInstructionSource_input, no_handle);
+    bbCore_react(&home.core.core);
     while (1)
     {
 

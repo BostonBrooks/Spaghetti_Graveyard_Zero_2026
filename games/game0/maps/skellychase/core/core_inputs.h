@@ -17,7 +17,7 @@ bbFlag bbCoreInput_updateAgent(bbCore* core, bbHandle agent,bbInstruction_source
 
 bbFlag bbCoreInput_commandAgent_setGoalPoint(bbCore* core, bbHandle agent, bbMapCoords MC,bbInstruction_source source, bbHandle action);
 
-bbFlag bbCoreInput_spawnUnitOut(bbCore* core, bbMapCoords MC, U64 time,
+bbFlag bbCoreInput_spawnUnitOut(bbCore* core, I32 unit_type, bbMapCoords MC, U64 time,
 bbInstruction_source source, bbHandle action);
 bbFlag bbCoreInput_spawnUnitIn(bbCore* core, bbMapCoords MC, I32 entity_index,
     I32 moveable_index, U64 time, bbInstruction_source source, bbHandle action);

@@ -107,6 +107,13 @@ typedef struct {
 } bbInstructionData_banana;
 
 typedef struct {
+    bbMapCoords position;
+    I32 type;
+    I32 entity;
+    I32 moveable;
+} bbInstructionData_unit;
+
+typedef struct {
     bbHandle agent;
     I32 entity;
     I32 moveable;
@@ -124,6 +131,7 @@ typedef union
     bbMoveable_goal moveable_goal;
     bbAgentCommandData agent_command;
     bbInstructionData_banana banana;
+    bbInstructionData_unit unit;
     bbInstructionData_unspawn unspawn;
 } bbInstruction_data;
 

@@ -78,3 +78,18 @@ bbFlag bbCoreInput_commandAgent_setGoalPoint(bbCore* core, bbHandle agent, bbMap
     instruction->type = bbVInstruction_commandAgent;
     bbList_pushL(&core->do_stack, instruction);
 }
+
+bbFlag bbCoreInput_spawnUnitOut(bbCore* core, I32 unit_type, bbMapCoords MC, U64 time,
+bbInstruction_source source, bbHandle action)
+{
+
+        bbInstruction* instruction;
+        bbList_alloc(&core->do_stack, (void**) &instruction);
+        instruction->type = bbVInstruction_spawnUnitOut;
+        instruction->data.unit.type = unit_type;
+        instruction->data.unit.position = MC;
+        instruction->act_time = time;
+        bbList_pushL(&core->do_stack, instruction);
+        return bbSuccess;
+
+}

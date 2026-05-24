@@ -576,7 +576,7 @@ bbFlag bbVInstruction_commandAgent_fn(bbCore* core, bbInstruction* instruction)
     return bbSuccess;
 }
 
-bbFlag bbInstruction_spawnUnitIn_fn(bbCore* core, bbInstruction* instruction)
+bbFlag bbVInstruction_spawnUnitIn_fn(bbCore* core, bbInstruction* instruction)
 {
 
     bbInstruction* undo_instruction;
@@ -585,12 +585,20 @@ bbFlag bbInstruction_spawnUnitIn_fn(bbCore* core, bbInstruction* instruction)
     //undo_instruction->data.map_coords = home.agents_app.agents.agents[instruction->player].goalpoint;
     undo_instruction->source = instruction->source;
     undo_instruction->player = instruction->player;
-    undo_instruction->data.unspawn.entity = home.agents_app.entities.num_entities_core;
-    undo_instruction->data.unspawn.moveable = home.agents_app.movables.available;
+    undo_instruction->data.unspawn.entity = instruction->data.unit.entity;
+    undo_instruction->data.unspawn.moveable = instruction->data.unit.moveable;
 
     bbAgent* agent;
 
-    //bbSpawner_spawnEntityI()
+
+    //bbAgent_newBanana(home.agents_app.agents,&agent, instruction->data.banana.position,
+    //    instruction->data.banana.entity, instruction->data.banana.moveable);
+    bbSpawner_spawnEntityI(&home.spawner,
+                            &agent,
+                            instruction->data.unit.position,
+                            instruction->data.unit.moveable,
+                            instruction->data.unit.entity,
+                            instruction->data.unit.type);
 
     bbHandle agent_handle;
     bbVPool_reverseLookup(home.agents_app.agents->pool, agent, &agent_handle);
@@ -621,5 +629,12 @@ bbFlag bbInstruction_spawnUnitIn_fn(bbCore* core, bbInstruction* instruction)
         return bbSuccess;
     }
     bbNotHere()
+    return bbSuccess;
+}
+
+bbFlag bbVInstruction_spawnUnitOut_fn(bbCore* core, bbInstruction* instruction)
+{
+    bbDebug("WAKA WAKA DOO DOO, YEA\n");
+    //bbNetworkApp_spawnUnitOut(&home.network, instruction->data.unit.type, instruction->data.unit.position, instruction->act_time, collision++);
     return bbSuccess;
 }
