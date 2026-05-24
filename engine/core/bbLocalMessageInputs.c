@@ -144,12 +144,14 @@ bbFlag bbLocalMessage_SpawnBanana(bbCore* core, bbMapCoords mapCoords)
 
 bbFlag bbLocalMessage_SpawnUnit(bbCore* core, bbMapCoords mapCoords, char* key)
 {
+
     bbLocalMessage* message;
     bbThreadedQueue_alloc(&core->local_message_queue, (void** ) &message);
     message->type = bbLocalMessage_spawnUnit;
 
     message->act_time = home.core.core.actual_time;
-    message->data.map_coords = mapCoords;
+    message->data.keycoords.coords = mapCoords;
+    bbStr_putStr(message->data.keycoords.key, key, KEY_LENGTH);
 
 
     bbThreadedQueue_pushL(&core->local_message_queue, message);

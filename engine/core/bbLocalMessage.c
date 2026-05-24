@@ -117,9 +117,13 @@ bbFlag bbLocalMessage_keyDown_fn(bbCore* core, bbLocalMessage* message)
 bbFlag bbLocalMessage_spawnUnitOut_fn(bbCore* core, bbLocalMessage* message)
 {
     bbHandle handle = {0};
+    bbHandle type_handle;
+    bbDictionary_lookup(home.spawner.entity_new_dict,message->data.keycoords.key, &type_handle);
+
+    bbDebug("key = %s, index = %llu\n", message->data.keycoords.key, type_handle.u64);
     bbCoreInput_spawnUnitOut(core,
-                                0,
-                                message->data.map_coords,
+                                type_handle.u64,
+                                message->data.keycoords.coords,
                                 message->act_time,
                                 bbInstructionSource_input,
                                 handle);

@@ -19,7 +19,7 @@ bbFlag bbCoreInput_commandAgent_setGoalPoint(bbCore* core, bbHandle agent, bbMap
 
 bbFlag bbCoreInput_spawnUnitOut(bbCore* core, I32 unit_type, bbMapCoords MC, U64 time,
 bbInstruction_source source, bbHandle action);
-bbFlag bbCoreInput_spawnUnitIn(bbCore* core, bbMapCoords MC, I32 entity_index,
+bbFlag bbCoreInput_spawnUnitIn(bbCore* core, bbMapCoords MC,I32 type_index, I32 entity_index,
     I32 moveable_index, U64 time, bbInstruction_source source, bbHandle action);
 
 #endif //COREINPUTS_H

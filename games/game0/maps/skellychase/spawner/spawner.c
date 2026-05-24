@@ -6,6 +6,7 @@
 #include "engine/spawner/bbSpawner.h"
 
 #include "games/game0/maps/skellychase/spawner/kitty.h"
+#include "games/game0/maps/skellychase/spawner/balloon.h"
 
 //typedef bbFlag bbSpawnFunction (char* string);
 //(MC.i, MC.j, moveable_index, entity_index);
@@ -396,8 +397,12 @@ bbFlag bbSpawner_populate(bbSpawner* spawner)
     bbParseFunction_add(spawner,bbPF_entityCore, bbPF_entityGraphics, "ENTITY");
 
     bbSpawnFunction_add(spawner,(void*)bbSF_null,(void*)bbSF_null, "NULL");
-    bbSpawnFunction_add(spawner,(void*)bbSF_kittyCore,(void*)bbSF_kittyGraphics, "KITTY");
 
+    bbSpawnFunction_add(spawner,(void*)bbSF_kittyCore,(void*)bbSF_kittyGraphics, "KITTY");
     bbEntityFunction_add(spawner,bbEntity_newKitty, bbUIUnit_newKitty, "KITTY");
+
+
+    bbSpawnFunction_add(spawner,(void*)bbSF_balloonCore,(void*)bbSF_balloonGraphics, "BALLOON");
+    bbEntityFunction_add(spawner,bbEntity_newBalloon, bbUIUnit_newBalloon, "BALLOON");
     return bbSuccess;
 }

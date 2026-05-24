@@ -119,6 +119,11 @@ typedef struct {
     I32 moveable;
 } bbInstructionData_unspawn;
 
+typedef struct {
+    bbMapCoords coords;
+    char key[KEY_LENGTH];
+} bbInstructionData_key_coords;
+
 typedef union
 {
     char string[KEY_LENGTH];
@@ -133,6 +138,7 @@ typedef union
     bbInstructionData_banana banana;
     bbInstructionData_unit unit;
     bbInstructionData_unspawn unspawn;
+    bbInstructionData_key_coords keycoords;
 } bbInstruction_data;
 
 typedef struct bbInstruction
