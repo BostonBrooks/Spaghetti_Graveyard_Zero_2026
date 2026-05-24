@@ -125,31 +125,7 @@ int main(void)
 
     pthread_barrier_wait(&barrier1);
 
-    bbAgent* agent;
-    bbMapCoords MC;
-    MC.i = 11000;
-    MC.j = 11000;
-    MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
-    bbSpawner_spawnEntityI(&home.spawner,&agent, MC, 69, 69, 0);
 
-    MC.j += 1000;
-    MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
-    bbSpawner_spawnEntityI(&home.spawner,&agent, MC, 70, 70, 0);
-
-    MC.j +=1000;
-    MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
-    bbSpawner_spawnEntityI(&home.spawner,&agent, MC, 71, 71, 0);
-
-    MC.j +=1000;
-    MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
-    bbSpawner_spawnEntityI(&home.spawner,&agent, MC, 72, 72, 0);
-
-    MC.j +=1000;
-    MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
-    bbSpawner_spawnEntityI(&home.spawner,&agent, MC, 73, 73, 0);
-
-    bbCoreInput_spawnUnitOut(&home.core.core, 0, MC, 69,bbInstructionSource_input, no_handle);
-    bbCore_react(&home.core.core);
     while (1)
     {
 

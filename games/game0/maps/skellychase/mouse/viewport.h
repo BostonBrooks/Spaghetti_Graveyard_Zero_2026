@@ -12,11 +12,6 @@ bbFlag Viewport_LeftDown (void* Mouse, void* Widgets, void* Widget, void*
     bbScreenPoints screen_points = mouse->position;
     bbViewportCoords VC = bbScreenPoints_getViewportPoints(&home.viewport_app.viewport, screen_points);
     bbMapCoords MC = bbViewportCoords_getMapCoords(VC);
-
-
-    bbDebug("spawn banana i = %d, j = %d, k = %d\n", MC.i, MC.j, MC.k);
-
-   // bbLocalMessage_SpawnBanana(&home.core.core, MC);
     bbLocalMessage_SpawnUnit(&home.core.core, MC, "KITTY");
     return bbSuccess;
 }
