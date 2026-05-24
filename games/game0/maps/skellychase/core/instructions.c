@@ -575,3 +575,51 @@ bbFlag bbVInstruction_commandAgent_fn(bbCore* core, bbInstruction* instruction)
     bbVPool_free(core->instruction_pool, (void*)instruction);
     return bbSuccess;
 }
+
+bbFlag bbInstruction_spawnUnitIn_fn(bbCore* core, bbInstruction* instruction)
+{
+
+    bbInstruction* undo_instruction;
+    bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+    undo_instruction->type = bbVInstruction_unspawnUnit;
+    //undo_instruction->data.map_coords = home.agents_app.agents.agents[instruction->player].goalpoint;
+    undo_instruction->source = instruction->source;
+    undo_instruction->player = instruction->player;
+    undo_instruction->data.unspawn.entity = home.agents_app.entities.num_entities_core;
+    undo_instruction->data.unspawn.moveable = home.agents_app.movables.available;
+
+    bbAgent* agent;
+
+    //bbSpawner_spawnEntityI()
+
+    bbHandle agent_handle;
+    bbVPool_reverseLookup(home.agents_app.agents->pool, agent, &agent_handle);
+
+    undo_instruction->data.unspawn.agent = agent_handle;
+
+
+
+    if (instruction->source == bbInstructionSource_internal)
+    {
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        undo_instruction->redo_instruction.u64 = 0;
+        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_input)
+    {
+        bbHandle handle;
+        bbVPool_reverseLookup(core->instruction_pool, instruction, &handle);
+        undo_instruction->redo_instruction = handle;
+        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_action)
+    {
+        undo_instruction->redo_instruction = instruction->redo_instruction;
+        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+        return bbSuccess;
+    }
+    bbNotHere()
+    return bbSuccess;
+}

@@ -134,11 +134,12 @@ bbFlag bbSF_kittyCore(I32 i_coord, I32 j_coord, I32 moveable_index, I32 entity_i
 
 ///Spawn kitty during gameplay, doesn't care about syncing the core
 
-bbFlag bbEntity_newKitty( bbMapCoords MC, I32 moveable_index, I32 entity_index)
+bbFlag bbEntity_newKitty(bbAgent** agent, I32 type_index, bbMapCoords MC, I32 moveable_index, I32 entity_index)
 {
-    bbAgent* agent;
-    bbAgent_newKitty(&agent, MC, moveable_index, entity_index);
-    bbUI_Inbox_NewUnit(&home.UI.inbox, 0, MC, entity_index, moveable_index);
+    bbAgent* agent1;
+    bbAgent_newKitty(&agent1, MC, moveable_index, entity_index);
+    bbUI_Inbox_NewUnit(&home.UI.inbox, type_index, MC, entity_index, moveable_index);
+    *agent = agent1;
     return bbSuccess;
 }
 

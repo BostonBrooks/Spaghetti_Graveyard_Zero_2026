@@ -169,13 +169,21 @@ bbFlag bbSpawner_spawnGraphics(bbSpawner* spawner, char* file_name)
 }
 
 
-bbFlag bbSpawner_spawnEntity(bbSpawner* spawner, bbMapCoords MC, I32 moveable_index, I32 entity_index, char* key)
+bbFlag bbSpawner_spawnEntity(bbSpawner* spawner, bbAgent** agent, bbMapCoords MC, I32 moveable_index, I32 entity_index, char* key)
 {
     bbHandle function_handle;
     bbDictionary_lookup(spawner->entity_new_dict, key, &function_handle);
     bbEntity_new* function;
     function = spawner->entity_new[function_handle.u64];
-    return function(MC, moveable_index, entity_index);
+    return function(agent,function_handle.u64,MC, moveable_index, entity_index);
+}
+
+bbFlag bbSpawner_spawnEntityI(bbSpawner* spawner, bbAgent** agent, bbMapCoords MC, I32 moveable_index, I32 entity_index, I32 type_index)
+{
+
+    bbEntity_new* function;
+    function = spawner->entity_new[type_index];
+    return function(agent, type_index,MC, moveable_index, entity_index);
 }
 
 bbFlag bbUIUnit_newUnit(I32 type_index, bbMapCoords MC, I32 moveable_index, I32 entity_index)

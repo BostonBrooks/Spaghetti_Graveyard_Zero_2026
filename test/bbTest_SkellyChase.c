@@ -125,27 +125,28 @@ int main(void)
 
     pthread_barrier_wait(&barrier1);
 
+    bbAgent* agent;
     bbMapCoords MC;
     MC.i = 11000;
     MC.j = 11000;
     MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
-    bbSpawner_spawnEntity(&home.spawner, MC, 69, 69, "KITTY");
+    bbSpawner_spawnEntityI(&home.spawner,&agent, MC, 69, 69, 0);
 
     MC.j += 1000;
     MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
-    bbSpawner_spawnEntity(&home.spawner, MC, 70, 70, "KITTY");
+    bbSpawner_spawnEntityI(&home.spawner,&agent, MC, 70, 70, 0);
 
     MC.j +=1000;
     MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
-    bbSpawner_spawnEntity(&home.spawner, MC, 71, 71, "KITTY");
+    bbSpawner_spawnEntityI(&home.spawner,&agent, MC, 71, 71, 0);
 
     MC.j +=1000;
     MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
-    bbSpawner_spawnEntity(&home.spawner, MC, 72, 72, "KITTY");
+    bbSpawner_spawnEntityI(&home.spawner,&agent, MC, 72, 72, 0);
 
     MC.j +=1000;
     MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
-    bbSpawner_spawnEntity(&home.spawner, MC, 73, 73, "KITTY");
+    bbSpawner_spawnEntityI(&home.spawner,&agent, MC, 73, 73, 0);
 
     while (1)
     {
