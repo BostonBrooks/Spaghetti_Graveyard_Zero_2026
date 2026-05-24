@@ -87,7 +87,7 @@ bbFlag bbAgent_newSkelly(bbAgents* agents, bbMapCoords position)
 
     return bbSuccess;
 
-}
+}*/
 
 bbFlag bbAgent_newBanana(bbAgents* agents,bbAgent** self, bbMapCoords position,
     I32 entity_index, I32 moveable_index)
