@@ -10,16 +10,37 @@
 #include "engine/logic/bbTerminal.h"
 
 
-bbFlag bbSpawner_init(bbSpawner* spawner, I32 num)
+bbFlag bbSpawner_init(bbSpawner* spawner, I32 num_parsers, I32 num_entity_types)
 {
-    spawner->spawn_core = calloc(num, sizeof(bbSpawnFunction*));
-    spawner->spawn_graphics = calloc(num, sizeof(bbSpawnFunction*));
+    spawner->parse_core = calloc(num_parsers, sizeof(bbParseFunction*));
+    spawner->parse_graphics = calloc(num_parsers, sizeof(bbParseFunction*));
+    spawner->parse_functions_available = 0;
+    bbDictionary_new(&spawner->parse_dict, nextPrime(num_parsers));
+
+
+    spawner->spawn_core = calloc(num_entity_types, sizeof(bbSpawnFunction*));
+    spawner->spawn_graphics = calloc(num_entity_types, sizeof(bbSpawnFunction*));
     spawner->spawn_functions_available = 0;
-    bbDictionary_new(&spawner->dict, nextPrime(num));
+    bbDictionary_new(&spawner->spawn_dict, nextPrime(num_entity_types));
     return bbSuccess;
 }
 
-bbFlag bbSpawner_add(bbSpawner* spawner,
+bbFlag bbParseFunction_add(bbSpawner* spawner,
+    bbParseFunction* spawn_core, bbParseFunction* spawn_graphics, char* key )
+{
+
+    U32 available = spawner->parse_functions_available++;
+    spawner->parse_core[available] = spawn_core;
+    spawner->parse_graphics[available] = spawn_graphics;
+    bbHandle handle;
+    handle.u64 = available;
+
+    bbDictionary_add(spawner->parse_dict, key, handle);
+
+    return bbSuccess;
+}
+
+bbFlag bbSpawnFunction_add(bbSpawner* spawner,
     bbSpawnFunction* spawn_core, bbSpawnFunction* spawn_graphics, char* key )
 {
 
@@ -29,28 +50,28 @@ bbFlag bbSpawner_add(bbSpawner* spawner,
     bbHandle handle;
     handle.u64 = available;
 
-    bbDictionary_add(spawner->dict, key, handle);
+    bbDictionary_add(spawner->spawn_dict, key, handle);
 
     return bbSuccess;
 }
 
 
 bbFlag bbSpawner_getCore(bbSpawner* spawner,
-    bbSpawnFunction** function, char* key)
+    bbParseFunction** function, char* key)
 {
     bbHandle handle;
-    bbDictionary_lookup(spawner->dict, key, &handle);
-    *function = spawner->spawn_core[handle.u64];
+    bbDictionary_lookup(spawner->parse_dict, key, &handle);
+    *function = spawner->parse_core[handle.u64];
     return bbSuccess;
 }
 
 
 bbFlag bbSpawner_getGraphics(bbSpawner* spawner,
-    bbSpawnFunction** function, char* key)
+    bbParseFunction** function, char* key)
 {
     bbHandle handle;
-    bbDictionary_lookup(spawner->dict, key, &handle);
-    *function = spawner->spawn_graphics[handle.u64];
+    bbDictionary_lookup(spawner->parse_dict, key, &handle);
+    *function = spawner->parse_graphics[handle.u64];
     return bbSuccess;
 }
 
@@ -79,10 +100,10 @@ bbFlag bbSpawner_spawnCore(bbSpawner* spawner, char* file_name)
             i++;
         }
 
-        bbSpawnFunction* spawn_function;
+        bbParseFunction* spawn_function;
         bbHandle handle;
-        bbDictionary_lookup(spawner->dict, key, &handle);
-        spawn_function = spawner->spawn_core[handle.u64];
+        bbDictionary_lookup(spawner->parse_dict, key, &handle);
+        spawn_function = spawner->parse_core[handle.u64];
 
         spawn_function(file_line);
     }
@@ -115,10 +136,10 @@ bbFlag bbSpawner_spawnGraphics(bbSpawner* spawner, char* file_name)
             i++;
         }
 
-        bbSpawnFunction* spawn_function;
+        bbParseFunction* spawn_function;
         bbHandle handle;
-        bbDictionary_lookup(spawner->dict, key, &handle);
-        spawn_function = spawner->spawn_graphics[handle.u64];
+        bbDictionary_lookup(spawner->parse_dict, key, &handle);
+        spawn_function = spawner->parse_graphics[handle.u64];
 
         spawn_function(file_line);
     }
