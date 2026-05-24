@@ -15,7 +15,8 @@ typedef enum
     bbUI_Inbox_newSkelly,
     bbUI_Inbox_setUnitState,
     bbUI_Inbox_newBanana,
-    bbUI_Inbox_deleteBanana
+    bbUI_Inbox_deleteBanana,
+    bbUI_Inbox_newUnit
 } bbUI_Inbox_type;
 
 typedef struct
@@ -37,6 +38,7 @@ typedef struct
     bbMapCoords coords;
     I32 integer;
     I32 integer2;
+    I32 integer3;
 } bbUI_Inbox_data;
 
 typedef struct
@@ -76,6 +78,8 @@ bbFlag bbUI_Inbox_SetUnitState(bbUI_Inbox* inbox, bbHandle unit, I32 sprite);
 
 bbFlag bbUI_Inbox_SetViewpoint(bbUI_Inbox* inbox, bbMapCoords MC);
 
+bbFlag bbUI_Inbox_NewUnit(bbUI_Inbox* inbox, I32 type_index, bbMapCoords MC, I32 entity_index, I32 moveable_index);
+bbFlag bbUI_Inbox_newUnit_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message);
 
 bbFlag bbUI_Inbox_NewBanana(bbUI_Inbox* inbox, bbMapCoords MC, I32 entity_index, I32 moveable_index);
 bbFlag bbUI_Inbox_DeleteBanana(bbUI_Inbox* inbox, I32 entity_index, I32 moveable_index);

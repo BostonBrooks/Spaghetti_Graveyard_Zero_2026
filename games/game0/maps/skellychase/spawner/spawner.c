@@ -15,31 +15,6 @@ bbFlag bbSF_null(I32 i_coord, I32 j_coord, I32 moveable_index, I32 entity_index)
     return bbSuccess;
 }
 
-///This functions job is to call a more general constructor
-bbFlag bbSF_kittyGraphics(I32 i_coord, I32 j_coord, I32 moveable_index, I32 entity_index)
-{
-    bbDebug("i_coord = %d, j_coord = %d, moveable_index = %d, entity_index = %d\n",
-        i_coord, j_coord, moveable_index, entity_index);
-    bbMapCoords MC;
-    MC.i = i_coord;
-    MC.j = j_coord;
-    MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
-    bbUnit* unit;
-    bbUnit_newKitty(&unit, MC, moveable_index, entity_index);
-    return bbSuccess;
-}
-
-
-
-bbFlag bbSF_kittyCore(I32 i_coord, I32 j_coord, I32 moveable_index, I32 entity_index)
-{
-    bbMapCoords MC;
-    MC.i = i_coord;
-    MC.j = j_coord;
-    MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
-    bbAgent* agent;
-    bbAgent_newKitty(&agent, MC, moveable_index, entity_index);
-}
 
 bbFlag bbPF_null(char* string)
 {
@@ -423,5 +398,6 @@ bbFlag bbSpawner_populate(bbSpawner* spawner)
     bbSpawnFunction_add(spawner,(void*)bbSF_null,(void*)bbSF_null, "NULL");
     bbSpawnFunction_add(spawner,(void*)bbSF_kittyCore,(void*)bbSF_kittyGraphics, "KITTY");
 
+    bbEntityFunction_add(spawner,bbEntity_newKitty, bbUIUnit_newKitty, "KITTY");
     return bbSuccess;
 }

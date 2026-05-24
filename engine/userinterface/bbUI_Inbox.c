@@ -64,6 +64,9 @@ bbFlag bbUI_Inbox_check(bbUI_Inbox* inbox)
         case bbUI_Inbox_deleteBanana:
             bbUI_Inbox_deleteBanana_fn(inbox, message);
             break;
+        case bbUI_Inbox_newUnit:
+            bbUI_Inbox_newUnit_fn(inbox,message);
+            break;
 #endif
         default:
 
@@ -359,5 +362,29 @@ bbFlag bbUI_Inbox_deleteBanana_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message
 
     return bbSuccess;
 
+
+}
+
+
+bbFlag bbUI_Inbox_NewUnit(bbUI_Inbox* inbox, I32 type_index, bbMapCoords MC, I32 entity_index, I32 moveable_index)
+{
+    {
+        bbUI_Inbox_message* message;
+        bbThreadedQueue_alloc(&inbox->local_message_queue,(void**)&message);
+        message->type = bbUI_Inbox_newUnit;
+        message->data.coords = MC;
+        message->data.integer = entity_index;
+        message->data.integer2 = moveable_index;
+        message->data.integer3 = type_index;
+
+        bbThreadedQueue_pushL(&inbox->local_message_queue, (void*)message);
+        return bbSuccess;
+    }
+}
+
+bbFlag bbUI_Inbox_newUnit_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
+{
+    bbUIUnit_newUnit(message->data.integer3, message->data.coords, message->data.integer2, message->data.integer);
+    return bbSuccess;
 
 }

@@ -106,3 +106,46 @@ bbFlag bbUnit_newKitty(bbUnit** self, bbMapCoords MC, I32 moveable_index, I32 en
     *self = unit;
     return bbSuccess;
 }
+
+bbFlag bbSF_kittyGraphics(I32 i_coord, I32 j_coord, I32 moveable_index, I32 entity_index)
+{
+    bbDebug("i_coord = %d, j_coord = %d, moveable_index = %d, entity_index = %d\n",
+        i_coord, j_coord, moveable_index, entity_index);
+    bbMapCoords MC;
+    MC.i = i_coord;
+    MC.j = j_coord;
+    MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
+    bbUnit* unit;
+    bbUnit_newKitty(&unit, MC, moveable_index, entity_index);
+    return bbSuccess;
+}
+
+
+
+bbFlag bbSF_kittyCore(I32 i_coord, I32 j_coord, I32 moveable_index, I32 entity_index)
+{
+    bbMapCoords MC;
+    MC.i = i_coord;
+    MC.j = j_coord;
+    MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
+    bbAgent* agent;
+    bbAgent_newKitty(&agent, MC, moveable_index, entity_index);
+}
+
+///Spawn kitty during gameplay, doesn't care about syncing the core
+
+bbFlag bbEntity_newKitty( bbMapCoords MC, I32 moveable_index, I32 entity_index)
+{
+    bbAgent* agent;
+    bbAgent_newKitty(&agent, MC, moveable_index, entity_index);
+    bbUI_Inbox_NewUnit(&home.UI.inbox, 0, MC, entity_index, moveable_index);
+    return bbSuccess;
+}
+
+bbFlag bbUIUnit_newKitty( bbMapCoords MC, I32 moveable_index, I32 entity_index)
+{
+    bbUnit* unit;
+    bbUnit_newKitty(&unit,MC, moveable_index, entity_index);
+
+    return bbSuccess;
+}

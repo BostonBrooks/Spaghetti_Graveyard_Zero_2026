@@ -194,6 +194,7 @@ bbFlag bbInstruction_unupdateMoveables_fn(bbCore* core, bbInstruction* instructi
 
 bbFlag bbInstruction_spawnBananaOut_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_spawnBananaIn_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbInstruction_spawnBananaIn_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_unspawnBanana_fn(bbCore* core, bbInstruction* instruction);
 
 #endif //BB_INSTRUCTION_H

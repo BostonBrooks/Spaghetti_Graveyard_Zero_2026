@@ -5,6 +5,8 @@
 
 #include "engine/spawner/bbSpawner.h"
 
+#include "engine/data/bbHome.h"
+#include "engine/entities/bbEntities.h"
 #include "engine/logic/bbPrime.h"
 #include "engine/logic/bbDictionary.h"
 #include "engine/logic/bbTerminal.h"
@@ -17,11 +19,30 @@ bbFlag bbSpawner_init(bbSpawner* spawner, I32 num_parsers, I32 num_entity_types)
     spawner->parse_functions_available = 0;
     bbDictionary_new(&spawner->parse_dict, nextPrime(num_parsers));
 
-
     spawner->spawn_core = calloc(num_entity_types, sizeof(bbSpawnFunction*));
     spawner->spawn_graphics = calloc(num_entity_types, sizeof(bbSpawnFunction*));
     spawner->spawn_functions_available = 0;
     bbDictionary_new(&spawner->spawn_dict, nextPrime(num_entity_types));
+
+    spawner->entity_new = calloc(num_entity_types, sizeof(bbEntity_new*));
+    spawner->unit_new = calloc(num_entity_types, sizeof(bbUIUnit_new*));
+    spawner->entity_new_functions_available = 0;
+    bbDictionary_new(&spawner->entity_new_dict, nextPrime(num_entity_types));
+    return bbSuccess;
+}
+
+bbFlag bbEntityFunction_add(bbSpawner* spawner,
+    bbEntity_new* new_entity, bbUIUnit_new* new_unit, char* key )
+{
+
+    U32 available = spawner->entity_new_functions_available++;
+    spawner->entity_new[available] = new_entity;
+    spawner->unit_new[available] = new_unit;
+    bbHandle handle;
+    handle.u64 = available;
+
+    bbDictionary_add(spawner->entity_new_dict, key, handle);
+
     return bbSuccess;
 }
 
@@ -145,4 +166,21 @@ bbFlag bbSpawner_spawnGraphics(bbSpawner* spawner, char* file_name)
     }
 
     return bbSuccess;
+}
+
+
+bbFlag bbSpawner_spawnEntity(bbSpawner* spawner, bbMapCoords MC, I32 moveable_index, I32 entity_index, char* key)
+{
+    bbHandle function_handle;
+    bbDictionary_lookup(spawner->entity_new_dict, key, &function_handle);
+    bbEntity_new* function;
+    function = spawner->entity_new[function_handle.u64];
+    return function(MC, moveable_index, entity_index);
+}
+
+bbFlag bbUIUnit_newUnit(I32 type_index, bbMapCoords MC, I32 moveable_index, I32 entity_index)
+{
+    bbUIUnit_new* function;
+    function = home.spawner.unit_new[type_index];
+    return function(MC, moveable_index, entity_index);
 }

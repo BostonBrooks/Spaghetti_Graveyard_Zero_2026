@@ -10,9 +10,21 @@
 #include "engine/logic/bbFlag.h"
 #include "../logic/bbDictionary.h"
 #include "../logic/bbIntTypes.h"
+#include "engine/geometry/bbCoordinates.h"
+#include "engine/userinterface/bbUI_Inbox.h"
 typedef bbFlag bbParseFunction (char* string);
 
 typedef bbFlag bbSpawnFunction (...);
+
+///Used to spawn an entity during gameplay. does not care about keeping the core synchronised;
+///calls the function bbUI_Inbox_NewUnit(&home.UI.inbox, 0, MC, entity_index, moveable_index);
+typedef bbFlag bbEntity_new( bbMapCoords MC, I32 moveable_index, I32 entity_index);
+
+///This function is called by bbUI_Inbox_NewUnit(&home.UI.inbox, 0, MC, entity_index, moveable_index);
+typedef bbFlag bbUIUnit_new( bbMapCoords MC, I32 moveable_index, I32 entity_index);
+
+//bbFlag bbUI_Inbox_NewUnit(bbUI_Inbox* inbox, I32 type_index, bbMapCoords MC, I32 entity_index, I32 moveable_index);
+bbFlag bbUIUnit_newUnit(I32 type_index, bbMapCoords MC, I32 moveable_index, I32 entity_index);
 
 typedef struct
 {
@@ -25,6 +37,11 @@ typedef struct
     bbSpawnFunction** spawn_graphics;
     I32 spawn_functions_available;
     bbDictionary* spawn_dict;
+
+    bbEntity_new** entity_new;
+    bbUIUnit_new** unit_new;
+    I32 entity_new_functions_available;
+    bbDictionary* entity_new_dict;
 
 } bbSpawner;
 
@@ -39,6 +56,8 @@ bbFlag bbParseFunction_add(bbSpawner* spawner,
 bbFlag bbSpawnFunction_add(bbSpawner* spawner,
     bbSpawnFunction* spawn_core, bbSpawnFunction* spawn_graphics, char* key );
 
+bbFlag bbEntityFunction_add(bbSpawner* spawner,
+    bbEntity_new* new_entity, bbUIUnit_new* new_unit, char* key );
 ///Load spawn functions into memory
 bbFlag bbSpawner_populate(bbSpawner* spawner);
 
@@ -50,5 +69,5 @@ bbFlag bbSpawner_getGraphics(bbSpawner* spawner,
 
 bbFlag bbSpawner_spawnCore(bbSpawner* spawner, char* file_name);
 bbFlag bbSpawner_spawnGraphics(bbSpawner* spawner, char* file_name);
-
+bbFlag bbSpawner_spawnEntity(bbSpawner* spawner, bbMapCoords MC, I32 moveable_index, I32 entity_index, char* key);
 #endif //BB_SPAWNER_H

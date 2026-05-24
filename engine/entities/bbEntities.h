@@ -19,6 +19,7 @@ typedef struct
     I32 num_entities_graphics;
     bbEntity entity[NUM_ENTITIES];
 
+    ///Used so that moveables can send updates to units
     bbHandle moveable_units[NUM_MOVEABLES];
 }bbEntities;
 

@@ -125,11 +125,30 @@ int main(void)
 
     pthread_barrier_wait(&barrier1);
 
+    bbMapCoords MC;
+    MC.i = 11000;
+    MC.j = 11000;
+    MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
+    bbSpawner_spawnEntity(&home.spawner, MC, 69, 69, "KITTY");
+
+    MC.j += 1000;
+    MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
+    bbSpawner_spawnEntity(&home.spawner, MC, 70, 70, "KITTY");
+
+    MC.j +=1000;
+    MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
+    bbSpawner_spawnEntity(&home.spawner, MC, 71, 71, "KITTY");
+
+    MC.j +=1000;
+    MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
+    bbSpawner_spawnEntity(&home.spawner, MC, 72, 72, "KITTY");
+
+    MC.j +=1000;
+    MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
+    bbSpawner_spawnEntity(&home.spawner, MC, 73, 73, "KITTY");
 
     while (1)
     {
-
-
 
         if (home.network.send_ready && home.network.receive_ready)
         {
