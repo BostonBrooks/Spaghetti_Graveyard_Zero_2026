@@ -15,16 +15,21 @@ bbFlag bbAgent_newBalloon(bbAgent** self, bbMapCoords MC, I32 moveable_index, I3
     agent->square_list.prev = agents->pool->null;
     agent->square_list.next = agents->pool->null;
     agent->moveable = moveable_index;
-    agent->ftable.update = bbAgentFunctions_getInt(&home.agents_app.functions,
-                             AgentUpdate, "UPDATE_SKELLY");
+    agent->ftable.update = -1;
     agent->ftable.command = -1;
     bbMoveable* moveable = &home.agents_app.movables.moveables[moveable_index];
 
     agent->state = bbAgentState_Idle;
     home.agents_app.movables.available = moveable_index+1;
 
-    moveable->type = bbMoveableType_Idle;
-    moveable->position = MC;
+    //DEBUG ONLY NOT CORE SAFE
+    I32 player_int = home.agents_app.player_entity;
+    bbHandle player_handle = home.agents_app.entities.entity[player_int].moveable;
+    bbMoveable* player_moveable = &home.agents_app.movables.moveables[player_handle.u64];
+    //DEBUG
+
+    moveable->type = bbMoveableType_GoalPoint;
+    moveable->position = player_moveable->position;
     moveable->goalpoint = MC;
 
     moveable->coords_a = bbMapCoords_getMilliCoords(moveable->position);
