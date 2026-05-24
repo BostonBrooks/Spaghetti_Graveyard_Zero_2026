@@ -72,6 +72,7 @@ break;\
 typedef struct
 {
     bbMapCoords position;
+    bbMapCoords goalpoint;
     I32 entity_index;
     I32 moveable_index;
     I32 type_index;

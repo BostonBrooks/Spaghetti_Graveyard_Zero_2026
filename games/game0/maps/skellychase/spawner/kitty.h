@@ -109,8 +109,8 @@ bbFlag bbUnit_newKitty(bbUnit** self, bbMapCoords MC, I32 moveable_index, I32 en
 
 bbFlag bbSF_kittyGraphics(I32 i_coord, I32 j_coord, I32 moveable_index, I32 entity_index)
 {
-    bbDebug("i_coord = %d, j_coord = %d, moveable_index = %d, entity_index = %d\n",
-        i_coord, j_coord, moveable_index, entity_index);
+    //bbDebug("i_coord = %d, j_coord = %d, moveable_index = %d, entity_index = %d\n",
+    //    i_coord, j_coord, moveable_index, entity_index);
     bbMapCoords MC;
     MC.i = i_coord;
     MC.j = j_coord;
@@ -134,12 +134,14 @@ bbFlag bbSF_kittyCore(I32 i_coord, I32 j_coord, I32 moveable_index, I32 entity_i
 
 ///Spawn kitty during gameplay, doesn't care about syncing the core
 
-bbFlag bbEntity_newKitty(bbAgent** agent, I32 type_index, bbMapCoords MC, I32 moveable_index, I32 entity_index)
+bbFlag bbEntity_newKitty(bbAgent** agent, I32 type_index, bbMapCoords MC,bbMapCoords goalpoint, I32 moveable_index, I32 entity_index)
 {
     bbAgent* agent1;
     bbAgent_newKitty(&agent1, MC, moveable_index, entity_index);
     bbUI_Inbox_NewUnit(&home.UI.inbox, type_index, MC, entity_index, moveable_index);
     *agent = agent1;
+
+    bbAssert(agent1!=NULL, "bad spawn function\n");
     return bbSuccess;
 }
 

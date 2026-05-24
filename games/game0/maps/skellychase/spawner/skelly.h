@@ -50,7 +50,7 @@ bbFlag bbAgent_newSkellyx(bbAgent** self, bbMapCoords MC, I32 moveable_index, I3
 
     return bbSuccess;
 }
-bbFlag bbUnit_newSkellyx(bbUnit** self, bbMapCoords MC, I32 moveable_index, I32 entity_index)
+bbFlag bbUnit_newSkellyx(bbUnit** self, bbMapCoords MC,bbMapCoords goalpoint, I32 moveable_index, I32 entity_index)
 {
 
     bbVPool* pool = home.viewport_app.units->pool;
@@ -123,14 +123,14 @@ bbFlag bbUnit_newSkellyx(bbUnit** self, bbMapCoords MC, I32 moveable_index, I32 
 
 bbFlag bbSF_skellyGraphics(I32 i_coord, I32 j_coord, I32 moveable_index, I32 entity_index)
 {
-    bbDebug("i_coord = %d, j_coord = %d, moveable_index = %d, entity_index = %d\n",
-        i_coord, j_coord, moveable_index, entity_index);
+   // bbDebug("i_coord = %d, j_coord = %d, moveable_index = %d, entity_index = %d\n",
+   //     i_coord, j_coord, moveable_index, entity_index);
     bbMapCoords MC;
     MC.i = i_coord;
     MC.j = j_coord;
     MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
     bbUnit* unit;
-    bbUnit_newSkellyx(&unit, MC, moveable_index, entity_index);
+    bbUnit_newSkellyx(&unit, MC, MC,moveable_index, entity_index);
     return bbSuccess;
 }
 
@@ -148,19 +148,21 @@ bbFlag bbSF_skellyCore(I32 i_coord, I32 j_coord, I32 moveable_index, I32 entity_
 
 ///Spawn skelly during gameplay, doesn't care about syncing the core
 
-bbFlag bbEntity_newSkelly(bbAgent** agent, I32 type_index, bbMapCoords MC, I32 moveable_index, I32 entity_index)
+bbFlag bbEntity_newSkelly(bbAgent** agent, I32 type_index, bbMapCoords MC,bbMapCoords MC2, I32 moveable_index, I32 entity_index)
 {
     bbAgent* agent1;
     bbAgent_newSkellyx(&agent1, MC, moveable_index, entity_index);
     bbUI_Inbox_NewUnit(&home.UI.inbox, type_index, MC, entity_index, moveable_index);
     *agent = agent1;
+
+    bbAssert(agent1!=NULL, "bad spawn function\n");
     return bbSuccess;
 }
 
 bbFlag bbUIUnit_newSkelly( bbMapCoords MC, I32 moveable_index, I32 entity_index)
 {
     bbUnit* unit;
-    bbUnit_newSkellyx(&unit,MC, moveable_index, entity_index);
+    bbUnit_newSkellyx(&unit,MC,MC, moveable_index, entity_index);
 
     return bbSuccess;
 }

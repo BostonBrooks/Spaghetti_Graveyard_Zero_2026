@@ -108,6 +108,7 @@ typedef struct {
 
 typedef struct {
     bbMapCoords position;
+    bbMapCoords goalpoint;
     I32 type;
     I32 entity;
     I32 moveable;
@@ -121,6 +122,7 @@ typedef struct {
 
 typedef struct {
     bbMapCoords coords;
+    bbMapCoords coords2;
     char key[KEY_LENGTH];
 } bbInstructionData_key_coords;
 

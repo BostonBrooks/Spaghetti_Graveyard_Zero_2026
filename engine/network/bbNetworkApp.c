@@ -256,6 +256,7 @@ bbFlag bbNetworkApp_checkInbox(bbNetwork* network)
         {
             bbAction_spawnUnit(&home.core.core,
                 packet->data.unit.position,
+                packet->data.unit.goalpoint,
                 packet->data.unit.type_index,
                 packet->data.unit.entity_index,
                 packet->data.unit.moveable_index,
@@ -406,13 +407,14 @@ bbFlag bbNetworkApp_spawnBananaOut(bbNetwork* network, bbMapCoords MC, U64 time,
 }
 
 
-bbFlag bbNetworkApp_spawnUnitOut(bbNetwork* network, I32 unit_type, bbMapCoords MC, U64 time, U32 collision)
+bbFlag bbNetworkApp_spawnUnitOut(bbNetwork* network, I32 unit_type, bbMapCoords MC,bbMapCoords MC2, U64 time, U32 collision)
 {
     bbNetworkPacket* packet;
     bbThreadedQueue_alloc(&network->outbox, (void**)&packet);
     packet->type = PACKETTYPE_SPAWNUNIT;
     packet->act_tick = time;
     packet->data.unit.position = MC;
+    packet->data.unit.goalpoint = MC2;
     packet->data.unit.entity_index = 0;
     packet->data.unit.moveable_index = 0;
     packet->data.unit.type_index = unit_type;

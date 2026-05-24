@@ -11,8 +11,12 @@ bbFlag Viewport_LeftDown (void* Mouse, void* Widgets, void* Widget, void*
 
     bbScreenPoints screen_points = mouse->position;
     bbViewportCoords VC = bbScreenPoints_getViewportPoints(&home.viewport_app.viewport, screen_points);
-    bbMapCoords MC = bbViewportCoords_getMapCoords(VC);
-    bbLocalMessage_SpawnUnit(&home.core.core, MC, "BALLOON");
+    bbMapCoords MC = home.viewport_app.viewport.viewpoint;
+    bbMapCoords MC2 = bbViewportCoords_getMapCoords(VC);
+    bbLocalMessage_SpawnUnit(&home.core.core, MC, MC2, "BALLOON");
+
+
+    //bbDebug("goal.i = %d, goal.j = %d\n", MC2.i, MC2.j);
     return bbSuccess;
 }
 
@@ -29,6 +33,6 @@ bbFlag Viewport_RightDown (void* Mouse, void* Widgets, void* Widget, void*
     bbLocalMessage_SetGoalpoint(&home.core.core, MC);
 
 
-    bbDebug("move to i = %d, j = %d, k = %d\n", MC.i, MC.j, MC.k);
+    //bbDebug("move to i = %d, j = %d, k = %d\n", MC.i, MC.j, MC.k);
     return bbSuccess;
 }

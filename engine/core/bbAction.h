@@ -38,6 +38,7 @@ typedef struct
     I32 integer2;
     I32 integer3;
     bbMapCoords map_coords;
+    bbMapCoords goal_coords;
 } bbAction;
 
 ///actions are sorted by time in a total-ordering
@@ -116,6 +117,7 @@ bbFlag bbAction_spawnBanana(void* Core,
 
 bbFlag bbAction_spawnUnit(void* Core,
                             bbMapCoords map_coords,
+                            bbMapCoords goalpoint,
                             I32 unit_type,
                             I32 entity_index,
                             I32 moveable_index,

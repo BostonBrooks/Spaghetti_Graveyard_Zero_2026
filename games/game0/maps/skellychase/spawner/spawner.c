@@ -106,7 +106,7 @@ bbFlag bbPF_skeletonCore(char* string)
     moveable->goal_moveable = index%8;
 
 
-    bbDebug("SKELETON, moveable = %d, entity = %d\n", index);
+    bbDebug("SKELETON, moveable = %d, entity = %d\n", index,0);
 
     return bbSuccess;
 }

@@ -590,15 +590,18 @@ bbFlag bbVInstruction_spawnUnitIn_fn(bbCore* core, bbInstruction* instruction)
 
     bbAgent* agent;
 
+    bbDebug("type = %d\n",instruction->data.unit.type);
 
     //bbAgent_newBanana(home.agents_app.agents,&agent, instruction->data.banana.position,
     //    instruction->data.banana.entity, instruction->data.banana.moveable);
     bbSpawner_spawnEntityI(&home.spawner,
                             &agent,
                             instruction->data.unit.position,
+                            instruction->data.unit.goalpoint,
                             instruction->data.unit.moveable,
                             instruction->data.unit.entity,
                             instruction->data.unit.type);
+
 
     bbHandle agent_handle;
     bbVPool_reverseLookup(home.agents_app.agents->pool, agent, &agent_handle);
@@ -634,6 +637,7 @@ bbFlag bbVInstruction_spawnUnitIn_fn(bbCore* core, bbInstruction* instruction)
 
 bbFlag bbVInstruction_spawnUnitOut_fn(bbCore* core, bbInstruction* instruction)
 {
-    bbNetworkApp_spawnUnitOut(&home.network, instruction->data.unit.type, instruction->data.unit.position, instruction->act_time, collision++);
+    bbNetworkApp_spawnUnitOut(&home.network, instruction->data.unit.type,
+        instruction->data.unit.position, instruction->data.unit.goalpoint, instruction->act_time, collision++);
     return bbSuccess;
 }

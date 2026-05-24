@@ -29,8 +29,7 @@ bbFlag bbNetworkApp_keyDown(bbNetwork* network, I32 key_code, U64 time, U32 coll
 bbFlag bbNetworkApp_setViewpointOut(bbNetwork* network, bbMapCoords MC, U64 time, U32 collision);
 bbFlag bbNetworkApp_setGoalpointOut(bbNetwork* network, bbMapCoords MC, U64 time, U32 collision);
 bbFlag bbNetworkApp_spawnBananaOut(bbNetwork* network, bbMapCoords MC, U64 time, U32 collision);
-
-bbFlag bbNetworkApp_spawnUnitOut(bbNetwork* network, I32 unit_type, bbMapCoords MC, U64 time, U32 collision);
+bbFlag bbNetworkApp_spawnUnitOut(bbNetwork* network, I32 unit_type, bbMapCoords MC,bbMapCoords MC2, U64 time, U32 collision);
 
 
 #endif // BBNWETWORKAPP_H

@@ -95,6 +95,14 @@ bbFlag bbNetworkPacket_toStruct (sfPacket* packet, void* Struct)
         struct1->data.unit.position.i = sfPacket_readInt32(packet);
         struct1->data.unit.position.j = sfPacket_readInt32(packet);
         struct1->data.unit.position.k = sfPacket_readInt32(packet);
+
+        struct1->data.unit.goalpoint.i = sfPacket_readInt32(packet);
+        struct1->data.unit.goalpoint.j = sfPacket_readInt32(packet);
+        struct1->data.unit.goalpoint.k = sfPacket_readInt32(packet);
+
+
+       // bbDebug("goal.i = %d, goal.j = %d\n", struct1->data.unit.goalpoint.i, struct1->data.unit.goalpoint.j);
+
         struct1->data.unit.entity_index = sfPacket_readInt32(packet);
         struct1->data.unit.moveable_index = sfPacket_readInt32(packet);
         struct1->data.unit.type_index = sfPacket_readInt32(packet);
@@ -198,6 +206,13 @@ bbFlag bbNetworkPacket_fromStruct (sfPacket* packet, void* Struct)
         sfPacket_writeInt32(packet,struct1->data.unit.position.i);
         sfPacket_writeInt32(packet,struct1->data.unit.position.j);
         sfPacket_writeInt32(packet,struct1->data.unit.position.k);
+
+        sfPacket_writeInt32(packet,struct1->data.unit.goalpoint.i);
+        sfPacket_writeInt32(packet,struct1->data.unit.goalpoint.j);
+        sfPacket_writeInt32(packet,struct1->data.unit.goalpoint.k);
+
+        //bbDebug("goal.i = %d, goal.j = %d\n", struct1->data.unit.goalpoint.i, struct1->data.unit.goalpoint.j);
+
         sfPacket_writeInt32(packet,struct1->data.unit.entity_index);
         sfPacket_writeInt32(packet,struct1->data.unit.moveable_index);
         sfPacket_writeInt32(packet,struct1->data.unit.type_index);

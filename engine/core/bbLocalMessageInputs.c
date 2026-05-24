@@ -142,7 +142,7 @@ bbFlag bbLocalMessage_SpawnBanana(bbCore* core, bbMapCoords mapCoords)
     return bbSuccess;
 }
 
-bbFlag bbLocalMessage_SpawnUnit(bbCore* core, bbMapCoords mapCoords, char* key)
+bbFlag bbLocalMessage_SpawnUnit(bbCore* core, bbMapCoords mapCoords, bbMapCoords mapCoords2, char* key)
 {
 
     bbLocalMessage* message;
@@ -151,6 +151,9 @@ bbFlag bbLocalMessage_SpawnUnit(bbCore* core, bbMapCoords mapCoords, char* key)
 
     message->act_time = home.core.core.actual_time;
     message->data.keycoords.coords = mapCoords;
+    message->data.keycoords.coords2 = mapCoords2;
+
+
     bbStr_putStr(message->data.keycoords.key, key, KEY_LENGTH);
 
 

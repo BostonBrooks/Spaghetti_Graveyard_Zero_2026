@@ -30,5 +30,5 @@ bbFlag bbLocalMessage_SetGoalpoint(bbCore* core, bbMapCoords mapCoords);
 bbFlag bbLocalMessage_SwitchCharacterButton(bbCore* core, char* key);
 
 bbFlag bbLocalMessage_SpawnBanana(bbCore* core, bbMapCoords mapCoords);
-bbFlag bbLocalMessage_SpawnUnit(bbCore* core, bbMapCoords mapCoords, char* key);
+bbFlag bbLocalMessage_SpawnUnit(bbCore* core, bbMapCoords mapCoords,bbMapCoords mapCoords2, char* key);
 #endif //BB_LOCAL_MESSAGE_INPUTS_H

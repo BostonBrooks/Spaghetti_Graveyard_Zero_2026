@@ -120,13 +120,16 @@ bbFlag bbLocalMessage_spawnUnitOut_fn(bbCore* core, bbLocalMessage* message)
     bbHandle type_handle;
     bbDictionary_lookup(home.spawner.entity_new_dict,message->data.keycoords.key, &type_handle);
 
-    bbDebug("key = %s, index = %llu\n", message->data.keycoords.key, type_handle.u64);
+    //bbDebug("key = %s, index = %llu\n", message->data.keycoords.key, type_handle.u64);
     bbCoreInput_spawnUnitOut(core,
                                 type_handle.u64,
                                 message->data.keycoords.coords,
+                                message->data.keycoords.coords2,
                                 message->act_time,
                                 bbInstructionSource_input,
                                 handle);
+
+
 
     return bbSuccess;
 }

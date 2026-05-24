@@ -79,7 +79,7 @@ bbFlag bbCoreInput_commandAgent_setGoalPoint(bbCore* core, bbHandle agent, bbMap
     bbList_pushL(&core->do_stack, instruction);
 }
 
-bbFlag bbCoreInput_spawnUnitOut(bbCore* core, I32 unit_type, bbMapCoords MC, U64 time,
+bbFlag bbCoreInput_spawnUnitOut(bbCore* core, I32 unit_type, bbMapCoords MC,bbMapCoords MC2, U64 time,
 bbInstruction_source source, bbHandle action)
 {
 
@@ -88,19 +88,23 @@ bbInstruction_source source, bbHandle action)
         instruction->type = bbVInstruction_spawnUnitOut;
         instruction->data.unit.type = unit_type;
         instruction->data.unit.position = MC;
+        instruction->data.unit.goalpoint = MC2;
         instruction->act_time = time;
         bbList_pushL(&core->do_stack, instruction);
+
+
         return bbSuccess;
 
 }
 
-bbFlag bbCoreInput_spawnUnitIn(bbCore* core, bbMapCoords MC,I32 type_index, I32 entity_index,
+bbFlag bbCoreInput_spawnUnitIn(bbCore* core, bbMapCoords MC,bbMapCoords goalcoords,I32 type_index, I32 entity_index,
     I32 moveable_index, U64 time, bbInstruction_source source, bbHandle action)
 {
     bbInstruction* instruction;
     bbList_alloc(&core->do_stack, (void**) &instruction);
     instruction->type = bbVInstruction_spawnUnitIn;
     instruction->data.unit.position = MC;
+    instruction->data.unit.goalpoint = goalcoords;
     instruction->data.unit.entity = entity_index;
     instruction->data.unit.moveable = moveable_index;
     instruction->data.unit.type =  type_index;
