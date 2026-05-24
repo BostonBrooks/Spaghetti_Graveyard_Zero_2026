@@ -17,6 +17,9 @@ bbFlag Viewport_LeftDown (void* Mouse, void* Widgets, void* Widget, void*
     bbDebug("spawn banana i = %d, j = %d, k = %d\n", MC.i, MC.j, MC.k);
 
     bbLocalMessage_SpawnBanana(&home.core.core, MC);
+
+    MC.i+=1000;
+    bbLocalMessage_SpawnUnit(&home.core.core, MC, "KITTY");
     return bbSuccess;
 }
 

@@ -635,6 +635,6 @@ bbFlag bbVInstruction_spawnUnitIn_fn(bbCore* core, bbInstruction* instruction)
 bbFlag bbVInstruction_spawnUnitOut_fn(bbCore* core, bbInstruction* instruction)
 {
     bbDebug("WAKA WAKA DOO DOO, YEA\n");
-    //bbNetworkApp_spawnUnitOut(&home.network, instruction->data.unit.type, instruction->data.unit.position, instruction->act_time, collision++);
+    bbNetworkApp_spawnUnitOut(&home.network, instruction->data.unit.type, instruction->data.unit.position, instruction->act_time, collision++);
     return bbSuccess;
 }

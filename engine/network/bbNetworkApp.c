@@ -252,6 +252,17 @@ bbFlag bbNetworkApp_checkInbox(bbNetwork* network)
                             packet->player);
         }
 
+        if (packet->type == PACKETTYPE_SPAWNUNIT)
+        {
+            bbAction_spawnBanana(&home.core.core,
+                packet->data.unit.position,
+                packet->data.unit.entity_index,
+                packet->data.unit.moveable_index,
+                packet->collision,
+                packet->send_tick,
+                packet->act_tick,
+                packet->player);
+        }
         bbThreadedQueue_free(&network->inbox, (void**)&packet);
     }
 }
@@ -386,6 +397,24 @@ bbFlag bbNetworkApp_spawnBananaOut(bbNetwork* network, bbMapCoords MC, U64 time,
     packet->data.unit.position = MC;
     packet->data.unit.entity_index = 0;
     packet->data.unit.moveable_index = 0;
+    packet->collision = collision;
+    //packet->player = home.agents_app.agents.current_agent;
+    bbThreadedQueue_pushL(&network->outbox,packet);
+
+    return bbSuccess;
+}
+
+
+bbFlag bbNetworkApp_spawnUnitOut(bbNetwork* network, I32 unit_type, bbMapCoords MC, U64 time, U32 collision)
+{
+    bbNetworkPacket* packet;
+    bbThreadedQueue_alloc(&network->outbox, (void**)&packet);
+    packet->type = PACKETTYPE_SPAWNUNIT;
+    packet->act_tick = time;
+    packet->data.unit.position = MC;
+    packet->data.unit.entity_index = 0;
+    packet->data.unit.moveable_index = 0;
+    packet->data.unit.type_index = unit_type;
     packet->collision = collision;
     //packet->player = home.agents_app.agents.current_agent;
     bbThreadedQueue_pushL(&network->outbox,packet);

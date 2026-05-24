@@ -1,5 +1,6 @@
 #include "engine/core/bbLocalMessage.h"
 
+#include "core/core_inputs.h"
 #include "engine/core/bbAction.h"
 #include "engine/core/bbCoreInputs.h"
 #include "engine/data/bbHome.h"
@@ -113,15 +114,30 @@ bbFlag bbLocalMessage_keyDown_fn(bbCore* core, bbLocalMessage* message)
     return bbSuccess;
 }*/
 
-bbFlag bbLocalMessage_spawnBananaOut_fn(bbCore* core, bbLocalMessage* message)
+bbFlag bbLocalMessage_spawnUnitOut_fn(bbCore* core, bbLocalMessage* message)
 {
     bbHandle handle = {0};
-    bbCoreInput_spawnBananaOut(core,
-        message->data.map_coords, message->act_time,bbInstructionSource_input,handle);
+    bbCoreInput_spawnUnitOut(core,
+                                0,
+                                message->data.map_coords,
+                                message->act_time,
+                                bbInstructionSource_input,
+                                handle);
 
     return bbSuccess;
 }
 
+bbFlag bbLocalMessage_spawnBananaOut_fn(bbCore* core, bbLocalMessage* message)
+{
+    bbHandle handle = {0};
+    bbCoreInput_spawnBananaOut(core,
+                                message->data.map_coords,
+                                message->act_time,
+                                bbInstructionSource_input,
+                                handle);
+
+    return bbSuccess;
+}
 bbFlag bbLocalMessage_setGoalpointOut_fn(bbCore* core, bbLocalMessage* message)
 {
     bbHandle handle = {0};
@@ -186,6 +202,11 @@ bbFlag bbCore_checkLocalMessages(bbCore* core)
 
         case bbLocalMessage_spawnBanana:
             bbLocalMessage_spawnBananaOut_fn(core, message);
+            bbCore_react(core);
+            break;
+
+        case bbLocalMessage_spawnUnit:
+            bbLocalMessage_spawnUnitOut_fn(core, message);
             bbCore_react(core);
             break;
 

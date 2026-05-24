@@ -155,7 +155,15 @@ int main(void){
                     bbNetworkPacket_fromStruct(packet, &packetStruct);
 
                     bbDebug("BANANA, entity = %d, moveable = %d\n", packetStruct.data.unit.entity_index, packetStruct.data.unit.moveable_index);
+                }
+                if (packetStruct.type == PACKETTYPE_SPAWNUNIT)
+                {
+                    packetStruct.data.unit.entity_index = entities.num_entities++;
+                    packetStruct.data.unit.moveable_index = entities.num_moveables++;
+                    sfPacket_clear(packet);
+                    bbNetworkPacket_fromStruct(packet, &packetStruct);
 
+                    bbDebug("UNIT, entity = %d, moveable = %d\n", packetStruct.data.unit.entity_index, packetStruct.data.unit.moveable_index);
                 }
                 if (packetStruct.type == PACKETTYPE_REQUESTTIMESTAMP)
                 {

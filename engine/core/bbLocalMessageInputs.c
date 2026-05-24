@@ -142,7 +142,19 @@ bbFlag bbLocalMessage_SpawnBanana(bbCore* core, bbMapCoords mapCoords)
     return bbSuccess;
 }
 
+bbFlag bbLocalMessage_SpawnUnit(bbCore* core, bbMapCoords mapCoords, char* key)
+{
+    bbLocalMessage* message;
+    bbThreadedQueue_alloc(&core->local_message_queue, (void** ) &message);
+    message->type = bbLocalMessage_spawnUnit;
 
+    message->act_time = home.core.core.actual_time;
+    message->data.map_coords = mapCoords;
+
+
+    bbThreadedQueue_pushL(&core->local_message_queue, message);
+    return bbSuccess;
+}
 
 bbFlag bbLocalMessage_SetGoalpoint(bbCore* core, bbMapCoords mapCoords)
 {
