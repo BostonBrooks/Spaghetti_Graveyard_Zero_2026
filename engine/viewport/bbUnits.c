@@ -4,7 +4,7 @@
 #include "engine/data/bbHome.h"
 #include "engine/logic/bbBloatedPool.h"
 
-
+/*
 bbFlag bbUnit_newCat(bbUnit** self,bbUnits* units, bbGraphicsApp* graphics,
 bbMapCoords MC, I32 index){
 
@@ -45,7 +45,7 @@ bbMapCoords MC, I32 index){
     *self = unit;
     return bbSuccess;
 }
-
+*/
 bbFlag bbUnit_newSkeleton(bbUnit** self,bbUnits* units, bbGraphicsApp* graphics,
 bbMapCoords MC, I32 index){
 
