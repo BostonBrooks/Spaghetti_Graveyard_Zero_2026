@@ -258,7 +258,7 @@ bbFlag bbUI_Inbox_newBanana_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
 
 
 
-    bbDebug("spawn banana i = %d, j = %d, k = %d\n", MC.i, MC.j, MC.k);
+    //bbDebug("spawn banana i = %d, j = %d, k = %d\n", MC.i, MC.j, MC.k);
 
 
     bbUnit* unit;
