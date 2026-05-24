@@ -8,6 +8,7 @@
 #include "games/game0/maps/skellychase/spawner/kitty.h"
 #include "games/game0/maps/skellychase/spawner/balloon.h"
 #include "games/game0/maps/skellychase/spawner/skelly.h"
+#include  "games/game0/maps/skellychase/spawner/zombie.h"
 
 //typedef bbFlag bbSpawnFunction (char* string);
 //(MC.i, MC.j, moveable_index, entity_index);
@@ -109,7 +110,7 @@ bbFlag bbPF_skeletonCore(char* string)
 
     return bbSuccess;
 }
-
+/*
 bbFlag bbPF_zombieGraphics(char* string)
 {
 
@@ -136,7 +137,7 @@ bbFlag bbPF_zombieGraphics(char* string)
 
 
     return bbSuccess;
-}
+}*/
 /*
 bbFlag bbPF_zombieGraphics(char* string)
 {
@@ -270,7 +271,7 @@ bbFlag bbPF_zombieCore(char* string)
 
     return bbSuccess;
 }
-
+/*
 bbFlag bbPF_skellyGraphics(char* string)
 {
 
@@ -292,8 +293,8 @@ bbFlag bbPF_skellyGraphics(char* string)
     home.agents_app.entities.entity[unit->enitity].unit = unit_handle;
 
     return bbSuccess;
-}
-
+}*/
+/*
 bbFlag bbPF_skellyCore(char* string)
 {
 
@@ -349,7 +350,7 @@ bbFlag bbPF_skellyCore(char* string)
     return bbSuccess;
 }
 
-
+*/
 
 bbFlag bbPF_entityGraphics(char* string)
 {
@@ -393,8 +394,8 @@ bbFlag bbSpawner_populate(bbSpawner* spawner)
     bbParseFunction_add(spawner,bbPF_null, bbPF_null, "NULL");
     bbParseFunction_add(spawner,bbPF_treeCore, bbPF_treeGraphics, "TREE");
     bbParseFunction_add(spawner,bbPF_skeletonCore, bbPF_skeletonGraphics, "SKELETON");
-    bbParseFunction_add(spawner,bbPF_skellyCore, bbPF_skellyGraphics, "SKELLY");
-    bbParseFunction_add(spawner,bbPF_zombieCore, bbPF_zombieGraphics, "ZOMBIE");
+    //bbParseFunction_add(spawner,bbPF_skellyCore, bbPF_skellyGraphics, "SKELLY");
+    //bbParseFunction_add(spawner,bbPF_zombieCore, bbPF_zombieGraphics, "ZOMBIE");
     bbParseFunction_add(spawner,bbPF_entityCore, bbPF_entityGraphics, "ENTITY");
 
     bbSpawnFunction_add(spawner,(void*)bbSF_null,(void*)bbSF_null, "NULL");
@@ -410,5 +411,9 @@ bbFlag bbSpawner_populate(bbSpawner* spawner)
 
     bbSpawnFunction_add(spawner,(void*)bbSF_skellyCore,(void*)bbSF_skellyGraphics, "SKELLY");
     bbEntityFunction_add(spawner,bbEntity_newSkelly, bbUIUnit_newSkelly, "SKELLY");
+
+
+    bbSpawnFunction_add(spawner,(void*)bbSF_zombieCore,(void*)bbSF_zombieGraphics, "ZOMBIE");
+    bbEntityFunction_add(spawner,bbEntity_newZombie, bbUIUnit_newZombie, "ZOMBIE");
     return bbSuccess;
 }

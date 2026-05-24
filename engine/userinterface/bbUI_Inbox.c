@@ -132,9 +132,10 @@ bbFlag bbUI_Inbox_setViewpoint_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message
 #ifdef DEFINE_SKELLYCHASE
 bbFlag bbUI_Inbox_newSkelly_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
 {
+    bbNotHere()
     bbUnit* none;
-    bbUnit_newSkelly(&none,home.viewport_app.units, &home.UI.graphics,
-    message->data.coords, message->data.handle.handle.u64);
+    //bbUnit_newSkelly(&none,home.viewport_app.units, &home.UI.graphics,
+   // message->data.coords, message->data.handle.handle.u64);
     return bbSuccess;
 }
 #endif

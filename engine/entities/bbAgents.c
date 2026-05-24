@@ -50,7 +50,7 @@ bbAgents_square* bbAgents_getSquare(bbAgents* agents, I32 i, I32 j)
 }
 
 
-
+/*
 bbFlag bbAgent_newSkelly(bbAgents* agents, bbMapCoords position)
 {
     bbAgent* self;

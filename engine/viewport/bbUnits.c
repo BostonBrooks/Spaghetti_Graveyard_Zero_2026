@@ -102,7 +102,7 @@ bbMapCoords MC, I32 index){
     return bbSuccess;
 }
 
-
+/*
 bbFlag bbUnit_newSkelly(bbUnit** self,bbUnits* units, bbGraphicsApp* graphics,
 bbMapCoords MC, I32 index){
 
@@ -173,7 +173,7 @@ unit->drawable.state = 0;
     return bbSuccess;
 }
 
-
+*/
 
 
 bbFlag bbUnits_consumeBuffer(bbUnits* units, bbHandle* unit_array, bbMoveables_snapshot* snapshot)

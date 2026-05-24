@@ -1,6 +1,6 @@
 
 
-bbFlag bbAgent_newSkellyx(bbAgent** self, bbMapCoords MC, I32 moveable_index, I32 entity_index)
+bbFlag bbAgent_newZombiex(bbAgent** self, bbMapCoords MC, I32 moveable_index, I32 entity_index)
 {
 
 
@@ -13,15 +13,15 @@ bbFlag bbAgent_newSkellyx(bbAgent** self, bbMapCoords MC, I32 moveable_index, I3
     agent->square_list.prev = agents->pool->null;
     agent->square_list.next = agents->pool->null;
     agent->moveable = moveable_index;
-    agent->ftable.update = bbAgentFunctions_getInt(&home.agents_app.functions,
-                             AgentUpdate, "UPDATE_SKELLY");
-    agent->ftable.command = -1;
+    agent->ftable.update = -1;
+    agent->ftable.command = bbAgentFunctions_getInt(&home.agents_app.functions,
+                             AgentCommand, "COMMAND_PLAYER");
     bbMoveable* moveable = &home.agents_app.movables.moveables[moveable_index];
 
     agent->state = bbAgentState_Idle;
     home.agents_app.movables.available = moveable_index+1;
 
-    moveable->type = bbMoveableType_Idle;
+    moveable->type = bbMoveableType_GoalPoint;
     moveable->position = MC;
     moveable->goalpoint = MC;
 
@@ -46,11 +46,11 @@ bbFlag bbAgent_newSkellyx(bbAgent** self, bbMapCoords MC, I32 moveable_index, I3
 
     home.agents_app.entities.entity[agent->entity].moveable.u64 = moveable_index;
 
-
+    *self = agent;
 
     return bbSuccess;
 }
-bbFlag bbUnit_newSkellyx(bbUnit** self, bbMapCoords MC, I32 moveable_index, I32 entity_index)
+bbFlag bbUnit_newZombiex(bbUnit** self, bbMapCoords MC, I32 moveable_index, I32 entity_index)
 {
 
     bbVPool* pool = home.viewport_app.units->pool;
@@ -79,7 +79,7 @@ bbFlag bbUnit_newSkellyx(bbUnit** self, bbMapCoords MC, I32 moveable_index, I32 
                         &drawfunctionHandle);
 
     unit->drawable.frames[0].drawfunction = drawfunctionHandle.u64;
-    unit->drawable.frames[0].handle.u64 = 5;
+    unit->drawable.frames[0].handle.u64 = 6;
     unit->drawable.frames[0].start_time= 0;
     unit->drawable.frames[0].framerate = 1;
     unit->drawable.frames[0].offset.x = 0;
@@ -91,7 +91,7 @@ bbFlag bbUnit_newSkellyx(bbUnit** self, bbMapCoords MC, I32 moveable_index, I32 
 
     unit->drawable.frames[1].drawfunction = drawfunctionHandle.u64;
     unit->drawable.frames[1].handle.u64 = 612;
-    unit->drawable.frames[1].start_time =  -(rand()%6);
+    unit->drawable.frames[1].start_time =  0;
     unit->drawable.frames[1].framerate = 1;
     unit->drawable.frames[1].offset.x = 0;
     unit->drawable.frames[1].offset.y = 0;
@@ -104,8 +104,8 @@ bbFlag bbUnit_newSkellyx(bbUnit** self, bbMapCoords MC, I32 moveable_index, I32 
 
 
     unit->drawable.frames[2].drawfunction = drawfunctionHandle.u64;
-    unit->drawable.frames[2].handle.u64 = 626;
-    unit->drawable.frames[2].start_time =  -(rand()%6);
+    unit->drawable.frames[2].handle.u64 = 614;
+    unit->drawable.frames[2].start_time =  0;
     unit->drawable.frames[2].framerate = 1;
     unit->drawable.frames[2].offset.x = 0;
     unit->drawable.frames[2].offset.y = 0;
@@ -121,7 +121,7 @@ bbFlag bbUnit_newSkellyx(bbUnit** self, bbMapCoords MC, I32 moveable_index, I32 
     return bbSuccess;
 }
 
-bbFlag bbSF_skellyGraphics(I32 i_coord, I32 j_coord, I32 moveable_index, I32 entity_index)
+bbFlag bbSF_zombieGraphics(I32 i_coord, I32 j_coord, I32 moveable_index, I32 entity_index)
 {
     bbDebug("i_coord = %d, j_coord = %d, moveable_index = %d, entity_index = %d\n",
         i_coord, j_coord, moveable_index, entity_index);
@@ -130,37 +130,37 @@ bbFlag bbSF_skellyGraphics(I32 i_coord, I32 j_coord, I32 moveable_index, I32 ent
     MC.j = j_coord;
     MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
     bbUnit* unit;
-    bbUnit_newSkellyx(&unit, MC, moveable_index, entity_index);
+    bbUnit_newZombiex(&unit, MC, moveable_index, entity_index);
     return bbSuccess;
 }
 
 
 
-bbFlag bbSF_skellyCore(I32 i_coord, I32 j_coord, I32 moveable_index, I32 entity_index)
+bbFlag bbSF_zombieCore(I32 i_coord, I32 j_coord, I32 moveable_index, I32 entity_index)
 {
     bbMapCoords MC;
     MC.i = i_coord;
     MC.j = j_coord;
     MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
     bbAgent* agent;
-    bbAgent_newSkellyx(&agent, MC, moveable_index, entity_index);
+    bbAgent_newZombiex(&agent, MC, moveable_index, entity_index);
 }
 
-///Spawn skelly during gameplay, doesn't care about syncing the core
+///Spawn zombie during gameplay, doesn't care about syncing the core
 
-bbFlag bbEntity_newSkelly(bbAgent** agent, I32 type_index, bbMapCoords MC, I32 moveable_index, I32 entity_index)
+bbFlag bbEntity_newZombie(bbAgent** agent, I32 type_index, bbMapCoords MC, I32 moveable_index, I32 entity_index)
 {
     bbAgent* agent1;
-    bbAgent_newSkellyx(&agent1, MC, moveable_index, entity_index);
+    bbAgent_newZombiex(&agent1, MC, moveable_index, entity_index);
     bbUI_Inbox_NewUnit(&home.UI.inbox, type_index, MC, entity_index, moveable_index);
     *agent = agent1;
     return bbSuccess;
 }
 
-bbFlag bbUIUnit_newSkelly( bbMapCoords MC, I32 moveable_index, I32 entity_index)
+bbFlag bbUIUnit_newZombie( bbMapCoords MC, I32 moveable_index, I32 entity_index)
 {
     bbUnit* unit;
-    bbUnit_newSkellyx(&unit,MC, moveable_index, entity_index);
+    bbUnit_newZombiex(&unit,MC, moveable_index, entity_index);
 
     return bbSuccess;
 }
