@@ -254,8 +254,9 @@ bbFlag bbNetworkApp_checkInbox(bbNetwork* network)
 
         if (packet->type == PACKETTYPE_SPAWNUNIT)
         {
-            bbAction_spawnBanana(&home.core.core,
+            bbAction_spawnUnit(&home.core.core,
                 packet->data.unit.position,
+                packet->data.unit.type_index,
                 packet->data.unit.entity_index,
                 packet->data.unit.moveable_index,
                 packet->collision,

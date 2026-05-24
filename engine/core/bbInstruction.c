@@ -4,6 +4,7 @@
 
 #include "bbAction.h"
 #include "bbCoreInputs.h"
+#include "core/core_inputs.h"
 #include "core/instructions.h"
 #include "engine/data/bbHome.h"
 #include "engine/logic/bbString.h"
@@ -395,6 +396,12 @@ bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
         if (action->header.type == bbActionType_spawnBanana)
         {
             bbCoreInput_spawnBananaIn(core, action->map_coords,action->integer,
+                action->integer2,action->header.act_tick,bbInstructionSource_action,handle);
+
+        }
+        if (action->header.type == bbActionType_spawnUnit)
+        {
+            bbCoreInput_spawnUnitIn(core, action->map_coords,action->integer,
                 action->integer2,action->header.act_tick,bbInstructionSource_action,handle);
 
         }

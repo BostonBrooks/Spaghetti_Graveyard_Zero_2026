@@ -93,3 +93,18 @@ bbInstruction_source source, bbHandle action)
         return bbSuccess;
 
 }
+
+bbFlag bbCoreInput_spawnUnitIn(bbCore* core, bbMapCoords MC, I32 entity_index,
+    I32 moveable_index, U64 time, bbInstruction_source source, bbHandle action)
+{
+    bbInstruction* instruction;
+    bbList_alloc(&core->do_stack, (void**) &instruction);
+    instruction->type = bbVInstruction_spawnUnitIn;
+    instruction->data.unit.position = MC;
+    instruction->data.unit.entity = entity_index;
+    instruction->data.unit.moveable = moveable_index;
+    instruction->data.unit.type = 0;
+    instruction->act_time = time;
+    bbList_pushL(&core->do_stack, instruction);
+    return bbSuccess;
+}
