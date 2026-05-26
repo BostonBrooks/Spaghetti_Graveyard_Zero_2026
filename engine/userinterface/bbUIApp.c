@@ -20,7 +20,7 @@ bbFlag bbUIApp_init(bbUIApp* app)
     home.UI.window = sfRenderWindow_create(mode, "early demo", sfResize | sfClose, NULL);
     sfRenderWindow_setMouseCursorVisible(home.UI.window, sfFalse);
     sfRenderWindow_setKeyRepeatEnabled(home.UI.window,sfFalse);
-    sfRenderWindow_setFramerateLimit(home.UI.window, 0);
+    sfRenderWindow_setFramerateLimit(home.UI.window, 60);
 
 
 #ifdef DEFINE_PONG
@@ -59,7 +59,24 @@ bbFlag bbUIApp_draw(bbUIApp* app)
     cl.target = &home.viewport_app.viewport;
 
 #ifndef DEFINE_PONG
-    bbDrawablesPlus_draw( &cl, 0, 0, 12, 12);
+
+    bbSquareCoords SC = bbMapCoords_getSquareCoords(home.viewport_app.viewport.viewpoint);
+
+    I32 i_min = SC.i - 1;
+    I32 j_min = SC.j - 1;
+
+    I32 i_max = SC.i + 2;
+    I32 j_max = SC.j + 2;
+
+    I32 squares_i = home.viewport_app.drawables->squares_i;
+    I32 squares_j = home.viewport_app.drawables->squares_j;
+
+    if (i_min < 0) i_min = 0;
+    if (j_min < 0) j_min = 0;
+    if (i_max > squares_i) i_max = squares_i;
+    if (j_max > squares_j) j_max = squares_j;
+
+    bbDrawablesPlus_draw( &cl, i_min, j_min, i_max, j_max);
     //bbAvoidables_draw(home.private.viewportApp.avoidables, &cl, 0, 0, 12, 12);
     bbGroundSurface_drawVisible(&home.ground_surface, &home.viewport_app.viewport);
     //bbGroundSurface_draw(&home.ground_surface, &home.viewport_app.viewport, 0, 0);
