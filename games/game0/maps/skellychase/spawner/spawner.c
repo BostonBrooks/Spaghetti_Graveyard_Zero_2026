@@ -9,6 +9,7 @@
 #include "games/game0/maps/skellychase/spawner/balloon.h"
 #include "games/game0/maps/skellychase/spawner/skelly.h"
 #include  "games/game0/maps/skellychase/spawner/zombie.h"
+#include "games/game0/maps/skellychase/spawner/fireball.h"
 
 //typedef bbFlag bbSpawnFunction (char* string);
 //(MC.i, MC.j, moveable_index, entity_index);

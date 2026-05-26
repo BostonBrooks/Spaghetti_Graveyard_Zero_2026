@@ -1,4 +1,4 @@
-Number of Sprites:,700,,,,,,,,,,,,
+Number of Sprites:,701,,,,,,,,,,,,
 Label:,Integer Address:,Texture:,Left:,Top:,Width:,Height:,Origin X:,Origin Y:,Scale X:,Scale Y:,Scale By:,Comment:,
 NULL,0,NULL,0,0,128,128,0,0,1,1,None,Exception,
 LAYOUT_480,1,LAYOUT_480,0,0,720,480,0,0,1,1,None,The root of the widget tree,
@@ -700,5 +700,7 @@ BALLOON_CYAN,696,BALLOONS,279,0,39,98,19,97,1,1,Widget,a clock hand
 BALLOON_COBOLT,697,BALLOONS,319,0,39,98,19,97,1,1,Widget,a clock hand
 BALLOON_PURPLE,698,BALLOONS,359,0,39,98,19,97,1,1,Widget,a clock hand
 BALLOON_MAGENTA,699,BALLOONS,399,0,39,98,19,97,1,1,Widget,a clock hand
+FIREBALL,700,FIREBALL,0,0,672,700,322,1000,0.1,0.1,Widget,a fireball
+FIREBALL_LARGE,701,FIREBALL,0,0,672,700,322,675,0.2,0.2,Widget,a large fireball
 
 Label:,Integer Address:,Texture:,Left:,Top:,Width:,Height:,Origin X:,Origin Y:,Scale X:,Scale Y:,Scale By:,Comment:,
