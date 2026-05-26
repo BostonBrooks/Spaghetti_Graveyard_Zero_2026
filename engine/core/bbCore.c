@@ -82,16 +82,17 @@ bbFlag bbCore_react(bbCore* core)
 
 
             case bbInstruction_netpauseButton:
-
                 bbInstruction_netpauseButton_fn(core, instruction);
                 break;
+
+#ifdef DEFINE_SKELLYCHASE
             case bbInstruction_spawnBananaOut:
                 bbInstruction_spawnBananaOut_fn(core, instruction);
                 break;
             case bbInstruction_spawnBananaIn:
                 bbInstruction_spawnBananaIn_fn(core, instruction);
                 break;
-#ifndef DEFINE_PONG
+
 
           //  case bbInstruction_setViewpointOut:
 
@@ -181,6 +182,7 @@ bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
                 bbInstruction_uncheckActions_fn(core, instruction);
                 break;
 
+#ifdef DEFINE_SKELLYCHASE
             case bbInstruction_unspawnBanana:
                 bbInstruction_unspawnBanana_fn(core, instruction);
                 break;
@@ -188,7 +190,6 @@ bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
         //        bbInstruction_unsetViewpoint_fn(core, instruction);
        //         break;
 
-#ifndef DEFINE_PONG
 
 
             //case bbInstruction_unsetGoalpoint:

@@ -129,16 +129,6 @@ bbFlag bbUI_Inbox_setViewpoint_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message
     return bbSuccess;
 }
 
-#ifdef DEFINE_SKELLYCHASE
-bbFlag bbUI_Inbox_newSkelly_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
-{
-    bbNotHere()
-    bbUnit* none;
-    //bbUnit_newSkelly(&none,home.viewport_app.units, &home.UI.graphics,
-   // message->data.coords, message->data.handle.handle.u64);
-    return bbSuccess;
-}
-#endif
 
 bbFlag bbUI_Inbox_UnpressButton(bbUI_Inbox* inbox)
 {
@@ -171,6 +161,18 @@ bbFlag bbUI_Inbox_SetWidgetPosition(bbUI_Inbox* inbox, char* key, bbHandle posit
     bbStr_setStr(message->data.string.string, key, KEY_LENGTH);
     message->data.handle.handle = position;
     bbThreadedQueue_pushL(&inbox->local_message_queue, (void*)message);
+    return bbSuccess;
+}
+
+
+
+#ifdef DEFINE_SKELLYCHASE
+bbFlag bbUI_Inbox_newSkelly_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
+{
+    bbNotHere()
+    bbUnit* none;
+    //bbUnit_newSkelly(&none,home.viewport_app.units, &home.UI.graphics,
+   // message->data.coords, message->data.handle.handle.u64);
     return bbSuccess;
 }
 
@@ -389,3 +391,5 @@ bbFlag bbUI_Inbox_newUnit_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
     return bbSuccess;
 
 }
+
+#endif //DEFINE_SKELLYCHASE

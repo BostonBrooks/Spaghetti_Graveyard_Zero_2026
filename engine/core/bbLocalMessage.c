@@ -1,6 +1,7 @@
 #include "engine/core/bbLocalMessage.h"
-
+#ifdef DEFINE_SKELLYCHASE
 #include "core/core_inputs.h"
+#endif
 #include "engine/core/bbAction.h"
 #include "engine/core/bbCoreInputs.h"
 #include "engine/data/bbHome.h"
@@ -213,15 +214,6 @@ bbFlag bbCore_checkLocalMessages(bbCore* core)
             bbCore_react(core);
             break;
 
-        case bbLocalMessage_spawnBanana:
-            bbLocalMessage_spawnBananaOut_fn(core, message);
-            bbCore_react(core);
-            break;
-
-        case bbLocalMessage_spawnUnit:
-            bbLocalMessage_spawnUnitOut_fn(core, message);
-            bbCore_react(core);
-            break;
 
 
         case bbLocalMessage_actionLoop:
@@ -235,12 +227,21 @@ bbFlag bbCore_checkLocalMessages(bbCore* core)
             bbLocalMessage_netpauseButton_fn(core, message);
             bbCore_react(core);
             break;
-
+#ifdef DEFINE_SKELLYCHASE
         case bbLocalMessage_mapClick:
             bbLocalMessage_mapClick_fn(core, message);
             bbCore_react(core);
             break;
+        case bbLocalMessage_spawnBanana:
+            bbLocalMessage_spawnBananaOut_fn(core, message);
+            bbCore_react(core);
+            break;
 
+        case bbLocalMessage_spawnUnit:
+            bbLocalMessage_spawnUnitOut_fn(core, message);
+            bbCore_react(core);
+            break;
+#endif
 
 #ifdef DEFINE_PONG
         case bbLocalMessage_keyUp:

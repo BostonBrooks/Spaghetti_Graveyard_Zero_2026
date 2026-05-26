@@ -4,8 +4,11 @@
 
 #include "bbAction.h"
 #include "bbCoreInputs.h"
+
+#ifdef DEFINE_SKELLYCHASE
 #include "core/core_inputs.h"
 #include "core/instructions.h"
+#endif
 #include "engine/data/bbHome.h"
 #include "engine/logic/bbString.h"
 #include "engine/network/bbNetworkApp.h"
