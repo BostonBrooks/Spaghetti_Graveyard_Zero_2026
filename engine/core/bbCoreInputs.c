@@ -359,9 +359,18 @@ bbFlag bbCoreInput_updateMoveables(bbCore* core,
     return bbSuccess;
 }
 
-bbFlag bbCoreInput_commandAgentMapClick(bbCore* core, I32 player_entity,bbMapCoords MC, I32 button)
+bbFlag bbCoreInput_commandAgentMapClick(bbCore* core, I32 player_entity,bbMapCoords MC, I32 button,
+                                  bbInstruction_source source, bbHandle action)
 {
-bbHere()
+    bbInstruction* instruction;
+    bbList_alloc(&core->do_stack, (void**) &instruction);
+    instruction->type = bbVInstruction_commandAgentMapClick;
+    instruction->data.banana.position = MC;
+    instruction->data.banana.entity = player_entity;
+    instruction->data.banana.moveable = button;
+    instruction->source = source;
+    instruction->act_time =0;
+    bbList_pushL(&core->do_stack, instruction);
 }
 
 #endif

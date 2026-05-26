@@ -236,6 +236,11 @@ bbFlag bbCore_checkLocalMessages(bbCore* core)
             bbCore_react(core);
             break;
 
+        case bbLocalMessage_mapClick:
+            bbLocalMessage_mapClick_fn(core, message);
+            bbCore_react(core);
+            break;
+
 
 #ifdef DEFINE_PONG
         case bbLocalMessage_keyUp:

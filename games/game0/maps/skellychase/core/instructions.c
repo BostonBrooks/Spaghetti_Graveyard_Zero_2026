@@ -641,3 +641,21 @@ bbFlag bbVInstruction_spawnUnitOut_fn(bbCore* core, bbInstruction* instruction)
         instruction->data.unit.position, instruction->data.unit.goalpoint, instruction->act_time, collision++);
     return bbSuccess;
 }
+
+
+bbFlag bbVInstruction_commandAgentMapClick_fn(bbCore* core, bbInstruction* instruction)
+{
+    bbMapCoords MC = instruction->data.banana.position;
+    I32 player_entity =  instruction->data.banana.entity;
+    I32 button = instruction->data.banana.moveable;
+
+    bbEntity* entity = &home.agents_app.entities.entity[player_entity];
+    bbAgent* agent;
+    bbVPool_lookup(home.agents_app.agents->pool,(void**)&agent,entity->agent);
+
+    bbAgentCommandData data;
+    data.goal_point = MC;
+    data.moveable = button;
+    bbAgent2_onCommand(agent,home.agents_app.agents,bbAC_mapClick,data);
+    return bbSuccess;
+}

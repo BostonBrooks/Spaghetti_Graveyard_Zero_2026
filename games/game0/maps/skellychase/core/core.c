@@ -68,6 +68,8 @@ bbFlag bbCore_initVInstructions(bbCore* core)
     = bbVInstruction_spawnUnitIn_fn;
     core->instruction_functions[bbVInstruction_spawnUnitOut-bbInstruction_numTypes]
     = bbVInstruction_spawnUnitOut_fn;
+    core->instruction_functions[bbVInstruction_commandAgentMapClick-bbInstruction_numTypes]
+    = bbVInstruction_commandAgentMapClick_fn;
 
 
     return bbSuccess;

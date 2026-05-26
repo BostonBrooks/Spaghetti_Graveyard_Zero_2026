@@ -1,5 +1,7 @@
+#include "core/core_inputs.h"
 #include "engine/entities/bbAgentFunctions.h"
 #include "engine/core/bbCoreInputs.h"
+#include "engine/core/bbLocalMessageInputs.h"
 #include "engine/data/bbHome.h"
 #include "engine/network/bbNetworkApp.h"
 
@@ -9,10 +11,28 @@
 
 bbFlag bbAgent_Command_Player(bbAgent* agent,bbAgentCommandType type,bbAgentCommandData data)
 {
-    bbEntity* entity = &home.agents_app.entities.entity[agent->entity];
-    bbUI_Inbox_SetUnitState(&home.UI.inbox, entity->unit, bbDrawableState_moving);
-    bbCoreInput_setMoveableType(&home.core.core,0, agent->moveable, data,
+    if (type == bbAC_mapClick)
+    {
+            bbHandle handle = {0};
+        if (data.moveable == 0)
+        {
+            bbCoreInput_setGoalpointOut(&home.core.core,
+                data.goal_point, home.core.clock2_handle.map_tick,bbInstructionSource_input,handle);
+        } else
+        {
+            bbMoveable* moveable = &home.agents_app.movables.moveables[agent->moveable];
+
+            //bbLocalMessage_SpawnUnit(&home.core.core, moveable->position, data.goal_point, "BALLOON");
+
+            bbCoreInput_spawnUnitOut(&home.core.core, 1, data.goal_point,moveable->position, home.core.clock2_handle.map_tick
+            ,bbInstructionSource_input,handle);
+        }
+    } else {
+        bbEntity* entity = &home.agents_app.entities.entity[agent->entity];
+        bbUI_Inbox_SetUnitState(&home.UI.inbox, entity->unit, bbDrawableState_moving);
+        bbCoreInput_setMoveableType(&home.core.core,0, agent->moveable, data,
                                      bbInstructionSource_internal,no_handle);
+    }
     bbCore_react(&home.core.core);
 
     return bbSuccess;

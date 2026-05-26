@@ -16,7 +16,7 @@ bbFlag Viewport_LeftDown (void* Mouse, void* Widgets, void* Widget, void*
     //bbLocalMessage_SpawnUnit(&home.core.core, MC, MC2, "BALLOON");
 
 
-    bbLocalMessage_MapClick(&home.core.core, MC2, 0);
+    bbLocalMessage_MapClick(&home.core.core, MC, 1);
     //bbDebug("goal.i = %d, goal.j = %d\n", MC2.i, MC2.j);
     return bbSuccess;
 }
@@ -31,7 +31,7 @@ bbFlag Viewport_RightDown (void* Mouse, void* Widgets, void* Widget, void*
     bbScreenPoints screen_points = mouse->position;
     bbViewportCoords VC = bbScreenPoints_getViewportPoints(&home.viewport_app.viewport, screen_points);
     bbMapCoords MC = bbViewportCoords_getMapCoords(VC);
-    bbLocalMessage_SetGoalpoint(&home.core.core, MC);
+    bbLocalMessage_MapClick(&home.core.core, MC, 0);
 
 
     //bbDebug("move to i = %d, j = %d, k = %d\n", MC.i, MC.j, MC.k);

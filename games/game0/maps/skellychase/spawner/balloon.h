@@ -49,7 +49,7 @@ bbFlag bbAgent_newBalloon(bbAgent** self, bbMapCoords MC,bbMapCoords goalpoint, 
 
     home.agents_app.entities.entity[agent->entity].moveable.u64 = moveable_index;
 
-
+    *self = agent;
 
     return bbSuccess;
 }
@@ -142,7 +142,7 @@ bbFlag bbEntity_newBalloon(bbAgent** agent, I32 type_index, bbMapCoords MC,bbMap
     bbAgent* agent1;
     bbAgent_newBalloon(&agent1, MC, MC2,moveable_index, entity_index);
 
-    bbDebug("goal.i = %d, goal.j = %d\n", MC2.i, MC2.j);
+    bbDebug("goal.i = %d, goal.j = %d\nposition.i = %d, position.j = %d\n", MC2.i, MC2.j,MC.i, MC.j);
 
     bbUI_Inbox_NewUnit(&home.UI.inbox, type_index, MC, entity_index, moveable_index);
     bbAssert(agent1!=NULL, "bad spawn function\n");

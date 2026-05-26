@@ -47,6 +47,7 @@ bbFlag bbAgent_newKitty(bbAgent** self, bbMapCoords MC, I32 moveable_index, I32 
     home.agents_app.entities.entity[agent->entity].moveable.u64 = moveable_index;
 
 
+    *self = agent;
 
     return bbSuccess;
 }

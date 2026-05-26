@@ -31,6 +31,7 @@ typedef enum
     bbVInstruction_spawnUnitOut,
     bbVInstruction_spawnUnitIn,
     bbVInstruction_unspawnUnit,
+    bbVInstruction_commandAgentMapClick,
 
     bbVInstruction_numTypes
 }bbVInstruction_type;
@@ -74,4 +75,6 @@ bbFlag bbVInstruction_commandAgent_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbVInstruction_spawnUnitOut_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbVInstruction_spawnUnitIn_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbVInstruction_unspawnUnit_fn(bbCore* core, bbInstruction* instruction);
+
+bbFlag bbVInstruction_commandAgentMapClick_fn(bbCore* core, bbInstruction* instruction);
 #endif// INSTRUCTIONS_H
