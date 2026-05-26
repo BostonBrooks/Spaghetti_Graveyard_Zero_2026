@@ -15,7 +15,8 @@ typedef enum
     bbActionType_setPaddleVelocity,
     bbActionType_setViewpoint,
     bbActionType_setGoalpoint,
-    bbActionType_spawnBanana
+    bbActionType_spawnBanana,
+    bbActionType_spawnUnit
 } bbAction_type;
 
 ///Action header used to figure out what order to enact actions
@@ -35,7 +36,9 @@ typedef struct
     bbAction_header header;
     I32 integer;
     I32 integer2;
+    I32 integer3;
     bbMapCoords map_coords;
+    bbMapCoords goal_coords;
 } bbAction;
 
 ///actions are sorted by time in a total-ordering
@@ -112,4 +115,14 @@ bbFlag bbAction_spawnBanana(void* Core,
                             U64 act_tick,
                             U8 player);
 
+bbFlag bbAction_spawnUnit(void* Core,
+                            bbMapCoords map_coords,
+                            bbMapCoords goalpoint,
+                            I32 unit_type,
+                            I32 entity_index,
+                            I32 moveable_index,
+                            U32 collision,
+                            U64 created_tick,
+                            U64 act_tick,
+                            U8 player);
 #endif //BB_ACTION_H

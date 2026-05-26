@@ -1,4 +1,4 @@
-#include "engine/agents/bbAvoidables.h"
+#include "engine/entities/bbAvoidables.h"
 
 #include "bbMoveables.h"
 #include "engine/data/bbConstants.h"

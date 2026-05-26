@@ -209,3 +209,34 @@ bbFlag bbAction_spawnBanana(void* Core,
 
     return bbSuccess;
 }
+
+bbFlag bbAction_spawnUnit(void* Core,
+                            bbMapCoords map_coords,
+                            bbMapCoords goalpoint,
+                            I32 unit_type,
+                            I32 entity_index,
+                            I32 moveable_index,
+                            U32 collision,
+                            U64 created_tick,
+                            U64 act_tick,
+                            U8 player)
+{
+    bbCore* core = (bbCore*)Core;
+
+
+    bbAction* action;
+    bbList_alloc(&core->action_queue,(void**)&action);
+    action->header.type = bbActionType_spawnUnit;
+    action->header.collision = collision;
+    action->header.created_tick = created_tick;
+    action->header.act_tick = act_tick;
+    action->map_coords = map_coords;
+    action->goal_coords = goalpoint;
+    action->integer = entity_index;
+    action->integer2 = moveable_index;
+    action->integer3 = unit_type;
+    action->header.player = player;
+    bbList_sortL(&core->action_queue,(void*)action);
+
+    return bbSuccess;
+}

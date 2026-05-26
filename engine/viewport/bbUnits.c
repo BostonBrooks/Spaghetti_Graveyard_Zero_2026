@@ -4,6 +4,7 @@
 #include "engine/data/bbHome.h"
 #include "engine/logic/bbBloatedPool.h"
 
+/*
 bbFlag bbUnit_newCat(bbUnit** self,bbUnits* units, bbGraphicsApp* graphics,
 bbMapCoords MC, I32 index){
 
@@ -39,12 +40,12 @@ bbMapCoords MC, I32 index){
         unit->drawable.frames[k].drawfunction = -1;
     }
 
-    home.viewport_app.unit_array[index] = unit_handle;
+    home.agents_app.entities.moveable_units[index] = unit_handle;
     bbList_sortL(&unitSquare->list, unit);
     *self = unit;
     return bbSuccess;
 }
-
+*/
 bbFlag bbUnit_newSkeleton(bbUnit** self,bbUnits* units, bbGraphicsApp* graphics,
 bbMapCoords MC, I32 index){
 
@@ -95,13 +96,13 @@ bbMapCoords MC, I32 index){
         unit->drawable.frames[k].drawfunction = -1;
     }
 
-    home.viewport_app.unit_array[index] = unit_handle;
+    home.agents_app.entities.moveable_units[index] = unit_handle;
     bbList_sortL(&unitSquare->list, unit);
     *self = unit;
     return bbSuccess;
 }
 
-
+/*
 bbFlag bbUnit_newSkelly(bbUnit** self,bbUnits* units, bbGraphicsApp* graphics,
 bbMapCoords MC, I32 index){
 
@@ -166,13 +167,13 @@ unit->drawable.state = 0;
         unit->drawable.frames[k].drawfunction = -1;
     }
 
-    home.viewport_app.unit_array[index] = unit_handle;
+    home.agents_app.entities.moveable_units[index] = unit_handle;
     bbList_sortL(&unitSquare->list, unit);
     *self = unit;
     return bbSuccess;
 }
 
-
+*/
 
 
 bbFlag bbUnits_consumeBuffer(bbUnits* units, bbHandle* unit_array, bbMoveables_snapshot* snapshot)

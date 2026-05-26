@@ -40,7 +40,7 @@ bbFlag bbVInstruction_setGoalpointIn_fn(bbCore* core, bbInstruction* instruction
 
     bbAgent* player;
     I32 player_entity_int = home.agents_app.player_entity;
-    bbEntity* player_entity = &home.entities.entity[player_entity_int];
+    bbEntity* player_entity = &home.agents_app.entities.entity[player_entity_int];
     bbVPool_lookup(home.agents_app.agents->pool,(void**)&player,player_entity->agent);
 
     //bbVPool_reverseLookup(home.agents_app.agents->pool, (void*)player, &handle);
@@ -562,7 +562,7 @@ bbFlag bbVInstruction_commandAgent_fn(bbCore* core, bbInstruction* instruction)
 
     bbAgent* player;
     I32 player_entity_int = home.agents_app.player_entity;
-    bbEntity* player_entity = &home.entities.entity[player_entity_int];
+    bbEntity* player_entity = &home.agents_app.entities.entity[player_entity_int];
     bbVPool_lookup(home.agents_app.agents->pool,(void**)&player,player_entity->agent);
 
     bbHandle handle; handle.ptr = &instruction->data.agent_MC.map_coords;
@@ -573,5 +573,71 @@ bbFlag bbVInstruction_commandAgent_fn(bbCore* core, bbInstruction* instruction)
 
     //No undo instruction because this does not directly modify data
     bbVPool_free(core->instruction_pool, (void*)instruction);
+    return bbSuccess;
+}
+
+bbFlag bbVInstruction_spawnUnitIn_fn(bbCore* core, bbInstruction* instruction)
+{
+
+    bbInstruction* undo_instruction;
+    bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+    undo_instruction->type = bbVInstruction_unspawnUnit;
+    //undo_instruction->data.map_coords = home.agents_app.agents.agents[instruction->player].goalpoint;
+    undo_instruction->source = instruction->source;
+    undo_instruction->player = instruction->player;
+    undo_instruction->data.unspawn.entity = instruction->data.unit.entity;
+    undo_instruction->data.unspawn.moveable = instruction->data.unit.moveable;
+
+    bbAgent* agent;
+
+    bbDebug("type = %d\n",instruction->data.unit.type);
+
+    //bbAgent_newBanana(home.agents_app.agents,&agent, instruction->data.banana.position,
+    //    instruction->data.banana.entity, instruction->data.banana.moveable);
+    bbSpawner_spawnEntityI(&home.spawner,
+                            &agent,
+                            instruction->data.unit.position,
+                            instruction->data.unit.goalpoint,
+                            instruction->data.unit.moveable,
+                            instruction->data.unit.entity,
+                            instruction->data.unit.type);
+
+
+    bbHandle agent_handle;
+    bbVPool_reverseLookup(home.agents_app.agents->pool, agent, &agent_handle);
+
+    undo_instruction->data.unspawn.agent = agent_handle;
+
+
+
+    if (instruction->source == bbInstructionSource_internal)
+    {
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        undo_instruction->redo_instruction.u64 = 0;
+        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_input)
+    {
+        bbHandle handle;
+        bbVPool_reverseLookup(core->instruction_pool, instruction, &handle);
+        undo_instruction->redo_instruction = handle;
+        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_action)
+    {
+        undo_instruction->redo_instruction = instruction->redo_instruction;
+        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+        return bbSuccess;
+    }
+    bbNotHere()
+    return bbSuccess;
+}
+
+bbFlag bbVInstruction_spawnUnitOut_fn(bbCore* core, bbInstruction* instruction)
+{
+    bbNetworkApp_spawnUnitOut(&home.network, instruction->data.unit.type,
+        instruction->data.unit.position, instruction->data.unit.goalpoint, instruction->act_time, collision++);
     return bbSuccess;
 }

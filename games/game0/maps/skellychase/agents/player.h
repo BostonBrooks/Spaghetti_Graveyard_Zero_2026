@@ -1,4 +1,4 @@
-#include "engine/agents/bbAgentFunctions.h"
+#include "engine/entities/bbAgentFunctions.h"
 #include "engine/core/bbCoreInputs.h"
 #include "engine/data/bbHome.h"
 #include "engine/network/bbNetworkApp.h"
@@ -9,7 +9,7 @@
 
 bbFlag bbAgent_Command_Player(bbAgent* agent,bbAgentCommandType type,bbAgentCommandData data)
 {
-    bbEntity* entity = &home.entities.entity[agent->entity];
+    bbEntity* entity = &home.agents_app.entities.entity[agent->entity];
     bbUI_Inbox_SetUnitState(&home.UI.inbox, entity->unit, bbDrawableState_moving);
     bbCoreInput_setMoveableType(&home.core.core,0, agent->moveable, data,
                                      bbInstructionSource_internal,no_handle);
@@ -33,7 +33,7 @@ bbFlag bbAgent_Update_Player(bbAgent* agent)
         //TODO only do this once
         if (distance < POINTS_PER_PIXEL*POINTS_PER_PIXEL)
         {
-            bbEntity* entity = &home.entities.entity[agent->entity];
+            bbEntity* entity = &home.agents_app.entities.entity[agent->entity];
             bbUI_Inbox_SetUnitState(&home.UI.inbox, entity->unit, bbDrawableState_idle);
 
             bbAgentCommandData data;

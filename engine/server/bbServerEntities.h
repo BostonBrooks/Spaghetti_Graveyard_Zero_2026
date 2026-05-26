@@ -1,8 +1,8 @@
 #ifndef BB_SERVER_ENTITY_H
 #define BB_SERVER_ENTITY_H
 
-#include "engine/agents/bbMoveables.h"
-#include "engine/agents/bbEntities.h"
+#include "engine/entities/bbMoveables.h"
+#include "engine/entities/bbEntities.h"
 
 typedef struct
 {

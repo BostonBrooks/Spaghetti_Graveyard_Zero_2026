@@ -5,8 +5,8 @@
 #include <pthread.h>
 #include <math.h>
 
-#include "engine/agents/bbAgentFunctions.h"
-#include "engine/agents/bbAvoidables.h"
+#include "engine/entities/bbAgentFunctions.h"
+#include "engine/entities/bbAvoidables.h"
 #include "engine/core/bbCoreDiscard.h"
 #include "engine/core/bbCoreInputs.h"
 #include "engine/core/bbLocalMessage.h"
@@ -77,7 +77,7 @@ int main(void)
     bbAgentFunctions_populate(&home.agents_app.functions);
     //bbAgents_init(&home.agents_app.agents);
 
-    bbSpawner_init(&home.spawner, 69);
+    bbSpawner_init(&home.spawner, 69, 193);
     bbSpawner_populate(&home.spawner);
 
 
@@ -105,7 +105,7 @@ int main(void)
     bbAgents_new(&home.agents_app.agents, 12,12);
 
 
-    bbEntities_init_core(&home.entities);
+    bbEntities_init_core(&home.agents_app.entities);
 
     bbSpawner_spawnCore(&home.spawner, "./maps/skellychase/spawner/spawner.csv");
 
@@ -128,8 +128,6 @@ int main(void)
 
     while (1)
     {
-
-
 
         if (home.network.send_ready && home.network.receive_ready)
         {
@@ -259,7 +257,7 @@ void* userinterface_thread(void* arg)
     I32 counter = 0;
 
 
-    bbEntities_init_graphics(&home.entities);
+    bbEntities_init_graphics(&home.agents_app.entities);
     bbSpawner_spawnGraphics(&home.spawner, "./maps/skellychase/spawner/spawner.csv");
 
     bbHere()
@@ -315,7 +313,7 @@ bbHere()
 //end test*/
 
         bbMoveables_copyBuffer(&home.agents_app.movables, &moveables_snapshot);
-        bbUnits_consumeBuffer(home.viewport_app.units, home.viewport_app.unit_array,&moveables_snapshot);
+        bbUnits_consumeBuffer(home.viewport_app.units, home.agents_app.entities.moveable_units,&moveables_snapshot);
         bbUIApp_draw(&home.UI);
 
         if (home.clock2.is_running){

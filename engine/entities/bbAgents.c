@@ -1,6 +1,6 @@
-#include "engine/agents/bbAgents.h"
+#include "engine/entities/bbAgents.h"
 
-#include "engine/agents/bbMoveables.h"
+#include "engine/entities/bbMoveables.h"
 #include "engine/data/bbConstants.h"
 #include "engine/data/bbHome.h"
 #include "engine/logic/bbBloatedPool.h"
@@ -50,7 +50,7 @@ bbAgents_square* bbAgents_getSquare(bbAgents* agents, I32 i, I32 j)
 }
 
 
-
+/*
 bbFlag bbAgent_newSkelly(bbAgents* agents, bbMapCoords position)
 {
     bbAgent* self;
@@ -87,7 +87,7 @@ bbFlag bbAgent_newSkelly(bbAgents* agents, bbMapCoords position)
 
     return bbSuccess;
 
-}
+}*/
 
 bbFlag bbAgent_newBanana(bbAgents* agents,bbAgent** self, bbMapCoords position,
     I32 entity_index, I32 moveable_index)
@@ -143,10 +143,10 @@ bbFlag bbAgent_newBanana(bbAgents* agents,bbAgent** self, bbMapCoords position,
     bbList_pushL(&agents->full_list,agent);
 
     agent->entity = entity_index;
-    home.entities.num_entities_core = entity_index+1;
-    home.entities.entity[agent->entity].agent = agent_handle;
+    home.agents_app.entities.num_entities_core = entity_index+1;
+    home.agents_app.entities.entity[agent->entity].agent = agent_handle;
 
-    home.entities.entity[agent->entity].moveable.u64 = index;
+    home.agents_app.entities.entity[agent->entity].moveable.u64 = index;
 
 
 
@@ -169,7 +169,7 @@ bbFlag bbAgent_deleteBanana(bbAgents* agents,bbAgent* agent)
     bbList_remove(&agents->full_list,agent);
     bbList_remove(&square->agents,agent);
 
-    bbEntity* entity = &home.entities.entity[agent->entity];
+    bbEntity* entity = &home.agents_app.entities.entity[agent->entity];
 
     bbHandle null_agent;
     bbHandle null_moveable;

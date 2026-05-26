@@ -122,6 +122,25 @@ bbFlag bbSF_skeleton(char* string)
 
     return bbSuccess;
 }
+bbFlag bbSF_entity(char* string)
+{
+    //printf("*%s", string);
+    I32 i, j;
+    I32 moveable_index, entity_index;
+    char key[KEY_LENGTH];
+    char type[KEY_LENGTH];
+    sscanf(string, "%[^','],%[^','],%d,%d,%d,%d",
+        key, type, &i, &j,&moveable_index, &entity_index);;
+
+    entities.num_moveables = moveable_index+1;
+    entities.num_entities = entity_index+1;
+    entities.moveable[moveable_index].in_use = true;
+
+
+    bbDebug("SKELETON, moveable = %d, entity = %d\n", moveable_index, entity_index);
+
+    return bbSuccess;
+}
 
 bbFlag bbServer_Spawner_populate(bbServer_Spawner* spawner)
 {
@@ -130,5 +149,6 @@ bbFlag bbServer_Spawner_populate(bbServer_Spawner* spawner)
     bbServer_Spawner_add(spawner,bbSF_skeleton, "SKELETON");
     bbServer_Spawner_add(spawner,bbSF_skelly, "SKELLY");
     bbServer_Spawner_add(spawner,bbSF_skelly, "ZOMBIE");
+    bbServer_Spawner_add(spawner,bbSF_entity, "ENTITY");
     return bbSuccess;
 }

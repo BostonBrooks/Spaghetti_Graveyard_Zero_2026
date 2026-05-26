@@ -4,6 +4,7 @@
 
 #include "bbAction.h"
 #include "bbCoreInputs.h"
+#include "core/core_inputs.h"
 #include "core/instructions.h"
 #include "engine/data/bbHome.h"
 #include "engine/logic/bbString.h"
@@ -398,6 +399,12 @@ bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
                 action->integer2,action->header.act_tick,bbInstructionSource_action,handle);
 
         }
+        if (action->header.type == bbActionType_spawnUnit)
+        {
+            bbCoreInput_spawnUnitIn(core, action->map_coords, action->goal_coords,action->integer3,action->integer,
+                action->integer2,action->header.act_tick,bbInstructionSource_action,handle);
+
+        }
 #endif
         flag = bbList_popL(&core->action_temp_fifo,(void**)&action);
     }
@@ -714,7 +721,7 @@ bbFlag bbInstruction_spawnBananaIn_fn(bbCore* core, bbInstruction* instruction)
     //undo_instruction->data.map_coords = home.agents_app.agents.agents[instruction->player].goalpoint;
     undo_instruction->source = instruction->source;
     undo_instruction->player = instruction->player;
-    undo_instruction->data.unspawn.entity = home.entities.num_entities_core;
+    undo_instruction->data.unspawn.entity = home.agents_app.entities.num_entities_core;
     undo_instruction->data.unspawn.moveable = home.agents_app.movables.available;
 
     bbAgent* agent;
@@ -760,7 +767,7 @@ bbFlag bbInstruction_unspawnBanana_fn(bbCore* core, bbInstruction* instruction)
 {
 
 
-    home.entities.num_entities_core = instruction->data.unspawn.entity;
+    home.agents_app.entities.num_entities_core = instruction->data.unspawn.entity;
     home.agents_app.movables.available = instruction->data.unspawn.moveable;
 
 

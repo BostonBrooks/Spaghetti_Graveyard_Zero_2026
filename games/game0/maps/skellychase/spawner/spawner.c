@@ -1,21 +1,31 @@
 
 #include <stdio.h>
-
 #include "engine/data/bbHome.h"
 #include "engine/geometry/bbCoordinates.h"
 #include "engine/groundsurface/bbGroundSurface.h"
 #include "engine/spawner/bbSpawner.h"
 
+#include "games/game0/maps/skellychase/spawner/kitty.h"
+#include "games/game0/maps/skellychase/spawner/balloon.h"
+#include "games/game0/maps/skellychase/spawner/skelly.h"
+#include  "games/game0/maps/skellychase/spawner/zombie.h"
 
 //typedef bbFlag bbSpawnFunction (char* string);
+//(MC.i, MC.j, moveable_index, entity_index);
+bbFlag bbSF_null(I32 i_coord, I32 j_coord, I32 moveable_index, I32 entity_index)
+{
+    bbDebug("NULL Spawn Function\n");
+    return bbSuccess;
+}
 
-bbFlag bbSF_null(char* string)
+
+bbFlag bbPF_null(char* string)
 {
     bbDebug("%s\n", string);
     return bbSuccess;
 }
 
-bbFlag bbSF_treeGraphics(char* string)
+bbFlag bbPF_treeGraphics(char* string)
 {
 
     bbViewportApp* app = &home.viewport_app;
@@ -35,7 +45,7 @@ bbFlag bbSF_treeGraphics(char* string)
     return bbSuccess;
 }
 
-bbFlag bbSF_treeCore(char* string)
+bbFlag bbPF_treeCore(char* string)
 {
     bbViewportApp* app = &home.viewport_app;
     bbMapCoords MC;
@@ -51,7 +61,7 @@ bbFlag bbSF_treeCore(char* string)
     return bbSuccess;
 }
 
-bbFlag bbSF_skeletonGraphics(char* string)
+bbFlag bbPF_skeletonGraphics(char* string)
 {
 
     bbViewportApp* app = &home.viewport_app;
@@ -71,7 +81,7 @@ bbFlag bbSF_skeletonGraphics(char* string)
 }
 
 
-bbFlag bbSF_skeletonCore(char* string)
+bbFlag bbPF_skeletonCore(char* string)
 {
 
     bbMapCoords MC;
@@ -96,12 +106,12 @@ bbFlag bbSF_skeletonCore(char* string)
     moveable->goal_moveable = index%8;
 
 
-    bbDebug("SKELETON, moveable = %d, entity = %d\n", index);
+    bbDebug("SKELETON, moveable = %d, entity = %d\n", index,0);
 
     return bbSuccess;
 }
-
-bbFlag bbSF_zombieGraphics(char* string)
+/*
+bbFlag bbPF_zombieGraphics(char* string)
 {
 
     bbViewportApp* app = &home.viewport_app;
@@ -121,15 +131,15 @@ bbFlag bbSF_zombieGraphics(char* string)
 
     bbHandle unit_handle;
     bbVPool_reverseLookup(home.viewport_app.units->pool,unit,&unit_handle);
-    unit->enitity = home.entities.num_entities_graphics++;
-    home.entities.entity[unit->enitity].unit = unit_handle;
+    unit->enitity = home.agents_app.entities.num_entities_graphics++;
+    home.agents_app.entities.entity[unit->enitity].unit = unit_handle;
 
 
 
     return bbSuccess;
-}
+}*/
 /*
-bbFlag bbSF_zombieGraphics(char* string)
+bbFlag bbPF_zombieGraphics(char* string)
 {
 
     bbViewportApp* app = &home.viewport_app;
@@ -170,7 +180,7 @@ bbFlag bbSF_zombieGraphics(char* string)
     return bbSuccess;
 }*/
 /*
-bbFlag bbSF_zombieCore(char* string)
+bbFlag bbPF_zombieCore(char* string)
 {
     bbMapCoords MC;
     I32 index;
@@ -199,7 +209,7 @@ bbFlag bbSF_zombieCore(char* string)
     return bbSuccess;
 }
 */
-bbFlag bbSF_zombieCore(char* string)
+bbFlag bbPF_zombieCore(char* string)
 {
 
     bbMapCoords MC;
@@ -248,10 +258,10 @@ bbFlag bbSF_zombieCore(char* string)
 
     bbHandle agent_handle;
     bbVPool_reverseLookup(home.agents_app.agents->pool,agent,&agent_handle);
-    agent->entity = home.entities.num_entities_core++;
-    home.entities.entity[agent->entity].agent = agent_handle;
+    agent->entity = home.agents_app.entities.num_entities_core++;
+    home.agents_app.entities.entity[agent->entity].agent = agent_handle;
 
-    home.entities.entity[agent->entity].moveable.u64 = index;
+    home.agents_app.entities.entity[agent->entity].moveable.u64 = index;
 
 
     home.agents_app.player_entity = agent->entity;
@@ -261,8 +271,8 @@ bbFlag bbSF_zombieCore(char* string)
 
     return bbSuccess;
 }
-
-bbFlag bbSF_skellyGraphics(char* string)
+/*
+bbFlag bbPF_skellyGraphics(char* string)
 {
 
     bbViewportApp* app = &home.viewport_app;
@@ -279,13 +289,13 @@ bbFlag bbSF_skellyGraphics(char* string)
 
     bbHandle unit_handle;
     bbVPool_reverseLookup(home.viewport_app.units->pool,unit,&unit_handle);
-    unit->enitity = home.entities.num_entities_graphics++;
-    home.entities.entity[unit->enitity].unit = unit_handle;
+    unit->enitity = home.agents_app.entities.num_entities_graphics++;
+    home.agents_app.entities.entity[unit->enitity].unit = unit_handle;
 
     return bbSuccess;
-}
-
-bbFlag bbSF_skellyCore(char* string)
+}*/
+/*
+bbFlag bbPF_skellyCore(char* string)
 {
 
     bbMapCoords MC;
@@ -329,10 +339,10 @@ bbFlag bbSF_skellyCore(char* string)
 
     bbHandle agent_handle;
     bbVPool_reverseLookup(home.agents_app.agents->pool,agent,&agent_handle);
-    agent->entity = home.entities.num_entities_core++;
-    home.entities.entity[agent->entity].agent = agent_handle;
+    agent->entity = home.agents_app.entities.num_entities_core++;
+    home.agents_app.entities.entity[agent->entity].agent = agent_handle;
 
-    home.entities.entity[agent->entity].moveable.u64 = index;
+    home.agents_app.entities.entity[agent->entity].moveable.u64 = index;
 
 
     bbDebug("SKELLY, moveable = %d, entity = %d\n", index, agent->entity);
@@ -340,12 +350,70 @@ bbFlag bbSF_skellyCore(char* string)
     return bbSuccess;
 }
 
+*/
+
+bbFlag bbPF_entityGraphics(char* string)
+{
+    bbMapCoords MC;
+    I32 moveable_index;
+    I32 entity_index;
+    char key[KEY_LENGTH];
+    char entity_type[KEY_LENGTH];
+    sscanf(string, "%[^','],%[^','],%d,%d,%d,%d",
+        key, entity_type, &MC.i, &MC.j,&moveable_index, &entity_index);
+
+    bbHandle spawn_fn_handle;
+    bbFlag flag = bbDictionary_lookup(home.spawner.spawn_dict,entity_type,&spawn_fn_handle);
+    bbAssert(flag == bbSuccess, "bbSpawnFunction not found\n");
+    bbSpawnFunction* function = home.spawner.spawn_graphics[spawn_fn_handle.u64];
+
+    return function(MC.i, MC.j, moveable_index, entity_index);
+}
+
+bbFlag bbPF_entityCore(char* string)
+{
+    bbMapCoords MC;
+    I32 moveable_index;
+    I32 entity_index;
+    char key[KEY_LENGTH];
+    char entity_type[KEY_LENGTH];
+    sscanf(string, "%[^','],%[^','],%d,%d,%d,%d",
+        key, entity_type, &MC.i, &MC.j,&moveable_index, &entity_index);
+
+    bbHandle spawn_fn_handle;
+    bbFlag flag = bbDictionary_lookup(home.spawner.spawn_dict,entity_type,&spawn_fn_handle);
+    bbAssert(flag == bbSuccess, "bbSpawnFunction not found\n");
+    bbSpawnFunction* function = home.spawner.spawn_core[spawn_fn_handle.u64];
+
+    return function(MC.i, MC.j, moveable_index, entity_index);
+    return bbSuccess;
+}
+
 bbFlag bbSpawner_populate(bbSpawner* spawner)
 {
-    bbSpawner_add(spawner,bbSF_null, bbSF_null, "NULL");
-    bbSpawner_add(spawner,bbSF_treeCore, bbSF_treeGraphics, "TREE");
-    bbSpawner_add(spawner,bbSF_skeletonCore, bbSF_skeletonGraphics, "SKELETON");
-    bbSpawner_add(spawner,bbSF_skellyCore, bbSF_skellyGraphics, "SKELLY");
-    bbSpawner_add(spawner,bbSF_zombieCore, bbSF_zombieGraphics, "ZOMBIE");
+    bbParseFunction_add(spawner,bbPF_null, bbPF_null, "NULL");
+    bbParseFunction_add(spawner,bbPF_treeCore, bbPF_treeGraphics, "TREE");
+    bbParseFunction_add(spawner,bbPF_skeletonCore, bbPF_skeletonGraphics, "SKELETON");
+    //bbParseFunction_add(spawner,bbPF_skellyCore, bbPF_skellyGraphics, "SKELLY");
+    //bbParseFunction_add(spawner,bbPF_zombieCore, bbPF_zombieGraphics, "ZOMBIE");
+    bbParseFunction_add(spawner,bbPF_entityCore, bbPF_entityGraphics, "ENTITY");
+
+    bbSpawnFunction_add(spawner,(void*)bbSF_null,(void*)bbSF_null, "NULL");
+
+    bbSpawnFunction_add(spawner,(void*)bbSF_kittyCore,(void*)bbSF_kittyGraphics, "KITTY");
+    bbEntityFunction_add(spawner,bbEntity_newKitty, bbUIUnit_newKitty, "KITTY");
+
+
+    bbSpawnFunction_add(spawner,(void*)bbSF_balloonCore,(void*)bbSF_balloonGraphics, "BALLOON");
+    bbEntityFunction_add(spawner,bbEntity_newBalloon, bbUIUnit_newBalloon, "BALLOON");
+
+
+
+    bbSpawnFunction_add(spawner,(void*)bbSF_skellyCore,(void*)bbSF_skellyGraphics, "SKELLY");
+    bbEntityFunction_add(spawner,bbEntity_newSkelly, bbUIUnit_newSkelly, "SKELLY");
+
+
+    bbSpawnFunction_add(spawner,(void*)bbSF_zombieCore,(void*)bbSF_zombieGraphics, "ZOMBIE");
+    bbEntityFunction_add(spawner,bbEntity_newZombie, bbUIUnit_newZombie, "ZOMBIE");
     return bbSuccess;
 }

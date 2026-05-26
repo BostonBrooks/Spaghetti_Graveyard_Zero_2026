@@ -64,6 +64,9 @@ bbFlag bbUI_Inbox_check(bbUI_Inbox* inbox)
         case bbUI_Inbox_deleteBanana:
             bbUI_Inbox_deleteBanana_fn(inbox, message);
             break;
+        case bbUI_Inbox_newUnit:
+            bbUI_Inbox_newUnit_fn(inbox,message);
+            break;
 #endif
         default:
 
@@ -129,9 +132,10 @@ bbFlag bbUI_Inbox_setViewpoint_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message
 #ifdef DEFINE_SKELLYCHASE
 bbFlag bbUI_Inbox_newSkelly_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
 {
+    bbNotHere()
     bbUnit* none;
-    bbUnit_newSkelly(&none,home.viewport_app.units, &home.UI.graphics,
-    message->data.coords, message->data.handle.handle.u64);
+    //bbUnit_newSkelly(&none,home.viewport_app.units, &home.UI.graphics,
+   // message->data.coords, message->data.handle.handle.u64);
     return bbSuccess;
 }
 #endif
@@ -254,7 +258,7 @@ bbFlag bbUI_Inbox_newBanana_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
 
 
 
-    bbDebug("spawn banana i = %d, j = %d, k = %d\n", MC.i, MC.j, MC.k);
+    //bbDebug("spawn banana i = %d, j = %d, k = %d\n", MC.i, MC.j, MC.k);
 
 
     bbUnit* unit;
@@ -320,12 +324,12 @@ bbFlag bbUI_Inbox_newBanana_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
             unit->drawable.frames[k].drawfunction = -1;
         }
 
-        home.viewport_app.unit_array[moveable_index] = unit_handle;
+        home.agents_app.entities.moveable_units[moveable_index] = unit_handle;
 
         bbList_sortL(&unitSquare->list, unit);
 
         unit->enitity = entity_index;
-        home.entities.entity[entity_index].unit = unit_handle;
+        home.agents_app.entities.entity[entity_index].unit = unit_handle;
 
     return bbSuccess;
 
@@ -337,12 +341,12 @@ bbFlag bbUI_Inbox_deleteBanana_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message
     I32 moveable_index = message->data.integer2;
 
 
-    bbHandle unit_handle = home.entities.entity[entity_index].unit;
-    home.entities.entity[entity_index].unit
+    bbHandle unit_handle = home.agents_app.entities.entity[entity_index].unit;
+    home.agents_app.entities.entity[entity_index].unit
         = home.viewport_app.units->pool->null;
 
 
-    home.viewport_app.unit_array[moveable_index]
+    home.agents_app.entities.moveable_units[moveable_index]
         = home.viewport_app.units->pool->null;
 
     bbUnit* unit;
@@ -359,5 +363,29 @@ bbFlag bbUI_Inbox_deleteBanana_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message
 
     return bbSuccess;
 
+
+}
+
+
+bbFlag bbUI_Inbox_NewUnit(bbUI_Inbox* inbox, I32 type_index, bbMapCoords MC, I32 entity_index, I32 moveable_index)
+{
+    {
+        bbUI_Inbox_message* message;
+        bbThreadedQueue_alloc(&inbox->local_message_queue,(void**)&message);
+        message->type = bbUI_Inbox_newUnit;
+        message->data.coords = MC;
+        message->data.integer = entity_index;
+        message->data.integer2 = moveable_index;
+        message->data.integer3 = type_index;
+
+        bbThreadedQueue_pushL(&inbox->local_message_queue, (void*)message);
+        return bbSuccess;
+    }
+}
+
+bbFlag bbUI_Inbox_newUnit_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
+{
+    bbUIUnit_newUnit(message->data.integer3, message->data.coords, message->data.integer2, message->data.integer);
+    return bbSuccess;
 
 }

@@ -4,7 +4,7 @@
 #include "engine/core/bbCore.h"
 #include "games/game0/maps/pong/code/bbBall.h"
 #include "games/game0/maps/pong/code/bbPaddle.h"
-#include "engine/agents/bbAgentFunctions.h"
+#include "engine/entities/bbAgentFunctions.h"
 
 
 bbFlag bbCoreInput_setString(bbCore* core, char* string, bbInstruction_source source, bbHandle action);
@@ -75,4 +75,6 @@ bbFlag bbCoreInput_setMoveableIdle(bbCore* core,U64 time, I32 moveable, bbMapCoo
 
 bbFlag bbCoreInput_setMoveableType(bbCore* core,U64 time, I32 moveable, bbAgentCommandData data,
                                  bbInstruction_source source, bbHandle action);
+
+bbFlag bbCoreInput_commandAgentMapClick(bbCore* core, I32 player_entity,bbMapCoords MC, I32 button);
 #endif //BB_CORE_INPUTS

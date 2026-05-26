@@ -2,7 +2,7 @@
 #define BB_VIEWPORTAPP_H
 
 
-#include "engine/agents/bbMoveables.h"
+#include "engine/entities/bbMoveables.h"
 #include "engine/viewport/bbMapIcons.h"
 #include "engine/viewport/bbUnits.h"
 #include "engine/viewport/bbDrawables.h"
@@ -20,7 +20,6 @@ typedef struct
     bbViewport viewport;
     bbWidget* viewport_widget;
 
-    bbHandle unit_array[NUM_MOVEABLES];
 } bbViewportApp;
 
 bbFlag bbViewportApp_init(bbViewportApp* app);

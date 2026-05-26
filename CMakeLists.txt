@@ -267,11 +267,11 @@ target_link_libraries(Test_Threaded_Queue PRIVATE
 target_include_directories(Test_Threaded_Queue  PRIVATE "./")
 
 add_executable(SkellyChase test/bbTest_SkellyChase.c
-        engine/agents/bbAgentFunctions.c
-        engine/agents/bbMoveables.c
-        engine/agents/bbAvoidables.c
-        engine/agents/bbAgents.c
-        engine/agents/bbEntities.c
+        engine/entities/bbAgentFunctions.c
+        engine/entities/bbMoveables.c
+        engine/entities/bbAvoidables.c
+        engine/entities/bbAgents.c
+        engine/entities/bbEntities.c
         engine/graphics/bbFonts.c
         engine/graphics/bbSprites.c
         engine/graphics/bbTextures.c

@@ -1,4 +1,4 @@
-Number of Sprites:,689,,,,,,,,,,,,
+Number of Sprites:,700,,,,,,,,,,,,
 Label:,Integer Address:,Texture:,Left:,Top:,Width:,Height:,Origin X:,Origin Y:,Scale X:,Scale Y:,Scale By:,Comment:,
 NULL,0,NULL,0,0,128,128,0,0,1,1,None,Exception,
 LAYOUT_480,1,LAYOUT_480,0,0,720,480,0,0,1,1,None,The root of the widget tree,
@@ -689,5 +689,16 @@ BLUECLOCK56,685,BLUECLOCK,0,784,107,111,52,55,1,1,Widget,a clock hand
 BLUECLOCK57,686,BLUECLOCK,109,784,107,111,52,55,1,1,Widget,a clock hand
 BLUECLOCK58,687,BLUECLOCK,218,784,107,111,52,55,1,1,Widget,a clock hand
 BLUECLOCK59,688,BLUECLOCK,327,784,107,111,52,55,1,1,Widget,a clock hand
+BALLOON_CLEAR,689,BALLOONS,0,0,39,98,19,97,1,1,Widget,a clock hand
+BALLOON_WHITE,690,BALLOONS,39,0,39,98,19,97,1,1,Widget,a clock hand
+BALLOON_BLACK,691,BALLOONS,79,0,39,98,19,97,1,1,Widget,a clock hand
+BALLOON_RED,692,BALLOONS,119,0,39,98,19,97,1,1,Widget,a clock hand
+BALLOON_ORANGE,693,BALLOONS,159,0,39,98,19,97,1,1,Widget,a clock hand
+BALLOON_YELLOW,694,BALLOONS,199,0,39,98,19,97,1,1,Widget,a clock hand
+BALLOON_GREEN,695,BALLOONS,239,0,39,98,19,97,1,1,Widget,a clock hand
+BALLOON_CYAN,696,BALLOONS,279,0,39,98,19,97,1,1,Widget,a clock hand
+BALLOON_COBOLT,697,BALLOONS,319,0,39,98,19,97,1,1,Widget,a clock hand
+BALLOON_PURPLE,698,BALLOONS,359,0,39,98,19,97,1,1,Widget,a clock hand
+BALLOON_MAGENTA,699,BALLOONS,399,0,39,98,19,97,1,1,Widget,a clock hand
 
 Label:,Integer Address:,Texture:,Left:,Top:,Width:,Height:,Origin X:,Origin Y:,Scale X:,Scale Y:,Scale By:,Comment:,
