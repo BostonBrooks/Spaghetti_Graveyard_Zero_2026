@@ -24,7 +24,7 @@ bbFlag bbAgent_Command_Player(bbAgent* agent,bbAgentCommandType type,bbAgentComm
 
             //bbLocalMessage_SpawnUnit(&home.core.core, moveable->position, data.goal_point, "BALLOON");
 
-            bbCoreInput_spawnUnitOut(&home.core.core, 1, data.goal_point,moveable->position, home.core.clock2_handle.map_tick
+            bbCoreInput_spawnUnitOut(&home.core.core, 1,moveable->position, data.goal_point, home.core.clock2_handle.map_tick
             ,bbInstructionSource_input,handle);
         }
     } else {

@@ -16,7 +16,7 @@ bbFlag Viewport_LeftDown (void* Mouse, void* Widgets, void* Widget, void*
     //bbLocalMessage_SpawnUnit(&home.core.core, MC, MC2, "BALLOON");
 
 
-    bbLocalMessage_MapClick(&home.core.core, MC, 1);
+    bbLocalMessage_MapClick(&home.core.core, MC2, 1);
     //bbDebug("goal.i = %d, goal.j = %d\n", MC2.i, MC2.j);
     return bbSuccess;
 }
