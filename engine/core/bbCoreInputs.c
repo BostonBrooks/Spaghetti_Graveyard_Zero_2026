@@ -359,5 +359,9 @@ bbFlag bbCoreInput_updateMoveables(bbCore* core,
     return bbSuccess;
 }
 
+bbFlag bbCoreInput_commandAgentMapClick(bbCore* core, I32 player_entity,bbMapCoords MC, I32 button)
+{
+bbHere()
+}
 
 #endif

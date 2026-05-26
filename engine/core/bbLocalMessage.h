@@ -18,7 +18,8 @@ typedef enum
     bbLocalMessage_spawnBanana,
     bbLocalMessage_spawnUnit,
     bbLocalMessage_setGoalpoint,
-    bbLocalMessage_switchCharacterButton
+    bbLocalMessage_switchCharacterButton,
+    bbLocalMessage_mapClick
 } bbLocalMessage_type;
 
 typedef struct
@@ -54,4 +55,5 @@ bbFlag bbLocalMessage_spawnUnitOut_fn(bbCore* core, bbLocalMessage* message);
 
 
 bbFlag bbLocalMessage_switchCharacterButton_fn(bbCore* core, bbLocalMessage* message);
+bbFlag bbLocalMessage_mapClick_fn(bbCore* core, bbLocalMessage* message);
 #endif // BB_LOCAL_MESSAGE_H

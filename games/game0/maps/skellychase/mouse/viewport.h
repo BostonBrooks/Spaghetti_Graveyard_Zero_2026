@@ -13,9 +13,10 @@ bbFlag Viewport_LeftDown (void* Mouse, void* Widgets, void* Widget, void*
     bbViewportCoords VC = bbScreenPoints_getViewportPoints(&home.viewport_app.viewport, screen_points);
     bbMapCoords MC = home.viewport_app.viewport.viewpoint;
     bbMapCoords MC2 = bbViewportCoords_getMapCoords(VC);
-    bbLocalMessage_SpawnUnit(&home.core.core, MC, MC2, "BALLOON");
+    //bbLocalMessage_SpawnUnit(&home.core.core, MC, MC2, "BALLOON");
 
 
+    bbLocalMessage_MapClick(&home.core.core, MC2, 0);
     //bbDebug("goal.i = %d, goal.j = %d\n", MC2.i, MC2.j);
     return bbSuccess;
 }

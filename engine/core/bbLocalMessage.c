@@ -154,6 +154,12 @@ bbFlag bbLocalMessage_setGoalpointOut_fn(bbCore* core, bbLocalMessage* message)
     return bbSuccess;
 }
 
+bbFlag bbLocalMessage_mapClick_fn(bbCore* core, bbLocalMessage* message)
+{
+    bbCoreInput_commandAgentMapClick(core,home.agents_app.player_entity,message->data.banana.position, message->data.banana.entity);
+    //TODO core_react()?
+}
+
 bbFlag bbLocalMessage_switchCharacterButton_fn(bbCore* core, bbLocalMessage* message)
 {bbHere()
     //home.agents_app.agents.current_agent = (home.agents_app.agents.current_agent + 1)%NUM_AGENTS;

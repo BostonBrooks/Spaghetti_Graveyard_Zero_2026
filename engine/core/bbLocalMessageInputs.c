@@ -161,6 +161,18 @@ bbFlag bbLocalMessage_SpawnUnit(bbCore* core, bbMapCoords mapCoords, bbMapCoords
     return bbSuccess;
 }
 
+bbFlag bbLocalMessage_MapClick(bbCore* core, bbMapCoords mapCoords, I32 mouse_button)
+{
+    bbLocalMessage* message;
+    bbThreadedQueue_alloc(&core->local_message_queue, (void** ) &message);
+    message->type = bbLocalMessage_mapClick;
+
+    message->act_time = home.core.core.actual_time;
+    message->data.banana.position = mapCoords;
+    message->data.banana.entity = mouse_button;
+    bbThreadedQueue_pushL(&core->local_message_queue, message);
+}
+
 bbFlag bbLocalMessage_SetGoalpoint(bbCore* core, bbMapCoords mapCoords)
 {
     bbLocalMessage* message;
