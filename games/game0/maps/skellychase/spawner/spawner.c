@@ -405,6 +405,9 @@ bbFlag bbSpawner_populate(bbSpawner* spawner)
     bbEntityFunction_add(spawner,bbEntity_newKitty, bbUIUnit_newKitty, "KITTY");
 
 
+    bbSpawnFunction_add(spawner,(void*)bbSF_fireballCore,(void*)bbSF_fireballGraphics, "FIREBALL");
+    bbEntityFunction_add(spawner,bbEntity_newFireball, bbUIUnit_newFireball, "FIREBALL");
+
     bbSpawnFunction_add(spawner,(void*)bbSF_balloonCore,(void*)bbSF_balloonGraphics, "BALLOON");
     bbEntityFunction_add(spawner,bbEntity_newBalloon, bbUIUnit_newBalloon, "BALLOON");
 
