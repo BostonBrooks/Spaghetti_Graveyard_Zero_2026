@@ -51,6 +51,8 @@ typedef struct
     bbSquareCoords square_coords;
     bbAgent_state state;
     bbAgentFunctionTable ftable;
+    I32 health;
+    I32 health_max;
 } bbAgent;
 
 typedef struct
