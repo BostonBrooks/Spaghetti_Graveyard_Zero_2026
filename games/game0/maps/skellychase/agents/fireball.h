@@ -53,7 +53,7 @@ bbFlag bbAgent_Update_Fireball(bbAgent* agent)
         if (distance < POINTS_PER_PIXEL*POINTS_PER_PIXEL)
     {
         //TODO only do this once
-            if (agent_movable->type != bbMoveableType_Idle)
+            if (agent_movable->type == bbMoveableType_GoalPoint)
         {
             bbEntity* entity = &home.agents_app.entities.entity[agent->entity];
             bbUI_Inbox_SetUnitState(&home.UI.inbox, entity->unit, bbDrawableState_attacking);
@@ -65,13 +65,17 @@ bbFlag bbAgent_Update_Fireball(bbAgent* agent)
 
             bbCoreInput_setMoveableType(&home.core.core,0, agent->moveable, data,
                                              bbInstructionSource_internal,no_handle);
-        } else
+        } else if (agent_movable->type == bbMoveableType_Idle)
         {
             bbEntity* entity = &home.agents_app.entities.entity[agent->entity];
-
-            bbDebug("agent->entity = %d, agent->moveable = %d\n",agent->entity, agent->moveable);
             bbMoveable* moveable = &home.agents_app.movables.moveables[agent->moveable];
-            moveable->type = bbMoveableType_Unused;
+
+            bbAgentCommandData data;
+            data.type = bbMoveableType_Unused;
+            data.goal_point = agent_movable->goalpoint;
+            data.moveable = 0;
+            bbCoreInput_setMoveableType(&home.core.core,0, agent->moveable, data,
+                                             bbInstructionSource_internal,no_handle);
 
             bbUI_Inbox_DeleteBanana(&home.UI.inbox, agent->entity, agent->moveable);
         }

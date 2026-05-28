@@ -110,6 +110,8 @@ bbFlag bbUnit_newFireball(bbUnit** self, bbMapCoords MC, I32 moveable_index, I32
     home.agents_app.entities.moveable_units[moveable_index] = unit_handle;
     home.agents_app.entities.entity[entity_index].unit = unit_handle;
     bbList_sortL(&unitSquare->list, unit);
+
+    bbList_sortL(&home.viewport_app.units->list, unit);
     *self = unit;
     return bbSuccess;
 }
