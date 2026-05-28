@@ -102,9 +102,6 @@ bbFlag bbUnit_newSkellyx(bbUnit** self, bbMapCoords MC,bbMapCoords goalpoint, I3
              "MAPICON_TEST",
              &drawfunctionHandle);
 
-
-
-
     unit->drawable.frames[2].drawfunction = drawfunctionHandle.u64;
     unit->drawable.frames[2].handle.u64 = 626;
     unit->drawable.frames[2].start_time =  -(rand()%6);
@@ -112,7 +109,18 @@ bbFlag bbUnit_newSkellyx(bbUnit** self, bbMapCoords MC,bbMapCoords goalpoint, I3
     unit->drawable.frames[2].offset.x = 0;
     unit->drawable.frames[2].offset.y = 0;
 
-    for (I32 k = 3; k < FRAMES_PER_DRAWABLE; k++){
+    bbDictionary_lookup(home.UI.graphics.drawfunctions->dictionary,
+             "HEALTH_POINTS",
+             &drawfunctionHandle);
+
+    unit->drawable.frames[3].drawfunction = drawfunctionHandle.u64;
+    unit->drawable.frames[3].handle.u64 = 626;
+    unit->drawable.frames[3].start_time =  -(rand()%6);
+    unit->drawable.frames[3].framerate = 1;
+    unit->drawable.frames[3].offset.x = 0;
+    unit->drawable.frames[3].offset.y = 0;
+
+    for (I32 k = 4; k < FRAMES_PER_DRAWABLE; k++){
         unit->drawable.frames[k].drawfunction = -1;
     }
 

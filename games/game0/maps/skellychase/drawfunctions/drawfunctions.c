@@ -18,6 +18,7 @@
 #include "games/game0/maps/skellychase/drawfunctions/drawable_shadow.h"
 #include "games/game0/maps/skellychase/drawfunctions/unit_sprite.h"
 #include "games/game0/maps/skellychase/drawfunctions/compositions.h"
+#include "games/game0/maps/skellychase/drawfunctions/health_bar.h"
 
 #define NUM_DRAWFUNCTIONS 69
 
@@ -138,6 +139,10 @@ bbFlag bbDrawfunctions_new(bbDrawfunctions** drawfunctions){
     functions->functions[18] = bbDF_none;
     handle.u64 = 18;
     bbDictionary_add(functions->dictionary, "NONE", handle);
+
+    functions->functions[19] = bbDF_healthPointsTest;
+    handle.u64 = 19;
+    bbDictionary_add(functions->dictionary, "HEALTH_POINTS", handle);
 
 
     *drawfunctions = functions;
