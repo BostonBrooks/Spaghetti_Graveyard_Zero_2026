@@ -39,6 +39,7 @@ bbFlag bbVInstruction_setGoalpointIn_fn(bbCore* core, bbInstruction* instruction
                           handle);*/
 
     bbAgent* player;
+    //TODO player_entity_int should be set as an argument to bbCoreInput_setGoalpointOut
     I32 player_entity_int = home.agents_app.player_entity;
     bbEntity* player_entity = &home.agents_app.entities.entity[player_entity_int];
     bbVPool_lookup(home.agents_app.agents->pool,(void**)&player,player_entity->agent);

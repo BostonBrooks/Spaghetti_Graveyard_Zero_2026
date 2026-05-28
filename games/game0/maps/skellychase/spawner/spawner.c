@@ -101,6 +101,7 @@ bbFlag bbPF_skeletonCore(char* string)
     moveable->position = MC;
     moveable->goalpoint = MC;
 
+    moveable->speed = 4000;
     moveable->coords_a = bbMapCoords_getMilliCoords(moveable->position);
     moveable->coords_b = bbMapCoords_getMilliCoords(moveable->position);
 

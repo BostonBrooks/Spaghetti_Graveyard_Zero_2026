@@ -4,8 +4,6 @@
 #include "engine/data/bbHome.h"
 #include "engine/logic/bbBloatedPool.h"
 
-#define ZOMBIE_SPEED    6000
-#define SKELETON_SPEED  4000
 bbMilliCoords getForce(bbMoveables* moveables, bbMoveable* moveableA, bbMoveable* moveableB)
 {
 
@@ -112,13 +110,13 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
 
                         double distance = sqrt(distance_i * distance_i + distance_j * distance_j);
 
-                        if (distance < ZOMBIE_SPEED)
+                        if (distance < moveable->speed)
                         {
                             moveable->coords_b = goalPoint;
                         } else
                         {
-                            double delta_i = distance_i / distance * ZOMBIE_SPEED;
-                            double delta_j = distance_j / distance * ZOMBIE_SPEED;
+                            double delta_i = distance_i / distance * moveable->speed;
+                            double delta_j = distance_j / distance * moveable->speed;
 
 
                             moveable->coords_b.i = currentLocation.i + delta_i;
@@ -142,13 +140,13 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
 
                         double distance = sqrt(distance_i * distance_i + distance_j * distance_j);
 
-                        if (distance < SKELETON_SPEED)
+                        if (distance < moveable->speed)
                         {
                             moveable->coords_b = goalPoint;
                         } else
                         {
-                            double delta_i = distance_i / distance * SKELETON_SPEED;
-                            double delta_j = distance_j / distance * SKELETON_SPEED;
+                            double delta_i = distance_i / distance * moveable->speed;
+                            double delta_j = distance_j / distance * moveable->speed;
 
                             bbMilliCoords forces = sumForces(moveables, moveable);
                             bbMilliCoords avoidables_forces = bbAvoidables_sumForces (home.agents_app.avoidables, moveable);
@@ -191,13 +189,13 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
 
                     double distance = sqrt(distance_i * distance_i + distance_j * distance_j);
 
-                    if (distance < ZOMBIE_SPEED)
+                    if (distance < moveable->speed)
                     {
                         moveable->coords_a = goalPoint;
                     } else
                     {
-                        double delta_i = distance_i / distance * ZOMBIE_SPEED;
-                        double delta_j = distance_j / distance * ZOMBIE_SPEED;
+                        double delta_i = distance_i / distance * moveable->speed;
+                        double delta_j = distance_j / distance * moveable->speed;
 
 
                         moveable->coords_a.i = currentLocation.i + delta_i;
@@ -220,13 +218,13 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
 
                     double distance = sqrt(distance_i * distance_i + distance_j * distance_j);
 
-                    if (distance < SKELETON_SPEED)
+                    if (distance < moveable->speed)
                     {
                         moveable->coords_a = goalPoint;
                     } else
                     {
-                        double delta_i = distance_i / distance * SKELETON_SPEED;
-                        double delta_j = distance_j / distance * SKELETON_SPEED;
+                        double delta_i = distance_i / distance * moveable->speed;
+                        double delta_j = distance_j / distance * moveable->speed;
 
                         bbMilliCoords forces = sumForces(moveables, moveable);
 

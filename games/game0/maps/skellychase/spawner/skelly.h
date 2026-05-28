@@ -30,6 +30,7 @@ bbFlag bbAgent_newSkellyx(bbAgent** self, bbMapCoords MC, I32 moveable_index, I3
 
     moveable->goal_moveable = moveable_index%8;
 
+    moveable->speed = 4000;
 
     bbSquareCoords square_coords = bbMapCoords_getSquareCoords(MC);
     agent->square_coords = square_coords;

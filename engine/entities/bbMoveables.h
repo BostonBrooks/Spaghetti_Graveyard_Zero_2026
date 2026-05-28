@@ -48,6 +48,7 @@ typedef struct
     //goalPoint could be a pointer to another avoidable, but for now it is updated once per frame
     bbMapCoords goalpoint;
     bbHandle agent2;
+    I32 speed;
 } bbMoveable;
 
 typedef struct

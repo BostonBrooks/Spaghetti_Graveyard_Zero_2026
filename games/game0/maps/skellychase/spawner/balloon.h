@@ -32,7 +32,7 @@ bbFlag bbAgent_newBalloon(bbAgent** self, bbMapCoords MC,bbMapCoords goalpoint, 
     moveable->coords_b = bbMapCoords_getMilliCoords(moveable->position);
 
     moveable->goal_moveable = moveable_index%8;
-
+    moveable->speed = 3000;
 
     bbSquareCoords square_coords = bbMapCoords_getSquareCoords(MC);
     agent->square_coords = square_coords;
