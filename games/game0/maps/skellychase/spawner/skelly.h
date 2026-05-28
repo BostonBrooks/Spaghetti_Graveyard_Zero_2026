@@ -21,6 +21,10 @@ bbFlag bbAgent_newSkellyx(bbAgent** self, bbMapCoords MC, I32 moveable_index, I3
     agent->state = bbAgentState_Idle;
     home.agents_app.movables.available = moveable_index+1;
 
+    agent->health = 1024;
+    agent->health_max = 1024;
+
+
     moveable->type = bbMoveableType_Idle;
     moveable->position = MC;
     moveable->goalpoint = MC;
