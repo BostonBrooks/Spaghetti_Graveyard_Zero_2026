@@ -15,7 +15,9 @@ bbFlag bbAgent_newFireball(bbAgent** self, bbMapCoords MC,bbMapCoords goalpoint,
     agent->square_list.prev = agents->pool->null;
     agent->square_list.next = agents->pool->null;
     agent->moveable = moveable_index;
-    agent->ftable.update = -1;
+    agent->ftable.update =
+    agent->ftable.update = bbAgentFunctions_getInt(&home.agents_app.functions,
+                             AgentUpdate, "UPDATE_FIREBALL");;
     agent->ftable.command = -1;
     bbMoveable* moveable = &home.agents_app.movables.moveables[moveable_index];
 
@@ -76,14 +78,16 @@ bbFlag bbUnit_newFireball(bbUnit** self, bbMapCoords MC, I32 moveable_index, I32
     unit->next_time = 2;
     unit->next_goalpoint = MC;
 
+    unit->drawable.state = 1;
+
 
     bbDictionary_lookup(home.UI.graphics.drawfunctions->dictionary,
-                        "UNIT_SPRITE",
+                        "COMPOSITION_STATE",
                         &drawfunctionHandle);
 
     unit->drawable.frames[0].drawfunction = drawfunctionHandle.u64;
-    unit->drawable.frames[0].handle.u64 = 700;
-    unit->drawable.frames[0].start_time=  0;
+    unit->drawable.frames[0].handle.u64 = 7;
+    unit->drawable.frames[0].start_time= 0;
     unit->drawable.frames[0].framerate = 1;
     unit->drawable.frames[0].offset.x = 0;
     unit->drawable.frames[0].offset.y = 0;

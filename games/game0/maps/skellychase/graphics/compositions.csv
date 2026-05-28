@@ -1,4 +1,4 @@
-Number of Compositions:,7,,,,,,
+Number of Compositions:,8,,,,,,
 ,,,,,,,
 Label:,NULL,Integer Address:,0,num:,1,Comment,Void Composition
 Type:,Key:,Drawfunction:,startTime,Offest X:,Offset Y:,Frame Rate:,
@@ -38,4 +38,10 @@ Label:,ZOMBIE,Integer Address:,6,num:,2,Comment,Testing conditional rendering
 Type:,Key:,Drawfunction:,startTime,Offest X:,Offset Y:,Frame Rate:,
 ANIMATION,ZOMBIE,UNIT_STILL_ANGLE,0,0,0,1,
 ANIMATION,ZOMBIE,UNIT_ANIMATION_ANGLE,0,0,0,1,
+,,,,,,,
+Label:,FIREBALL,Integer Address:,7,num:,2,Comment,Testing conditional rendering
+Type:,Key:,Drawfunction:,startTime,Offest X:,Offset Y:,Frame Rate:,
+ANIMATION,FIREBALL_LARGE,UNIT_STILL_ANGLE,0,0,0,1,
+ANIMATION,FIREBALL,UNIT_ANIMATION_ANGLE,0,0,0,1,
+DRAWABLE,SHADOW2,DRAWABLE_SHADOW,0,0,0,1
 ,,,,,,,
