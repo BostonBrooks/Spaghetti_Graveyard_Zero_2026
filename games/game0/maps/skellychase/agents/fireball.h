@@ -49,13 +49,14 @@ bbFlag bbAgent_Update_Fireball(bbAgent* agent)
 
 
 
-    if (agent_movable->type != bbMoveableType_Idle)
+
+        if (distance < POINTS_PER_PIXEL*POINTS_PER_PIXEL)
     {
         //TODO only do this once
-        if (distance < POINTS_PER_PIXEL*POINTS_PER_PIXEL)
+            if (agent_movable->type != bbMoveableType_Idle)
         {
             bbEntity* entity = &home.agents_app.entities.entity[agent->entity];
-            bbUI_Inbox_SetUnitState(&home.UI.inbox, entity->unit, bbDrawableState_idle);
+            bbUI_Inbox_SetUnitState(&home.UI.inbox, entity->unit, bbDrawableState_attacking);
 
             bbAgentCommandData data;
             data.type = bbMoveableType_Idle;
@@ -64,7 +65,14 @@ bbFlag bbAgent_Update_Fireball(bbAgent* agent)
 
             bbCoreInput_setMoveableType(&home.core.core,0, agent->moveable, data,
                                              bbInstructionSource_internal,no_handle);
+        } else
+        {
+            bbEntity* entity = &home.agents_app.entities.entity[agent->entity];
+            bbUI_Inbox_SetUnitState(&home.UI.inbox, entity->unit, bbDrawableState_idle);
         }
+
+
     }
+
     return bbSuccess;
 }

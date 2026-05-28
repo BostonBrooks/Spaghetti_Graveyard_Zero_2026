@@ -44,6 +44,12 @@ bbFlag bbDF_widgetSprite(void* drawable, void* frame_descriptor, void* cl){
     return bbSuccess;
 }
 
+bbFlag bbDF_none(void* drawable, void* frame_descriptor, void* cl){
+
+
+    return bbSuccess;
+}
+
 bbFlag bbDrawfunctions_new(bbDrawfunctions** drawfunctions){
 
     bbDrawfunctions* functions = malloc(sizeof(bbDrawfunctions) + NUM_DRAWFUNCTIONS * sizeof(bbDrawFunction*));
@@ -128,6 +134,10 @@ bbFlag bbDrawfunctions_new(bbDrawfunctions** drawfunctions){
     functions->functions[17] = bbDF_compositionState;
     handle.u64 = 17;
     bbDictionary_add(functions->dictionary, "COMPOSITION_STATE", handle);
+
+    functions->functions[18] = bbDF_none;
+    handle.u64 = 18;
+    bbDictionary_add(functions->dictionary, "NONE", handle);
 
 
     *drawfunctions = functions;

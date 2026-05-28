@@ -39,9 +39,9 @@ Type:,Key:,Drawfunction:,startTime,Offest X:,Offset Y:,Frame Rate:,
 ANIMATION,ZOMBIE,UNIT_STILL_ANGLE,0,0,0,1,
 ANIMATION,ZOMBIE,UNIT_ANIMATION_ANGLE,0,0,0,1,
 ,,,,,,,
-Label:,FIREBALL,Integer Address:,7,num:,2,Comment,Testing conditional rendering
+Label:,FIREBALL,Integer Address:,7,num:,3,Comment,Testing conditional rendering
 Type:,Key:,Drawfunction:,startTime,Offest X:,Offset Y:,Frame Rate:,
-ANIMATION,FIREBALL_LARGE,UNIT_STILL_ANGLE,0,0,0,1,
+ANIMATION,KITTY,NONE,0,0,0,1,
 ANIMATION,FIREBALL,UNIT_ANIMATION_ANGLE,0,0,0,1,
-DRAWABLE,SHADOW2,DRAWABLE_SHADOW,0,0,0,1
+ANIMATION,FIREBALL_LARGE,UNIT_STILL_ANGLE,0,0,0,1,
 ,,,,,,,
