@@ -6,6 +6,7 @@ typedef struct
     bbDrawable drawable;
 
     I32 enitity;
+    float percent_health;
     //the following are used for interpolation
     bbMapCoords prev_coords;
     U64 prev_time;

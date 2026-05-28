@@ -74,7 +74,7 @@ bbFlag bbUnit_newSkellyx(bbUnit** self, bbMapCoords MC,bbMapCoords goalpoint, I3
     unit->next_coords = MC;
     unit->next_time = 2;
     unit->next_goalpoint = MC;
-
+    unit->percent_health = rand()%100;
 
     bbDictionary_lookup(home.UI.graphics.drawfunctions->dictionary,
                         "COMPOSITION_STATE",
