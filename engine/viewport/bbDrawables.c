@@ -60,7 +60,7 @@ squares_j, I32 sizeOf){
     drawableSquare->coords.k = 0;
 
     bbList_init(&drawableSquare->list, pool, NULL,offsetof
-    (bbDrawable, listElement),bbDrawable_isCloser);
+    (bbDrawable, squareListElement),bbDrawable_isCloser);
 
     for (I32 i = 0; i < squares_i;i++){
         for (I32 j = 0; j < squares_j; j++){
@@ -71,7 +71,7 @@ squares_j, I32 sizeOf){
             drawableSquare->coords.k = 0;
 
             bbList_init(&drawableSquare->list, pool, NULL,offsetof
-            (bbDrawable, listElement),bbDrawable_isCloser);
+            (bbDrawable, squareListElement),bbDrawable_isCloser);
         }
     }
     *self = drawables;

@@ -26,6 +26,7 @@ typedef struct
     float rotation;
     bbDrawableState state;
     bbList_Handle listElement;
+    bbList_Handle squareListElement;
     bbFrame frames[FRAMES_PER_DRAWABLE];
 } bbDrawable;
 
