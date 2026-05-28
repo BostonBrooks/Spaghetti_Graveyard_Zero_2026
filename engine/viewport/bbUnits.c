@@ -201,6 +201,7 @@ bbFlag bbUnits_consumeBuffer(bbUnits* units, bbHandle* unit_array, bbMoveables_s
                         continue;
         }
 
+
         if (snapshot->time > unit->next_time)
         {
             unit->prev_coords = unit->next_coords;

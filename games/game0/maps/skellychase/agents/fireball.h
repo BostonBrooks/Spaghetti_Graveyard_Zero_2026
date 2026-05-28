@@ -70,6 +70,8 @@ bbFlag bbAgent_Update_Fireball(bbAgent* agent)
             bbEntity* entity = &home.agents_app.entities.entity[agent->entity];
 
             bbDebug("agent->entity = %d, agent->moveable = %d\n",agent->entity, agent->moveable);
+            bbMoveable* moveable = &home.agents_app.movables.moveables[agent->moveable];
+            moveable->type = bbMoveableType_Unused;
 
             bbUI_Inbox_DeleteBanana(&home.UI.inbox, agent->entity, agent->moveable);
         }
