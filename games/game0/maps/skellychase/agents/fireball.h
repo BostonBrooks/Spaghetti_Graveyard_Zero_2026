@@ -68,7 +68,10 @@ bbFlag bbAgent_Update_Fireball(bbAgent* agent)
         } else
         {
             bbEntity* entity = &home.agents_app.entities.entity[agent->entity];
-            bbUI_Inbox_SetUnitState(&home.UI.inbox, entity->unit, bbDrawableState_idle);
+
+            bbDebug("agent->entity = %d, agent->moveable = %d\n",agent->entity, agent->moveable);
+
+            bbUI_Inbox_DeleteBanana(&home.UI.inbox, agent->entity, agent->moveable);
         }
 
 

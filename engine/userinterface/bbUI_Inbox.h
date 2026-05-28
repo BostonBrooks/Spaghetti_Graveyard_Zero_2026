@@ -74,7 +74,7 @@ bbFlag bbUI_Inbox_UnpressButton(bbUI_Inbox* inbox);
 bbFlag bbUI_Inbox_UnpressButton2(bbUI_Inbox* inbox, char* key);
 bbFlag bbUI_Inbox_SetWidgetPosition(bbUI_Inbox* inbox, char* key, bbHandle position);
 bbFlag bbUI_Inbox_NewSkelly(bbUI_Inbox* inbox, bbMapCoords coords, I32 moveable);
-bbFlag bbUI_Inbox_SetUnitState(bbUI_Inbox* inbox, bbHandle unit, I32 sprite);
+bbFlag bbUI_Inbox_SetUnitState(bbUI_Inbox* inbox, bbHandle unit, I32 state);
 
 bbFlag bbUI_Inbox_SetViewpoint(bbUI_Inbox* inbox, bbMapCoords MC);
 

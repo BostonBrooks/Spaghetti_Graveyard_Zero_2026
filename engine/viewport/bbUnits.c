@@ -189,6 +189,9 @@ bbFlag bbUnits_consumeBuffer(bbUnits* units, bbHandle* unit_array, bbMoveables_s
     {
 
         unit_handle = unit_array[i];
+
+        if (unit_handle.u64 == home.viewport_app.units->pool->null.u64) continue;
+
         bbFlag flag =  bbVPool_lookup(pool, (void**)&unit, unit_handle);
         drawable = &unit->drawable;
 

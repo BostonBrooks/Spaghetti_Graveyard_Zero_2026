@@ -342,8 +342,15 @@ bbFlag bbUI_Inbox_deleteBanana_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message
     I32 entity_index = message->data.integer;
     I32 moveable_index = message->data.integer2;
 
-
     bbHandle unit_handle = home.agents_app.entities.entity[entity_index].unit;
+
+    bbUnits* units = home.viewport_app.units;
+    bbUnit* unit;
+    bbFlag flag = bbVPool_lookup(units->pool,(void**)&unit,unit_handle);
+
+    bbFlag_print(flag);
+    bbDebug("unit.i = %d", unit->drawable.coords.i);
+
     home.agents_app.entities.entity[entity_index].unit
         = home.viewport_app.units->pool->null;
 
@@ -351,9 +358,8 @@ bbFlag bbUI_Inbox_deleteBanana_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message
     home.agents_app.entities.moveable_units[moveable_index]
         = home.viewport_app.units->pool->null;
 
-    bbUnit* unit;
-    bbUnits* units = home.viewport_app.units;
-    bbVPool_lookup(units->pool,(void**)&unit,unit_handle);
+
+
 
     bbSquareCoords SC = bbMapCoords_getSquareCoords(unit->drawable.coords);
     bbUnitSquare* unitSquare = bbDrawables_getSquare(units,SC.i, SC.j, units->squares_i, units->squares_j);
