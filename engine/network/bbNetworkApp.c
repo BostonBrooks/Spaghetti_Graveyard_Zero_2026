@@ -425,7 +425,7 @@ bbFlag bbNetworkApp_spawnUnitOut(bbNetwork* network, I32 unit_type, bbMapCoords 
     return bbSuccess;
 }
 
-bbFlag bbNetworkApp_setGoalpointOut(bbNetwork* network, bbMapCoords MC, U64 time, U32 collision)
+bbFlag bbNetworkApp_setGoalpointOut(bbNetwork* network, I32 entity, bbMapCoords MC, U64 time, U32 collision)
 {
     bbNetworkPacket* packet;
     bbThreadedQueue_alloc(&network->outbox, (void**)&packet);
@@ -433,7 +433,7 @@ bbFlag bbNetworkApp_setGoalpointOut(bbNetwork* network, bbMapCoords MC, U64 time
     packet->act_tick = time;
     packet->data.map_coords = MC;
     packet->collision = collision;
-    //packet->player = home.agents_app.agents.current_agent;
+    packet->player = entity;
     bbThreadedQueue_pushL(&network->outbox,packet);
 
     return bbSuccess;

@@ -148,8 +148,9 @@ bbFlag bbLocalMessage_spawnBananaOut_fn(bbCore* core, bbLocalMessage* message)
 }
 bbFlag bbLocalMessage_setGoalpointOut_fn(bbCore* core, bbLocalMessage* message)
 {
+    //TODO entity hardcoded to 0;
     bbHandle handle = {0};
-    bbCoreInput_setGoalpointOut(core,
+    bbCoreInput_setGoalpointOut(core,0,
         message->data.map_coords, message->act_time,bbInstructionSource_input,handle);
 
     return bbSuccess;

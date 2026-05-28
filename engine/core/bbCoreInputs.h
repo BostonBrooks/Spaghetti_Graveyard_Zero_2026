@@ -54,7 +54,7 @@ bbFlag bbCoreInput_spawnBananaIn(bbCore* core, bbMapCoords MC, I32 entity_index,
 bbFlag bbCoreInput_setViewpointIn(bbCore* core, bbMapCoords MC, U64 time,
                                   bbInstruction_source source, bbHandle action);
 
-bbFlag bbCoreInput_setGoalpointOut(bbCore* core, bbMapCoords MC, U64 time,
+bbFlag bbCoreInput_setGoalpointOut(bbCore* core,I32 entity, bbMapCoords MC, U64 time,
                                   bbInstruction_source source, bbHandle action);
 
 

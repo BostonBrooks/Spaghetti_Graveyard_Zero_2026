@@ -16,7 +16,7 @@ extern U32 collision;
 
 bbFlag bbVInstruction_setGoalpointOut_fn(bbCore* core, bbInstruction* instruction)
 {
-    bbNetworkApp_setGoalpointOut(&home.network, instruction->data.map_coords, instruction->act_time, collision++);
+    bbNetworkApp_setGoalpointOut(&home.network, instruction->data.banana.entity, instruction->data.banana.position, instruction->act_time, collision++);
     return bbSuccess;
 }
 
@@ -40,10 +40,12 @@ bbFlag bbVInstruction_setGoalpointIn_fn(bbCore* core, bbInstruction* instruction
 
     bbAgent* player;
     //TODO player_entity_int should be set as an argument to bbCoreInput_setGoalpointOut
-    I32 player_entity_int = home.agents_app.player_entity;
+    I32 player_entity_int = instruction->player;
     bbEntity* player_entity = &home.agents_app.entities.entity[player_entity_int];
     bbVPool_lookup(home.agents_app.agents->pool,(void**)&player,player_entity->agent);
 
+    bbMoveable* moveable = &home.agents_app.movables.moveables[player_entity_int];
+    undo_instruction->data.map_coords = moveable->goalpoint;
     //bbVPool_reverseLookup(home.agents_app.agents->pool, (void*)player, &handle);
 
     bbAgentCommandData data;

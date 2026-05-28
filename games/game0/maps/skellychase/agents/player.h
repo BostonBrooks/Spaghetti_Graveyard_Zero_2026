@@ -16,7 +16,7 @@ bbFlag bbAgent_Command_Player(bbAgent* agent,bbAgentCommandType type,bbAgentComm
             bbHandle handle = {0};
         if (data.moveable == 0)
         {
-            bbCoreInput_setGoalpointOut(&home.core.core,
+            bbCoreInput_setGoalpointOut(&home.core.core, agent->entity,
                 data.goal_point, home.core.clock2_handle.map_tick,bbInstructionSource_input,handle);
         } else
         {
