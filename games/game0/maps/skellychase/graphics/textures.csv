@@ -1,4 +1,4 @@
-Number of Textures:,45,,,,
+Number of Textures:,46,,,,
 Label:,Integer Address:,File:,Smooth:,Comment:,
 NULL,0,./graphics/NULL.png,F,Exception,
 LAYOUT_480,1,./graphics/Layout_480.png,F,The root of the widget tree,
@@ -45,3 +45,4 @@ BANANA,41,./graphics/banana-warrior.png,F, a roman banana
 BLUECLOCK,42,./graphics/Clockface_blue.png,T, a blue clock hand
 BALLOONS,43,./graphics/Balloons.png,T, some coloured balloons
 FIREBALL,44,./graphics/Fireball.png,T, a fireball
+X,45,./graphics/X.png,T, X marks the spot
