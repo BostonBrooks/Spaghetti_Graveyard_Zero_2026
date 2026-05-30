@@ -112,3 +112,14 @@ bbFlag bbCoreInput_spawnUnitIn(bbCore* core, bbMapCoords MC,bbMapCoords goalcoor
     bbList_pushL(&core->do_stack, instruction);
     return bbSuccess;
 }
+
+
+bbFlag bbCoreInput_setAgentHP(bbCore* core, bbHandle agent, I32 hitpoints,bbInstruction_source source, bbHandle action){
+    bbInstruction* instruction;
+    bbList_alloc(&core->do_stack, (void**) &instruction);
+    instruction->type = bbVInstruction_setAgentHP;
+    instruction->data.unspawn.agent = agent;
+    instruction->data.unspawn.entity = hitpoints;
+    bbList_pushL(&core->do_stack, instruction);
+    return bbSuccess;
+}

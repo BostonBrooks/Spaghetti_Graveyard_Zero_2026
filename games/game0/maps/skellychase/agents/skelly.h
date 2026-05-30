@@ -1,4 +1,6 @@
 
+#include "core/core_inputs.h"
+
 bbFlag bbAgent_Update_Skelly(bbAgent* agent)
 {
 
@@ -64,9 +66,12 @@ bbFlag bbAgent_Command_Skelly(bbAgent* agent,bbAgentCommandType type,bbAgentComm
         bbEntity* entity = &home.agents_app.entities.entity[agent->entity];
         bbUI_Inbox_SetUnitState(&home.UI.inbox, entity->unit, bbDrawableState_moving);
 
+        bbHandle agent_handle;
+        bbVPool_reverseLookup(home.agents_app.agents->pool,agent,&agent_handle);
         //TODO use core input to set agent->health
-        agent->health = (agent->health * 9) / 10 + 1;
-        bbUI_Inbox_SetUnitHP(&home.UI.inbox, entity->unit, (100.f*agent->health)/agent->max_health);
+        I32 HP = (agent->health * 9) / 10 + 1;
+        bbUI_Inbox_SetUnitHP(&home.UI.inbox, entity->unit, (100.f*HP)/agent->max_health);
+        bbCoreInput_setAgentHP(&home.core.core, agent_handle, HP,bbInstructionSource_internal, no_handle);
 
     }
 

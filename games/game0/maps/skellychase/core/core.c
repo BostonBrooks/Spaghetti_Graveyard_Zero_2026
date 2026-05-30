@@ -71,6 +71,11 @@ bbFlag bbCore_initVInstructions(bbCore* core)
     core->instruction_functions[bbVInstruction_commandAgentMapClick-bbInstruction_numTypes]
     = bbVInstruction_commandAgentMapClick_fn;
 
+    core->instruction_functions[bbVInstruction_setAgentHP-bbInstruction_numTypes]
+    = bbVInstruction_setAgentHP_fn;
+    core->instruction_functions[bbVInstruction_unsetAgentHP-bbInstruction_numTypes]
+    = bbVInstruction_unsetAgentHP_fn;
+
 
     return bbSuccess;
 }
