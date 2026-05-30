@@ -4,23 +4,26 @@
 bbFlag bbAgent_Update_Skelly(bbAgent* agent)
 {
 
-    bbMoveable* agent_movable= &home.agents_app.movables.moveables[agent->moveable];
+    bbMoveable* agent_moveable= &home.agents_app.movables.moveables[agent->moveable];
+
+    if (agent_moveable->type == bbMoveableType_Unused) return bbSuccess;
+
     bbMoveable* moveable = &home.agents_app.movables.moveables[0];
     I32 closest_moveable = 0;
-    U32 distance = (agent_movable->position.i - moveable->position.i)*
-        (agent_movable->position.i - moveable->position.i) +
-            (agent_movable->position.j - moveable->position.j)*
-                (agent_movable->position.j - moveable->position.j);
+    U32 distance = (agent_moveable->position.i - moveable->position.i)*
+        (agent_moveable->position.i - moveable->position.i) +
+            (agent_moveable->position.j - moveable->position.j)*
+                (agent_moveable->position.j - moveable->position.j);
 
 
 
     for (I32 i = 1; i < 8; i++)
     {
         moveable = &home.agents_app.movables.moveables[i];
-        U32 new_distance = (agent_movable->position.i - moveable->position.i)*
-            (agent_movable->position.i - moveable->position.i) +
-                (agent_movable->position.j - moveable->position.j)*
-                    (agent_movable->position.j - moveable->position.j);
+        U32 new_distance = (agent_moveable->position.i - moveable->position.i)*
+            (agent_moveable->position.i - moveable->position.i) +
+                (agent_moveable->position.j - moveable->position.j)*
+                    (agent_moveable->position.j - moveable->position.j);
 
         if (new_distance < distance)
         {
@@ -31,16 +34,16 @@ bbFlag bbAgent_Update_Skelly(bbAgent* agent)
 
     if (distance > (36*POINTS_PER_TILE*POINTS_PER_TILE))
     {
-        if (agent_movable->type != bbMoveableType_Idle)
+        if (agent_moveable->type != bbMoveableType_Idle)
         {
             bbCoreInput_setMoveableIdle(&home.core.core, 69696969, agent->moveable,
-                agent_movable->position, bbInstructionSource_internal, no_handle);
+                agent_moveable->position, bbInstructionSource_internal, no_handle);
 
             bbEntity* entity = &home.agents_app.entities.entity[agent->entity];
             bbUI_Inbox_SetUnitState(&home.UI.inbox, entity->unit, bbDrawableState_idle);
         }
 
-    }else if (closest_moveable!= agent_movable->goal_moveable)
+    }else if (closest_moveable!= agent_moveable->goal_moveable)
     {
         bbCoreInput_setGoalMoveable(&home.core.core, 69696969, agent->moveable,
             closest_moveable, bbInstructionSource_internal, no_handle);
@@ -48,11 +51,6 @@ bbFlag bbAgent_Update_Skelly(bbAgent* agent)
         bbEntity* entity = &home.agents_app.entities.entity[agent->entity];
         bbUI_Inbox_SetUnitState(&home.UI.inbox, entity->unit, bbDrawableState_moving);
 
-        bbAgentCommandData data;
-        bbAgent2_onCommand(agent,
-                          home.agents_app.agents,
-                           bbAC_damageAgent,
-                          data);
     }
 
     return bbSuccess;
@@ -64,7 +62,6 @@ bbFlag bbAgent_Command_Skelly(bbAgent* agent,bbAgentCommandType type,bbAgentComm
     {
 
         bbEntity* entity = &home.agents_app.entities.entity[agent->entity];
-        bbUI_Inbox_SetUnitState(&home.UI.inbox, entity->unit, bbDrawableState_moving);
 
         bbHandle agent_handle;
         bbVPool_reverseLookup(home.agents_app.agents->pool,agent,&agent_handle);
@@ -73,6 +70,26 @@ bbFlag bbAgent_Command_Skelly(bbAgent* agent,bbAgentCommandType type,bbAgentComm
         bbUI_Inbox_SetUnitHP(&home.UI.inbox, entity->unit, (100.f*HP)/agent->max_health);
         bbCoreInput_damageAgent(&home.core.core, agent_handle, 100,bbInstructionSource_internal, no_handle);
 
+    }
+
+    if (type == bbAC_killAgent)
+    {
+        bbEntity* entity = &home.agents_app.entities.entity[agent->entity];
+        bbMoveable* moveable = &home.agents_app.movables.moveables[agent->moveable];
+
+        if (moveable->type != bbMoveableType_Unused)
+        {
+            bbAgentCommandData data;
+            data.type = bbMoveableType_Unused;
+            data.goal_point.i = 0;
+            data.goal_point.j = 0;
+            data.goal_point.k = 0;
+            data.moveable = 0;
+            bbCoreInput_setMoveableType(&home.core.core,0, agent->moveable, data,
+                                             bbInstructionSource_internal,no_handle);
+
+            bbUI_Inbox_SetUnitState(&home.UI.inbox, entity->unit, bbDrawableState_dead);
+        }
     }
 
     return bbSuccess;

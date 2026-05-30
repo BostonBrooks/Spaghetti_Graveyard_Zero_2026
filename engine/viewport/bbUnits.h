@@ -7,6 +7,7 @@ typedef struct
 
     I32 enitity;
     float percent_health;
+    U64 display_health_until;
     //the following are used for interpolation
     bbMapCoords prev_coords;
     U64 prev_time;

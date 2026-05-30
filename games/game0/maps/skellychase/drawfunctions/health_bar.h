@@ -38,25 +38,30 @@ bbFlag bbDF_healthPointsTest(void* drawable, void* frameDescriptor, void* cl){
     bbFrame* frame_descriptor = frameDescriptor;
 
     bbUnit* unit = drawable;
-    sfVector2f V2F;
-    V2F.x = unit->percent_health / 2.0;
-    V2F.y = 5;
-    sfRectangleShape_setSize(green_rect, V2F);
+
+    if (unit->display_health_until > home.UI.clock2_handle.map_tick
+        && unit->percent_health > 0)
+
+    {
+        sfVector2f V2F;
+        V2F.x = unit->percent_health / 2.0;
+        V2F.y = 5;
+        sfRectangleShape_setSize(green_rect, V2F);
 
 
-    bbViewport* VP = foo->target;
+        bbViewport* VP = foo->target;
 
-    sfRenderTexture* renderTexture = VP->mapicon.renderTexture;
+        sfRenderTexture* renderTexture = VP->mapicon.renderTexture;
 
-     V2F = bbMapCoords_getV2f(mapicon->coords, VP);
+        V2F = bbMapCoords_getV2f(mapicon->coords, VP);
 
 
 
-    sfRectangleShape_setPosition(red_rect, V2F);
-    sfRectangleShape_setPosition(green_rect, V2F);
-    sfRenderTexture_drawRectangleShape(renderTexture, red_rect, NULL);
-    sfRenderTexture_drawRectangleShape(renderTexture, green_rect, NULL);
-
+        sfRectangleShape_setPosition(red_rect, V2F);
+        sfRectangleShape_setPosition(green_rect, V2F);
+        sfRenderTexture_drawRectangleShape(renderTexture, red_rect, NULL);
+        sfRenderTexture_drawRectangleShape(renderTexture, green_rect, NULL);
+    }
     return bbSuccess;
 
 }

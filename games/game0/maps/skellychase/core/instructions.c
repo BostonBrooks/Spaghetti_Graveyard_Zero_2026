@@ -588,6 +588,7 @@ bbFlag bbVInstruction_damageAgent_fn(bbCore* core, bbInstruction* instruction)
     I32 hitpoints = agent->health - instruction->data.unspawn.entity;
 
 
+
     bbInstruction* undo_instruction;
     bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
     undo_instruction->type = bbVInstruction_undamageAgent;
@@ -596,6 +597,14 @@ bbFlag bbVInstruction_damageAgent_fn(bbCore* core, bbInstruction* instruction)
     undo_instruction->data.unspawn.entity = agent->health;
 
     agent->health = hitpoints;
+
+
+
+    if (hitpoints <= 0)
+    {
+        bbAgentCommandData data;
+        bbAgent2_onCommand(agent, home.agents_app.agents,bbAC_killAgent,data);
+    }
 
     if (instruction->source == bbInstructionSource_internal)
     {

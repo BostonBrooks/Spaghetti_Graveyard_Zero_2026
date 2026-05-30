@@ -406,6 +406,8 @@ bbFlag bbUI_Inbox_setUnitHP_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
     bbUnit* unit;
     bbFlag flag = bbVPool_lookup(units->pool,(void**)&unit,unit_handle);
 
+    unit->display_health_until = home.UI.clock2_handle.map_tick + 180;
+
     if (flag != bbSuccess)
     {
 

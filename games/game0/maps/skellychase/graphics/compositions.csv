@@ -29,19 +29,22 @@ SPRITE,TREE,DRAWABLE_SPRITE,0,0,0,0,
 ANIMATION,LIGHTS,DRAWABLE_ANIMATION,0,0,0,1,
 SPRITE,SHADOW1,DRAWABLE_SHADOW,0,0,0,0,
 ,,,,,,,
-Label:,TUX,Integer Address:,5,num:,2,Comment,Testing conditional rendering
+Label:,TUX,Integer Address:,5,num:,4,Comment,Testing conditional rendering
 Type:,Key:,Drawfunction:,startTime,Offest X:,Offset Y:,Frame Rate:,
 ANIMATION,SKELETON,UNIT_STILL_ANGLE,0,0,0,1,
 ANIMATION,SKELETON,UNIT_ANIMATION_ANGLE,0,0,0,1,
+ANIMATION,KITTY,NONE,0,0,0,1,
+ANIMATION,KITTY,NONE,0,0,0,1,
 ,,,,,,,
 Label:,ZOMBIE,Integer Address:,6,num:,2,Comment,Testing conditional rendering
 Type:,Key:,Drawfunction:,startTime,Offest X:,Offset Y:,Frame Rate:,
 ANIMATION,ZOMBIE,UNIT_STILL_ANGLE,0,0,0,1,
 ANIMATION,ZOMBIE,UNIT_ANIMATION_ANGLE,0,0,0,1,
 ,,,,,,,
-Label:,FIREBALL,Integer Address:,7,num:,3,Comment,Testing conditional rendering
+Label:,FIREBALL,Integer Address:,7,num:,4,Comment,Testing conditional rendering
 Type:,Key:,Drawfunction:,startTime,Offest X:,Offset Y:,Frame Rate:,
 ANIMATION,KITTY,NONE,0,0,0,1,
 ANIMATION,FIREBALL,UNIT_ANIMATION_ANGLE,0,0,0,1,
 ANIMATION,FIREBALL_LARGE,UNIT_STILL_ANGLE,0,0,0,1,
+
 ,,,,,,,
