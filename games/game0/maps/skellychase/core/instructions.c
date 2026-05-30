@@ -579,18 +579,18 @@ bbFlag bbVInstruction_commandAgent_fn(bbCore* core, bbInstruction* instruction)
     return bbSuccess;
 }
 
-bbFlag bbVInstruction_setAgentHP_fn(bbCore* core, bbInstruction* instruction)
+bbFlag bbVInstruction_damageAgent_fn(bbCore* core, bbInstruction* instruction)
 {
 
     bbAgent* agent;
     bbVPool_lookup(home.agents_app.agents->pool, (void**)&agent,
         instruction->data.unspawn.agent);
-    I32 hitpoints = instruction->data.unspawn.entity;
+    I32 hitpoints = agent->health - instruction->data.unspawn.entity;
 
 
     bbInstruction* undo_instruction;
     bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
-    undo_instruction->type = bbVInstruction_unsetAgentHP;
+    undo_instruction->type = bbVInstruction_undamageAgent;
     undo_instruction->source = instruction->source;
     undo_instruction->data.unspawn.agent = instruction->data.unspawn.agent;
     undo_instruction->data.unspawn.entity = agent->health;
@@ -620,8 +620,10 @@ bbFlag bbVInstruction_setAgentHP_fn(bbCore* core, bbInstruction* instruction)
     }
     return bbSuccess;
 }
-bbFlag bbVInstruction_unsetAgentHP_fn(bbCore* core, bbInstruction* instruction)
+bbFlag bbVInstruction_undamageAgent_fn(bbCore* core, bbInstruction* instruction)
 {
+    //TODO
+    bbHere()
     return bbSuccess;
 }
 

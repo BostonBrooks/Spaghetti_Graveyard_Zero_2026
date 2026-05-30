@@ -69,9 +69,9 @@ bbFlag bbAgent_Command_Skelly(bbAgent* agent,bbAgentCommandType type,bbAgentComm
         bbHandle agent_handle;
         bbVPool_reverseLookup(home.agents_app.agents->pool,agent,&agent_handle);
         //TODO use core input to set agent->health
-        I32 HP = (agent->health * 9) / 10 + 1;
+        I32 HP = (agent->health - 100);
         bbUI_Inbox_SetUnitHP(&home.UI.inbox, entity->unit, (100.f*HP)/agent->max_health);
-        bbCoreInput_setAgentHP(&home.core.core, agent_handle, HP,bbInstructionSource_internal, no_handle);
+        bbCoreInput_damageAgent(&home.core.core, agent_handle, 100,bbInstructionSource_internal, no_handle);
 
     }
 
