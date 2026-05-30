@@ -15,8 +15,9 @@ typedef enum
     bbUI_Inbox_newSkelly,
     bbUI_Inbox_setUnitState,
     bbUI_Inbox_newBanana,
-    bbUI_Inbox_deleteBanana,
-    bbUI_Inbox_newUnit
+    bbUI_Inbox_deleteUnit,
+    bbUI_Inbox_newUnit,
+    bbUI_Inbox_setUnitHP,
 } bbUI_Inbox_type;
 
 typedef struct
@@ -39,6 +40,7 @@ typedef struct
     I32 integer;
     I32 integer2;
     I32 integer3;
+    float floating;
 } bbUI_Inbox_data;
 
 typedef struct
@@ -67,7 +69,9 @@ bbFlag bbUI_Inbox_setViewpoint_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message
 bbFlag bbUI_Inbox_newSkelly_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message);
 bbFlag bbUI_Inbox_setUnitState_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message);
 bbFlag bbUI_Inbox_newBanana_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message);
-bbFlag bbUI_Inbox_deleteBanana_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message);
+bbFlag bbUI_Inbox_deleteUnit_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message);
+
+bbFlag bbUI_Inbox_setUnitHP_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message);
 
 
 bbFlag bbUI_Inbox_UnpressButton(bbUI_Inbox* inbox);
@@ -82,5 +86,8 @@ bbFlag bbUI_Inbox_NewUnit(bbUI_Inbox* inbox, I32 type_index, bbMapCoords MC, I32
 bbFlag bbUI_Inbox_newUnit_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message);
 
 bbFlag bbUI_Inbox_NewBanana(bbUI_Inbox* inbox, bbMapCoords MC, I32 entity_index, I32 moveable_index);
-bbFlag bbUI_Inbox_DeleteBanana(bbUI_Inbox* inbox, I32 entity_index, I32 moveable_index);
+bbFlag bbUI_Inbox_DeleteUnit(bbUI_Inbox* inbox, I32 entity_index, I32 moveable_index);
+
+bbFlag bbUI_Inbox_SetUnitHP(bbUI_Inbox* inbox, bbHandle unit, float HP);
+
 #endif // BB_UI_INBOX_H

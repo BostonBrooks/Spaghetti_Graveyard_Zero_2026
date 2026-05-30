@@ -45,6 +45,7 @@ bbFlag bbAgent_Update_Skelly(bbAgent* agent)
 
         bbEntity* entity = &home.agents_app.entities.entity[agent->entity];
         bbUI_Inbox_SetUnitState(&home.UI.inbox, entity->unit, bbDrawableState_moving);
+        bbUI_Inbox_SetUnitHP(&home.UI.inbox, entity->unit, 75.f);
     }
 
     return bbSuccess;

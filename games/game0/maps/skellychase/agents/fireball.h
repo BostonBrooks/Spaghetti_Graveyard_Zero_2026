@@ -77,7 +77,7 @@ bbFlag bbAgent_Update_Fireball(bbAgent* agent)
             bbCoreInput_setMoveableType(&home.core.core,0, agent->moveable, data,
                                              bbInstructionSource_internal,no_handle);
 
-            bbUI_Inbox_DeleteBanana(&home.UI.inbox, agent->entity, agent->moveable);
+            bbUI_Inbox_DeleteUnit(&home.UI.inbox, agent->entity, agent->moveable);
         }
 
 

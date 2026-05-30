@@ -61,11 +61,14 @@ bbFlag bbUI_Inbox_check(bbUI_Inbox* inbox)
         case bbUI_Inbox_newBanana:
             bbUI_Inbox_newBanana_fn(inbox, message);
             break;
-        case bbUI_Inbox_deleteBanana:
-            bbUI_Inbox_deleteBanana_fn(inbox, message);
+        case bbUI_Inbox_deleteUnit:
+            bbUI_Inbox_deleteUnit_fn(inbox, message);
             break;
         case bbUI_Inbox_newUnit:
             bbUI_Inbox_newUnit_fn(inbox,message);
+            break;
+        case bbUI_Inbox_setUnitHP:
+            bbUI_Inbox_setUnitHP_fn(inbox,message);
             break;
 #endif
         default:
@@ -234,13 +237,25 @@ bbFlag bbUI_Inbox_NewBanana(bbUI_Inbox* inbox, bbMapCoords MC, I32 entity_index,
     return bbSuccess;
 }
 
-bbFlag bbUI_Inbox_DeleteBanana(bbUI_Inbox* inbox, I32 entity_index, I32 moveable_index)
+bbFlag bbUI_Inbox_DeleteUnit(bbUI_Inbox* inbox, I32 entity_index, I32 moveable_index)
 {
     bbUI_Inbox_message* message;
     bbThreadedQueue_alloc(&inbox->local_message_queue,(void**)&message);
-    message->type = bbUI_Inbox_deleteBanana;
+    message->type = bbUI_Inbox_deleteUnit;
     message->data.integer = entity_index;
     message->data.integer2 = moveable_index;
+
+    bbThreadedQueue_pushL(&inbox->local_message_queue, (void*)message);
+    return bbSuccess;
+}
+
+bbFlag bbUI_Inbox_SetUnitHP(bbUI_Inbox* inbox, bbHandle unit, float HP)
+{
+    bbUI_Inbox_message* message;
+    bbThreadedQueue_alloc(&inbox->local_message_queue,(void**)&message);
+    message->type = bbUI_Inbox_setUnitHP;
+    message->data.handle.handle = unit;
+    message->data.floating = HP;
 
     bbThreadedQueue_pushL(&inbox->local_message_queue, (void*)message);
     return bbSuccess;
@@ -337,7 +352,7 @@ bbFlag bbUI_Inbox_newBanana_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
 
 }
 
-bbFlag bbUI_Inbox_deleteBanana_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
+bbFlag bbUI_Inbox_deleteUnit_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
 {
     I32 entity_index = message->data.integer;
     I32 moveable_index = message->data.integer2;
@@ -380,6 +395,30 @@ bbFlag bbUI_Inbox_deleteBanana_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message
 
 }
 
+bbFlag bbUI_Inbox_setUnitHP_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
+{
+    I32 entity_index = message->data.integer;
+    float HP = message->data.floating;
+
+    bbHandle unit_handle = message->data.handle.handle;
+
+    bbUnits* units = home.viewport_app.units;
+    bbUnit* unit;
+    bbFlag flag = bbVPool_lookup(units->pool,(void**)&unit,unit_handle);
+
+    if (flag != bbSuccess)
+    {
+
+        return bbNone;
+    }
+
+    unit->percent_health = HP;
+
+
+
+    return bbSuccess;
+
+}
 
 bbFlag bbUI_Inbox_NewUnit(bbUI_Inbox* inbox, I32 type_index, bbMapCoords MC, I32 entity_index, I32 moveable_index)
 {
