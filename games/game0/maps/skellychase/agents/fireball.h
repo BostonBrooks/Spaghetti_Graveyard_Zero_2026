@@ -78,6 +78,38 @@ bbFlag bbAgent_Update_Fireball(bbAgent* agent)
                                              bbInstructionSource_internal,no_handle);
 
             bbUI_Inbox_DeleteUnit(&home.UI.inbox, agent->entity, agent->moveable);
+
+            for (I32 i = 0; i < NUM_ENTITIES; i++)
+            {
+                bbEntity* entity2 = &home.agents_app.entities.entity[i];
+                bbAgent* agent2;
+                bbFlag flag = bbVPool_lookup(home.agents_app.agents->pool,(void**)&agent2, entity2->agent);
+                bbFlag_print(flag);
+                if (flag == bbFail) continue;
+
+                bbMoveable* moveable2 = &home.agents_app.movables.moveables[entity2->moveable.u64];
+
+
+                U32 distance = (agent_movable->position.i -moveable2->position.i)*
+                               (agent_movable->position.i - moveable2->position.i) +
+                               (agent_movable->position.j - moveable2->position.j)*
+                               (agent_movable->position.j - moveable2->position.j);
+
+
+
+                if (distance < 36*POINTS_PER_TILE*POINTS_PER_TILE)
+                {
+                    bbAgentCommandData data;
+                    bbAgent2_onCommand(agent2,
+                                      home.agents_app.agents,
+                                       bbAC_damageAgent,
+                                      data);
+                }
+
+            }
+
+
+            //TODO  return bbDelete;?
         }
 
 
