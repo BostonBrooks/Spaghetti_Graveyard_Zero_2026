@@ -15,7 +15,8 @@ typedef enum
 typedef enum bbAgentCommandType
 {
     bbAC_setGoalPoint,
-    bbAC_mapClick
+    bbAC_mapClick,
+    bbAC_damageAgent
 } bbAgentCommandType;
 
 #endif //BB_AGENT_FUNCTION_ENUMS_H

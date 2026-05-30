@@ -45,7 +45,29 @@ bbFlag bbAgent_Update_Skelly(bbAgent* agent)
 
         bbEntity* entity = &home.agents_app.entities.entity[agent->entity];
         bbUI_Inbox_SetUnitState(&home.UI.inbox, entity->unit, bbDrawableState_moving);
-        bbUI_Inbox_SetUnitHP(&home.UI.inbox, entity->unit, 75.f);
+
+        bbAgentCommandData data;
+        bbAgent2_onCommand(agent,
+                          home.agents_app.agents,
+                           bbAC_damageAgent,
+                          data);
+    }
+
+    return bbSuccess;
+}
+
+bbFlag bbAgent_Command_Skelly(bbAgent* agent,bbAgentCommandType type,bbAgentCommandData data)
+{
+    if (type == bbAC_damageAgent)
+    {
+
+        bbEntity* entity = &home.agents_app.entities.entity[agent->entity];
+        bbUI_Inbox_SetUnitState(&home.UI.inbox, entity->unit, bbDrawableState_moving);
+
+        //TODO use core input to set agent->health
+        agent->health = (agent->health * 9) / 10 + 1;
+        bbUI_Inbox_SetUnitHP(&home.UI.inbox, entity->unit, (100.f*agent->health)/agent->max_health);
+
     }
 
     return bbSuccess;

@@ -15,14 +15,15 @@ bbFlag bbAgent_newSkellyx(bbAgent** self, bbMapCoords MC, I32 moveable_index, I3
     agent->moveable = moveable_index;
     agent->ftable.update = bbAgentFunctions_getInt(&home.agents_app.functions,
                              AgentUpdate, "UPDATE_SKELLY");
-    agent->ftable.command = -1;
+    agent->ftable.command = bbAgentFunctions_getInt(&home.agents_app.functions,
+                             AgentCommand, "COMMAND_SKELLY");;
     bbMoveable* moveable = &home.agents_app.movables.moveables[moveable_index];
 
     agent->state = bbAgentState_Idle;
     home.agents_app.movables.available = moveable_index+1;
 
     agent->health = 1024;
-    agent->health_max = 1024;
+    agent->max_health = 1024;
 
 
     moveable->type = bbMoveableType_Idle;
@@ -78,7 +79,7 @@ bbFlag bbUnit_newSkellyx(bbUnit** self, bbMapCoords MC,bbMapCoords goalpoint, I3
     unit->next_coords = MC;
     unit->next_time = 2;
     unit->next_goalpoint = MC;
-    unit->percent_health = rand()%100;
+    unit->percent_health = 100.f;
 
     bbDictionary_lookup(home.UI.graphics.drawfunctions->dictionary,
                         "COMPOSITION_STATE",

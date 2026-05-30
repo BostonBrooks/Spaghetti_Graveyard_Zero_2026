@@ -52,7 +52,7 @@ typedef struct
     bbAgent_state state;
     bbAgentFunctionTable ftable;
     I32 health;
-    I32 health_max;
+    I32 max_health;
 } bbAgent;
 
 typedef struct
