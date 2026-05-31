@@ -34,7 +34,7 @@ Type:,Key:,Drawfunction:,startTime,Offest X:,Offset Y:,Frame Rate:,
 ANIMATION,SKELETON,UNIT_STILL_ANGLE,0,0,0,1,
 ANIMATION,SKELETON,UNIT_ANIMATION_ANGLE,0,0,0,1,
 ANIMATION,KITTY,NONE,0,0,0,1,
-ANIMATION,KITTY,NONE,0,0,0,1,
+ANIMATION,SKELETON_DEATH,DRAWABLE_ANIMATION_ONCE,0,0,0,1,
 ,,,,,,,
 Label:,ZOMBIE,Integer Address:,6,num:,2,Comment,Testing conditional rendering
 Type:,Key:,Drawfunction:,startTime,Offest X:,Offset Y:,Frame Rate:,

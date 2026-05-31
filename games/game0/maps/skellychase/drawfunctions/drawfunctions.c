@@ -144,8 +144,13 @@ bbFlag bbDrawfunctions_new(bbDrawfunctions** drawfunctions){
     handle.u64 = 19;
     bbDictionary_add(functions->dictionary, "HEALTH_POINTS", handle);
 
+    functions->functions[20] = bbDF_drawableAnimationOnce;
+    handle.u64 = 20;
+    bbDictionary_add(functions->dictionary, "DRAWABLE_ANIMATION_ONCE", handle);
 
     *drawfunctions = functions;
     return bbSuccess;
 }
+
+
 
