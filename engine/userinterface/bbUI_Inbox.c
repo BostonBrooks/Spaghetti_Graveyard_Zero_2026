@@ -218,7 +218,18 @@ bbFlag bbUI_Inbox_setUnitState_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message
 {
     bbUnit* unit;
     bbFlag flag = bbVPool_lookup(home.viewport_app.units->pool, (void**)&unit, message->data.handle.handle);
-    if (flag == bbSuccess) unit->drawable.state = message->data.integer;
+    if (flag == bbSuccess)
+    {
+        unit->drawable.state = message->data.integer;
+        unit->drawable.frames[0].start_time = home.UI.clock2_handle.map_tick;
+        unit->drawable.frames[1].start_time = home.UI.clock2_handle.map_tick;
+        unit->drawable.frames[2].start_time = home.UI.clock2_handle.map_tick;
+        unit->drawable.frames[3].start_time = home.UI.clock2_handle.map_tick;
+        unit->drawable.frames[4].start_time = home.UI.clock2_handle.map_tick;
+        unit->drawable.frames[5].start_time = home.UI.clock2_handle.map_tick;
+        unit->drawable.frames[6].start_time = home.UI.clock2_handle.map_tick;
+        unit->drawable.frames[7].start_time = home.UI.clock2_handle.map_tick;
+    }
     else {bbHere()}
     return bbSuccess;
 }
