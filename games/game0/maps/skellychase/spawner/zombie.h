@@ -13,7 +13,8 @@ bbFlag bbAgent_newZombiex(bbAgent** self, bbMapCoords MC,bbMapCoords goalpoint, 
     agent->square_list.prev = agents->pool->null;
     agent->square_list.next = agents->pool->null;
     agent->moveable = moveable_index;
-    agent->ftable.update = -1;
+    agent->ftable.update = bbAgentFunctions_getInt(&home.agents_app.functions,
+                             AgentUpdate, "UPDATE_PLAYER");;
     agent->ftable.command = bbAgentFunctions_getInt(&home.agents_app.functions,
                              AgentCommand, "COMMAND_PLAYER");
     bbMoveable* moveable = &home.agents_app.movables.moveables[moveable_index];
@@ -64,6 +65,7 @@ bbFlag bbUnit_newZombiex(bbUnit** self, bbMapCoords MC, I32 moveable_index, I32 
     bbVPool_reverseLookup(pool, unit, &unit_handle);
 
     unit->drawable.coords = MC;
+    unit->drawable.state = bbDrawableState_idle;
     bbHandle drawfunctionHandle;
 
     unit->prev_coords = MC;
