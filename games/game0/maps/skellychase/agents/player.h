@@ -26,14 +26,15 @@ bbFlag bbAgent_Command_Player(bbAgent* agent,bbAgentCommandType type,bbAgentComm
 
             bbCoreInput_spawnUnitOut(&home.core.core, 1,moveable->position, data.goal_point, home.core.clock2_handle.map_tick
             ,bbInstructionSource_input,handle);
+            bbCore_react(&home.core.core);
         }
-    } else {
+    } else if (type == bbAC_setGoalPoint) {
         bbEntity* entity = &home.agents_app.entities.entity[agent->entity];
         bbUI_Inbox_SetUnitState(&home.UI.inbox, entity->unit, bbDrawableState_moving);
         bbCoreInput_setMoveableType(&home.core.core,0, agent->moveable, data,
                                      bbInstructionSource_internal,no_handle);
     }
-    bbCore_react(&home.core.core);
+
 
     return bbSuccess;
 }
