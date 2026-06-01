@@ -74,73 +74,64 @@ typedef enum
 
 typedef struct
 {
-    bbHandle handle1;
-    bbHandle handle2;
-    bbHandle handle3;
-} bbThreeHandles;
+    bbMapCoords goal_point;
+    I32 entity;
+} bbInstructionsData_goalPoint;
 
 typedef struct
 {
     bbHandle agent;
-    bbSquareCoords square;
-} bbAgentSquare;
-
+    bbSquareCoords square_coords;
+} bbInstructionsData_agentSquare;
 
 typedef struct
 {
     bbHandle agent;
-    bbMapCoords map_coords;
-} bbAgentMapCoords;
+    bbMapCoords coords;
+} bbInstructionsData_agentMapCoords;
+
+typedef struct
+{
+    bbHandle agent;
+    I32 hitpoints;
+} bbInstructionsData_damageAgent;
+
+typedef struct
+{
+    bbMapCoords coords;
+    I32 entity;
+    I32 button;
+} bbInstructionsData_mapClick;
+
+typedef struct
+{
+    I32 type;
+    bbMapCoords position;
+    bbMapCoords goal_point;
+    I32 entity;
+    I32 moveable;
+} bbInstructionsData_spawnUnit;
 
 typedef struct
 {
     bbMoveable_type type;
-    I32 subject_moveable;
+    I32 moveable;
     I32 goal_moveable;
     bbMapCoords goal_coords;
-} bbMoveable_goal;
-
-typedef struct {
-    bbMapCoords position;
-    I32 entity;
-    I32 moveable;
-} bbInstructionData_banana;
-
-typedef struct {
-    bbMapCoords position;
-    bbMapCoords goalpoint;
-    I32 type;
-    I32 entity;
-    I32 moveable;
-} bbInstructionData_unit;
-
-typedef struct {
-    bbHandle agent;
-    I32 entity;
-    I32 moveable;
-} bbInstructionData_unspawn;
-
-typedef struct {
-    bbMapCoords coords;
-    bbMapCoords coords2;
-    char key[KEY_LENGTH];
-} bbInstructionData_key_coords;
+} bbInstructionsData_goalMoveable;
 
 typedef union
 {
-    char string[KEY_LENGTH];
-    U64 unsigned_long;
-    bbThreeHandles three_handles;
+    char key[KEY_LENGTH];
+    U64 u64;
     bbMapCoords map_coords;
-    bbSquareCoords square_coords;
-    bbAgentSquare agent_square;
-    bbAgentMapCoords agent_MC;
-    bbMoveable_goal moveable_goal;
-    bbAgentCommandData agent_command;
-    bbInstructionData_banana banana;
-    bbInstructionData_unit unit;
-    bbInstructionData_unspawn unspawn;
-    bbInstructionData_key_coords keycoords;
+    bbInstructionsData_goalPoint goal_point;
+    bbInstructionsData_goalMoveable goal_moveable;
+    bbInstructionsData_mapClick map_click;
+    bbInstructionsData_agentSquare agent_square;
+    bbInstructionsData_agentMapCoords agent_MC;
+    bbInstructionsData_spawnUnit spawn_unit;
+    bbInstructionsData_damageAgent damage_agent;
 } bbInstruction_data;
 
 typedef struct bbInstruction

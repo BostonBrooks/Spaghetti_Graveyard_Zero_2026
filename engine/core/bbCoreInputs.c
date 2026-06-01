@@ -23,7 +23,7 @@ bbFlag bbCoreInput_setString(bbCore* core, char* string, bbInstruction_source so
     bbFlag flag = bbList_alloc(&core->do_stack,(void**)&instruction);
 
     instruction->type = bbInstruction_setString;
-    bbStr_setStr(instruction->data.string, string, KEY_LENGTH);
+    bbStr_setStr(instruction->data.key, string, KEY_LENGTH);
     instruction->source = source;
     instruction->redo_instruction = action;
 
@@ -37,7 +37,7 @@ bbFlag bbCoreInput_unfreezeButton(bbCore* core, char* string, bbInstruction_sour
     bbFlag flag = bbList_alloc(&core->do_stack,(void**)&instruction);
 
     instruction->type = bbInstruction_unfreezeButton;
-    bbStr_setStr(instruction->data.string, string, KEY_LENGTH);
+    bbStr_setStr(instruction->data.key, string, KEY_LENGTH);
     instruction->source = source;
     instruction->redo_instruction = action;
 
@@ -53,7 +53,7 @@ bbFlag bbCoreInput_checkActions(bbCore* core, U64 time, bbInstruction_source sou
     instruction->type = bbInstruction_checkActions;
     instruction->source = source;
     instruction->redo_instruction = action;
-    instruction->data.unsigned_long = time;
+    instruction->data.u64 = time;
 
     bbList_pushL(&core->do_stack, instruction);
     return bbSuccess;
@@ -66,7 +66,7 @@ bbFlag bbCoreInput_setTime(bbCore* core, U64 time, bbInstruction_source source, 
     bbFlag flag = bbList_alloc(&core->do_stack,(void**)&instruction);
 
     instruction->type = bbInstruction_setTime;
-    instruction->data.unsigned_long = time;
+    instruction->data.u64 = time;
     instruction->source = source;
     instruction->redo_instruction = action;
 
@@ -139,7 +139,7 @@ bbFlag bbCoreInput_netsendButton(bbCore* core, char* string)
     bbList_alloc(&core->do_stack, (void**) &instruction);
 
     instruction->type = bbInstruction_netsendButton;
-    bbStr_setStr(instruction->data.string, string, KEY_LENGTH);
+    bbStr_setStr(instruction->data.key, string, KEY_LENGTH);
 
     bbList_pushL(&core->do_stack, instruction);
 
@@ -167,7 +167,7 @@ bbFlag bbCoreInput_netpauseButton(bbCore* core, char* string)
     bbList_alloc(&core->do_stack, (void**) &instruction);
 
     instruction->type = bbInstruction_netpauseButton;
-    bbStr_setStr(instruction->data.string, string, KEY_LENGTH);
+    bbStr_setStr(instruction->data.key, string, KEY_LENGTH);
 
     bbList_pushL(&core->do_stack, instruction);
 
@@ -206,7 +206,7 @@ bbFlag bbCoreInput_netcodeButton(bbCore* core, char* string, U64 time,
 
 
     instruction->type = bbInstruction_netcodeButton;
-    bbStr_setStr(instruction->data.string, string, KEY_LENGTH);
+    bbStr_setStr(instruction->data.key, string, KEY_LENGTH);
     instruction->act_time = time;
     bbList_pushL(&core->do_stack, instruction);
 
@@ -252,7 +252,7 @@ bbInstruction_source source, bbHandle action){
     return bbSuccess;
 }
 
-
+/*
 bbFlag bbCoreInput_spawnBananaIn(bbCore* core, bbMapCoords MC, I32 entity_index,
     I32 moveable_index, U64 time, bbInstruction_source source, bbHandle action)
 {
@@ -266,7 +266,7 @@ bbFlag bbCoreInput_spawnBananaIn(bbCore* core, bbMapCoords MC, I32 entity_index,
     bbList_pushL(&core->do_stack, instruction);
     return bbSuccess;
 }
-
+*/
 
 
 bbFlag bbCoreInput_setGoalpointOut(bbCore* core,I32 entity, bbMapCoords MC, U64 time,
@@ -275,8 +275,8 @@ bbFlag bbCoreInput_setGoalpointOut(bbCore* core,I32 entity, bbMapCoords MC, U64 
     bbInstruction* instruction;
     bbList_alloc(&core->do_stack, (void**) &instruction);
     instruction->type = bbVInstruction_setGoalpointOut;
-    instruction->data.banana.entity = entity;
-    instruction->data.banana.position = MC;
+    instruction->data.goal_point.entity = entity;
+    instruction->data.goal_point.goal_point = MC;
     instruction->act_time = time;
     bbList_pushL(&core->do_stack, instruction);
     return bbSuccess;
@@ -288,11 +288,9 @@ bbFlag bbCoreInput_setGoalMoveable(bbCore* core,U64 time, I32 moveable, I32 goal
     bbInstruction* instruction;
     bbList_alloc(&core->do_stack, (void**) &instruction);
     instruction->type = bbVInstruction_setGoalMoveable;
-    instruction->data.moveable_goal.subject_moveable = moveable;
-    instruction->data.moveable_goal.goal_moveable = goal_moveable;
-    instruction->data.moveable_goal.goal_coords.i = 0;
-    instruction->data.moveable_goal.goal_coords.j = 0;
-    instruction->data.moveable_goal.type = bbMoveableType_GoalMoveable;
+    instruction->data.goal_moveable.type = bbMoveableType_GoalMoveable;
+    instruction->data.goal_moveable.moveable = moveable;
+    instruction->data.goal_moveable.goal_moveable = goal_moveable;
 bbList_pushL(&core->do_stack, instruction);
     return bbSuccess;
 }
@@ -304,10 +302,10 @@ bbFlag bbCoreInput_setMoveableIdle(bbCore* core,U64 time, I32 moveable, bbMapCoo
     bbInstruction* instruction;
     bbList_alloc(&core->do_stack, (void**) &instruction);
     instruction->type = bbVInstruction_setGoalMoveable;
-    instruction->data.moveable_goal.subject_moveable = moveable;
-    instruction->data.moveable_goal.goal_moveable = -1;
-    instruction->data.moveable_goal.goal_coords = MC;
-    instruction->data.moveable_goal.type = bbMoveableType_Idle;
+    instruction->data.goal_moveable.type = bbMoveableType_Idle;
+    instruction->data.goal_moveable.moveable = moveable;
+    instruction->data.goal_moveable.goal_moveable = -1;
+    instruction->data.goal_moveable.goal_coords = MC;
 
     instruction->act_time = time;
     bbList_pushL(&core->do_stack, instruction);
@@ -321,10 +319,10 @@ bbFlag bbCoreInput_setMoveableType(bbCore* core,U64 time, I32 moveable, bbAgentC
     bbInstruction* instruction;
     bbList_alloc(&core->do_stack, (void**) &instruction);
     instruction->type = bbVInstruction_setGoalMoveable;
-    instruction->data.moveable_goal.subject_moveable = moveable;
-    instruction->data.moveable_goal.goal_moveable = data.moveable;
-    instruction->data.moveable_goal.goal_coords = data.goal_point;
-    instruction->data.moveable_goal.type = data.type;
+    instruction->data.goal_moveable.type = data.type;
+    instruction->data.goal_moveable.moveable = moveable;
+    instruction->data.goal_moveable.goal_moveable = data.moveable;
+    instruction->data.goal_moveable.goal_coords = data.goal_point;
 
     instruction->act_time = time;
     bbList_pushL(&core->do_stack, instruction);
@@ -366,9 +364,9 @@ bbFlag bbCoreInput_commandAgentMapClick(bbCore* core, I32 player_entity,bbMapCoo
     bbInstruction* instruction;
     bbList_alloc(&core->do_stack, (void**) &instruction);
     instruction->type = bbVInstruction_commandAgentMapClick;
-    instruction->data.banana.position = MC;
-    instruction->data.banana.entity = player_entity;
-    instruction->data.banana.moveable = button;
+    instruction->data.map_click.coords = MC;
+    instruction->data.map_click.entity = player_entity;
+    instruction->data.map_click.button = button;
     instruction->source = source;
     instruction->act_time =0;
     bbList_pushL(&core->do_stack, instruction);

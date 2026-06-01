@@ -32,7 +32,7 @@ bbFlag bbCoreInput_updateAgentSquare(bbCore* core, bbHandle agent, bbSquareCoord
 
     instruction->type = bbVInstruction_updateAgentSquare;
     instruction->data.agent_square.agent = agent;
-    instruction->data.agent_square.square = SC;
+    instruction->data.agent_square.square_coords = SC;
     bbList_pushL(&core->do_stack, instruction);
 
     return bbSuccess;
@@ -72,7 +72,7 @@ bbFlag bbCoreInput_commandAgent_setGoalPoint(bbCore* core, bbHandle agent, bbMap
     instruction->source = source;
     instruction->redo_instruction = action;
     instruction->data.agent_MC.agent = agent;
-    instruction->data.agent_MC.map_coords = MC;
+    instruction->data.agent_MC.coords = MC;
 
 
     instruction->type = bbVInstruction_commandAgent;
@@ -86,9 +86,9 @@ bbInstruction_source source, bbHandle action)
         bbInstruction* instruction;
         bbList_alloc(&core->do_stack, (void**) &instruction);
         instruction->type = bbVInstruction_spawnUnitOut;
-        instruction->data.unit.type = unit_type;
-        instruction->data.unit.position = MC;
-        instruction->data.unit.goalpoint = MC2;
+        instruction->data.spawn_unit.type = unit_type;
+        instruction->data.spawn_unit.position = MC;
+        instruction->data.spawn_unit.goal_point = MC2;
         instruction->act_time = time;
         bbList_pushL(&core->do_stack, instruction);
 
@@ -103,11 +103,11 @@ bbFlag bbCoreInput_spawnUnitIn(bbCore* core, bbMapCoords MC,bbMapCoords goalcoor
     bbInstruction* instruction;
     bbList_alloc(&core->do_stack, (void**) &instruction);
     instruction->type = bbVInstruction_spawnUnitIn;
-    instruction->data.unit.position = MC;
-    instruction->data.unit.goalpoint = goalcoords;
-    instruction->data.unit.entity = entity_index;
-    instruction->data.unit.moveable = moveable_index;
-    instruction->data.unit.type =  type_index;
+    instruction->data.spawn_unit.position = MC;
+    instruction->data.spawn_unit.goal_point = goalcoords;
+    instruction->data.spawn_unit.entity = entity_index;
+    instruction->data.spawn_unit.moveable = moveable_index;
+    instruction->data.spawn_unit.type =  type_index;
     instruction->act_time = time;
     bbList_pushL(&core->do_stack, instruction);
     return bbSuccess;
@@ -118,8 +118,8 @@ bbFlag bbCoreInput_damageAgent(bbCore* core, bbHandle agent, I32 hitpoints,bbIns
     bbInstruction* instruction;
     bbList_alloc(&core->do_stack, (void**) &instruction);
     instruction->type = bbVInstruction_damageAgent;
-    instruction->data.unspawn.agent = agent;
-    instruction->data.unspawn.entity = hitpoints;
+    instruction->data.damage_agent.agent = agent;
+    instruction->data.damage_agent.hitpoints = hitpoints;
     bbList_pushL(&core->do_stack, instruction);
     return bbSuccess;
 }
