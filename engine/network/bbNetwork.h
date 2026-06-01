@@ -28,6 +28,7 @@ typedef struct bbNetwork
     sfIpAddress address;
     I32 port;
     sfTcpSocket* socket;
+    I32 server_socket_number;
 
     //receive packets over network and add to inbox
     pthread_t receive_thread;

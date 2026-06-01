@@ -265,6 +265,11 @@ bbFlag bbNetworkApp_checkInbox(bbNetwork* network)
                 packet->act_tick,
                 packet->player);
         }
+        if (packet->type == PACKETTYPE_SETSOCKETNUMBER)
+        {
+            bbDebug("Set socket number %d\n", packet->data.integer);
+            network->server_socket_number = packet->data.integer;
+        }
         bbThreadedQueue_free(&network->inbox, (void**)&packet);
     }
 }

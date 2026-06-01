@@ -42,3 +42,37 @@ bbFlag bbDF_widgetText(void* Drawable, void* frameDescriptor, void* cl){
 
         return bbSuccess;
     }
+
+bbFlag bbDF_socketNumber(void* Drawable, void* frameDescriptor, void* cl){
+    bbWidget* widget = Drawable;
+    bbFrame* frame = frameDescriptor;
+    drawFuncClosure* closure = cl;
+    bbGraphicsApp* graphics = closure->graphics;
+
+    if (text == NULL)
+    {
+        text = sfText_create();
+        sfText_setFont(text, graphics->fonts->fonts[0]);
+        sfText_setCharacterSize(text, 12);
+        sfText_setColor(text, sfBlack);
+    }
+
+    char string[KEY_LENGTH];
+    sprintf(string, "Socket Number: %d", home.network.server_socket_number);
+
+    sfText_setString(text, string);
+
+    //bbDebug("spriteInt = %d, sprite = %p, target = %p, window = %p\n",
+    //        spriteInt, sprite, target, home.private.window);
+    bbScreenPoints SP;
+    SP.x = widget->rect.left + frame->offset.x;
+    SP.y = widget->rect.top + frame->offset.y;
+
+    sfVector2f position = bbScreenPoints_getV2f(SP);
+    sfText_setPosition(text, position);
+
+
+    sfRenderWindow_drawText(closure->target, text, NULL);
+
+    return bbSuccess;
+}

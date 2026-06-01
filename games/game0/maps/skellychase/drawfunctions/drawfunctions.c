@@ -148,6 +148,10 @@ bbFlag bbDrawfunctions_new(bbDrawfunctions** drawfunctions){
     handle.u64 = 20;
     bbDictionary_add(functions->dictionary, "DRAWABLE_ANIMATION_ONCE", handle);
 
+    functions->functions[21] = bbDF_socketNumber;
+    handle.u64 = 21;
+    bbDictionary_add(functions->dictionary, "SOCKET_NUMBER", handle);
+
     *drawfunctions = functions;
     return bbSuccess;
 }

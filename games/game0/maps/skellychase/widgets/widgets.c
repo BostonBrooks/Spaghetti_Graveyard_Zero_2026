@@ -4,6 +4,7 @@
 #include "engine/userinterface/bbWidgets.h"
 #include "games/game0/maps/skellychase/widgets/netpause_button.h"
 #include "games/game0/maps/skellychase/widgets/switch_character_button.h"
+#include "games/game0/maps/skellychase/widgets/server_socket_number.h"
 
 bbFlag bbWidget_Constructor_Clock(bbWidget** self,
                                   bbWidgets* widgets,
@@ -89,6 +90,12 @@ bbFlag bbWidgetFunctions_populate(bbWidgetFunctions* self)
         bbWidget_Constructor_SwitchCharacterButton,
         "SWITCH_CHARACTER_BUTTON");
 
+
+
+    bbWidgetFunctions_add(self,
+    WidgetConstructor,
+    bbWidget_Constructor_Socket_Number,
+    "SOCKET_NUMBER");
 
     return bbSuccess;
 }

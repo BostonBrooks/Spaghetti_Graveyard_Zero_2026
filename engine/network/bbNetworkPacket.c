@@ -107,6 +107,10 @@ bbFlag bbNetworkPacket_toStruct (sfPacket* packet, void* Struct)
         struct1->data.unit.moveable_index = sfPacket_readInt32(packet);
         struct1->data.unit.type_index = sfPacket_readInt32(packet);
         break;
+    case PACKETTYPE_SETSOCKETNUMBER:
+        struct1->data.integer = sfPacket_readInt32(packet);
+        bbHere()
+        break;
     }
     return bbSuccess;
 }
@@ -216,6 +220,10 @@ bbFlag bbNetworkPacket_fromStruct (sfPacket* packet, void* Struct)
         sfPacket_writeInt32(packet,struct1->data.unit.entity_index);
         sfPacket_writeInt32(packet,struct1->data.unit.moveable_index);
         sfPacket_writeInt32(packet,struct1->data.unit.type_index);
+        break;
+    case PACKETTYPE_SETSOCKETNUMBER:
+        sfPacket_writeInt32(packet, struct1->data.integer);
+        bbHere()
         break;
     }
 

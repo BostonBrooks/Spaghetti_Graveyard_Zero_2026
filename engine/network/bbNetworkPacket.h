@@ -24,6 +24,8 @@
 #define PACKETTYPE_GOALPOINT         11
 #define PACKETTYPE_SPAWNBANANA       12
 #define PACKETTYPE_SPAWNUNIT         13
+#define PACKETTYPE_SETSOCKETNUMBER   14
+
 
 #define bbPacketType_print(flag)\
 {\

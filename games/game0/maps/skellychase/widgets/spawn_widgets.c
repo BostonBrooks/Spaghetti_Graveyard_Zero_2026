@@ -32,5 +32,12 @@ bbFlag bbUIApp_spawnWidgets(bbUIApp* app)
                      "CLOCK",
                      (bbScreenPoints){150*SCREEN_PPP,80*SCREEN_PPP});
 
+    bbWidget_constructor(NULL,
+                 &home.UI.widgets,
+                 "SOCKET_NUMBER",
+                 "LAYOUT",
+                 "SOCKET_NUMBER",
+                 (bbScreenPoints){200*SCREEN_PPP,13*SCREEN_PPP});
+
     return bbSuccess;
 }

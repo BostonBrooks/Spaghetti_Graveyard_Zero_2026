@@ -94,12 +94,23 @@ int main(void){
             int i = 0;
             while (sockets[i] != NULL) {
                 i++;
+                if (i==8) break;
                 //bbDebug("i = %d\n", i)
             }
             if (i < 8) {
 
                 sockets[i] = socket;
                 sfSocketSelector_addTcpSocket(selector, socket);
+                bbNetworkPacket packetStruct;
+                packetStruct.type = PACKETTYPE_SETSOCKETNUMBER;
+                packetStruct.data.integer = i;
+
+                bbDebug("new connectio socket %d\n", i);
+                sfPacket_clear(packet);
+                bbNetworkPacket_fromStruct(packet, &packetStruct);
+                status = sfTcpSocket_sendPacket(sockets[i], packet);
+
+
             } else {
 
                 sfTcpSocket_destroy(socket);
