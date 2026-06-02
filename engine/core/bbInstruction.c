@@ -19,19 +19,19 @@ U32 collision = 0;
 
 bbFlag bbInstruction_netsendButton_fn(bbCore* core, bbInstruction* instruction)
 {
-    bbNetworkApp_netsendButton(&home.network, instruction->data.string);
+    bbNetworkApp_netsendButton(&home.network, instruction->data.key);
     return bbSuccess;
 }
 
 bbFlag bbInstruction_netpauseButton_fn(bbCore* core, bbInstruction* instruction)
 {
-    bbNetworkApp_netpauseButton(&home.network, instruction->data.string);
+    bbNetworkApp_netpauseButton(&home.network, instruction->data.key);
     return bbSuccess;
 }
 
 bbFlag bbInstruction_netcodeButton_fn(bbCore* core, bbInstruction* instruction)
 {
-    bbNetworkApp_netcodeButton(&home.network, instruction->data.string, instruction->act_time);
+    bbNetworkApp_netcodeButton(&home.network, instruction->data.key, instruction->act_time);
     return bbSuccess;
 }
 
@@ -56,7 +56,7 @@ bbFlag bbInstruction_loopAction_fn(bbCore* core, bbInstruction* instruction)
                   collision++,
                   0,
                   instruction->act_time + 1,
-                  instruction->data.string);
+                  "instruction->data.string");
     return bbSuccess;
 
 }
@@ -67,13 +67,13 @@ bbFlag bbInstruction_setString_fn(bbCore* core, bbInstruction* instruction)
     bbInstruction* undo_instruction;
     bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
     undo_instruction->type = bbInstruction_unsetString;
-    bbStr_setStr(undo_instruction->data.string, test_string, KEY_LENGTH);
+    bbStr_setStr(undo_instruction->data.key, test_string, KEY_LENGTH);
     undo_instruction->source = instruction->source;
 
     printf("    +old quote: %s, new quote %s, time = %lu\n",test_string,
-        instruction->data.string, core->simulation_time);
+        instruction->data.key, core->simulation_time);
 
-    bbStr_setStr(test_string, instruction->data.string, KEY_LENGTH);
+    bbStr_setStr(test_string, instruction->data.key, KEY_LENGTH);
 
 
     if (instruction->source == bbInstructionSource_internal)
@@ -105,9 +105,9 @@ bbFlag bbInstruction_unsetString_fn(bbCore* core, bbInstruction* instruction)
 {
 
     printf("-new quote %s, old quote: %s, time = %lu\n",
-        instruction->data.string,test_string, core->simulation_time);
+        instruction->data.key,test_string, core->simulation_time);
 
-    bbStr_setStr(test_string,instruction->data.string, KEY_LENGTH);
+    bbStr_setStr(test_string,instruction->data.key, KEY_LENGTH);
 
     if (instruction->source == bbInstructionSource_internal)
     {
@@ -138,9 +138,9 @@ bbFlag bbInstruction_unsetString_fn(bbCore* core, bbInstruction* instruction)
 bbFlag bbInstruction_unfreezeButton_fn(bbCore* core, bbInstruction* instruction)
 {
 
-bbDebug("unfreeze button %s\n", instruction->data.string);
+bbDebug("unfreeze button %s\n", instruction->data.key);
 
-    bbUI_Inbox_UnpressButton2(&home.UI.inbox, instruction->data.string);
+    bbUI_Inbox_UnpressButton2(&home.UI.inbox, instruction->data.key);
 
     return bbSuccess;
     /* No need to undo this action?
@@ -187,13 +187,13 @@ bbFlag bbInstruction_setTime_fn(bbCore* core, bbInstruction* instruction)
     bbInstruction* undo_instruction;
     bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
     undo_instruction->type = bbInstruction_unsetTime;
-    undo_instruction->data.unsigned_long = core->simulation_time;
+    undo_instruction->data.u64 = core->simulation_time;
     undo_instruction->source = instruction->source;
 
     //bbDebug ("time was %lu, now is %lu, actual %lu\n", undo_instruction->data.unsigned_long,
     //    instruction->data.unsigned_long, core->actual_time);
 
-    core->simulation_time = instruction->data.unsigned_long ;
+    core->simulation_time = instruction->data.u64 ;
 
     //printf("+time = %lu\n", core->simulation_time);
     if (instruction->source == bbInstructionSource_internal)
@@ -228,7 +228,7 @@ bbFlag bbInstruction_unsetTime_fn(bbCore* core, bbInstruction* instruction)
     //bbDebug ("unset time was %lu, now is %lu, actual is %lu\n", core->simulation_time,
     //instruction->data.unsigned_long, core->actual_time);
 
-    core->simulation_time = instruction->data.unsigned_long ;
+    core->simulation_time = instruction->data.u64 ;
 
 
 
@@ -311,7 +311,7 @@ bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
     bbInstruction* undo_instruction;
     bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
     undo_instruction->type = bbInstruction_uncheckActions;
-    undo_instruction->data.unsigned_long = core->simulation_time;
+    undo_instruction->data.u64 = core->simulation_time;
     undo_instruction->source = instruction->source;
 
     if (instruction->source == bbInstructionSource_internal)
@@ -396,12 +396,12 @@ bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
             bbCoreInput_setGoalpointIn(core, action->map_coords,action->header.act_tick, action->header.player,bbInstructionSource_action,handle);
 
         }
-        if (action->header.type == bbActionType_spawnBanana)
-        {
-            bbCoreInput_spawnBananaIn(core, action->map_coords,action->integer,
-                action->integer2,action->header.act_tick,bbInstructionSource_action,handle);
-
-        }
+//        if (action->header.type == bbActionType_spawnBanana)
+//        {
+//            bbCoreInput_spawnBananaIn(core, action->map_coords,action->integer,
+//                action->integer2,action->header.act_tick,bbInstructionSource_action,handle);
+//
+//        }
         if (action->header.type == bbActionType_spawnUnit)
         {
             bbCoreInput_spawnUnitIn(core, action->map_coords, action->goal_coords,action->integer3,action->integer,
@@ -714,7 +714,7 @@ bbFlag bbInstruction_unsetViewpoint_fn(bbCore* core, bbInstruction* instruction)
     bbNotHere()
 }
 
-
+/*
 bbFlag bbInstruction_spawnBananaIn_fn(bbCore* core, bbInstruction* instruction)
 {
 
@@ -764,8 +764,8 @@ bbFlag bbInstruction_spawnBananaIn_fn(bbCore* core, bbInstruction* instruction)
     }
     bbNotHere()
     return bbSuccess;
-}
-
+}*/
+/*
 bbFlag bbInstruction_unspawnBanana_fn(bbCore* core, bbInstruction* instruction)
 {
 
@@ -806,7 +806,7 @@ bbFlag bbInstruction_unspawnBanana_fn(bbCore* core, bbInstruction* instruction)
 
     bbNotHere()
 }
-
+*/
 #endif
 #ifndef DEFINE_PONG
 

@@ -19,7 +19,7 @@ bbFlag bbCoreDiscard(bbCore* core, U64 time)
 
         if (undo_instruction->type == bbInstruction_unsetTime)
         {
-            if (undo_instruction->data.unsigned_long >= time)
+            if (undo_instruction->data.u64 >= time)
             {
                 return bbSuccess;
             }

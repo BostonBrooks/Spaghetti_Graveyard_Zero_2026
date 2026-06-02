@@ -9,7 +9,7 @@
 
 bbFlag bbLocalMessage_setString_fn(bbCore* core, bbLocalMessage* message)
 {
-    bbCoreInput_setString(core, message->data.string, bbInstructionSource_input, no_handle);
+    bbCoreInput_setString(core, message->data.key, bbInstructionSource_input, no_handle);
     //undo message?
 
     return bbSuccess;
@@ -17,7 +17,7 @@ bbFlag bbLocalMessage_setString_fn(bbCore* core, bbLocalMessage* message)
 
 bbFlag bbLocalMessage_unfreezeButton_fn(bbCore* core, bbLocalMessage* message)
 {
-    bbCoreInput_unfreezeButton(core, message->data.string, bbInstructionSource_input, no_handle);
+    bbCoreInput_unfreezeButton(core, message->data.key, bbInstructionSource_input, no_handle);
     //undo message?
 
     return bbSuccess;
@@ -32,7 +32,7 @@ bbFlag bbLocalMessage_actionUnfreeze_fn(bbCore* core, bbLocalMessage* message)
                            rand(),
                            0,
                            core->simulation_time + 60,
-                           message->data.string);
+                           message->data.key);
 
     return bbSuccess;
 }
@@ -47,14 +47,14 @@ bbFlag bbLocalMessage_retroactionUnfreeze_fn(bbCore* core, bbLocalMessage* messa
                            rand(),
                            0,
                            core->simulation_time - 60,
-                           message->data.string);
+                           message->data.key);
 
     return bbSuccess;
 }
 
 bbFlag bbLocalMessage_netsendButton_fn(bbCore* core, bbLocalMessage* message)
 {
-    bbCoreInput_netsendButton(core,message->data.string);
+    bbCoreInput_netsendButton(core,message->data.key);
 
     return bbSuccess;
 }
@@ -64,13 +64,13 @@ bbFlag bbLocalMessage_netcodeButton_fn(bbCore* core, bbLocalMessage* message)
 
 
     bbHandle handle = {0};
-    bbCoreInput_netcodeButton(core,message->data.string, message->act_time,bbInstructionSource_input,handle);
+    bbCoreInput_netcodeButton(core,message->data.key, message->act_time,bbInstructionSource_input,handle);
 
     return bbSuccess;
 }
 bbFlag bbLocalMessage_netpauseButton_fn(bbCore* core, bbLocalMessage* message)
 {
-    bbCoreInput_netpauseButton(core,message->data.string);
+    bbCoreInput_netpauseButton(core,message->data.key);
 
     return bbSuccess;
 }
@@ -83,7 +83,7 @@ bbFlag bbLocalMessage_actionLoop_fn(bbCore* core, bbLocalMessage* message)
                            rand(),
                            0,
                            message->act_time,
-                           message->data.string);
+                           message->data.key);
 
     return bbSuccess;
 }
@@ -119,13 +119,13 @@ bbFlag bbLocalMessage_spawnUnitOut_fn(bbCore* core, bbLocalMessage* message)
 {
     bbHandle handle = {0};
     bbHandle type_handle;
-    bbDictionary_lookup(home.spawner.entity_new_dict,message->data.keycoords.key, &type_handle);
+    bbDictionary_lookup(home.spawner.entity_new_dict,message->data.spawn_unit_out.key, &type_handle);
 
     //bbDebug("key = %s, index = %llu\n", message->data.keycoords.key, type_handle.u64);
     bbCoreInput_spawnUnitOut(core,
                                 type_handle.u64,
-                                message->data.keycoords.coords,
-                                message->data.keycoords.coords2,
+                                message->data.spawn_unit_out.position,
+                                message->data.spawn_unit_out.goal_point,
                                 message->act_time,
                                 bbInstructionSource_input,
                                 handle);
@@ -158,7 +158,7 @@ bbFlag bbLocalMessage_setGoalpointOut_fn(bbCore* core, bbLocalMessage* message)
 
 bbFlag bbLocalMessage_mapClick_fn(bbCore* core, bbLocalMessage* message)
 {
-    bbCoreInput_commandAgentMapClick(core,home.agents_app.player_entity,message->data.banana.position, message->data.banana.entity);
+    bbCoreInput_commandAgentMapClick(core,home.agents_app.player_entity,message->data.map_click.coords, message->data.map_click.button);
     //TODO core_react()?
 }
 

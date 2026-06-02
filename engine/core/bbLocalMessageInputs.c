@@ -9,7 +9,7 @@ bbFlag bbLocalMessage_SetString(bbCore* core, char* string)
     bbLocalMessage* message;
     bbThreadedQueue_alloc(&core->local_message_queue, (void** ) &message);
     message->type = bbLocalMessage_setString;
-    bbStr_setStr(message->data.string, string, KEY_LENGTH);
+    bbStr_setStr(message->data.key, string, KEY_LENGTH);
     bbThreadedQueue_pushL(&core->local_message_queue, message);
     return bbSuccess;
 }
@@ -19,7 +19,7 @@ bbFlag bbLocalMessage_UnfreezeButton(bbCore* core, char* string)
     bbLocalMessage* message;
     bbThreadedQueue_alloc(&core->local_message_queue, (void** ) &message);
     message->type = bbLocalMessage_unfreezeButton;
-    bbStr_setStr(message->data.string, string, KEY_LENGTH);
+    bbStr_setStr(message->data.key, string, KEY_LENGTH);
     bbThreadedQueue_pushL(&core->local_message_queue, message);
     return bbSuccess;
 }
@@ -29,7 +29,7 @@ bbFlag bbLocalMessage_ActionUnfreeze(bbCore* core, char* string)
     bbLocalMessage* message;
     bbThreadedQueue_alloc(&core->local_message_queue, (void** ) &message);
     message->type = bbLocalMessage_actionUnfreeze;
-    bbStr_setStr(message->data.string, string, KEY_LENGTH);
+    bbStr_setStr(message->data.key, string, KEY_LENGTH);
     bbThreadedQueue_pushL(&core->local_message_queue, message);
     return bbSuccess;
 }
@@ -39,7 +39,7 @@ bbFlag bbLocalMessage_RetroactionUnfreeze(bbCore* core, char* string)
     bbLocalMessage* message;
     bbThreadedQueue_alloc(&core->local_message_queue, (void** ) &message);
     message->type = bbLocalMessage_retroactionUnfreeze;
-    bbStr_setStr(message->data.string, string, KEY_LENGTH);
+    bbStr_setStr(message->data.key, string, KEY_LENGTH);
     bbThreadedQueue_pushL(&core->local_message_queue, message);
     return bbSuccess;
 }
@@ -50,7 +50,7 @@ bbFlag bbLocalMessage_NetsendButton(bbCore* core, char* key)
     bbThreadedQueue_alloc(&core->local_message_queue, (void** ) &message);
     message->type = bbLocalMessage_netsendButton;
 
-    bbStr_setStr(message->data.string, key, KEY_LENGTH);
+    bbStr_setStr(message->data.key, key, KEY_LENGTH);
 
     bbThreadedQueue_pushL(&core->local_message_queue, message);
     return bbSuccess;
@@ -61,7 +61,7 @@ bbFlag bbLocalMessage_NetcodeButton(bbCore* core, char* key)
     bbLocalMessage* message;
     bbThreadedQueue_alloc(&core->local_message_queue, (void** ) &message);
     message->type = bbLocalMessage_netcodeButton;
-    bbStr_setStr(message->data.string, key, KEY_LENGTH);
+    bbStr_setStr(message->data.key, key, KEY_LENGTH);
     message->act_time = home.core.core.actual_time + 60;
     bbThreadedQueue_pushL(&core->local_message_queue, message);
     return bbSuccess;
@@ -97,7 +97,7 @@ bbFlag bbLocalMessage_ActionLoop(bbCore* core, char* key)
     bbLocalMessage* message;
     bbThreadedQueue_alloc(&core->local_message_queue, (void** ) &message);
     message->type = bbLocalMessage_actionLoop;
-    bbStr_setStr(message->data.string, key, KEY_LENGTH);
+    bbStr_setStr(message->data.key, key, KEY_LENGTH);
     message->act_time = home.core.core.actual_time;
     bbThreadedQueue_pushL(&core->local_message_queue, message);
     return bbSuccess;
@@ -109,7 +109,7 @@ bbFlag bbLocalMessage_NetpauseButton(bbCore* core, char* key)
     bbThreadedQueue_alloc(&core->local_message_queue, (void** ) &message);
     message->type = bbLocalMessage_netpauseButton;
 
-    bbStr_setStr(message->data.string, key, KEY_LENGTH);
+    bbStr_setStr(message->data.key, key, KEY_LENGTH);
 
     bbThreadedQueue_pushL(&core->local_message_queue, message);
     return bbSuccess;
@@ -150,11 +150,11 @@ bbFlag bbLocalMessage_SpawnUnit(bbCore* core, bbMapCoords mapCoords, bbMapCoords
     message->type = bbLocalMessage_spawnUnit;
 
     message->act_time = home.core.core.actual_time;
-    message->data.keycoords.coords = mapCoords;
-    message->data.keycoords.coords2 = mapCoords2;
+    message->data.spawn_unit_out.position = mapCoords;
+    message->data.spawn_unit_out.goal_point = mapCoords2;
 
 
-    bbStr_putStr(message->data.keycoords.key, key, KEY_LENGTH);
+    bbStr_putStr(message->data.spawn_unit_out.key, key, KEY_LENGTH);
 
 
     bbThreadedQueue_pushL(&core->local_message_queue, message);
@@ -168,8 +168,8 @@ bbFlag bbLocalMessage_MapClick(bbCore* core, bbMapCoords mapCoords, I32 mouse_bu
     message->type = bbLocalMessage_mapClick;
 
     message->act_time = home.core.core.actual_time;
-    message->data.banana.position = mapCoords;
-    message->data.banana.entity = mouse_button;
+    message->data.map_click.coords = mapCoords;
+    message->data.map_click.button = mouse_button;
     bbThreadedQueue_pushL(&core->local_message_queue, message);
 }
 

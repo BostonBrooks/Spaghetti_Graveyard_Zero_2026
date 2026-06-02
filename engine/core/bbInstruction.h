@@ -80,6 +80,21 @@ typedef struct
 
 typedef struct
 {
+    bbMapCoords position;
+    bbMapCoords goal_point;
+    char key[KEY_LENGTH];
+} bbInstructionsData_spawnUnitOut;
+
+//Untidy, but flexible
+typedef struct
+{
+    bbHandle handle1;
+    bbHandle handle2;
+    bbHandle handle3;
+} bbInstructionsData_threeHandles;
+
+typedef struct
+{
     bbHandle agent;
     bbSquareCoords square_coords;
 } bbInstructionsData_agentSquare;
@@ -132,6 +147,9 @@ typedef union
     bbInstructionsData_agentMapCoords agent_MC;
     bbInstructionsData_spawnUnit spawn_unit;
     bbInstructionsData_damageAgent damage_agent;
+    bbInstructionsData_threeHandles three_handles;
+    bbAgentCommandData agent_command;
+    bbInstructionsData_spawnUnitOut spawn_unit_out;
 } bbInstruction_data;
 
 typedef struct bbInstruction

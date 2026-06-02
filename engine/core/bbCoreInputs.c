@@ -370,6 +370,10 @@ bbFlag bbCoreInput_commandAgentMapClick(bbCore* core, I32 player_entity,bbMapCoo
     instruction->source = source;
     instruction->act_time =0;
     bbList_pushL(&core->do_stack, instruction);
+
+    //bbDebug("coords.i = %d, coords.j = %d\n", MC.i, MC.j);
+
+    return bbSuccess;
 }
 
 #endif

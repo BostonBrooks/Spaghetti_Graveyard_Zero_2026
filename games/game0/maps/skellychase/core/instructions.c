@@ -16,7 +16,7 @@ extern U32 collision;
 
 bbFlag bbVInstruction_setGoalpointOut_fn(bbCore* core, bbInstruction* instruction)
 {
-    bbNetworkApp_setGoalpointOut(&home.network, instruction->data.banana.entity, instruction->data.banana.position, instruction->act_time, collision++);
+    bbNetworkApp_setGoalpointOut(&home.network, instruction->data.goal_point.entity, instruction->data.goal_point.goal_point, instruction->act_time, collision++);
     return bbSuccess;
 }
 
@@ -212,21 +212,21 @@ bbFlag bbVInstruction_setGoalMoveable_fn(bbCore* core, bbInstruction* instructio
     bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
 
     bbMoveable* moveable = &home.agents_app.movables.moveables[
-        instruction->data.moveable_goal.subject_moveable];
+        instruction->data.goal_moveable.moveable];
 
     undo_instruction->type = bbVInstruction_unsetGoalMoveable;
     undo_instruction->source = instruction->source;
     undo_instruction->player = instruction->player;
-    undo_instruction->data.moveable_goal.subject_moveable =
-        instruction->data.moveable_goal.subject_moveable;
-    undo_instruction->data.moveable_goal.goal_moveable = moveable->goal_moveable;
-    undo_instruction->data.moveable_goal.goal_coords = moveable->goalpoint;
-    undo_instruction->data.moveable_goal.type = moveable->type;
+    undo_instruction->data.goal_moveable.moveable =
+        instruction->data.goal_moveable.moveable;
+    undo_instruction->data.goal_moveable.goal_moveable = moveable->goal_moveable;
+    undo_instruction->data.goal_moveable.goal_coords = moveable->goalpoint;
+    undo_instruction->data.goal_moveable.type = moveable->type;
 
 
-    moveable->goal_moveable = instruction->data.moveable_goal.goal_moveable;
-    moveable->goalpoint = instruction->data.moveable_goal.goal_coords;
-    moveable->type = instruction->data.moveable_goal.type;
+    moveable->goal_moveable = instruction->data.goal_moveable.goal_moveable;
+    moveable->goalpoint = instruction->data.goal_moveable.goal_coords;
+    moveable->type = instruction->data.goal_moveable.type;
 
 
     if (instruction->source == bbInstructionSource_internal)
@@ -258,11 +258,11 @@ bbFlag bbVInstruction_unsetGoalMoveable_fn(bbCore* core, bbInstruction* instruct
 {
 
     bbMoveable* moveable = &home.agents_app.movables.moveables[
-        instruction->data.moveable_goal.subject_moveable];
+        instruction->data.goal_moveable.moveable];
 
-    moveable->goal_moveable = instruction->data.moveable_goal.goal_moveable;
-    moveable->goalpoint = instruction->data.moveable_goal.goal_coords;
-    moveable->type = instruction->data.moveable_goal.type;
+    moveable->goal_moveable = instruction->data.goal_moveable.goal_moveable;
+    moveable->goalpoint = instruction->data.goal_moveable.goal_coords;
+    moveable->type = instruction->data.goal_moveable.type;
 
 
     if (instruction->source == bbInstructionSource_internal)
@@ -301,12 +301,12 @@ bbFlag bbVInstruction_updateAgentSquare_fn(bbCore* core, bbInstruction* instruct
         instruction->data.agent_square.agent);
 
     bbSquareCoords old_square_coords = agent->square_coords;
-    bbSquareCoords new_square_coords = instruction->data.agent_square.square;
+    bbSquareCoords new_square_coords = instruction->data.agent_square.square_coords;
 
     undo_instruction->source = instruction->source;
     undo_instruction->type = bbVInstruction_unupdateAgentSquare;
     undo_instruction->data.agent_square.agent = instruction->data.agent_square.agent;
-    undo_instruction->data.agent_square.square = old_square_coords;
+    undo_instruction->data.agent_square.square_coords = old_square_coords;
 
     bbAgents_square* old_square = bbAgents_getSquare(home.agents_app.agents,
     old_square_coords.i, old_square_coords.j);
@@ -351,7 +351,7 @@ bbHere()
         instruction->data.agent_square.agent);
 
     bbSquareCoords old_square_coords = agent->square_coords;
-    bbSquareCoords new_square_coords = instruction->data.agent_square.square;
+    bbSquareCoords new_square_coords = instruction->data.agent_square.square_coords;
 
     bbAgents_square* old_square = bbAgents_getSquare(home.agents_app.agents,
     old_square_coords.i, old_square_coords.j);
@@ -568,7 +568,7 @@ bbFlag bbVInstruction_commandAgent_fn(bbCore* core, bbInstruction* instruction)
     bbEntity* player_entity = &home.agents_app.entities.entity[player_entity_int];
     bbVPool_lookup(home.agents_app.agents->pool,(void**)&player,player_entity->agent);
 
-    bbHandle handle; handle.ptr = &instruction->data.agent_MC.map_coords;
+    bbHandle handle; handle.ptr = &instruction->data.agent_MC.coords;
     bbAgent2_onCommand(player,
                           home.agents_app.agents,
                           bbAC_setGoalPoint,
@@ -584,8 +584,8 @@ bbFlag bbVInstruction_damageAgent_fn(bbCore* core, bbInstruction* instruction)
 
     bbAgent* agent;
     bbVPool_lookup(home.agents_app.agents->pool, (void**)&agent,
-        instruction->data.unspawn.agent);
-    I32 hitpoints = agent->health - instruction->data.unspawn.entity;
+        instruction->data.damage_agent.agent);
+    I32 hitpoints = agent->health - instruction->data.damage_agent.hitpoints;
 
 
 
@@ -593,8 +593,8 @@ bbFlag bbVInstruction_damageAgent_fn(bbCore* core, bbInstruction* instruction)
     bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
     undo_instruction->type = bbVInstruction_undamageAgent;
     undo_instruction->source = instruction->source;
-    undo_instruction->data.unspawn.agent = instruction->data.unspawn.agent;
-    undo_instruction->data.unspawn.entity = agent->health;
+    undo_instruction->data.damage_agent.agent = instruction->data.damage_agent.agent;
+    undo_instruction->data.damage_agent.hitpoints = agent->health;
 
     agent->health = hitpoints;
 
@@ -645,28 +645,28 @@ bbFlag bbVInstruction_spawnUnitIn_fn(bbCore* core, bbInstruction* instruction)
     //undo_instruction->data.map_coords = home.agents_app.agents.agents[instruction->player].goalpoint;
     undo_instruction->source = instruction->source;
     undo_instruction->player = instruction->player;
-    undo_instruction->data.unspawn.entity = instruction->data.unit.entity;
-    undo_instruction->data.unspawn.moveable = instruction->data.unit.moveable;
+    undo_instruction->data.spawn_unit.entity = instruction->data.spawn_unit.entity;
+    undo_instruction->data.spawn_unit.moveable = instruction->data.spawn_unit.moveable;
 
     bbAgent* agent;
 
-    bbDebug("type = %d\n",instruction->data.unit.type);
+    bbDebug("type = %d\n",instruction->data.spawn_unit.type);
 
     //bbAgent_newBanana(home.agents_app.agents,&agent, instruction->data.banana.position,
     //    instruction->data.banana.entity, instruction->data.banana.moveable);
     bbSpawner_spawnEntityI(&home.spawner,
                             &agent,
-                            instruction->data.unit.position,
-                            instruction->data.unit.goalpoint,
-                            instruction->data.unit.moveable,
-                            instruction->data.unit.entity,
-                            instruction->data.unit.type);
+                            instruction->data.spawn_unit.position,
+                            instruction->data.spawn_unit.goal_point,
+                            instruction->data.spawn_unit.moveable,
+                            instruction->data.spawn_unit.entity,
+                            instruction->data.spawn_unit.type);
 
 
     bbHandle agent_handle;
     bbVPool_reverseLookup(home.agents_app.agents->pool, agent, &agent_handle);
 
-    undo_instruction->data.unspawn.agent = agent_handle;
+    undo_instruction->data.three_handles.handle1 = agent_handle;
 
 
 
@@ -697,17 +697,17 @@ bbFlag bbVInstruction_spawnUnitIn_fn(bbCore* core, bbInstruction* instruction)
 
 bbFlag bbVInstruction_spawnUnitOut_fn(bbCore* core, bbInstruction* instruction)
 {
-    bbNetworkApp_spawnUnitOut(&home.network, instruction->data.unit.type,
-        instruction->data.unit.position, instruction->data.unit.goalpoint, instruction->act_time, collision++);
+    bbNetworkApp_spawnUnitOut(&home.network, instruction->data.spawn_unit.type,
+        instruction->data.spawn_unit.position, instruction->data.spawn_unit.goal_point, instruction->act_time, collision++);
     return bbSuccess;
 }
 
 
 bbFlag bbVInstruction_commandAgentMapClick_fn(bbCore* core, bbInstruction* instruction)
 {
-    bbMapCoords MC = instruction->data.banana.position;
-    I32 player_entity =  instruction->data.banana.entity;
-    I32 button = instruction->data.banana.moveable;
+    bbMapCoords MC = instruction->data.map_click.coords;
+    I32 player_entity =  instruction->data.map_click.entity;
+    I32 button = instruction->data.map_click.button;
 
     bbEntity* entity = &home.agents_app.entities.entity[player_entity];
     bbAgent* agent;

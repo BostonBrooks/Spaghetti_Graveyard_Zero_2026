@@ -89,9 +89,9 @@ bbFlag bbCore_react(bbCore* core)
             case bbInstruction_spawnBananaOut:
                 bbInstruction_spawnBananaOut_fn(core, instruction);
                 break;
-            case bbInstruction_spawnBananaIn:
-                bbInstruction_spawnBananaIn_fn(core, instruction);
-                break;
+//            case bbInstruction_spawnBananaIn:
+//                bbInstruction_spawnBananaIn_fn(core, instruction);
+//                break;
 
 
           //  case bbInstruction_setViewpointOut:
@@ -183,9 +183,9 @@ bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
                 break;
 
 #ifdef DEFINE_SKELLYCHASE
-            case bbInstruction_unspawnBanana:
-                bbInstruction_unspawnBanana_fn(core, instruction);
-                break;
+       //     case bbInstruction_unspawnBanana:
+        //        bbInstruction_unspawnBanana_fn(core, instruction);
+        //        break;
         //    case bbInstruction_unsetViewpoint:
         //        bbInstruction_unsetViewpoint_fn(core, instruction);
        //         break;
