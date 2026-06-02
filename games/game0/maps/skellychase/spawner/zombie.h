@@ -42,7 +42,7 @@ bbFlag bbAgent_newZombiex(bbAgent** self, bbMapCoords MC,bbMapCoords goalpoint, 
     bbHandle agent_handle;
     bbVPool_reverseLookup(home.agents_app.agents->pool,agent,&agent_handle);
     agent->entity = entity_index;
-        home.agents_app.entities.num_entities_core = entity_index+1;
+        home.agents_app.entities.available = entity_index+1;
     home.agents_app.entities.entity[agent->entity].agent = agent_handle;
 
     home.agents_app.entities.entity[agent->entity].moveable.u64 = moveable_index;

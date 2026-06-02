@@ -37,6 +37,11 @@ typedef enum
     bbVInstruction_damageAgent,
     bbVInstruction_undamageAgent,
 
+
+
+    bbVInstruction_spawnAgent,
+    bbVInstruction_unspawnAgent,
+
     bbVInstruction_numTypes
 }bbVInstruction_type;
 
@@ -83,6 +88,10 @@ bbFlag bbVInstruction_unspawnUnit_fn(bbCore* core, bbInstruction* instruction);
 
 bbFlag bbVInstruction_damageAgent_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbVInstruction_undamageAgent_fn(bbCore* core, bbInstruction* instruction);
+
+
+bbFlag bbVInstruction_spawnAgent_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbVInstruction_unspawnAgent_fn(bbCore* core, bbInstruction* instruction);
 
 bbFlag bbVInstruction_commandAgentMapClick_fn(bbCore* core, bbInstruction* instruction);
 #endif// INSTRUCTIONS_H

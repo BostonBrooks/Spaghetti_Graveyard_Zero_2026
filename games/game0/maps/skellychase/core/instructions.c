@@ -719,3 +719,67 @@ bbFlag bbVInstruction_commandAgentMapClick_fn(bbCore* core, bbInstruction* instr
     bbAgent2_onCommand(agent,home.agents_app.agents,bbAC_mapClick,data);
     return bbSuccess;
 }
+
+
+
+bbFlag bbVInstruction_spawnAgent_fn(bbCore* core, bbInstruction* instruction)
+{
+
+    bbInstruction* undo_instruction;
+    bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+    undo_instruction->type = bbVInstruction_unspawnAgent;
+
+    I32 entity_int = home.agents_app.entities.available;
+    I32 movable_int = home.agents_app.movables.available;
+
+    ///save old entities_available and moveables_available
+    undo_instruction->data.unspawn_agent.entities_available =  entity_int;
+    undo_instruction->data.unspawn_agent.moveables_available = movable_int;
+
+    ///TODO Search through home.agents_app.movables.moveables[] and
+    ///home.agents_app.entities.entity[] for unused
+    undo_instruction->data.unspawn_agent.entity_int =  entity_int;
+    undo_instruction->data.unspawn_agent.movable_int = movable_int;
+
+    home.agents_app.entities.available = entity_int+1;
+    home.agents_app.movables.available = movable_int+1;
+
+    bbAgent* agent;
+    bbSpawner_spawnEntityI(&home.spawner,
+                        &agent,
+                        instruction->data.spawn_agent.position,
+                        instruction->data.spawn_agent.goal_point,
+                        movable_int,
+                        entity_int,
+                        instruction->data.spawn_agent.type);
+
+    if (instruction->source == bbInstructionSource_internal)
+    {
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        undo_instruction->redo_instruction.u64 = 0;
+        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_input)
+    {
+        bbHandle handle;
+        bbVPool_reverseLookup(core->instruction_pool, instruction, &handle);
+        undo_instruction->redo_instruction = handle;
+        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_action)
+    {
+        undo_instruction->redo_instruction = instruction->redo_instruction;
+        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+        return bbSuccess;
+    }
+
+    return bbNone;
+}
+
+
+bbFlag bbVInstruction_unspawnAgent_fn(bbCore* core, bbInstruction* instruction)
+{
+    bbNotHere()
+}

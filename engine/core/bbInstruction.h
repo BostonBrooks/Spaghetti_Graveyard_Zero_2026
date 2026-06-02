@@ -129,6 +129,21 @@ typedef struct
 
 typedef struct
 {
+    I32 type;
+    bbMapCoords position;
+    bbMapCoords goal_point;
+} bbInstructionsData_spawnAgent;
+
+typedef struct
+{
+    I32 entities_available;
+    I32 moveables_available;
+    I32 entity_int;
+    I32 movable_int;
+} bbInstructionsData_unspawnAgent;
+
+typedef struct
+{
     bbMoveable_type type;
     I32 moveable;
     I32 goal_moveable;
@@ -150,6 +165,8 @@ typedef union
     bbInstructionsData_threeHandles three_handles;
     bbAgentCommandData agent_command;
     bbInstructionsData_spawnUnitOut spawn_unit_out;
+    bbInstructionsData_spawnAgent spawn_agent;
+    bbInstructionsData_unspawnAgent unspawn_agent;
 } bbInstruction_data;
 
 typedef struct bbInstruction

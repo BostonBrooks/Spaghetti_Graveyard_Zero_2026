@@ -9,14 +9,14 @@ bbFlag bbAgent_Update_Skelly(bbAgent* agent)
     if (agent_moveable->type == bbMoveableType_Unused) return bbSuccess;
 
     bbMoveable* moveable = &home.agents_app.movables.moveables[0];
-    I32 closest_moveable = 0;
+    I32 closest_int = 0;
     U32 distance = (agent_moveable->position.i - moveable->position.i)*
         (agent_moveable->position.i - moveable->position.i) +
             (agent_moveable->position.j - moveable->position.j)*
                 (agent_moveable->position.j - moveable->position.j);
 
 
-
+bbMoveable* closest_moveable = moveable;
     for (I32 i = 1; i < 8; i++)
     {
         moveable = &home.agents_app.movables.moveables[i];
@@ -27,8 +27,9 @@ bbFlag bbAgent_Update_Skelly(bbAgent* agent)
 
         if (new_distance < distance)
         {
-            closest_moveable = i;
+            closest_int = i;
             distance = new_distance;
+            closest_moveable = moveable;
         }
     }
 
@@ -41,15 +42,22 @@ bbFlag bbAgent_Update_Skelly(bbAgent* agent)
 
             bbEntity* entity = &home.agents_app.entities.entity[agent->entity];
             bbUI_Inbox_SetUnitState(&home.UI.inbox, entity->unit, bbDrawableState_idle);
+
+
         }
 
-    }else if (closest_moveable!= agent_moveable->goal_moveable)
+    }else if (closest_int!= agent_moveable->goal_moveable)
     {
         bbCoreInput_setGoalMoveable(&home.core.core, 69696969, agent->moveable,
-            closest_moveable, bbInstructionSource_internal, no_handle);
+            closest_int, bbInstructionSource_internal, no_handle);
 
         bbEntity* entity = &home.agents_app.entities.entity[agent->entity];
         bbUI_Inbox_SetUnitState(&home.UI.inbox, entity->unit, bbDrawableState_moving);
+
+        bbMapCoords position = agent_moveable->position;
+        position.i += POINTS_PER_TILE;
+
+        bbCoreInput_spawnAgent(&home.core.core, position,closest_moveable->position,1, bbInstructionSource_internal, no_handle);
 
     }
 

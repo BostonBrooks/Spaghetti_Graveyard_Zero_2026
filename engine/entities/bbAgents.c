@@ -143,7 +143,7 @@ bbFlag bbAgent_newBanana(bbAgents* agents,bbAgent** self, bbMapCoords position,
     bbList_pushL(&agents->full_list,agent);
 
     agent->entity = entity_index;
-    home.agents_app.entities.num_entities_core = entity_index+1;
+    home.agents_app.entities.available = entity_index+1;
     home.agents_app.entities.entity[agent->entity].agent = agent_handle;
 
     home.agents_app.entities.entity[agent->entity].moveable.u64 = index;

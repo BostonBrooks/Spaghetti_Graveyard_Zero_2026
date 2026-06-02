@@ -260,7 +260,7 @@ bbFlag bbPF_zombieCore(char* string)
 
     bbHandle agent_handle;
     bbVPool_reverseLookup(home.agents_app.agents->pool,agent,&agent_handle);
-    agent->entity = home.agents_app.entities.num_entities_core++;
+    agent->entity = home.agents_app.entities.available++;
     home.agents_app.entities.entity[agent->entity].agent = agent_handle;
 
     home.agents_app.entities.entity[agent->entity].moveable.u64 = index;

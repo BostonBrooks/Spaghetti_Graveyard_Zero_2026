@@ -15,7 +15,7 @@ typedef struct
 
 typedef struct
 {
-    I32 num_entities_core;
+    I32 available;
     I32 num_entities_graphics;
     bbEntity entity[NUM_ENTITIES];
 

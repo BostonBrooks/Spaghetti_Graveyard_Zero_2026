@@ -23,4 +23,7 @@ bbInstruction_source source, bbHandle action);
 bbFlag bbCoreInput_spawnUnitIn(bbCore* core, bbMapCoords MC,bbMapCoords goalcoords,I32 type_index, I32 entity_index,
     I32 moveable_index, U64 time, bbInstruction_source source, bbHandle action);
 
+bbFlag bbCoreInput_spawnAgent(bbCore* core, bbMapCoords MC,bbMapCoords goalcoords,I32 type_index, bbInstruction_source source, bbHandle action);
+
+
 #endif //COREINPUTS_H

@@ -123,3 +123,16 @@ bbFlag bbCoreInput_damageAgent(bbCore* core, bbHandle agent, I32 hitpoints,bbIns
     bbList_pushL(&core->do_stack, instruction);
     return bbSuccess;
 }
+
+bbFlag bbCoreInput_spawnAgent(bbCore* core, bbMapCoords MC,bbMapCoords goalcoords,I32 type_index, bbInstruction_source source, bbHandle action)
+{
+    bbInstruction* instruction;
+    bbList_alloc(&core->do_stack, (void**) &instruction);
+    instruction->type = bbVInstruction_spawnAgent;
+    instruction->data.spawn_agent.type = type_index;
+    instruction->data.spawn_agent.position = MC;
+    instruction->data.spawn_agent.goal_point = goalcoords;
+    bbList_pushL(&core->do_stack, instruction);
+    return bbSuccess;
+
+}

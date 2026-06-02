@@ -3,7 +3,7 @@
 
 bbFlag bbEntities_init_core(bbEntities* entities)
 {
-    entities->num_entities_core = 0;
+    entities->available = 0;
     bbHandle null_agent;
     bbHandle null_moveable;
 

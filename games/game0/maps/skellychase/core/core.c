@@ -77,5 +77,12 @@ bbFlag bbCore_initVInstructions(bbCore* core)
     = bbVInstruction_undamageAgent_fn;
 
 
+
+    core->instruction_functions[bbVInstruction_spawnAgent-bbInstruction_numTypes]
+    = bbVInstruction_spawnAgent_fn;
+    core->instruction_functions[bbVInstruction_unspawnAgent-bbInstruction_numTypes]
+    = bbVInstruction_unspawnAgent_fn;
+
+
     return bbSuccess;
 }
