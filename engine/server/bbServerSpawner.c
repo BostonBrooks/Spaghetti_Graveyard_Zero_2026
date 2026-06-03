@@ -92,17 +92,17 @@ bbFlag bbSF_skelly(char* string)
 {
     //printf("*%s", string);
     I32 i, j;
-    I32 moveable_index, entity_index;
+    I32 movable_index, entity_index;
     char key[KEY_LENGTH];
-    sscanf(string, "%[^','],%d,%d,%d", key, &i, &j,&moveable_index);
+    sscanf(string, "%[^','],%d,%d,%d", key, &i, &j,&movable_index);
     entity_index = entities.num_entities++;
 
-    entities.num_moveables = moveable_index+1;
+    entities.num_movables = movable_index+1;
     entities.entity[entity_index].in_use = true;
-    entities.moveable[moveable_index].in_use = true;
+    entities.movable[movable_index].in_use = true;
 
 
-    bbDebug("SKELLY/ZOMBIE, moveable = %d, entity = %d\n", moveable_index, entity_index);
+    bbDebug("SKELLY/ZOMBIE, movable = %d, entity = %d\n", movable_index, entity_index);
     return bbSuccess;
 }
 
@@ -110,15 +110,15 @@ bbFlag bbSF_skeleton(char* string)
 {
     //printf("*%s", string);
     I32 i, j;
-    I32 moveable_index, entity_index;
+    I32 movable_index, entity_index;
     char key[KEY_LENGTH];
-    sscanf(string, "%[^','],%d,%d,%d", key, &i, &j,&moveable_index);
+    sscanf(string, "%[^','],%d,%d,%d", key, &i, &j,&movable_index);
 
-    entities.num_moveables = moveable_index+1;
-    entities.moveable[moveable_index].in_use = true;
+    entities.num_movables = movable_index+1;
+    entities.movable[movable_index].in_use = true;
 
 
-    bbDebug("SKELETON, moveable = %d\n", moveable_index);
+    bbDebug("SKELETON, movable = %d\n", movable_index);
 
     return bbSuccess;
 }
@@ -126,18 +126,18 @@ bbFlag bbSF_entity(char* string)
 {
     //printf("*%s", string);
     I32 i, j;
-    I32 moveable_index, entity_index;
+    I32 movable_index, entity_index;
     char key[KEY_LENGTH];
     char type[KEY_LENGTH];
     sscanf(string, "%[^','],%[^','],%d,%d,%d,%d",
-        key, type, &i, &j,&moveable_index, &entity_index);;
+        key, type, &i, &j,&movable_index, &entity_index);;
 
-    entities.num_moveables = moveable_index+1;
+    entities.num_movables = movable_index+1;
     entities.num_entities = entity_index+1;
-    entities.moveable[moveable_index].in_use = true;
+    entities.movable[movable_index].in_use = true;
 
 
-    bbDebug("SKELETON, moveable = %d, entity = %d\n", moveable_index, entity_index);
+    bbDebug("SKELETON, movable = %d, entity = %d\n", movable_index, entity_index);
 
     return bbSuccess;
 }

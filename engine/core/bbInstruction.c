@@ -726,14 +726,14 @@ bbFlag bbInstruction_spawnBananaIn_fn(bbCore* core, bbInstruction* instruction)
     undo_instruction->source = instruction->source;
     undo_instruction->player = instruction->player;
     undo_instruction->data.unspawn.entity = home.agents_app.entities.num_entities_core;
-    undo_instruction->data.unspawn.moveable = home.agents_app.movables.available;
+    undo_instruction->data.unspawn.movable = home.agents_app.movables.available;
 
     bbAgent* agent;
 
 
 
     bbAgent_newBanana(home.agents_app.agents,&agent, instruction->data.banana.position,
-        instruction->data.banana.entity, instruction->data.banana.moveable);
+        instruction->data.banana.entity, instruction->data.banana.movable);
 
     bbHandle agent_handle;
     bbVPool_reverseLookup(home.agents_app.agents->pool, agent, &agent_handle);
@@ -772,7 +772,7 @@ bbFlag bbInstruction_unspawnBanana_fn(bbCore* core, bbInstruction* instruction)
 
 
     home.agents_app.entities.num_entities_core = instruction->data.unspawn.entity;
-    home.agents_app.movables.available = instruction->data.unspawn.moveable;
+    home.agents_app.movables.available = instruction->data.unspawn.movable;
 
 
     bbHandle agent_handle = instruction->data.unspawn.agent;
@@ -812,16 +812,16 @@ bbFlag bbInstruction_unspawnBanana_fn(bbCore* core, bbInstruction* instruction)
 #ifndef DEFINE_PONG
 
 /*
-bbFlag bbInstruction_updateMoveables_fn(bbCore* core, bbInstruction* instruction)
+bbFlag bbInstruction_updateMovables_fn(bbCore* core, bbInstruction* instruction)
 {
 
 
     bbInstruction* undo_instruction;
     bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
-    undo_instruction->type = bbVInstruction_unupdateMoveables;
+    undo_instruction->type = bbVInstruction_unupdateMovables;
     undo_instruction->source = instruction->source;
 
-    bbMoveables_snapshot* snapshot;
+    bbMovables_snapshot* snapshot;
     bbHandle snapshot_handle;
     bbVPool_alloc(home.agents_app.movables.snapshots, (void**)&snapshot);
 
@@ -829,15 +829,15 @@ bbFlag bbInstruction_updateMoveables_fn(bbCore* core, bbInstruction* instruction
 
     undo_instruction->snapshot = snapshot_handle;
 
-    for (I32 i = 0; i < numMoveables; i++)
+    for (I32 i = 0; i < numMovables; i++)
     {
-        snapshot->moveables[i].position = home.agents_app.movables.moveables[i].position;
-        snapshot->moveables[i].goalpoint = home.agents_app.movables.moveables[i].goalpoint;
+        snapshot->movables[i].position = home.agents_app.movables.movables[i].position;
+        snapshot->movables[i].goalpoint = home.agents_app.movables.movables[i].goalpoint;
     }
 
 
 
-    bbMoveables_update(&home.agents_app.movables);
+    bbMovables_update(&home.agents_app.movables);
 
     if (instruction->source == bbInstructionSource_internal)
     {
@@ -864,16 +864,16 @@ bbFlag bbInstruction_updateMoveables_fn(bbCore* core, bbInstruction* instruction
 }
 */
 /*
-bbFlag bbInstruction_unupdateMoveables_fn(bbCore* core, bbInstruction* instruction)
+bbFlag bbInstruction_unupdateMovables_fn(bbCore* core, bbInstruction* instruction)
 {
 
-    bbMoveables_snapshot* snapshot;
+    bbMovables_snapshot* snapshot;
     bbVPool_lookup(home.agents_app.movables.snapshots, (void**)&snapshot, instruction->snapshot);
 
-    for (I32 i = 0; i < numMoveables; i++)
+    for (I32 i = 0; i < numMovables; i++)
     {
-        home.agents_app.movables.moveables[i].position = snapshot->moveables[i].position;
-        home.agents_app.movables.moveables[i].goalpoint = snapshot->moveables[i].goalpoint;
+        home.agents_app.movables.movables[i].position = snapshot->movables[i].position;
+        home.agents_app.movables.movables[i].goalpoint = snapshot->movables[i].goalpoint;
     }
 
     bbVPool_free(home.agents_app.movables.snapshots, snapshot);

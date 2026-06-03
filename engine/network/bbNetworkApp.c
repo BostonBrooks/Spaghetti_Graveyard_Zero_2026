@@ -245,7 +245,7 @@ bbFlag bbNetworkApp_checkInbox(bbNetwork* network)
             bbAction_spawnBanana(&home.core.core,
                             packet->data.unit.position,
                             packet->data.unit.entity_index,
-                            packet->data.unit.moveable_index,
+                            packet->data.unit.movable_index,
                             packet->collision,
                             packet->send_tick,
                             packet->act_tick,
@@ -259,7 +259,7 @@ bbFlag bbNetworkApp_checkInbox(bbNetwork* network)
                 packet->data.unit.goalpoint,
                 packet->data.unit.type_index,
                 packet->data.unit.entity_index,
-                packet->data.unit.moveable_index,
+                packet->data.unit.movable_index,
                 packet->collision,
                 packet->send_tick,
                 packet->act_tick,
@@ -403,7 +403,7 @@ bbFlag bbNetworkApp_spawnBananaOut(bbNetwork* network, bbMapCoords MC, U64 time,
     packet->act_tick = time;
     packet->data.unit.position = MC;
     packet->data.unit.entity_index = 0;
-    packet->data.unit.moveable_index = 0;
+    packet->data.unit.movable_index = 0;
     packet->collision = collision;
     //packet->player = home.agents_app.agents.current_agent;
     bbThreadedQueue_pushL(&network->outbox,packet);
@@ -421,7 +421,7 @@ bbFlag bbNetworkApp_spawnUnitOut(bbNetwork* network, I32 unit_type, bbMapCoords 
     packet->data.unit.position = MC;
     packet->data.unit.goalpoint = MC2;
     packet->data.unit.entity_index = 0;
-    packet->data.unit.moveable_index = 0;
+    packet->data.unit.movable_index = 0;
     packet->data.unit.type_index = unit_type;
     packet->collision = collision;
     //packet->player = home.agents_app.agents.current_agent;

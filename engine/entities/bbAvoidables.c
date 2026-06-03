@@ -1,12 +1,12 @@
 #include "engine/entities/bbAvoidables.h"
 
-#include "bbMoveables.h"
+#include "bbMovables.h"
 #include "engine/data/bbConstants.h"
 #include "engine/logic/bbBloatedPool.h"
 #include "engine/logic/bbList.h"
 #include "engine/data/bbHome.h"
 
-bbMilliCoords bbAvoidable_getForce(bbMoveables* moveables, bbMoveable* moveableA, bbAvoidable* avoidable)
+bbMilliCoords bbAvoidable_getForce(bbMovables* movables, bbMovable* movableA, bbAvoidable* avoidable)
 {
 
     //SpriteUnits[subject].Forces.i += (10000*idist)/dist/(dist - footprint)/(dist - footprint);
@@ -14,12 +14,12 @@ bbMilliCoords bbAvoidable_getForce(bbMoveables* moveables, bbMoveable* moveableA
 
     bbMilliCoords coords_a, coords_b, output;
 
-    if (moveables->use_coords_a)
+    if (movables->use_coords_a)
     {
-        coords_a = moveableA->coords_a;
+        coords_a = movableA->coords_a;
     } else
     {
-        coords_a = moveableA->coords_b;
+        coords_a = movableA->coords_b;
     }
 
     coords_b = bbMapCoords_getMilliCoords(avoidable->coords);
@@ -85,9 +85,9 @@ bbFlag bbAvoidable_newCircle(bbAvoidables* avoidables, bbMapCoords MC, I32 radiu
 }
 
 
-bbMilliCoords bbAvoidables_sumForces (bbAvoidables* avoidables, bbMoveable* moveable)
+bbMilliCoords bbAvoidables_sumForces (bbAvoidables* avoidables, bbMovable* movable)
 {
-    bbMapCoords MC = moveable->position;
+    bbMapCoords MC = movable->position;
 
     bbMapCoords MC_offset;
     bbSquareCoords SC;
@@ -115,7 +115,7 @@ bbMilliCoords bbAvoidables_sumForces (bbAvoidables* avoidables, bbMoveable* move
 
         while (flag == bbSuccess)
         {
-            single = bbAvoidable_getForce(&home.agents_app.movables, moveable,avoidable);
+            single = bbAvoidable_getForce(&home.agents_app.movables, movable,avoidable);
             total.i += single.i;
             total.j += single.j;
             flag = bbList_increment(&square->list, (void**)&avoidable);
@@ -139,7 +139,7 @@ bbMilliCoords bbAvoidables_sumForces (bbAvoidables* avoidables, bbMoveable* move
 
         while (flag == bbSuccess)
         {
-            single = bbAvoidable_getForce(&home.agents_app.movables, moveable,avoidable);
+            single = bbAvoidable_getForce(&home.agents_app.movables, movable,avoidable);
             total.i += single.i;
             total.j += single.j;
             flag = bbList_increment(&square->list, (void**)&avoidable);
@@ -163,7 +163,7 @@ bbMilliCoords bbAvoidables_sumForces (bbAvoidables* avoidables, bbMoveable* move
 
         while (flag == bbSuccess)
         {
-            single = bbAvoidable_getForce(&home.agents_app.movables, moveable,avoidable);
+            single = bbAvoidable_getForce(&home.agents_app.movables, movable,avoidable);
             total.i += single.i;
             total.j += single.j;
             flag = bbList_increment(&square->list, (void**)&avoidable);
@@ -187,7 +187,7 @@ bbMilliCoords bbAvoidables_sumForces (bbAvoidables* avoidables, bbMoveable* move
 
         while (flag == bbSuccess)
         {
-            single = bbAvoidable_getForce(&home.agents_app.movables, moveable,avoidable);
+            single = bbAvoidable_getForce(&home.agents_app.movables, movable,avoidable);
             total.i += single.i;
             total.j += single.j;
             flag = bbList_increment(&square->list, (void**)&avoidable);

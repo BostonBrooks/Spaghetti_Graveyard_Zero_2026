@@ -77,16 +77,16 @@ bbFlag bbUI_Inbox_setUnitHP_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message);
 bbFlag bbUI_Inbox_UnpressButton(bbUI_Inbox* inbox);
 bbFlag bbUI_Inbox_UnpressButton2(bbUI_Inbox* inbox, char* key);
 bbFlag bbUI_Inbox_SetWidgetPosition(bbUI_Inbox* inbox, char* key, bbHandle position);
-bbFlag bbUI_Inbox_NewSkelly(bbUI_Inbox* inbox, bbMapCoords coords, I32 moveable);
+bbFlag bbUI_Inbox_NewSkelly(bbUI_Inbox* inbox, bbMapCoords coords, I32 movable);
 bbFlag bbUI_Inbox_SetUnitState(bbUI_Inbox* inbox, bbHandle unit, I32 state);
 
 bbFlag bbUI_Inbox_SetViewpoint(bbUI_Inbox* inbox, bbMapCoords MC);
 
-bbFlag bbUI_Inbox_NewUnit(bbUI_Inbox* inbox, I32 type_index, bbMapCoords MC, I32 entity_index, I32 moveable_index);
+bbFlag bbUI_Inbox_NewUnit(bbUI_Inbox* inbox, I32 type_index, bbMapCoords MC, I32 entity_index, I32 movable_index);
 bbFlag bbUI_Inbox_newUnit_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message);
 
-bbFlag bbUI_Inbox_NewBanana(bbUI_Inbox* inbox, bbMapCoords MC, I32 entity_index, I32 moveable_index);
-bbFlag bbUI_Inbox_DeleteUnit(bbUI_Inbox* inbox, I32 entity_index, I32 moveable_index);
+bbFlag bbUI_Inbox_NewBanana(bbUI_Inbox* inbox, bbMapCoords MC, I32 entity_index, I32 movable_index);
+bbFlag bbUI_Inbox_DeleteUnit(bbUI_Inbox* inbox, I32 entity_index, I32 movable_index);
 
 bbFlag bbUI_Inbox_SetUnitHP(bbUI_Inbox* inbox, bbHandle unit, float HP);
 

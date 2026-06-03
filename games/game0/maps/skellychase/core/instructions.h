@@ -8,11 +8,11 @@ typedef enum
     bbVInstruction_setGoalpointIn,
     bbVInstruction_unsetGoalpoint,
 
-    bbVInstruction_updateMoveables,
-    bbVInstruction_unupdateMoveables,
+    bbVInstruction_updateMovables,
+    bbVInstruction_unupdateMovables,
 
-    bbVInstruction_setGoalMoveable,
-    bbVInstruction_unsetGoalMoveable,
+    bbVInstruction_setGoalMovable,
+    bbVInstruction_unsetGoalMovable,
 
     bbVInstruction_updateAgentSquare,
     bbVInstruction_unupdateAgentSquare,
@@ -50,16 +50,16 @@ bbFlag bbVInstruction_setGoalpointOut_fn(bbCore* core, bbInstruction* instructio
 bbFlag bbVInstruction_setGoalpointIn_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbVInstruction_unsetGoalpoint_fn(bbCore* core, bbInstruction* instruction);
 
-bbFlag bbVInstruction_updateMoveables_fn(bbCore* core, bbInstruction* instruction);
-bbFlag bbVInstruction_unupdateMoveables_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbVInstruction_updateMovables_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbVInstruction_unupdateMovables_fn(bbCore* core, bbInstruction* instruction);
 
-bbFlag bbVInstruction_setGoalMoveable_fn(bbCore* core, bbInstruction* instruction);
-bbFlag bbVInstruction_unsetGoalMoveable_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbVInstruction_setGoalMovable_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbVInstruction_unsetGoalMovable_fn(bbCore* core, bbInstruction* instruction);
 
 
 
-bbFlag bbVInstruction_updateMoveables_fn(bbCore* core, bbInstruction* instruction);
-bbFlag bbVInstruction_unupdateMoveables_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbVInstruction_updateMovables_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbVInstruction_unupdateMovables_fn(bbCore* core, bbInstruction* instruction);
 
 
 

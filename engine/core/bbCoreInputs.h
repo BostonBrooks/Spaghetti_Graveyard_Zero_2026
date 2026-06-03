@@ -49,7 +49,7 @@ bbFlag bbCoreInput_spawnBananaOut(bbCore* core, bbMapCoords MC, U64 time,
 bbInstruction_source source, bbHandle action);
 
 bbFlag bbCoreInput_spawnBananaIn(bbCore* core, bbMapCoords MC, I32 entity_index,
-    I32 moveable_index, U64 time, bbInstruction_source source, bbHandle action);
+    I32 movable_index, U64 time, bbInstruction_source source, bbHandle action);
 
 bbFlag bbCoreInput_setViewpointIn(bbCore* core, bbMapCoords MC, U64 time,
                                   bbInstruction_source source, bbHandle action);
@@ -64,16 +64,16 @@ bbFlag bbCoreInput_setGoalpointIn(bbCore* core, bbMapCoords MC, U64 time,U8 play
 
 bbFlag bbCoreInput_approachGoalpoint(bbCore* core,bbInstruction_source source, bbHandle action);
 
-bbFlag bbCoreInput_updateMoveables(bbCore* core,bbInstruction_source source, bbHandle action);
+bbFlag bbCoreInput_updateMovables(bbCore* core,bbInstruction_source source, bbHandle action);
 
-bbFlag bbCoreInput_setGoalMoveable(bbCore* core,U64 time, I32 moveable, I32 goal_moveable,
+bbFlag bbCoreInput_setGoalMovable(bbCore* core,U64 time, I32 movable, I32 goal_movable,
                                  bbInstruction_source source, bbHandle action);
 
 
-bbFlag bbCoreInput_setMoveableIdle(bbCore* core,U64 time, I32 moveable, bbMapCoords MC,
+bbFlag bbCoreInput_setMovableIdle(bbCore* core,U64 time, I32 movable, bbMapCoords MC,
                                  bbInstruction_source source, bbHandle action);
 
-bbFlag bbCoreInput_setMoveableType(bbCore* core,U64 time, I32 moveable, bbAgentCommandData data,
+bbFlag bbCoreInput_setMovableType(bbCore* core,U64 time, I32 movable, bbAgentCommandData data,
                                  bbInstruction_source source, bbHandle action);
 
 bbFlag bbCoreInput_commandAgentMapClick(bbCore* core, I32 player_entity,bbMapCoords MC, I32 button);

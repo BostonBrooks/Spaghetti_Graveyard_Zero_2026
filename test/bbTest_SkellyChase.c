@@ -99,7 +99,7 @@ int main(void)
     bool once = false;
 
     bbAvoidables_new(&home.agents_app.avoidables, 12, 12);
-    bbMoveables_init(&home.agents_app.movables);
+    bbMovables_init(&home.agents_app.movables);
 
 
     bbAgents_new(&home.agents_app.agents, 12,12);
@@ -112,14 +112,14 @@ int main(void)
     bbHandle no_handle;
 
     //This works, we have a bunch of skeletons going in circles!
-    bbCoreInput_setGoalMoveable(&home.core.core,69696969, 8, 9,bbInstructionSource_internal, no_handle);
-    bbCoreInput_setGoalMoveable(&home.core.core,69696969, 9, 10,bbInstructionSource_internal, no_handle);
-    bbCoreInput_setGoalMoveable(&home.core.core,69696969, 10, 11,bbInstructionSource_internal, no_handle);
-    bbCoreInput_setGoalMoveable(&home.core.core,69696969, 11, 12,bbInstructionSource_internal, no_handle);
-    bbCoreInput_setGoalMoveable(&home.core.core,69696969, 12, 13,bbInstructionSource_internal, no_handle);
-    bbCoreInput_setGoalMoveable(&home.core.core,69696969, 13, 14,bbInstructionSource_internal, no_handle);
-    bbCoreInput_setGoalMoveable(&home.core.core,69696969, 14, 15,bbInstructionSource_internal, no_handle);
-    bbCoreInput_setGoalMoveable(&home.core.core,69696969, 15, 8,bbInstructionSource_internal, no_handle);
+    bbCoreInput_setGoalMovable(&home.core.core,69696969, 8, 9,bbInstructionSource_internal, no_handle);
+    bbCoreInput_setGoalMovable(&home.core.core,69696969, 9, 10,bbInstructionSource_internal, no_handle);
+    bbCoreInput_setGoalMovable(&home.core.core,69696969, 10, 11,bbInstructionSource_internal, no_handle);
+    bbCoreInput_setGoalMovable(&home.core.core,69696969, 11, 12,bbInstructionSource_internal, no_handle);
+    bbCoreInput_setGoalMovable(&home.core.core,69696969, 12, 13,bbInstructionSource_internal, no_handle);
+    bbCoreInput_setGoalMovable(&home.core.core,69696969, 13, 14,bbInstructionSource_internal, no_handle);
+    bbCoreInput_setGoalMovable(&home.core.core,69696969, 14, 15,bbInstructionSource_internal, no_handle);
+    bbCoreInput_setGoalMovable(&home.core.core,69696969, 15, 8,bbInstructionSource_internal, no_handle);
     bbCore_react(&home.core.core);
 
 
@@ -192,10 +192,10 @@ int main(void)
 
 
 
-            //bbMoveables_update(&home.agents_app.movables);
+            //bbMovables_update(&home.agents_app.movables);
             //bbCoreInput_approachGoalpoint(&home.core.core);
 
-            bbCoreInput_updateMoveables(&home.core.core, bbInstructionSource_input, no_handle);
+            bbCoreInput_updateMovables(&home.core.core, bbInstructionSource_input, no_handle);
 
             bbCore_react(&home.core.core);
             bbCoreInput_updateAgentsSquare(&home.core.core, NULL,bbInstructionSource_input, no_handle);
@@ -250,7 +250,7 @@ void* userinterface_thread(void* arg)
 
     bbNetworkTime* network_time = (bbNetworkTime*)home.network.extra_data;
 
-    bbMoveables_snapshot moveables_snapshot;
+    bbMovables_snapshot movables_snapshot;
 
     U8 clock_index = 255;
 
@@ -312,8 +312,8 @@ bbHere()
         bbDrawable_setLocation(sphere, home.viewport_app.drawables,mouseCoords);
 //end test*/
 
-        bbMoveables_copyBuffer(&home.agents_app.movables, &moveables_snapshot);
-        bbUnits_consumeBuffer(home.viewport_app.units, home.agents_app.entities.moveable_units,&moveables_snapshot);
+        bbMovables_copyBuffer(&home.agents_app.movables, &movables_snapshot);
+        bbUnits_consumeBuffer(home.viewport_app.units, home.agents_app.entities.movable_units,&movables_snapshot);
         bbUIApp_draw(&home.UI);
 
         if (home.clock2.is_running){

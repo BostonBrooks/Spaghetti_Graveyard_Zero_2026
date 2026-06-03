@@ -254,14 +254,14 @@ bbInstruction_source source, bbHandle action){
 
 /*
 bbFlag bbCoreInput_spawnBananaIn(bbCore* core, bbMapCoords MC, I32 entity_index,
-    I32 moveable_index, U64 time, bbInstruction_source source, bbHandle action)
+    I32 movable_index, U64 time, bbInstruction_source source, bbHandle action)
 {
     bbInstruction* instruction;
     bbList_alloc(&core->do_stack, (void**) &instruction);
     instruction->type = bbInstruction_spawnBananaIn;
     instruction->data.banana.position = MC;
     instruction->data.banana.entity = entity_index;
-    instruction->data.banana.moveable = moveable_index;
+    instruction->data.banana.movable = movable_index;
     instruction->act_time = time;
     bbList_pushL(&core->do_stack, instruction);
     return bbSuccess;
@@ -282,30 +282,30 @@ bbFlag bbCoreInput_setGoalpointOut(bbCore* core,I32 entity, bbMapCoords MC, U64 
     return bbSuccess;
 }
 
-bbFlag bbCoreInput_setGoalMoveable(bbCore* core,U64 time, I32 moveable, I32 goal_moveable,
+bbFlag bbCoreInput_setGoalMovable(bbCore* core,U64 time, I32 movable, I32 goal_movable,
                                  bbInstruction_source source, bbHandle action)
 {
     bbInstruction* instruction;
     bbList_alloc(&core->do_stack, (void**) &instruction);
-    instruction->type = bbVInstruction_setGoalMoveable;
-    instruction->data.goal_moveable.type = bbMoveableType_Follow;
-    instruction->data.goal_moveable.moveable = moveable;
-    instruction->data.goal_moveable.goal_moveable = goal_moveable;
+    instruction->type = bbVInstruction_setGoalMovable;
+    instruction->data.goal_movable.type = bbMovableType_Follow;
+    instruction->data.goal_movable.movable = movable;
+    instruction->data.goal_movable.goal_movable = goal_movable;
 bbList_pushL(&core->do_stack, instruction);
     return bbSuccess;
 }
 
 
-bbFlag bbCoreInput_setMoveableIdle(bbCore* core,U64 time, I32 moveable, bbMapCoords MC,
+bbFlag bbCoreInput_setMovableIdle(bbCore* core,U64 time, I32 movable, bbMapCoords MC,
                                  bbInstruction_source source, bbHandle action)
 {
     bbInstruction* instruction;
     bbList_alloc(&core->do_stack, (void**) &instruction);
-    instruction->type = bbVInstruction_setGoalMoveable;
-    instruction->data.goal_moveable.type = bbMoveableType_Idle;
-    instruction->data.goal_moveable.moveable = moveable;
-    instruction->data.goal_moveable.goal_moveable = -1;
-    instruction->data.goal_moveable.goal_coords = MC;
+    instruction->type = bbVInstruction_setGoalMovable;
+    instruction->data.goal_movable.type = bbMovableType_Idle;
+    instruction->data.goal_movable.movable = movable;
+    instruction->data.goal_movable.goal_movable = -1;
+    instruction->data.goal_movable.goal_coords = MC;
 
     instruction->act_time = time;
     bbList_pushL(&core->do_stack, instruction);
@@ -313,16 +313,16 @@ bbFlag bbCoreInput_setMoveableIdle(bbCore* core,U64 time, I32 moveable, bbMapCoo
 }
 
 
-bbFlag bbCoreInput_setMoveableType(bbCore* core,U64 time, I32 moveable, bbAgentCommandData data,
+bbFlag bbCoreInput_setMovableType(bbCore* core,U64 time, I32 movable, bbAgentCommandData data,
                                  bbInstruction_source source, bbHandle action)
 {
     bbInstruction* instruction;
     bbList_alloc(&core->do_stack, (void**) &instruction);
-    instruction->type = bbVInstruction_setGoalMoveable;
-    instruction->data.goal_moveable.type = data.type;
-    instruction->data.goal_moveable.moveable = moveable;
-    instruction->data.goal_moveable.goal_moveable = data.moveable;
-    instruction->data.goal_moveable.goal_coords = data.goal_point;
+    instruction->type = bbVInstruction_setGoalMovable;
+    instruction->data.goal_movable.type = data.type;
+    instruction->data.goal_movable.movable = movable;
+    instruction->data.goal_movable.goal_movable = data.movable;
+    instruction->data.goal_movable.goal_coords = data.goal_point;
 
     instruction->act_time = time;
     bbList_pushL(&core->do_stack, instruction);
@@ -346,12 +346,12 @@ bbFlag bbCoreInput_setGoalpointIn(bbCore* core, bbMapCoords MC, U64 time,U8 play
 }
 
 
-bbFlag bbCoreInput_updateMoveables(bbCore* core,
+bbFlag bbCoreInput_updateMovables(bbCore* core,
                                   bbInstruction_source source, bbHandle action)
 {
     bbInstruction* instruction;
     bbList_alloc(&core->do_stack, (void**) &instruction);
-    instruction->type = bbVInstruction_updateMoveables;
+    instruction->type = bbVInstruction_updateMovables;
     instruction->source = source;
     instruction->redo_instruction = action;
     bbList_pushL(&core->do_stack, instruction);

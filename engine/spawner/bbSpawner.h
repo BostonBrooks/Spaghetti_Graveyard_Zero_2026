@@ -17,14 +17,14 @@ typedef bbFlag bbParseFunction (char* string);
 typedef bbFlag bbSpawnFunction (...);
 
 ///Used to spawn an entity during gameplay. does not care about keeping the core synchronised;
-///calls the function bbUI_Inbox_NewUnit(&home.UI.inbox, 0, MC, entity_index, moveable_index);
-typedef bbFlag bbEntity_new(bbAgent** agent, I32 type_index, bbMapCoords MC,bbMapCoords goal_coords, I32 moveable_index, I32 entity_index);
+///calls the function bbUI_Inbox_NewUnit(&home.UI.inbox, 0, MC, entity_index, movable_index);
+typedef bbFlag bbEntity_new(bbAgent** agent, I32 type_index, bbMapCoords MC,bbMapCoords goal_coords, I32 movable_index, I32 entity_index);
 
-///This function is called by bbUI_Inbox_NewUnit(&home.UI.inbox, 0, MC, entity_index, moveable_index);
-typedef bbFlag bbUIUnit_new( bbMapCoords MC, I32 moveable_index, I32 entity_index);
+///This function is called by bbUI_Inbox_NewUnit(&home.UI.inbox, 0, MC, entity_index, movable_index);
+typedef bbFlag bbUIUnit_new( bbMapCoords MC, I32 movable_index, I32 entity_index);
 
-//bbFlag bbUI_Inbox_NewUnit(bbUI_Inbox* inbox, I32 type_index, bbMapCoords MC, I32 entity_index, I32 moveable_index);
-bbFlag bbUIUnit_newUnit(I32 type_index, bbMapCoords MC, I32 moveable_index, I32 entity_index);
+//bbFlag bbUI_Inbox_NewUnit(bbUI_Inbox* inbox, I32 type_index, bbMapCoords MC, I32 entity_index, I32 movable_index);
+bbFlag bbUIUnit_newUnit(I32 type_index, bbMapCoords MC, I32 movable_index, I32 entity_index);
 
 typedef struct
 {
@@ -69,6 +69,6 @@ bbFlag bbSpawner_getGraphics(bbSpawner* spawner,
 
 bbFlag bbSpawner_spawnCore(bbSpawner* spawner, char* file_name);
 bbFlag bbSpawner_spawnGraphics(bbSpawner* spawner, char* file_name);
-bbFlag bbSpawner_spawnEntity(bbSpawner* spawner, bbAgent** agent, bbMapCoords MC, I32 moveable_index, I32 entity_index, char* key);
-bbFlag bbSpawner_spawnEntityI(bbSpawner* spawner, bbAgent** agent, bbMapCoords MC,bbMapCoords goal_coords, I32 moveable_index, I32 entity_index, I32 type_index);
+bbFlag bbSpawner_spawnEntity(bbSpawner* spawner, bbAgent** agent, bbMapCoords MC, I32 movable_index, I32 entity_index, char* key);
+bbFlag bbSpawner_spawnEntityI(bbSpawner* spawner, bbAgent** agent, bbMapCoords MC,bbMapCoords goal_coords, I32 movable_index, I32 entity_index, I32 type_index);
 #endif //BB_SPAWNER_H

@@ -22,19 +22,19 @@ bbFlag bbCore_initVInstructions(bbCore* core)
     core->instruction_functions[bbVInstruction_unsetGoalpoint-bbInstruction_numTypes]
         = bbVInstruction_unsetGoalpoint_fn;
 
-    core->instruction_functions[bbVInstruction_updateMoveables-bbInstruction_numTypes]
-        = bbVInstruction_updateMoveables_fn;
+    core->instruction_functions[bbVInstruction_updateMovables-bbInstruction_numTypes]
+        = bbVInstruction_updateMovables_fn;
 
-    core->instruction_functions[bbVInstruction_unupdateMoveables-bbInstruction_numTypes]
-        = bbVInstruction_unupdateMoveables_fn;
-
-
-    core->instruction_functions[bbVInstruction_setGoalMoveable-bbInstruction_numTypes]
-        = bbVInstruction_setGoalMoveable_fn;
+    core->instruction_functions[bbVInstruction_unupdateMovables-bbInstruction_numTypes]
+        = bbVInstruction_unupdateMovables_fn;
 
 
-    core->instruction_functions[bbVInstruction_unsetGoalMoveable-bbInstruction_numTypes]
-        = bbVInstruction_unsetGoalMoveable_fn;
+    core->instruction_functions[bbVInstruction_setGoalMovable-bbInstruction_numTypes]
+        = bbVInstruction_setGoalMovable_fn;
+
+
+    core->instruction_functions[bbVInstruction_unsetGoalMovable-bbInstruction_numTypes]
+        = bbVInstruction_unsetGoalMovable_fn;
 
     core->instruction_functions[bbVInstruction_updateAgentSquare-bbInstruction_numTypes]
         = bbVInstruction_updateAgentSquare_fn;

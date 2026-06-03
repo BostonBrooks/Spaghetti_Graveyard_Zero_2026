@@ -98,7 +98,7 @@ bbInstruction_source source, bbHandle action)
 }
 
 bbFlag bbCoreInput_spawnUnitIn(bbCore* core, bbMapCoords MC,bbMapCoords goalcoords,I32 type_index, I32 entity_index,
-    I32 moveable_index, U64 time, bbInstruction_source source, bbHandle action)
+    I32 movable_index, U64 time, bbInstruction_source source, bbHandle action)
 {
     bbInstruction* instruction;
     bbList_alloc(&core->do_stack, (void**) &instruction);
@@ -106,7 +106,7 @@ bbFlag bbCoreInput_spawnUnitIn(bbCore* core, bbMapCoords MC,bbMapCoords goalcoor
     instruction->data.spawn_unit.position = MC;
     instruction->data.spawn_unit.goal_point = goalcoords;
     instruction->data.spawn_unit.entity = entity_index;
-    instruction->data.spawn_unit.moveable = moveable_index;
+    instruction->data.spawn_unit.movable = movable_index;
     instruction->data.spawn_unit.type =  type_index;
     instruction->act_time = time;
     bbList_pushL(&core->do_stack, instruction);

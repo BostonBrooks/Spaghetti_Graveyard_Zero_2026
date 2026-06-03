@@ -1,6 +1,6 @@
 #include "engine/entities/bbAgents.h"
 
-#include "engine/entities/bbMoveables.h"
+#include "engine/entities/bbMovables.h"
 #include "engine/data/bbConstants.h"
 #include "engine/data/bbHome.h"
 #include "engine/logic/bbBloatedPool.h"
@@ -64,19 +64,19 @@ bbFlag bbAgent_newSkelly(bbAgents* agents, bbMapCoords position)
 
     self->ftable.update = bbAgentFunctions_getInt(&home.agents_app.functions, AgentUpdate,"UPDATE_SKELLY");
 
-    self->moveable = bbMoveables_newSkelly(&home.agents_app.movables, position, handle);
+    self->movable = bbMovables_newSkelly(&home.agents_app.movables, position, handle);
 
-    bbMoveable* moveable = &home.agents_app.movables.moveables[self->moveable];
+    bbMovable* movable = &home.agents_app.movables.movables[self->movable];
 
-    bbUI_Inbox_NewSkelly(&home.UI.inbox, position, self->moveable);
+    bbUI_Inbox_NewSkelly(&home.UI.inbox, position, self->movable);
 
 
-    moveable->position = position;
-    moveable->goalpoint = position;
+    movable->position = position;
+    movable->goalpoint = position;
 
-    moveable->coords_a = bbMapCoords_getMilliCoords(moveable->position);
-    moveable->coords_b = bbMapCoords_getMilliCoords(moveable->position);
-    moveable->type = bbMoveableType_Idle;
+    movable->coords_a = bbMapCoords_getMilliCoords(movable->position);
+    movable->coords_b = bbMapCoords_getMilliCoords(movable->position);
+    movable->type = bbMovableType_Idle;
 
     bbSquareCoords square_coords = bbMapCoords_getSquareCoords(position);
     self->square_coords = square_coords;
@@ -90,7 +90,7 @@ bbFlag bbAgent_newSkelly(bbAgents* agents, bbMapCoords position)
 }*/
 
 bbFlag bbAgent_newBanana(bbAgents* agents,bbAgent** self, bbMapCoords position,
-    I32 entity_index, I32 moveable_index)
+    I32 entity_index, I32 movable_index)
 {
 
     bbMapCoords MC = position;
@@ -98,7 +98,7 @@ bbFlag bbAgent_newBanana(bbAgents* agents,bbAgent** self, bbMapCoords position,
 
     bbDebug("spawn banana i = %d, j = %d, k = %d\n", MC.i, MC.j, MC.k);
 
-    I32 index = moveable_index;
+    I32 index = movable_index;
     //char key[KEY_LENGTH];
     //sscanf(string, "%[^','],%d,%d,%d", key, &MC.i, &MC.j,&index);
 
@@ -113,7 +113,7 @@ bbFlag bbAgent_newBanana(bbAgents* agents,bbAgent** self, bbMapCoords position,
 
     agent->square_list.prev = agents->pool->null;
     agent->square_list.next = agents->pool->null;
-    agent->moveable = index;
+    agent->movable = index;
     agent->ftable.update = bbAgentFunctions_getInt(&home.agents_app.functions, AgentUpdate,"UPDATE_SKELLY");
     agent->ftable.command = -1;
 
@@ -121,19 +121,19 @@ bbFlag bbAgent_newBanana(bbAgents* agents,bbAgent** self, bbMapCoords position,
     bbHandle agent_handle;
     bbVPool_reverseLookup(home.agents_app.agents->pool,agent,&agent_handle);
 
-    bbMoveable* moveable = &home.agents_app.movables.moveables[index];
+    bbMovable* movable = &home.agents_app.movables.movables[index];
 
     agent->state = bbAgentState_Idle;
     home.agents_app.movables.available = index+1;
 
-    moveable->type = bbMoveableType_Idle;
-    moveable->position = MC;
-    moveable->goalpoint = MC;
-    moveable->goalpoint.i +=5000;
-    moveable->coords_a = bbMapCoords_getMilliCoords(MC);
-    moveable->coords_b = bbMapCoords_getMilliCoords(MC);
-    moveable->goal_moveable = 0;
-    moveable->agent2 = agent_handle;
+    movable->type = bbMovableType_Idle;
+    movable->position = MC;
+    movable->goalpoint = MC;
+    movable->goalpoint.i +=5000;
+    movable->coords_a = bbMapCoords_getMilliCoords(MC);
+    movable->coords_b = bbMapCoords_getMilliCoords(MC);
+    movable->goal_movable = 0;
+    movable->agent2 = agent_handle;
 
     bbSquareCoords square_coords = bbMapCoords_getSquareCoords(MC);
     agent->square_coords = square_coords;
@@ -146,11 +146,11 @@ bbFlag bbAgent_newBanana(bbAgents* agents,bbAgent** self, bbMapCoords position,
     home.agents_app.entities.available = entity_index+1;
     home.agents_app.entities.entity[agent->entity].agent = agent_handle;
 
-    home.agents_app.entities.entity[agent->entity].moveable.u64 = index;
+    home.agents_app.entities.entity[agent->entity].movable.u64 = index;
 
 
 
-    bbUI_Inbox_NewBanana(&home.UI.inbox, MC, entity_index, moveable_index);
+    bbUI_Inbox_NewBanana(&home.UI.inbox, MC, entity_index, movable_index);
 
     *self = agent;
     return bbSuccess;
@@ -172,17 +172,17 @@ bbFlag bbAgent_deleteBanana(bbAgents* agents,bbAgent* agent)
     bbEntity* entity = &home.agents_app.entities.entity[agent->entity];
 
     bbHandle null_agent;
-    bbHandle null_moveable;
+    bbHandle null_movable;
 
     null_agent = home.agents_app.agents->pool->null;
-    null_moveable.u64 = UINT64_MAX;
+    null_movable.u64 = UINT64_MAX;
 
     entity->agent = null_agent;
-    entity->moveable = null_moveable;
+    entity->movable = null_movable;
 
 
-    bbMoveable* moveable = &home.agents_app.movables.moveables[agent->moveable];
-    moveable->type = bbMoveableType_Unused;
+    bbMovable* movable = &home.agents_app.movables.movables[agent->movable];
+    movable->type = bbMovableType_Unused;
 
 
 
@@ -191,7 +191,7 @@ bbFlag bbAgent_deleteBanana(bbAgents* agents,bbAgent* agent)
 
 
     //delete banana
-    //delete moveable
+    //delete movable
     //delete entity
     //message UI_inbox to delete unit
 

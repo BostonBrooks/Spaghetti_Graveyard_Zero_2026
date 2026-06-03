@@ -5,15 +5,15 @@ bbFlag bbEntities_init_core(bbEntities* entities)
 {
     entities->available = 0;
     bbHandle null_agent;
-    bbHandle null_moveable;
+    bbHandle null_movable;
 
     null_agent = home.agents_app.agents->pool->null;
-    null_moveable.u64 = UINT64_MAX;
+    null_movable.u64 = UINT64_MAX;
 
     for (I32 i = 0; i < NUM_ENTITIES; i++)
     {
         entities->entity[i].agent = null_agent;
-        entities->entity[i].moveable = null_moveable;
+        entities->entity[i].movable = null_movable;
     }
     return bbSuccess;
 }

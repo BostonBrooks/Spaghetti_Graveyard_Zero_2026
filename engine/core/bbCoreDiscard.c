@@ -40,9 +40,9 @@ bbFlag bbCoreDiscard(bbCore* core, U64 time)
 
         }
 
-        //if (undo_instruction->type == bbInstruction_unupdateMoveables)
+        //if (undo_instruction->type == bbInstruction_unupdateMovables)
         //{
-        //    bbMoveables_snapshot* snapshot;
+        //    bbMovables_snapshot* snapshot;
        //     bbVPool_lookup(home.agents_app.movables.snapshots, (void**)&snapshot, undo_instruction->snapshot);
         //    bbVPool_free(home.agents_app.movables.snapshots, snapshot);
         //}

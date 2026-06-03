@@ -2,7 +2,7 @@
 #define BB_AVOIDABLES_H
 
 
-#include "bbMoveables.h"
+#include "bbMovables.h"
 #include "engine/geometry/bbCoordinates.h"
 #include "engine/logic/bbHandle.h"
 #include "engine/logic/bbList.h"
@@ -40,7 +40,7 @@ typedef struct
 bbFlag bbAvoidables_new(bbAvoidables** self, I32 squares_i, I32 squares_j);
 bbFlag bbAvoidable_newCircle(bbAvoidables* avoidables, bbMapCoords MC, I32 radius);
 
-bbMilliCoords bbAvoidables_sumForces (bbAvoidables* avoidables, bbMoveable* moveable);
+bbMilliCoords bbAvoidables_sumForces (bbAvoidables* avoidables, bbMovable* movable);
 
 
 #endif // BB_AVOIDABLES_H

@@ -1,6 +1,6 @@
 
 
-bbFlag bbAgent_newSkellyx(bbAgent** self, bbMapCoords MC, I32 moveable_index, I32 entity_index)
+bbFlag bbAgent_newSkellyx(bbAgent** self, bbMapCoords MC, I32 movable_index, I32 entity_index)
 {
 
 
@@ -12,12 +12,12 @@ bbFlag bbAgent_newSkellyx(bbAgent** self, bbMapCoords MC, I32 moveable_index, I3
     bbList_alloc(&agents->full_list, (void**)&agent);
     agent->square_list.prev = agents->pool->null;
     agent->square_list.next = agents->pool->null;
-    agent->moveable = moveable_index;
+    agent->movable = movable_index;
     agent->ftable.update = bbAgentFunctions_getInt(&home.agents_app.functions,
                              AgentUpdate, "UPDATE_SKELLY");
     agent->ftable.command = bbAgentFunctions_getInt(&home.agents_app.functions,
                              AgentCommand, "COMMAND_SKELLY");;
-    bbMoveable* moveable = &home.agents_app.movables.moveables[moveable_index];
+    bbMovable* movable = &home.agents_app.movables.movables[movable_index];
 
     agent->state = bbAgentState_Idle;
 
@@ -25,16 +25,16 @@ bbFlag bbAgent_newSkellyx(bbAgent** self, bbMapCoords MC, I32 moveable_index, I3
     agent->max_health = 1024;
     agent->state = bbAgentState_Idle;
 
-    moveable->type = bbMoveableType_Idle;
-    moveable->position = MC;
-    moveable->goalpoint = MC;
+    movable->type = bbMovableType_Idle;
+    movable->position = MC;
+    movable->goalpoint = MC;
 
-    moveable->coords_a = bbMapCoords_getMilliCoords(moveable->position);
-    moveable->coords_b = bbMapCoords_getMilliCoords(moveable->position);
+    movable->coords_a = bbMapCoords_getMilliCoords(movable->position);
+    movable->coords_b = bbMapCoords_getMilliCoords(movable->position);
 
-    moveable->goal_moveable = moveable_index%8;
+    movable->goal_movable = movable_index%8;
 
-    moveable->speed = 4000;
+    movable->speed = 4000;
 
     bbSquareCoords square_coords = bbMapCoords_getSquareCoords(MC);
     agent->square_coords = square_coords;
@@ -48,14 +48,14 @@ bbFlag bbAgent_newSkellyx(bbAgent** self, bbMapCoords MC, I32 moveable_index, I3
     agent->entity = entity_index;
     home.agents_app.entities.entity[agent->entity].agent = agent_handle;
 
-    home.agents_app.entities.entity[agent->entity].moveable.u64 = moveable_index;
+    home.agents_app.entities.entity[agent->entity].movable.u64 = movable_index;
 
 
     *self = agent;
 
     return bbSuccess;
 }
-bbFlag bbUnit_newSkellyx(bbUnit** self, bbMapCoords MC,bbMapCoords goalpoint, I32 moveable_index, I32 entity_index)
+bbFlag bbUnit_newSkellyx(bbUnit** self, bbMapCoords MC,bbMapCoords goalpoint, I32 movable_index, I32 entity_index)
 {
 
     bbVPool* pool = home.viewport_app.units->pool;
@@ -128,55 +128,55 @@ bbFlag bbUnit_newSkellyx(bbUnit** self, bbMapCoords MC,bbMapCoords goalpoint, I3
         unit->drawable.frames[k].drawfunction = -1;
     }
 
-    home.agents_app.entities.moveable_units[moveable_index] = unit_handle;
+    home.agents_app.entities.movable_units[movable_index] = unit_handle;
     home.agents_app.entities.entity[entity_index].unit = unit_handle;
     bbList_sortL(&unitSquare->list, unit);
     *self = unit;
     return bbSuccess;
 }
 
-bbFlag bbSF_skellyGraphics(I32 i_coord, I32 j_coord, I32 moveable_index, I32 entity_index)
+bbFlag bbSF_skellyGraphics(I32 i_coord, I32 j_coord, I32 movable_index, I32 entity_index)
 {
-   // bbDebug("i_coord = %d, j_coord = %d, moveable_index = %d, entity_index = %d\n",
-   //     i_coord, j_coord, moveable_index, entity_index);
+   // bbDebug("i_coord = %d, j_coord = %d, movable_index = %d, entity_index = %d\n",
+   //     i_coord, j_coord, movable_index, entity_index);
     bbMapCoords MC;
     MC.i = i_coord;
     MC.j = j_coord;
     MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
     bbUnit* unit;
-    bbUnit_newSkellyx(&unit, MC, MC,moveable_index, entity_index);
+    bbUnit_newSkellyx(&unit, MC, MC,movable_index, entity_index);
     return bbSuccess;
 }
 
 
 
-bbFlag bbSF_skellyCore(I32 i_coord, I32 j_coord, I32 moveable_index, I32 entity_index)
+bbFlag bbSF_skellyCore(I32 i_coord, I32 j_coord, I32 movable_index, I32 entity_index)
 {
     bbMapCoords MC;
     MC.i = i_coord;
     MC.j = j_coord;
     MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
     bbAgent* agent;
-    bbAgent_newSkellyx(&agent, MC, moveable_index, entity_index);
+    bbAgent_newSkellyx(&agent, MC, movable_index, entity_index);
 }
 
 ///Spawn skelly during gameplay, doesn't care about syncing the core
 
-bbFlag bbEntity_newSkelly(bbAgent** agent, I32 type_index, bbMapCoords MC,bbMapCoords MC2, I32 moveable_index, I32 entity_index)
+bbFlag bbEntity_newSkelly(bbAgent** agent, I32 type_index, bbMapCoords MC,bbMapCoords MC2, I32 movable_index, I32 entity_index)
 {
     bbAgent* agent1;
-    bbAgent_newSkellyx(&agent1, MC, moveable_index, entity_index);
-    bbUI_Inbox_NewUnit(&home.UI.inbox, type_index, MC, entity_index, moveable_index);
+    bbAgent_newSkellyx(&agent1, MC, movable_index, entity_index);
+    bbUI_Inbox_NewUnit(&home.UI.inbox, type_index, MC, entity_index, movable_index);
     *agent = agent1;
 
     bbAssert(agent1!=NULL, "bad spawn function\n");
     return bbSuccess;
 }
 
-bbFlag bbUIUnit_newSkelly( bbMapCoords MC, I32 moveable_index, I32 entity_index)
+bbFlag bbUIUnit_newSkelly( bbMapCoords MC, I32 movable_index, I32 entity_index)
 {
     bbUnit* unit;
-    bbUnit_newSkellyx(&unit,MC,MC, moveable_index, entity_index);
+    bbUnit_newSkellyx(&unit,MC,MC, movable_index, entity_index);
 
     return bbSuccess;
 }

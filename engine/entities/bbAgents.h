@@ -1,13 +1,13 @@
 /**
     A Unit is something that moves around the map on the graphics thread.
-    Moveables calculate the movement of units.
+    Movables calculate the movement of units.
     Agents control the behaviour of units at a higher level.
 
     Agents are either frozen or taking some action which is given by the state.
     Different types of agent will behave differently given the same state.
 
     Agents are part of the core and must be rewindable. We will use snapshots
-    of the state of all agents, as we do with moveables.
+    of the state of all agents, as we do with movables.
 
     Each agent should have a link to per-type data that stays constant and does
     not have to be screenshotted. (the link itself can be screenshotted)
@@ -46,7 +46,7 @@ typedef struct
 {
     bbListElement_Handle full_list;
     bbListElement_Handle square_list;
-    I32 moveable;
+    I32 movable;
     I32 entity;
     bbSquareCoords square_coords;
     bbAgent_state state;
@@ -81,7 +81,7 @@ bbFlag bbAgents_new(bbAgents** agents, I32 squares_i, I32 squares_j);
 bbAgents_square* bbAgents_getSquare(bbAgents* agents, I32 i, I32 j);
 
 bbFlag bbAgent_newBanana(bbAgents* agents,bbAgent** self, bbMapCoords position,
-    I32 entity_index, I32 moveable_index);
+    I32 entity_index, I32 movable_index);
 
 bbFlag bbAgent_deleteBanana(bbAgents* agents,bbAgent* agent);
 #endif //BB_AGENT2_H

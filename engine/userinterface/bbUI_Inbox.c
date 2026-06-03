@@ -190,13 +190,13 @@ bbFlag bbUI_Inbox_SetViewpoint(bbUI_Inbox* inbox, bbMapCoords MC)
     return bbSuccess;
 }
 
-bbFlag bbUI_Inbox_NewSkelly(bbUI_Inbox* inbox, bbMapCoords coords, I32 moveable)
+bbFlag bbUI_Inbox_NewSkelly(bbUI_Inbox* inbox, bbMapCoords coords, I32 movable)
 {
     bbUI_Inbox_message* message;
     bbThreadedQueue_alloc(&inbox->local_message_queue,(void**)&message);
     message->type = bbUI_Inbox_newSkelly;
     message->data.coords = coords;
-    message->data.handle.handle.u64 = moveable;
+    message->data.handle.handle.u64 = movable;
     bbThreadedQueue_pushL(&inbox->local_message_queue, (void*)message);
     return bbSuccess;
 }
@@ -235,26 +235,26 @@ bbFlag bbUI_Inbox_setUnitState_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message
 }
 
 
-bbFlag bbUI_Inbox_NewBanana(bbUI_Inbox* inbox, bbMapCoords MC, I32 entity_index, I32 moveable_index)
+bbFlag bbUI_Inbox_NewBanana(bbUI_Inbox* inbox, bbMapCoords MC, I32 entity_index, I32 movable_index)
 {
     bbUI_Inbox_message* message;
     bbThreadedQueue_alloc(&inbox->local_message_queue,(void**)&message);
     message->type = bbUI_Inbox_newBanana;
     message->data.coords = MC;
     message->data.integer = entity_index;
-    message->data.integer2 = moveable_index;
+    message->data.integer2 = movable_index;
 
     bbThreadedQueue_pushL(&inbox->local_message_queue, (void*)message);
     return bbSuccess;
 }
 
-bbFlag bbUI_Inbox_DeleteUnit(bbUI_Inbox* inbox, I32 entity_index, I32 moveable_index)
+bbFlag bbUI_Inbox_DeleteUnit(bbUI_Inbox* inbox, I32 entity_index, I32 movable_index)
 {
     bbUI_Inbox_message* message;
     bbThreadedQueue_alloc(&inbox->local_message_queue,(void**)&message);
     message->type = bbUI_Inbox_deleteUnit;
     message->data.integer = entity_index;
-    message->data.integer2 = moveable_index;
+    message->data.integer2 = movable_index;
 
     bbThreadedQueue_pushL(&inbox->local_message_queue, (void*)message);
     return bbSuccess;
@@ -279,7 +279,7 @@ bbFlag bbUI_Inbox_newBanana_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
     bbMapCoords MC = message->data.coords;
 
     I32 entity_index = message->data.integer;
-    I32 moveable_index = message->data.integer2;
+    I32 movable_index = message->data.integer2;
 
     //char key[KEY_LENGTH];
     //sscanf(string, "%[^','],%d,%d,%d", key, &MC.i, &MC.j,&index);
@@ -352,7 +352,7 @@ bbFlag bbUI_Inbox_newBanana_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
             unit->drawable.frames[k].drawfunction = -1;
         }
 
-        home.agents_app.entities.moveable_units[moveable_index] = unit_handle;
+        home.agents_app.entities.movable_units[movable_index] = unit_handle;
 
         bbList_sortL(&unitSquare->list, unit);
 
@@ -366,7 +366,7 @@ bbFlag bbUI_Inbox_newBanana_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
 bbFlag bbUI_Inbox_deleteUnit_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
 {
     I32 entity_index = message->data.integer;
-    I32 moveable_index = message->data.integer2;
+    I32 movable_index = message->data.integer2;
 
     bbHandle unit_handle = home.agents_app.entities.entity[entity_index].unit;
 
@@ -385,7 +385,7 @@ bbFlag bbUI_Inbox_deleteUnit_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
         = home.viewport_app.units->pool->null;
 
 
-    home.agents_app.entities.moveable_units[moveable_index]
+    home.agents_app.entities.movable_units[movable_index]
         = home.viewport_app.units->pool->null;
 
 
@@ -433,7 +433,7 @@ bbFlag bbUI_Inbox_setUnitHP_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
 
 }
 
-bbFlag bbUI_Inbox_NewUnit(bbUI_Inbox* inbox, I32 type_index, bbMapCoords MC, I32 entity_index, I32 moveable_index)
+bbFlag bbUI_Inbox_NewUnit(bbUI_Inbox* inbox, I32 type_index, bbMapCoords MC, I32 entity_index, I32 movable_index)
 {
     {
         bbUI_Inbox_message* message;
@@ -441,7 +441,7 @@ bbFlag bbUI_Inbox_NewUnit(bbUI_Inbox* inbox, I32 type_index, bbMapCoords MC, I32
         message->type = bbUI_Inbox_newUnit;
         message->data.coords = MC;
         message->data.integer = entity_index;
-        message->data.integer2 = moveable_index;
+        message->data.integer2 = movable_index;
         message->data.integer3 = type_index;
 
         bbThreadedQueue_pushL(&inbox->local_message_queue, (void*)message);

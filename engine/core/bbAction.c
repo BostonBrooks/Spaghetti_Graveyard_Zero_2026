@@ -187,7 +187,7 @@ bbFlag bbAction_setGoalpoint(void* Core,
 bbFlag bbAction_spawnBanana(void* Core,
                             bbMapCoords map_coords,
                             I32 entity_index,
-                            I32 moveable_index,
+                            I32 movable_index,
                             U32 collision,
                             U64 created_tick,
                             U64 act_tick,
@@ -203,7 +203,7 @@ bbFlag bbAction_spawnBanana(void* Core,
     action->header.act_tick = act_tick;
     action->map_coords = map_coords;
     action->integer = entity_index;
-    action->integer2 = moveable_index;
+    action->integer2 = movable_index;
     action->header.player = player;
     bbList_sortL(&core->action_queue,(void*)action);
 
@@ -215,7 +215,7 @@ bbFlag bbAction_spawnUnit(void* Core,
                             bbMapCoords goalpoint,
                             I32 unit_type,
                             I32 entity_index,
-                            I32 moveable_index,
+                            I32 movable_index,
                             U32 collision,
                             U64 created_tick,
                             U64 act_tick,
@@ -233,7 +233,7 @@ bbFlag bbAction_spawnUnit(void* Core,
     action->map_coords = map_coords;
     action->goal_coords = goalpoint;
     action->integer = entity_index;
-    action->integer2 = moveable_index;
+    action->integer2 = movable_index;
     action->integer3 = unit_type;
     action->header.player = player;
     bbList_sortL(&core->action_queue,(void*)action);

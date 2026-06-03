@@ -120,9 +120,9 @@ bbFlag bbCore_react(bbCore* core)
 //                bbInstruction_approachGoalpoint_fn(core, instruction);
 //                break;
 
-            //case bbInstruction_updateMoveables:
+            //case bbInstruction_updateMovables:
 
-            //    bbInstruction_updateMoveables_fn(core, instruction);
+            //    bbInstruction_updateMovables_fn(core, instruction);
             //    break;
 #endif
 
@@ -200,9 +200,9 @@ bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
             //    bbInstruction_unapproachGoalpoint_fn(core, instruction);
             //    break;
 
-            //case bbInstruction_unupdateMoveables:
+            //case bbInstruction_unupdateMovables:
             //    bbHere()
-            //    bbInstruction_unupdateMoveables_fn(core, instruction);
+            //    bbInstruction_unupdateMovables_fn(core, instruction);
             //    break;
 #endif
 

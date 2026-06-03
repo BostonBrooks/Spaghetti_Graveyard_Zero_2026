@@ -2,14 +2,14 @@
 #define BB_ENTITIES_H
 
 #define  NUM_ENTITIES 1024
-#include "bbMoveables.h"
+#include "bbMovables.h"
 #include "engine/logic/bbFlag.h"
 #include "engine/logic/bbHandle.h"
 
 typedef struct
 {
     bbHandle agent;
-    bbHandle moveable;
+    bbHandle movable;
     bbHandle unit;
 }bbEntity;
 
@@ -19,8 +19,8 @@ typedef struct
     I32 num_entities_graphics;
     bbEntity entity[NUM_ENTITIES];
 
-    ///Used so that moveables can send updates to units
-    bbHandle moveable_units[NUM_MOVEABLES];
+    ///Used so that movables can send updates to units
+    bbHandle movable_units[NUM_MovableS];
 }bbEntities;
 
 bbFlag bbEntities_init_core(bbEntities* entities);

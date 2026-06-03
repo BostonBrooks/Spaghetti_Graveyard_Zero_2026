@@ -6,7 +6,7 @@
 #include "engine/data/bbConstants.h"
 #include "engine/geometry/bbCoordinates.h"
 #include "engine/logic/bbHandle.h"
-#include "engine/entities/bbMoveables.h"
+#include "engine/entities/bbMovables.h"
 
 typedef enum
 {
@@ -55,8 +55,8 @@ typedef enum
     //bbInstruction_unapproachGoalpoint,
 
 
-    //bbInstruction_updateMoveables,
-    //bbInstruction_unupdateMoveables,
+    //bbInstruction_updateMovables,
+    //bbInstruction_unupdateMovables,
 
     bbInstruction_numTypes
 } bbInstruction_type;
@@ -124,7 +124,7 @@ typedef struct
     bbMapCoords position;
     bbMapCoords goal_point;
     I32 entity;
-    I32 moveable;
+    I32 movable;
 } bbInstructionsData_spawnUnit;
 
 typedef struct
@@ -137,18 +137,18 @@ typedef struct
 typedef struct
 {
     I32 entities_available;
-    I32 moveables_available;
+    I32 movables_available;
     I32 entity_int;
     I32 movable_int;
 } bbInstructionsData_unspawnAgent;
 
 typedef struct
 {
-    bbMoveable_type type;
-    I32 moveable;
-    I32 goal_moveable;
+    bbMovable_type type;
+    I32 movable;
+    I32 goal_movable;
     bbMapCoords goal_coords;
-} bbInstructionsData_goalMoveable;
+} bbInstructionsData_goalMovable;
 
 typedef union
 {
@@ -156,7 +156,7 @@ typedef union
     U64 u64;
     bbMapCoords map_coords;
     bbInstructionsData_goalPoint goal_point;
-    bbInstructionsData_goalMoveable goal_moveable;
+    bbInstructionsData_goalMovable goal_movable;
     bbInstructionsData_mapClick map_click;
     bbInstructionsData_agentSquare agent_square;
     bbInstructionsData_agentMapCoords agent_MC;
@@ -231,8 +231,8 @@ bbFlag bbInstruction_approachGoalpoint_fn(bbCore* core, bbInstruction* instructi
 bbFlag bbInstruction_unapproachGoalpoint_fn(bbCore* core, bbInstruction* instruction);
 
 
-bbFlag bbInstruction_updateMoveables_fn(bbCore* core, bbInstruction* instruction);
-bbFlag bbInstruction_unupdateMoveables_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbInstruction_updateMovables_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbInstruction_unupdateMovables_fn(bbCore* core, bbInstruction* instruction);
 
 bbFlag bbInstruction_spawnBananaOut_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_spawnBananaIn_fn(bbCore* core, bbInstruction* instruction);

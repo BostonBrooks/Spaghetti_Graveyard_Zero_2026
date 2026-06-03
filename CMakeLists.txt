@@ -268,7 +268,7 @@ target_include_directories(Test_Threaded_Queue  PRIVATE "./")
 
 add_executable(SkellyChase test/bbTest_SkellyChase.c
         engine/entities/bbAgentFunctions.c
-        engine/entities/bbMoveables.c
+        engine/entities/bbMovables.c
         engine/entities/bbAvoidables.c
         engine/entities/bbAgents.c
         engine/entities/bbEntities.c

@@ -12,8 +12,8 @@
 #include "games/game0/maps/skellychase/spawner/fireball.h"
 
 //typedef bbFlag bbSpawnFunction (char* string);
-//(MC.i, MC.j, moveable_index, entity_index);
-bbFlag bbSF_null(I32 i_coord, I32 j_coord, I32 moveable_index, I32 entity_index)
+//(MC.i, MC.j, movable_index, entity_index);
+bbFlag bbSF_null(I32 i_coord, I32 j_coord, I32 movable_index, I32 entity_index)
 {
     bbDebug("NULL Spawn Function\n");
     return bbSuccess;
@@ -93,22 +93,22 @@ bbFlag bbPF_skeletonCore(char* string)
     MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
 
 
-    bbMoveable* moveable = &home.agents_app.movables.moveables[index];
+    bbMovable* movable = &home.agents_app.movables.movables[index];
 
     home.agents_app.movables.available = index+1;
 
-    moveable->type = bbMoveableType_Follow;
-    moveable->position = MC;
-    moveable->goalpoint = MC;
+    movable->type = bbMovableType_Follow;
+    movable->position = MC;
+    movable->goalpoint = MC;
 
-    moveable->speed = 4000;
-    moveable->coords_a = bbMapCoords_getMilliCoords(moveable->position);
-    moveable->coords_b = bbMapCoords_getMilliCoords(moveable->position);
+    movable->speed = 4000;
+    movable->coords_a = bbMapCoords_getMilliCoords(movable->position);
+    movable->coords_b = bbMapCoords_getMilliCoords(movable->position);
 
-    moveable->goal_moveable = index%8;
+    movable->goal_movable = index%8;
 
 
-    bbDebug("SKELETON, moveable = %d, entity = %d\n", index,0);
+    bbDebug("SKELETON, movable = %d, entity = %d\n", index,0);
 
     return bbSuccess;
 }
@@ -193,18 +193,18 @@ bbFlag bbPF_zombieCore(char* string)
 
 
 
-    bbMoveable* moveable = &home.agents_app.movables.moveables[index];
+    bbMovable* movable = &home.agents_app.movables.movables[index];
 
     home.agents_app.movables.available = index+1;
 
-    moveable->type = bbMoveableType_Player;
-    moveable->position = MC;
-    moveable->goalpoint = MC;
+    movable->type = bbMovableType_Player;
+    movable->position = MC;
+    movable->goalpoint = MC;
 
-    moveable->coords_a = bbMapCoords_getMilliCoords(moveable->position);
-    moveable->coords_b = bbMapCoords_getMilliCoords(moveable->position);
+    movable->coords_a = bbMapCoords_getMilliCoords(movable->position);
+    movable->coords_b = bbMapCoords_getMilliCoords(movable->position);
 
-    moveable->goal_moveable = -1;
+    movable->goal_movable = -1;
 
 
 
@@ -230,25 +230,25 @@ bbFlag bbPF_zombieCore(char* string)
 
     agent->square_list.prev = agents->pool->null;
     agent->square_list.next = agents->pool->null;
-    agent->moveable = index;
+    agent->movable = index;
     agent->ftable.update = -1;
     agent->ftable.command = bbAgentFunctions_getInt(&home.agents_app.functions,
                              AgentCommand, "COMMAND_PLAYER");
     agent->ftable.update = bbAgentFunctions_getInt(&home.agents_app.functions, AgentUpdate,"UPDATE_PLAYER");
 
-    bbMoveable* moveable = &home.agents_app.movables.moveables[index];
+    bbMovable* movable = &home.agents_app.movables.movables[index];
 
     agent->state = bbAgentState_Idle;
     home.agents_app.movables.available = index+1;
 
-    moveable->type = bbMoveableType_Moving;
-    moveable->position = MC;
-    moveable->goalpoint = MC;
+    movable->type = bbMovableType_Moving;
+    movable->position = MC;
+    movable->goalpoint = MC;
 
-    moveable->coords_a = bbMapCoords_getMilliCoords(moveable->position);
-    moveable->coords_b = bbMapCoords_getMilliCoords(moveable->position);
+    movable->coords_a = bbMapCoords_getMilliCoords(movable->position);
+    movable->coords_b = bbMapCoords_getMilliCoords(movable->position);
 
-    moveable->goal_moveable = index%8;
+    movable->goal_movable = index%8;
 
 
     bbSquareCoords square_coords = bbMapCoords_getSquareCoords(MC);
@@ -263,13 +263,13 @@ bbFlag bbPF_zombieCore(char* string)
     agent->entity = home.agents_app.entities.available++;
     home.agents_app.entities.entity[agent->entity].agent = agent_handle;
 
-    home.agents_app.entities.entity[agent->entity].moveable.u64 = index;
+    home.agents_app.entities.entity[agent->entity].movable.u64 = index;
 
 
     home.agents_app.player_entity = agent->entity;
 
 
-    bbDebug("ZOMBIE, moveable = %d, entity = %d\n", index, agent->entity);
+    bbDebug("ZOMBIE, movable = %d, entity = %d\n", index, agent->entity);
 
     return bbSuccess;
 }
@@ -313,23 +313,23 @@ bbFlag bbPF_skellyCore(char* string)
     bbList_alloc(&agents->full_list, (void**)&agent);
     agent->square_list.prev = agents->pool->null;
     agent->square_list.next = agents->pool->null;
-    agent->moveable = index;
+    agent->movable = index;
     agent->ftable.update = bbAgentFunctions_getInt(&home.agents_app.functions,
                              AgentUpdate, "UPDATE_SKELLY");
     agent->ftable.command = -1;
-    bbMoveable* moveable = &home.agents_app.movables.moveables[index];
+    bbMovable* movable = &home.agents_app.movables.movables[index];
 
     agent->state = bbAgentState_Idle;
     home.agents_app.movables.available = index+1;
 
-    moveable->type = bbMoveableType_Idle;
-    moveable->position = MC;
-    moveable->goalpoint = MC;
+    movable->type = bbMovableType_Idle;
+    movable->position = MC;
+    movable->goalpoint = MC;
 
-    moveable->coords_a = bbMapCoords_getMilliCoords(moveable->position);
-    moveable->coords_b = bbMapCoords_getMilliCoords(moveable->position);
+    movable->coords_a = bbMapCoords_getMilliCoords(movable->position);
+    movable->coords_b = bbMapCoords_getMilliCoords(movable->position);
 
-    moveable->goal_moveable = index%8;
+    movable->goal_movable = index%8;
 
 
     bbSquareCoords square_coords = bbMapCoords_getSquareCoords(MC);
@@ -344,10 +344,10 @@ bbFlag bbPF_skellyCore(char* string)
     agent->entity = home.agents_app.entities.num_entities_core++;
     home.agents_app.entities.entity[agent->entity].agent = agent_handle;
 
-    home.agents_app.entities.entity[agent->entity].moveable.u64 = index;
+    home.agents_app.entities.entity[agent->entity].movable.u64 = index;
 
 
-    bbDebug("SKELLY, moveable = %d, entity = %d\n", index, agent->entity);
+    bbDebug("SKELLY, movable = %d, entity = %d\n", index, agent->entity);
 
     return bbSuccess;
 }
@@ -357,37 +357,37 @@ bbFlag bbPF_skellyCore(char* string)
 bbFlag bbPF_entityGraphics(char* string)
 {
     bbMapCoords MC;
-    I32 moveable_index;
+    I32 movable_index;
     I32 entity_index;
     char key[KEY_LENGTH];
     char entity_type[KEY_LENGTH];
     sscanf(string, "%[^','],%[^','],%d,%d,%d,%d",
-        key, entity_type, &MC.i, &MC.j,&moveable_index, &entity_index);
+        key, entity_type, &MC.i, &MC.j,&movable_index, &entity_index);
 
     bbHandle spawn_fn_handle;
     bbFlag flag = bbDictionary_lookup(home.spawner.spawn_dict,entity_type,&spawn_fn_handle);
     bbAssert(flag == bbSuccess, "bbSpawnFunction not found\n");
     bbSpawnFunction* function = home.spawner.spawn_graphics[spawn_fn_handle.u64];
 
-    return function(MC.i, MC.j, moveable_index, entity_index);
+    return function(MC.i, MC.j, movable_index, entity_index);
 }
 
 bbFlag bbPF_entityCore(char* string)
 {
     bbMapCoords MC;
-    I32 moveable_index;
+    I32 movable_index;
     I32 entity_index;
     char key[KEY_LENGTH];
     char entity_type[KEY_LENGTH];
     sscanf(string, "%[^','],%[^','],%d,%d,%d,%d",
-        key, entity_type, &MC.i, &MC.j,&moveable_index, &entity_index);
+        key, entity_type, &MC.i, &MC.j,&movable_index, &entity_index);
 
     bbHandle spawn_fn_handle;
     bbFlag flag = bbDictionary_lookup(home.spawner.spawn_dict,entity_type,&spawn_fn_handle);
     bbAssert(flag == bbSuccess, "bbSpawnFunction not found\n");
     bbSpawnFunction* function = home.spawner.spawn_core[spawn_fn_handle.u64];
 
-    return function(MC.i, MC.j, moveable_index, entity_index);
+    return function(MC.i, MC.j, movable_index, entity_index);
     return bbSuccess;
 }
 

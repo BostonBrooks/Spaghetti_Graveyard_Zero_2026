@@ -2,7 +2,7 @@
 
 #include <stdlib.h>
 
-bbFlag bbAgent_newBalloon(bbAgent** self, bbMapCoords MC,bbMapCoords goalpoint,  I32 moveable_index, I32 entity_index)
+bbFlag bbAgent_newBalloon(bbAgent** self, bbMapCoords MC,bbMapCoords goalpoint,  I32 movable_index, I32 entity_index)
 {
 
 
@@ -14,25 +14,25 @@ bbFlag bbAgent_newBalloon(bbAgent** self, bbMapCoords MC,bbMapCoords goalpoint, 
     bbList_alloc(&agents->full_list, (void**)&agent);
     agent->square_list.prev = agents->pool->null;
     agent->square_list.next = agents->pool->null;
-    agent->moveable = moveable_index;
+    agent->movable = movable_index;
     agent->ftable.update = -1;
     agent->ftable.command = -1;
-    bbMoveable* moveable = &home.agents_app.movables.moveables[moveable_index];
+    bbMovable* movable = &home.agents_app.movables.movables[movable_index];
 
     agent->state = bbAgentState_Idle;
-    home.agents_app.movables.available = moveable_index+1;
+    home.agents_app.movables.available = movable_index+1;
 
 
 
-    moveable->type = bbMoveableType_Moving;
-    moveable->position = MC;
-    moveable->goalpoint = goalpoint;
+    movable->type = bbMovableType_Moving;
+    movable->position = MC;
+    movable->goalpoint = goalpoint;
 
-    moveable->coords_a = bbMapCoords_getMilliCoords(moveable->position);
-    moveable->coords_b = bbMapCoords_getMilliCoords(moveable->position);
+    movable->coords_a = bbMapCoords_getMilliCoords(movable->position);
+    movable->coords_b = bbMapCoords_getMilliCoords(movable->position);
 
-    moveable->goal_moveable = moveable_index%8;
-    moveable->speed = 3000;
+    movable->goal_movable = movable_index%8;
+    movable->speed = 3000;
 
     bbSquareCoords square_coords = bbMapCoords_getSquareCoords(MC);
     agent->square_coords = square_coords;
@@ -47,13 +47,13 @@ bbFlag bbAgent_newBalloon(bbAgent** self, bbMapCoords MC,bbMapCoords goalpoint, 
         home.agents_app.entities.available = entity_index+1;
     home.agents_app.entities.entity[agent->entity].agent = agent_handle;
 
-    home.agents_app.entities.entity[agent->entity].moveable.u64 = moveable_index;
+    home.agents_app.entities.entity[agent->entity].movable.u64 = movable_index;
 
     *self = agent;
 
     return bbSuccess;
 }
-bbFlag bbUnit_newBalloon(bbUnit** self, bbMapCoords MC, I32 moveable_index, I32 entity_index)
+bbFlag bbUnit_newBalloon(bbUnit** self, bbMapCoords MC, I32 movable_index, I32 entity_index)
 {
 
     bbVPool* pool = home.viewport_app.units->pool;
@@ -103,58 +103,58 @@ bbFlag bbUnit_newBalloon(bbUnit** self, bbMapCoords MC, I32 moveable_index, I32 
         unit->drawable.frames[k].drawfunction = -1;
     }
 
-    home.agents_app.entities.moveable_units[moveable_index] = unit_handle;
+    home.agents_app.entities.movable_units[movable_index] = unit_handle;
     home.agents_app.entities.entity[entity_index].unit = unit_handle;
     bbList_sortL(&unitSquare->list, unit);
     *self = unit;
     return bbSuccess;
 }
 
-bbFlag bbSF_balloonGraphics(I32 i_coord, I32 j_coord, I32 moveable_index, I32 entity_index)
+bbFlag bbSF_balloonGraphics(I32 i_coord, I32 j_coord, I32 movable_index, I32 entity_index)
 {
-    //bbDebug("i_coord = %d, j_coord = %d, moveable_index = %d, entity_index = %d\n",
-    //    i_coord, j_coord, moveable_index, entity_index);
+    //bbDebug("i_coord = %d, j_coord = %d, movable_index = %d, entity_index = %d\n",
+    //    i_coord, j_coord, movable_index, entity_index);
     bbMapCoords MC;
     MC.i = i_coord;
     MC.j = j_coord;
     MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
     bbUnit* unit;
-    bbUnit_newBalloon(&unit, MC, moveable_index, entity_index);
+    bbUnit_newBalloon(&unit, MC, movable_index, entity_index);
     return bbSuccess;
 }
 
 
 
-bbFlag bbSF_balloonCore(I32 i_coord, I32 j_coord, I32 moveable_index, I32 entity_index)
+bbFlag bbSF_balloonCore(I32 i_coord, I32 j_coord, I32 movable_index, I32 entity_index)
 {
     bbMapCoords MC;
     MC.i = i_coord;
     MC.j = j_coord;
     MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
     bbAgent* agent;
-    bbAgent_newBalloon(&agent, MC,MC, moveable_index, entity_index);
+    bbAgent_newBalloon(&agent, MC,MC, movable_index, entity_index);
 }
 
 ///Spawn balloon during gameplay, doesn't care about syncing the core
 
-bbFlag bbEntity_newBalloon(bbAgent** agent, I32 type_index, bbMapCoords MC,bbMapCoords MC2, I32 moveable_index, I32 entity_index)
+bbFlag bbEntity_newBalloon(bbAgent** agent, I32 type_index, bbMapCoords MC,bbMapCoords MC2, I32 movable_index, I32 entity_index)
 {
     bbAgent* agent1;
-    bbAgent_newBalloon(&agent1, MC, MC2,moveable_index, entity_index);
+    bbAgent_newBalloon(&agent1, MC, MC2,movable_index, entity_index);
 
     bbDebug("goal.i = %d, goal.j = %d\nposition.i = %d, position.j = %d\n", MC2.i, MC2.j,MC.i, MC.j);
 
-    bbUI_Inbox_NewUnit(&home.UI.inbox, type_index, MC, entity_index, moveable_index);
+    bbUI_Inbox_NewUnit(&home.UI.inbox, type_index, MC, entity_index, movable_index);
     bbAssert(agent1!=NULL, "bad spawn function\n");
     bbDebug("agent = %p\n", agent1);
     *agent = agent1;
     return bbSuccess;
 }
 
-bbFlag bbUIUnit_newBalloon( bbMapCoords MC, I32 moveable_index, I32 entity_index)
+bbFlag bbUIUnit_newBalloon( bbMapCoords MC, I32 movable_index, I32 entity_index)
 {
     bbUnit* unit;
-    bbUnit_newBalloon(&unit,MC, moveable_index, entity_index);
+    bbUnit_newBalloon(&unit,MC, movable_index, entity_index);
 
     return bbSuccess;
 }

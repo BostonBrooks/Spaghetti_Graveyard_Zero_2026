@@ -104,7 +104,7 @@ bbFlag bbNetworkPacket_toStruct (sfPacket* packet, void* Struct)
        // bbDebug("goal.i = %d, goal.j = %d\n", struct1->data.unit.goalpoint.i, struct1->data.unit.goalpoint.j);
 
         struct1->data.unit.entity_index = sfPacket_readInt32(packet);
-        struct1->data.unit.moveable_index = sfPacket_readInt32(packet);
+        struct1->data.unit.movable_index = sfPacket_readInt32(packet);
         struct1->data.unit.type_index = sfPacket_readInt32(packet);
         break;
     case PACKETTYPE_SETSOCKETNUMBER:
@@ -218,7 +218,7 @@ bbFlag bbNetworkPacket_fromStruct (sfPacket* packet, void* Struct)
         //bbDebug("goal.i = %d, goal.j = %d\n", struct1->data.unit.goalpoint.i, struct1->data.unit.goalpoint.j);
 
         sfPacket_writeInt32(packet,struct1->data.unit.entity_index);
-        sfPacket_writeInt32(packet,struct1->data.unit.moveable_index);
+        sfPacket_writeInt32(packet,struct1->data.unit.movable_index);
         sfPacket_writeInt32(packet,struct1->data.unit.type_index);
         break;
     case PACKETTYPE_SETSOCKETNUMBER:

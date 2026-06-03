@@ -3,12 +3,12 @@
 #include "engine/entities/bbAgentFunctions.h"
 #include "engine/entities/bbAgents.h"
 #include "engine/entities/bbAvoidables.h"
-#include "engine/entities/bbMoveables.h"
+#include "engine/entities/bbMovables.h"
 
 
 typedef struct
 {
-    bbMoveables movables;
+    bbMovables movables;
     bbAvoidables* avoidables;
     bbAgents* agents;
     I32 player_entity;

@@ -1,6 +1,6 @@
 
 #include "engine/entities/bbAgentFunctions.h"
-#include "engine/entities/bbMoveables.h"
+#include "engine/entities/bbMovables.h"
 #include "engine/core/bbCoreInputs.h"
 #include "engine/data/bbHome.h"
 #include "games/game0/maps/skellychase/agents/player.h"

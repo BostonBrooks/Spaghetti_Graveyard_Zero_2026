@@ -161,20 +161,20 @@ int main(void){
                 if (packetStruct.type == PACKETTYPE_SPAWNBANANA)
                 {
                     packetStruct.data.unit.entity_index = entities.num_entities++;
-                    packetStruct.data.unit.moveable_index = entities.num_moveables++;
+                    packetStruct.data.unit.movable_index = entities.num_movables++;
                     sfPacket_clear(packet);
                     bbNetworkPacket_fromStruct(packet, &packetStruct);
 
-                    bbDebug("BANANA, entity = %d, moveable = %d\n", packetStruct.data.unit.entity_index, packetStruct.data.unit.moveable_index);
+                    bbDebug("BANANA, entity = %d, movable = %d\n", packetStruct.data.unit.entity_index, packetStruct.data.unit.movable_index);
                 }
                 if (packetStruct.type == PACKETTYPE_SPAWNUNIT)
                 {
                     packetStruct.data.unit.entity_index = entities.num_entities++;
-                    packetStruct.data.unit.moveable_index = entities.num_moveables++;
+                    packetStruct.data.unit.movable_index = entities.num_movables++;
                     sfPacket_clear(packet);
                     bbNetworkPacket_fromStruct(packet, &packetStruct);
 
-                    bbDebug("UNIT, entity = %d, moveable = %d\n", packetStruct.data.unit.entity_index, packetStruct.data.unit.moveable_index);
+                    bbDebug("UNIT, entity = %d, movable = %d\n", packetStruct.data.unit.entity_index, packetStruct.data.unit.movable_index);
                 }
                 if (packetStruct.type == PACKETTYPE_REQUESTTIMESTAMP)
                 {

@@ -40,7 +40,7 @@ bbMapCoords MC, I32 index){
         unit->drawable.frames[k].drawfunction = -1;
     }
 
-    home.agents_app.entities.moveable_units[index] = unit_handle;
+    home.agents_app.entities.movable_units[index] = unit_handle;
     bbList_sortL(&unitSquare->list, unit);
     *self = unit;
     return bbSuccess;
@@ -96,7 +96,7 @@ bbMapCoords MC, I32 index){
         unit->drawable.frames[k].drawfunction = -1;
     }
 
-    home.agents_app.entities.moveable_units[index] = unit_handle;
+    home.agents_app.entities.movable_units[index] = unit_handle;
     bbList_sortL(&unitSquare->list, unit);
     *self = unit;
     return bbSuccess;
@@ -167,7 +167,7 @@ unit->drawable.state = 0;
         unit->drawable.frames[k].drawfunction = -1;
     }
 
-    home.agents_app.entities.moveable_units[index] = unit_handle;
+    home.agents_app.entities.movable_units[index] = unit_handle;
     bbList_sortL(&unitSquare->list, unit);
     *self = unit;
     return bbSuccess;
@@ -176,7 +176,7 @@ unit->drawable.state = 0;
 */
 
 
-bbFlag bbUnits_consumeBuffer(bbUnits* units, bbHandle* unit_array, bbMoveables_snapshot* snapshot)
+bbFlag bbUnits_consumeBuffer(bbUnits* units, bbHandle* unit_array, bbMovables_snapshot* snapshot)
 {
     bbHandle unit_handle;
     bbVPool* pool = units->pool;
@@ -185,7 +185,7 @@ bbFlag bbUnits_consumeBuffer(bbUnits* units, bbHandle* unit_array, bbMoveables_s
 
 
 
-    for (I32 i = 0; i < NUM_MOVEABLES; i++)
+    for (I32 i = 0; i < NUM_MovableS; i++)
     {
 
         unit_handle = unit_array[i];
@@ -208,8 +208,8 @@ bbFlag bbUnits_consumeBuffer(bbUnits* units, bbHandle* unit_array, bbMoveables_s
             unit->prev_goalpoint = unit->next_goalpoint;
             unit->prev_time = unit->next_time;
 
-            unit->next_coords = snapshot->moveables[i].position;
-            unit->next_goalpoint = snapshot->moveables[i].goalpoint;
+            unit->next_coords = snapshot->movables[i].position;
+            unit->next_goalpoint = snapshot->movables[i].goalpoint;
             unit->next_time = snapshot->time;
             I32 delta_i = unit->next_goalpoint.i - unit->prev_coords.i;
             I32 delta_j = unit->next_goalpoint.j - unit->prev_coords.j;

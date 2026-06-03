@@ -76,7 +76,7 @@ typedef struct
     bbMapCoords position;
     bbMapCoords goalpoint;
     I32 entity_index;
-    I32 moveable_index;
+    I32 movable_index;
     I32 type_index;
 } bbNetworkPacket_unit;
 

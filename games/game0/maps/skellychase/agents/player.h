@@ -14,17 +14,17 @@ bbFlag bbAgent_Command_Player(bbAgent* agent,bbAgentCommandType type,bbAgentComm
     if (type == bbAC_mapClick)
     {
             bbHandle handle = {0};
-        if (data.moveable == 0)
+        if (data.movable == 0)
         {
             bbCoreInput_setGoalpointOut(&home.core.core, agent->entity,
                 data.goal_point, home.core.clock2_handle.map_tick,bbInstructionSource_input,handle);
         } else
         {
-            bbMoveable* moveable = &home.agents_app.movables.moveables[agent->moveable];
+            bbMovable* movable = &home.agents_app.movables.movables[agent->movable];
 
-            //bbLocalMessage_SpawnUnit(&home.core.core, moveable->position, data.goal_point, "BALLOON");
+            //bbLocalMessage_SpawnUnit(&home.core.core, movable->position, data.goal_point, "BALLOON");
 
-            bbMapCoords position = moveable->position;
+            bbMapCoords position = movable->position;
             position.i += POINTS_PER_TILE;
             bbCoreInput_spawnUnitOut(&home.core.core, 1,position, data.goal_point, home.core.clock2_handle.map_tick
             ,bbInstructionSource_input,handle);
@@ -33,7 +33,7 @@ bbFlag bbAgent_Command_Player(bbAgent* agent,bbAgentCommandType type,bbAgentComm
     } else if (type == bbAC_setGoalPoint) {
         bbEntity* entity = &home.agents_app.entities.entity[agent->entity];
         bbUI_Inbox_SetUnitState(&home.UI.inbox, entity->unit, bbDrawableState_moving);
-        bbCoreInput_setMoveableType(&home.core.core,0, agent->moveable, data,
+        bbCoreInput_setMovableType(&home.core.core,0, agent->movable, data,
                                      bbInstructionSource_internal,no_handle);
     }
 
@@ -43,7 +43,7 @@ bbFlag bbAgent_Command_Player(bbAgent* agent,bbAgentCommandType type,bbAgentComm
 
 bbFlag bbAgent_Update_Player(bbAgent* agent)
 {
-    bbMoveable* agent_movable= &home.agents_app.movables.moveables[agent->moveable];
+    bbMovable* agent_movable= &home.agents_app.movables.movables[agent->movable];
 
     U32 distance = (agent_movable->position.i -agent_movable->goalpoint.i)*
     (agent_movable->position.i - agent_movable->goalpoint.i) +
@@ -51,7 +51,7 @@ bbFlag bbAgent_Update_Player(bbAgent* agent)
             (agent_movable->position.j - agent_movable->goalpoint.j);
 
 
-    if (agent_movable->type != bbMoveableType_Idle)
+    if (agent_movable->type != bbMovableType_Idle)
     {
         //TODO only do this once
         if (distance < POINTS_PER_PIXEL*POINTS_PER_PIXEL)
@@ -60,11 +60,11 @@ bbFlag bbAgent_Update_Player(bbAgent* agent)
             bbUI_Inbox_SetUnitState(&home.UI.inbox, entity->unit, bbDrawableState_idle);
 
             bbAgentCommandData data;
-            data.type = bbMoveableType_Idle;
+            data.type = bbMovableType_Idle;
             data.goal_point = agent_movable->goalpoint;
-            data.moveable = 0;
+            data.movable = 0;
 
-            bbCoreInput_setMoveableType(&home.core.core,0, agent->moveable, data,
+            bbCoreInput_setMovableType(&home.core.core,0, agent->movable, data,
                                              bbInstructionSource_internal,no_handle);
         }
     }

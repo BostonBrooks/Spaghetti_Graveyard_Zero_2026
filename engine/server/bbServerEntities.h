@@ -1,7 +1,7 @@
 #ifndef BB_SERVER_ENTITY_H
 #define BB_SERVER_ENTITY_H
 
-#include "engine/entities/bbMoveables.h"
+#include "engine/entities/bbMovables.h"
 #include "engine/entities/bbEntities.h"
 
 typedef struct
@@ -12,14 +12,14 @@ typedef struct
 typedef struct
 {
     bool in_use;
-} bbServerMoveable;
+} bbServerMovable;
 
 typedef struct
 {
     I32 num_entities;
-    I32 num_moveables;
+    I32 num_movables;
     bbServerEntity entity[NUM_ENTITIES];
-    bbServerMoveable moveable[NUM_MOVEABLES];
+    bbServerMovable movable[NUM_MovableS];
 
 } bbServerEntities;
 
