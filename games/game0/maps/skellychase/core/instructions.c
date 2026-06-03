@@ -801,6 +801,23 @@ bbFlag bbVInstruction_spawnAgent_fn(bbCore* core, bbInstruction* instruction)
     I32 entity_int = home.agents_app.entities.available;
     I32 movable_int = home.agents_app.movables.available;
 
+    while (1)
+    {
+        bbEntity* entity = &home.agents_app.entities.entity[entity_int];
+        if (entity->movable.u64 == UINT64_MAX) break;
+        entity_int = (entity_int + 1) % NUM_ENTITIES;
+        //TODO gets stuck here
+        bbHere()
+    }
+
+    while (1)
+    {
+        bbMovable* movable = &home.agents_app.movables.movables[movable_int];
+        if (movable->type == bbMovableType_Unused) break;
+        movable_int = (movable_int + 1) % NUM_MOVABLES;
+        bbHere()
+    }
+
     bbDebug("entity_int = %d/1024, movable_int = %d/256", entity_int, movable_int);
 
     ///save old entities_available and movables_available
@@ -902,4 +919,28 @@ bbFlag bbVInstruction_unspawnAgent_fn(bbCore* core, bbInstruction* instruction)
         return bbSuccess;
     }
     bbHere()
+}
+
+
+bbFlag bbVInstruction_deleteEntity_fn(bbCore* core, bbInstruction* instruction)
+{
+    //TODO: not core safe
+
+    I32 entity_int = instruction->data.u64;
+    bbEntity* entity = &home.agents_app.entities.entity[entity_int];
+    bbHandle null_agent;
+    bbHandle null_movable;
+
+    null_agent = home.agents_app.agents->pool->null;
+    null_movable.u64 = UINT64_MAX;
+
+    entity->agent = null_agent;
+    entity->movable = null_movable;
+
+    return bbSuccess;
+}
+bbFlag bbVInstruction_undeleteEntity_fn(bbCore* core, bbInstruction* instruction)
+{
+    bbNotHere()
+    return bbSuccess;
 }

@@ -136,3 +136,13 @@ bbFlag bbCoreInput_spawnAgent(bbCore* core, bbMapCoords MC,bbMapCoords goalcoord
     return bbSuccess;
 
 }
+
+bbFlag bbCoreInput_DeleteEntity(bbCore* core,I32 entity_int, bbInstruction_source source, bbHandle action)
+{
+    bbInstruction* instruction;
+    bbList_alloc(&core->do_stack, (void**) &instruction);
+    instruction->type = bbVInstruction_deleteEntity;
+    instruction->data.u64 = entity_int;
+    bbList_pushL(&core->do_stack, instruction);
+    return bbSuccess;
+}

@@ -169,8 +169,8 @@ int main(void){
                 }
                 if (packetStruct.type == PACKETTYPE_SPAWNUNIT)
                 {
-                    packetStruct.data.unit.entity_index = entities.num_entities++;
-                    packetStruct.data.unit.movable_index = entities.num_movables++;
+                    packetStruct.data.unit.entity_index = 0; //entities.num_entities++;
+                    packetStruct.data.unit.movable_index = 0; //entities.num_movables++;
                     sfPacket_clear(packet);
                     bbNetworkPacket_fromStruct(packet, &packetStruct);
 

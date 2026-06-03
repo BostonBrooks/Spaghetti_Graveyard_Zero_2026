@@ -83,6 +83,11 @@ bbFlag bbCore_initVInstructions(bbCore* core)
     core->instruction_functions[bbVInstruction_unspawnAgent-bbInstruction_numTypes]
     = bbVInstruction_unspawnAgent_fn;
 
+    core->instruction_functions[bbVInstruction_deleteEntity-bbInstruction_numTypes]
+    = bbVInstruction_deleteEntity_fn;
+    core->instruction_functions[bbVInstruction_undeleteEntity-bbInstruction_numTypes]
+    = bbVInstruction_undeleteEntity_fn;
+
 
     return bbSuccess;
 }

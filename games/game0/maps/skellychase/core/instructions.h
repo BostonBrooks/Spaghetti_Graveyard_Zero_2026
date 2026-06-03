@@ -42,6 +42,11 @@ typedef enum
     bbVInstruction_spawnAgent,
     bbVInstruction_unspawnAgent,
 
+
+
+    bbVInstruction_deleteEntity,
+    bbVInstruction_undeleteEntity,
+
     bbVInstruction_numTypes
 }bbVInstruction_type;
 
@@ -94,4 +99,8 @@ bbFlag bbVInstruction_spawnAgent_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbVInstruction_unspawnAgent_fn(bbCore* core, bbInstruction* instruction);
 
 bbFlag bbVInstruction_commandAgentMapClick_fn(bbCore* core, bbInstruction* instruction);
+
+bbFlag bbVInstruction_deleteEntity_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbVInstruction_undeleteEntity_fn(bbCore* core, bbInstruction* instruction);
+
 #endif// INSTRUCTIONS_H

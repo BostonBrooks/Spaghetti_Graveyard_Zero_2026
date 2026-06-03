@@ -75,9 +75,14 @@ bbFlag bbAgent_Update_Fireball(bbAgent* agent)
             data.goal_point = agent_movable->goalpoint;
             data.movable = 0;
             bbCoreInput_setMovableType(&home.core.core,0, agent->movable, data,
-                                             bbInstructionSource_internal,no_handle);
+                                       bbInstructionSource_internal,no_handle);
 
+
+            //TODO undelete unit?
             bbUI_Inbox_DeleteUnit(&home.UI.inbox, agent->entity, agent->movable);
+
+            bbCoreInput_DeleteEntity(&home.core.core,agent->entity,
+                                       bbInstructionSource_internal,no_handle);
 
             for (I32 i = 0; i < NUM_ENTITIES; i++)
             {
@@ -97,13 +102,13 @@ bbFlag bbAgent_Update_Fireball(bbAgent* agent)
 
 
 
-                if (distance < 36*POINTS_PER_TILE*POINTS_PER_TILE)
+                if (distance < 4*POINTS_PER_TILE*POINTS_PER_TILE)
                 {
                     bbAgentCommandData data;
-                    bbAgent2_onCommand(agent2,
-                                      home.agents_app.agents,
-                                       bbAC_damageAgent,
-                                      data);
+                    //bbAgent2_onCommand(agent2,
+                    //                  home.agents_app.agents,
+                    //                   bbAC_damageAgent,
+                    //                  data);
                 }
 
             }

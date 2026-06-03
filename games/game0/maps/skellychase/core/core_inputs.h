@@ -25,5 +25,6 @@ bbFlag bbCoreInput_spawnUnitIn(bbCore* core, bbMapCoords MC,bbMapCoords goalcoor
 
 bbFlag bbCoreInput_spawnAgent(bbCore* core, bbMapCoords MC,bbMapCoords goalcoords,I32 type_index, bbInstruction_source source, bbHandle action);
 
+bbFlag bbCoreInput_DeleteEntity(bbCore* core,I32 entity_int, bbInstruction_source source, bbHandle action);
 
 #endif //COREINPUTS_H

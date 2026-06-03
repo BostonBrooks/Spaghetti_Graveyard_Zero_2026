@@ -172,7 +172,7 @@ typedef union
 
 typedef struct bbInstruction
 {
-    bbInstruction_type type;
+    I32 type;
     bbInstruction_data data;
     U64 act_time;
     U32 collision;
