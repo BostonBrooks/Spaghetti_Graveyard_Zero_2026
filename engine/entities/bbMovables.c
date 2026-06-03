@@ -46,7 +46,7 @@ bbMilliCoords sumForces(bbMovables* movables, bbMovable* movableA)
     total.j = 0;
     total.k = 0;
 
-    for (I32 i = 0; i < NUM_MovableS; i++)
+    for (I32 i = 0; i < NUM_MOVABLES; i++)
     {
         movableB = &movables->movables[i];
         if (movableB->type == bbMovableType_Unused) continue;
@@ -75,7 +75,7 @@ bbFlag bbMovables_init(bbMovables* movables)
 
     pthread_mutex_init(&movables->buffer_mutex,NULL);
 
-    for (I32 i = 0; i < NUM_MovableS; i++)
+    for (I32 i = 0; i < NUM_MOVABLES; i++)
     {
         bbMovable* movable = &movables->movables[i];
 
@@ -89,7 +89,7 @@ bbFlag bbMovables_updateOnce(bbMovables* movables)
     //for now, just move 2048 mills toward goal point
     if (movables->use_coords_a)
     {
-        for (I32 i = 0; i < NUM_MovableS; i++)
+        for (I32 i = 0; i < NUM_MOVABLES; i++)
         {
             bbMovable* movable = &movables->movables[i];
             switch (movable->type)
@@ -222,7 +222,7 @@ bbFlag bbMovables_updateOnce(bbMovables* movables)
     }
     else
     {
-        for (I32 i = 0; i < NUM_MovableS; i++)
+        for (I32 i = 0; i < NUM_MOVABLES; i++)
         {
             bbMovable* movable = &movables->movables[i];
             switch (movable->type)
@@ -354,7 +354,7 @@ bbFlag bbMovables_updateOnce(bbMovables* movables)
 
 bbFlag bbMovables_update(bbMovables* movables)
 {
-    for (I32 i = 0; i < NUM_MovableS; i++)
+    for (I32 i = 0; i < NUM_MOVABLES; i++)
     {
         //movables->movables[i].goalpoint = movables->movables[0].position;
 
@@ -369,7 +369,7 @@ bbFlag bbMovables_update(bbMovables* movables)
         bbMovables_updateOnce(movables);
     }
 
-    for (I32 i = 0; i < NUM_MovableS; i++)
+    for (I32 i = 0; i < NUM_MOVABLES; i++)
     {
         if (movables->use_coords_a)
             movables->movables[i].position
@@ -412,7 +412,7 @@ bbFlag bbMovables_copyBuffer(bbMovables* movables,
 
     if (movables->buffer_fresh == true)
     {
-        for (I32 i = 0; i < NUM_MovableS; i++)
+        for (I32 i = 0; i < NUM_MOVABLES; i++)
         {
             target->movables[i].goalpoint = movables->buffer_front->movables[
                 i].goalpoint;

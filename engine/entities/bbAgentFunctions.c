@@ -114,7 +114,7 @@ bbFlag bbAgent2_onCommand(bbAgent* agent,
     I32 function_index = agent->ftable.command;
     if (function_index < 0)
     {
-        bbHere()
+
         return bbNone;
     }
     //bbAgent_Command_Player(bbAgent* agent,bbAgentCommandType type,bbAgentCommandData data)

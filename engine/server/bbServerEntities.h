@@ -19,7 +19,7 @@ typedef struct
     I32 num_entities;
     I32 num_movables;
     bbServerEntity entity[NUM_ENTITIES];
-    bbServerMovable movable[NUM_MovableS];
+    bbServerMovable movable[NUM_MOVABLES];
 
 } bbServerEntities;
 

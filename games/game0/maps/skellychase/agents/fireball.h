@@ -83,10 +83,10 @@ bbFlag bbAgent_Update_Fireball(bbAgent* agent)
             {
                 bbEntity* entity2 = &home.agents_app.entities.entity[i];
                 bbAgent* agent2;
-                bbFlag flag = bbVPool_lookup(home.agents_app.agents->pool,(void**)&agent2, entity2->agent);
-                bbFlag_print(flag);
-                if (flag == bbFail) continue;
 
+                bbFlag flag = bbVPool_lookup(home.agents_app.agents->pool,(void**)&agent2, entity2->agent);
+                if (flag == bbFail) continue;
+                if (entity2->movable.u64 == UINT64_MAX) continue;
                 bbMovable* movable2 = &home.agents_app.movables.movables[entity2->movable.u64];
 
 

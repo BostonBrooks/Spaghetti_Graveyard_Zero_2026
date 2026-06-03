@@ -185,7 +185,7 @@ bbFlag bbUnits_consumeBuffer(bbUnits* units, bbHandle* unit_array, bbMovables_sn
 
 
 
-    for (I32 i = 0; i < NUM_MovableS; i++)
+    for (I32 i = 0; i < NUM_MOVABLES; i++)
     {
 
         unit_handle = unit_array[i];

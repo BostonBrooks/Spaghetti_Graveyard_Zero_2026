@@ -20,7 +20,7 @@ typedef struct
     bbEntity entity[NUM_ENTITIES];
 
     ///Used so that movables can send updates to units
-    bbHandle movable_units[NUM_MovableS];
+    bbHandle movable_units[NUM_MOVABLES];
 }bbEntities;
 
 bbFlag bbEntities_init_core(bbEntities* entities);

@@ -16,7 +16,7 @@ bbFlag bbServerEntities_init(bbServerEntities *entities)
         entities->entity[i].in_use = false;
     }
 
-    for (I32 i = 0; i<NUM_MovableS;i++)
+    for (I32 i = 0; i<NUM_MOVABLES;i++)
     {
         entities->movable[i].in_use = false;
     }
