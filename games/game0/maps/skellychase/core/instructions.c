@@ -222,6 +222,9 @@ bbFlag bbVInstruction_setGoalMovable_fn(bbCore* core, bbInstruction* instruction
     undo_instruction->data.goal_movable.goal_movable = movable->goal_movable;
     undo_instruction->data.goal_movable.goal_coords = movable->goalpoint;
     undo_instruction->data.goal_movable.type = movable->type;
+    undo_instruction->data.goal_movable.last_state_change = movable->last_state_change;
+
+    movable->last_state_change = core->simulation_time;
 
 
     movable->goal_movable = instruction->data.goal_movable.goal_movable;
@@ -263,7 +266,7 @@ bbFlag bbVInstruction_unsetGoalMovable_fn(bbCore* core, bbInstruction* instructi
     movable->goal_movable = instruction->data.goal_movable.goal_movable;
     movable->goalpoint = instruction->data.goal_movable.goal_coords;
     movable->type = instruction->data.goal_movable.type;
-
+    movable->last_state_change = instruction->data.goal_movable.last_state_change;
 
     if (instruction->source == bbInstructionSource_internal)
     {

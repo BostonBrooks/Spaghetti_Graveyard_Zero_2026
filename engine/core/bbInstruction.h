@@ -148,6 +148,7 @@ typedef struct
     I32 movable;
     I32 goal_movable;
     bbMapCoords goal_coords;
+    U64 last_state_change;
 } bbInstructionsData_goalMovable;
 
 typedef union

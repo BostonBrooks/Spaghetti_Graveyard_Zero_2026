@@ -45,6 +45,7 @@ typedef struct
 typedef struct
 {
     bbMovable_type type;
+    U64 last_state_change;
     bbMapCoords position;
     I32 goal_movable;
     bbMilliCoords coords_a;
