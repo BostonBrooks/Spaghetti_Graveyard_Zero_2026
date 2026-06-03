@@ -20,11 +20,10 @@ bbFlag bbAgent_newSkellyx(bbAgent** self, bbMapCoords MC, I32 moveable_index, I3
     bbMoveable* moveable = &home.agents_app.movables.moveables[moveable_index];
 
     agent->state = bbAgentState_Idle;
-    home.agents_app.movables.available = moveable_index+1;
 
     agent->health = 1024;
     agent->max_health = 1024;
-
+    agent->state = bbAgentState_Idle;
 
     moveable->type = bbMoveableType_Idle;
     moveable->position = MC;
@@ -47,7 +46,6 @@ bbFlag bbAgent_newSkellyx(bbAgent** self, bbMapCoords MC, I32 moveable_index, I3
     bbHandle agent_handle;
     bbVPool_reverseLookup(home.agents_app.agents->pool,agent,&agent_handle);
     agent->entity = entity_index;
-        home.agents_app.entities.available = entity_index+1;
     home.agents_app.entities.entity[agent->entity].agent = agent_handle;
 
     home.agents_app.entities.entity[agent->entity].moveable.u64 = moveable_index;
