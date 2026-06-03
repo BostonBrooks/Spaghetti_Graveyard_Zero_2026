@@ -64,7 +64,87 @@ bbMovable* closest_movable = movable;
     return bbSuccess;
 }
 
+bbFlag bbAgent_Update_Skelly2(bbAgent* agent)
+{
 
+    bbMovable* agent_movable= &home.agents_app.movables.movables[agent->movable];
+    bbEntity* entity = &home.agents_app.entities.entity[agent->entity];
+
+    switch (agent_movable->type)
+    {
+    case bbMovableType_Unused:
+        break;
+    case bbMovableType_Idle:
+        {
+            bbMovable* movable = &home.agents_app.movables.movables[0];
+            I32 closest_int = 0;
+            U32 distance = (agent_movable->position.i - movable->position.i)*
+                (agent_movable->position.i - movable->position.i) +
+                    (agent_movable->position.j - movable->position.j)*
+                        (agent_movable->position.j - movable->position.j);
+            bbMovable* closest_movable = movable;
+            for (I32 i = 1; i < 8; i++)
+            {
+                movable = &home.agents_app.movables.movables[i];
+                U32 new_distance = (agent_movable->position.i - movable->position.i)*
+                    (agent_movable->position.i - movable->position.i) +
+                        (agent_movable->position.j - movable->position.j)*
+                            (agent_movable->position.j - movable->position.j);
+
+                if (new_distance < distance)
+                {
+                    closest_int = i;
+                    distance = new_distance;
+                    closest_movable = movable;
+                }
+            }
+            if (closest_int!= agent_movable->goal_movable)
+            {
+                if (distance < (100*POINTS_PER_TILE*POINTS_PER_TILE))
+                {
+                    bbCoreInput_setGoalMovable(&home.core.core, 69696969, agent->movable,
+            closest_int, bbInstructionSource_internal, no_handle);
+
+
+                    bbUI_Inbox_SetUnitState(&home.UI.inbox, entity->unit, bbDrawableState_moving);
+                }
+            }
+        }
+        break;
+    case
+        bbMovableType_Moving:
+
+        break;
+    case
+        bbMovableType_Follow:
+        {
+            bbMovable* movable = &home.agents_app.movables.movables[agent_movable->goal_movable];
+            U32 distance = (agent_movable->position.i - movable->position.i)*
+                (agent_movable->position.i - movable->position.i) +
+                    (agent_movable->position.j - movable->position.j)*
+                        (agent_movable->position.j - movable->position.j);
+
+            if (distance < (64*POINTS_PER_TILE*POINTS_PER_TILE))
+            {
+                bbCoreInput_spawnAgent(&home.core.core, agent_movable->position,movable->position,1, bbInstructionSource_internal, no_handle);
+            }
+        }
+        break;
+    case
+        bbMovableType_Attacking:
+        break;
+    case
+        bbMovableType_Dead:
+        break;
+    case
+        bbMovableType_MovingThrough:
+        break;
+    default:
+        bbDebug("Unknown movable type");
+        break;
+    }
+    return bbSuccess;
+}
 
 bbFlag bbAgent_Command_Skelly(bbAgent* agent,bbAgentCommandType type,bbAgentCommandData data)
 {

@@ -12,7 +12,7 @@
 
 bbFlag bbAgentFunctions_populate(bbAgentFunctions* self)
 {
-    bbAgentFunctions_add(self, AgentUpdate, bbAgent_Update_Skelly,"UPDATE_SKELLY");
+    bbAgentFunctions_add(self, AgentUpdate, bbAgent_Update_Skelly2,"UPDATE_SKELLY");
     bbAgentFunctions_add(self, AgentUpdate, bbAgent_Update_Player,"UPDATE_PLAYER");
     bbAgentFunctions_add(self, AgentUpdate, bbAgent_Update_Fireball,"UPDATE_FIREBALL");
     bbAgentFunctions_add(self, AgentCommand, bbAgent_Command_Player,"COMMAND_PLAYER");
