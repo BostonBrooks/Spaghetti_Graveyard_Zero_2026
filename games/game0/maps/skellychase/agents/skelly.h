@@ -6,7 +6,7 @@ bbFlag bbAgent_Update_Skelly(bbAgent* agent)
 
     bbMoveable* agent_moveable= &home.agents_app.movables.moveables[agent->moveable];
 
-    if (agent_moveable->type == bbMoveableType_Unused) return bbSuccess;
+    if (agent_moveable->type == bbMoveableType_Dead) return bbSuccess;
 
     bbMoveable* moveable = &home.agents_app.movables.moveables[0];
     I32 closest_int = 0;
@@ -64,20 +64,25 @@ bbMoveable* closest_moveable = moveable;
     return bbSuccess;
 }
 
+
+
 bbFlag bbAgent_Command_Skelly(bbAgent* agent,bbAgentCommandType type,bbAgentCommandData data)
 {
     if (type == bbAC_damageAgent)
     {
 
         bbEntity* entity = &home.agents_app.entities.entity[agent->entity];
+        bbMoveable* moveable = &home.agents_app.movables.moveables[agent->moveable];
 
-        bbHandle agent_handle;
-        bbVPool_reverseLookup(home.agents_app.agents->pool,agent,&agent_handle);
-        //TODO use core input to set agent->health
-        I32 HP = (agent->health - 100);
-        bbUI_Inbox_SetUnitHP(&home.UI.inbox, entity->unit, (100.f*HP)/agent->max_health);
-        bbCoreInput_damageAgent(&home.core.core, agent_handle, 100,bbInstructionSource_internal, no_handle);
-
+        if (moveable->type != bbMoveableType_Dead)
+        {
+            bbHandle agent_handle;
+            bbVPool_reverseLookup(home.agents_app.agents->pool,agent,&agent_handle);
+            //TODO use core input to set agent->health
+            I32 HP = (agent->health - 100);
+            bbUI_Inbox_SetUnitHP(&home.UI.inbox, entity->unit, (100.f*HP)/agent->max_health);
+            bbCoreInput_damageAgent(&home.core.core, agent_handle, 100,bbInstructionSource_internal, no_handle);
+        }
     }
 
     if (type == bbAC_killAgent)
@@ -85,10 +90,10 @@ bbFlag bbAgent_Command_Skelly(bbAgent* agent,bbAgentCommandType type,bbAgentComm
         bbEntity* entity = &home.agents_app.entities.entity[agent->entity];
         bbMoveable* moveable = &home.agents_app.movables.moveables[agent->moveable];
 
-        if (moveable->type != bbMoveableType_Unused)
+        if (moveable->type != bbMoveableType_Dead)
         {
             bbAgentCommandData data;
-            data.type = bbMoveableType_Unused;
+            data.type = bbMoveableType_Dead;
             data.goal_point.i = 0;
             data.goal_point.j = 0;
             data.goal_point.k = 0;
