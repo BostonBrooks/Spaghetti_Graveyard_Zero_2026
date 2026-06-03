@@ -17,9 +17,13 @@
 typedef enum
 {
     bbMoveableType_Unused,
-    bbMoveableType_GoalPoint,
-    bbMoveableType_GoalMoveable,
     bbMoveableType_Idle,
+    bbMoveableType_Moving,
+    bbMoveableType_Follow,
+    bbMoveableType_Attacking,
+    bbMoveableType_Dead,
+    bbMoveableType_MovingThrough
+
 
 } bbMoveable_type;
 

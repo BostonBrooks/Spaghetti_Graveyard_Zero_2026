@@ -22,7 +22,7 @@ bbFlag bbAgent_newZombiex(bbAgent** self, bbMapCoords MC,bbMapCoords goalpoint, 
     agent->state = bbAgentState_Idle;
     home.agents_app.movables.available = moveable_index+1;
 
-    moveable->type = bbMoveableType_GoalPoint;
+    moveable->type = bbMoveableType_Moving;
     moveable->position = MC;
     moveable->goalpoint = MC;
 

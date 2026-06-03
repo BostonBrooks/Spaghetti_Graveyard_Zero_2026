@@ -97,7 +97,7 @@ bbFlag bbPF_skeletonCore(char* string)
 
     home.agents_app.movables.available = index+1;
 
-    moveable->type = bbMoveableType_GoalMoveable;
+    moveable->type = bbMoveableType_Follow;
     moveable->position = MC;
     moveable->goalpoint = MC;
 
@@ -241,7 +241,7 @@ bbFlag bbPF_zombieCore(char* string)
     agent->state = bbAgentState_Idle;
     home.agents_app.movables.available = index+1;
 
-    moveable->type = bbMoveableType_GoalPoint;
+    moveable->type = bbMoveableType_Moving;
     moveable->position = MC;
     moveable->goalpoint = MC;
 

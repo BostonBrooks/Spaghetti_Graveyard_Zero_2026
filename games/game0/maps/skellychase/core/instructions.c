@@ -51,7 +51,7 @@ bbFlag bbVInstruction_setGoalpointIn_fn(bbCore* core, bbInstruction* instruction
     bbAgentCommandData data;
     data.moveable = 0;
     data.goal_point = MC;
-    data.type = bbMoveableType_GoalPoint;
+    data.type = bbMoveableType_Moving;
 
     //TODO use bbAgent_Command_Player
 

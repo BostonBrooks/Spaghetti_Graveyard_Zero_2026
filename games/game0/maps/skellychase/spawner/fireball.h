@@ -26,7 +26,7 @@ bbFlag bbAgent_newFireball(bbAgent** self, bbMapCoords MC,bbMapCoords goalpoint,
 
 
 
-    moveable->type = bbMoveableType_GoalPoint;
+    moveable->type = bbMoveableType_MovingThrough;
     moveable->position = MC;
     moveable->goalpoint = goalpoint;
 

@@ -24,7 +24,7 @@ bbFlag bbAgent_newBalloon(bbAgent** self, bbMapCoords MC,bbMapCoords goalpoint, 
 
 
 
-    moveable->type = bbMoveableType_GoalPoint;
+    moveable->type = bbMoveableType_Moving;
     moveable->position = MC;
     moveable->goalpoint = goalpoint;
 

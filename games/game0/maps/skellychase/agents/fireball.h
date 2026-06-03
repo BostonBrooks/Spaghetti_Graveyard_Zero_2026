@@ -53,7 +53,7 @@ bbFlag bbAgent_Update_Fireball(bbAgent* agent)
         if (distance < POINTS_PER_PIXEL*POINTS_PER_PIXEL)
     {
         //TODO only do this once
-            if (agent_movable->type == bbMoveableType_GoalPoint)
+            if (agent_movable->type == bbMoveableType_MovingThrough)
         {
             bbEntity* entity = &home.agents_app.entities.entity[agent->entity];
             bbUI_Inbox_SetUnitState(&home.UI.inbox, entity->unit, bbDrawableState_attacking);
