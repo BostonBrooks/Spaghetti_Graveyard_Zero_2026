@@ -929,7 +929,7 @@ bbFlag bbVInstruction_deleteEntity_fn(bbCore* core, bbInstruction* instruction)
     bbInstruction* undo_instruction;
     bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
     undo_instruction->type = bbVInstruction_undeleteEntity;
-
+    undo_instruction->source = instruction->source;
 
     I32 entity_int = instruction->data.u64;
     bbEntity* entity = &home.agents_app.entities.entity[entity_int];
@@ -949,6 +949,39 @@ bbFlag bbVInstruction_deleteEntity_fn(bbCore* core, bbInstruction* instruction)
 
     entity->agent = null_agent;
     entity->movable = null_movable;
+
+    if (instruction->source == bbInstructionSource_internal)
+    {
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        undo_instruction->redo_instruction.u64 = 0;
+        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_input)
+    {
+        bbHandle handle;
+        bbVPool_reverseLookup(core->instruction_pool, instruction, &handle);
+        undo_instruction->redo_instruction = handle;
+        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_action)
+    {
+        undo_instruction->redo_instruction = instruction->redo_instruction;
+        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+        return bbSuccess;
+    }
+
+    return bbSuccess;
+}
+bbFlag bbVInstruction_undeleteEntity_fn(bbCore* core, bbInstruction* instruction)
+{
+    I32 entity_int = instruction->data.entity.entity_int;
+
+    bbEntity* entity = &home.agents_app.entities.entity[entity_int];
+    entity->agent = instruction->data.entity.agent;
+    entity->movable = instruction->data.entity.movable;
+    entity->unit = instruction->data.entity.unit;
 
     if (instruction->source == bbInstructionSource_internal)
     {
@@ -974,11 +1007,5 @@ bbFlag bbVInstruction_deleteEntity_fn(bbCore* core, bbInstruction* instruction)
         bbVPool_free(core->instruction_pool, (void*)instruction);
         return bbSuccess;
     }
-
-    return bbSuccess;
-}
-bbFlag bbVInstruction_undeleteEntity_fn(bbCore* core, bbInstruction* instruction)
-{
-    bbNotHere()
-    return bbSuccess;
+    bbHere()
 }

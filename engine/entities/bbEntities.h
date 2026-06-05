@@ -1,7 +1,7 @@
 #ifndef BB_ENTITIES_H
 #define BB_ENTITIES_H
 
-#define  NUM_ENTITIES 64
+#define  NUM_ENTITIES 1000
 #include "bbMovables.h"
 #include "engine/logic/bbFlag.h"
 #include "engine/logic/bbHandle.h"

@@ -16,6 +16,7 @@ typedef enum
     bbUI_Inbox_setUnitState,
     bbUI_Inbox_newBanana,
     bbUI_Inbox_deleteUnit,
+    bbUI_Inbox_deleteUnit2,
     bbUI_Inbox_newUnit,
     bbUI_Inbox_setUnitHP,
 } bbUI_Inbox_type;
@@ -87,6 +88,9 @@ bbFlag bbUI_Inbox_newUnit_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message);
 
 bbFlag bbUI_Inbox_NewBanana(bbUI_Inbox* inbox, bbMapCoords MC, I32 entity_index, I32 movable_index);
 bbFlag bbUI_Inbox_DeleteUnit(bbUI_Inbox* inbox, I32 entity_index, I32 movable_index);
+
+bbFlag bbUI_Inbox_DeleteUnit2(bbUI_Inbox* inbox, bbHandle handle);
+bbFlag bbUI_Inbox_deleteUnit2_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message);
 
 bbFlag bbUI_Inbox_SetUnitHP(bbUI_Inbox* inbox, bbHandle unit, float HP);
 

@@ -69,6 +69,9 @@ bbFlag bbUI_Inbox_check(bbUI_Inbox* inbox)
         case bbUI_Inbox_setUnitHP:
             bbUI_Inbox_setUnitHP_fn(inbox,message);
             break;
+        case bbUI_Inbox_deleteUnit2:
+            bbUI_Inbox_deleteUnit2_fn(inbox,message);
+            break;
 #endif
         default:
 
@@ -453,6 +456,40 @@ bbFlag bbUI_Inbox_newUnit_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
     bbUIUnit_newUnit(message->data.integer3, message->data.coords, message->data.integer2, message->data.integer);
     return bbSuccess;
 
+}
+
+
+
+bbFlag bbUI_Inbox_DeleteUnit2(bbUI_Inbox* inbox, bbHandle handle)
+{
+    bbHere()
+    bbUI_Inbox_message* message;
+    bbThreadedQueue_alloc(&inbox->local_message_queue,(void**)&message);
+    message->type = bbUI_Inbox_deleteUnit2;
+    message->data.handle.handle = handle;
+
+    bbThreadedQueue_pushL(&inbox->local_message_queue, (void*)message);
+    return bbSuccess;
+}
+bbFlag bbUI_Inbox_deleteUnit2_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
+{
+    bbHere()
+    bbHandle unit_handle = message->data.handle.handle;
+
+    bbUnits* units = home.viewport_app.units;
+    bbUnit* unit;
+    bbFlag flag = bbVPool_lookup(units->pool,(void**)&unit,unit_handle);
+
+
+    bbSquareCoords SC = bbMapCoords_getSquareCoords(unit->drawable.coords);
+    bbUnitSquare* unitSquare = bbDrawables_getSquare(units,SC.i, SC.j, units->squares_i, units->squares_j);
+
+
+    bbList_remove(&units->list, unit);
+
+    bbList_remove(&unitSquare->list, unit);
+
+    bbVPool_free(units->pool,unit);
 }
 
 #endif //DEFINE_SKELLYCHASE
