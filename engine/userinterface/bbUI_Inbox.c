@@ -462,7 +462,7 @@ bbFlag bbUI_Inbox_newUnit_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
 
 bbFlag bbUI_Inbox_DeleteUnit2(bbUI_Inbox* inbox, bbHandle handle)
 {
-    bbHere()
+    bbAssert(handle.ptr != NULL, "delete null unit\n");
     bbUI_Inbox_message* message;
     bbThreadedQueue_alloc(&inbox->local_message_queue,(void**)&message);
     message->type = bbUI_Inbox_deleteUnit2;
@@ -480,6 +480,17 @@ bbFlag bbUI_Inbox_deleteUnit2_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
     bbUnit* unit;
     bbFlag flag = bbVPool_lookup(units->pool,(void**)&unit,unit_handle);
 
+   // bbEntity* entity = &home.agents_app.entities.entity[unit->enitity];
+   // if (bbVPool_handleIsEqual(home.viewport_app.units->pool, unit_handle, entity->unit))
+   // {
+   //     entity->unit = home.viewport_app.units->pool->null;
+   // }
+
+    bbHandle* moveable_handle = &home.agents_app.entities.movable_units[unit->moveable];
+    if (bbVPool_handleIsEqual(home.viewport_app.units->pool, unit_handle, *moveable_handle))
+    {
+        *moveable_handle = home.viewport_app.units->pool->null;
+    }
 
     bbSquareCoords SC = bbMapCoords_getSquareCoords(unit->drawable.coords);
     bbUnitSquare* unitSquare = bbDrawables_getSquare(units,SC.i, SC.j, units->squares_i, units->squares_j);

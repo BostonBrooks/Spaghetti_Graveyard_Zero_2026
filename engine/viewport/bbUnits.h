@@ -6,6 +6,7 @@ typedef struct
     bbDrawable drawable;
 
     I32 enitity;
+    I32 moveable;
     float percent_health;
     U64 display_health_until;
     //the following are used for interpolation

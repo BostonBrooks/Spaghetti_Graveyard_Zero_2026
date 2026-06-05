@@ -106,6 +106,8 @@ bbFlag bbUnit_newFireball(bbUnit** self, bbMapCoords MC, I32 movable_index, I32 
     for (I32 k = 2; k < FRAMES_PER_DRAWABLE; k++){
         unit->drawable.frames[k].drawfunction = -1;
     }
+    unit->enitity = entity_index;
+    unit->moveable = movable_index;
 
     home.agents_app.entities.movable_units[movable_index] = unit_handle;
     home.agents_app.entities.entity[entity_index].unit = unit_handle;

@@ -34,6 +34,7 @@ bbFlag bbCoreDiscard(bbCore* core, U64 time)
 #ifdef DEFINE_SKELLYCHASE
         if (undo_instruction->type == bbVInstruction_undeleteEntity)
         {
+            bbAssert(undo_instruction->data.entity.unit.ptr != NULL, "delete entity unit not found\n");
             bbUI_Inbox_DeleteUnit2(&home.UI.inbox, undo_instruction->data.entity.unit);
 
         }

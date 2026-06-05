@@ -938,6 +938,9 @@ bbFlag bbVInstruction_deleteEntity_fn(bbCore* core, bbInstruction* instruction)
     undo_instruction->data.entity.entity_int = entity_int;
     undo_instruction->data.entity.agent = entity->agent;
     undo_instruction->data.entity.movable = entity->movable;
+
+
+    bbAssert(entity->unit.ptr != NULL, "deleting entity with null unit\n");
     undo_instruction->data.entity.unit = entity->unit;
 
 
@@ -949,6 +952,7 @@ bbFlag bbVInstruction_deleteEntity_fn(bbCore* core, bbInstruction* instruction)
 
     entity->agent = null_agent;
     entity->movable = null_movable;
+    entity->unit = home.viewport_app.units->pool->null;
 
     if (instruction->source == bbInstructionSource_internal)
     {
