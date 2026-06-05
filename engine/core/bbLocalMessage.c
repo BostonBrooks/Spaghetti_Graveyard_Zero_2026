@@ -163,7 +163,7 @@ bbFlag bbLocalMessage_mapClick_fn(bbCore* core, bbLocalMessage* message)
 }
 
 bbFlag bbLocalMessage_switchCharacterButton_fn(bbCore* core, bbLocalMessage* message)
-{bbHere()
+{
     //home.agents_app.agents.current_agent = (home.agents_app.agents.current_agent + 1)%NUM_AGENTS;
     home.agents_app.player_entity = (home.agents_app.player_entity + 1)%8;
     return bbSuccess;
