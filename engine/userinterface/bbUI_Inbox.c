@@ -55,7 +55,6 @@ bbFlag bbUI_Inbox_check(bbUI_Inbox* inbox)
             bbUI_Inbox_newSkelly_fn(inbox, message);
             break;
         case bbUI_Inbox_setUnitState:
-            bbHere()
             bbUI_Inbox_setUnitState_fn(inbox, message);
             break;
         case bbUI_Inbox_newBanana:
@@ -203,7 +202,7 @@ bbFlag bbUI_Inbox_NewSkelly(bbUI_Inbox* inbox, bbMapCoords coords, I32 movable)
 
 
 bbFlag bbUI_Inbox_SetUnitState(bbUI_Inbox* inbox, bbHandle unit, I32 sprite)
-{bbHere()
+{
     bbUI_Inbox_message* message;
     bbThreadedQueue_alloc(&inbox->local_message_queue,(void**)&message);
     message->type = bbUI_Inbox_setUnitState;

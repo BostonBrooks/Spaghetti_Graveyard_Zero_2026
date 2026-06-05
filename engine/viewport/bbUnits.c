@@ -188,6 +188,8 @@ bbFlag bbUnits_consumeBuffer(bbUnits* units, bbHandle* unit_array, bbMovables_sn
     for (I32 i = 0; i < NUM_MOVABLES; i++)
     {
 
+        if (snapshot->movables[i].type == bbMovableType_Unused) continue;
+        if (snapshot->movables[i].type == bbMovableType_Dead) continue;
         unit_handle = unit_array[i];
 
         if (unit_handle.u64 == home.viewport_app.units->pool->null.u64) continue;

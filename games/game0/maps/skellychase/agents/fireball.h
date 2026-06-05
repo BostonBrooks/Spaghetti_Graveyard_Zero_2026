@@ -70,6 +70,12 @@ bbFlag bbAgent_Update_Fireball(bbAgent* agent)
             bbEntity* entity = &home.agents_app.entities.entity[agent->entity];
             bbMovable* movable = &home.agents_app.movables.movables[agent->movable];
 
+
+//TODO not core safe
+          //  home.agents_app.entities.movable_units[agent->movable] = home.viewport_app.units->pool->null;
+          //  home.agents_app.entities.entity[agent->entity].unit = home.viewport_app.units->pool->null;
+//didnt help
+
             bbAgentCommandData data;
             data.type = bbMovableType_Unused;
             data.goal_point = agent_movable->goalpoint;
@@ -78,11 +84,13 @@ bbFlag bbAgent_Update_Fireball(bbAgent* agent)
                                        bbInstructionSource_internal,no_handle);
 
 
-            //TODO undelete unit?
-            bbUI_Inbox_DeleteUnit(&home.UI.inbox, agent->entity, agent->movable);
+            bbUI_Inbox_SetUnitState(&home.UI.inbox, entity->unit, bbDrawableState_dead);
 
             bbCoreInput_DeleteEntity(&home.core.core,agent->entity,
                                        bbInstructionSource_internal,no_handle);
+
+
+
 
             for (I32 i = 0; i < NUM_ENTITIES; i++)
             {

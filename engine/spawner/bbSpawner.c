@@ -184,13 +184,11 @@ bbFlag bbSpawner_spawnEntityI(bbSpawner* spawner, bbAgent** agent, bbMapCoords M
     bbEntity_new* function;
     function = spawner->entity_new[type_index];
 
-    bbDebug("type indox = %d\n",type_index);
+
 
     bbAgent* agent1;
 
     bbFlag flag = function(&agent1, type_index,MC,goal_coords, movable_index, entity_index);
-
-    bbDebug("agent = %p, type = %d\n", agent1, type_index);
 
     bbAssert(agent1 != NULL, "bad entity spawner\n");
 

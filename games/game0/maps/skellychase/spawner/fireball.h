@@ -148,11 +148,10 @@ bbFlag bbEntity_newFireball(bbAgent** agent, I32 type_index, bbMapCoords MC,bbMa
     bbAgent* agent1;
     bbAgent_newFireball(&agent1, MC, MC2,movable_index, entity_index);
 
-    bbDebug("goal.i = %d, goal.j = %d\nposition.i = %d, position.j = %d\n", MC2.i, MC2.j,MC.i, MC.j);
 
     bbUI_Inbox_NewUnit(&home.UI.inbox, type_index, MC, entity_index, movable_index);
     bbAssert(agent1!=NULL, "bad spawn function\n");
-    bbDebug("agent = %p\n", agent1);
+
     *agent = agent1;
     return bbSuccess;
 }

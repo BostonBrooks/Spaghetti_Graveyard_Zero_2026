@@ -12,7 +12,7 @@
 #include "engine/logic/bbVPool.h"
 
 
-#define NUM_MOVABLES 256
+#define NUM_MOVABLES 64
 
 typedef enum
 {
@@ -34,6 +34,7 @@ typedef struct
 {
     bbMapCoords position;
     bbMapCoords goalpoint;
+    bbMovable_type type;
 } bbMovable_snapshot;
 
 typedef struct

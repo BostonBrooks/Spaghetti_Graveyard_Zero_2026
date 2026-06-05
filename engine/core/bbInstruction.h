@@ -95,6 +95,14 @@ typedef struct
 
 typedef struct
 {
+    I32 entity_int;
+    bbHandle agent;
+    bbHandle movable;
+    bbHandle unit;
+} bbInstructionsData_entity;
+
+typedef struct
+{
     bbHandle agent;
     bbSquareCoords square_coords;
 } bbInstructionsData_agentSquare;
@@ -168,6 +176,7 @@ typedef union
     bbInstructionsData_spawnUnitOut spawn_unit_out;
     bbInstructionsData_spawnAgent spawn_agent;
     bbInstructionsData_unspawnAgent unspawn_agent;
+    bbInstructionsData_entity entity;
 } bbInstruction_data;
 
 typedef struct bbInstruction

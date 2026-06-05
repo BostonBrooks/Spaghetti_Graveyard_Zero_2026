@@ -42,6 +42,8 @@ bbFlag bbCoreInput_updateAgents(bbCore* core, bbAgents* agents,bbInstruction_sou
 {
     bbInstruction* instruction;
     bbList_alloc(&core->do_stack, (void**) &instruction);
+    instruction->source = source;
+    instruction->redo_instruction = action;
 
     instruction->source = source;
     instruction->redo_instruction = action;
@@ -141,6 +143,9 @@ bbFlag bbCoreInput_DeleteEntity(bbCore* core,I32 entity_int, bbInstruction_sourc
 {
     bbInstruction* instruction;
     bbList_alloc(&core->do_stack, (void**) &instruction);
+
+    instruction->source = source;
+    instruction->redo_instruction = action;
     instruction->type = bbVInstruction_deleteEntity;
     instruction->data.u64 = entity_int;
     bbList_pushL(&core->do_stack, instruction);

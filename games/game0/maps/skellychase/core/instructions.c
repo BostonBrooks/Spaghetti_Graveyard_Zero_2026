@@ -818,7 +818,7 @@ bbFlag bbVInstruction_spawnAgent_fn(bbCore* core, bbInstruction* instruction)
         bbHere()
     }
 
-    bbDebug("entity_int = %d/1024, movable_int = %d/256", entity_int, movable_int);
+    bbDebug("entity_int = %d/%d, movable_int = %d/%d\n", entity_int, NUM_ENTITIES, movable_int, NUM_MOVABLES);
 
     ///save old entities_available and movables_available
     undo_instruction->data.unspawn_agent.entities_available = entity_int;
@@ -829,8 +829,8 @@ bbFlag bbVInstruction_spawnAgent_fn(bbCore* core, bbInstruction* instruction)
     undo_instruction->data.unspawn_agent.entity_int = entity_int;
     undo_instruction->data.unspawn_agent.movable_int = movable_int;
 
-    home.agents_app.entities.available = entity_int + 1;
-    home.agents_app.movables.available = movable_int + 1;
+    home.agents_app.entities.available = (entity_int + 1) % NUM_ENTITIES;
+    home.agents_app.movables.available = (movable_int + 1) % NUM_MOVABLES;
 
     bbAgent* agent;
     bbSpawner_spawnEntityI(&home.spawner,
@@ -926,8 +926,21 @@ bbFlag bbVInstruction_deleteEntity_fn(bbCore* core, bbInstruction* instruction)
 {
     //TODO: not core safe
 
+    bbInstruction* undo_instruction;
+    bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+    undo_instruction->type = bbVInstruction_undeleteEntity;
+
+
     I32 entity_int = instruction->data.u64;
     bbEntity* entity = &home.agents_app.entities.entity[entity_int];
+
+
+    undo_instruction->data.entity.entity_int = entity_int;
+    undo_instruction->data.entity.agent = entity->agent;
+    undo_instruction->data.entity.movable = entity->movable;
+    undo_instruction->data.entity.unit = entity->unit;
+
+
     bbHandle null_agent;
     bbHandle null_movable;
 
@@ -936,6 +949,31 @@ bbFlag bbVInstruction_deleteEntity_fn(bbCore* core, bbInstruction* instruction)
 
     entity->agent = null_agent;
     entity->movable = null_movable;
+
+    if (instruction->source == bbInstructionSource_internal)
+    {
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_input)
+    {
+        bbInstruction* redo_instruction;
+        bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction,
+                       instruction->redo_instruction);
+        bbList_pushL(&core->do_stack, redo_instruction);
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_action)
+    {
+        bbAction* redo_action;
+
+        bbVPool_lookup(core->action_pool, (void**)&redo_action,
+                       instruction->redo_instruction);
+        bbList_sortL(&core->action_queue, (void*)redo_action);
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        return bbSuccess;
+    }
 
     return bbSuccess;
 }

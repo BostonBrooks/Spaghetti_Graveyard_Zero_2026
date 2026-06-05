@@ -417,7 +417,8 @@ bbFlag bbMovables_copyBuffer(bbMovables* movables,
             target->movables[i].goalpoint = movables->buffer_front->movables[
                 i].goalpoint;
             target->movables[i].position = movables->buffer_front->movables[
-                i].position;
+            i].position;
+            target->movables[i].type = movables->movables[i].type;
         }
         target->time = movables->buffer_front->time;
         movables->buffer_fresh = false;
