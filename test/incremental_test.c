@@ -1,7 +1,7 @@
 #include <stdio.h>
-#include <SFML/System.h>
-#include <SFML/Graphics.h>
-#include <SFML/Window.h>
+#include <CSFML/System.h>
+#include <CSFML/Graphics.h>
+#include <CSFML/Window.h>
 #include <pthread.h>
 
 #include "engine/core/bbCoreInputs.h"

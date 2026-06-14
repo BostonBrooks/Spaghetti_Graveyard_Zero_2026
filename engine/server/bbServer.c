@@ -1,10 +1,10 @@
 
 
 #include <stdio.h>
-#include <SFML/System.h>
-#include <SFML/Graphics.h>
-#include <SFML/Window.h>
-#include <SFML/Network.h>
+#include <CSFML/System.h>
+#include <CSFML/Graphics.h>
+#include <CSFML/Window.h>
+#include <CSFML/Network.h>
 
 #include "engine/logic/bbTerminal.h"
 #include "engine/data/bbHome.h"

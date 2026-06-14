@@ -4,7 +4,7 @@
 #define BB_NETWORK_H
 
 #include <stdatomic.h>
-#include <SFML/Network.h>
+#include <CSFML/Network.h>
 
 #include "bbNetworkPacket.h"
 #include "engine/threadsafe/bbThreadedQueue.h"

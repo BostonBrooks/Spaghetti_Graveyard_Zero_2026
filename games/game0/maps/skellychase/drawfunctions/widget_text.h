@@ -1,7 +1,7 @@
-#include <SFML/Graphics/RenderTexture.h>
-#include <SFML/Graphics/Sprite.h>
-#include <SFML/Graphics/Types.h>
-#include <SFML/System/Vector2.h>
+#include <CSFML/Graphics/RenderTexture.h>
+#include <CSFML/Graphics/Sprite.h>
+#include <CSFML/Graphics/Types.h>
+#include <CSFML/System/Vector2.h>
 
 #include "engine/graphics/bbCompositions.h"
 #include "engine/graphics/bbDrawfunctions.h"
