@@ -5,8 +5,11 @@ extern bbMapCoords testGoalPoint;
 
 bbFlag bbRenderable_init(bbRenderable* renderable, I32 height, I32 width){
 
+    sfVector2u size;
+    size.x = width;
+    size.y = height;
     renderable->renderTexture
-    = sfRenderTexture_create(width, height, sfFalse);
+    = sfRenderTexture_create(size, sfFalse);
     sfRenderTexture_clear(renderable->renderTexture, sfTransparent);
     bbAssert(renderable->renderTexture != NULL, "bad sfml\n");
     renderable->texture = sfRenderTexture_getTexture(renderable->renderTexture);

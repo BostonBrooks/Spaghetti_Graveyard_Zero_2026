@@ -58,7 +58,10 @@ bbFlag Create_Ground_Shaders (bbGroundSurface* surface){
   //  vec4 mix4 = mix(mix3, circles, circles.a);\
   //  gl_FragColor = mix4;\
 
-    surface->null_render_texture = sfRenderTexture_create (PIXELS_PER_TILE * TILES_PER_SQUARE, PIXELS_PER_TILE * TILES_PER_SQUARE, sfFalse);
+    sfVector2u size;
+    size.x = PIXELS_PER_TILE * TILES_PER_SQUARE;
+    size.y = PIXELS_PER_TILE * TILES_PER_SQUARE;
+    surface->null_render_texture = sfRenderTexture_create (size, sfFalse);
     sfRenderTexture_clear(surface->null_render_texture, sfGreen);
     sfRenderTexture_display(surface->null_render_texture);
     surface->null_texture = sfRenderTexture_getTexture(surface->null_render_texture);
@@ -250,44 +253,48 @@ bbFlag bbGroundSurface_init(bbGroundSurface* surface, bbSquareCoords size, char*
 
             bbGroundSquare* square = &surface->ground_squares[i*size.j + j];
 
+            sfVector2u texture_size;
+            texture_size.x = PIXELS_PER_SQUARE;
+            texture_size.y = PIXELS_PER_SQUARE;
+
             square->Base_Render_Texture
             = sfRenderTexture_create(
-                PIXELS_PER_SQUARE,PIXELS_PER_SQUARE,sfFalse);
+                texture_size,sfFalse);
             square->Base_Texture
             = sfRenderTexture_getTexture(square->Base_Render_Texture);
             sfRenderTexture_clear(square->Base_Render_Texture, bbTeal);
 
             square->Shadows_Render_Texture
             = sfRenderTexture_create(
-               PIXELS_PER_SQUARE,PIXELS_PER_SQUARE,sfFalse);
+               texture_size,sfFalse);
             square->Shadows_Texture
             = sfRenderTexture_getTexture(square->Shadows_Render_Texture);
             sfRenderTexture_clear(square->Shadows_Render_Texture, bbTeal);
 
             square->Hill_Shading_Render_Texture
             = sfRenderTexture_create(
-                PIXELS_PER_SQUARE,PIXELS_PER_SQUARE,sfFalse);
+                texture_size,sfFalse);
             square->Hill_Shading_Texture
             = sfRenderTexture_getTexture(square->Hill_Shading_Render_Texture);
             sfRenderTexture_clear(square->Hill_Shading_Render_Texture, bbTeal);
 
             square->Footprints_Render_Texture
             = sfRenderTexture_create(
-                PIXELS_PER_SQUARE,PIXELS_PER_SQUARE,sfFalse);
+                texture_size,sfFalse);
             square->Footprints_Texture
             = sfRenderTexture_getTexture(square->Footprints_Render_Texture);
             sfRenderTexture_clear(square->Footprints_Render_Texture, bbTeal);
 
             square->Auras_Render_Texture
             = sfRenderTexture_create(
-                PIXELS_PER_SQUARE,PIXELS_PER_SQUARE,sfFalse);
+                texture_size,sfFalse);
             square->Auras_Texture
             = sfRenderTexture_getTexture(square->Auras_Render_Texture);
             sfRenderTexture_clear(square->Auras_Render_Texture, bbTeal);
 
             square->Circles_Render_Texture
             = sfRenderTexture_create(
-                PIXELS_PER_SQUARE,PIXELS_PER_SQUARE,sfFalse);
+                texture_size,sfFalse);
             square->Circles_Texture
             = sfRenderTexture_getTexture(square->Circles_Render_Texture);
             sfRenderTexture_clear(square->Circles_Render_Texture, bbTeal);

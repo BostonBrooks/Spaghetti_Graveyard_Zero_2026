@@ -21,10 +21,9 @@ bbFlag bbDF_widgetText(void* Drawable, void* frameDescriptor, void* cl){
 
         if (text == NULL)
         {
-            text = sfText_create();
-            sfText_setFont(text, graphics->fonts->fonts[0]);
+            text = sfText_create(graphics->fonts->fonts[0]);
             sfText_setCharacterSize(text, 12);
-            sfText_setColor(text, sfBlack);
+            sfText_setFillColor(text, sfBlack);
         }
         sfText_setString(text, widget->key);
 
@@ -51,10 +50,10 @@ bbFlag bbDF_socketNumber(void* Drawable, void* frameDescriptor, void* cl){
 
     if (text == NULL)
     {
-        text = sfText_create();
+        text = sfText_create(graphics->fonts->fonts[0]);
         sfText_setFont(text, graphics->fonts->fonts[0]);
         sfText_setCharacterSize(text, 12);
-        sfText_setColor(text, sfBlack);
+        sfText_setFillColor(text, sfBlack);
     }
 
     char string[KEY_LENGTH];
