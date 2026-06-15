@@ -21,18 +21,18 @@ typedef struct {
 
 bbFlag bbSprite_new(bbSprites* sprites, char* key, I32 address, sfTexture* texture, sprite_dimensions* dimensions){
 
-    sfSprite* sprite = sfSprite_create();
-    bbAssert(sprite != NULL, "sfSprite_create() returned NULL\n");
+    sfSprite* sprite = sfSprite_create(texture);
+    bbAssert(sprite != NULL, "sfSprite_create(NULL) returned NULL\n");
 
     //bbDebug("spriteInt = %d, sprite = %p\n", address, sprite);
 
     sfSprite_setTexture(sprite, texture, sfTrue);
 
     sfIntRect rect;
-    rect.left = dimensions->left;
-    rect.top = dimensions->top;
-    rect.width = dimensions->width;
-    rect.height = dimensions->height;
+    rect.position.x = dimensions->left;
+    rect.position.y = dimensions->top;
+    rect.size.x = dimensions->width;
+    rect.size.y = dimensions->height;
     sfSprite_setTextureRect(sprite, rect);
 
     sfVector2f origin;

@@ -129,7 +129,7 @@ void* userinterface_thread(void* arg)
 {
     thread = "USER INTERFACE";
     sfTexture* splash_texture = sfTexture_createFromFile("./graphics/Splash.png", NULL);
-    sfSprite* splash_sprite = sfSprite_create();
+    sfSprite* splash_sprite = sfSprite_create(splash_texture);
     sfSprite_setTexture(splash_sprite, splash_texture, sfTrue);
 
     sfVideoMode mode;

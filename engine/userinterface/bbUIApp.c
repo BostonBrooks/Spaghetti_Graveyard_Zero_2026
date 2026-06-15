@@ -6,18 +6,18 @@
 bbFlag bbUIApp_init(bbUIApp* app)
 {
     home.UI.SplashTexture = sfTexture_createFromFile("./graphics/Splash.png", NULL);
-    home.UI.SplashSprite = sfSprite_create();
+    home.UI.SplashSprite = sfSprite_create(home.UI.SplashTexture);
     sfSprite_setTexture(home.UI.SplashSprite, home.UI.SplashTexture, sfTrue);
 
 
     home.UI.widgets.selected_textbox = NULL;
 
     sfVideoMode mode;
-    mode.width = 720;
-    mode.height = 480;
+    mode.size.x = 720;
+    mode.size.y= 480;
     mode.bitsPerPixel = 32;
 
-    home.UI.window = sfRenderWindow_create(mode, "early demo", sfResize | sfClose, NULL);
+    home.UI.window = sfRenderWindow_create(mode, "early demo", sfResize | sfClose,sfWindowed, NULL);
     sfRenderWindow_setMouseCursorVisible(home.UI.window, sfFalse);
     sfRenderWindow_setKeyRepeatEnabled(home.UI.window,sfFalse);
     sfRenderWindow_setFramerateLimit(home.UI.window, 60);

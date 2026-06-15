@@ -12,7 +12,7 @@ bbFlag bbRenderable_init(bbRenderable* renderable, I32 height, I32 width){
     renderable->texture = sfRenderTexture_getTexture(renderable->renderTexture);
 
     bbAssert(renderable->texture != NULL, "bad sfml\n");
-    renderable->sprite = sfSprite_create();
+    renderable->sprite = sfSprite_create(renderable->texture);
 
     bbAssert(renderable->sprite != NULL, "bad sfml\n");
     sfSprite_setTexture(renderable->sprite, renderable->texture, sfTrue);
