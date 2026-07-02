@@ -87,7 +87,6 @@ bbFlag bbUIApp_draw(bbUIApp* app)
     bbWidgets_draw(&app->widgets, &cl);
     bbMouse_Draw(&app->mouse, &app->widgets, &home.UI.graphics, app->window);
 
-    sfRenderWindow_display(app->window);
 
 #ifndef DEFINE_PONG
    bbViewport_clear(&home.viewport_app.viewport);

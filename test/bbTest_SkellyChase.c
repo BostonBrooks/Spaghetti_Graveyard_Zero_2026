@@ -316,6 +316,16 @@ bbHere()
         bbUnits_consumeBuffer(home.viewport_app.units, home.agents_app.entities.movable_units,&movables_snapshot);
         bbUIApp_draw(&home.UI);
 
+/* this test passes
+        bbGroundSquare* square = &home.ground_surface.ground_squares[0];
+        sfSprite* base_texture = sfSprite_create(square->Base_Texture);
+        sfRenderWindow_drawSprite(home.UI.window, base_texture , NULL);
+        sfSprite_destroy(base_texture);
+*/
+
+
+        sfRenderWindow_display(home.UI.window);
+
         if (home.clock2.is_running){
             if (home.UI.clock2_handle.clock_thread_index == 255)
             {
