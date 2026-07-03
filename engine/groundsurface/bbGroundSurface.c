@@ -62,7 +62,7 @@ bbFlag Create_Ground_Shaders (bbGroundSurface* surface){
     size.x = PIXELS_PER_TILE * TILES_PER_SQUARE;
     size.y = PIXELS_PER_TILE * TILES_PER_SQUARE;
     surface->null_render_texture = sfRenderTexture_create (size, NULL);
-    sfRenderTexture_clear(surface->null_render_texture, sfGreen);
+    sfRenderTexture_clear(surface->null_render_texture, sfRed);
     sfRenderTexture_display(surface->null_render_texture);
     surface->null_texture = sfRenderTexture_getTexture(surface->null_render_texture);
 
@@ -73,6 +73,7 @@ bbFlag Create_Ground_Shaders (bbGroundSurface* surface){
     surface->ground_renderer.shader = surface->ground_shader;
     surface->ground_renderer.blendMode = sfBlendAlpha;
     surface->ground_renderer.transform = sfTransform_Identity;
+    surface->ground_renderer.coordinateType = sfCoordinateTypePixels;
     surface->ground_renderer.texture = surface->null_texture;
 
     return bbSuccess;
