@@ -17,7 +17,7 @@ typedef struct
 #ifndef BBNETWORKTIME_H
 #define BBNETWORKTIME_H
 
-#include <CSFML/System.h>
+#include "engine/data/CSFML.h"
 
 #include "bbNetwork.h"
 #include "bbNetworkPacket.h"

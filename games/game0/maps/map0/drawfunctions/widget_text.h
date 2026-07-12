@@ -1,7 +1,5 @@
-#include <CSFML/Graphics/RenderTexture.h>
-#include <CSFML/Graphics/Sprite.h>
-#include <CSFML/Graphics/Types.h>
-#include <CSFML/System/Vector2.h>
+
+#include "engine/data/CSFML.h"
 
 #include "engine/graphics/bbCompositions.h"
 #include "engine/graphics/bbDrawfunctions.h"
@@ -21,9 +19,18 @@ bbFlag bbDF_widgetText(void* Drawable, void* frameDescriptor, void* cl){
 
         if (text == NULL)
         {
+#ifdef CSFML3
             text = sfText_create(graphics->fonts->fonts[0]);
             sfText_setCharacterSize(text, 12);
             sfText_setFillColor(text, sfBlack);
+
+#endif
+#ifndef CSFML3
+            text = sfText_create();
+            sfText_setFont(text, graphics->fonts->fonts[0]);
+            sfText_setCharacterSize(text, 12);
+            sfText_setColor(text, sfBlack);
+#endif
         }
         sfText_setString(text, widget->key);
 

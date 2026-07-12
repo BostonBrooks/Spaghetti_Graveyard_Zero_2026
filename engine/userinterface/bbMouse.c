@@ -25,14 +25,25 @@ bbFlag bbMouse_Event(bbMouse* mouse, sfEvent* event)
     sfMouseButton button;
     switch (event->type){
         case sfEvtMouseMoved:
-            mouse->position = pixel_getScreenPoints(event->mouseMove.position.x,
-                                                event->mouseMove.position.y);
 
+#ifdef CSFML3
+        mouse->position = pixel_getScreenPoints(event->mouseMove.position.x,
+                                                event->mouseMove.position.y);
+#endif
+#ifndef CSFML3
+        mouse->position = pixel_getScreenPoints(event->mouseMove.x,
+                                    event->mouseMove.y);
+#endif
         break;
         case sfEvtMouseButtonPressed:
             button = event->mouseButton.button;
+#ifdef CSFML3
             mouse->position = pixel_getScreenPoints(event->mouseButton.position.x,event->mouseButton.position.y);
-            if (button == sfMouseLeft)
+#endif
+#ifndef CSFML3
+        mouse->position = pixel_getScreenPoints(event->mouseButton.x,event->mouseButton.y);
+#endif
+        if (button == sfMouseLeft)
             {
                 mouse->left_changed = true;
                 mouse->left_down = true;
@@ -48,8 +59,13 @@ bbFlag bbMouse_Event(bbMouse* mouse, sfEvent* event)
         case sfEvtMouseButtonReleased:
 
             button = event->mouseButton.button;
-            mouse->position = pixel_getScreenPoints(event->mouseButton.position.x,event->mouseButton.position.y);
-            if (button == sfMouseLeft)
+#ifdef CSFML3
+        mouse->position = pixel_getScreenPoints(event->mouseButton.position.x,event->mouseButton.position.y);
+#endif
+#ifndef CSFML3
+        mouse->position = pixel_getScreenPoints(event->mouseButton.x,event->mouseButton.y);
+#endif
+        if (button == sfMouseLeft)
             {
                 mouse->left_changed = true;
                 mouse->left_down = false;

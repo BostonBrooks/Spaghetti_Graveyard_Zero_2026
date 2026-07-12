@@ -18,9 +18,11 @@
 #define I32_MAX 2147483647l
 #define I32_MIN -2147483647l
 
+#ifdef CSFML3
 #define sfBool   bool
 #define sfTrue   true
 #define sfFalse  false
+#endif
 
 typedef struct
 {

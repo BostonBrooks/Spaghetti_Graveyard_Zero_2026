@@ -1,7 +1,5 @@
 #include <stdio.h>
-#include <CSFML/System.h>
-#include <CSFML/Graphics.h>
-#include <CSFML/Window.h>
+#include "engine/data/CSFML.h"
 #include <pthread.h>
 #include <math.h>
 

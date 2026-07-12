@@ -19,7 +19,7 @@ typedef struct
 #ifndef BBNETWORKTIME_PAUSE_H
 #define BBNETWORKTIME_PAUSE_H
 
-#include <CSFML/System.h>
+#include "engine/data/CSFML.h"
 
 #include "bbNetwork.h"
 #include "bbNetworkPacket.h"

@@ -63,8 +63,16 @@ bbFlag bbWidget_Constructor_Textbox (bbWidget** self,
     bbStr_setBounds(string , widget->type_data.text_box.columns, widget->type_data.text_box.rows, 1048);
     widget->type_data.text_box.string = string;
 
-
+#ifdef CSFML3
     sfText* text = sfText_create( Graphics->fonts->fonts[0]);
+    sfText_setFillColor(text, sfBlack);
+#endif
+#ifndef CSFML3
+    sfText* text = sfText_create();
+    sfText_setFont(text, Graphics->fonts->fonts[0]);
+    sfText_setColor(text, sfBlack);
+#endif
+
     sfText_setString(text, widget->type_data.text_box.string);
     bbScreenPoints pts;
     pts.x = screen_points.x + widget->frames[0].offset.x;
@@ -73,7 +81,6 @@ bbFlag bbWidget_Constructor_Textbox (bbWidget** self,
     pos = bbScreenPoints_getV2f(pts);
     sfText_setPosition(text, pos);
     sfText_setCharacterSize(text, 15);
-    sfText_setFillColor(text, sfBlack);
 
     widget->type_data.text_box.text = text;
 

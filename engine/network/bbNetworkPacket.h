@@ -1,7 +1,7 @@
 #ifndef BB_NETWORK_PACKET_H
 #define BB_NETWORK_PACKET_H
 
-#include <CSFML/Network.h>
+#include "engine/data/CSFML.h"
 
 #include "bbNetworkTime.h"
 #include "engine/geometry/bbCoordinates.h"

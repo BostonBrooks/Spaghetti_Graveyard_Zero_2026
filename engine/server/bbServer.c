@@ -1,10 +1,8 @@
 
 
 #include <stdio.h>
-#include <CSFML/System.h>
-#include <CSFML/Graphics.h>
-#include <CSFML/Window.h>
-#include <CSFML/Network.h>
+
+#include "engine/data/CSFML.h"
 
 #include "engine/logic/bbTerminal.h"
 #include "engine/data/bbHome.h"
