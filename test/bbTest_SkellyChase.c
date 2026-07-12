@@ -1,10 +1,8 @@
 #include <stdio.h>
-#include <CSFML/System.h>
-#include <CSFML/Graphics.h>
-#include <CSFML/Window.h>
 #include <pthread.h>
 #include <math.h>
 
+#include "engine/data/CSFML.h"
 #include "engine/entities/bbAgentFunctions.h"
 #include "engine/entities/bbAvoidables.h"
 #include "engine/core/bbCoreDiscard.h"

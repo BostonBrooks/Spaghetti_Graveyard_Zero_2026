@@ -8,17 +8,29 @@ bbFlag bbRenderable_init(bbRenderable* renderable, I32 height, I32 width){
     sfVector2u size;
     size.x = width;
     size.y = height;
-    renderable->renderTexture
-    = sfRenderTexture_create(size,  NULL);
+
+
+#ifdef CSML3
+    renderable->renderTexture = sfRenderTexture_create(size,  NULL);
+#else
+    renderable->renderTexture = sfRenderTexture_create(width,height,  sfFalse);
+#endif
     sfRenderTexture_clear(renderable->renderTexture, sfTransparent);
     bbAssert(renderable->renderTexture != NULL, "bad sfml\n");
     renderable->texture = sfRenderTexture_getTexture(renderable->renderTexture);
 
     bbAssert(renderable->texture != NULL, "bad sfml\n");
-    renderable->sprite = sfSprite_create(renderable->texture);
 
+
+#ifdef CSML3
+
+    renderable->sprite = sfSprite_create(renderable->texture);
+    bbAssert(renderable->sprite != NULL, "bad sfml\n");
+#else
+    renderable->sprite = sfSprite_create();
     bbAssert(renderable->sprite != NULL, "bad sfml\n");
     sfSprite_setTexture(renderable->sprite, renderable->texture, sfTrue);
+#endif
 
     return bbSuccess;
 }
