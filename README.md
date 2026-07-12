@@ -11,5 +11,5 @@ Spaghetti - Because I did not know much about how write well structured code at 
 Graveyard - Because since learning how to write better code, I have discarded much of the code that I had written.
 Zero      - Because this is very much a work in progress and so comes before release 1.0
 
-#define CSFML3 to compile with CSFML3
+#define CSFML3 to compile with CSFML3, 
 compile for CSFML2.6.1 otherwise
