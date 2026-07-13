@@ -1,5 +1,6 @@
 #include "engine/ECS/ECS.h"
 
+#include "engine/data/bbHome.h"
 #include "engine/logic/bbBloatedPool.h"
 
 U64 getMask(bbECS_systems system)
@@ -27,9 +28,13 @@ bbFlag bbECS_newEntity(bbECS* ECS, bbHandle* handle, bbECS_entity** entity)
     new_entity->has_component = 0;
 
 
+    bbCoreInput_notifyEntitySpawned(&home.core.core, bbInstructionSource_internal, new_handle);
+
     bbList_pushR(&ECS->list, new_entity);
     if (handle!=NULL) *handle = new_handle;
     if (entity!=NULL) *entity = new_entity;
+
+
 
     return bbSuccess;
 }
@@ -65,4 +70,12 @@ bbFlag bbECS_entity_setComponent(bbECS* ECS, bbHandle component, bbHandle entity
     entity->components[system] = component;
 
     return bbSuccess;
+}
+
+bbFlag bbCoreInput_notifyEntitySpawned(bbCore* core, bbHandle entity, bbInstruction_source source, bbHandle action)
+{
+    bbInstruction* undo_instruction;
+    bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+    undo_instruction->type = bbInstruction_unspawnEntity;
+    undo_instruction->source = source;
 }

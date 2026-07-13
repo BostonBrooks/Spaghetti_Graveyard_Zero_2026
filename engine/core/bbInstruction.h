@@ -30,6 +30,11 @@ typedef enum
     bbInstruction_spawnBananaIn,
     bbInstruction_unspawnBanana,
 
+    bbInstruction_spawnEntity,
+    bbInstruction_unspawnEntity,
+
+    bbInstruction_deleteEntity,
+    bbInstruction_undeleteEntity,
     //bbInstruction_updateBall,
     //bbInstruction_unupdateBall,
 

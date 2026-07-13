@@ -8,6 +8,8 @@
  * if the undo instruction is discarded, the entity is freed in the pool
  */
 
+#ifndef BB_ECS_H
+#define BB_ECS_H
 
 #include "engine/core/bbInstruction.h"
 #include "engine/logic/bbHandle.h"
@@ -47,15 +49,17 @@ typedef struct
 bbFlag bbECS_init(bbECS* ECS);
 bbFlag bbECS_update(bbECS* ECS);
 bbFlag bbECS_newEntity(bbECS* ECS, bbHandle* handle, bbECS_entity** entity);
-bbFlag bbECS_deleteEntity(bbECS* ECS, bbHandle* handle, bbECS_entity** entity);
 bbFlag bbECS_entity_getComponent(bbECS* ECS, bbHandle* component, bbHandle entity, bbECS_systems system);
 bbFlag bbECS_entity_setComponent(bbECS* ECS, bbHandle component, bbHandle entity, bbECS_systems system);
 
-bbFlag bbCoreInput_notifyEntitySpawned(bbECS* ECS, bbHandle entity);
+///Notify the core that an entity has been spawned. if the core is rolled back, the entity is unspawned.
+///What will the instruction_source be? Do we need a redo instruction?
+bbFlag bbCoreInput_notifyEntitySpawned(bbCore* core, bbHandle entity, bbInstruction_source source, bbHandle action);
 bbFlag bbInstruction_unspawnEntity_fn(bbCore* core, bbInstruction* instruction);
 
-bbFlag bbCoreInput_deleteEntity_fn(bbECS* ECS, bbHandle entity);
+bbFlag bbCoreInput_deleteEntity_fn(bbCore* core,bbInstruction_source source, bbHandle entity);
 bbFlag bbInstruction_deleteEntity_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_undeleteEntity_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_confirmDeleteEntity_fn(bbCore* core, bbInstruction* instruction);
 
+#endif //BB_ECS_H

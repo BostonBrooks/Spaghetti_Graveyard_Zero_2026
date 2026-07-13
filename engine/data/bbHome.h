@@ -4,6 +4,7 @@
 #include "../entities/bbEntities.h"
 #include "engine/viewport/bbViewportApp.h"
 #include "engine/core/bbCore.h"
+#include "engine/ECS/ECS.h"
 #include "engine/graphics/bbGraphicsApp.h"
 #include "engine/interthread/bbClock.h"
 #include "engine/network/bbNetwork.h"
@@ -16,6 +17,10 @@
 #include "engine/groundsurface/bbGroundSurface.h"
 #include "engine/spawner/bbSpawner.h"
 
+typedef struct
+{
+    bbECS ECS;
+} bbECS_data;
 
 //TODO bbCoreApp
 typedef struct
@@ -44,6 +49,7 @@ typedef struct
     bbAgentsApp agents_app;
     bbGroundSurface ground_surface;
     bbSpawner spawner;
+    bbECS_data ECS;
 } bbHome;
 
 
