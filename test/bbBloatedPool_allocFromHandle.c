@@ -24,12 +24,20 @@ int main(void)
     handle.bloated.collision = 193;
 
     bbBloatedPool_allocFromHandle(pool,(void**)&a, handle);
+    bbBloatedPool_lookup(pool, (void**)&a, handle);
 
     bbStr_setStr(a->str, "test",KEY_LENGTH);
 
     bbDebug("a.str = %s\n",a->str);
 
     bbBloatedPool_printHeader(pool, a);
+
+    for (I32 i = 0; i<12; i++)
+    {
+        bbBloatedPool_alloc(pool, (void**)&a);
+        bbBloatedPool_printHeader(pool, a);
+
+    }
 
     return 0;
 }

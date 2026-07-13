@@ -348,17 +348,28 @@ bbFlag bbBloatedPool_allocFromHandle(bbBloatedPool* pool, void** address, bbHand
 		pool->available.tail = pool->null;
 	} else if (is_head)
 	{
-		pool->available.head = prev_handle;
-		bbBloatedPool_Header* prev_header;
-		bbBloatedPool_lookup(pool, (void**)&prev_header, prev_handle);
-		prev_header->list.prev = pool->null;
+		pool->available.head = next_handle;
+		bbBloatedPool_Header* next_header;
+		bbBloatedPool_lookup(pool, (void**)&next_header, next_handle);
+		next_header->list.prev = pool->null;
 
 	} else if (is_tail)
 	{
-		pool->available.tail = next_handle;
+		pool->available.tail = prev_handle;
+		bbBloatedPool_Header* prev_header;
+		bbBloatedPool_lookup(pool, (void**)&prev_header, prev_handle);
+		prev_header->list.next = pool->null;
+	} else
+	{
+
 		bbBloatedPool_Header* next_header;
 		bbBloatedPool_lookup(pool, (void**)&next_header, next_handle);
-		next_header->list.next = pool->null;
+
+		bbBloatedPool_Header* prev_header;
+		bbBloatedPool_lookup(pool, (void**)&prev_header, prev_handle);
+
+		next_header->list.prev = prev_header->self;
+		prev_header->list.next = next_header->self;
 	}
 
 	element->list.prev = pool->null;
