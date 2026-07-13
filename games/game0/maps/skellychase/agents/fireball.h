@@ -113,10 +113,10 @@ bbFlag bbAgent_Update_Fireball(bbAgent* agent)
                 if (distance < 4*POINTS_PER_TILE*POINTS_PER_TILE)
                 {
                     bbAgentCommandData data;
-                    //bbAgent2_onCommand(agent2,
-                    //                  home.agents_app.agents,
-                    //                   bbAC_damageAgent,
-                    //                  data);
+                    bbAgent2_onCommand(agent2,
+                                       home.agents_app.agents,
+                                       bbAC_damageAgent,
+                                       data);
                 }
 
             }
