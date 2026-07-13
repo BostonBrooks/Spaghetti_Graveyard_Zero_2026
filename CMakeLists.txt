@@ -120,6 +120,7 @@ add_executable(Spaghetti_Graveyard_Zero_2026 test/incremental_test.c
         engine/threadsafe/bbThreadedQueue.c
         games/game0/maps/pong/code/bbBall.c
         games/game0/maps/pong/code/bbPaddle.c
+        engine/ECS/ECS.c
 )
 
 target_compile_definitions(Spaghetti_Graveyard_Zero_2026 PRIVATE
