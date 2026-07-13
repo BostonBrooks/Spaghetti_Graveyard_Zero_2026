@@ -797,7 +797,7 @@ bbFlag bbVInstruction_spawnAgent_fn(bbCore* core, bbInstruction* instruction)
     bbInstruction* undo_instruction;
     bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
     undo_instruction->type = bbVInstruction_unspawnAgent;
-    undo_instruction->source = bbInstructionSource_internal;
+    undo_instruction->source = instruction->source;
     I32 entity_int = home.agents_app.entities.available;
     I32 movable_int = home.agents_app.movables.available;
 
