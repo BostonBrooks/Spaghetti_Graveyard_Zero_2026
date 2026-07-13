@@ -308,3 +308,83 @@ bbFlag bbBloatedPool_reverseLookup(bbBloatedPool* pool, void* address, bbHandle*
 	*handle = element->self;
 	return bbSuccess;
 }
+
+
+bbFlag bbBloatedPool_allocFromHandle(bbBloatedPool* pool, void** address, bbHandle handle){
+
+	U32 index = handle.bloated.index;
+	U32 collision = handle.bloated.collision;
+	U32 lvl1index = index / pool->level2;
+	bbAssert(lvl1index < pool->level1, "index out of bounds\n");
+	U32 lvl2index = index % pool->level2;
+	U8* lvl2 = pool->elements[lvl1index];
+	bbBloatedPool_Header *element = (bbBloatedPool_Header *)&lvl2[lvl2index * (sizeof(bbBloatedPool_Header) + pool->size_of)];
+
+	bbAssert(element->in_use != true, "alloc from handle - in use\n");
+
+	element->in_use = true;
+	element->self.bloated.collision = collision;
+
+	bbHandle prev_handle = element->list.prev;
+	bbHandle next_handle = element->list.next;
+
+	bbHandle head_handle = pool->available.head;
+	bbHandle tail_handle = pool->available.tail;
+
+	bbHandle old_handle = element->self;
+
+	bool is_head = bbBloatedPool_handleIsEqual(pool, head_handle, old_handle);
+	bool is_tail = bbBloatedPool_handleIsEqual(pool, tail_handle, old_handle);
+
+
+	if (is_head && is_tail)
+	{
+		pool->available.head = pool->null;
+		pool->available.tail = pool->null;
+	} else if (is_head)
+	{
+		pool->available.head = prev_handle;
+		bbBloatedPool_Header* prev_header;
+		bbBloatedPool_lookup(pool, (void**)&prev_header, prev_handle);
+		prev_header->list.prev = pool->null;
+
+	} else if (is_tail)
+	{
+		pool->available.tail = next_handle;
+		bbBloatedPool_Header* next_header;
+		bbBloatedPool_lookup(pool, (void**)&next_header, next_handle);
+		next_header->list.next = pool->null;
+	}
+
+	element->list.prev = pool->null;
+	element->list.next = pool->null;
+
+	*address = element->user_data;
+
+
+
+	return bbSuccess;
+}
+
+bbFlag bbBloatedPool_printHeader(bbBloatedPool* pool, void* address)
+{
+	bbBloatedPool_Header* element = address - offsetof(bbBloatedPool_Header, user_data);
+
+	bbDebug("self.index = %d, self.collision = %d\n"
+		"list.prev.index = %d, list.prev.collision = %d\n"
+		"list.next.index = %d, list.next.collision = %d\n"
+		"in use = %d\n"
+		"line  = %d\n"
+		"file = %s\n",
+		element->self.bloated.index,
+		element->self.bloated.collision,
+		element->list.prev.bloated.index,
+		element->list.prev.bloated.collision,
+		element->list.next.bloated.index,
+		element->list.next.bloated.collision,
+		element->in_use,
+		element->line,
+		element->file);
+
+	return bbSuccess;
+}

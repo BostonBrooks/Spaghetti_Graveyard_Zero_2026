@@ -43,7 +43,7 @@ bbFlag bbBloatedPool_lookup(bbBloatedPool* pool, void** address, bbHandle handle
 bbFlag bbBloatedPool_reverseLookup(bbBloatedPool* pool, void* address, bbHandle* handle);
 bbFlag bbBloatedPool_printHeader(bbBloatedPool* pool, void* address);
 bool bbBloatedPool_handleIsEqual(bbBloatedPool* USUSED, bbHandle A, bbHandle B);
-
+bbFlag bbBloatedPool_lookupHeader(bbBloatedPool* pool, void** address, bbHandle handle);
 bbFlag bbBloatedPool_allocFromHandle(bbBloatedPool* pool, void** address, bbHandle handle);
 
 

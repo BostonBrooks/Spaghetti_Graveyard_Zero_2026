@@ -175,8 +175,11 @@ add_executable(test_sort test/bbTest_list_sort.c
 
 target_include_directories(test_sort  PRIVATE "./")
 
+add_executable(allocFromHandle test/bbBloatedPool_allocFromHandle.c
+        engine/logic/bbBloatedPool.c
+)
 
-
+target_include_directories(allocFromHandle  PRIVATE "./")
 
 add_executable(test_core test/bbTest_core.c
         engine/data/bbIncludes.c
