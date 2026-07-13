@@ -20,6 +20,7 @@ typedef enum
 
 typedef struct
 {
+    bbListElement_Handle list_element_handle;
     bbECS_states state;
     U64 has_component;
     bbHandle components[bbECS_numSystems];
@@ -27,7 +28,7 @@ typedef struct
 
 typedef struct
 {
-    bbVPool pool;
+    bbVPool* pool;
     bbList list;
 } bbECS;
 
