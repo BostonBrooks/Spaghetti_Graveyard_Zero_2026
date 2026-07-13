@@ -25,7 +25,7 @@ bbFlag bbSprite_new(bbSprites* sprites, char* key, I32 address, sfTexture* textu
 #ifdef CSFML3
     sprite = sfSprite_create(texture);
     bbAssert(sprite != NULL, "sfSprite_create(NULL) returned NULL\n");
-#else CSFML3
+#else
     sprite = sfSprite_create();
     sfSprite_setTexture(sprite, texture, sfTrue);
 
@@ -37,7 +37,7 @@ bbFlag bbSprite_new(bbSprites* sprites, char* key, I32 address, sfTexture* textu
     rect.position.y = dimensions->top;
     rect.size.x = dimensions->width;
     rect.size.y = dimensions->height;
-#else CSFML3
+#else
 
     rect.left = dimensions->left;
     rect.top = dimensions->top;

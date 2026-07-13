@@ -100,7 +100,7 @@ bbFlag bbBloatedPool_newHandle(bbBloatedPool* Pool, U32 lvl1index, U32
 lvl2index, bbHandle* Handle){
     U32 index = lvl1index * Pool->level2 + lvl2index;
     U32 randint = rand();
-    if (randint == 0) randint++;
+    if (randint == 0) randint = 193;
     U32 collision = randint;
     bbHandle handle;
     handle.bloated.index = index;
@@ -173,7 +173,7 @@ bbFlag bbBloatedPool_allocImpl(bbBloatedPool* pool, void** address, char* file, 
 	{
 		bbAssert(bbBloatedPool_handleIsEqual(NULL,pool->available.head,pool->available.tail),
 			"head/tail mismatch\n");
-
+		bbBloatedPool_expand(pool);
 	}
 
 	//If one element available

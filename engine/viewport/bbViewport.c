@@ -10,7 +10,7 @@ bbFlag bbRenderable_init(bbRenderable* renderable, I32 height, I32 width){
     size.y = height;
 
 
-#ifdef CSML3
+#ifdef CSFML3
     renderable->renderTexture = sfRenderTexture_create(size,  NULL);
 #else
     renderable->renderTexture = sfRenderTexture_create(width,height,  sfFalse);
@@ -22,8 +22,7 @@ bbFlag bbRenderable_init(bbRenderable* renderable, I32 height, I32 width){
     bbAssert(renderable->texture != NULL, "bad sfml\n");
 
 
-#ifdef CSML3
-
+#ifdef CSFML3
     renderable->sprite = sfSprite_create(renderable->texture);
     bbAssert(renderable->sprite != NULL, "bad sfml\n");
 #else

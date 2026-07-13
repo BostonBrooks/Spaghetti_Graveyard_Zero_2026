@@ -61,11 +61,9 @@ bbFlag Create_Ground_Shaders (bbGroundSurface* surface){
     sfVector2u size;
     size.x = PIXELS_PER_TILE * TILES_PER_SQUARE;
     size.y = PIXELS_PER_TILE * TILES_PER_SQUARE;
-#ifdef SFML3
+#ifdef CSFML3
     surface->null_render_texture = sfRenderTexture_create (size, NULL);
-
 #else
-
     surface->null_render_texture = sfRenderTexture_create (size.x, size.y, sfFalse);
 #endif
     sfRenderTexture_clear(surface->null_render_texture, sfRed);
