@@ -48,7 +48,7 @@ bbFlag bbVPool_newBloated(bbVPool** Pool, I32 sizeOf, I32 level1, I32 level2, ch
     *Pool = pool;
     return bbSuccess;
 }
-
+bbFlag bbBloatedPool_expand(bbBloatedPool* pool);
 bbFlag bbBloatedPool_new(bbBloatedPool** Pool, I32 sizeOf, I32 level1, I32
 level2, char* key){
     //We might get errors if leve1, level2 are too small
@@ -57,6 +57,7 @@ level2, char* key){
 
     bbBloatedPool* pool = malloc(sizeof(bbBloatedPool) + level1 * sizeof
             (void*));
+
     I32 size = bbArith_roundUp(sizeOf, 8);
     pool->null.bloated.index = 0;
     pool->null.bloated.collision = 0;
@@ -70,6 +71,9 @@ level2, char* key){
     for(I32 i = 0; i < level1; i++){
         pool->elements[i] = NULL;
     }
+
+
+	bbBloatedPool_expand(pool);
     *Pool = pool;
     return bbSuccess;
 }
@@ -169,7 +173,7 @@ bbFlag bbBloatedPool_allocImpl(bbBloatedPool* pool, void** address, char* file, 
 	{
 		bbAssert(bbBloatedPool_handleIsEqual(NULL,pool->available.head,pool->available.tail),
 			"head/tail mismatch\n");
-		bbBloatedPool_expand(pool);
+
 	}
 
 	//If one element available
@@ -318,6 +322,7 @@ bbFlag bbBloatedPool_allocFromHandle(bbBloatedPool* pool, void** address, bbHand
 	bbAssert(lvl1index < pool->level1, "index out of bounds\n");
 	U32 lvl2index = index % pool->level2;
 	U8* lvl2 = pool->elements[lvl1index];
+	bbAssert(lvl2 != NULL, "index out of bounds / not yet implemented\n");
 	bbBloatedPool_Header *element = (bbBloatedPool_Header *)&lvl2[lvl2index * (sizeof(bbBloatedPool_Header) + pool->size_of)];
 
 	bbAssert(element->in_use != true, "alloc from handle - in use\n");

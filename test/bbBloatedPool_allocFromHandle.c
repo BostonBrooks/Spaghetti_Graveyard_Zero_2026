@@ -17,13 +17,12 @@ int main(void)
 
 
 
-    a_struct *a,*b;
+    a_struct *a;
 
     bbHandle handle;
     handle.bloated.index = 7;
     handle.bloated.collision = 193;
 
-    bbBloatedPool_alloc(pool, (void**)&b);
     bbBloatedPool_allocFromHandle(pool,(void**)&a, handle);
 
     bbStr_setStr(a->str, "test",KEY_LENGTH);
