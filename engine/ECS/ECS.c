@@ -21,12 +21,15 @@ bbFlag bbECS_newEntity(bbECS* ECS, bbHandle* handle, bbECS_entity** entity)
     bbECS_entity* new_entity;
     bbVPool_alloc(ECS->pool, (void**)&new_entity);
 
+
     bbHandle new_handle;
     bbVPool_reverseLookup(ECS->pool,new_entity,&new_handle);
 
     new_entity->state = bbECS_alive;
     new_entity->has_component = 0;
 
+
+    bbList_pushR(&ECS->list, new_entity);
     if (handle!=NULL) *handle = new_handle;
     if (entity!=NULL) *entity = new_entity;
 
