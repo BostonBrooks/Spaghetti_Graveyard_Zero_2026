@@ -33,5 +33,6 @@ typedef struct
 } bbECS;
 
 bbFlag bbECS_init(bbECS* ECS);
-bbFlag bbECS_entity_getComponent(bbHandle* component, bbHandle entity, bbECS_systems system);
-bbFlag bbECS_entity_setComponent(bbHandle component, bbHandle entity, bbECS_systems system);
+bbFlag bbECS_newEntity(bbECS* ECS, bbHandle* handle, bbECS_entity** entity);
+bbFlag bbECS_entity_getComponent(bbECS* ECS, bbHandle* component, bbHandle entity, bbECS_systems system);
+bbFlag bbECS_entity_setComponent(bbECS* ECS, bbHandle component, bbHandle entity, bbECS_systems system);
