@@ -14,8 +14,6 @@ bbFlag bbECS_init(bbECS* ECS)
     return bbSuccess;
 }
 
-
-
 bbFlag bbECS_newEntity(bbECS* ECS, bbHandle* handle, bbECS_entity** entity)
 {
     bbECS_entity* new_entity;

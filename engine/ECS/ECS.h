@@ -1,3 +1,15 @@
+/** The Entity Component System tracks "things" in the game world, such as monsters,
+ * Player characters, etc
+ * We need to be able to spawn an empty entity then add a bunch of components.
+ * This instruction will need to be undo-able in the core
+ *
+ * Deleting an entity if entity.state == dying removes the entity from ECS.list
+ * This action is undoable in the core.
+ * if the undo instruction is discarded, the entity is freed in the pool
+ */
+
+
+#include "engine/core/bbInstruction.h"
 #include "engine/logic/bbHandle.h"
 #include "engine/logic/bbList.h"
 #include "engine/logic/bbVPool.h"
@@ -33,6 +45,17 @@ typedef struct
 } bbECS;
 
 bbFlag bbECS_init(bbECS* ECS);
+bbFlag bbECS_update(bbECS* ECS);
 bbFlag bbECS_newEntity(bbECS* ECS, bbHandle* handle, bbECS_entity** entity);
+bbFlag bbECS_deleteEntity(bbECS* ECS, bbHandle* handle, bbECS_entity** entity);
 bbFlag bbECS_entity_getComponent(bbECS* ECS, bbHandle* component, bbHandle entity, bbECS_systems system);
 bbFlag bbECS_entity_setComponent(bbECS* ECS, bbHandle component, bbHandle entity, bbECS_systems system);
+
+bbFlag bbCoreInput_notifyEntitySpawned(bbECS* ECS, bbHandle entity);
+bbFlag bbInstruction_unspawnEntity_fn(bbCore* core, bbInstruction* instruction);
+
+bbFlag bbCoreInput_deleteEntity_fn(bbECS* ECS, bbHandle entity);
+bbFlag bbInstruction_deleteEntity_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbInstruction_undeleteEntity_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbInstruction_confirmDeleteEntity_fn(bbCore* core, bbInstruction* instruction);
+
