@@ -187,6 +187,9 @@ bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
             case bbInstruction_uncheckActions:
                 bbInstruction_uncheckActions_fn(core, instruction);
                 break;
+            case bbInstruction_unspawnEntity:
+                bbInstruction_unspawnEntity_fn(core, instruction);
+                break;
 
 #ifdef DEFINE_SKELLYCHASE
        //     case bbInstruction_unspawnBanana:

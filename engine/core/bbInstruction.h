@@ -35,6 +35,9 @@ typedef enum
 
     bbInstruction_deleteEntity,
     bbInstruction_undeleteEntity,
+
+    bbInstruction_entity_setComponent,
+    bbInstruction_entity_unsetComponent,
     //bbInstruction_updateBall,
     //bbInstruction_unupdateBall,
 

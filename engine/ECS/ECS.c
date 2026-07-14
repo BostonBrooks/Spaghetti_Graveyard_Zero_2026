@@ -163,6 +163,18 @@ bbFlag bbInstruction_spawnEntity_fn(bbCore* core, bbInstruction* instruction)
         return bbSuccess;
     }
 
+    bbNotHere()
+}
+
+bbFlag bbInstruction_unspawnEntity_fn(bbCore* core, bbInstruction* instruction)
+{
+    bbHandle entity_handle = instruction->data.three_handles.handle1;
+    bbECS_entity* entity;
+    bbVPool_lookup(ECS.pool, (void**)&entity, entity_handle);
+    entity->state = bbECS_unused;
+    bbList_remove(&ECS.list, entity);
+    bbVPool_free(core->instruction_pool, (void**)&entity);
+
     if (instruction->source == bbInstructionSource_internal)
     {
         bbVPool_free(core->instruction_pool, (void*)instruction);
@@ -187,21 +199,10 @@ bbFlag bbInstruction_spawnEntity_fn(bbCore* core, bbInstruction* instruction)
         bbVPool_free(core->instruction_pool, (void*)instruction);
         return bbSuccess;
     }
-    bbHere()
 
     bbNotHere()
 }
-
-bbFlag bbInstruction_unspawnEntity_fn(bbCore* core, bbInstruction* instruction)
-{
-    bbHandle entity_handle = instruction->data.three_handles.handle1;
-    bbECS_entity* entity;
-    bbVPool_lookup(ECS.pool, (void**)&entity, entity_handle);
-    entity->state = bbECS_unused;
-    bbList_remove(&ECS.list, entity);
-    bbVPool_free(core->instruction_pool, (void**)&entity);
-}
-
+/*
 bbFlag bbCoreImmediate_spawnEntity(bbCore* core, bbECS* ECS, bbHandle* entity, bbInstruction_source source, bbHandle action)
 {
     bbECS_entity* new_entity;
@@ -232,4 +233,26 @@ bbFlag bbCoreImmediate_spawnEntity(bbCore* core, bbECS* ECS, bbHandle* entity, b
 
     bbNotHere()
 }
+*/
+bbFlag bbCoreInput_entity_setComponent(bbCore* core,bbECS* ECS,
+    bbHandle component, bbHandle entity, bbECS_systems system, bbInstruction_source source, bbHandle action)
+{
+    {
+        bbInstruction* instruction;
+        bbList_alloc(&core->do_stack, (void**) &instruction);
+        instruction->type = bbInstruction_entity_setComponent;
+        instruction->source = source;
+        instruction->redo_instruction = action;
+        instruction->data.three_handles.handle1 = entity;
+        instruction->data.three_handles.handle2 = component;
+        instruction->data.three_handles.handle3.u64 = system;
+        bbList_pushL(&core->do_stack, instruction);
+        return bbSuccess;
 
+    }
+}
+
+bbFlag bbCoreInput_entity_setComponent_fn(bbCore* core, bbInstruction* instruction)
+{
+
+}

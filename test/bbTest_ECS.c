@@ -18,9 +18,23 @@ int main(void)
 
     bbCoreInput_setTime(&core, 1, bbInstructionSource_input, no_handle);
     test_time = 1;
+
+    bbCoreInput_setTime(&core, 2, bbInstructionSource_input, no_handle);
+    test_time = 2;
+
+    bbCoreInput_setTime(&core, 3, bbInstructionSource_input, no_handle);
+    test_time = 3;
+
+
     bbHandle entity_handle;
 
     bbCoreInput_spawnEntity(&core, bbInstructionSource_input, null_handle);
+    bbCore_react(&core);
+
+    bbCoreInput_setTime(&core, 10, bbInstructionSource_input, no_handle);
+    test_time = 10;
+
+    bbCore_rewindUntil(&core, 2);
     bbCore_react(&core);
 
     bbECS_entity* entity;
