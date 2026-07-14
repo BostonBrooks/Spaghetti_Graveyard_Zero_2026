@@ -78,4 +78,29 @@ bbFlag bbCoreInput_notifyEntitySpawned(bbCore* core, bbHandle entity, bbInstruct
     bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
     undo_instruction->type = bbInstruction_unspawnEntity;
     undo_instruction->source = source;
+    undo_instruction->data.three_handles.handle1 = entity;
+
+    if (source == bbInstructionSource_internal)
+    {
+        undo_instruction->redo_instruction.u64 = 0;
+        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+        return bbSuccess;
+    }
+    /*
+    if (source == bbInstructionSource_input)
+    {
+        bbHandle handle;
+        bbVPool_reverseLookup(core->instruction_pool, instruction, &handle);
+        undo_instruction->redo_instruction = handle;
+        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_action)
+    {
+        undo_instruction->redo_instruction = instruction->redo_instruction;
+        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+        return bbSuccess;
+    }
+*/
+    return bbNone;
 }
