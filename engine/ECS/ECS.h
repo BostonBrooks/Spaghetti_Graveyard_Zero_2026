@@ -47,14 +47,17 @@ typedef struct
 } bbECS;
 
 bbFlag bbECS_init(bbECS* ECS);
+
+/*
 bbFlag bbECS_update(bbECS* ECS);
 bbFlag bbECS_newEntity(bbECS* ECS, bbHandle* handle, bbECS_entity** entity);
 bbFlag bbECS_entity_getComponent(bbECS* ECS, bbHandle* component, bbHandle entity, bbECS_systems system);
 bbFlag bbECS_entity_setComponent(bbECS* ECS, bbHandle component, bbHandle entity, bbECS_systems system);
+*/
 
-///Notify the core that an entity has been spawned. if the core is rolled back, the entity is unspawned.
-///What will the instruction_source be? Do we need a redo instruction?
-bbFlag bbCoreInput_notifyEntitySpawned(bbCore* core, bbHandle entity, bbInstruction_source source, bbHandle action);
+///Spawn entity immediately then add undo/redo instructions in the core. set bbHandle* entity to point to the spawned entity
+bbFlag bbCoreImmediate_spawnEntity(bbCore* core, bbECS* ECS, bbHandle* entity, bbInstruction_source source, bbHandle action);
+bbFlag bbInstruction_spawnEntity_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_unspawnEntity_fn(bbCore* core, bbInstruction* instruction);
 
 bbFlag bbCoreInput_deleteEntity_fn(bbCore* core,bbInstruction_source source, bbHandle entity);

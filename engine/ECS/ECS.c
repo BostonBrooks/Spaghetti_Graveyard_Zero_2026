@@ -14,7 +14,7 @@ bbFlag bbECS_init(bbECS* ECS)
     bbList_init(&ECS->list, ECS->pool, NULL, offsetof(bbECS_entity, list_element_handle),NULL);
     return bbSuccess;
 }
-
+/* old code might reuse
 bbFlag bbECS_newEntity(bbECS* ECS, bbHandle* handle, bbECS_entity** entity)
 {
     bbECS_entity* new_entity;
@@ -86,7 +86,7 @@ bbFlag bbCoreInput_notifyEntitySpawned(bbCore* core, bbHandle entity, bbInstruct
         bbList_pushL(&core->undo_stack, (void*)undo_instruction);
         return bbSuccess;
     }
-    /*
+
     if (source == bbInstructionSource_input)
     {
         bbHandle handle;
@@ -101,6 +101,37 @@ bbFlag bbCoreInput_notifyEntitySpawned(bbCore* core, bbHandle entity, bbInstruct
         bbList_pushL(&core->undo_stack, (void*)undo_instruction);
         return bbSuccess;
     }
-*/
+
     return bbNone;
 }
+*/
+
+bbFlag bbCoreImmediate_spawnEntity(bbCore* core, bbECS* ECS, bbHandle* entity, bbInstruction_source source, bbHandle action)
+{
+    bbECS_entity* new_entity;
+    bbVPool_alloc(ECS->pool, (void**)&new_entity);
+
+    bbHandle new_handle;
+    bbVPool_reverseLookup(ECS->pool,new_entity,&new_handle);
+
+    new_entity->state = bbECS_alive;
+    new_entity->has_component = 0;
+
+    bbList_pushR(&ECS->list, new_entity);
+
+    bbInstruction* undo_instruction;
+    bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+    undo_instruction->type = bbInstruction_unspawnEntity;
+    undo_instruction->source = source;
+    undo_instruction->data.three_handles.handle1 = new_handle;
+
+    if (source == bbInstructionSource_internal)
+    {
+        undo_instruction->redo_instruction.u64 = 0;
+        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+        return bbSuccess;
+    }
+
+    bbNotHere()
+}
+

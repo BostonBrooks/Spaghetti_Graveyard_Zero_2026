@@ -182,7 +182,7 @@ add_executable(allocFromHandle test/bbBloatedPool_allocFromHandle.c
 
 target_include_directories(allocFromHandle  PRIVATE "./")
 
-add_executable(test_core test/bbTest_core.c
+add_executable(test_core test/bbTest_ECS.c
         engine/data/bbIncludes.c
         engine/logic/bbBloatedPool.c
         engine/logic/bbDictionary.c
@@ -240,7 +240,7 @@ target_link_libraries(test_core PRIVATE
         csfml-network
 )
 
-add_executable(Reactor_Core test/bbTest_core.c
+add_executable(Reactor_Core test/bbTest_ECS.c
         engine/logic/bbTree.c
         engine/logic/bbList_sort.c
         engine/logic/bbList_iterate.c
@@ -354,3 +354,7 @@ target_link_libraries(SkellyChase PRIVATE
         csfml-network
         m
 )
+
+add_executable(TestECS test/bbTest_ECS.c)
+target_compile_definitions(TestECS PRIVATE DEFINE_TEST_ECS)
+target_include_directories(TestECS PRIVATE "./")
