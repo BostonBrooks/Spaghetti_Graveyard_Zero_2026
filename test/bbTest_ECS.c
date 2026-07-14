@@ -20,10 +20,11 @@ int main(void)
     test_time = 1;
     bbHandle entity_handle;
 
-    bbCoreImmediate_spawnEntity(&core, &ECS, &entity_handle, bbInstructionSource_internal, null_handle);
+    bbCoreInput_spawnEntity(&core, bbInstructionSource_input, null_handle);
+    bbCore_react(&core);
 
     bbECS_entity* entity;
-    bbVPool_lookup(ECS.pool, (void**)&entity, entity_handle);
+    bbVPool_lookup(ECS.pool, (void**)&entity, ECS.list.list_pointer->head);
 
     bbDebug("entity has components %064llb\n", entity->has_component);
 

@@ -6,6 +6,7 @@
 #include "engine/core/bbLocalMessage.h"
 #include "engine/core/bbInstruction.h"
 #include "engine/core/bbAction.h"
+#include "engine/ECS/ECS.h"
 #include "engine/logic/bbBloatedPool.h"
 #include "engine/threadsafe/bbThreadedPool.h"
 
@@ -79,8 +80,10 @@ bbFlag bbCore_react(bbCore* core)
                 break;
 #endif
             case bbInstruction_loopAction:
-
                 bbInstruction_loopAction_fn(core, instruction);
+                break;
+            case bbInstruction_spawnEntity:
+                bbInstruction_spawnEntity_fn(core, instruction);
                 break;
 
 #ifndef DEFINE_TEST_ECS

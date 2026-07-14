@@ -57,6 +57,9 @@ bbFlag bbECS_entity_setComponent(bbECS* ECS, bbHandle component, bbHandle entity
 
 ///Spawn entity immediately then add undo/redo instructions in the core. set bbHandle* entity to point to the spawned entity
 bbFlag bbCoreImmediate_spawnEntity(bbCore* core, bbECS* ECS, bbHandle* entity, bbInstruction_source source, bbHandle action);
+
+///pretty useless since you don't get a handle to the new entity
+bbFlag bbCoreInput_spawnEntity(bbCore* core, bbInstruction_source source, bbHandle action);
 bbFlag bbInstruction_spawnEntity_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_unspawnEntity_fn(bbCore* core, bbInstruction* instruction);
 

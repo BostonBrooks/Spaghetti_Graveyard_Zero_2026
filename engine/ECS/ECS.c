@@ -1,5 +1,6 @@
 #include "engine/ECS/ECS.h"
 
+#include "engine/core/bbAction.h"
 #include "engine/data/bbHome.h"
 #include "engine/logic/bbBloatedPool.h"
 
@@ -105,6 +106,101 @@ bbFlag bbCoreInput_notifyEntitySpawned(bbCore* core, bbHandle entity, bbInstruct
     return bbNone;
 }
 */
+
+bbFlag bbCoreInput_spawnEntity(bbCore* core, bbInstruction_source source, bbHandle action)
+{
+    bbInstruction* instruction;
+    bbList_alloc(&core->do_stack, (void**) &instruction);
+    instruction->type = bbInstruction_spawnEntity;
+    instruction->source = source;
+    instruction->redo_instruction = action;
+    bbList_pushL(&core->do_stack, instruction);
+    return bbSuccess;
+
+}
+//TODO this a cludge
+extern bbCore core;
+extern bbECS ECS;
+
+bbFlag bbInstruction_spawnEntity_fn(bbCore* core, bbInstruction* instruction)
+{
+    bbECS_entity* new_entity;
+    bbVPool_alloc(ECS.pool, (void**)&new_entity);
+
+    bbHandle new_handle;
+    bbVPool_reverseLookup(ECS.pool,new_entity,&new_handle);
+
+    new_entity->state = bbECS_alive;
+    new_entity->has_component = 0;
+
+    bbList_pushR(&ECS.list, new_entity);
+
+    bbInstruction* undo_instruction;
+    bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+    undo_instruction->type = bbInstruction_unspawnEntity;
+    undo_instruction->source = instruction->source;
+    undo_instruction->data.three_handles.handle1 = new_handle;
+
+    if (instruction->source == bbInstructionSource_internal)
+    {
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        undo_instruction->redo_instruction.u64 = 0;
+        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_input)
+    {
+        bbHandle handle;
+        bbVPool_reverseLookup(core->instruction_pool, instruction, &handle);
+        undo_instruction->redo_instruction = handle;
+        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_action)
+    {
+        undo_instruction->redo_instruction = instruction->redo_instruction;
+        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+        return bbSuccess;
+    }
+
+    if (instruction->source == bbInstructionSource_internal)
+    {
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_input)
+    {
+        bbInstruction* redo_instruction;
+        bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction,
+                       instruction->redo_instruction);
+        bbList_pushL(&core->do_stack, redo_instruction);
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_action)
+    {
+        bbAction* redo_action;
+
+        bbVPool_lookup(core->action_pool, (void**)&redo_action,
+                       instruction->redo_instruction);
+        bbList_sortL(&core->action_queue, (void*)redo_action);
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        return bbSuccess;
+    }
+    bbHere()
+
+    bbNotHere()
+}
+
+bbFlag bbInstruction_unspawnEntity_fn(bbCore* core, bbInstruction* instruction)
+{
+    bbHandle entity_handle = instruction->data.three_handles.handle1;
+    bbECS_entity* entity;
+    bbVPool_lookup(ECS.pool, (void**)&entity, entity_handle);
+    entity->state = bbECS_unused;
+    bbList_remove(&ECS.list, entity);
+    bbVPool_free(core->instruction_pool, (void**)&entity);
+}
 
 bbFlag bbCoreImmediate_spawnEntity(bbCore* core, bbECS* ECS, bbHandle* entity, bbInstruction_source source, bbHandle action)
 {
