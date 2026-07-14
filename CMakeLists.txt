@@ -355,6 +355,17 @@ target_link_libraries(SkellyChase PRIVATE
         m
 )
 
-add_executable(TestECS test/bbTest_ECS.c)
+add_executable(TestECS  test/bbTest_ECS.c
+        engine/ECS/ECS.c
+        engine/core/bbInstruction.c
+        engine/core/bbCoreInputs.c
+        engine/core/bbCoreDiscard.c
+        engine/core/bbCore.c
+        engine/core/bbAction.c
+        engine/logic/bbList.c
+        engine/logic/bbList_sort.c
+        engine/logic/bbBloatedPool.c
+        engine/threadsafe/bbThreadedQueue.c
+        engine/threadsafe/bbThreadedPool.c)
 target_compile_definitions(TestECS PRIVATE DEFINE_TEST_ECS)
 target_include_directories(TestECS PRIVATE "./")

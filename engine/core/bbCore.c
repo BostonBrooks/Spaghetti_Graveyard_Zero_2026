@@ -58,33 +58,36 @@ bbFlag bbCore_react(bbCore* core)
             case bbInstruction_setString:
                 bbInstruction_setString_fn(core, instruction);
                 break;
-
+#ifndef DEFINE_TEST_ECS
             case bbInstruction_unfreezeButton:
                 bbInstruction_unfreezeButton_fn(core, instruction);
                 break;
-
+#endif
             case bbInstruction_checkActions:
                 bbInstruction_checkActions_fn(core, instruction);
                 break;
-
+#ifndef DEFINE_TEST_ECS
             case bbInstruction_netsendButton:
                 bbInstruction_netsendButton_fn(core, instruction);
                 break;
+#endif
+
+#ifndef DEFINE_TEST_ECS
             case bbInstruction_netcodeButton:
 
                 bbInstruction_netcodeButton_fn(core, instruction);
                 break;
-
+#endif
             case bbInstruction_loopAction:
 
                 bbInstruction_loopAction_fn(core, instruction);
                 break;
 
-
+#ifndef DEFINE_TEST_ECS
             case bbInstruction_netpauseButton:
                 bbInstruction_netpauseButton_fn(core, instruction);
                 break;
-
+#endif
 #ifdef DEFINE_SKELLYCHASE
             case bbInstruction_spawnBananaOut:
                 bbInstruction_spawnBananaOut_fn(core, instruction);

@@ -119,6 +119,8 @@ bbFlag bbCoreImmediate_spawnEntity(bbCore* core, bbECS* ECS, bbHandle* entity, b
 
     bbList_pushR(&ECS->list, new_entity);
 
+    *entity = new_handle;
+
     bbInstruction* undo_instruction;
     bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
     undo_instruction->type = bbInstruction_unspawnEntity;

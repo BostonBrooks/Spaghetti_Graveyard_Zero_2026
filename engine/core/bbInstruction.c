@@ -17,36 +17,45 @@ extern char test_string[KEY_LENGTH];
 
 U32 collision = 0;
 
+#ifndef DEFINE_TEST_ECS
 bbFlag bbInstruction_netsendButton_fn(bbCore* core, bbInstruction* instruction)
 {
     bbNetworkApp_netsendButton(&home.network, instruction->data.key);
     return bbSuccess;
 }
+#endif
 
+#ifndef DEFINE_TEST_ECS
 bbFlag bbInstruction_netpauseButton_fn(bbCore* core, bbInstruction* instruction)
 {
     bbNetworkApp_netpauseButton(&home.network, instruction->data.key);
     return bbSuccess;
 }
+#endif
 
+#ifndef DEFINE_TEST_ECS
 bbFlag bbInstruction_netcodeButton_fn(bbCore* core, bbInstruction* instruction)
 {
     bbNetworkApp_netcodeButton(&home.network, instruction->data.key, instruction->act_time);
     return bbSuccess;
 }
+#endif
 
-
+#ifndef DEFINE_TEST_ECS
 bbFlag bbInstruction_keyUp_fn(bbCore* core, bbInstruction* instruction)
 {
     bbNetworkApp_keyUp(&home.network, instruction->data.three_handles.handle1.u64, instruction->act_time, collision++);
     return bbSuccess;
 }
+#endif
 
+#ifndef DEFINE_TEST_ECS
 bbFlag bbInstruction_keyDown_fn(bbCore* core, bbInstruction* instruction)
 {
     bbNetworkApp_keyDown(&home.network, instruction->data.three_handles.handle1.u64, instruction->act_time, collision++);
     return bbSuccess;
 }
+#endif
 
 bbFlag bbInstruction_loopAction_fn(bbCore* core, bbInstruction* instruction)
 {
@@ -135,6 +144,7 @@ bbFlag bbInstruction_unsetString_fn(bbCore* core, bbInstruction* instruction)
 
 }
 
+#ifndef DEFINE_TEST_ECS
 bbFlag bbInstruction_unfreezeButton_fn(bbCore* core, bbInstruction* instruction)
 {
 
@@ -180,6 +190,7 @@ bbDebug("unfreeze button %s\n", instruction->data.key);
     bbNotHere()
 */
 }
+#endif
 
 bbFlag bbInstruction_setTime_fn(bbCore* core, bbInstruction* instruction)
 {
@@ -453,13 +464,13 @@ bbFlag bbInstruction_setViewpointOut_fn(bbCore* core, bbInstruction* instruction
     bbNetworkApp_setViewpointOut(&home.network, instruction->data.map_coords, instruction->act_time, collision++);
     return bbSuccess;
 }*/
-
+#ifndef DEFINE_TEST_ECS
 bbFlag bbInstruction_spawnBananaOut_fn(bbCore* core, bbInstruction* instruction)
 {
     bbNetworkApp_spawnBananaOut(&home.network, instruction->data.map_coords, instruction->act_time, collision++);
     return bbSuccess;
 }
-
+#endif
 /*
 bbFlag bbInstruction_setGoalpointOut_fn(bbCore* core, bbInstruction* instruction)
 {
