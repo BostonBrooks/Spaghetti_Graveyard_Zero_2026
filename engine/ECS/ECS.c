@@ -169,18 +169,13 @@ bbFlag bbInstruction_spawnEntity_fn(bbCore* core, bbInstruction* instruction)
 bbFlag bbInstruction_unspawnEntity_fn(bbCore* core, bbInstruction* instruction)
 {
 
-    bbDebug("instruction source = %d\n", instruction->source);
-
 
     bbHandle entity_handle = instruction->data.three_handles.handle1;
     bbECS_entity* entity;
     bbVPool_lookup(ECS.pool, (void**)&entity, entity_handle);
     entity->state = bbECS_unused;
     bbList_remove(&ECS.list, entity);
-    bbVPool_free(core->instruction_pool, (void**)&entity);
 
-
-    bbDebug("instruction source = %d\n", instruction->source);
     if (instruction->source == bbInstructionSource_internal)
     {
         bbVPool_free(core->instruction_pool, (void*)instruction);
