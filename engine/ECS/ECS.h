@@ -68,9 +68,9 @@ bbFlag bbInstruction_deleteEntity_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_undeleteEntity_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_confirmDeleteEntity_fn(bbCore* core, bbInstruction* instruction);
 
-bbFlag bbCoreInput_entity_setComponent(bbCore* core,bbECS* ECS, bbHandle component,
-    bbHandle entity, bbECS_systems system, bbInstruction_source source, bbHandle action);
-bbFlag bbCoreInput_entity_setComponent_fn(bbCore* core, bbInstruction* instruction);
-bbFlag bbCoreInput_entity_unsetComponent_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbCoreInput_entity_setComponent(bbCore* core,bbECS* ECS, bbHandle entity,
+    bbHandle component, bbECS_systems system, bbInstruction_source source, bbHandle action);
+bbFlag bbInstruction_entity_setComponent_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbInstruction_entity_unsetComponent_fn(bbCore* core, bbInstruction* instruction);
 
 #endif //BB_ECS_H

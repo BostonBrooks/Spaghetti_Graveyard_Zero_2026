@@ -17,29 +17,41 @@ int main(void)
 
 
     bbCoreInput_setTime(&core, 1, bbInstructionSource_input, no_handle);
+    bbCore_react(&core);
     test_time = 1;
 
     bbCoreInput_setTime(&core, 2, bbInstructionSource_input, no_handle);
+    bbCore_react(&core);
     test_time = 2;
 
     bbCoreInput_setTime(&core, 3, bbInstructionSource_input, no_handle);
+    bbCore_react(&core);
     test_time = 3;
 
 
-    bbHandle entity_handle;
+
 
     bbCoreInput_spawnEntity(&core, bbInstructionSource_input, null_handle);
     bbCore_react(&core);
 
-    bbCoreInput_setTime(&core, 10, bbInstructionSource_input, no_handle);
-    test_time = 10;
+    bbHandle entity_handle = ECS.list.list_pointer->head;
 
-    bbCore_rewindUntil(&core, 2);
+    bbCoreInput_entity_setComponent(&core, &ECS, entity_handle, no_handle,bbECS_Moveables,bbInstructionSource_input, no_handle);
     bbCore_react(&core);
 
     bbECS_entity* entity;
     bbVPool_lookup(ECS.pool, (void**)&entity, ECS.list.list_pointer->head);
 
+    bbDebug("entity has components %064llb\n", entity->has_component);
+
+    bbCoreInput_setTime(&core, 10, bbInstructionSource_input, no_handle);
+    bbCore_react(&core);
+    test_time = 10;
+
+    bbCore_rewindUntil(&core, 2);
+    bbCore_react(&core);
+
+    bbVPool_lookup(ECS.pool, (void**)&entity, ECS.list.list_pointer->head);
     bbDebug("entity has components %064llb\n", entity->has_component);
 
 

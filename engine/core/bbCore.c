@@ -86,6 +86,10 @@ bbFlag bbCore_react(bbCore* core)
                 bbInstruction_spawnEntity_fn(core, instruction);
                 break;
 
+            case bbInstruction_entity_setComponent:
+                bbInstruction_entity_setComponent_fn(core, instruction);
+                break;
+
 #ifndef DEFINE_TEST_ECS
             case bbInstruction_netpauseButton:
                 bbInstruction_netpauseButton_fn(core, instruction);
@@ -190,6 +194,11 @@ bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
             case bbInstruction_unspawnEntity:
                 bbInstruction_unspawnEntity_fn(core, instruction);
                 break;
+            case bbInstruction_entity_unsetComponent:
+                bbInstruction_entity_unsetComponent_fn(core, instruction);
+                break;
+
+
 
 #ifdef DEFINE_SKELLYCHASE
        //     case bbInstruction_unspawnBanana:
