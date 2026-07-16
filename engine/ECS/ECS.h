@@ -34,6 +34,7 @@ typedef struct
 } bbECS_entity;
 
 /// Contains a minimal amount of data to make systems somewhat interchangeable
+/// Like a base-class for systems
 typedef struct
 {
     bbVPool* pool;
@@ -43,7 +44,7 @@ typedef struct
 {
     bbVPool* pool;
     bbList list;
-    bbSystem systems[bbECS_numSystems];
+    bbSystem* systems[bbECS_numSystems];
 } bbECS;
 
 
