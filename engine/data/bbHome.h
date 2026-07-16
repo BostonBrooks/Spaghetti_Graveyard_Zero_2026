@@ -4,7 +4,7 @@
 #include "../entities/bbEntities.h"
 #include "engine/viewport/bbViewportApp.h"
 #include "engine/core/bbCore.h"
-#include "engine/ECS(old)/ECS(old).h"
+#include "engine/ECS/ECS.h"
 #include "engine/graphics/bbGraphicsApp.h"
 #include "engine/interthread/bbClock.h"
 #include "engine/network/bbNetwork.h"

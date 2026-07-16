@@ -6,7 +6,7 @@
 #include "engine/core/bbLocalMessage.h"
 #include "engine/core/bbInstruction.h"
 #include "engine/core/bbAction.h"
-#include "engine/ECS(old)/ECS(old).h"
+#include "engine/ECS/ECS.h"
 #include "engine/logic/bbBloatedPool.h"
 #include "engine/threadsafe/bbThreadedPool.h"
 
@@ -83,11 +83,7 @@ bbFlag bbCore_react(bbCore* core)
                 bbInstruction_loopAction_fn(core, instruction);
                 break;
             case bbInstruction_spawnEntity:
-                bbInstruction_spawnEntity_fn(core, instruction);
-                break;
-
-            case bbInstruction_entity_setComponent:
-                bbInstruction_entity_setComponent_fn(core, instruction);
+                //bbInstruction_spawnEntity_fn(core, instruction);
                 break;
 
 #ifndef DEFINE_TEST_ECS
@@ -192,11 +188,9 @@ bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
                 bbInstruction_uncheckActions_fn(core, instruction);
                 break;
             case bbInstruction_unspawnEntity:
-                bbInstruction_unspawnEntity_fn(core, instruction);
+                //bbInstruction_unspawnEntity_fn(core, instruction);
                 break;
-            case bbInstruction_entity_unsetComponent:
-                bbInstruction_entity_unsetComponent_fn(core, instruction);
-                break;
+
 
 
 

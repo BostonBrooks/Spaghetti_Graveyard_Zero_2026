@@ -1,6 +1,6 @@
 #include "engine/core/bbCore.h"
 #include "engine/core/bbCoreInputs.h"
-#include "engine/ECS(old)/ECS(old).h"
+#include "engine/ECS/ECS.h"
 
 bbCore core;
 bbECS ECS;
@@ -14,6 +14,8 @@ int main(void)
     null_handle.u64 = 0;
     bbCore_init(&core);
     bbECS_init(&ECS);
+
+    bbHere()
 /*
 
     bbCoreInput_setTime(&core, 1, bbInstructionSource_input, no_handle);

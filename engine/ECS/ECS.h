@@ -52,16 +52,12 @@ bbFlag bbECS_init(bbECS* ECS);
 
 /// This function is called by Entity spawner instructions
 bbFlag bbECS_newEntity(bbECS* ECS, bbHandle* handle, bbECS_entity** entity);
-/// This function is called by instructions that are each called by
-/// Entity spawner functions
-bbFlag bbECS_entity_setComponent(bbECS* ECS, bbHandle entity, bbHandle component, bbECS_systems system);
 
-
-bbFlag bbCoreInput_spawnTestEntity(bbCore, bbECS* ECS, char* KEY);
+bbFlag bbCoreInput_spawnTestEntity(bbCore, bbECS* ECS, char* KEY, bbInstruction_source source, bbHandle action);
 bbFlag bbInstruction_spawnTestEntity_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_unspawnTestEntity_fn(bbCore* core, bbInstruction* instruction);
 
-bbFlag bbCoreIntput_entity_setComponent(core* core, bbHandle entity, bbHandle component, bbECS_systems system);
+bbFlag bbCoreIntput_entity_setComponent(bbCore* core, bbHandle entity, bbHandle component, bbECS_systems system, bbInstruction_source source, bbHandle action);
 bbFlag bbInstruction_entity_setComponent_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_entity_unsetComponent_fn(bbCore* core, bbInstruction* instruction);
 #endif //BB_ECS_H
