@@ -14,7 +14,7 @@ int main(void)
     null_handle.u64 = 0;
     bbCore_init(&core);
     bbECS_init(&ECS);
-
+/*
 
     bbCoreInput_setTime(&core, 1, bbInstructionSource_input, no_handle);
     bbCore_react(&core);
@@ -59,5 +59,5 @@ int main(void)
 
 
     exit(EXIT_SUCCESS);
-
+*/
 }
