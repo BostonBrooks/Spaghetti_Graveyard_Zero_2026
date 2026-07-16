@@ -1,0 +1,29 @@
+Ideally, instructions to spawn entities occur in a predictable order
+
+- Spawn entity (1)
+- Spawn entity (2)
+
+address of entity (1) < address of entity (2)
+
+What if the instruction to spawn entity (2) comes in from the network before the
+instruction to spawn entity (1). We delete the entity (2), spawn entity (1),
+then spawn entity (2) again
+
+- Spawn entity (2a)
+- Rollback
+    - Delete entity (2a)
+- Spawn entity (1)
+- Fastforward
+    - Spawn entity (2b)
+
+The consequence is that the address of (2a) != the address of (2b). In fact,
+the address of entities in the pool is unpredictable.
+
+There will be a system with a separate pool of references to entities. All of
+these references are owned by the server. Entities in this pool are always
+spawned by messages from the server.
+
+Since the address of entity (2) may change, we cant have instructions that are
+dependent on the address returned by the spawning instruction. If one instruction
+spawns a bunch of instructions, they should all be independent. Dependent
+instructions must be daisy-chained.
