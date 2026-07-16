@@ -27,3 +27,7 @@ Since the address of entity (2) may change, we cant have instructions that are
 dependent on the address returned by the spawning instruction. If one instruction
 spawns a bunch of instructions, they should all be independent. Dependent
 instructions must be daisy-chained.
+
+The instruction to allocate an entity must also spawn instructions to spawn each of
+its components, so we have a lot of instructions allocating entities. This
+functionality can be wrapped in a function call.

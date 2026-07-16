@@ -211,6 +211,15 @@ static I32 bbGetInt(char* prompt, int defaultValue)
     }
 }
 
+static void print_binary_8(U64 num) {
+    // Loop 8 times for an 8-bit character byte
+    for (int i = 7; i >= 0; i--) {
+        // Shift right by i positions and check if the last bit is 1 or 0
+        int bit = (num >> i) & 1;
+        printf("%d", bit);
+    }
+    printf("\n");
+}
 
 //#define MUTEX_DEBUG
 #ifdef MUTEX_DEBUG

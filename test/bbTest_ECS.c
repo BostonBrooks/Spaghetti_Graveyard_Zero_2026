@@ -1,6 +1,6 @@
 #include "engine/core/bbCore.h"
 #include "engine/core/bbCoreInputs.h"
-#include "engine/ECS/ECS.h"
+#include "engine/ECS(old)/ECS(old).h"
 
 bbCore core;
 bbECS ECS;
@@ -37,12 +37,15 @@ int main(void)
     bbHandle entity_handle = ECS.list.list_pointer->head;
 
     bbCoreInput_entity_setComponent(&core, &ECS, entity_handle, no_handle,bbECS_Moveables,bbInstructionSource_input, no_handle);
+    bbCoreInput_entity_setComponent(&core, &ECS, entity_handle, no_handle,bbECS_Unit,bbInstructionSource_input, no_handle);
+    bbCoreInput_entity_setComponent(&core, &ECS, entity_handle, no_handle,bbECS_AI,bbInstructionSource_input, no_handle);
     bbCore_react(&core);
 
     bbECS_entity* entity;
     bbVPool_lookup(ECS.pool, (void**)&entity, ECS.list.list_pointer->head);
 
-    bbDebug("entity has components %064llb\n", entity->has_component);
+    bbDebug("entity has components ");
+    print_binary_8(entity->has_component);
 
     bbCoreInput_setTime(&core, 10, bbInstructionSource_input, no_handle);
     bbCore_react(&core);
@@ -51,8 +54,8 @@ int main(void)
     bbCore_rewindUntil(&core, 2);
     bbCore_react(&core);
 
-    bbVPool_lookup(ECS.pool, (void**)&entity, ECS.list.list_pointer->head);
-    bbDebug("entity has components %064llb\n", entity->has_component);
+    bbDebug("entity has components ");
+    print_binary_8(entity->has_component);
 
 
     exit(EXIT_SUCCESS);

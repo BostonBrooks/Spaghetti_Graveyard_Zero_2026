@@ -120,7 +120,7 @@ add_executable(Spaghetti_Graveyard_Zero_2026 test/incremental_test.c
         engine/threadsafe/bbThreadedQueue.c
         games/game0/maps/pong/code/bbBall.c
         games/game0/maps/pong/code/bbPaddle.c
-        engine/ECS/ECS.c
+        "engine/ECS(old)/ECS(old).c"
 )
 
 target_compile_definitions(Spaghetti_Graveyard_Zero_2026 PRIVATE
@@ -356,7 +356,7 @@ target_link_libraries(SkellyChase PRIVATE
 )
 
 add_executable(TestECS  test/bbTest_ECS.c
-        engine/ECS/ECS.c
+        "engine/ECS(old)/ECS(old).c"
         engine/core/bbInstruction.c
         engine/core/bbCoreInputs.c
         engine/core/bbCoreDiscard.c

@@ -6,7 +6,7 @@
 #include "engine/core/bbLocalMessage.h"
 #include "engine/core/bbInstruction.h"
 #include "engine/core/bbAction.h"
-#include "engine/ECS/ECS.h"
+#include "engine/ECS(old)/ECS(old).h"
 #include "engine/logic/bbBloatedPool.h"
 #include "engine/threadsafe/bbThreadedPool.h"
 
