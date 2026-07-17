@@ -52,12 +52,17 @@ typedef struct
 bbFlag bbECS_init(bbECS* ECS);
 
 //We need a function that spawns an entity, readies the unspawn instruction, then synchronously returns the entity.
-bbFlag bbCoreSynchronous_spawnTestEntity(bbCore* core, bbECS* ECS, bbECS_entity** entity, char* key, bbInstruction_source source, bbHandle action);
+bbFlag bbCoreSynchronous_spawnEmptyEntity(bbCore* core, bbECS* ECS, bbECS_entity** return_entity, char* key, bbInstruction_source source, bbHandle action);
+bbFlag bbCoreInput_spawnEmptyEntity(bbCore* core, bbECS* ECS, char* key, bbInstruction_source source, bbHandle action);
+bbFlag bbInstruction_spawnEmptyEntity_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbInstruction_unspawnEmptyEntity_fn(bbCore* core, bbInstruction* instruction);
+
 bbFlag bbCoreInput_spawnTestEntity(bbCore* core, bbECS* ECS, char* key, bbInstruction_source source, bbHandle action);
 bbFlag bbInstruction_spawnTestEntity_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_unspawnTestEntity_fn(bbCore* core, bbInstruction* instruction);
 
-bbFlag bbCoreIntput_entity_setComponent(bbCore* core, bbHandle entity, bbHandle component, bbECS_systems system, bbInstruction_source source, bbHandle action);
+bbFlag bbCoreInput_entity_setComponent(bbCore* core,bbECS* ECS, bbHandle entity,
+    bbHandle component, bbECS_systems system, bbInstruction_source source, bbHandle action);
 bbFlag bbInstruction_entity_setComponent_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_entity_unsetComponent_fn(bbCore* core, bbInstruction* instruction);
 #endif //BB_ECS_H

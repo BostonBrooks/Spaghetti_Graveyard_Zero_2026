@@ -27,7 +27,7 @@ int main(void)
     bbCore_react(&core);
     test_time = 3;
 
-    bbCoreInput_spawnTestEntity(&core, &ECS, "Test Entity 1", bbInstructionSource_input, null_handle);
+    bbCoreInput_spawnEmptyEntity(&core, &ECS, "Test Entity 1", bbInstructionSource_input, null_handle);
 
     bbCore_react(&core);
 
@@ -43,40 +43,17 @@ int main(void)
 
     bbDebug("Entity has key: %s\n", entity->key);
 
-    bbCoreSynchronous_spawnTestEntity(&core, &ECS, &entity, "Test Entity 2", bbInstructionSource_input, null_handle);
+    bbDebug("entity has components ");
+    print_binary_8(entity->has_component);
+
+    bbCoreSynchronous_spawnEmptyEntity(&core, &ECS, &entity, "Test Entity 2", bbInstructionSource_internal, null_handle);
+
+
 
     bbDebug("Entity has key: %s\n", entity->key);
 
     bbCore_rewindUntil(&core, 2);
 
     bbHere()
-/*
-
-
-    bbHandle entity_handle = ECS.list.list_pointer->head;
-
-    bbCoreInput_entity_setComponent(&core, &ECS, entity_handle, no_handle,bbECS_Moveables,bbInstructionSource_input, no_handle);
-    bbCoreInput_entity_setComponent(&core, &ECS, entity_handle, no_handle,bbECS_Unit,bbInstructionSource_input, no_handle);
-    bbCoreInput_entity_setComponent(&core, &ECS, entity_handle, no_handle,bbECS_AI,bbInstructionSource_input, no_handle);
-    bbCore_react(&core);
-
-    bbECS_entity* entity;
-    bbVPool_lookup(ECS.pool, (void**)&entity, ECS.list.list_pointer->head);
-
-    bbDebug("entity has components ");
-    print_binary_8(entity->has_component);
-
-    bbCoreInput_setTime(&core, 10, bbInstructionSource_input, no_handle);
-    bbCore_react(&core);
-    test_time = 10;
-
-    bbCore_rewindUntil(&core, 2);
-    bbCore_react(&core);
-
-    bbDebug("entity has components ");
-    print_binary_8(entity->has_component);
-
-
     exit(EXIT_SUCCESS);
-*/
 }

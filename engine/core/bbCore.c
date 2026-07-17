@@ -81,8 +81,11 @@ bbFlag bbCore_react(bbCore* core)
             case bbInstruction_loopAction:
                 bbInstruction_loopAction_fn(core, instruction);
                 break;
-            case bbInstruction_spawnEntity:
-                bbInstruction_spawnTestEntity_fn(core, instruction);
+            case bbInstruction_spawnEmptyEntity:
+                bbInstruction_spawnEmptyEntity_fn(core, instruction);
+                break;
+            case bbInstruction_entity_setComponent:
+                bbInstruction_entity_setComponent_fn(core, instruction);
                 break;
 
 #ifndef DEFINE_TEST_ECS
@@ -186,8 +189,11 @@ bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
             case bbInstruction_uncheckActions:
                 bbInstruction_uncheckActions_fn(core, instruction);
                 break;
-            case bbInstruction_unspawnEntity:
-                bbInstruction_unspawnTestEntity_fn(core, instruction);
+            case bbInstruction_unspawnEmptyEntity:
+                bbInstruction_unspawnEmptyEntity_fn(core, instruction);
+                break;
+            case bbInstruction_entity_unsetComponent:
+                bbInstruction_entity_unsetComponent_fn(core, instruction);
                 break;
 
 

@@ -111,7 +111,7 @@ bbFlag bbCoreInput_spawnEntity(bbCore* core, bbInstruction_source source, bbHand
 {
     bbInstruction* instruction;
     bbList_alloc(&core->do_stack, (void**) &instruction);
-    instruction->type = bbInstruction_spawnEntity;
+    instruction->type = bbInstruction_spawnEmptyEntity;
     instruction->source = source;
     instruction->redo_instruction = action;
     bbList_pushL(&core->do_stack, instruction);
@@ -137,7 +137,7 @@ bbFlag bbInstruction_spawnEntity_fn(bbCore* core, bbInstruction* instruction)
 
     bbInstruction* undo_instruction;
     bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
-    undo_instruction->type = bbInstruction_unspawnEntity;
+    undo_instruction->type = bbInstruction_unspawnEmptyEntity;
     undo_instruction->source = instruction->source;
     undo_instruction->data.three_handles.handle1 = new_handle;
 
