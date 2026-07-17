@@ -52,7 +52,7 @@ typedef struct
 bbFlag bbECS_init(bbECS* ECS);
 
 //We need a function that spawns an entity, readies the unspawn instruction, then synchronously returns the entity.
-
+bbFlag bbCoreSynchronous_spawnTestEntity(bbCore* core, bbECS* ECS, bbECS_entity** entity, char* key, bbInstruction_source source, bbHandle action);
 bbFlag bbCoreInput_spawnTestEntity(bbCore* core, bbECS* ECS, char* key, bbInstruction_source source, bbHandle action);
 bbFlag bbInstruction_spawnTestEntity_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_unspawnTestEntity_fn(bbCore* core, bbInstruction* instruction);

@@ -11,6 +11,52 @@ bbFlag bbECS_init(bbECS* ECS)
         return bbSuccess;
 }
 
+bbFlag bbCoreSynchronous_spawnTestEntity(bbCore* core, bbECS* ECS, bbECS_entity** entity, char* key, bbInstruction_source source, bbHandle action)
+{
+        bbECS_entity* new_entity;
+        bbVPool_alloc(ECS->pool, (void**)&new_entity);
+
+        bbHandle new_handle;
+        bbVPool_reverseLookup(ECS->pool,new_entity,&new_handle);
+
+        new_entity->state = bbECS_alive;
+        new_entity->has_component = 0;
+        bbStr_setStr(new_entity->key, key, KEY_LENGTH);
+        bbList_pushR(&ECS->list, new_entity);
+
+        *entity = new_entity;
+
+        bbInstruction* undo_instruction;
+        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        undo_instruction->type = bbInstruction_unspawnEntity;
+        undo_instruction->source = source;
+        undo_instruction->data.three_handles.handle1 = new_handle;
+        undo_instruction->ECS = ECS;
+        //if (source == bbInstructionSource_internal)
+        {
+                //bbVPool_free(core->instruction_pool, (void*)instruction);
+                undo_instruction->redo_instruction.u64 = 0;
+                bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+                return bbSuccess;
+        }
+        //if (source == bbInstructionSource_input)
+        //{
+        //        bbHandle handle;
+        //        bbVPool_reverseLookup(core->instruction_pool, instruction, &handle);
+        //        undo_instruction->redo_instruction = handle;
+        //        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+        //        return bbSuccess;
+        //}
+        //if (source == bbInstructionSource_action)
+        //{
+        //        undo_instruction->redo_instruction = instruction->redo_instruction;
+        //        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+        //        return bbSuccess;
+        //}
+
+        bbNotHere()
+
+}
 
 bbFlag bbCoreInput_spawnTestEntity(bbCore* core, bbECS* ECS, char* key, bbInstruction_source source, bbHandle action)
 {

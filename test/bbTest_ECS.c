@@ -27,7 +27,7 @@ int main(void)
     bbCore_react(&core);
     test_time = 3;
 
-    bbCoreInput_spawnTestEntity(&core, &ECS, "Test Entity", bbInstructionSource_input, null_handle);
+    bbCoreInput_spawnTestEntity(&core, &ECS, "Test Entity 1", bbInstructionSource_input, null_handle);
 
     bbCore_react(&core);
 
@@ -42,6 +42,12 @@ int main(void)
     bbVPool_lookup(ECS.pool, (void**)&entity, ECS.list.list_pointer->head);
 
     bbDebug("Entity has key: %s\n", entity->key);
+
+    bbCoreSynchronous_spawnTestEntity(&core, &ECS, &entity, "Test Entity 2", bbInstructionSource_input, null_handle);
+
+    bbDebug("Entity has key: %s\n", entity->key);
+
+    bbCore_rewindUntil(&core, 2);
 
     bbHere()
 /*
