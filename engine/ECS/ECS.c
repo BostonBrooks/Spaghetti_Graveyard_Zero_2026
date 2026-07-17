@@ -84,6 +84,7 @@ bbFlag bbInstruction_unspawnTestEntity_fn(bbCore* core, bbInstruction* instructi
         bbVPool_lookup(ECS->pool, (void**)&entity, entity_handle);
         entity->state = bbECS_unused;
         bbList_remove(&ECS->list, entity);
+        bbVPool_free(ECS->pool, (void*)entity);
 
         if (instruction->source == bbInstructionSource_internal)
         {
