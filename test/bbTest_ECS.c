@@ -46,14 +46,5 @@ int main(void)
     bbDebug("entity has components ");
     print_binary_8(entity->has_component);
 
-    bbCoreSynchronous_spawnEmptyEntity(&core, &ECS, &entity, "Test Entity 2", bbInstructionSource_internal, null_handle);
-
-
-
-    bbDebug("Entity has key: %s\n", entity->key);
-
-    bbCore_rewindUntil(&core, 2);
-
-    bbHere()
     exit(EXIT_SUCCESS);
 }
