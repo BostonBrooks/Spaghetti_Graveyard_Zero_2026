@@ -33,6 +33,9 @@ typedef enum
     bbInstruction_spawnEmptyEntity,
     bbInstruction_unspawnEmptyEntity,
 
+    bbInstruction_spawnTestEntity,
+    bbInstruction_unspawnTestEntity,
+
     bbInstruction_deleteEntity,
     bbInstruction_undeleteEntity,
 

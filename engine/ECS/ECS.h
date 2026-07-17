@@ -11,7 +11,7 @@ typedef enum
 {
     bbECS_Moveables,
     bbECS_AI,
-    bbECS_Unit,
+    bbECS_Units,
     bbECS_ServerEntities,
     bbECS_numSystems
 } bbECS_systems;

@@ -27,7 +27,7 @@ int main(void)
     bbCore_react(&core);
     test_time = 3;
 
-    bbCoreInput_spawnEmptyEntity(&core, &ECS, "Test Entity 1", bbInstructionSource_input, null_handle);
+    bbCoreInput_spawnTestEntity(&core, &ECS, "Test Entity 1", bbInstructionSource_input, null_handle);
 
     bbCore_react(&core);
 

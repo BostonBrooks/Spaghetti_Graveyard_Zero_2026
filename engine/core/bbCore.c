@@ -87,6 +87,10 @@ bbFlag bbCore_react(bbCore* core)
             case bbInstruction_entity_setComponent:
                 bbInstruction_entity_setComponent_fn(core, instruction);
                 break;
+            case bbInstruction_spawnTestEntity:
+                bbInstruction_spawnTestEntity_fn(core, instruction);
+                break;
+
 
 #ifndef DEFINE_TEST_ECS
             case bbInstruction_netpauseButton:
@@ -194,6 +198,9 @@ bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
                 break;
             case bbInstruction_entity_unsetComponent:
                 bbInstruction_entity_unsetComponent_fn(core, instruction);
+                break;
+            case bbInstruction_unspawnTestEntity:
+                bbInstruction_unspawnTestEntity_fn(core, instruction);
                 break;
 
 
