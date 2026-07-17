@@ -2,7 +2,6 @@
 #include <stddef.h>
 #include "engine/core/bbCore.h"
 
-#include "bbInstruction.h"
 #include "engine/core/bbLocalMessage.h"
 #include "engine/core/bbInstruction.h"
 #include "engine/core/bbAction.h"
@@ -83,7 +82,7 @@ bbFlag bbCore_react(bbCore* core)
                 bbInstruction_loopAction_fn(core, instruction);
                 break;
             case bbInstruction_spawnEntity:
-                //bbInstruction_spawnEntity_fn(core, instruction);
+                bbInstruction_spawnTestEntity_fn(core, instruction);
                 break;
 
 #ifndef DEFINE_TEST_ECS
@@ -188,7 +187,7 @@ bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
                 bbInstruction_uncheckActions_fn(core, instruction);
                 break;
             case bbInstruction_unspawnEntity:
-                //bbInstruction_unspawnEntity_fn(core, instruction);
+                bbInstruction_unspawnTestEntity_fn(core, instruction);
                 break;
 
 

@@ -51,10 +51,9 @@ typedef struct
 
 bbFlag bbECS_init(bbECS* ECS);
 
-/// This function is called by Entity spawner instructions
-bbFlag bbECS_newEntity(bbECS* ECS, bbHandle* handle, bbECS_entity** entity);
+//We need a function that spawns an entity, readies the unspawn instruction, then synchronously returns the entity.
 
-bbFlag bbCoreInput_spawnTestEntity(bbCore, bbECS* ECS, char* KEY, bbInstruction_source source, bbHandle action);
+bbFlag bbCoreInput_spawnTestEntity(bbCore* core, bbECS* ECS, char* key, bbInstruction_source source, bbHandle action);
 bbFlag bbInstruction_spawnTestEntity_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_unspawnTestEntity_fn(bbCore* core, bbInstruction* instruction);
 

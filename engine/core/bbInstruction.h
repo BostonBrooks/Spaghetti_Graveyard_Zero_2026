@@ -194,6 +194,7 @@ typedef struct bbInstruction
     U64 act_time;
     U32 collision;
     U8 player;
+    void* ECS;
     bbListElement_Handle list_element;
     bbHandle redo_instruction;
     bbInstruction_source source;

@@ -15,9 +15,6 @@ int main(void)
     bbCore_init(&core);
     bbECS_init(&ECS);
 
-    bbHere()
-/*
-
     bbCoreInput_setTime(&core, 1, bbInstructionSource_input, no_handle);
     bbCore_react(&core);
     test_time = 1;
@@ -30,11 +27,25 @@ int main(void)
     bbCore_react(&core);
     test_time = 3;
 
+    bbCoreInput_spawnTestEntity(&core, &ECS, "Test Entity", bbInstructionSource_input, null_handle);
 
-
-
-    bbCoreInput_spawnEntity(&core, bbInstructionSource_input, null_handle);
     bbCore_react(&core);
+
+    bbCoreInput_setTime(&core, 10, bbInstructionSource_input, no_handle);
+    bbCore_react(&core);
+    test_time = 10;
+
+    bbCore_rewindUntil(&core, 2);
+    bbCore_react(&core);
+
+    bbECS_entity* entity;
+    bbVPool_lookup(ECS.pool, (void**)&entity, ECS.list.list_pointer->head);
+
+    bbDebug("Entity has key: %s\n", entity->key);
+
+    bbHere()
+/*
+
 
     bbHandle entity_handle = ECS.list.list_pointer->head;
 
