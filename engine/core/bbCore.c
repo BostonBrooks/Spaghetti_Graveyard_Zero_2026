@@ -81,6 +81,7 @@ bbFlag bbCore_react(bbCore* core)
             case bbInstruction_loopAction:
                 bbInstruction_loopAction_fn(core, instruction);
                 break;
+#ifdef DEFINE_TEST_ECS
             case bbInstruction_spawnEmptyEntity:
                 bbInstruction_spawnEmptyEntity_fn(core, instruction);
                 break;
@@ -90,7 +91,7 @@ bbFlag bbCore_react(bbCore* core)
             case bbInstruction_spawnTestEntity:
                 bbInstruction_spawnTestEntity_fn(core, instruction);
                 break;
-
+#endif
 
 #ifndef DEFINE_TEST_ECS
             case bbInstruction_netpauseButton:
@@ -193,17 +194,18 @@ bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
             case bbInstruction_uncheckActions:
                 bbInstruction_uncheckActions_fn(core, instruction);
                 break;
+#ifdef DEFINE_TEST_ECS
             case bbInstruction_unspawnEmptyEntity:
                 bbInstruction_unspawnEmptyEntity_fn(core, instruction);
                 break;
             case bbInstruction_entity_unsetComponent:
-                bbInstruction_entity_unsetComponent_fn(core, instruction);
+               bbInstruction_entity_unsetComponent_fn(core, instruction);
                 break;
             case bbInstruction_unspawnTestEntity:
-                bbInstruction_unspawnTestEntity_fn(core, instruction);
+               bbInstruction_unspawnTestEntity_fn(core, instruction);
                 break;
 
-
+#endif
 
 
 #ifdef DEFINE_SKELLYCHASE
