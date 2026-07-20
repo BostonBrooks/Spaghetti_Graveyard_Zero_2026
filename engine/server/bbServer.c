@@ -5,27 +5,18 @@
 #include "engine/data/CSFML.h"
 
 #include "engine/logic/bbTerminal.h"
-#include "engine/data/bbHome.h"
 #include "engine/network/bbNetworkPacket.h"
-#include "engine/server/bbServerEntities.h"
-#include "engine/server/bbServerSpawner.h"
 
 thread_local char* thread;
 U64 test_time = 0;
 
-bbServerEntities entities;
-bbServer_Spawner spawner;
 int main(void){
 
     //Use the tick values at the time the server was paused or unpaused as a reference
     U64 reference_server_tick = 0;
     U64 reference_map_tick = 0;
     bool is_paused = true;
-    bbServerEntities_init(&entities);
 
-    bbServer_Spawner_init(&spawner, 69);
-    bbServer_Spawner_populate(&spawner);
-    bbServer_Spawner_spawn(&spawner, "./maps/skellychase/spawner/spawner.csv");
 
     printf("Hello, server!\n");
 
@@ -103,7 +94,7 @@ int main(void){
                 packetStruct.type = PACKETTYPE_SETSOCKETNUMBER;
                 packetStruct.data.integer = i;
 
-                bbDebug("new connectio socket %d\n", i);
+                bbDebug("new connection socket %d\n", i);
                 sfPacket_clear(packet);
                 bbNetworkPacket_fromStruct(packet, &packetStruct);
                 status = sfTcpSocket_sendPacket(sockets[i], packet);
@@ -128,10 +119,9 @@ int main(void){
 
 
                 status = sfTcpSocket_receivePacket(sockets[i], packet);
-                //sfSocketStatus_print(status);
                 if (status != sfSocketDone){
 
-                    //This line causes the server to lock up
+                    //This line causes the server to lock up Wrong order of operations?
                     //sfTcpSocket_destroy(sockets[i]);
                     sfSocketSelector_removeTcpSocket(selector, sockets[i]);
                     sockets[i] = NULL;
@@ -145,35 +135,6 @@ int main(void){
 
                 //bbPacketType_print(packetStruct.type);
 
-                if (packetStruct.type == PACKETTYPE_SETGOALPOINT)
-                {
-                    //bbDebug("Set Goalpoint i = %d, j = %d, k = %d\n",
-                    //    packetStruct.data.map_coords.i,
-                    //    packetStruct.data.map_coords.j,
-                    //packetStruct.data.map_coords.k);
-                } else
-                {
-                    //bbDebug("type = %d, packetN = %llu, string  = %s\n",
-                    //    packetStruct.type, packetStruct.data.timestamp.packetN, packetStruct.data.str);
-                }
-                if (packetStruct.type == PACKETTYPE_SPAWNBANANA)
-                {
-                    packetStruct.data.unit.entity_index = entities.num_entities++;
-                    packetStruct.data.unit.movable_index = entities.num_movables++;
-                    sfPacket_clear(packet);
-                    bbNetworkPacket_fromStruct(packet, &packetStruct);
-
-                    bbDebug("BANANA, entity = %d, movable = %d\n", packetStruct.data.unit.entity_index, packetStruct.data.unit.movable_index);
-                }
-                if (packetStruct.type == PACKETTYPE_SPAWNUNIT)
-                {
-                    packetStruct.data.unit.entity_index = 0; //entities.num_entities++;
-                    packetStruct.data.unit.movable_index = 0; //entities.num_movables++;
-                    sfPacket_clear(packet);
-                    bbNetworkPacket_fromStruct(packet, &packetStruct);
-
-                    bbDebug("UNIT, entity = %d, movable = %d\n", packetStruct.data.unit.entity_index, packetStruct.data.unit.movable_index);
-                }
                 if (packetStruct.type == PACKETTYPE_REQUESTTIMESTAMP)
                 {
                     packetStruct.type = PACKETTYPE_TIMESTAMP;
@@ -190,89 +151,9 @@ int main(void){
                     //printf("Sent time\n");
                     continue;
                 }
-                if (packetStruct.type == PACKETTYPE_KEYUP)
-                {
-                    I32 key_code =  packetStruct.data.integer;
-
-                    if (key_code == sfKeyUp || key_code == sfKeyDown)
-                    {
-                        packetStruct.type = PACKETTYPE_PADDLEVELOCITY;
-                        packetStruct.data.paddle_and_velocity.x = 1;
-                        packetStruct.data.paddle_and_velocity.y = 0;
-                        sfPacket_clear(packet);
-                        bbNetworkPacket_fromStruct(packet, &packetStruct);
-
-                    }else
-                    if (key_code == sfKeyW || key_code == sfKeyS)
-                    {
-                        packetStruct.type = PACKETTYPE_PADDLEVELOCITY;
-                        packetStruct.data.paddle_and_velocity.x = 0;
-                        packetStruct.data.paddle_and_velocity.y = 0;
-                        //packetStruct.act_tick -= 10;
-                        sfPacket_clear(packet);
-                        bbNetworkPacket_fromStruct(packet, &packetStruct);
-
-                    }else
-                    {
-                    sfPacket_clear(packet);
-                        continue;
-                    }
-                }
-
-                if (packetStruct.type == PACKETTYPE_KEYDOWN)
-                {
-                    I32 key_code =  packetStruct.data.integer;
-
-                    if (key_code == sfKeyUp)
-                    {
-                        packetStruct.type = PACKETTYPE_PADDLEVELOCITY;
-                        packetStruct.data.paddle_and_velocity.x = 1;
-                        packetStruct.data.paddle_and_velocity.y = -7 * SCREEN_PPP;
-                        sfPacket_clear(packet);
-                        bbNetworkPacket_fromStruct(packet, &packetStruct);
-
-                    }else
-                    if (key_code == sfKeyDown)
-                    {
-                        packetStruct.type = PACKETTYPE_PADDLEVELOCITY;
-                        packetStruct.data.paddle_and_velocity.x = 1;
-                        packetStruct.data.paddle_and_velocity.y = 7 * SCREEN_PPP;
-                        sfPacket_clear(packet);
-                        bbNetworkPacket_fromStruct(packet, &packetStruct);
-
-                    }else
-                    if (key_code == sfKeyW)
-                    {
-                        packetStruct.type = PACKETTYPE_PADDLEVELOCITY;
-                        packetStruct.data.paddle_and_velocity.x = 0;
-                        packetStruct.data.paddle_and_velocity.y = -7 * SCREEN_PPP;
-                        //packetStruct.act_tick -= 10;
-                        sfPacket_clear(packet);
-                        bbNetworkPacket_fromStruct(packet, &packetStruct);
-
-                    }else
-                    if (key_code == sfKeyS)
-                    {
-                        packetStruct.type = PACKETTYPE_PADDLEVELOCITY;
-                        packetStruct.data.paddle_and_velocity.x = 0;
-                        packetStruct.data.paddle_and_velocity.y = 7 * SCREEN_PPP;
-                        //packetStruct.act_tick -= 10;
-                        sfPacket_clear(packet);
-                        bbNetworkPacket_fromStruct(packet, &packetStruct);
-
-                    }else
-                    {
-                    sfPacket_clear(packet);
-                        continue;
-                    }
-                }
 
 
 
-                if (packetStruct.type == PACKETTYPE_UNFREEZEBUTTON)
-                {
-                    bbDebug("unfreeze button %s\n", packetStruct.data.str);
-                }
 
                 for (int j = 0; j < 8; j++){
                     //send to self
