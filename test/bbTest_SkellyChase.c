@@ -193,7 +193,7 @@ int main(void)
             //bbMovables_update(&home.agents_app.movables);
             //bbCoreInput_approachGoalpoint(&home.core.core);
 
-            bbCoreInput_updateMovables(&home.core.core, bbInstructionSource_input, no_handle);
+            //bbCoreInput_updateMovables(&home.core.core, bbInstructionSource_input, no_handle);
 
             bbCore_react(&home.core.core);
             //bbCoreInput_updateAgentsSquare(&home.core.core, NULL,bbInstructionSource_input, no_handle);
