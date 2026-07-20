@@ -7,6 +7,6 @@ bbFlag SwitchCharacterButton_LeftDown (void* Mouse, void* Widgets, void* Widget,
     bbWidget* widget = (bbWidget*)Widget;
     bbGraphicsApp* graphics = Graphics;
 
-    bbLocalMessage_SwitchCharacterButton(&home.core.core, widget->key);
+    //bbLocalMessage_SwitchCharacterButton(&home.core.core, widget->key);
     return bbSuccess;
 }

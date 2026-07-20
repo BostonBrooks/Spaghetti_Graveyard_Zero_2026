@@ -1,60 +1,60 @@
 
 
 #include <stdlib.h>
-
-bbFlag bbAgent_newFireball(bbAgent** self, bbMapCoords MC,bbMapCoords goalpoint,  I32 movable_index, I32 entity_index)
-{
-
-
-    MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
-
-    bbAgents* agents = home.agents_app.agents;
-    bbAgent* agent;
-
-    bbList_alloc(&agents->full_list, (void**)&agent);
-    agent->square_list.prev = agents->pool->null;
-    agent->square_list.next = agents->pool->null;
-    agent->movable = movable_index;
-    agent->ftable.update =
-    agent->ftable.update = bbAgentFunctions_getInt(&home.agents_app.functions,
-                             AgentUpdate, "UPDATE_FIREBALL");;
-    agent->ftable.command = -1;
-    bbMovable* movable = &home.agents_app.movables.movables[movable_index];
-
-    agent->state = bbAgentState_Idle;
-    home.agents_app.movables.available = movable_index+1;
-
-
-
-    movable->type = bbMovableType_MovingThrough;
-    movable->position = MC;
-    movable->goalpoint = goalpoint;
-
-    movable->coords_a = bbMapCoords_getMilliCoords(movable->position);
-    movable->coords_b = bbMapCoords_getMilliCoords(movable->position);
-
-    movable->goal_movable = movable_index%8;
-    movable->speed = 8000;
-
-    bbSquareCoords square_coords = bbMapCoords_getSquareCoords(MC);
-    agent->square_coords = square_coords;
-    bbAgents_square* square = bbAgents_getSquare(agents, square_coords.i, square_coords.j);
-
-    bbList_pushL(&square->agents,agent);
-    bbList_pushL(&agents->full_list,agent);
-
-    bbHandle agent_handle;
-    bbVPool_reverseLookup(home.agents_app.agents->pool,agent,&agent_handle);
-    agent->entity = entity_index;
-        home.agents_app.entities.available = entity_index+1;
-    home.agents_app.entities.entity[agent->entity].agent = agent_handle;
-
-    home.agents_app.entities.entity[agent->entity].movable.u64 = movable_index;
-
-    *self = agent;
-
-    return bbSuccess;
-}
+//
+// bbFlag bbAgent_newFireball(bbAgent** self, bbMapCoords MC,bbMapCoords goalpoint,  I32 movable_index, I32 entity_index)
+// {
+//
+//
+//     MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
+//
+//     bbAgents* agents = home.agents_app.agents;
+//     bbAgent* agent;
+//
+//     bbList_alloc(&agents->full_list, (void**)&agent);
+//     agent->square_list.prev = agents->pool->null;
+//     agent->square_list.next = agents->pool->null;
+//     agent->movable = movable_index;
+//     agent->ftable.update =
+//     agent->ftable.update = bbAgentFunctions_getInt(&home.agents_app.functions,
+//                              AgentUpdate, "UPDATE_FIREBALL");;
+//     agent->ftable.command = -1;
+//     bbMovable* movable = &home.agents_app.movables.movables[movable_index];
+//
+//     agent->state = bbAgentState_Idle;
+//     home.agents_app.movables.available = movable_index+1;
+//
+//
+//
+//     movable->type = bbMovableType_MovingThrough;
+//     movable->position = MC;
+//     movable->goalpoint = goalpoint;
+//
+//     movable->coords_a = bbMapCoords_getMilliCoords(movable->position);
+//     movable->coords_b = bbMapCoords_getMilliCoords(movable->position);
+//
+//     movable->goal_movable = movable_index%8;
+//     movable->speed = 8000;
+//
+//     bbSquareCoords square_coords = bbMapCoords_getSquareCoords(MC);
+//     agent->square_coords = square_coords;
+//     bbAgents_square* square = bbAgents_getSquare(agents, square_coords.i, square_coords.j);
+//
+//     bbList_pushL(&square->agents,agent);
+//     bbList_pushL(&agents->full_list,agent);
+//
+//     bbHandle agent_handle;
+//     bbVPool_reverseLookup(home.agents_app.agents->pool,agent,&agent_handle);
+//     agent->entity = entity_index;
+//         home.agents_app.entities.available = entity_index+1;
+//     home.agents_app.entities.entity[agent->entity].agent = agent_handle;
+//
+//     home.agents_app.entities.entity[agent->entity].movable.u64 = movable_index;
+//
+//     *self = agent;
+//
+//     return bbSuccess;
+// }
 bbFlag bbUnit_newFireball(bbUnit** self, bbMapCoords MC, I32 movable_index, I32 entity_index)
 {
 
@@ -109,8 +109,8 @@ bbFlag bbUnit_newFireball(bbUnit** self, bbMapCoords MC, I32 movable_index, I32 
     unit->enitity = entity_index;
     unit->moveable = movable_index;
 
-    home.agents_app.entities.movable_units[movable_index] = unit_handle;
-    home.agents_app.entities.entity[entity_index].unit = unit_handle;
+    //home.agents_app.entities.movable_units[movable_index] = unit_handle;
+    //home.agents_app.entities.entity[entity_index].unit = unit_handle;
     bbList_sortL(&unitSquare->list, unit);
 
     bbList_sortL(&home.viewport_app.units->list, unit);
@@ -132,31 +132,31 @@ bbFlag bbSF_fireballGraphics(I32 i_coord, I32 j_coord, I32 movable_index, I32 en
 }
 
 
-
-bbFlag bbSF_fireballCore(I32 i_coord, I32 j_coord, I32 movable_index, I32 entity_index)
-{
-    bbMapCoords MC;
-    MC.i = i_coord;
-    MC.j = j_coord;
-    MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
-    bbAgent* agent;
-    bbAgent_newFireball(&agent, MC,MC, movable_index, entity_index);
-}
-
-///Spawn fireball during gameplay, doesn't care about syncing the core
-
-bbFlag bbEntity_newFireball(bbAgent** agent, I32 type_index, bbMapCoords MC,bbMapCoords MC2, I32 movable_index, I32 entity_index)
-{
-    bbAgent* agent1;
-    bbAgent_newFireball(&agent1, MC, MC2,movable_index, entity_index);
-
-
-    bbUI_Inbox_NewUnit(&home.UI.inbox, type_index, MC, entity_index, movable_index);
-    bbAssert(agent1!=NULL, "bad spawn function\n");
-
-    *agent = agent1;
-    return bbSuccess;
-}
+//
+// bbFlag bbSF_fireballCore(I32 i_coord, I32 j_coord, I32 movable_index, I32 entity_index)
+// {
+//     bbMapCoords MC;
+//     MC.i = i_coord;
+//     MC.j = j_coord;
+//     MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
+//     bbAgent* agent;
+//     bbAgent_newFireball(&agent, MC,MC, movable_index, entity_index);
+// }
+//
+// ///Spawn fireball during gameplay, doesn't care about syncing the core
+//
+// bbFlag bbEntity_newFireball(bbAgent** agent, I32 type_index, bbMapCoords MC,bbMapCoords MC2, I32 movable_index, I32 entity_index)
+// {
+//     bbAgent* agent1;
+//     bbAgent_newFireball(&agent1, MC, MC2,movable_index, entity_index);
+//
+//
+//     bbUI_Inbox_NewUnit(&home.UI.inbox, type_index, MC, entity_index, movable_index);
+//     bbAssert(agent1!=NULL, "bad spawn function\n");
+//
+//     *agent = agent1;
+//     return bbSuccess;
+// }
 
 bbFlag bbUIUnit_newFireball( bbMapCoords MC, I32 movable_index, I32 entity_index)
 {

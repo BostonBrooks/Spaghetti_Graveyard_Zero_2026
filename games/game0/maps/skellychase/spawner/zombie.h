@@ -1,56 +1,56 @@
 
-
-bbFlag bbAgent_newZombiex(bbAgent** self, bbMapCoords MC,bbMapCoords goalpoint, I32 movable_index, I32 entity_index)
-{
-
-
-    MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
-
-    bbAgents* agents = home.agents_app.agents;
-    bbAgent* agent;
-
-    bbList_alloc(&agents->full_list, (void**)&agent);
-    agent->square_list.prev = agents->pool->null;
-    agent->square_list.next = agents->pool->null;
-    agent->movable = movable_index;
-    agent->ftable.update = bbAgentFunctions_getInt(&home.agents_app.functions,
-                             AgentUpdate, "UPDATE_PLAYER");;
-    agent->ftable.command = bbAgentFunctions_getInt(&home.agents_app.functions,
-                             AgentCommand, "COMMAND_PLAYER");
-    bbMovable* movable = &home.agents_app.movables.movables[movable_index];
-
-    agent->state = bbAgentState_Idle;
-    home.agents_app.movables.available = movable_index+1;
-
-    movable->type = bbMovableType_Moving;
-    movable->position = MC;
-    movable->goalpoint = MC;
-
-    movable->coords_a = bbMapCoords_getMilliCoords(movable->position);
-    movable->coords_b = bbMapCoords_getMilliCoords(movable->position);
-
-    movable->goal_movable = movable_index%8;
-    movable->speed = 6000;
-
-    bbSquareCoords square_coords = bbMapCoords_getSquareCoords(MC);
-    agent->square_coords = square_coords;
-    bbAgents_square* square = bbAgents_getSquare(agents, square_coords.i, square_coords.j);
-
-    bbList_pushL(&square->agents,agent);
-    bbList_pushL(&agents->full_list,agent);
-
-    bbHandle agent_handle;
-    bbVPool_reverseLookup(home.agents_app.agents->pool,agent,&agent_handle);
-    agent->entity = entity_index;
-        home.agents_app.entities.available = entity_index+1;
-    home.agents_app.entities.entity[agent->entity].agent = agent_handle;
-
-    home.agents_app.entities.entity[agent->entity].movable.u64 = movable_index;
-
-    *self = agent;
-
-    return bbSuccess;
-}
+//
+// bbFlag bbAgent_newZombiex(bbAgent** self, bbMapCoords MC,bbMapCoords goalpoint, I32 movable_index, I32 entity_index)
+// {
+//
+//
+//     MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
+//
+//     bbAgents* agents = home.agents_app.agents;
+//     bbAgent* agent;
+//
+//     bbList_alloc(&agents->full_list, (void**)&agent);
+//     agent->square_list.prev = agents->pool->null;
+//     agent->square_list.next = agents->pool->null;
+//     agent->movable = movable_index;
+//     agent->ftable.update = bbAgentFunctions_getInt(&home.agents_app.functions,
+//                              AgentUpdate, "UPDATE_PLAYER");;
+//     agent->ftable.command = bbAgentFunctions_getInt(&home.agents_app.functions,
+//                              AgentCommand, "COMMAND_PLAYER");
+//     bbMovable* movable = &home.agents_app.movables.movables[movable_index];
+//
+//     agent->state = bbAgentState_Idle;
+//     home.agents_app.movables.available = movable_index+1;
+//
+//     movable->type = bbMovableType_Moving;
+//     movable->position = MC;
+//     movable->goalpoint = MC;
+//
+//     movable->coords_a = bbMapCoords_getMilliCoords(movable->position);
+//     movable->coords_b = bbMapCoords_getMilliCoords(movable->position);
+//
+//     movable->goal_movable = movable_index%8;
+//     movable->speed = 6000;
+//
+//     bbSquareCoords square_coords = bbMapCoords_getSquareCoords(MC);
+//     agent->square_coords = square_coords;
+//     bbAgents_square* square = bbAgents_getSquare(agents, square_coords.i, square_coords.j);
+//
+//     bbList_pushL(&square->agents,agent);
+//     bbList_pushL(&agents->full_list,agent);
+//
+//     bbHandle agent_handle;
+//     bbVPool_reverseLookup(home.agents_app.agents->pool,agent,&agent_handle);
+//     agent->entity = entity_index;
+//         home.agents_app.entities.available = entity_index+1;
+//     home.agents_app.entities.entity[agent->entity].agent = agent_handle;
+//
+//     home.agents_app.entities.entity[agent->entity].movable.u64 = movable_index;
+//
+//     *self = agent;
+//
+//     return bbSuccess;
+// }
 bbFlag bbUnit_newZombiex(bbUnit** self, bbMapCoords MC, I32 movable_index, I32 entity_index)
 {
 
@@ -116,8 +116,8 @@ bbFlag bbUnit_newZombiex(bbUnit** self, bbMapCoords MC, I32 movable_index, I32 e
         unit->drawable.frames[k].drawfunction = -1;
     }
 
-    home.agents_app.entities.movable_units[movable_index] = unit_handle;
-    home.agents_app.entities.entity[entity_index].unit = unit_handle;
+    //home.agents_app.entities.movable_units[movable_index] = unit_handle;
+    //home.agents_app.entities.entity[entity_index].unit = unit_handle;
     bbList_sortL(&unitSquare->list, unit);
     *self = unit;
     return bbSuccess;
@@ -138,28 +138,28 @@ bbFlag bbSF_zombieGraphics(I32 i_coord, I32 j_coord, I32 movable_index, I32 enti
 
 
 
-bbFlag bbSF_zombieCore(I32 i_coord, I32 j_coord, I32 movable_index, I32 entity_index)
-{
-    bbMapCoords MC;
-    MC.i = i_coord;
-    MC.j = j_coord;
-    MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
-    bbAgent* agent;
-    bbAgent_newZombiex(&agent, MC,MC, movable_index, entity_index);
-}
+// bbFlag bbSF_zombieCore(I32 i_coord, I32 j_coord, I32 movable_index, I32 entity_index)
+// {
+//     bbMapCoords MC;
+//     MC.i = i_coord;
+//     MC.j = j_coord;
+//     MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
+//     bbAgent* agent;
+//     bbAgent_newZombiex(&agent, MC,MC, movable_index, entity_index);
+// }
 
 ///Spawn zombie during gameplay, doesn't care about syncing the core
-
-bbFlag bbEntity_newZombie(bbAgent** agent, I32 type_index, bbMapCoords MC,bbMapCoords MC2, I32 movable_index, I32 entity_index)
-{
-    bbAgent* agent1;
-    bbAgent_newZombiex(&agent1, MC,MC, movable_index, entity_index);
-    bbUI_Inbox_NewUnit(&home.UI.inbox, type_index, MC, entity_index, movable_index);
-    *agent = agent1;
-
-    bbAssert(agent1!=NULL, "bad spawn function\n");
-    return bbSuccess;
-}
+//
+// bbFlag bbEntity_newZombie(bbAgent** agent, I32 type_index, bbMapCoords MC,bbMapCoords MC2, I32 movable_index, I32 entity_index)
+// {
+//     bbAgent* agent1;
+//     bbAgent_newZombiex(&agent1, MC,MC, movable_index, entity_index);
+//     bbUI_Inbox_NewUnit(&home.UI.inbox, type_index, MC, entity_index, movable_index);
+//     *agent = agent1;
+//
+//     bbAssert(agent1!=NULL, "bad spawn function\n");
+//     return bbSuccess;
+// }
 
 bbFlag bbUIUnit_newZombie( bbMapCoords MC, I32 movable_index, I32 entity_index)
 {

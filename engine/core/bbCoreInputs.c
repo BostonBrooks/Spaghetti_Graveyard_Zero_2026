@@ -281,52 +281,52 @@ bbFlag bbCoreInput_setGoalpointOut(bbCore* core,I32 entity, bbMapCoords MC, U64 
     return bbSuccess;
 }
 
-bbFlag bbCoreInput_setGoalMovable(bbCore* core,U64 time, I32 movable, I32 goal_movable,
-                                 bbInstruction_source source, bbHandle action)
-{
-    bbInstruction* instruction;
-    bbList_alloc(&core->do_stack, (void**) &instruction);
-    instruction->type = bbVInstruction_setGoalMovable;
-    instruction->data.goal_movable.type = bbMovableType_Follow;
-    instruction->data.goal_movable.movable = movable;
-    instruction->data.goal_movable.goal_movable = goal_movable;
-bbList_pushL(&core->do_stack, instruction);
-    return bbSuccess;
-}
+// bbFlag bbCoreInput_setGoalMovable(bbCore* core,U64 time, I32 movable, I32 goal_movable,
+//                                  bbInstruction_source source, bbHandle action)
+// {
+//     bbInstruction* instruction;
+//     bbList_alloc(&core->do_stack, (void**) &instruction);
+//     instruction->type = bbVInstruction_setGoalMovable;
+//     instruction->data.goal_movable.type = bbMovableType_Follow;
+//     instruction->data.goal_movable.movable = movable;
+//     instruction->data.goal_movable.goal_movable = goal_movable;
+// bbList_pushL(&core->do_stack, instruction);
+//     return bbSuccess;
+// }
 
 
-bbFlag bbCoreInput_setMovableIdle(bbCore* core,U64 time, I32 movable, bbMapCoords MC,
-                                 bbInstruction_source source, bbHandle action)
-{
-    bbInstruction* instruction;
-    bbList_alloc(&core->do_stack, (void**) &instruction);
-    instruction->type = bbVInstruction_setGoalMovable;
-    instruction->data.goal_movable.type = bbMovableType_Idle;
-    instruction->data.goal_movable.movable = movable;
-    instruction->data.goal_movable.goal_movable = -1;
-    instruction->data.goal_movable.goal_coords = MC;
+// bbFlag bbCoreInput_setMovableIdle(bbCore* core,U64 time, I32 movable, bbMapCoords MC,
+//                                  bbInstruction_source source, bbHandle action)
+// {
+//     bbInstruction* instruction;
+//     bbList_alloc(&core->do_stack, (void**) &instruction);
+//     instruction->type = bbVInstruction_setGoalMovable;
+//     instruction->data.goal_movable.type = bbMovableType_Idle;
+//     instruction->data.goal_movable.movable = movable;
+//     instruction->data.goal_movable.goal_movable = -1;
+//     instruction->data.goal_movable.goal_coords = MC;
+//
+//     instruction->act_time = time;
+//     bbList_pushL(&core->do_stack, instruction);
+//     return bbSuccess;
+// }
 
-    instruction->act_time = time;
-    bbList_pushL(&core->do_stack, instruction);
-    return bbSuccess;
-}
-
-
-bbFlag bbCoreInput_setMovableType(bbCore* core,U64 time, I32 movable, bbAgentCommandData data,
-                                 bbInstruction_source source, bbHandle action)
-{
-    bbInstruction* instruction;
-    bbList_alloc(&core->do_stack, (void**) &instruction);
-    instruction->type = bbVInstruction_setGoalMovable;
-    instruction->data.goal_movable.type = data.type;
-    instruction->data.goal_movable.movable = movable;
-    instruction->data.goal_movable.goal_movable = data.movable;
-    instruction->data.goal_movable.goal_coords = data.goal_point;
-
-    instruction->act_time = time;
-    bbList_pushL(&core->do_stack, instruction);
-    return bbSuccess;
-}
+//
+// bbFlag bbCoreInput_setMovableType(bbCore* core,U64 time, I32 movable, bbAgentCommandData data,
+//                                  bbInstruction_source source, bbHandle action)
+// {
+//     bbInstruction* instruction;
+//     bbList_alloc(&core->do_stack, (void**) &instruction);
+//     instruction->type = bbVInstruction_setGoalMovable;
+//     instruction->data.goal_movable.type = data.type;
+//     instruction->data.goal_movable.movable = movable;
+//     instruction->data.goal_movable.goal_movable = data.movable;
+//     instruction->data.goal_movable.goal_coords = data.goal_point;
+//
+//     instruction->act_time = time;
+//     bbList_pushL(&core->do_stack, instruction);
+//     return bbSuccess;
+// }
 
 //bbCoreInput_setGoalpointIn(core, action->map_coords,action->header.act_tick, action->header.player,bbInstructionSource_action,handle);
 bbFlag bbCoreInput_setGoalpointIn(bbCore* core, bbMapCoords MC, U64 time,U8 player,

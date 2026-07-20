@@ -1,25 +1,25 @@
 
 
 #include "games/game0/maps/skellychase/core/instructions.h"
-#include "engine/entities/bbAgents.h"
+//#include "engine/entities/bbAgents.h"
 #include "engine/logic/bbList.h"
 
 
 
 ///Sort through agents and update square if necessary
-bbFlag bbCoreInput_updateAgentsSquare(bbCore* core, bbAgents* agents,bbInstruction_source source, bbHandle action)
-{
-    bbInstruction* instruction;
-    bbList_alloc(&core->do_stack, (void**) &instruction);
-
-    instruction->source = source;
-    instruction->redo_instruction = action;
-
-    instruction->type = bbVInstruction_updateAgentsSquare;
-    bbList_pushL(&core->do_stack, instruction);
-
-    return bbSuccess;
-}
+// bbFlag bbCoreInput_updateAgentsSquare(bbCore* core, bbAgents* agents,bbInstruction_source source, bbHandle action)
+// {
+//     bbInstruction* instruction;
+//     bbList_alloc(&core->do_stack, (void**) &instruction);
+//
+//     instruction->source = source;
+//     instruction->redo_instruction = action;
+//
+//     instruction->type = bbVInstruction_updateAgentsSquare;
+//     bbList_pushL(&core->do_stack, instruction);
+//
+//     return bbSuccess;
+// }
 
 ///If the agent has moved into a different square, add to new list
 bbFlag bbCoreInput_updateAgentSquare(bbCore* core, bbHandle agent, bbSquareCoords SC,bbInstruction_source source, bbHandle action)
@@ -38,19 +38,19 @@ bbFlag bbCoreInput_updateAgentSquare(bbCore* core, bbHandle agent, bbSquareCoord
     return bbSuccess;
 }
 
-bbFlag bbCoreInput_updateAgents(bbCore* core, bbAgents* agents,bbInstruction_source source, bbHandle action)
-{
-    bbInstruction* instruction;
-    bbList_alloc(&core->do_stack, (void**) &instruction);
-    instruction->source = source;
-    instruction->redo_instruction = action;
-
-    instruction->source = source;
-    instruction->redo_instruction = action;
-
-    instruction->type = bbVInstruction_updateAgents;
-    bbList_pushL(&core->do_stack, instruction);
-}
+// bbFlag bbCoreInput_updateAgents(bbCore* core, bbAgents* agents,bbInstruction_source source, bbHandle action)
+// {
+//     bbInstruction* instruction;
+//     bbList_alloc(&core->do_stack, (void**) &instruction);
+//     instruction->source = source;
+//     instruction->redo_instruction = action;
+//
+//     instruction->source = source;
+//     instruction->redo_instruction = action;
+//
+//     instruction->type = bbVInstruction_updateAgents;
+//     bbList_pushL(&core->do_stack, instruction);
+// }
 
 bbFlag bbCoreInput_updateAgent(bbCore* core, bbHandle agent,bbInstruction_source source, bbHandle action)
 {

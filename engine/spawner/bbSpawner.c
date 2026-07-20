@@ -6,7 +6,7 @@
 #include "engine/spawner/bbSpawner.h"
 
 #include "engine/data/bbHome.h"
-#include "engine/entities/bbEntities.h"
+//#include "engine/entities/bbEntities.h"
 #include "engine/logic/bbPrime.h"
 #include "engine/logic/bbDictionary.h"
 #include "engine/logic/bbTerminal.h"
@@ -24,27 +24,27 @@ bbFlag bbSpawner_init(bbSpawner* spawner, I32 num_parsers, I32 num_entity_types)
     spawner->spawn_functions_available = 0;
     bbDictionary_new(&spawner->spawn_dict, nextPrime(num_entity_types));
 
-    spawner->entity_new = calloc(num_entity_types, sizeof(bbEntity_new*));
+    //spawner->entity_new = calloc(num_entity_types, sizeof(bbEntity_new*));
     spawner->unit_new = calloc(num_entity_types, sizeof(bbUIUnit_new*));
     spawner->entity_new_functions_available = 0;
     bbDictionary_new(&spawner->entity_new_dict, nextPrime(num_entity_types));
     return bbSuccess;
 }
-
-bbFlag bbEntityFunction_add(bbSpawner* spawner,
-    bbEntity_new* new_entity, bbUIUnit_new* new_unit, char* key )
-{
-
-    U32 available = spawner->entity_new_functions_available++;
-    spawner->entity_new[available] = new_entity;
-    spawner->unit_new[available] = new_unit;
-    bbHandle handle;
-    handle.u64 = available;
-
-    bbDictionary_add(spawner->entity_new_dict, key, handle);
-
-    return bbSuccess;
-}
+//
+// bbFlag bbEntityFunction_add(bbSpawner* spawner,
+//     bbEntity_new* new_entity, bbUIUnit_new* new_unit, char* key )
+// {
+//
+//     U32 available = spawner->entity_new_functions_available++;
+//     spawner->entity_new[available] = new_entity;
+//     spawner->unit_new[available] = new_unit;
+//     bbHandle handle;
+//     handle.u64 = available;
+//
+//     bbDictionary_add(spawner->entity_new_dict, key, handle);
+//
+//     return bbSuccess;
+// }
 
 bbFlag bbParseFunction_add(bbSpawner* spawner,
     bbParseFunction* spawn_core, bbParseFunction* spawn_graphics, char* key )
@@ -178,23 +178,23 @@ bbFlag bbSpawner_spawnEntity(bbSpawner* spawner, bbAgent** agent, bbMapCoords MC
     return function(agent,function_handle.u64,MC, movable_index, entity_index);
 }*/
 
-bbFlag bbSpawner_spawnEntityI(bbSpawner* spawner, bbAgent** agent, bbMapCoords MC,bbMapCoords goal_coords, I32 movable_index, I32 entity_index, I32 type_index)
-{
-    bbAssert (type_index < spawner->entity_new_functions_available, "bad entity spawner index\n");
-    bbEntity_new* function;
-    function = spawner->entity_new[type_index];
-
-
-
-    bbAgent* agent1;
-
-    bbFlag flag = function(&agent1, type_index,MC,goal_coords, movable_index, entity_index);
-
-    bbAssert(agent1 != NULL, "bad entity spawner\n");
-
-    *agent = agent1;
-    return flag;
-}
+// bbFlag bbSpawner_spawnEntityI(bbSpawner* spawner, bbAgent** agent, bbMapCoords MC,bbMapCoords goal_coords, I32 movable_index, I32 entity_index, I32 type_index)
+// {
+//     bbAssert (type_index < spawner->entity_new_functions_available, "bad entity spawner index\n");
+//     bbEntity_new* function;
+//     function = spawner->entity_new[type_index];
+//
+//
+//
+//     bbAgent* agent1;
+//
+//     bbFlag flag = function(&agent1, type_index,MC,goal_coords, movable_index, entity_index);
+//
+//     bbAssert(agent1 != NULL, "bad entity spawner\n");
+//
+//     *agent = agent1;
+//     return flag;
+// }
 
 bbFlag bbUIUnit_newUnit(I32 type_index, bbMapCoords MC, I32 movable_index, I32 entity_index)
 {

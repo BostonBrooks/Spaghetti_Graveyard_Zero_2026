@@ -171,7 +171,7 @@ bbFlag bbInput_poll(bbInput* input, sfRenderWindow* window){
             sfKeyCode keyCode = event.key.code;
 
                 //send every KeyDown event
-                bbLocalMessage_KeyDown(&home.core.core, keyCode);
+                //bbLocalMessage_KeyDown(&home.core.core, keyCode);
             unsigned char key;
                 if (event.key.shift == sfTrue)
                 {
@@ -248,7 +248,7 @@ bbFlag bbInput_poll(bbInput* input, sfRenderWindow* window){
 
             }
             //send every KeyUp event
-            bbLocalMessage_KeyUp(&home.core.core, keyCode);
+            //bbLocalMessage_KeyUp(&home.core.core, keyCode);
         case sfEvtTextEntered:
             break;
         default:{

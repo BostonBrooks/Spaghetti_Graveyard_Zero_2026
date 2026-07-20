@@ -45,22 +45,22 @@ bbFlag bbPF_treeGraphics(char* string)
 
     return bbSuccess;
 }
-
-bbFlag bbPF_treeCore(char* string)
-{
-    bbViewportApp* app = &home.viewport_app;
-    bbMapCoords MC;
-    char key[KEY_LENGTH];
-    sscanf(string, "%[^','],%d,%d", key, &MC.i, &MC.j);
-
-
-    MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
-
-
-
-    bbAvoidable_newCircle(home.agents_app.avoidables, MC, 193);
-    return bbSuccess;
-}
+//
+// bbFlag bbPF_treeCore(char* string)
+// {
+//     bbViewportApp* app = &home.viewport_app;
+//     bbMapCoords MC;
+//     char key[KEY_LENGTH];
+//     sscanf(string, "%[^','],%d,%d", key, &MC.i, &MC.j);
+//
+//
+//     MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
+//
+//
+//
+//     bbAvoidable_newCircle(home.agents_app.avoidables, MC, 193);
+//     return bbSuccess;
+// }
 
 bbFlag bbPF_skeletonGraphics(char* string)
 {
@@ -80,38 +80,38 @@ bbFlag bbPF_skeletonGraphics(char* string)
 
     return bbSuccess;
 }
-
-
-bbFlag bbPF_skeletonCore(char* string)
-{
-
-    bbMapCoords MC;
-    I32 index;
-    char key[KEY_LENGTH];
-    sscanf(string, "%[^','],%d,%d,%d", key, &MC.i, &MC.j,&index);
-
-    MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
-
-
-    bbMovable* movable = &home.agents_app.movables.movables[index];
-
-    home.agents_app.movables.available = index+1;
-
-    movable->type = bbMovableType_Follow;
-    movable->position = MC;
-    movable->goalpoint = MC;
-
-    movable->speed = 4000;
-    movable->coords_a = bbMapCoords_getMilliCoords(movable->position);
-    movable->coords_b = bbMapCoords_getMilliCoords(movable->position);
-
-    movable->goal_movable = index%8;
-
-
-    bbDebug("SKELETON, movable = %d, entity = %d\n", index,0);
-
-    return bbSuccess;
-}
+//
+//
+// bbFlag bbPF_skeletonCore(char* string)
+// {
+//
+//     bbMapCoords MC;
+//     I32 index;
+//     char key[KEY_LENGTH];
+//     sscanf(string, "%[^','],%d,%d,%d", key, &MC.i, &MC.j,&index);
+//
+//     MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
+//
+//
+//     bbMovable* movable = &home.agents_app.movables.movables[index];
+//
+//     home.agents_app.movables.available = index+1;
+//
+//     movable->type = bbMovableType_Follow;
+//     movable->position = MC;
+//     movable->goalpoint = MC;
+//
+//     movable->speed = 4000;
+//     movable->coords_a = bbMapCoords_getMilliCoords(movable->position);
+//     movable->coords_b = bbMapCoords_getMilliCoords(movable->position);
+//
+//     movable->goal_movable = index%8;
+//
+//
+//     bbDebug("SKELETON, movable = %d, entity = %d\n", index,0);
+//
+//     return bbSuccess;
+// }
 /*
 bbFlag bbPF_zombieGraphics(char* string)
 {
@@ -181,98 +181,98 @@ bbFlag bbPF_zombieGraphics(char* string)
     home.entities.entity[unit->enitity].unit = unit_handle;
     return bbSuccess;
 }*/
-/*
-bbFlag bbPF_zombieCore(char* string)
-{
-    bbMapCoords MC;
-    I32 index;
-    char key[KEY_LENGTH];
-    sscanf(string, "%[^','],%d,%d,%d", key, &MC.i, &MC.j,&index);
-
-    MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
-
-
-
-    bbMovable* movable = &home.agents_app.movables.movables[index];
-
-    home.agents_app.movables.available = index+1;
-
-    movable->type = bbMovableType_Player;
-    movable->position = MC;
-    movable->goalpoint = MC;
-
-    movable->coords_a = bbMapCoords_getMilliCoords(movable->position);
-    movable->coords_b = bbMapCoords_getMilliCoords(movable->position);
-
-    movable->goal_movable = -1;
-
-
-
-    return bbSuccess;
-}
-*/
-bbFlag bbPF_zombieCore(char* string)
-{
-
-    bbMapCoords MC;
-    I32 index;
-    char key[KEY_LENGTH];
-    sscanf(string, "%[^','],%d,%d,%d", key, &MC.i, &MC.j,&index);
-
-    MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
-
-    bbAgents* agents = home.agents_app.agents;
-    bbAgent* agent;
-
-    bbList_alloc(&agents->full_list, (void**)&agent);
-
-
-
-    agent->square_list.prev = agents->pool->null;
-    agent->square_list.next = agents->pool->null;
-    agent->movable = index;
-    agent->ftable.update = -1;
-    agent->ftable.command = bbAgentFunctions_getInt(&home.agents_app.functions,
-                             AgentCommand, "COMMAND_PLAYER");
-    agent->ftable.update = bbAgentFunctions_getInt(&home.agents_app.functions, AgentUpdate,"UPDATE_PLAYER");
-
-    bbMovable* movable = &home.agents_app.movables.movables[index];
-
-    agent->state = bbAgentState_Idle;
-    home.agents_app.movables.available = index+1;
-
-    movable->type = bbMovableType_Moving;
-    movable->position = MC;
-    movable->goalpoint = MC;
-
-    movable->coords_a = bbMapCoords_getMilliCoords(movable->position);
-    movable->coords_b = bbMapCoords_getMilliCoords(movable->position);
-
-    movable->goal_movable = index%8;
-
-
-    bbSquareCoords square_coords = bbMapCoords_getSquareCoords(MC);
-    agent->square_coords = square_coords;
-    bbAgents_square* square = bbAgents_getSquare(agents, square_coords.i, square_coords.j);
-
-    bbList_pushL(&square->agents,agent);
-    bbList_pushL(&agents->full_list,agent);
-
-    bbHandle agent_handle;
-    bbVPool_reverseLookup(home.agents_app.agents->pool,agent,&agent_handle);
-    agent->entity = home.agents_app.entities.available++;
-    home.agents_app.entities.entity[agent->entity].agent = agent_handle;
-
-    home.agents_app.entities.entity[agent->entity].movable.u64 = index;
-
-
-    home.agents_app.player_entity = agent->entity;
-
-
-    bbDebug("ZOMBIE, movable = %d, entity = %d\n", index, agent->entity);
-
-    return bbSuccess;
-}
+// /*
+// bbFlag bbPF_zombieCore(char* string)
+// {
+//     bbMapCoords MC;
+//     I32 index;
+//     char key[KEY_LENGTH];
+//     sscanf(string, "%[^','],%d,%d,%d", key, &MC.i, &MC.j,&index);
+//
+//     MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
+//
+//
+//
+//     bbMovable* movable = &home.agents_app.movables.movables[index];
+//
+//     home.agents_app.movables.available = index+1;
+//
+//     movable->type = bbMovableType_Player;
+//     movable->position = MC;
+//     movable->goalpoint = MC;
+//
+//     movable->coords_a = bbMapCoords_getMilliCoords(movable->position);
+//     movable->coords_b = bbMapCoords_getMilliCoords(movable->position);
+//
+//     movable->goal_movable = -1;
+//
+//
+//
+//     return bbSuccess;
+// }
+// */
+// bbFlag bbPF_zombieCore(char* string)
+// {
+//
+//     bbMapCoords MC;
+//     I32 index;
+//     char key[KEY_LENGTH];
+//     sscanf(string, "%[^','],%d,%d,%d", key, &MC.i, &MC.j,&index);
+//
+//     MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
+//
+//     bbAgents* agents = home.agents_app.agents;
+//     bbAgent* agent;
+//
+//     bbList_alloc(&agents->full_list, (void**)&agent);
+//
+//
+//
+//     agent->square_list.prev = agents->pool->null;
+//     agent->square_list.next = agents->pool->null;
+//     agent->movable = index;
+//     agent->ftable.update = -1;
+//     agent->ftable.command = bbAgentFunctions_getInt(&home.agents_app.functions,
+//                              AgentCommand, "COMMAND_PLAYER");
+//     agent->ftable.update = bbAgentFunctions_getInt(&home.agents_app.functions, AgentUpdate,"UPDATE_PLAYER");
+//
+//     bbMovable* movable = &home.agents_app.movables.movables[index];
+//
+//     agent->state = bbAgentState_Idle;
+//     home.agents_app.movables.available = index+1;
+//
+//     movable->type = bbMovableType_Moving;
+//     movable->position = MC;
+//     movable->goalpoint = MC;
+//
+//     movable->coords_a = bbMapCoords_getMilliCoords(movable->position);
+//     movable->coords_b = bbMapCoords_getMilliCoords(movable->position);
+//
+//     movable->goal_movable = index%8;
+//
+//
+//     bbSquareCoords square_coords = bbMapCoords_getSquareCoords(MC);
+//     agent->square_coords = square_coords;
+//     bbAgents_square* square = bbAgents_getSquare(agents, square_coords.i, square_coords.j);
+//
+//     bbList_pushL(&square->agents,agent);
+//     bbList_pushL(&agents->full_list,agent);
+//
+//     bbHandle agent_handle;
+//     bbVPool_reverseLookup(home.agents_app.agents->pool,agent,&agent_handle);
+//     agent->entity = home.agents_app.entities.available++;
+//     home.agents_app.entities.entity[agent->entity].agent = agent_handle;
+//
+//     home.agents_app.entities.entity[agent->entity].movable.u64 = index;
+//
+//
+//     home.agents_app.player_entity = agent->entity;
+//
+//
+//     bbDebug("ZOMBIE, movable = %d, entity = %d\n", index, agent->entity);
+//
+//     return bbSuccess;
+// }
 /*
 bbFlag bbPF_skellyGraphics(char* string)
 {
@@ -394,31 +394,31 @@ bbFlag bbPF_entityCore(char* string)
 bbFlag bbSpawner_populate(bbSpawner* spawner)
 {
     bbParseFunction_add(spawner,bbPF_null, bbPF_null, "NULL");
-    bbParseFunction_add(spawner,bbPF_treeCore, bbPF_treeGraphics, "TREE");
-    bbParseFunction_add(spawner,bbPF_skeletonCore, bbPF_skeletonGraphics, "SKELETON");
+    bbParseFunction_add(spawner,NULL, bbPF_treeGraphics, "TREE");
+    bbParseFunction_add(spawner,NULL, bbPF_skeletonGraphics, "SKELETON");
     //bbParseFunction_add(spawner,bbPF_skellyCore, bbPF_skellyGraphics, "SKELLY");
     //bbParseFunction_add(spawner,bbPF_zombieCore, bbPF_zombieGraphics, "ZOMBIE");
     bbParseFunction_add(spawner,bbPF_entityCore, bbPF_entityGraphics, "ENTITY");
 
     bbSpawnFunction_add(spawner,(void*)bbSF_null,(void*)bbSF_null, "NULL");
 
-    bbSpawnFunction_add(spawner,(void*)bbSF_kittyCore,(void*)bbSF_kittyGraphics, "KITTY");
-    bbEntityFunction_add(spawner,bbEntity_newKitty, bbUIUnit_newKitty, "KITTY");
+    bbSpawnFunction_add(spawner,(void*)NULL,(void*)bbSF_kittyGraphics, "KITTY");
+    //bbEntityFunction_add(spawner,bbEntity_newKitty, bbUIUnit_newKitty, "KITTY");
 
 
-    bbSpawnFunction_add(spawner,(void*)bbSF_fireballCore,(void*)bbSF_fireballGraphics, "FIREBALL");
-    bbEntityFunction_add(spawner,bbEntity_newFireball, bbUIUnit_newFireball, "FIREBALL");
+    bbSpawnFunction_add(spawner,(void*)NULL,(void*)bbSF_fireballGraphics, "FIREBALL");
+    //bbEntityFunction_add(spawner,bbEntity_newFireball, bbUIUnit_newFireball, "FIREBALL");
 
-    bbSpawnFunction_add(spawner,(void*)bbSF_balloonCore,(void*)bbSF_balloonGraphics, "BALLOON");
-    bbEntityFunction_add(spawner,bbEntity_newBalloon, bbUIUnit_newBalloon, "BALLOON");
-
-
-
-    bbSpawnFunction_add(spawner,(void*)bbSF_skellyCore,(void*)bbSF_skellyGraphics, "SKELLY");
-    bbEntityFunction_add(spawner,bbEntity_newSkelly, bbUIUnit_newSkelly, "SKELLY");
+    bbSpawnFunction_add(spawner,(void*)NULL,(void*)bbSF_balloonGraphics, "BALLOON");
+    //bbEntityFunction_add(spawner,bbEntity_newBalloon, bbUIUnit_newBalloon, "BALLOON");
 
 
-    bbSpawnFunction_add(spawner,(void*)bbSF_zombieCore,(void*)bbSF_zombieGraphics, "ZOMBIE");
-    bbEntityFunction_add(spawner,bbEntity_newZombie, bbUIUnit_newZombie, "ZOMBIE");
+
+    bbSpawnFunction_add(spawner,(void*)NULL,(void*)bbSF_skellyGraphics, "SKELLY");
+    //bbEntityFunction_add(spawner,bbEntity_newSkelly, bbUIUnit_newSkelly, "SKELLY");
+
+
+    bbSpawnFunction_add(spawner,(void*)NULL,(void*)bbSF_zombieGraphics, "ZOMBIE");
+    //bbEntityFunction_add(spawner,bbEntity_newZombie, bbUIUnit_newZombie, "ZOMBIE");
     return bbSuccess;
 }

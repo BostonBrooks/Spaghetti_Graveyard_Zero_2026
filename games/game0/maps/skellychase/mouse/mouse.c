@@ -32,7 +32,7 @@ bbFlag bbMouseFunctions_populate(bbMouseFunctions* self)
     //bbMouseFunctions_add(self, MouseLeftDown,NetcodeButton_LeftDown,"NETCODE_BUTTON");
    // bbMouseFunctions_add(self, MouseLeftDown,LoopButton_LeftDown,"LOOP_BUTTON");
    // bbMouseFunctions_add(self, MouseLeftDown,PauseButton_LeftDown,"PAUSE_BUTTON");
-    bbMouseFunctions_add(self, MouseLeftDown,NetpauseButton_LeftDown,"NETPAUSE_BUTTON");
+    //bbMouseFunctions_add(self, MouseLeftDown,NetpauseButton_LeftDown,"NETPAUSE_BUTTON");
     bbMouseFunctions_add(self, MouseLeftDown,SwitchCharacterButton_LeftDown,"SWITCH_CHARACTER_BUTTON");
     bbMouseFunctions_add(self, MouseLeftDown,Viewport_LeftDown,"VIEWPORT");
     bbMouseFunctions_add(self, MouseRightDown,Viewport_RightDown,"VIEWPORT");

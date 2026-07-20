@@ -96,7 +96,7 @@ bbMapCoords MC, I32 index){
         unit->drawable.frames[k].drawfunction = -1;
     }
 
-    home.agents_app.entities.movable_units[index] = unit_handle;
+    //home.agents_app.entities.movable_units[index] = unit_handle;
     bbList_sortL(&unitSquare->list, unit);
     *self = unit;
     return bbSuccess;
@@ -175,67 +175,67 @@ unit->drawable.state = 0;
 
 */
 
-
-bbFlag bbUnits_consumeBuffer(bbUnits* units, bbHandle* unit_array, bbMovables_snapshot* snapshot)
-{
-    bbHandle unit_handle;
-    bbVPool* pool = units->pool;
-    bbUnit* unit;
-    bbDrawable* drawable;
-
-
-
-    for (I32 i = 0; i < NUM_MOVABLES; i++)
-    {
-
-        if (snapshot->movables[i].type == bbMovableType_Unused) continue;
-        if (snapshot->movables[i].type == bbMovableType_Dead) continue;
-        unit_handle = unit_array[i];
-
-        if (unit_handle.u64 == home.viewport_app.units->pool->null.u64) continue;
-
-        bbFlag flag =  bbVPool_lookup(pool, (void**)&unit, unit_handle);
-        drawable = &unit->drawable;
-
-
-        if (drawable == NULL)
-        {
-                        continue;
-        }
-
-
-        if (snapshot->time > unit->next_time)
-        {
-            unit->prev_coords = unit->next_coords;
-            unit->prev_goalpoint = unit->next_goalpoint;
-            unit->prev_time = unit->next_time;
-
-            unit->next_coords = snapshot->movables[i].position;
-            unit->next_goalpoint = snapshot->movables[i].goalpoint;
-            unit->next_time = snapshot->time;
-            I32 delta_i = unit->next_goalpoint.i - unit->prev_coords.i;
-            I32 delta_j = unit->next_goalpoint.j - unit->prev_coords.j;
-
-            if (delta_i * delta_i + delta_j * delta_j > POINTS_PER_PIXEL)
-            {
-                float rotation = atan2(delta_i, delta_j);
-                drawable->rotation = rotation;
-            }
-        }
-
-        bbMapCoords position
-            = bbMapCoords_interpolate(unit->prev_coords, unit->next_coords, unit->prev_time,
-                home.UI.clock2_handle.map_tick, unit->next_time);
-
-
-        if (i==home.agents_app.player_entity) home.viewport_app.viewport.viewpoint = position;
-        home.viewport_app.viewport.viewpoint.k += 1;
-        //TODO add list of out of bounds units
-        if (position.i<0 || position.j < 0) continue;
-        if (position.i >= POINTS_PER_MAP || position.j >= POINTS_PER_MAP) continue;
-        bbDrawable_setLocation(drawable, units,position);
-
-
-    }
-    return bbSuccess;
-}
+//
+// bbFlag bbUnits_consumeBuffer(bbUnits* units, bbHandle* unit_array, bbMovables_snapshot* snapshot)
+// {
+//     bbHandle unit_handle;
+//     bbVPool* pool = units->pool;
+//     bbUnit* unit;
+//     bbDrawable* drawable;
+//
+//
+//
+//     for (I32 i = 0; i < NUM_MOVABLES; i++)
+//     {
+//
+//         if (snapshot->movables[i].type == bbMovableType_Unused) continue;
+//         if (snapshot->movables[i].type == bbMovableType_Dead) continue;
+//         unit_handle = unit_array[i];
+//
+//         if (unit_handle.u64 == home.viewport_app.units->pool->null.u64) continue;
+//
+//         bbFlag flag =  bbVPool_lookup(pool, (void**)&unit, unit_handle);
+//         drawable = &unit->drawable;
+//
+//
+//         if (drawable == NULL)
+//         {
+//                         continue;
+//         }
+//
+//
+//         if (snapshot->time > unit->next_time)
+//         {
+//             unit->prev_coords = unit->next_coords;
+//             unit->prev_goalpoint = unit->next_goalpoint;
+//             unit->prev_time = unit->next_time;
+//
+//             unit->next_coords = snapshot->movables[i].position;
+//             unit->next_goalpoint = snapshot->movables[i].goalpoint;
+//             unit->next_time = snapshot->time;
+//             I32 delta_i = unit->next_goalpoint.i - unit->prev_coords.i;
+//             I32 delta_j = unit->next_goalpoint.j - unit->prev_coords.j;
+//
+//             if (delta_i * delta_i + delta_j * delta_j > POINTS_PER_PIXEL)
+//             {
+//                 float rotation = atan2(delta_i, delta_j);
+//                 drawable->rotation = rotation;
+//             }
+//         }
+//
+//         bbMapCoords position
+//             = bbMapCoords_interpolate(unit->prev_coords, unit->next_coords, unit->prev_time,
+//                 home.UI.clock2_handle.map_tick, unit->next_time);
+//
+//
+//         if (i==home.agents_app.player_entity) home.viewport_app.viewport.viewpoint = position;
+//         home.viewport_app.viewport.viewpoint.k += 1;
+//         //TODO add list of out of bounds units
+//         if (position.i<0 || position.j < 0) continue;
+//         if (position.i >= POINTS_PER_MAP || position.j >= POINTS_PER_MAP) continue;
+//         bbDrawable_setLocation(drawable, units,position);
+//
+//
+//     }
+//     return bbSuccess;
+// }

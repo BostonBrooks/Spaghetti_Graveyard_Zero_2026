@@ -3,8 +3,8 @@
 #include <math.h>
 
 #include "engine/data/CSFML.h"
-#include "engine/entities/bbAgentFunctions.h"
-#include "engine/entities/bbAvoidables.h"
+//#include "engine/entities/bbAgentFunctions.h"
+//#include "engine/entities/bbAvoidables.h"
 #include "engine/core/bbCoreDiscard.h"
 #include "engine/core/bbCoreInputs.h"
 #include "engine/core/bbCoreInbox.h"
@@ -71,8 +71,8 @@ int main(void)
 
     bbSquareCoords size; size.i = 12; size.j = 12; size.k = 0;
     bbGroundSurface_init(&home.ground_surface, size, "./maps/skellychase/graphics/HeightMap.bmp");
-    bbAgentFunctions_init(&home.agents_app.functions);
-    bbAgentFunctions_populate(&home.agents_app.functions);
+    //bbAgentFunctions_init(&home.agents_app.functions);
+    //bbAgentFunctions_populate(&home.agents_app.functions);
     //bbAgents_init(&home.agents_app.agents);
 
     bbSpawner_init(&home.spawner, 69, 193);
@@ -96,29 +96,29 @@ int main(void)
     bool once2 = false;
     bool once = false;
 
-    bbAvoidables_new(&home.agents_app.avoidables, 12, 12);
-    bbMovables_init(&home.agents_app.movables);
+    //bbAvoidables_new(&home.agents_app.avoidables, 12, 12);
+    //bbMovables_init(&home.agents_app.movables);
 
 
-    bbAgents_new(&home.agents_app.agents, 12,12);
+    //bbAgents_new(&home.agents_app.agents, 12,12);
 
 
-    bbEntities_init_core(&home.agents_app.entities);
+    //bbEntities_init_core(&home.agents_app.entities);
 
-    bbSpawner_spawnCore(&home.spawner, "./maps/skellychase/spawner/spawner.csv");
+    //bbSpawner_spawnCore(&home.spawner, "./maps/skellychase/spawner/spawner.csv");
 
     bbHandle no_handle;
 
     //This works, we have a bunch of skeletons going in circles!
-    bbCoreInput_setGoalMovable(&home.core.core,69696969, 8, 9,bbInstructionSource_internal, no_handle);
-    bbCoreInput_setGoalMovable(&home.core.core,69696969, 9, 10,bbInstructionSource_internal, no_handle);
-    bbCoreInput_setGoalMovable(&home.core.core,69696969, 10, 11,bbInstructionSource_internal, no_handle);
-    bbCoreInput_setGoalMovable(&home.core.core,69696969, 11, 12,bbInstructionSource_internal, no_handle);
-    bbCoreInput_setGoalMovable(&home.core.core,69696969, 12, 13,bbInstructionSource_internal, no_handle);
-    bbCoreInput_setGoalMovable(&home.core.core,69696969, 13, 14,bbInstructionSource_internal, no_handle);
-    bbCoreInput_setGoalMovable(&home.core.core,69696969, 14, 15,bbInstructionSource_internal, no_handle);
-    bbCoreInput_setGoalMovable(&home.core.core,69696969, 15, 8,bbInstructionSource_internal, no_handle);
-    bbCore_react(&home.core.core);
+    // bbCoreInput_setGoalMovable(&home.core.core,69696969, 8, 9,bbInstructionSource_internal, no_handle);
+    // bbCoreInput_setGoalMovable(&home.core.core,69696969, 9, 10,bbInstructionSource_internal, no_handle);
+    // bbCoreInput_setGoalMovable(&home.core.core,69696969, 10, 11,bbInstructionSource_internal, no_handle);
+    // bbCoreInput_setGoalMovable(&home.core.core,69696969, 11, 12,bbInstructionSource_internal, no_handle);
+    // bbCoreInput_setGoalMovable(&home.core.core,69696969, 12, 13,bbInstructionSource_internal, no_handle);
+    // bbCoreInput_setGoalMovable(&home.core.core,69696969, 13, 14,bbInstructionSource_internal, no_handle);
+    // bbCoreInput_setGoalMovable(&home.core.core,69696969, 14, 15,bbInstructionSource_internal, no_handle);
+    // bbCoreInput_setGoalMovable(&home.core.core,69696969, 15, 8,bbInstructionSource_internal, no_handle);
+    // bbCore_react(&home.core.core);
 
 
     pthread_barrier_wait(&barrier1);
@@ -171,7 +171,7 @@ int main(void)
         bbCoreInput_setTime(&home.core.core,  home.core.clock2_handle.map_tick, bbInstructionSource_input, no_handle);
         bbCore_react(&home.core.core);
 
-        bbCore_checkLocalMessages(&home.core.core);
+        bbCore_checkInbox(&home.core.core);
 
 
 
@@ -196,12 +196,12 @@ int main(void)
             bbCoreInput_updateMovables(&home.core.core, bbInstructionSource_input, no_handle);
 
             bbCore_react(&home.core.core);
-            bbCoreInput_updateAgentsSquare(&home.core.core, NULL,bbInstructionSource_input, no_handle);
+            //bbCoreInput_updateAgentsSquare(&home.core.core, NULL,bbInstructionSource_input, no_handle);
             bbCore_react(&home.core.core);
 
 
-            bbCoreInput_updateAgents(&home.core.core, home.agents_app.agents,
-                                     bbInstructionSource_input, no_handle);
+            //bbCoreInput_updateAgents(&home.core.core, home.agents_app.agents,
+            //                         bbInstructionSource_input, no_handle);
             bbCore_react(&home.core.core);
         }
 
@@ -248,15 +248,15 @@ void* userinterface_thread(void* arg)
 
     bbNetworkTime* network_time = (bbNetworkTime*)home.network.extra_data;
 
-    bbMovables_snapshot movables_snapshot;
+    //bbMovables_snapshot movables_snapshot;
 
     U8 clock_index = 255;
 
     I32 counter = 0;
 
 
-    bbEntities_init_graphics(&home.agents_app.entities);
-    bbSpawner_spawnGraphics(&home.spawner, "./maps/skellychase/spawner/spawner.csv");
+    //bbEntities_init_graphics(&home.agents_app.entities);
+    //bbSpawner_spawnGraphics(&home.spawner, "./maps/skellychase/spawner/spawner.csv");
 
     bbHere()
     bbMapCoords MC;
@@ -310,8 +310,8 @@ bbHere()
         bbDrawable_setLocation(sphere, home.viewport_app.drawables,mouseCoords);
 //end test*/
 
-        bbMovables_copyBuffer(&home.agents_app.movables, &movables_snapshot);
-        bbUnits_consumeBuffer(home.viewport_app.units, home.agents_app.entities.movable_units,&movables_snapshot);
+        //bbMovables_copyBuffer(&home.agents_app.movables, &movables_snapshot);
+        //bbUnits_consumeBuffer(home.viewport_app.units, home.agents_app.entities.movable_units,&movables_snapshot);
         bbUIApp_draw(&home.UI);
 
 /* this test passes
