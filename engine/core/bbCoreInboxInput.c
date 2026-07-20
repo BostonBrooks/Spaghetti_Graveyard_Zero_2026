@@ -1,5 +1,5 @@
-#include "bbLocalMessage.h"
-#include "engine/core/bbLocalMessageInputs.h"
+#include "bbCoreInbox.h"
+#include "engine/core/bbCoreInboxInput.h"
 
 #include "engine/data/bbHome.h"
 #include "engine/logic/bbString.h"

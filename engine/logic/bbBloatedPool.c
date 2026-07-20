@@ -36,7 +36,7 @@ bbFlag bbVPool_newBloated(bbVPool** Pool, I32 sizeOf, I32 level1, I32 level2, ch
     pool->size_of = BloatedPool->size_of;
     pool->delete = (bbFlag (*)(void* pool)) bbBloatedPool_delete;
     pool->clear = (bbFlag (*)(void* pool)) bbBloatedPool_clear;
-    pool->alloc_impl = (bbFlag(*)(void* pool, void** address, char* file, int
+    pool->alloc_impl = (bbFlag(*)(void* pool, void** address, bbHandle* handle, char* file, int
     line)) bbBloatedPool_allocImpl;
     pool->free = (bbFlag(*)(void* pool, void* address)) bbBloatedPool_free;
     pool->lookup = (bbFlag (*)(void* pool, void** address, bbHandle
@@ -45,7 +45,9 @@ bbFlag bbVPool_newBloated(bbVPool** Pool, I32 sizeOf, I32 level1, I32 level2, ch
             bbHandle* handle)) bbBloatedPool_reverseLookup;
 //    pool->print_header = (bbFlag (*)(void *, void *)) bbBloatedPool_printHeader;
     pool->handle_is_equal = (bool (*)(void* USUSED, bbHandle A, bbHandle B)) bbBloatedPool_handleIsEqual;
-    *Pool = pool;
+	pool->alloc_from_handle = (bbFlag (*)(void* pool, void** address, bbHandle handle, char* file, int
+	line)) bbBloatedPool_allocFromHandle;
+	*Pool = pool;
     return bbSuccess;
 }
 bbFlag bbBloatedPool_expand(bbBloatedPool* pool);
@@ -134,7 +136,7 @@ bbFlag bbBloatedPool_expand(bbBloatedPool* pool){
 	element_A->list.prev = pool->null;
 	bbBloatedPool_newHandle(pool, i, j, &element_A->self);
 	bbBloatedPool_newHandle(pool, i, j+1, &element_A->list.next);
-
+	element_A->in_use = false;
 	j++;
 
 	while(j < pool->level2 - 1){
@@ -142,11 +144,12 @@ bbFlag bbBloatedPool_expand(bbBloatedPool* pool){
 		element_B->list.prev = element_A->self;
 		element_B->self = element_A->list.next;
 		bbBloatedPool_newHandle(pool, i, j+1, &element_B->list.next);
+		element_A->in_use = false;
 		element_A = element_B;
 
 		j++;
 	}
-
+	element_A->in_use = false;
 	element_B = (bbBloatedPool_Header *) &level2[j * (sizeof(bbBloatedPool_Header) + pool->size_of)];
 	element_B->list.prev = element_A->self;
 	//TODO the next line is a guess
@@ -164,7 +167,69 @@ bbFlag bbBloatedPool_expand(bbBloatedPool* pool){
 	return bbSuccess;
 }
 
-bbFlag bbBloatedPool_allocImpl(bbBloatedPool* pool, void** address, char* file, I32 line)
+bbFlag bbBloatedPool_expandHandle(bbBloatedPool* pool, bbHandle handle){
+
+	U32 i = handle.bloated.index / pool->level2;
+	while (pool->elements[i] != NULL){
+		i++;
+		bbAssert(i < pool->level1, "%s pool full\n", pool->pool_name);
+	}
+
+	//each element in level 2 has size = size of header + size of user data
+	U8* level2 = calloc(pool->level2,
+								sizeof(bbBloatedPool_Header)
+								+ pool->size_of * sizeof(U8));
+
+	bbAssert(level2 != NULL, "calloc failed\n");
+
+	U32 j = 0;
+	bbBloatedPool_Header* element_A;
+	bbBloatedPool_Header* element_B;
+
+	if (IS_NULL(pool->available.tail))
+	{
+		element_A = (bbBloatedPool_Header *)&level2[j * (sizeof(bbBloatedPool_Header) + pool->size_of)];
+		element_A->list.prev = pool->null;
+		bbBloatedPool_newHandle(pool, i, j, &element_A->self);
+		bbBloatedPool_newHandle(pool, i, j+1, &element_A->list.next);
+		element_A->in_use = false;
+
+		pool->available.head = element_A->self;
+		j++;
+	} else
+	{
+		bbBloatedPool_lookupHeader(pool,(void**)&element_A,pool->available.tail);
+		bbBloatedPool_newHandle(pool, i, j, &element_A->list.next);
+	}
+
+	while(j < pool->level2 - 1){
+		element_B = (bbBloatedPool_Header *) &level2[j * (sizeof(bbBloatedPool_Header) + pool->size_of)];
+		element_B->list.prev = element_A->self;
+		element_B->self = element_A->list.next;
+		bbBloatedPool_newHandle(pool, i, j+1, &element_B->list.next);
+		element_A->in_use = false;
+		element_A = element_B;
+
+		j++;
+	}
+	element_A->in_use = false;
+	element_B = (bbBloatedPool_Header *) &level2[j * (sizeof(bbBloatedPool_Header) + pool->size_of)];
+	element_B->list.prev = element_A->self;
+	element_B->self = element_A->list.next;
+	element_B->list.next = pool->null;
+	element_A = (bbBloatedPool_Header *)&level2[0 * (sizeof(bbBloatedPool_Header) + pool->size_of)];
+
+
+	pool->elements[i] = level2;
+	pool->available.tail = element_B->self;
+
+
+
+	return bbSuccess;
+}
+
+
+bbFlag bbBloatedPool_allocImpl(bbBloatedPool* pool, void** address, bbHandle* handle, char* file, I32 line)
 {
 	bbAssert(address != NULL, "NULL pointer");
 
@@ -193,8 +258,8 @@ bbFlag bbBloatedPool_allocImpl(bbBloatedPool* pool, void** address, char* file, 
 		element->list.prev = pool->null;
 		element->list.next = pool->null;
 
-
-		*address = &element->user_data;
+		if (address != NULL) *address = &element->user_data;
+		if (handle != NULL) *handle = element_handle;
 		return bbSuccess;
 	}
 
@@ -221,7 +286,8 @@ bbFlag bbBloatedPool_allocImpl(bbBloatedPool* pool, void** address, char* file, 
 	head_header->line = line;
 	bbStr_setStr(head_header->file, file, KEY_LENGTH);
 
-	*address = &head_header->user_data;
+	if (address != NULL) *address = &head_header->user_data;
+	if (handle != NULL) *handle = head_handle;
 
 	return bbSuccess;
 }
@@ -314,7 +380,7 @@ bbFlag bbBloatedPool_reverseLookup(bbBloatedPool* pool, void* address, bbHandle*
 }
 
 
-bbFlag bbBloatedPool_allocFromHandle(bbBloatedPool* pool, void** address, bbHandle handle){
+bbFlag bbBloatedPool_allocFromHandle(bbBloatedPool* pool, void** address, bbHandle handle, char* file, I32 line){
 
 	U32 index = handle.bloated.index;
 	U32 collision = handle.bloated.collision;
@@ -322,13 +388,12 @@ bbFlag bbBloatedPool_allocFromHandle(bbBloatedPool* pool, void** address, bbHand
 	bbAssert(lvl1index < pool->level1, "index out of bounds\n");
 	U32 lvl2index = index % pool->level2;
 	U8* lvl2 = pool->elements[lvl1index];
-	bbAssert(lvl2 != NULL, "index out of bounds / not yet implemented\n");
+	if(lvl2 == NULL)  bbBloatedPool_expandHandle(pool, handle);
+	lvl2 = pool->elements[lvl1index];
 	bbBloatedPool_Header *element = (bbBloatedPool_Header *)&lvl2[lvl2index * (sizeof(bbBloatedPool_Header) + pool->size_of)];
 
 	bbAssert(element->in_use != true, "alloc from handle - in use\n");
 
-	element->in_use = true;
-	element->self.bloated.collision = collision;
 
 	bbHandle prev_handle = element->list.prev;
 	bbHandle next_handle = element->list.next;
@@ -341,6 +406,8 @@ bbFlag bbBloatedPool_allocFromHandle(bbBloatedPool* pool, void** address, bbHand
 	bool is_head = bbBloatedPool_handleIsEqual(pool, head_handle, old_handle);
 	bool is_tail = bbBloatedPool_handleIsEqual(pool, tail_handle, old_handle);
 
+	element->in_use = true;
+	element->self.bloated.collision = collision;
 
 	if (is_head && is_tail)
 	{
@@ -350,23 +417,23 @@ bbFlag bbBloatedPool_allocFromHandle(bbBloatedPool* pool, void** address, bbHand
 	{
 		pool->available.head = next_handle;
 		bbBloatedPool_Header* next_header;
-		bbBloatedPool_lookup(pool, (void**)&next_header, next_handle);
+		bbBloatedPool_lookupHeader(pool, (void**)&next_header, next_handle);
 		next_header->list.prev = pool->null;
 
 	} else if (is_tail)
 	{
 		pool->available.tail = prev_handle;
 		bbBloatedPool_Header* prev_header;
-		bbBloatedPool_lookup(pool, (void**)&prev_header, prev_handle);
+		bbBloatedPool_lookupHeader(pool, (void**)&prev_header, prev_handle);
 		prev_header->list.next = pool->null;
 	} else
 	{
 
 		bbBloatedPool_Header* next_header;
-		bbBloatedPool_lookup(pool, (void**)&next_header, next_handle);
+		bbBloatedPool_lookupHeader(pool, (void**)&next_header, next_handle);
 
 		bbBloatedPool_Header* prev_header;
-		bbBloatedPool_lookup(pool, (void**)&prev_header, prev_handle);
+		bbBloatedPool_lookupHeader(pool, (void**)&prev_header, prev_handle);
 
 		next_header->list.prev = prev_header->self;
 		prev_header->list.next = next_header->self;
@@ -374,6 +441,9 @@ bbFlag bbBloatedPool_allocFromHandle(bbBloatedPool* pool, void** address, bbHand
 
 	element->list.prev = pool->null;
 	element->list.next = pool->null;
+	element->in_use = true;
+	element->line = line;
+	bbStr_setStr(element->file, file, KEY_LENGTH);
 
 	*address = element->user_data;
 

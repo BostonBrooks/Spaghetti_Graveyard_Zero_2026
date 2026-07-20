@@ -49,8 +49,8 @@ add_executable(Pong test/bbTest_Pong.c
         engine/core/bbCore.c
         engine/core/bbInstruction.c
         engine/core/bbCoreInputs.c
-        engine/core/bbLocalMessage.c
-        engine/core/bbLocalMessageInputs.c
+        engine/core/bbCoreInbox.c
+        engine/core/bbCoreInboxInput.c
         engine/core/bbAction.c
         engine/core/bbCoreDiscard.c
         engine/threadsafe/bbThreadedPool.c
@@ -113,8 +113,8 @@ add_executable(Spaghetti_Graveyard_Zero_2026 test/incremental_test.c
         engine/core/bbCore.c
         engine/core/bbInstruction.c
         engine/core/bbCoreInputs.c
-        engine/core/bbLocalMessage.c
-        engine/core/bbLocalMessageInputs.c
+        engine/core/bbCoreInbox.c
+        engine/core/bbCoreInboxInput.c
         engine/core/bbAction.c
         engine/threadsafe/bbThreadedPool.c
         engine/threadsafe/bbThreadedQueue.c
@@ -182,7 +182,7 @@ add_executable(allocFromHandle test/bbBloatedPool_allocFromHandle.c
 
 target_include_directories(allocFromHandle  PRIVATE "./")
 
-add_executable(test_core test/bbTest_ECS.c
+add_executable(test_core
         engine/data/bbIncludes.c
         engine/logic/bbBloatedPool.c
         engine/logic/bbDictionary.c
@@ -221,8 +221,8 @@ add_executable(test_core test/bbTest_ECS.c
         engine/core/bbCore.c
         engine/core/bbInstruction.c
         engine/core/bbCoreInputs.c
-        engine/core/bbLocalMessage.c
-        engine/core/bbLocalMessageInputs.c
+        engine/core/bbCoreInbox.c
+        engine/core/bbCoreInboxInput.c
         engine/core/bbAction.c
         engine/threadsafe/bbThreadedPool.c
         engine/threadsafe/bbThreadedQueue.c
@@ -240,7 +240,7 @@ target_link_libraries(test_core PRIVATE
         csfml-network
 )
 
-add_executable(Reactor_Core test/bbTest_ECS.c
+add_executable(Reactor_Core
         engine/logic/bbTree.c
         engine/logic/bbList_sort.c
         engine/logic/bbList_iterate.c
@@ -253,10 +253,10 @@ add_executable(Reactor_Core test/bbTest_ECS.c
         engine/core/bbInstruction.c
         engine/core/bbAction.c
         engine/threadsafe/bbThreadedPool.c
-        engine/core/bbLocalMessage.c
+        engine/core/bbCoreInbox.c
         engine/threadsafe/bbThreadedQueue.c
         engine/threadsafe/bbThreadedQueue_search.c
-        engine/core/bbLocalMessageInputs.c)
+        engine/core/bbCoreInboxInput.c)
 
 
 target_include_directories(Reactor_Core  PRIVATE "./")
@@ -275,11 +275,6 @@ target_link_libraries(Test_Threaded_Queue PRIVATE
 target_include_directories(Test_Threaded_Queue  PRIVATE "./")
 
 add_executable(SkellyChase test/bbTest_SkellyChase.c
-        engine/entities/bbAgentFunctions.c
-        engine/entities/bbMovables.c
-        engine/entities/bbAvoidables.c
-        engine/entities/bbAgents.c
-        engine/entities/bbEntities.c
         engine/graphics/bbFonts.c
         engine/graphics/bbSprites.c
         engine/graphics/bbTextures.c
@@ -288,10 +283,10 @@ add_executable(SkellyChase test/bbTest_SkellyChase.c
         engine/graphics/bbGraphicsApp.c
         engine/graphics/bbAnimations.c
         engine/core/bbInstruction.c
-        engine/core/bbLocalMessage.c
+        engine/core/bbCoreInbox.c
         engine/core/bbCoreInputs.c
         engine/core/bbCoreDiscard.c
-        engine/core/bbLocalMessageInputs.c
+        engine/core/bbCoreInboxInput.c
         engine/core/bbCore.c
         engine/core/bbAction.c
         engine/geometry/bbCoordinates.c
@@ -355,7 +350,7 @@ target_link_libraries(SkellyChase PRIVATE
         m
 )
 
-add_executable(TestECS  test/bbTest_ECS.c
+add_executable(TestECS
         "engine/ECS/ECS.c"
         engine/core/bbInstruction.c
         engine/core/bbCoreInputs.c
@@ -369,3 +364,41 @@ add_executable(TestECS  test/bbTest_ECS.c
         engine/threadsafe/bbThreadedPool.c)
 target_compile_definitions(TestECS PRIVATE DEFINE_TEST_ECS)
 target_include_directories(TestECS PRIVATE "./")
+
+
+
+
+add_executable(Test_Pool test/bbTest_Pool.c
+        engine/logic/bbBloatedPool.c)
+target_compile_definitions(Test_Pool PRIVATE
+        DEFINE_TEST_POOL)
+target_include_directories(Test_Pool PRIVATE "./")
+
+add_executable(Test_ECS  test/bbTest_ECS.c
+        engine/ECS/ECS.c
+        engine/core/bbInstruction.c
+        engine/core/bbCoreInputs.c
+        engine/core/bbCoreDiscard.c
+        engine/core/bbCore.c
+        engine/core/bbCoreInbox.c
+        engine/core/bbCoreInboxInput.c
+        engine/core/bbAction.c
+        engine/logic/bbList.c
+        engine/logic/bbList_sort.c
+        engine/logic/bbBloatedPool.c
+        engine/threadsafe/bbThreadedQueue.c
+        engine/threadsafe/bbThreadedPool.c
+        engine/network/bbNetwork.c
+        engine/network/bbNetworkTime.c
+        engine/network/bbNetworkPacket.c
+        engine/network/bbNetworkApp.c
+        engine/threadsafe/bbThreadedQueue_search.c
+        engine/logic/bbList_getNth.c)
+target_compile_definitions(Test_ECS PRIVATE DEFINE_TEST_ECS)
+target_include_directories(Test_ECS PRIVATE "./")
+target_link_libraries(Test_ECS PRIVATE
+        csfml-graphics
+        csfml-window
+        csfml-system
+        csfml-network
+)

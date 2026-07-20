@@ -1,4 +1,4 @@
-#include "engine/core/bbLocalMessage.h"
+#include "engine/core/bbCoreInbox.h"
 #ifdef DEFINE_SKELLYCHASE
 #include "core/core_inputs.h"
 #endif

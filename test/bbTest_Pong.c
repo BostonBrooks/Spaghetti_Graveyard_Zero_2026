@@ -5,8 +5,8 @@
 
 #include "engine/core/bbCoreDiscard.h"
 #include "engine/core/bbCoreInputs.h"
-#include "engine/core/bbLocalMessage.h"
-#include "engine/core/bbLocalMessageInputs.h"
+#include "engine/core/bbCoreInbox.h"
+#include "engine/core/bbCoreInboxInput.h"
 #include "engine/graphics/bbSprites.h"
 #include "engine/logic/bbTerminal.h"
 #include "engine/logic/bbFlag.h"

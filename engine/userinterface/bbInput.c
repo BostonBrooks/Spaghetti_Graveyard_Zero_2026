@@ -2,7 +2,7 @@
 #include "engine/data/CSFML.h"
 #include "engine/userinterface/bbInput.h"
 
-#include "engine/core/bbLocalMessageInputs.h"
+#include "engine/core/bbCoreInboxInput.h"
 #include "engine/userinterface/bbWidgetFunctions.h"
 #include "engine/logic/bbTerminal.h"
 

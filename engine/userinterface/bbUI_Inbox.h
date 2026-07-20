@@ -1,7 +1,7 @@
 #ifndef BB_UI_INBOX_H
 #define BB_UI_INBOX_H
 
-#include "engine/core/bbLocalMessage.h"
+#include "engine/core/bbCoreInbox.h"
 #include "engine/logic/bbFlag.h"
 #include "engine/logic/bbHandle.h"
 #include "engine/threadsafe/bbThreadedPool.h"

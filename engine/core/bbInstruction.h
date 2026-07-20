@@ -1,12 +1,10 @@
 
 #ifndef BB_INSTRUCTION_H
 #define BB_INSTRUCTION_H
-#include "engine/entities/bbAgentFunctions.h"
 #include "engine/core/bbCore.h"
 #include "engine/data/bbConstants.h"
 #include "engine/geometry/bbCoordinates.h"
 #include "engine/logic/bbHandle.h"
-#include "engine/entities/bbMovables.h"
 
 typedef enum
 {
@@ -161,14 +159,14 @@ typedef struct
     I32 movable_int;
 } bbInstructionsData_unspawnAgent;
 
-typedef struct
-{
-    bbMovable_type type;
-    I32 movable;
-    I32 goal_movable;
-    bbMapCoords goal_coords;
-    U64 last_state_change;
-} bbInstructionsData_goalMovable;
+// typedef struct
+// {
+//     bbMovable_type type;
+//     I32 movable;
+//     I32 goal_movable;
+//     bbMapCoords goal_coords;
+//     U64 last_state_change;
+// } bbInstructionsData_goalMovable;
 
 typedef union
 {
@@ -176,14 +174,14 @@ typedef union
     U64 u64;
     bbMapCoords map_coords;
     bbInstructionsData_goalPoint goal_point;
-    bbInstructionsData_goalMovable goal_movable;
+ //   bbInstructionsData_goalMovable goal_movable;
     bbInstructionsData_mapClick map_click;
     bbInstructionsData_agentSquare agent_square;
     bbInstructionsData_agentMapCoords agent_MC;
     bbInstructionsData_spawnUnit spawn_unit;
     bbInstructionsData_damageAgent damage_agent;
     bbInstructionsData_threeHandles three_handles;
-    bbAgentCommandData agent_command;
+//    bbAgentCommandData agent_command;
     bbInstructionsData_spawnUnitOut spawn_unit_out;
     bbInstructionsData_spawnAgent spawn_agent;
     bbInstructionsData_unspawnAgent unspawn_agent;

@@ -2,8 +2,8 @@
 #include "engine/core/bbCore.h"
 #include "engine/core/bbCoreInputs.h"
 #include "engine/core/bbInstruction.h"
-#include "engine/core/bbLocalMessage.h"
-#include "engine/core/bbLocalMessageInputs.h"
+#include "engine/core/bbCoreInbox.h"
+#include "engine/core/bbCoreInboxInput.h"
 
 
 ///Discard undo instructions up until time, including other objects belonging

@@ -25,12 +25,14 @@ typedef struct
 
     bbFlag (*delete)(void* pool);
     bbFlag (*clear)(void* pool);
-    bbFlag (*alloc_impl)(void* pool, void** address, char* file, int line);
+    bbFlag (*alloc_impl)(void* pool, void** address, bbHandle* handle, char* file, int line);
     bbFlag (*free)(void* pool, void* address);
     bbFlag (*lookup)(void* pool, void** address, bbHandle handle);
     bbFlag (*reverse_lookup)(void* pool, void* address, bbHandle* handle);
     bbFlag (*print_header)(void* pool, void* address);
     bool (*handle_is_equal)(void* pool, bbHandle a, bbHandle b);
+    bbFlag (*alloc_from_handle)(void* pool, void** address, bbHandle handle, char* file, I32 line);
+
 }bbVPool;
 
 
@@ -48,11 +50,19 @@ static bbFlag bbVPool_clear(bbVPool* pool)
     return pool->clear(pool->pool);
 }
 
-static bbFlag bbVPool_allocImpl(bbVPool* pool, void** address, char* file, int line)
+static bbFlag bbVPool_allocImpl(bbVPool* pool, void** address, bbHandle* handle, char* file, int line)
 {
     bbAssert(pool!=0x0, "passing null argument\n");
 
-    return pool->alloc_impl(pool->pool, address, file, line);
+    return pool->alloc_impl(pool->pool, address,handle, file, line);
+}
+
+
+static bbFlag bbVPool_allocFromHandle(bbVPool* pool, void** address, bbHandle handle, char* file, int line)
+{
+    bbAssert(pool!=0x0, "passing null argument\n");
+
+    return pool->alloc_from_handle(pool->pool, address,handle, file, line);
 }
 static bbFlag bbVPool_free(bbVPool* pool, void* address)
 {
@@ -60,16 +70,6 @@ static bbFlag bbVPool_free(bbVPool* pool, void* address)
 }
 static bbFlag bbVPool_lookup(bbVPool* pool, void** address, bbHandle handle)
 {
-    //TODO - roll this code into bbLeanPool
-//    if(pool->type == VPoolType_lean)
-//    {
-//        if (handle.ptr == NULL)
-//        {
-//            bbHere()
-//            *address=NULL;
-//            return bbNone;
-//        }
-//    }
     return pool->lookup(pool->pool, address, handle);
 }
 
@@ -87,12 +87,14 @@ static bool bbVPool_handleIsEqual(bbVPool* pool, bbHandle A, bbHandle B)
     return pool->handle_is_equal(pool->pool, A, B);
 }
 
-
 #define bbVPool_alloc(pool, address)\
-bbVPool_allocImpl(pool, address, __FILE_NAME__, __LINE__);
+bbVPool_allocImpl(pool, address, NULL, __FILE_NAME__, __LINE__);
 
 
+#define bbVPool_alloc2(pool, address, handle)\
+bbVPool_allocImpl(pool, address, handle, __FILE_NAME__, __LINE__);
 
 
-
+#define bbVPool_allocFromHandle(pool, address, handle)\
+bbVPool_allocFromHandle(pool, address, handle, __FILE_NAME__, __LINE__);
 #endif //BB_VIRTUAL_POOL_H

@@ -1,7 +1,7 @@
 #include "core/core_inputs.h"
 #include "engine/entities/bbAgentFunctions.h"
 #include "engine/core/bbCoreInputs.h"
-#include "engine/core/bbLocalMessageInputs.h"
+#include "engine/core/bbCoreInboxInput.h"
 #include "engine/data/bbHome.h"
 #include "engine/network/bbNetworkApp.h"
 

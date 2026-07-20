@@ -4,7 +4,7 @@
 #include <string.h>
 
 #include "engine/core/bbAction.h"
-#include "engine/core/bbLocalMessageInputs.h"
+#include "engine/core/bbCoreInboxInput.h"
 #include "engine/data/bbHome.h"
 #include "engine/logic/bbDictionary.h"
 #include "engine/logic/bbString.h"

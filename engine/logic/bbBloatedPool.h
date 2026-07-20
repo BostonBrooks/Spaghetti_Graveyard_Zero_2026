@@ -37,18 +37,21 @@ bbFlag bbBloatedPool_new(
         bbBloatedPool** pool, I32 size_of, I32 level1, I32 level2, char* key);
 bbFlag bbBloatedPool_delete(bbBloatedPool* pool);
 bbFlag bbBloatedPool_clear(bbBloatedPool* pool);
-bbFlag bbBloatedPool_allocImpl(bbBloatedPool* pool, void** address, char* file, I32 line);
+bbFlag bbBloatedPool_allocImpl(bbBloatedPool* pool, void** address, bbHandle* handle, char* file, I32 line);
 bbFlag bbBloatedPool_free(bbBloatedPool* pool, void* address);
 bbFlag bbBloatedPool_lookup(bbBloatedPool* pool, void** address, bbHandle handle);
 bbFlag bbBloatedPool_reverseLookup(bbBloatedPool* pool, void* address, bbHandle* handle);
 bbFlag bbBloatedPool_printHeader(bbBloatedPool* pool, void* address);
 bool bbBloatedPool_handleIsEqual(bbBloatedPool* USUSED, bbHandle A, bbHandle B);
+
+//Get the header used to track allocation of elements in pool
 bbFlag bbBloatedPool_lookupHeader(bbBloatedPool* pool, void** address, bbHandle handle);
-bbFlag bbBloatedPool_allocFromHandle(bbBloatedPool* pool, void** address, bbHandle handle);
+bbFlag bbBloatedPool_allocFromHandle(bbBloatedPool* pool, void** address, bbHandle handle, char* file, I32 line);
 
 
 #define bbBloatedPool_alloc(pool, address)\
-bbBloatedPool_allocImpl(pool, address, __FILE_NAME__, __LINE__);
+bbBloatedPool_allocImpl(pool, address,  NULL, __FILE_NAME__, __LINE__);
 
-
+#define bbBloatedPool_alloc2(pool, address, handle)\
+bbBloatedPool_allocImpl(pool, address,  handle, __FILE_NAME__, __LINE__);
 #endif //BB_BLOATEDPOOL_H

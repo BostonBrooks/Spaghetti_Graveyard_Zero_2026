@@ -1,4 +1,4 @@
-#include "engine/core/bbLocalMessageInputs.h"
+#include "engine/core/bbCoreInboxInput.h"
 #include "engine/data/bbHome.h"
 
 bbFlag RetroactionButton_LeftDown (void* Mouse, void* Widgets, void* Widget, void*
