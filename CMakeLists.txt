@@ -26,6 +26,7 @@ target_link_libraries(Server PRIVATE
 
 
 add_executable(SkellyChase test/bbTest_SkellyChase.c
+        engine/ECS/ECS.c
         engine/graphics/bbFonts.c
         engine/graphics/bbSprites.c
         engine/graphics/bbTextures.c

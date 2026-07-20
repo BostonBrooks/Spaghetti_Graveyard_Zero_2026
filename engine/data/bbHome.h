@@ -20,16 +20,12 @@ typedef struct
     bbECS ECS;
 } bbECS_data;
 
-//TODO bbCoreApp
 typedef struct
 {
     bbCore core;
     char quote[KEY_LENGTH];
     I64 test_int;
     bbClock_handle clock2_handle;
-    bbBall balls[N_BALLS];
-    bbPaddle paddle1;
-    bbPaddle paddle2;
 
     ///in order to rewind the viewpoint, we mist keep a record of where it was before updating
     bbMapCoords viewpoint;
@@ -44,7 +40,6 @@ typedef struct
     bbClock clock2;
     bbHome_core core;
     bbViewportApp viewport_app;
-    //bbAgentsApp agents_app;
     bbGroundSurface ground_surface;
     bbSpawner spawner;
     bbECS_data ECS;
