@@ -264,6 +264,14 @@ void* userinterface_thread(void* arg)
     MC.j = 10000;
     MC.k = 1500;
 
+    MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
+
+    bbDrawable* drawable;
+    bbDrawable_newTree(&drawable, home.viewport_app.drawables, &home.UI.graphics,MC);
+    bbMapIcon* mapicon;
+    bbMapIcon_new(&mapicon, home.viewport_app.mapIcons,&home.UI.graphics, MC);
+
+
     /*
     bbDrawable* sphere;
     bbDrawable_newPoint(&sphere, home.viewport_app.drawables,

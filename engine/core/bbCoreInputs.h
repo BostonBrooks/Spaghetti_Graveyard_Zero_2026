@@ -2,8 +2,6 @@
 #define BB_CORE_INPUTS_H
 #include "engine/core/bbInstruction.h"
 #include "engine/core/bbCore.h"
-#include "games/game0/maps/pong/code/bbBall.h"
-#include "games/game0/maps/pong/code/bbPaddle.h"
 //#include "engine/entities/bbAgentFunctions.h"
 
 
