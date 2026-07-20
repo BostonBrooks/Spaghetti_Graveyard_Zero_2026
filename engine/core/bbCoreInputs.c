@@ -14,7 +14,6 @@
 #include "engine/logic/bbString.h"
 #include "games/game0/maps/pong/code/bbBall.h"
 #include "games/game0/maps/pong/code/bbPaddle.h"
-#include "engine/entities/bbAgentFunctions.h"
 
 bbFlag bbCoreInput_setString(bbCore* core, char* string, bbInstruction_source source, bbHandle action)
 {

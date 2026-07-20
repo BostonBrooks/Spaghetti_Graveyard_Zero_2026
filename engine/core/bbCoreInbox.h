@@ -4,56 +4,21 @@
 
 typedef enum
 {
-    bbLocalMessage_setString,
-    bbLocalMessage_unfreezeButton,
-    bbLocalMessage_actionUnfreeze,
-    bbLocalMessage_retroactionUnfreeze,
-    bbLocalMessage_netsendButton,
-    bbLocalMessage_netcodeButton,
-    bbLocalMessage_actionLoop,
-    bbLocalMessage_netpauseButton,
-    bbLocalMessage_keyDown,
-    bbLocalMessage_keyUp,
-    bbLocalMessage_setViewpoint,
-    bbLocalMessage_spawnBanana,
-    bbLocalMessage_spawnUnit,
-    bbLocalMessage_setGoalpoint,
-    bbLocalMessage_switchCharacterButton,
-    bbLocalMessage_mapClick
-} bbLocalMessage_type;
+    bbCoreInbox_setString,
+} bbCoreInbox_type;
 
 typedef struct
 {
-    bbLocalMessage_type type;
+    bbCoreInbox_type type;
     bbInstruction_data data;
     U64 act_time;
     bbListElement_Handle list_element;
-} bbLocalMessage;
+} bbCoreInboxMessage;
 
 
 
-bbFlag bbCore_checkLocalMessages(bbCore* core);
+bbFlag bbCore_checkInbox(bbCore* core);
 
-bbFlag bbLocalMessage_setString_fn(bbCore* core, bbLocalMessage* message);
+bbFlag bbCoreInbox_setString_fn(bbCore* core, bbCoreInboxMessage* message);
 
-
-bbFlag bbLocalMessage_actionUnfreeze_fn(bbCore* core, bbLocalMessage* message);
-bbFlag bbLocalMessage_netcodeButton_fn(bbCore* core, bbLocalMessage* message);
-bbFlag bbLocalMessage_actionLoop_fn(bbCore* core, bbLocalMessage* message);
-
-bbFlag bbLocalMessage_keyUp_fn(bbCore* core, bbLocalMessage* message);
-bbFlag bbLocalMessage_keyDown_fn(bbCore* core, bbLocalMessage* message);
-
-
-bbFlag bbLocalMessage_setViewpointOut_fn(bbCore* core, bbLocalMessage* message);
-bbFlag bbLocalMessage_setGoalpointOut_fn(bbCore* core, bbLocalMessage* message);
-
-
-bbFlag bbLocalMessage_spawnBananaOut_fn(bbCore* core, bbLocalMessage* message);
-
-bbFlag bbLocalMessage_spawnUnitOut_fn(bbCore* core, bbLocalMessage* message);
-
-
-bbFlag bbLocalMessage_switchCharacterButton_fn(bbCore* core, bbLocalMessage* message);
-bbFlag bbLocalMessage_mapClick_fn(bbCore* core, bbLocalMessage* message);
 #endif // BB_LOCAL_MESSAGE_H

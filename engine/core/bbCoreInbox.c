@@ -7,7 +7,7 @@
 #include "engine/data/bbHome.h"
 #include "engine/threadsafe/bbThreadedQueue.h"
 
-bbFlag bbLocalMessage_setString_fn(bbCore* core, bbLocalMessage* message)
+bbFlag bbCoreInbox_setString_fn(bbCore* core, bbCoreInboxMessage* message)
 {
     bbCoreInput_setString(core, message->data.key, bbInstructionSource_input, no_handle);
     //undo message?
@@ -15,165 +15,10 @@ bbFlag bbLocalMessage_setString_fn(bbCore* core, bbLocalMessage* message)
     return bbSuccess;
 }
 
-bbFlag bbLocalMessage_unfreezeButton_fn(bbCore* core, bbLocalMessage* message)
+
+bbFlag bbCore_checkInbox(bbCore* core)
 {
-    bbCoreInput_unfreezeButton(core, message->data.key, bbInstructionSource_input, no_handle);
-    //undo message?
-
-    return bbSuccess;
-}
-
-bbFlag bbLocalMessage_actionUnfreeze_fn(bbCore* core, bbLocalMessage* message)
-{
-
-    bbDebug("time = %lu\n", core->simulation_time  + 60);
-    bbAction_unfreezeButton(core,
-                           0,
-                           rand(),
-                           0,
-                           core->simulation_time + 60,
-                           message->data.key);
-
-    return bbSuccess;
-}
-
-
-bbFlag bbLocalMessage_retroactionUnfreeze_fn(bbCore* core, bbLocalMessage* message)
-{
-
-    bbDebug("time = %lu\n", core->simulation_time  - 60);
-    bbAction_unfreezeButton(core,
-                           0,
-                           rand(),
-                           0,
-                           core->simulation_time - 60,
-                           message->data.key);
-
-    return bbSuccess;
-}
-
-bbFlag bbLocalMessage_netsendButton_fn(bbCore* core, bbLocalMessage* message)
-{
-    bbCoreInput_netsendButton(core,message->data.key);
-
-    return bbSuccess;
-}
-
-bbFlag bbLocalMessage_netcodeButton_fn(bbCore* core, bbLocalMessage* message)
-{
-
-
-    bbHandle handle = {0};
-    bbCoreInput_netcodeButton(core,message->data.key, message->act_time,bbInstructionSource_input,handle);
-
-    return bbSuccess;
-}
-bbFlag bbLocalMessage_netpauseButton_fn(bbCore* core, bbLocalMessage* message)
-{
-    bbCoreInput_netpauseButton(core,message->data.key);
-
-    return bbSuccess;
-}
-
-bbFlag bbLocalMessage_actionLoop_fn(bbCore* core, bbLocalMessage* message)
-{
-
-    bbAction_loop(core,
-                           0,
-                           rand(),
-                           0,
-                           message->act_time,
-                           message->data.key);
-
-    return bbSuccess;
-}
-#ifdef DEFINE_PONG
-bbFlag bbLocalMessage_keyUp_fn(bbCore* core, bbLocalMessage* message)
-{
-
-    bbHandle handle = {0};
-    bbCoreInput_keyUp(core,message->data.three_handles.handle1.u64, message->act_time,bbInstructionSource_input,handle);
-
-    return bbSuccess;
-}
-
-bbFlag bbLocalMessage_keyDown_fn(bbCore* core, bbLocalMessage* message)
-{
-    bbHandle handle = {0};
-    bbCoreInput_keyDown(core,message->data.three_handles.handle1.u64, message->act_time,bbInstructionSource_input,handle);
-
-    return bbSuccess;
-}
-#endif //DEFINE_PONG
-#ifdef DEFINE_SKELLYCHASE
-/*bbFlag bbLocalMessage_setViewpointOut_fn(bbCore* core, bbLocalMessage* message)
-{
-    bbHandle handle = {0};
-    bbCoreInput_setViewpointOut(core,
-        message->data.map_coords, message->act_time,bbInstructionSource_input,handle);
-
-    return bbSuccess;
-}*/
-
-bbFlag bbLocalMessage_spawnUnitOut_fn(bbCore* core, bbLocalMessage* message)
-{
-    bbHandle handle = {0};
-    bbHandle type_handle;
-    bbDictionary_lookup(home.spawner.entity_new_dict,message->data.spawn_unit_out.key, &type_handle);
-
-    //bbDebug("key = %s, index = %llu\n", message->data.keycoords.key, type_handle.u64);
-    bbCoreInput_spawnUnitOut(core,
-                                type_handle.u64,
-                                message->data.spawn_unit_out.position,
-                                message->data.spawn_unit_out.goal_point,
-                                message->act_time,
-                                bbInstructionSource_input,
-                                handle);
-
-
-
-    return bbSuccess;
-}
-
-bbFlag bbLocalMessage_spawnBananaOut_fn(bbCore* core, bbLocalMessage* message)
-{
-    bbHandle handle = {0};
-    bbCoreInput_spawnBananaOut(core,
-                                message->data.map_coords,
-                                message->act_time,
-                                bbInstructionSource_input,
-                                handle);
-
-    return bbSuccess;
-}
-bbFlag bbLocalMessage_setGoalpointOut_fn(bbCore* core, bbLocalMessage* message)
-{
-    //TODO entity hardcoded to 0;
-    bbHandle handle = {0};
-    bbCoreInput_setGoalpointOut(core,0,
-        message->data.map_coords, message->act_time,bbInstructionSource_input,handle);
-
-    return bbSuccess;
-}
-
-bbFlag bbLocalMessage_mapClick_fn(bbCore* core, bbLocalMessage* message)
-{
-    bbCoreInput_commandAgentMapClick(core,home.agents_app.player_entity,message->data.map_click.coords, message->data.map_click.button);
-    //TODO core_react()?
-}
-
-bbFlag bbLocalMessage_switchCharacterButton_fn(bbCore* core, bbLocalMessage* message)
-{
-    //home.agents_app.agents.current_agent = (home.agents_app.agents.current_agent + 1)%NUM_AGENTS;
-    home.agents_app.player_entity = (home.agents_app.player_entity + 1)%8;
-    return bbSuccess;
-}
-
-#endif
-
-bbFlag bbCore_checkLocalMessages(bbCore* core)
-{
-    bbLocalMessage* message;
+    bbCoreInboxMessage* message;
 
     bbFlag flag;
 
@@ -185,96 +30,12 @@ bbFlag bbCore_checkLocalMessages(bbCore* core)
 
         switch (message->type)
         {
-        case bbLocalMessage_setString:
-            bbLocalMessage_setString_fn(core, message);
+        case bbCoreInbox_setString:
+            bbCoreInbox_setString_fn(core, message);
             bbCore_react(core);
             break;
 
 
-        case bbLocalMessage_unfreezeButton:
-            bbLocalMessage_unfreezeButton_fn(core, message);
-            bbCore_react(core);
-            break;
-
-        case bbLocalMessage_actionUnfreeze:
-            bbLocalMessage_actionUnfreeze_fn(core, message);
-            bbCore_react(core);
-            break;
-
-        case bbLocalMessage_retroactionUnfreeze:
-            bbLocalMessage_retroactionUnfreeze_fn(core, message);
-            bbCore_react(core);
-            break;
-
-        case bbLocalMessage_netsendButton:
-            bbLocalMessage_netsendButton_fn(core, message);
-            bbCore_react(core);
-
-        case bbLocalMessage_netcodeButton:
-            bbLocalMessage_netcodeButton_fn(core, message);
-            bbCore_react(core);
-            break;
-
-
-
-        case bbLocalMessage_actionLoop:
-            bbLocalMessage_actionLoop_fn(core, message);
-            bbCore_react(core);
-            break;
-
-
-
-        case bbLocalMessage_netpauseButton:
-            bbLocalMessage_netpauseButton_fn(core, message);
-            bbCore_react(core);
-            break;
-#ifdef DEFINE_SKELLYCHASE
-        case bbLocalMessage_mapClick:
-            bbLocalMessage_mapClick_fn(core, message);
-            bbCore_react(core);
-            break;
-        case bbLocalMessage_spawnBanana:
-            bbLocalMessage_spawnBananaOut_fn(core, message);
-            bbCore_react(core);
-            break;
-
-        case bbLocalMessage_spawnUnit:
-            bbLocalMessage_spawnUnitOut_fn(core, message);
-            bbCore_react(core);
-            break;
-#endif
-
-#ifdef DEFINE_PONG
-        case bbLocalMessage_keyUp:
-            bbLocalMessage_keyUp_fn(core, message);
-            bbCore_react(core);
-            break;
-
-
-
-        case bbLocalMessage_keyDown:
-            bbLocalMessage_keyDown_fn(core, message);
-            bbCore_react(core);
-            break;
-
-#endif //DEFINE_PONG
-
-#ifdef DEFINE_SKELLYCHASE
-//        case bbLocalMessage_setViewpoint:
-//            bbLocalMessage_setViewpointOut_fn(core, message);
-//            bbCore_react(core);
-//            break;
-        case bbLocalMessage_setGoalpoint:
-            bbLocalMessage_setGoalpointOut_fn(core, message);
-            bbCore_react(core);
-            break;
-
-        case bbLocalMessage_switchCharacterButton:
-            bbLocalMessage_switchCharacterButton_fn(core, message);
-            bbCore_react(core);
-            break;
-
-#endif
         default:
 
             bbDebug("Unknown local message type\n");

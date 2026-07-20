@@ -73,8 +73,8 @@ bbFlag bbCoreInput_setGoalMovable(bbCore* core,U64 time, I32 movable, I32 goal_m
 bbFlag bbCoreInput_setMovableIdle(bbCore* core,U64 time, I32 movable, bbMapCoords MC,
                                  bbInstruction_source source, bbHandle action);
 
-bbFlag bbCoreInput_setMovableType(bbCore* core,U64 time, I32 movable, bbAgentCommandData data,
-                                 bbInstruction_source source, bbHandle action);
+//bbFlag bbCoreInput_setMovableType(bbCore* core,U64 time, I32 movable, bbAgentCommandData data,
+//                                 bbInstruction_source source, bbHandle action);
 
 bbFlag bbCoreInput_commandAgentMapClick(bbCore* core, I32 player_entity,bbMapCoords MC, I32 button);
 #endif //BB_CORE_INPUTS

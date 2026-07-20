@@ -3,6 +3,7 @@
 #include "engine/core/bbCoreInbox.h"
 #include "engine/core/bbCoreInboxInput.h"
 #include "engine/core/bbCoreInputs.h"
+#include "engine/data/bbHome.h"
 #include "engine/ECS/ECS.h"
 #include "engine/logic/bbBloatedPool.h"
 #include "engine/logic/bbString.h"
@@ -16,6 +17,7 @@ U64 test_time = 0;
 thread_local char* thread;
 char test_string[KEY_LENGTH];
 bbHandle null_handle;
+bbHome home;
 
 typedef struct
 {

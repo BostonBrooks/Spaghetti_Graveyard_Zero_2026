@@ -40,8 +40,7 @@ bbFlag bbVPool_newThreaded(bbVPool** self, I32 size_of, I32 num)
     pool->size_of = ThreadedPool->size_of;
     pool->delete = (bbFlag (*)(void* pool)) bbThreadedPool_delete;
     pool->clear = bbThreadedPool_clear;
-    pool->alloc_impl = (bbFlag(*)(void* pool, void** address, char* file, int
-    line)) bbThreadedPool_allocImpl;
+    pool->alloc_impl = (bbFlag(*)(void* pool, void** address, bbHandle* handle, char* file, int line)) bbThreadedPool_allocImpl;
     pool->free = (bbFlag(*)(void* pool, void* address)) bbThreadedPool_free;
     pool->lookup = (bbFlag (*)(void* pool, void** address, bbHandle handle))
                     bbThreadedPool_lookup;
@@ -111,8 +110,7 @@ bbFlag bbThreadedPool_delete(bbThreadedPool* pool){
     free(pool);
     return bbSuccess;
 }
-
-bbFlag bbThreadedPool_allocImpl(bbThreadedPool* pool, void** address, char* file, int line)
+bbFlag bbThreadedPool_allocImpl(bbThreadedPool* pool, void** address, bbHandle* handlex, char* file, int line)
 {
     bbMutexLock(&pool->mutex);
 

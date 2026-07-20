@@ -1,7 +1,6 @@
 #ifndef	BB_HOME_H
 #define BB_HOME_H
 
-#include "../entities/bbEntities.h"
 #include "engine/viewport/bbViewportApp.h"
 #include "engine/core/bbCore.h"
 #include "engine/ECS/ECS.h"
@@ -13,7 +12,6 @@
 #include "engine/userinterface/bbUI_Inbox.h"
 #include "engine/userinterface/bbWidgets.h"
 #include "engine/userinterface/bbUIApp.h"
-#include "engine/entities/bbEntitiesApp.h"
 #include "engine/groundsurface/bbGroundSurface.h"
 #include "engine/spawner/bbSpawner.h"
 
@@ -46,7 +44,7 @@ typedef struct
     bbClock clock2;
     bbHome_core core;
     bbViewportApp viewport_app;
-    bbAgentsApp agents_app;
+    //bbAgentsApp agents_app;
     bbGroundSurface ground_surface;
     bbSpawner spawner;
     bbECS_data ECS;

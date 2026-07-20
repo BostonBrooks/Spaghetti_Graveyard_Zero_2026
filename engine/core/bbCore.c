@@ -15,12 +15,12 @@ bbFlag bbCore_init(bbCore* core)
     bbList_init(&core->do_stack, core->instruction_pool, NULL, offsetof(bbInstruction, list_element),NULL);
     bbList_init(&core->undo_stack, core->instruction_pool, NULL, offsetof(bbInstruction, list_element),NULL);
 
-    bbVPool_newThreaded(&core->local_message_pool, sizeof(bbLocalMessage),1000);
+    bbVPool_newThreaded(&core->local_message_pool, sizeof(bbCoreInboxMessage),1000);
 
     bbThreadedQueue_init(&core->local_message_queue,
                           core->local_message_pool,
-                          sizeof(bbLocalMessage),
-                          1000,offsetof(bbLocalMessage, list_element));
+                          sizeof(bbCoreInboxMessage),
+                          1000,offsetof(bbCoreInboxMessage, list_element));
 
     bbVPool_newBloated(&core->action_pool,sizeof(bbAction),100,1000, "bbAction");
     bbList_init(&core->action_queue, core->action_pool, NULL, offsetof(bbAction, header.list_element),bbAction_compare);

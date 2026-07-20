@@ -40,8 +40,7 @@ bbFlag bbVPool_newThreaded(bbVPool** pool, I32 size_of, I32 num);
 bbFlag bbThreadedPool_new(bbThreadedPool** pool, I32 size_of, I32 num);
 bbFlag bbThreadedPool_delete(bbThreadedPool* pool);
 bbFlag bbThreadedPool_clear(void* pool);
-bbFlag bbThreadedPool_allocImpl(bbThreadedPool* pool, void** address, char* file, int
-line);
+bbFlag bbThreadedPool_allocImpl(bbThreadedPool* pool, void** address, bbHandle* handle, char* file, int line);
 bbFlag bbThreadedPool_free(bbThreadedPool* pool, void* address);
 bbFlag bbThreadedPool_lookup(bbThreadedPool* pool, void** address, bbHandle handle);
 bbFlag bbThreadedPool_reverseLookup(void* Pool, void* address, bbHandle*
