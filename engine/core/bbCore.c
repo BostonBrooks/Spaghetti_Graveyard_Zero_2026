@@ -62,22 +62,6 @@ bbFlag bbCore_react(bbCore* core)
             case bbInstruction_checkActions:
                 bbInstruction_checkActions_fn(core, instruction);
                 break;
-#ifndef DEFINE_TEST_ECS
-            case bbInstruction_netsendButton:
-                bbInstruction_netsendButton_fn(core, instruction);
-                break;
-#endif
-
-#ifndef DEFINE_TEST_ECS
-            case bbInstruction_netcodeButton:
-
-                bbInstruction_netcodeButton_fn(core, instruction);
-                break;
-#endif
-            case bbInstruction_loopAction:
-                bbInstruction_loopAction_fn(core, instruction);
-                break;
-#ifdef DEFINE_TEST_ECS
             case bbInstruction_spawnEmptyEntity:
                 bbInstruction_spawnEmptyEntity_fn(core, instruction);
                 break;
@@ -87,67 +71,8 @@ bbFlag bbCore_react(bbCore* core)
             case bbInstruction_spawnTestEntity:
                 bbInstruction_spawnTestEntity_fn(core, instruction);
                 break;
-#endif
-
-#ifndef DEFINE_TEST_ECS
-            case bbInstruction_netpauseButton:
-                bbInstruction_netpauseButton_fn(core, instruction);
-                break;
-#endif
-#ifdef DEFINE_SKELLYCHASE
-            case bbInstruction_spawnBananaOut:
-                bbInstruction_spawnBananaOut_fn(core, instruction);
-                break;
-//            case bbInstruction_spawnBananaIn:
-//                bbInstruction_spawnBananaIn_fn(core, instruction);
-//                break;
 
 
-          //  case bbInstruction_setViewpointOut:
-
-          //      bbInstruction_setViewpointOut_fn(core, instruction);
-           //     break;
-//case bbInstruction_setViewpointIn:
-
-//                bbInstruction_setViewpointIn_fn(core, instruction);
-//                break;
-
-
-           // case bbInstruction_setGoalpointOut:
-
-            //    bbInstruction_setGoalpointOut_fn(core, instruction);
-            //    break;
-
-           // case bbInstruction_setGoalpointIn:
-
-           //     bbInstruction_setGoalpointIn_fn(core, instruction);
-           //     break;
-
-
-//            case bbInstruction_approachGoalpoint:
-
-//                bbInstruction_approachGoalpoint_fn(core, instruction);
-//                break;
-
-            //case bbInstruction_updateMovables:
-
-            //    bbInstruction_updateMovables_fn(core, instruction);
-            //    break;
-#endif
-
-#ifdef DEFINE_PONG
-
-
-          //  case bbInstruction_keyDown:
-      //          bbInstruction_keyDown_fn(core, instruction);
-      //          break;
-
-      //      case bbInstruction_keyUp:
-       //         bbInstruction_keyUp_fn(core, instruction);
-       //         break;
-
-
-#endif //DEFINE_PONG
             default:
                 bbDebug("Unknown instruction type: %d\n", instruction->type);
             }
@@ -190,7 +115,7 @@ bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
             case bbInstruction_uncheckActions:
                 bbInstruction_uncheckActions_fn(core, instruction);
                 break;
-#ifdef DEFINE_TEST_ECS
+
             case bbInstruction_unspawnEmptyEntity:
                 bbInstruction_unspawnEmptyEntity_fn(core, instruction);
                 break;
@@ -201,7 +126,7 @@ bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
                bbInstruction_unspawnTestEntity_fn(core, instruction);
                 break;
 
-#endif
+
 
 
 #ifdef DEFINE_SKELLYCHASE
