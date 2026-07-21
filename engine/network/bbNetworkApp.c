@@ -108,6 +108,23 @@ bbFlag bbNetworkApp_sendGoalpoint(void* Network, bbMapCoords* coords)
     return bbSuccess;
 }
 
+bbFlag bbNetworkApp_sendTestClick(bbNetwork* Network, bbMapCoords* coords)
+{
+    bbNetwork* network = (bbNetwork*)Network;
+    bbNetworkPacket* packet;
+    bbThreadedQueue_alloc(&network->outbox, (void**)&packet);
+    packet->act_tick = 1337;
+    packet->send_tick = 8008135;
+    packet->type = PACKETTYPE_TESTCLICK;
+    packet->data.map_coords.i = coords->i;
+    packet->data.map_coords.j = coords->j;
+    packet->data.map_coords.k = coords->k;
+    bbThreadedQueue_pushL(&network->outbox, (void*)packet);
+
+    return bbSuccess;
+}
+
+
 bbFlag bbNetworkApp_sendString(bbNetwork* network, char* string)
 {
     bbNetworkPacket* packet;
@@ -144,29 +161,7 @@ bbFlag bbNetworkApp_checkInbox(bbNetwork* network)
         {
             printf("packet received: %s\n", packet->data.str);
         }
-        // if (packet->type == PACKETTYPE_SETGOALPOINT)
-        // {
-        //     //bbDebug("coords received: i = %d, j = %d, k = %d\n",
-        //     //    packet->data.map_coords.i, packet->data.map_coords.j, packet->data.map_coords.k);
-        // }
-        //
-        // if (packet->type == PACKETTYPE_UNFREEZEBUTTON)
-        // {
-        //     //bbLocalMessage_UnfreezeButton(&home.core.core,packet->data.str);
-        //     bbCore_react(&home.core.core);
-        //
-        // }
-        //
-        // if (packet->type == PACKETTYPE_NETCODEBUTTON)
-        // {
-        //     bbAction_unfreezeButton(&home.core.core,
-        //         packet->player,
-        //         0,
-        //         packet->send_tick,
-        //         packet->act_tick,
-        //         packet->data.str);
-        // }
-        //
+
         if (packet->type == PACKETTYPE_PAUSE)
         {
             bbClock_setPause(&home.clock2,
@@ -176,100 +171,12 @@ bbFlag bbNetworkApp_checkInbox(bbNetwork* network)
             bbHere()
             bbCoreInbox_UnfreezeButton(&home.core.core,"(UN)PAUSE");
         }
-        //
-        // if (packet->type == PACKETTYPE_KEYUP)
-        // {
-        //
-        //     bbAction_setPaddleDirection(&home.core.core,
-        //     packet->player,
-        //     rand(),
-        //     packet->send_tick,
-        //     packet->act_tick,
-        //      left_stop);
-        //     bbDebug("key up: %d\n", packet->data.integer);
-        // }
-        // if (packet->type == PACKETTYPE_KEYDOWN)
-        // {
-        //     if (packet->data.integer == 73)
-        //     {
-        //         bbAction_setPaddleDirection(&home.core.core,
-        //         packet->player,
-        //         rand(),
-        //         packet->send_tick,
-        //         packet->act_tick,left_up);
-        //     }
-        //     if (packet->data.integer == 74)
-        //     {
-        //         bbAction_setPaddleDirection(&home.core.core,
-        //         packet->player,
-        //         rand(),
-        //         packet->send_tick,
-        //         packet->act_tick,left_down);
-        //     }
-        //     bbDebug("key down: %d\n", packet->data.integer);
-        //
-        // }
-        // if (packet->type == PACKETTYPE_PADDLEVELOCITY)
-        // {
-        //
-        //
-        //     bbAction_setPaddleVelocity(&home.core.core,
-        //                                 packet->data.paddle_and_velocity.x,
-        //                                 packet->collision,
-        //                                 packet->send_tick,
-        //                                 packet->act_tick,
-        //                                 packet->data.paddle_and_velocity.y);
-        // }
-        //
-        // if (packet->type == PACKETTYPE_VIEWPOINT)
-        // {
-        //     bbAction_setViewpoint(&home.core.core,
-        //                                 packet->data.map_coords,
-        //                                 packet->collision,
-        //                                 packet->send_tick,
-        //                                 packet->act_tick);
-        // }
-        // if (packet->type == PACKETTYPE_GOALPOINT)
-        // {
-        //     bbAction_setGoalpoint(&home.core.core,
-        //                                 packet->data.map_coords,
-        //                                 packet->collision,
-        //                                 packet->send_tick,
-        //                                 packet->act_tick,
-        //                                 packet->player);
-        // }
-        //
-        // if (packet->type == PACKETTYPE_SPAWNBANANA)
-        // {
-        //
-        //     bbAction_spawnBanana(&home.core.core,
-        //                     packet->data.unit.position,
-        //                     packet->data.unit.entity_index,
-        //                     packet->data.unit.movable_index,
-        //                     packet->collision,
-        //                     packet->send_tick,
-        //                     packet->act_tick,
-        //                     packet->player);
-        // }
-        //
-        // if (packet->type == PACKETTYPE_SPAWNUNIT)
-        // {
-        //     bbAction_spawnUnit(&home.core.core,
-        //         packet->data.unit.position,
-        //         packet->data.unit.goalpoint,
-        //         packet->data.unit.type_index,
-        //         packet->data.unit.entity_index,
-        //         packet->data.unit.movable_index,
-        //         packet->collision,
-        //         packet->send_tick,
-        //         packet->act_tick,
-        //         packet->player);
-        // }
-        // if (packet->type == PACKETTYPE_SETSOCKETNUMBER)
-        // {
-        //     bbDebug("Set socket number %d\n", packet->data.integer);
-        //     network->server_socket_number = packet->data.integer;
-        // }
+
+        if (packet->type == PACKETTYPE_SETSOCKETNUMBER)
+        {
+            bbDebug("Set socket number %d\n", packet->data.integer);
+            network->server_socket_number = packet->data.integer;
+        }
         bbThreadedQueue_free(&network->inbox, (void**)&packet);
     }
 }

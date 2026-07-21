@@ -79,6 +79,9 @@ bbFlag bbCore_react(bbCore* core)
                 bbInstruction_netpauseButton_fn(core, instruction);
                 break;
 
+            case bbInstruction_testClick:
+                bbInstruction_testClick_fn(core, instruction);
+                break;
             default:
                 bbDebug("Unknown instruction type: %d\n", instruction->type);
             }

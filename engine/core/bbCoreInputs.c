@@ -90,4 +90,15 @@ bbFlag bbCoreInput_unfreezeButton(bbCore* core, char* string, bbInstruction_sour
 bbFlag bbCoreInput_testClick(bbCore* core, bbMapCoords MC, bbInstruction_source source, bbHandle action)
 {
     bbHere()
+
+    bbInstruction* instruction;
+    bbFlag flag = bbList_alloc(&core->do_stack,(void**)&instruction);
+
+    instruction->type = bbInstruction_testClick;
+    instruction->data.map_coords = MC;
+    instruction->source = source;
+    instruction->redo_instruction = action;
+
+    bbList_pushL(&core->do_stack, instruction);
+    return bbSuccess;
 }

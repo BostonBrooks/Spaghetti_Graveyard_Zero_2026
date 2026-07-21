@@ -18,6 +18,7 @@ bbFlag bbNetworkApp_checkInbox(bbNetwork* network);
 
 
 bbFlag bbNetworkApp_sendGoalpoint(void* Network, bbMapCoords* coords);
+bbFlag bbNetworkApp_sendTestClick(bbNetwork* network, bbMapCoords* coords);
 
 bbFlag bbNetworkApp_netsendButton(bbNetwork* network, char* key);
 bbFlag bbNetworkApp_netpauseButton(bbNetwork* network, char* key);
@@ -28,8 +29,6 @@ bbFlag bbNetworkApp_keyDown(bbNetwork* network, I32 key_code, U64 time, U32 coll
 
 bbFlag bbNetworkApp_setViewpointOut(bbNetwork* network, bbMapCoords MC, U64 time, U32 collision);
 bbFlag bbNetworkApp_setGoalpointOut(bbNetwork* network, I32 entity, bbMapCoords MC, U64 time, U32 collision);
-bbFlag bbNetworkApp_spawnBananaOut(bbNetwork* network, bbMapCoords MC, U64 time, U32 collision);
-bbFlag bbNetworkApp_spawnUnitOut(bbNetwork* network, I32 unit_type, bbMapCoords MC,bbMapCoords MC2, U64 time, U32 collision);
 
 
 #endif // BBNWETWORKAPP_H

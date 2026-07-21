@@ -50,6 +50,7 @@ bbFlag bbNetworkPacket_toStruct (sfPacket* packet, void* Struct)
 
         break;
     case PACKETTYPE_SETGOALPOINT:
+    case PACKETTYPE_TESTCLICK:
         struct1->data.map_coords.i = sfPacket_readInt32(packet);
         struct1->data.map_coords.j = sfPacket_readInt32(packet);
         struct1->data.map_coords.k = sfPacket_readInt32(packet);
@@ -161,7 +162,7 @@ bbFlag bbNetworkPacket_fromStruct (sfPacket* packet, void* Struct)
         sfPacket_writeUint32(packet, (U32)send_time_upper);
         break;
     case PACKETTYPE_SETGOALPOINT:
-
+    case PACKETTYPE_TESTCLICK:
         sfPacket_writeInt32(packet, struct1->data.map_coords.i);
         sfPacket_writeInt32(packet, struct1->data.map_coords.j);
         sfPacket_writeInt32(packet, struct1->data.map_coords.k);

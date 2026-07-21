@@ -152,7 +152,12 @@ int main(void){
                     continue;
                 }
 
-
+                if (packetStruct.type == PACKETTYPE_TESTCLICK)
+                {
+                    bbHere()
+                    sfPacket_clear(packet);
+                    continue;
+                }
 
 
                 for (int j = 0; j < 8; j++){

@@ -25,6 +25,7 @@
 #define PACKETTYPE_SPAWNBANANA       12
 #define PACKETTYPE_SPAWNUNIT         13
 #define PACKETTYPE_SETSOCKETNUMBER   14
+#define PACKETTYPE_TESTCLICK         15
 
 
 #define bbPacketType_print(flag)\
@@ -66,6 +67,9 @@ bbDebug ("Packet Type: PACKETTYPE_SPAWNBANANA\n");\
 break;\
 case PACKETTYPE_SPAWNUNIT:\
 bbDebug ("Packet Type: PACKETTYPE_SPAWNUNIT\n");\
+break;\
+case PACKETTYPE_TESTCLICK:\
+bbDebug ("Packet Type: PACKETTYPE_TESTCLICK\n");\
 break;\
 \
 }\

@@ -324,3 +324,10 @@ bbFlag bbInstruction_unfreezeButton_fn(bbCore* core, bbInstruction* instruction)
     return bbSuccess;
 
 }
+
+
+bbFlag bbInstruction_testClick_fn(bbCore* core, bbInstruction* instruction)
+{
+    bbNetworkApp_sendTestClick(&home.network, &instruction->data.map_coords);
+    bbHere()
+}
