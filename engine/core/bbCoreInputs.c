@@ -85,3 +85,9 @@ bbFlag bbCoreInput_unfreezeButton(bbCore* core, char* string, bbInstruction_sour
     bbList_pushL(&core->do_stack, instruction);
     return bbSuccess;
 }
+
+
+bbFlag bbCoreInput_testClick(bbCore* core, bbMapCoords MC, bbInstruction_source source, bbHandle action)
+{
+    bbHere()
+}

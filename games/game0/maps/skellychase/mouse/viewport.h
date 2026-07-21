@@ -6,18 +6,14 @@
 bbFlag Viewport_LeftDown (void* Mouse, void* Widgets, void* Widget, void*
                           Graphics)
 {bbHere()
-    // bbMouse* mouse = (bbMouse*)Mouse;
-    // bbWidget* widget = (bbWidget*)Widget;
-    //
-    // bbScreenPoints screen_points = mouse->position;
-    // bbViewportCoords VC = bbScreenPoints_getViewportPoints(&home.viewport_app.viewport, screen_points);
-    // bbMapCoords MC = home.viewport_app.viewport.viewpoint;
-    // bbMapCoords MC2 = bbViewportCoords_getMapCoords(VC);
-    // //bbLocalMessage_SpawnUnit(&home.core.core, MC, MC2, "BALLOON");
-    //
-    //
-    // bbLocalMessage_MapClick(&home.core.core, MC2, 1);
-    // //bbDebug("goal.i = %d, goal.j = %d\n", MC2.i, MC2.j);
+    bbMouse* mouse = (bbMouse*)Mouse;
+    bbWidget* widget = (bbWidget*)Widget;
+    bbScreenPoints screen_points = mouse->position;
+    bbViewportCoords VC = bbScreenPoints_getViewportPoints(&home.viewport_app.viewport, screen_points);
+    bbMapCoords MC = home.viewport_app.viewport.viewpoint;
+    bbMapCoords MC2 = bbViewportCoords_getMapCoords(VC);
+    bbCoreInbox_TestClick(&home.core.core, MC);
+
     return bbSuccess;
 }
 

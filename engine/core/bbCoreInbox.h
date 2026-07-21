@@ -6,6 +6,7 @@ typedef enum
 {
     bbCoreInbox_setString,
     bbCoreInbox_unfreezeButton,
+    bbCoreInbox_testClick,
 } bbCoreInbox_type;
 
 typedef struct
@@ -21,5 +22,6 @@ typedef struct
 bbFlag bbCore_checkInbox(bbCore* core);
 
 bbFlag bbCoreInbox_setString_fn(bbCore* core, bbCoreInboxMessage* message);
+bbFlag bbCoreInbox_testClick_fn(bbCore* core, bbCoreInboxMessage* message);
 
 #endif // BB_LOCAL_MESSAGE_H

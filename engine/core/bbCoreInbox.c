@@ -24,6 +24,15 @@ bbFlag bbCoreInbox_unfreezeButton_fn(bbCore* core, bbCoreInboxMessage* message)
 }
 
 
+bbFlag bbCoreInbox_testClick_fn(bbCore* core, bbCoreInboxMessage* message)
+{
+
+    bbCoreInput_testClick(core, message->data.map_coords, bbInstructionSource_input, no_handle);
+
+
+    return bbSuccess;
+}
+
 bbFlag bbCore_checkInbox(bbCore* core)
 {
     bbCoreInboxMessage* message;
@@ -45,6 +54,11 @@ bbFlag bbCore_checkInbox(bbCore* core)
 
         case bbCoreInbox_unfreezeButton:
             bbCoreInbox_unfreezeButton_fn(core, message);
+            bbCore_react(core);
+            break;
+
+            case bbCoreInbox_testClick:
+            bbCoreInbox_testClick_fn(core, message);
             bbCore_react(core);
             break;
 
