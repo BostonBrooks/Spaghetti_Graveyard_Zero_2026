@@ -142,14 +142,12 @@ typedef union
     U64 u64;
     bbMapCoords map_coords;
     bbInstructionsData_goalPoint goal_point;
- //   bbInstructionsData_goalMovable goal_movable;
     bbInstructionsData_mapClick map_click;
     bbInstructionsData_agentSquare agent_square;
     bbInstructionsData_agentMapCoords agent_MC;
     bbInstructionsData_spawnUnit spawn_unit;
     bbInstructionsData_damageAgent damage_agent;
     bbInstructionsData_threeHandles three_handles;
-//    bbAgentCommandData agent_command;
     bbInstructionsData_spawnUnitOut spawn_unit_out;
     bbInstructionsData_spawnAgent spawn_agent;
     bbInstructionsData_unspawnAgent unspawn_agent;

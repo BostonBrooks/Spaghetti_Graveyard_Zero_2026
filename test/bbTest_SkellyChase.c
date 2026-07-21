@@ -31,7 +31,7 @@ thread_local char* thread;
 bbHome home;
 
 U64 test_time = 0;
-
+bbHandle null_handle;
 char test_string[KEY_LENGTH];
 
 bbMapCoords testGoalPoint;
@@ -47,11 +47,12 @@ int main(void)
 
     pthread_barrier_init(&barrier1, NULL, 2);
 
-    //home.clock.clock_running = false;
     home.clock2.is_paused = true;
     home.clock2.is_running = false;
     home.UI.clock2_handle.clock_thread_index = 255;
     home.core.clock2_handle.clock_paused = true;
+
+    null_handle.u64 = 0;
 
     home.core.viewpoint.i = 10000;
     home.core.viewpoint.j = 10000;
@@ -69,11 +70,9 @@ int main(void)
 
     bbCore_initVInstructions(&home.core.core);
 
+    bbECS_init(&home.ECS.ECS);
     bbSquareCoords size; size.i = 12; size.j = 12; size.k = 0;
     bbGroundSurface_init(&home.ground_surface, size, "./maps/skellychase/graphics/HeightMap.bmp");
-    //bbAgentFunctions_init(&home.agents_app.functions);
-    //bbAgentFunctions_populate(&home.agents_app.functions);
-    //bbAgents_init(&home.agents_app.agents);
 
     bbSpawner_init(&home.spawner, 69, 193);
     bbSpawner_populate(&home.spawner);
@@ -96,30 +95,13 @@ int main(void)
     bool once2 = false;
     bool once = false;
 
-    //bbAvoidables_new(&home.agents_app.avoidables, 12, 12);
-    //bbMovables_init(&home.agents_app.movables);
 
-
-    //bbAgents_new(&home.agents_app.agents, 12,12);
-
-
-    //bbEntities_init_core(&home.agents_app.entities);
-
-    //bbSpawner_spawnCore(&home.spawner, "./maps/skellychase/spawner/spawner.csv");
 
     bbHandle no_handle;
 
-    //This works, we have a bunch of skeletons going in circles!
-    // bbCoreInput_setGoalMovable(&home.core.core,69696969, 8, 9,bbInstructionSource_internal, no_handle);
-    // bbCoreInput_setGoalMovable(&home.core.core,69696969, 9, 10,bbInstructionSource_internal, no_handle);
-    // bbCoreInput_setGoalMovable(&home.core.core,69696969, 10, 11,bbInstructionSource_internal, no_handle);
-    // bbCoreInput_setGoalMovable(&home.core.core,69696969, 11, 12,bbInstructionSource_internal, no_handle);
-    // bbCoreInput_setGoalMovable(&home.core.core,69696969, 12, 13,bbInstructionSource_internal, no_handle);
-    // bbCoreInput_setGoalMovable(&home.core.core,69696969, 13, 14,bbInstructionSource_internal, no_handle);
-    // bbCoreInput_setGoalMovable(&home.core.core,69696969, 14, 15,bbInstructionSource_internal, no_handle);
-    // bbCoreInput_setGoalMovable(&home.core.core,69696969, 15, 8,bbInstructionSource_internal, no_handle);
-    // bbCore_react(&home.core.core);
 
+
+    bbCoreInput_spawnTestEntity(&home.core.core, &home.ECS.ECS, "Test Entity 1", bbInstructionSource_input, null_handle);
 
     pthread_barrier_wait(&barrier1);
 
@@ -272,19 +254,12 @@ void* userinterface_thread(void* arg)
     bbMapIcon_new(&mapicon, home.viewport_app.mapIcons,&home.UI.graphics, MC);
 
 
-    /*
-    bbDrawable* sphere;
-    bbDrawable_newPoint(&sphere, home.viewport_app.drawables,
-                          &home.UI.graphics, MC);
-    sphere->frames[0].handle.u64 = 623;*/
-
 
     pthread_barrier_wait(&barrier1);
 bbHere()
     while (1)
     {
 
-        //if (counter%360 == 0) bbClock_printQueueLengths(&home.clock2);
         counter++;
 
         bbInput_poll(&home.UI.input, home.UI.window);
@@ -294,40 +269,9 @@ bbHere()
 
         bbUI_Inbox_check(&home.UI.inbox);
 
-       /* // test bbScreenCoords_getMapCoords_k_fixed
-        bbScreenPoints mouse_position = home.UI.mouse.position;
-        bbViewportCoords viewport_points =
-            bbScreenPoints_getViewportPoints(&home.viewport_app.viewport, mouse_position);
-
-        bbMapCoords vertex1, vertex2, vertex3;bbMapCoords mouseCoords;
-        vertex1.i = 0;
-        vertex1.j = 0;
-        vertex1.k = 500;
-
-        vertex2.i = 10000;
-        vertex2.j = 0;
-        vertex2.k = 500;
-
-        vertex3.i = 0;
-        vertex3.j = 10000;
-        vertex3.k = 500;
-        //mouseCoords =  bbViewportCoords_interpolateMapCoords (viewport_points, vertex1, vertex2, vertex3);
-        //mouseCoords  = bbViewportCoords_getMapCoords_k_fixed (viewport_points, 500, &home.viewport_app.viewport);
-        mouseCoords = bbViewportCoords_getMapCoords (viewport_points);
-        //mouseCoords.k = 1000;
-        bbDrawable_setLocation(sphere, home.viewport_app.drawables,mouseCoords);
-//end test*/
-
-        //bbMovables_copyBuffer(&home.agents_app.movables, &movables_snapshot);
-        //bbUnits_consumeBuffer(home.viewport_app.units, home.agents_app.entities.movable_units,&movables_snapshot);
         bbUIApp_draw(&home.UI);
 
-/* this test passes
-        bbGroundSquare* square = &home.ground_surface.ground_squares[0];
-        sfSprite* base_texture = sfSprite_create(square->Base_Texture);
-        sfRenderWindow_drawSprite(home.UI.window, base_texture , NULL);
-        sfSprite_destroy(base_texture);
-*/
+
 
 
         sfRenderWindow_display(home.UI.window);
@@ -337,9 +281,7 @@ bbHere()
             {
                 bbClock_handle_init(&home.clock2, &home.UI.clock2_handle, 0,"USER INTERFACE");
             }
-            //may  not need this line:
-            //bbClock_waitTick(&home.clock2,&home.UI.clock2_handle,home.UI.clock2_handle.map_tick+1);
-            //bbClock_waitTick(&home.clock2,&home.UI.clock2_handle,0);
+
             home.UI.clock2_handle.map_tick = home.clock2.map_tick;
 
             test_time = home.UI.clock2_handle.map_tick;
