@@ -18,15 +18,7 @@ typedef enum
     bbInstruction_setTime,
     bbInstruction_unsetTime,
 
-    bbInstruction_unfreezeButton,
-    bbInstruction_netsendButton,
-    bbInstruction_netcodeButton,
-    bbInstruction_loopAction,
     bbInstruction_netpauseButton,
-
-    bbInstruction_spawnBananaOut,
-    bbInstruction_spawnBananaIn,
-    bbInstruction_unspawnBanana,
 
     bbInstruction_spawnEmptyEntity,
     bbInstruction_unspawnEmptyEntity,

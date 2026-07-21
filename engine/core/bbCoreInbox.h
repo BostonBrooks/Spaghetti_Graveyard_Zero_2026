@@ -5,6 +5,7 @@
 typedef enum
 {
     bbCoreInbox_setString,
+    bbCoreInbox_unfreezeButton,
 } bbCoreInbox_type;
 
 typedef struct

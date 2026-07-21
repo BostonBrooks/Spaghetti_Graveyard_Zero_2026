@@ -9,14 +9,8 @@
 typedef enum
 {
     bbActionType_setString,
-    bbActionType_unfreezeButton,
-    bbActionType_loop,
-    bbActionType_setPaddleDirection,
-    bbActionType_setPaddleVelocity,
     bbActionType_setViewpoint,
     bbActionType_setGoalpoint,
-    bbActionType_spawnBanana,
-    bbActionType_spawnUnit
 } bbAction_type;
 
 ///Action header used to figure out what order to enact actions
@@ -53,12 +47,6 @@ bbFlag bbAction_setString(void* Core,
                             char* key);
 
 
-bbFlag bbAction_unfreezeButton(void* Core,
-                            U32 player,
-                            U32 collision,
-                            U64 created_tick,
-                            U64 act_tick,
-                            char* key);
 
 bbFlag bbAction_update(void* core);
 
@@ -69,29 +57,6 @@ bbFlag bbAction_loop(void* Core,
                             U64 act_tick,
                             char* key);
 
-typedef enum
-{
-    left_up,
-    left_stop,
-    left_down,
-    right_up,
-    right_stop,
-    right_down,
-} paddle_direction;
-
-bbFlag bbAction_setPaddleDirection(void* Core,
-                            U32 player,
-                            U32 collision,
-                            U64 created_tick,
-                            U64 act_tick,
-                            paddle_direction direction);
-
-bbFlag bbAction_setPaddleVelocity(void* Core,
-                            U32 player,
-                            U32 collision,
-                            U64 created_tick,
-                            U64 act_tick,
-                            I32 velocity);
 
 bbFlag bbAction_setViewpoint(void* core,
                             bbMapCoords map_coords,
@@ -106,23 +71,4 @@ bbFlag bbAction_setGoalpoint(void* Core,
                             U64 act_tick,
                             U8 player);
 
-bbFlag bbAction_spawnBanana(void* Core,
-                            bbMapCoords position,
-                            I32 entity_index,
-                            I32 movable_index,
-                            U32 collision,
-                            U64 created_tick,
-                            U64 act_tick,
-                            U8 player);
-
-bbFlag bbAction_spawnUnit(void* Core,
-                            bbMapCoords map_coords,
-                            bbMapCoords goalpoint,
-                            I32 unit_type,
-                            I32 entity_index,
-                            I32 movable_index,
-                            U32 collision,
-                            U64 created_tick,
-                            U64 act_tick,
-                            U8 player);
 #endif //BB_ACTION_H

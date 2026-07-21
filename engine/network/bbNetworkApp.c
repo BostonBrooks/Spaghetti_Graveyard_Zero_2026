@@ -167,15 +167,15 @@ bbFlag bbNetworkApp_checkInbox(bbNetwork* network)
         //         packet->data.str);
         // }
         //
-        // if (packet->type == PACKETTYPE_PAUSE)
-        // {
-        //     bbClock_setPause(&home.clock2,
-        //                       packet->data.pause.reference_server_tick,
-        //                       packet->data.pause.reference_map_tick,
-        //                       packet->data.pause.is_paused);
-        //     //bbLocalMessage_UnfreezeButton(&home.core.core,"(UN)PAUSE");
-        //
-        // }
+        if (packet->type == PACKETTYPE_PAUSE)
+        {
+            bbClock_setPause(&home.clock2,
+                              packet->data.pause.reference_server_tick,
+                              packet->data.pause.reference_map_tick,
+                              packet->data.pause.is_paused);
+            bbHere()
+            bbCoreInbox_UnfreezeButton(&home.core.core,"(UN)PAUSE");
+        }
         //
         // if (packet->type == PACKETTYPE_KEYUP)
         // {

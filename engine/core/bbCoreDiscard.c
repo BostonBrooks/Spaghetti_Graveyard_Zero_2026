@@ -31,15 +31,8 @@ bbFlag bbCoreDiscard(bbCore* core, U64 time)
 
         flag = bbList_popR(&core->undo_stack, (void**)&undo_instruction);
 
-#ifdef DEFINE_SKELLYCHASE
-        if (undo_instruction->type == bbVInstruction_undeleteEntity)
-        {
-            bbAssert(undo_instruction->data.entity.unit.ptr != NULL, "delete entity unit not found\n");
-            bbUI_Inbox_DeleteUnit2(&home.UI.inbox, undo_instruction->data.entity.unit);
 
-        }
 
-#endif
         if (undo_instruction->source == bbInstructionSource_action)
         {
             bbVPool_lookup(core->action_pool, (void**)&action, undo_instruction->redo_instruction);

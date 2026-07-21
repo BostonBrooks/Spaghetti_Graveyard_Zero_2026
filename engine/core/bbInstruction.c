@@ -305,3 +305,9 @@ bbFlag bbInstruction_uncheckActions_fn(bbCore* core, bbInstruction* instruction)
 
     return bbSuccess;
 }
+
+bbFlag bbInstruction_netpauseButton_fn(bbCore* core, bbInstruction* instruction)
+{
+    bbNetworkApp_netpauseButton(&home.network, instruction->data.key);
+    return bbSuccess;
+}

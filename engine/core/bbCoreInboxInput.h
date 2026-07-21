@@ -5,4 +5,5 @@
 
 bbFlag bbCoreInbox_SetString(bbCore* core, char* string);
 
+bbFlag bbCoreInbox_UnfreezeButton(bbCore* core, char* string);
 #endif //BB_LOCAL_MESSAGE_INPUTS_H
