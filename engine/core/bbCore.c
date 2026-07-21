@@ -58,6 +58,9 @@ bbFlag bbCore_react(bbCore* core)
             case bbInstruction_setString:
                 bbInstruction_setString_fn(core, instruction);
                 break;
+            case bbInstruction_unfreezeButton:
+                bbInstruction_unfreezeButton_fn(core, instruction);
+                break;
 
             case bbInstruction_checkActions:
                 bbInstruction_checkActions_fn(core, instruction);

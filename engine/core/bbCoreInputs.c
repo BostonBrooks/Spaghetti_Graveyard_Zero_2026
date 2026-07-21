@@ -1,4 +1,5 @@
 #include "bbCore.h"
+#include "bbCoreInbox.h"
 #include "bbInstruction.h"
 
 #ifdef DEFINE_PONG
@@ -71,3 +72,16 @@ bbFlag bbCoreInput_netpauseButton(bbCore* core, char* string)
     return bbSuccess;
 }
 
+bbFlag bbCoreInput_unfreezeButton(bbCore* core, char* string, bbInstruction_source source, bbHandle action)
+{
+    bbInstruction* instruction;
+    bbFlag flag = bbList_alloc(&core->do_stack,(void**)&instruction);
+
+    instruction->type = bbInstruction_unfreezeButton;
+    bbStr_setStr(instruction->data.key, string, KEY_LENGTH);
+    instruction->source = source;
+    instruction->redo_instruction = action;
+
+    bbList_pushL(&core->do_stack, instruction);
+    return bbSuccess;
+}

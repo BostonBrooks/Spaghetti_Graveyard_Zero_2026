@@ -311,3 +311,16 @@ bbFlag bbInstruction_netpauseButton_fn(bbCore* core, bbInstruction* instruction)
     bbNetworkApp_netpauseButton(&home.network, instruction->data.key);
     return bbSuccess;
 }
+
+
+
+bbFlag bbInstruction_unfreezeButton_fn(bbCore* core, bbInstruction* instruction)
+{
+
+    bbDebug("unfreeze button %s\n", instruction->data.key);
+
+    bbUI_Inbox_UnpressButton2(&home.UI.inbox, instruction->data.key);
+
+    return bbSuccess;
+
+}

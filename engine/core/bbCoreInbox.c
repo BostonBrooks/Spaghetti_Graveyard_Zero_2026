@@ -15,6 +15,14 @@ bbFlag bbCoreInbox_setString_fn(bbCore* core, bbCoreInboxMessage* message)
     return bbSuccess;
 }
 
+bbFlag bbCoreInbox_unfreezeButton_fn(bbCore* core, bbCoreInboxMessage* message)
+{
+    bbCoreInput_unfreezeButton(core, message->data.key, bbInstructionSource_input, no_handle);
+
+
+    return bbSuccess;
+}
+
 
 bbFlag bbCore_checkInbox(bbCore* core)
 {
@@ -35,6 +43,10 @@ bbFlag bbCore_checkInbox(bbCore* core)
             bbCore_react(core);
             break;
 
+        case bbCoreInbox_unfreezeButton:
+            bbCoreInbox_unfreezeButton_fn(core, message);
+            bbCore_react(core);
+            break;
 
         default:
 
@@ -42,3 +54,4 @@ bbFlag bbCore_checkInbox(bbCore* core)
         }
     }
 }
+

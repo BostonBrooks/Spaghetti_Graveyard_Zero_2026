@@ -12,6 +12,8 @@ typedef enum
     bbInstruction_unsetString,
 
 
+    bbInstruction_unfreezeButton,
+
     bbInstruction_checkActions,
     bbInstruction_uncheckActions,
 
@@ -31,33 +33,7 @@ typedef enum
 
     bbInstruction_entity_setComponent,
     bbInstruction_entity_unsetComponent,
-    //bbInstruction_updateBall,
-    //bbInstruction_unupdateBall,
 
-    //bbInstruction_updatePaddle,
-    //bbInstruction_unupdatePaddle,
-
-
-   // bbInstruction_keyUp,
-    //bbInstruction_keyDown,
-
-    //bbInstruction_setPaddleDirection,
-    //bbInstruction_setPaddleVelocity,
-    //bbInstruction_unsetPaddleVelocity,
-
-    //bbInstruction_setViewpointOut,
-    //bbInstruction_setViewpointIn,
-    //bbInstruction_unsetViewpoint,
-
-    //bbInstruction_setGoalpointOut,
-    //bbInstruction_setGoalpointIn,
-    //bbInstruction_unsetGoalpoint,
-    //bbInstruction_approachGoalpoint,
-    //bbInstruction_unapproachGoalpoint,
-
-
-    //bbInstruction_updateMovables,
-    //bbInstruction_unupdateMovables,
 
     bbInstruction_numTypes
 } bbInstruction_type;
