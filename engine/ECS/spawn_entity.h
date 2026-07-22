@@ -24,7 +24,7 @@ bbFlag bbInstruction_spawnEntityOut_fn(bbCore* core, bbInstruction* instruction)
 bbFlag bbNetworkApp_spawnEntityOut(bbNetwork* network, bbMapCoords MC, U64 time, U32 collision);
 
 
-bbFlag bbAction_spawnUnit(void* Core,
+bbFlag bbAction_spawnEntity(void* Core,
                             bbMapCoords map_coords,
                             bbHandle server_entity,
                             U32 collision,

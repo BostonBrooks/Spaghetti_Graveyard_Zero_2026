@@ -1,6 +1,7 @@
 #include "engine/logic/bbHandle.h"
 #include "engine/ECS/spawn_entity.h"
 
+#include "engine/core/bbAction.h"
 #include "engine/core/bbCoreInbox.h"
 #include "engine/data/bbHome.h"
 
@@ -66,16 +67,35 @@ bbFlag bbNetworkApp_spawnEntityOut(bbNetwork* Network, bbMapCoords MC, U64 time,
 }
 
 
-bbFlag bbAction_spawnUnit(void* Core,
+bbFlag bbAction_spawnEntity(void* Core,
                             bbMapCoords map_coords,
                             bbHandle server_entity,
                             U32 collision,
-                            U64 act_tick);
+                            U64 act_tick)
+{
+    bbCore* core = (bbCore*)Core;
+
+
+    bbAction* action;
+    bbList_alloc(&core->action_queue,(void**)&action);
+    action->header.type = bbActionType_spawnEntity;
+    action->header.collision = collision;
+    action->header.act_tick = act_tick;
+    action->map_coords = map_coords;
+    action->handle = server_entity;
+    bbList_sortL(&core->action_queue,(void*)action);
+
+    return bbSuccess;
+}
+
 
 bbFlag bbCoreInput_spawnTestEntity2(bbCore* core,
                                    bbMapCoords MC,
                                    bbHandle server_entity,
                                    bbInstruction_source source,
-                                   bbHandle action);
+                                   bbHandle action)
+{
+    bbHere()
+}
 
 bbFlag bbInstruction_spawnTestEntity2_fn(bbCore* core, bbInstruction* instruction);

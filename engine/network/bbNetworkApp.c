@@ -6,6 +6,7 @@
 #include "engine/core/bbAction.h"
 #include "engine/core/bbCoreInboxInput.h"
 #include "engine/data/bbHome.h"
+#include "engine/ECS/spawn_entity.h"
 #include "engine/logic/bbDictionary.h"
 #include "engine/logic/bbString.h"
 #include "engine/logic/bbTerminal.h"
@@ -180,8 +181,11 @@ bbFlag bbNetworkApp_checkInbox(bbNetwork* network)
 
         if (packet->type == PACKETTYPE_TESTSPAWN)
         {
-            bbHandle handle = packet->data.test_spawn.handle;
-            bbDebug("handle index = %d, collision = %d\n", handle.bloated.index, handle.bloated.collision);
+            bbAction_spawnEntity(&home.core.core,
+                            packet->data.test_spawn.position,
+                            packet->data.test_spawn.handle,
+                            packet->collision,
+                            packet->act_tick);
         }
         bbThreadedQueue_free(&network->inbox, (void**)&packet);
     }

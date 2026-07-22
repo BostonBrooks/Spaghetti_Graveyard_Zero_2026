@@ -10,6 +10,7 @@
 #include "core/instructions.h"
 #endif
 #include "engine/data/bbHome.h"
+#include "engine/ECS/spawn_entity.h"
 #include "engine/logic/bbString.h"
 #include "engine/network/bbNetworkApp.h"
 #include "engine/userinterface/bbUI_Inbox.h"
@@ -269,6 +270,15 @@ bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
         if (action->header.type == bbActionType_setString)
         {
             bbCoreInput_setString(core,action->header.key,bbInstructionSource_action,handle);
+
+        }
+        if (action->header.type == bbActionType_spawnEntity)
+        {
+            bbCoreInput_spawnTestEntity2(core,
+                                   action->map_coords,
+                                   action->handle,
+                                   bbInstructionSource_action,
+                                   handle);
 
         }
 

@@ -11,6 +11,7 @@ typedef enum
     bbActionType_setString,
     bbActionType_setViewpoint,
     bbActionType_setGoalpoint,
+    bbActionType_spawnEntity,
 } bbAction_type;
 
 ///Action header used to figure out what order to enact actions
@@ -33,6 +34,7 @@ typedef struct
     I32 integer3;
     bbMapCoords map_coords;
     bbMapCoords goal_coords;
+    bbHandle handle;
 } bbAction;
 
 ///actions are sorted by time in a total-ordering
