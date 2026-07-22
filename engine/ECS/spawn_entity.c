@@ -6,7 +6,7 @@
 
 extern U32 collision;
 
-bbFlag bbCoreInbox_TestClick(bbCore* core, bbMapCoords MC)
+bbFlag bbCoreInbox_TestClick2(bbCore* core, bbMapCoords MC)
 {
     bbCoreInboxMessage* message;
     bbThreadedQueue_alloc(&core->local_message_queue, (void** ) &message);
@@ -19,7 +19,7 @@ bbFlag bbCoreInbox_TestClick(bbCore* core, bbMapCoords MC)
 
 
 
-bbFlag bbCoreInbox_testClick_fn(bbCore* core, bbCoreInboxMessage* message)
+bbFlag bbCoreInbox_testClick2_fn(bbCore* core, bbCoreInboxMessage* message)
 {
     bbCoreInput_spawnEntityOut(core, message->data.map_coords, message->act_time, bbInstructionSource_input, no_handle);
     return bbSuccess;

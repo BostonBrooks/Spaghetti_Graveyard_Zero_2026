@@ -6,6 +6,7 @@
 #include "engine/core/bbInstruction.h"
 #include "engine/core/bbAction.h"
 #include "engine/ECS/ECS.h"
+#include "engine/ECS/spawn_entity.h"
 #include "engine/logic/bbBloatedPool.h"
 #include "engine/threadsafe/bbThreadedPool.h"
 
@@ -81,6 +82,10 @@ bbFlag bbCore_react(bbCore* core)
 
             case bbInstruction_testClick:
                 bbInstruction_testClick_fn(core, instruction);
+                break;
+
+            case bbInstruction_spawnEntityOut:
+                bbInstruction_spawnEntityOut_fn(core, instruction);
                 break;
             default:
                 bbDebug("Unknown instruction type: %d\n", instruction->type);

@@ -10,8 +10,8 @@
 #include "engine/logic/bbFlag.h"
 #include "engine/network/bbNetwork.h"
 
-bbFlag bbCoreInbox_TestClick(bbCore* core, bbMapCoords mapCoords);
-bbFlag bbCoreInbox_testClick_fn(bbCore* core, bbCoreInboxMessage* message);
+bbFlag bbCoreInbox_TestClick2(bbCore* core, bbMapCoords mapCoords);
+bbFlag bbCoreInbox_testClick2_fn(bbCore* core, bbCoreInboxMessage* message);
 
 bbFlag bbCoreInput_spawnEntityOut(bbCore* core,
                                   bbMapCoords MC,
@@ -30,12 +30,12 @@ bbFlag bbAction_spawnUnit(void* Core,
                             U32 collision,
                             U64 act_tick);
 
-bbFlag bbCoreInput_spawnTestEntity(bbCore* core,
+bbFlag bbCoreInput_spawnTestEntity2(bbCore* core,
                                    bbMapCoords MC,
                                    bbHandle server_entity,
                                    bbInstruction_source source,
                                    bbHandle action);
 
-bbFlag bbInstruction_spawnTestEntity_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbInstruction_spawnTestEntity2_fn(bbCore* core, bbInstruction* instruction);
 
 #endif //SPAWN_UNIT_H

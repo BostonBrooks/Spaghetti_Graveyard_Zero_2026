@@ -5,6 +5,7 @@
 #include "engine/core/bbAction.h"
 #include "engine/core/bbCoreInputs.h"
 #include "engine/data/bbHome.h"
+#include "engine/ECS/spawn_entity.h"
 #include "engine/threadsafe/bbThreadedQueue.h"
 
 bbFlag bbCoreInbox_setString_fn(bbCore* core, bbCoreInboxMessage* message)
@@ -58,7 +59,7 @@ bbFlag bbCore_checkInbox(bbCore* core)
             break;
 
             case bbCoreInbox_testClick:
-            bbCoreInbox_testClick_fn(core, message);
+            bbCoreInbox_testClick2_fn(core, message);
             bbCore_react(core);
             break;
 

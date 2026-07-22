@@ -180,7 +180,8 @@ bbFlag bbNetworkApp_checkInbox(bbNetwork* network)
 
         if (packet->type == PACKETTYPE_TESTSPAWN)
         {
-            bbHere()
+            bbHandle handle = packet->data.test_spawn.handle;
+            bbDebug("handle index = %d, collision = %d\n", handle.bloated.index, handle.bloated.collision);
         }
         bbThreadedQueue_free(&network->inbox, (void**)&packet);
     }

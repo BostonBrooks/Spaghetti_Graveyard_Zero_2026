@@ -168,7 +168,7 @@ int main(void){
                     bbHandle handle;
                     bbVPool_alloc2(pool, NULL, &handle);
 
-
+                    bbDebug("handle index = %d, collision = %d\n", handle.bloated.index, handle.bloated.collision);
                     packetStruct.type = PACKETTYPE_TESTSPAWN;
                     packetStruct.data.test_spawn.position = MC;
                     packetStruct.data.test_spawn.handle = handle;
