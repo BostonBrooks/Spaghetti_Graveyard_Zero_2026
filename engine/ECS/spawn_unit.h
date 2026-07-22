@@ -25,4 +25,4 @@ bbFlag bbCoreInput_spawnTestEntity(bbCore* core,
                                    bbInstruction_source source,
                                    bbHandle action);
 
-bbFlag bbInstruction_spawnTestEntity(bbCore* core, bbInstruction* instruction);
+bbFlag bbInstruction_spawnTestEntity_fn(bbCore* core, bbInstruction* instruction);
