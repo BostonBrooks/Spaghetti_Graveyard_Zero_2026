@@ -73,9 +73,9 @@ int main(void)
     bbECS_init(&home.ECS.ECS);
     bbSquareCoords size; size.i = 12; size.j = 12; size.k = 0;
     bbGroundSurface_init(&home.ground_surface, size, "./maps/skellychase/graphics/HeightMap.bmp");
-
-    bbSpawner_init(&home.spawner, 69, 193);
-    bbSpawner_populate(&home.spawner);
+    //
+    // bbSpawner_init(&home.spawner, 69, 193);
+    // bbSpawner_populate(&home.spawner);
 
 
 

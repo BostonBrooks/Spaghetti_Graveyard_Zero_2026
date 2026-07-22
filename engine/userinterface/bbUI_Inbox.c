@@ -453,7 +453,7 @@ bbFlag bbUI_Inbox_NewUnit(bbUI_Inbox* inbox, I32 type_index, bbMapCoords MC, I32
 
 bbFlag bbUI_Inbox_newUnit_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
 {
-    bbUIUnit_newUnit(message->data.integer3, message->data.coords, message->data.integer2, message->data.integer);
+//    bbUIUnit_newUnit(message->data.integer3, message->data.coords, message->data.integer2, message->data.integer);
     return bbSuccess;
 
 }

@@ -84,8 +84,6 @@ add_executable(SkellyChase test/bbTest_SkellyChase.c
         games/game0/maps/skellychase/core/core_inputs.c
         engine/groundsurface/bbHillShading.c
         engine/groundsurface/bbGroundSurface.c
-        games/game0/maps/skellychase/spawner/spawner.c
-        engine/spawner/bbSpawner.c
         engine/geometry/bbGroundCoords.c
 )
 
