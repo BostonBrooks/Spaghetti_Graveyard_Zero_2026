@@ -1,6 +1,17 @@
+
+#ifndef SPAWN_UNIT_H
+#define SPAWN_UNIT_H
+
 #include "engine/logic/bbHandle.h"
+#include "engine/core/bbCore.h"
+#include "engine/core/bbCoreInbox.h"
+#include "engine/core/bbInstruction.h"
+#include "engine/geometry/bbCoordinates.h"
+#include "engine/logic/bbFlag.h"
+#include "engine/network/bbNetwork.h"
+
 bbFlag bbCoreInbox_TestClick(bbCore* core, bbMapCoords mapCoords);
-bbFlag bbCoreInbox_testClick_fn(bbCore* core, bbLocalMessage* message);
+bbFlag bbCoreInbox_testClick_fn(bbCore* core, bbCoreInboxMessage* message);
 
 bbFlag bbCoreInput_spawnEntityOut(bbCore* core,
                                   bbMapCoords MC,
@@ -26,3 +37,5 @@ bbFlag bbCoreInput_spawnTestEntity(bbCore* core,
                                    bbHandle action);
 
 bbFlag bbInstruction_spawnTestEntity_fn(bbCore* core, bbInstruction* instruction);
+
+#endif //SPAWN_UNIT_H

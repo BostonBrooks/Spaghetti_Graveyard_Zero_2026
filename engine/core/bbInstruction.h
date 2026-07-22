@@ -35,6 +35,7 @@ typedef enum
     bbInstruction_entity_setComponent,
     bbInstruction_entity_unsetComponent,
 
+    bbInstruction_spawnEntityOut,
 
     bbInstruction_numTypes
 } bbInstruction_type;
