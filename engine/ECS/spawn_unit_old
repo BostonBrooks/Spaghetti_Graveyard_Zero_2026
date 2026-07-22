@@ -1,5 +1,5 @@
-Functions collected from accross Spaghetti Graveyard Zero 2026 (old)
-This is how an entity is spawned when the player clicks the map
+Functions collected from across Spaghetti Graveyard Zero 2026 (old)
+This is how an entity is spawned when the player clicks the map in the old ad-hoc version
 
 bbFlag Viewport_LeftDown (void* Mouse, void* Widgets, void* Widget, void*
                           Graphics)
