@@ -12,7 +12,9 @@ endif (CSFML3)
 add_executable(Server engine/server/bbServer.c
         engine/network/bbNetworkPacket.c
         engine/threadsafe/bbThreadedPool.c
-        engine/threadsafe/bbThreadedQueue.c)
+        engine/threadsafe/bbThreadedQueue.c
+        engine/logic/bbBloatedPool.c
+        engine/logic/bbVPool.h)
 target_compile_definitions(Server PRIVATE
         DEFINE_SERVER)
 target_include_directories(Server  PRIVATE "./")

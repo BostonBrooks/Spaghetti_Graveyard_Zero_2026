@@ -3,12 +3,19 @@
 #include <stdio.h>
 
 #include "engine/data/CSFML.h"
+#include "engine/logic/bbBloatedPool.h"
 
 #include "engine/logic/bbTerminal.h"
 #include "engine/network/bbNetworkPacket.h"
 
 thread_local char* thread;
 U64 test_time = 0;
+
+typedef struct
+{
+    bbMapCoords position;
+} bbServerEntity;
+
 
 int main(void){
 
@@ -17,6 +24,8 @@ int main(void){
     U64 reference_map_tick = 0;
     bool is_paused = true;
 
+    bbVPool* pool;
+    bbVPool_newBloated(&pool, sizeof(bbServerEntity),100,100,"SERVER ENTITIES");
 
     printf("Hello, server!\n");
 
@@ -154,9 +163,19 @@ int main(void){
 
                 if (packetStruct.type == PACKETTYPE_TESTCLICK)
                 {
-                    bbHere()
+
+                    bbMapCoords MC = packetStruct.data.map_coords;
+                    bbHandle handle;
+                    bbVPool_alloc2(pool, NULL, &handle);
+
+
+                    packetStruct.type = PACKETTYPE_TESTSPAWN;
+                    packetStruct.data.test_spawn.position = MC;
+                    packetStruct.data.test_spawn.handle = handle;
+
                     sfPacket_clear(packet);
-                    continue;
+                    bbNetworkPacket_fromStruct(packet, &packetStruct);
+
                 }
 
 

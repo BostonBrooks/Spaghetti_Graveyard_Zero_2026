@@ -231,7 +231,6 @@ bbFlag bbBloatedPool_expandHandle(bbBloatedPool* pool, bbHandle handle){
 
 bbFlag bbBloatedPool_allocImpl(bbBloatedPool* pool, void** address, bbHandle* handle, char* file, I32 line)
 {
-	bbAssert(address != NULL, "NULL pointer");
 
 	//If no elements available
 	if (IS_NULL(pool->available.head) || IS_NULL(pool->available.tail))

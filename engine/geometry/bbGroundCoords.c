@@ -64,7 +64,6 @@ I32 bbViewportCoords_withinTriangle_screen (bbViewportCoords point,
     float area = signed_area (vertex1, vertex2, vertex3);
 
     if (area == 0) {
-        bbHere()
         return 0;
     }
 

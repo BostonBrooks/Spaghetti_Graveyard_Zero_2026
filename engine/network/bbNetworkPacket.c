@@ -110,7 +110,15 @@ bbFlag bbNetworkPacket_toStruct (sfPacket* packet, void* Struct)
         break;
     case PACKETTYPE_SETSOCKETNUMBER:
         struct1->data.integer = sfPacket_readInt32(packet);
-        bbHere()
+        break;
+    case PACKETTYPE_TESTSPAWN:
+
+        struct1->data.test_spawn.position.i = sfPacket_readInt32(packet);
+        struct1->data.test_spawn.position.j = sfPacket_readInt32(packet);
+        struct1->data.test_spawn.position.k = sfPacket_readInt32(packet);
+        struct1->data.test_spawn.handle.bloated.index = sfPacket_readUint32(packet);
+        struct1->data.test_spawn.handle.bloated.collision = sfPacket_readUint32(packet);
+
         break;
     }
     return bbSuccess;
@@ -224,7 +232,17 @@ bbFlag bbNetworkPacket_fromStruct (sfPacket* packet, void* Struct)
         break;
     case PACKETTYPE_SETSOCKETNUMBER:
         sfPacket_writeInt32(packet, struct1->data.integer);
-        bbHere()
+        break;
+
+    case PACKETTYPE_TESTSPAWN:
+
+
+        sfPacket_writeInt32(packet, struct1->data.test_spawn.position.i);
+        sfPacket_writeInt32(packet, struct1->data.test_spawn.position.j);
+        sfPacket_writeInt32(packet, struct1->data.test_spawn.position.k);
+        sfPacket_writeUint32(packet, struct1->data.test_spawn.handle.bloated.index);
+        sfPacket_writeUint32(packet, struct1->data.test_spawn.handle.bloated.collision);
+
         break;
     }
 

@@ -26,6 +26,7 @@
 #define PACKETTYPE_SPAWNUNIT         13
 #define PACKETTYPE_SETSOCKETNUMBER   14
 #define PACKETTYPE_TESTCLICK         15
+#define PACKETTYPE_TESTSPAWN         16
 
 
 #define bbPacketType_print(flag)\
@@ -71,6 +72,9 @@ break;\
 case PACKETTYPE_TESTCLICK:\
 bbDebug ("Packet Type: PACKETTYPE_TESTCLICK\n");\
 break;\
+case PACKETTYPE_TESTSPAWN:\
+bbDebug ("Packet Type: PACKETTYPE_TESTSPAWN\n");\
+break;\
 \
 }\
 }\
@@ -84,6 +88,12 @@ typedef struct
     I32 type_index;
 } bbNetworkPacket_unit;
 
+typedef struct
+{
+    bbMapCoords position;
+    bbHandle handle;
+} bbNetworkPacket_testSpawn;
+
 typedef union
 {
     I32 integer;
@@ -93,6 +103,7 @@ typedef union
     bbMapCoords map_coords;
     bbNetworkPacket_unit unit;
     I32x2 paddle_and_velocity;
+    bbNetworkPacket_testSpawn test_spawn;
 } bbNetworkPacket_data;
 
 
