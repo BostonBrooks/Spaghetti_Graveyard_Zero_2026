@@ -21,7 +21,7 @@ bbNetworkApp_spawnEntityOut(position, time, collision++)
 
 bbNetworkApp_checkInbox(packet)
 
-bbAction_spawnEntity(coords, server_entity_handle, act_time)
+bbAction_spawnEntity(coords, server_entity_handle, act_time, collision)
 -was bbAction_spawnUnit
 
 bbInstruction_checkActions_fn(instruction)
@@ -32,7 +32,7 @@ bbCoreInput_spawnTestEntity(coords,server_entity_handle)
 bbInstruction_spawnTestEntity_fn(coords,server_entity_handle)
 
      bbCoreSynchronous_spawnEmptyEntity
-     bbCoreInput - spawn various components
+     bbCoreInput_ spawn various components
 
 
 
