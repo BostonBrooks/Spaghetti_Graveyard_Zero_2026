@@ -165,6 +165,7 @@ int main(void)
 
         if (home.core.clock2_handle.clock_paused == false)
         {
+
             bbCoreInput_checkActions(&home.core.core,
                 home.core.core.actual_time,
                 bbInstructionSource_input, no_handle );
@@ -177,14 +178,14 @@ int main(void)
 
             //bbCoreInput_updateMovables(&home.core.core, bbInstructionSource_input, no_handle);
 
-            bbCore_react(&home.core.core);
+            //bbCore_react(&home.core.core);
             //bbCoreInput_updateAgentsSquare(&home.core.core, NULL,bbInstructionSource_input, no_handle);
-            bbCore_react(&home.core.core);
+            //bbCore_react(&home.core.core);
 
 
             //bbCoreInput_updateAgents(&home.core.core, home.agents_app.agents,
             //                         bbInstructionSource_input, no_handle);
-            bbCore_react(&home.core.core);
+            //bbCore_react(&home.core.core);
         }
 
         if (home.clock2.is_paused == false)

@@ -271,7 +271,7 @@ bbFlag bbInstruction_entity_unsetComponent_fn(bbCore* core, bbInstruction* instr
 }
 
 bbFlag bbCoreInput_spawnTestEntity(bbCore* core, bbECS* ECS, char* key, bbInstruction_source source, bbHandle action)
-{
+{bbHere()
     bbInstruction* instruction;
     bbList_alloc(&core->do_stack, (void**) &instruction);
     instruction->type = bbInstruction_spawnTestEntity;
@@ -283,7 +283,7 @@ bbFlag bbCoreInput_spawnTestEntity(bbCore* core, bbECS* ECS, char* key, bbInstru
     return bbSuccess;
 }
 bbFlag bbInstruction_spawnTestEntity_fn(bbCore* core, bbInstruction* instruction)
-{
+{bbHere()
     bbECS_entity* entity;
     bbCoreSynchronous_spawnEmptyEntity(core, instruction->ECS, &entity, instruction->data.key, bbInstructionSource_internal, no_handle);
 

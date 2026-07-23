@@ -274,11 +274,8 @@ bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
         }
         if (action->header.type == bbActionType_spawnEntity)
         {
-            bbCoreInput_spawnTestEntity2(core,
-                                   action->map_coords,
-                                   action->handle,
-                                   bbInstructionSource_action,
-                                   handle);
+            bbCoreInput_spawnTestEntity(core, &home.ECS.ECS, "Glue Balloons", bbInstructionSource_action, handle);
+
 
         }
 

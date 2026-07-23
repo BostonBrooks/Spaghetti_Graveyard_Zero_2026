@@ -9,6 +9,7 @@ extern U32 collision;
 
 bbFlag bbCoreInbox_TestClick2(bbCore* core, bbMapCoords MC)
 {
+    bbHere()
     bbCoreInboxMessage* message;
     bbThreadedQueue_alloc(&core->local_message_queue, (void** ) &message);
     message->type = bbCoreInbox_testClick;
@@ -22,6 +23,7 @@ bbFlag bbCoreInbox_TestClick2(bbCore* core, bbMapCoords MC)
 
 bbFlag bbCoreInbox_testClick2_fn(bbCore* core, bbCoreInboxMessage* message)
 {
+    bbHere()
     bbCoreInput_spawnEntityOut(core, message->data.map_coords, message->act_time, bbInstructionSource_input, no_handle);
     return bbSuccess;
 }
@@ -32,6 +34,7 @@ bbFlag bbCoreInput_spawnEntityOut(bbCore* core,
                                   bbInstruction_source source,
                                   bbHandle action)
 {
+    bbHere()
     bbInstruction* instruction;
     bbList_alloc(&core->do_stack, (void**) &instruction);
     instruction->type = bbInstruction_spawnEntityOut;
@@ -45,13 +48,13 @@ bbFlag bbCoreInput_spawnEntityOut(bbCore* core,
 
 
 bbFlag bbInstruction_spawnEntityOut_fn(bbCore* core, bbInstruction* instruction)
-{
+{ bbHere()
     bbNetworkApp_spawnEntityOut(&home.network, instruction->data.map_coords, instruction->act_time, collision++);
     return bbSuccess;
 }
 
 bbFlag bbNetworkApp_spawnEntityOut(bbNetwork* Network, bbMapCoords MC, U64 time, U32 collision)
-{
+{ bbHere()
     bbNetwork* network = (bbNetwork*)Network;
     bbNetworkPacket* packet;
     bbThreadedQueue_alloc(&network->outbox, (void**)&packet);
@@ -72,7 +75,7 @@ bbFlag bbAction_spawnEntity(void* Core,
                             bbHandle server_entity,
                             U32 collision,
                             U64 act_tick)
-{
+{bbHere()
     bbCore* core = (bbCore*)Core;
 
 
@@ -80,7 +83,7 @@ bbFlag bbAction_spawnEntity(void* Core,
     bbList_alloc(&core->action_queue,(void**)&action);
     action->header.type = bbActionType_spawnEntity;
     action->header.collision = collision;
-    action->header.act_tick = act_tick;
+    action->header.act_tick = act_tick + 60;
     action->map_coords = map_coords;
     action->handle = server_entity;
     bbList_sortL(&core->action_queue,(void*)action);
@@ -89,13 +92,3 @@ bbFlag bbAction_spawnEntity(void* Core,
 }
 
 
-bbFlag bbCoreInput_spawnTestEntity2(bbCore* core,
-                                   bbMapCoords MC,
-                                   bbHandle server_entity,
-                                   bbInstruction_source source,
-                                   bbHandle action)
-{
-    bbHere()
-}
-
-bbFlag bbInstruction_spawnTestEntity2_fn(bbCore* core, bbInstruction* instruction);
