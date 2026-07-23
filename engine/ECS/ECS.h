@@ -57,7 +57,7 @@ bbFlag bbCoreInput_spawnEmptyEntity(bbCore* core, bbECS* ECS, char* key, bbInstr
 bbFlag bbInstruction_spawnEmptyEntity_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_unspawnEmptyEntity_fn(bbCore* core, bbInstruction* instruction);
 
-bbFlag bbCoreInput_spawnTestEntity(bbCore* core, bbECS* ECS, char* key, bbInstruction_source source, bbHandle action);
+bbFlag bbCoreInput_spawnTestEntity(bbCore* core, bbMapCoords MC, bbHandle server_entity, bbInstruction_source source, bbHandle action);
 bbFlag bbInstruction_spawnTestEntity_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_unspawnTestEntity_fn(bbCore* core, bbInstruction* instruction);
 

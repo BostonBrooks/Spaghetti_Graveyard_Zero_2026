@@ -1,6 +1,7 @@
 #include "engine/ECS/ECS.h"
 #include <stddef.h>
 #include "engine/core/bbAction.h"
+#include "engine/data/bbHome.h"
 #include "engine/logic/bbBloatedPool.h"
 #include "engine/logic/bbString.h"
 
@@ -270,13 +271,14 @@ bbFlag bbInstruction_entity_unsetComponent_fn(bbCore* core, bbInstruction* instr
     bbHere()
 }
 
-bbFlag bbCoreInput_spawnTestEntity(bbCore* core, bbECS* ECS, char* key, bbInstruction_source source, bbHandle action)
+bbFlag bbCoreInput_spawnTestEntity(bbCore* core, bbMapCoords MC, bbHandle server_entity, bbInstruction_source source, bbHandle action)
 {bbHere()
     bbInstruction* instruction;
     bbList_alloc(&core->do_stack, (void**) &instruction);
     instruction->type = bbInstruction_spawnTestEntity;
-    instruction->ECS = ECS;
-    bbStr_setStr(instruction->data.key, key, KEY_LENGTH);
+    instruction->data.agent_MC.coords = MC;
+    instruction->data.agent_MC.agent = server_entity;
+    instruction->ECS = &home.ECS.ECS;
     instruction->source = source;
     instruction->redo_instruction = action;
     bbList_pushL(&core->do_stack, instruction);
@@ -287,13 +289,18 @@ bbFlag bbInstruction_spawnTestEntity_fn(bbCore* core, bbInstruction* instruction
     bbECS_entity* entity;
     bbCoreSynchronous_spawnEmptyEntity(core, instruction->ECS, &entity, instruction->data.key, bbInstructionSource_internal, no_handle);
 
+    bbHandle server_entity = instruction->data.agent_MC.agent;
+    bbMapCoords MC = instruction->data.agent_MC.coords;
     bbHandle entity_handle;
-    bbECS* ECS = instruction->ECS;
+    bbECS* ECS = &home.ECS.ECS;
     bbVPool_reverseLookup(ECS->pool, (void*)entity, &entity_handle);
     bbCoreInput_entity_setComponent(core,ECS, entity_handle,no_handle, bbECS_Moveables, bbInstructionSource_internal, no_handle);
     bbCoreInput_entity_setComponent(core,ECS, entity_handle,no_handle, bbECS_AI, bbInstructionSource_internal, no_handle);
     bbCoreInput_entity_setComponent(core,ECS, entity_handle,no_handle, bbECS_Graphics, bbInstructionSource_internal, no_handle);
     bbCoreInput_entity_setComponent(core,ECS, entity_handle,no_handle, bbECS_ServerEntities, bbInstructionSource_internal, no_handle);
+
+    bbUI_Inbox_NewBanana(&home.UI.inbox, MC, 0, 0);
+
 
     bbInstruction* undo_instruction;
     bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
