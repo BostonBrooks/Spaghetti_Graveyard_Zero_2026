@@ -37,6 +37,7 @@ typedef struct
 {
     bbUI_Inbox_handle handle;
     bbUI_Inbox_string string;
+    bbHandle entity_handle;
     bbMapCoords coords;
     I32 integer;
     I32 integer2;
@@ -86,7 +87,7 @@ bbFlag bbUI_Inbox_SetViewpoint(bbUI_Inbox* inbox, bbMapCoords MC);
 bbFlag bbUI_Inbox_NewUnit(bbUI_Inbox* inbox, I32 type_index, bbMapCoords MC, I32 entity_index, I32 movable_index);
 bbFlag bbUI_Inbox_newUnit_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message);
 
-bbFlag bbUI_Inbox_NewBanana(bbUI_Inbox* inbox, bbMapCoords MC, I32 entity_index, I32 movable_index);
+bbFlag bbUI_Inbox_NewBanana(bbUI_Inbox* inbox, bbMapCoords MC, bbHandle entity_handle, I32 movable_index);
 bbFlag bbUI_Inbox_DeleteUnit(bbUI_Inbox* inbox, I32 entity_index, I32 movable_index);
 
 bbFlag bbUI_Inbox_DeleteUnit2(bbUI_Inbox* inbox, bbHandle handle);

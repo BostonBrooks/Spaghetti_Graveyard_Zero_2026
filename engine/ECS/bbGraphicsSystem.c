@@ -40,6 +40,7 @@ bbFlag bbCoreInput_spawnGraphicsComponent(bbCore* core,
 
 bbFlag bbInstruction_spawnGraphicsComponent_fn(bbCore* core, bbInstruction* instruction)
 {
-    bbUI_Inbox_NewBanana(&home.UI.inbox, instruction->data.agent_MC.coords, 0, 0);
+    bbUI_Inbox_NewBanana(&home.UI.inbox, instruction->data.agent_MC.coords,
+        instruction->data.agent_MC.handle1, 0);
     return bbSuccess;
 }

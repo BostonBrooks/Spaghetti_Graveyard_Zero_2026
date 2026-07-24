@@ -312,7 +312,7 @@ bbFlag bbInstruction_spawnTestEntity_fn(bbCore* core, bbInstruction* instruction
                                     no_handle);
     }
 
-    bbCoreInput_spawnGraphicsComponent(core, MC,no_handle, no_handle, bbInstructionSource_internal, no_handle);
+    bbCoreInput_spawnGraphicsComponent(core, MC,entity_handle, no_handle, bbInstructionSource_internal, no_handle);
 
 
     bbInstruction* undo_instruction;
