@@ -25,11 +25,21 @@ bbFlag bbCoreInput_spawnGraphicsComponent(bbCore* core,
     bbInstruction* instruction;
     bbList_alloc(&core->do_stack, (void**) &instruction);
     instruction->type = bbInstruction_spawnGraphicsComponent;
-    instruction->data.three_handles.handle1 = entity;
-    instruction->data.three_handles.handle2 = moveable;
+    instruction->data.agent_MC.handle1 = entity;
+    instruction->data.agent_MC.handle2 = moveable;
+    instruction->data.agent_MC.coords = MC;
 
     instruction->ECS = &home.ECS.ECS;
     instruction->source = source;
     instruction->redo_instruction = action;
     bbList_pushL(&core->do_stack, instruction);
+
+    return  bbSuccess;
+}
+
+
+bbFlag bbInstruction_spawnGraphicsComponent_fn(bbCore* core, bbInstruction* instruction)
+{
+    bbUI_Inbox_NewBanana(&home.UI.inbox, instruction->data.agent_MC.coords, 0, 0);
+    return bbSuccess;
 }

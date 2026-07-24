@@ -278,7 +278,7 @@ bbFlag bbCoreInput_spawnTestEntity(bbCore* core, bbMapCoords MC, bbHandle server
     bbList_alloc(&core->do_stack, (void**) &instruction);
     instruction->type = bbInstruction_spawnTestEntity;
     instruction->data.agent_MC.coords = MC;
-    instruction->data.agent_MC.agent = server_entity;
+    instruction->data.agent_MC.handle1 = server_entity;
     instruction->ECS = &home.ECS.ECS;
     instruction->source = source;
     instruction->redo_instruction = action;
@@ -290,7 +290,7 @@ bbFlag bbInstruction_spawnTestEntity_fn(bbCore* core, bbInstruction* instruction
     bbECS_entity* entity;
     bbCoreSynchronous_spawnEmptyEntity(core, instruction->ECS, &entity, instruction->data.key, bbInstructionSource_internal, no_handle);
 
-    bbHandle server_entity = instruction->data.agent_MC.agent;
+    bbHandle server_entity = instruction->data.agent_MC.handle1;
     bbMapCoords MC = instruction->data.agent_MC.coords;
     bbHandle entity_handle;
     bbECS* ECS = &home.ECS.ECS;
@@ -311,7 +311,8 @@ bbFlag bbInstruction_spawnTestEntity_fn(bbCore* core, bbInstruction* instruction
                                     bbInstructionSource_internal,
                                     no_handle);
     }
-    bbUI_Inbox_NewBanana(&home.UI.inbox, MC, 0, 0);
+
+    bbCoreInput_spawnGraphicsComponent(core, MC,no_handle, no_handle, bbInstructionSource_internal, no_handle);
 
 
     bbInstruction* undo_instruction;

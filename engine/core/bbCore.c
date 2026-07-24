@@ -5,6 +5,7 @@
 #include "engine/core/bbCoreInbox.h"
 #include "engine/core/bbInstruction.h"
 #include "engine/core/bbAction.h"
+#include "engine/ECS/bbGraphicsSystem.h"
 #include "engine/ECS/bbServerEntities.h"
 #include "engine/ECS/ECS.h"
 #include "engine/ECS/spawn_entity.h"
@@ -91,6 +92,8 @@ bbFlag bbCore_react(bbCore* core)
             case bbInstruction_setServerEntity:
                 bbInstruction_setServerEntity_fn(core, instruction);
                 break;
+            case bbInstruction_spawnGraphicsComponent:
+                 bbInstruction_spawnGraphicsComponent_fn(core, instruction);
             default:
                 bbDebug("Unknown instruction type: %d\n", instruction->type);
             }

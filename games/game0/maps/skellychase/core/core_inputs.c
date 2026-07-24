@@ -73,7 +73,7 @@ bbFlag bbCoreInput_commandAgent_setGoalPoint(bbCore* core, bbHandle agent, bbMap
 
     instruction->source = source;
     instruction->redo_instruction = action;
-    instruction->data.agent_MC.agent = agent;
+    instruction->data.agent_MC.handle1 = agent;
     instruction->data.agent_MC.coords = MC;
 
 
