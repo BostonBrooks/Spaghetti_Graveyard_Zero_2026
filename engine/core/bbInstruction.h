@@ -41,6 +41,9 @@ typedef enum
 
     bbInstruction_spawnEntityOut,
 
+    bbInstruction_spawnGraphicsComponent,
+    bbInstruction_unspawnGraphicsComponent,
+
     bbInstruction_numTypes
 } bbInstruction_type;
 
@@ -93,6 +96,7 @@ typedef struct
 typedef struct
 {
     bbHandle agent;
+    bbHandle handle2;
     bbMapCoords coords;
 } bbInstructionsData_agentMapCoords;
 
