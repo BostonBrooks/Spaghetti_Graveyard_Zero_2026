@@ -301,7 +301,7 @@ bbFlag bbInstruction_spawnTestEntity_fn(bbCore* core, bbInstruction* instruction
     bbHandle test_handle = entity_handle;
     bbCoreInput_setServerEntity(core,
                                 entity_handle,
-                                test_handle,
+                                server_entity,
                                 bbInstructionSource_internal,
                                 no_handle);
 
