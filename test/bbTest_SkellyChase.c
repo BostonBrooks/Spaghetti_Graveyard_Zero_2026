@@ -2,9 +2,8 @@
 #include <pthread.h>
 #include <math.h>
 
+#include "engine/ECS/bbServerEntities.h"
 #include "engine/data/CSFML.h"
-//#include "engine/entities/bbAgentFunctions.h"
-//#include "engine/entities/bbAvoidables.h"
 #include "engine/core/bbCoreDiscard.h"
 #include "engine/core/bbCoreInputs.h"
 #include "engine/core/bbCoreInbox.h"
@@ -71,6 +70,7 @@ int main(void)
     bbCore_initVInstructions(&home.core.core);
 
     bbECS_init(&home.ECS.ECS);
+    bbServerEntities_new(&home.ECS.server_entities);
     bbSquareCoords size; size.i = 12; size.j = 12; size.k = 0;
     bbGroundSurface_init(&home.ground_surface, size, "./maps/skellychase/graphics/HeightMap.bmp");
     //

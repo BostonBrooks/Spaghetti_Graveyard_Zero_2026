@@ -3,6 +3,7 @@
 
 #include "engine/viewport/bbViewportApp.h"
 #include "engine/core/bbCore.h"
+#include "engine/ECS/bbServerEntities.h"
 #include "engine/ECS/ECS.h"
 #include "engine/graphics/bbGraphicsApp.h"
 #include "engine/interthread/bbClock.h"
@@ -16,6 +17,7 @@
 typedef struct
 {
     bbECS ECS;
+    bbServerEntities* server_entities;
 } bbECS_data;
 
 typedef struct

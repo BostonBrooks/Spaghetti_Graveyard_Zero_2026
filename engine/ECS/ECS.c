@@ -297,7 +297,13 @@ bbFlag bbInstruction_spawnTestEntity_fn(bbCore* core, bbInstruction* instruction
     bbCoreInput_entity_setComponent(core,ECS, entity_handle,no_handle, bbECS_Moveables, bbInstructionSource_internal, no_handle);
     bbCoreInput_entity_setComponent(core,ECS, entity_handle,no_handle, bbECS_AI, bbInstructionSource_internal, no_handle);
     bbCoreInput_entity_setComponent(core,ECS, entity_handle,no_handle, bbECS_Graphics, bbInstructionSource_internal, no_handle);
-    bbCoreInput_entity_setComponent(core,ECS, entity_handle,no_handle, bbECS_ServerEntities, bbInstructionSource_internal, no_handle);
+
+    bbHandle test_handle = entity_handle;
+    bbCoreInput_setServerEntity(core,
+                                entity_handle,
+                                test_handle,
+                                bbInstructionSource_internal,
+                                no_handle);
 
     bbUI_Inbox_NewBanana(&home.UI.inbox, MC, 0, 0);
 

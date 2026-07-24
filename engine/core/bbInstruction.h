@@ -35,6 +35,10 @@ typedef enum
     bbInstruction_entity_setComponent,
     bbInstruction_entity_unsetComponent,
 
+
+    bbInstruction_setServerEntity,
+    bbInstruction_unsetServerEntity,
+
     bbInstruction_spawnEntityOut,
 
     bbInstruction_numTypes
