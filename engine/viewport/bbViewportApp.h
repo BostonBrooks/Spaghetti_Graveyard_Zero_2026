@@ -19,6 +19,10 @@ typedef struct
     bbViewport viewport;
     bbWidget* viewport_widget;
 
+    //Convert from movable handle to unit handle
+    bbVPool* moveable_units;
+    //Convert from entity handle to unit handle
+    bbVPool* entity_units;
 } bbViewportApp;
 
 bbFlag bbViewportApp_init(bbViewportApp* app);

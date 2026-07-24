@@ -1,6 +1,7 @@
 #include "engine/viewport/bbViewportApp.h"
 
 #include "engine/data/bbHome.h"
+#include "engine/logic/bbBloatedPool.h"
 
 bbFlag bbViewportApp_init(bbViewportApp* app)
 {
@@ -9,5 +10,7 @@ bbFlag bbViewportApp_init(bbViewportApp* app)
     bbUnits_new((void**)&app->units, 12, 12);
     bbViewport_init(&app->viewport, 456, 466);
 
-
+    bbVPool_newBloated(&app->moveable_units, sizeof(bbHandle), 100,100,"MOVEABLE_UNITS");
+    bbVPool_newBloated(&app->entity_units, sizeof(bbHandle), 100,100,"ENTITY_UNITS");
+    return bbSuccess;
 }
