@@ -239,14 +239,14 @@ bbFlag bbUI_Inbox_setUnitState_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message
 }
 
 
-bbFlag bbUI_Inbox_NewBanana(bbUI_Inbox* inbox, bbMapCoords MC, bbHandle entity_handle, I32 movable_index)
+bbFlag bbUI_Inbox_NewBanana(bbUI_Inbox* inbox, bbMapCoords MC, bbHandle entity_handle, bbHandle moveable_handle)
 {
     bbUI_Inbox_message* message;
     bbThreadedQueue_alloc(&inbox->local_message_queue,(void**)&message);
     message->type = bbUI_Inbox_newBanana;
     message->data.coords = MC;
     message->data.entity_handle = entity_handle;
-    message->data.integer2 = movable_index;
+    message->data.moveable_handle = moveable_handle;
 
     bbThreadedQueue_pushL(&inbox->local_message_queue, (void*)message);
     return bbSuccess;
@@ -277,12 +277,13 @@ bbFlag bbUI_Inbox_SetUnitHP(bbUI_Inbox* inbox, bbHandle unit, float HP)
 }
 
 bbFlag bbUI_Inbox_newBanana_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
-{bbHere()
-    bbViewportApp* app = &home.viewport_app;
+{
+    bbHere()
+       bbViewportApp* app = &home.viewport_app;
     bbMapCoords MC = message->data.coords;
     bbDebug("bbMapCoords = (%d, %d, %d)\n", MC.i, MC.j, MC.k);
     bbHandle entity_handle = message->data.entity_handle;
-    I32 movable_index = message->data.integer2;
+    bbHandle moveable_handle = message->data.moveable_handle;
     bbUnit* unit;
     bbUnits* units = home.viewport_app.units;
     bbGraphicsApp* graphics = &home.UI.graphics;
@@ -295,11 +296,17 @@ bbFlag bbUI_Inbox_newBanana_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
     bbVPool_reverseLookup(pool, unit, &unit_handle);
     unit->drawable.coords = MC;
     bbHandle drawfunctionHandle;
-
-    bbHandle* entity_unit;
-    bbVPool_allocFromHandle(home.viewport_app.entity_units, (void**)&entity_unit, entity_handle);
-    *entity_unit = unit_handle;
-
+    if (entity_handle.u64 != no_handle.u64)
+    {
+        bbHandle* entity_unit;
+        bbVPool_allocFromHandle(home.viewport_app.entity_units, (void**)&entity_unit, entity_handle);
+        *entity_unit = unit_handle;
+    }
+    if (moveable_handle.u64 != no_handle.u64){
+        bbHandle* moveable_unit;
+        bbVPool_allocFromHandle(home.viewport_app.entity_units, (void**)&moveable_unit, moveable_handle);
+        *moveable_unit = unit_handle;
+    }
     unit->prev_coords = MC;
     unit->prev_time = 0;
     unit->prev_goalpoint = MC;
