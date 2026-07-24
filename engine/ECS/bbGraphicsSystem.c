@@ -27,9 +27,9 @@ bbFlag bbCoreInput_spawnGraphicsComponent(bbCore* core,
     instruction->type = bbInstruction_spawnGraphicsComponent;
     instruction->data.three_handles.handle1 = entity;
     instruction->data.three_handles.handle2 = moveable;
-    instruction-
+
     instruction->ECS = &home.ECS.ECS;
     instruction->source = source;
     instruction->redo_instruction = action;
-    bbList_pushL(&core->do_stack, instruction)
+    bbList_pushL(&core->do_stack, instruction);
 }

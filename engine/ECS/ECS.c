@@ -5,6 +5,7 @@
 #include "engine/logic/bbBloatedPool.h"
 #include "engine/logic/bbString.h"
 
+extern bbHandle null_handle;
 
 U64 getMask(bbECS_systems system)
 {
@@ -299,12 +300,17 @@ bbFlag bbInstruction_spawnTestEntity_fn(bbCore* core, bbInstruction* instruction
     bbCoreInput_entity_setComponent(core,ECS, entity_handle,no_handle, bbECS_Graphics, bbInstructionSource_internal, no_handle);
 
     bbHandle test_handle = entity_handle;
-    bbCoreInput_setServerEntity(core,
-                                entity_handle,
-                                server_entity,
-                                bbInstructionSource_internal,
-                                no_handle);
 
+    if (!bbVPool_handleIsEqual(home.ECS.server_entities->ECS_Handles,
+                                   server_entity,
+                                   null_handle))
+    {
+        bbCoreInput_setServerEntity(core,
+                                    entity_handle,
+                                    server_entity,
+                                    bbInstructionSource_internal,
+                                    no_handle);
+    }
     bbUI_Inbox_NewBanana(&home.UI.inbox, MC, 0, 0);
 
 

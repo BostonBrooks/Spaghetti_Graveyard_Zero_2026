@@ -96,7 +96,6 @@ typedef struct
 typedef struct
 {
     bbHandle agent;
-    bbHandle handle2;
     bbMapCoords coords;
 } bbInstructionsData_agentMapCoords;
 
