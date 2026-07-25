@@ -122,6 +122,9 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
                     if (distance < moveable->speed)
                     {
                         moveable->coords_b = goalPoint;
+                        bbMilliCoords forces = sumForces(moveables, moveable);
+                        moveable->coords_b.i += forces.i;
+                        moveable->coords_b.j += forces.j;
                     }
                     else
                     {
@@ -250,6 +253,9 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
                     if (distance < moveable->speed)
                     {
                         moveable->coords_a = goalPoint;
+                        bbMilliCoords forces = sumForces(moveables, moveable);
+                        moveable->coords_a.i += forces.i;
+                        moveable->coords_a.j += forces.j;
                     }
                     else
                     {
@@ -445,7 +451,6 @@ bbFlag bbMoveables_newTest(bbMoveables* moveables, bbHandle* moveable_handle, bb
 
     bbMoveable* moveable = &moveables->moveables[index];
     moveable->goalpoint = position;
-    moveable->goalpoint.i += 10000;
     moveable->position = position;
 
     moveable->ECS_entity_handle = ECS_entity_handle;
@@ -491,7 +496,7 @@ bbFlag bbInstruction_updateMovables_fn(bbCore* core,
 
     for (I32 i = 0; i < NUM_MOVEABLES; i++)
     {
-        snapshot->moveables->ECS_entity_handle = home.ECS.moveables.moveables[i].ECS_entity_handle;
+        snapshot->moveables[i].ECS_entity_handle = home.ECS.moveables.moveables[i].ECS_entity_handle;
         snapshot->moveables[i].position = home.ECS.moveables.moveables[i].
             position;
         snapshot->moveables[i].goalpoint = home.ECS.moveables.moveables[i].

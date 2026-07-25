@@ -76,9 +76,7 @@ bbFlag bbUnits_consumeBuffer(bbUnits* units, bbVPool* entity_units, bbMoveables_
         if (snapshot->moveables[i].type == bbMoveableType_Unused) continue;
         if (snapshot->moveables[i].type == bbMoveableType_Dead) continue;
 
-        bbDebug("index = %d, collision = %d\n",
-        snapshot->moveables[i].ECS_entity_handle.bloated.index,
-        snapshot->moveables[i].ECS_entity_handle.bloated.collision);
+
 
         bbVPool_lookup(home.viewport_app.entity_units,(void**)&unit_handle,snapshot->moveables[i].ECS_entity_handle);
         if (unit_handle == NULL) continue;
