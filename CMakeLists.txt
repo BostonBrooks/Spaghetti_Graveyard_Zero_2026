@@ -32,6 +32,7 @@ add_executable(SkellyChase test/bbTest_SkellyChase.c
         engine/ECS/spawn_entity.c
         engine/ECS/bbServerEntities.c
         engine/ECS/bbGraphicsSystem.c
+        engine/ECS/bbMoveables.c
         engine/graphics/bbFonts.c
         engine/graphics/bbSprites.c
         engine/graphics/bbTextures.c

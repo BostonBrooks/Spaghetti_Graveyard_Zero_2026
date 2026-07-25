@@ -14,12 +14,14 @@
 #include "engine/userinterface/bbUIApp.h"
 #include "engine/groundsurface/bbGroundSurface.h"
 #include "engine/spawner/bbSpawner.h"
+#include "engine/ECS/bbMoveables.h"
 
 typedef struct
 {
     bbECS ECS;
     bbServerEntities* server_entities;
     bbGraphicsSystem* graphics_system;
+    bbMoveables moveables;
 } bbECS_data;
 
 typedef struct

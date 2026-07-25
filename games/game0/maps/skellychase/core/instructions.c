@@ -17,8 +17,8 @@ bbFlag bbVInstruction_setGoalpointOut_fn(bbCore* core,
                                          bbInstruction* instruction)
 {
     bbNetworkApp_setGoalpointOut(&home.network,
-                                 instruction->data.goal_point.entity,
-                                 instruction->data.goal_point.goal_point,
+                                 instruction->data.goalpoint.entity,
+                                 instruction->data.goalpoint.goalpoint,
                                  instruction->act_time, collision++);
     return bbSuccess;
 }
@@ -56,7 +56,7 @@ bbFlag bbVInstruction_setGoalpointOut_fn(bbCore* core,
 //
 //     bbAgentCommandData data;
 //     data.movable = 0;
-//     data.goal_point = MC;
+//     data.goalpoint = MC;
 //     data.type = bbMovableType_Moving;
 //
 //     //TODO use bbAgent_Command_Player
@@ -726,7 +726,7 @@ bbFlag bbVInstruction_unsetGoalpoint_fn(bbCore* core,
 //     bbSpawner_spawnEntityI(&home.spawner,
 //                            &agent,
 //                            instruction->data.spawn_unit.position,
-//                            instruction->data.spawn_unit.goal_point,
+//                            instruction->data.spawn_unit.goalpoint,
 //                            instruction->data.spawn_unit.movable,
 //                            instruction->data.spawn_unit.entity,
 //                            instruction->data.spawn_unit.type);
@@ -767,7 +767,7 @@ bbFlag bbVInstruction_unsetGoalpoint_fn(bbCore* core,
 // {
 //     bbNetworkApp_spawnUnitOut(&home.network, instruction->data.spawn_unit.type,
 //                               instruction->data.spawn_unit.position,
-//                               instruction->data.spawn_unit.goal_point,
+//                               instruction->data.spawn_unit.goalpoint,
 //                               instruction->act_time, collision++);
 //     return bbSuccess;
 // }
@@ -785,7 +785,7 @@ bbFlag bbVInstruction_unsetGoalpoint_fn(bbCore* core,
 //     bbVPool_lookup(home.agents_app.agents->pool, (void**)&agent, entity->agent);
 //
 //     bbAgentCommandData data;
-//     data.goal_point = MC;
+//     data.goalpoint = MC;
 //     data.movable = button;
 //     bbAgent2_onCommand(agent, home.agents_app.agents, bbAC_mapClick, data);
 //     return bbSuccess;
@@ -836,7 +836,7 @@ bbFlag bbVInstruction_unsetGoalpoint_fn(bbCore* core,
 //     bbSpawner_spawnEntityI(&home.spawner,
 //                            &agent,
 //                            instruction->data.spawn_agent.position,
-//                            instruction->data.spawn_agent.goal_point,
+//                            instruction->data.spawn_agent.goalpoint,
 //                            movable_int,
 //                            entity_int,
 //                            instruction->data.spawn_agent.type);

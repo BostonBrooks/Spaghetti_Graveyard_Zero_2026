@@ -60,14 +60,14 @@ typedef enum
 
 typedef struct
 {
-    bbMapCoords goal_point;
+    bbMapCoords goalpoint;
     I32 entity;
 } bbInstructionsData_goalPoint;
 
 typedef struct
 {
     bbMapCoords position;
-    bbMapCoords goal_point;
+    bbMapCoords goalpoint;
     char key[KEY_LENGTH];
 } bbInstructionsData_spawnUnitOut;
 
@@ -117,7 +117,7 @@ typedef struct
 {
     I32 type;
     bbMapCoords position;
-    bbMapCoords goal_point;
+    bbMapCoords goalpoint;
     I32 entity;
     I32 movable;
 } bbInstructionsData_spawnUnit;
@@ -126,7 +126,7 @@ typedef struct
 {
     I32 type;
     bbMapCoords position;
-    bbMapCoords goal_point;
+    bbMapCoords goalpoint;
 } bbInstructionsData_spawnAgent;
 
 typedef struct
@@ -151,7 +151,7 @@ typedef union
     char key[KEY_LENGTH];
     U64 u64;
     bbMapCoords map_coords;
-    bbInstructionsData_goalPoint goal_point;
+    bbInstructionsData_goalPoint goalpoint;
     bbInstructionsData_mapClick map_click;
     bbInstructionsData_agentSquare agent_square;
     bbInstructionsData_agentMapCoords agent_MC;

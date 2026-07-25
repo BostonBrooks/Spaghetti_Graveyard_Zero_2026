@@ -304,7 +304,7 @@ bbFlag bbUI_Inbox_newBanana_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
     }
     if (moveable_handle.u64 != no_handle.u64){
         bbHandle* moveable_unit;
-        bbVPool_allocFromHandle(home.viewport_app.entity_units, (void**)&moveable_unit, moveable_handle);
+        bbVPool_allocFromHandle(home.viewport_app.moveable_units, (void**)&moveable_unit, moveable_handle);
         *moveable_unit = unit_handle;
     }
     unit->prev_coords = MC;

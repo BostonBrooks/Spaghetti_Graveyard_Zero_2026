@@ -174,9 +174,9 @@ bbFlag bbAgent_Command_Skelly(bbAgent* agent,bbAgentCommandType type,bbAgentComm
         {
             bbAgentCommandData data;
             data.type = bbMovableType_Dead;
-            data.goal_point.i = 0;
-            data.goal_point.j = 0;
-            data.goal_point.k = 0;
+            data.goalpoint.i = 0;
+            data.goalpoint.j = 0;
+            data.goalpoint.k = 0;
             data.movable = 0;
             bbCoreInput_setMovableType(&home.core.core,0, agent->movable, data,
                                              bbInstructionSource_internal,no_handle);

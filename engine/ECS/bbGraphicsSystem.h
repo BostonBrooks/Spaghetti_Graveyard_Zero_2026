@@ -6,7 +6,7 @@
 //Component
 typedef struct
 {
-
+    bbHandle bbECS_entity_handle;
 } bbGraphicsComponent;
 
 //System

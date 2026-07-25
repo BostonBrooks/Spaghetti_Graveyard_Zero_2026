@@ -17,16 +17,16 @@ bbFlag bbAgent_Command_Player(bbAgent* agent,bbAgentCommandType type,bbAgentComm
         if (data.movable == 0)
         {
             bbCoreInput_setGoalpointOut(&home.core.core, agent->entity,
-                data.goal_point, home.core.clock2_handle.map_tick,bbInstructionSource_input,handle);
+                data.goalpoint, home.core.clock2_handle.map_tick,bbInstructionSource_input,handle);
         } else
         {
             bbMovable* movable = &home.agents_app.movables.movables[agent->movable];
 
-            //bbLocalMessage_SpawnUnit(&home.core.core, movable->position, data.goal_point, "BALLOON");
+            //bbLocalMessage_SpawnUnit(&home.core.core, movable->position, data.goalpoint, "BALLOON");
 
             bbMapCoords position = movable->position;
             position.i += POINTS_PER_TILE;
-            bbCoreInput_spawnUnitOut(&home.core.core, 1,position, data.goal_point, home.core.clock2_handle.map_tick
+            bbCoreInput_spawnUnitOut(&home.core.core, 1,position, data.goalpoint, home.core.clock2_handle.map_tick
             ,bbInstructionSource_input,handle);
             bbCore_react(&home.core.core);
         }
@@ -61,7 +61,7 @@ bbFlag bbAgent_Update_Player(bbAgent* agent)
 
             bbAgentCommandData data;
             data.type = bbMovableType_Idle;
-            data.goal_point = agent_movable->goalpoint;
+            data.goalpoint = agent_movable->goalpoint;
             data.movable = 0;
 
             bbCoreInput_setMovableType(&home.core.core,0, agent->movable, data,

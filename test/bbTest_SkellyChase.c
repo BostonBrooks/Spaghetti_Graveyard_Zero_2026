@@ -3,6 +3,7 @@
 #include <math.h>
 
 #include "engine/ECS/bbServerEntities.h"
+#include "engine/ECS/bbMoveables.h"
 #include "engine/data/CSFML.h"
 #include "engine/core/bbCoreDiscard.h"
 #include "engine/core/bbCoreInputs.h"
@@ -74,6 +75,9 @@ int main(void)
     bbECS_init(&home.ECS.ECS);
     bbServerEntities_new(&home.ECS.server_entities);
     bbGraphicsSystem_new(&home.ECS.graphics_system);
+    bbMoveables_init(&home.ECS.moveables);
+
+
     bbSquareCoords size; size.i = 12; size.j = 12; size.k = 0;
     bbGroundSurface_init(&home.ground_surface, size, "./maps/skellychase/graphics/HeightMap.bmp");
     //

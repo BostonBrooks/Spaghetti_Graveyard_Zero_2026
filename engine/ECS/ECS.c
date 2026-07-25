@@ -292,9 +292,13 @@ bbFlag bbInstruction_spawnTestEntity_fn(bbCore* core, bbInstruction* instruction
 
     bbHandle server_entity = instruction->data.agent_MC.handle1;
     bbMapCoords MC = instruction->data.agent_MC.coords;
-    bbHandle entity_handle;
+    bbHandle entity_handle, moveable_handle;
     bbECS* ECS = &home.ECS.ECS;
     bbVPool_reverseLookup(ECS->pool, (void*)entity, &entity_handle);
+
+    //TODO This should be a core input?
+    bbMoveables_newTest(&home.ECS.moveables, &moveable_handle, MC, entity_handle);
+
     bbCoreInput_entity_setComponent(core,ECS, entity_handle,no_handle, bbECS_Moveables, bbInstructionSource_internal, no_handle);
     bbCoreInput_entity_setComponent(core,ECS, entity_handle,no_handle, bbECS_AI, bbInstructionSource_internal, no_handle);
     bbCoreInput_entity_setComponent(core,ECS, entity_handle,no_handle, bbECS_Graphics, bbInstructionSource_internal, no_handle);
@@ -312,7 +316,7 @@ bbFlag bbInstruction_spawnTestEntity_fn(bbCore* core, bbInstruction* instruction
                                     no_handle);
     }
 
-    bbCoreInput_spawnGraphicsComponent(core, MC,entity_handle, no_handle, bbInstructionSource_internal, no_handle);
+    bbCoreInput_spawnGraphicsComponent(core, MC,entity_handle, moveable_handle, bbInstructionSource_internal, no_handle);
 
 
     bbInstruction* undo_instruction;

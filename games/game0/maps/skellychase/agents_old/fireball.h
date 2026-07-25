@@ -17,14 +17,14 @@ bbFlag bbAgent_Command_Player(bbAgent* agent,bbAgentCommandType type,bbAgentComm
         if (data.movable == 0)
         {
             bbCoreInput_setGoalpointOut(&home.core.core,
-                data.goal_point, home.core.clock2_handle.map_tick,bbInstructionSource_input,handle);
+                data.goalpoint, home.core.clock2_handle.map_tick,bbInstructionSource_input,handle);
         } else
         {
             bbMovable* movable = &home.agents_app.movables.movables[agent->movable];
 
-            //bbLocalMessage_SpawnUnit(&home.core.core, movable->position, data.goal_point, "BALLOON");
+            //bbLocalMessage_SpawnUnit(&home.core.core, movable->position, data.goalpoint, "BALLOON");
 
-            bbCoreInput_spawnUnitOut(&home.core.core, 1,movable->position, data.goal_point, home.core.clock2_handle.map_tick
+            bbCoreInput_spawnUnitOut(&home.core.core, 1,movable->position, data.goalpoint, home.core.clock2_handle.map_tick
             ,bbInstructionSource_input,handle);
         }
     } else {
@@ -60,7 +60,7 @@ bbFlag bbAgent_Update_Fireball(bbAgent* agent)
 
             bbAgentCommandData data;
             data.type = bbMovableType_Idle;
-            data.goal_point = agent_movable->goalpoint;
+            data.goalpoint = agent_movable->goalpoint;
             data.movable = 0;
 
             bbCoreInput_setMovableType(&home.core.core,0, agent->movable, data,
@@ -78,7 +78,7 @@ bbFlag bbAgent_Update_Fireball(bbAgent* agent)
 
             bbAgentCommandData data;
             data.type = bbMovableType_Unused;
-            data.goal_point = agent_movable->goalpoint;
+            data.goalpoint = agent_movable->goalpoint;
             data.movable = 0;
             bbCoreInput_setMovableType(&home.core.core,0, agent->movable, data,
                                        bbInstructionSource_internal,no_handle);

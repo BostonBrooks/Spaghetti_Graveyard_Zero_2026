@@ -90,7 +90,7 @@ bbInstruction_source source, bbHandle action)
         instruction->type = bbVInstruction_spawnUnitOut;
         instruction->data.spawn_unit.type = unit_type;
         instruction->data.spawn_unit.position = MC;
-        instruction->data.spawn_unit.goal_point = MC2;
+        instruction->data.spawn_unit.goalpoint = MC2;
         instruction->act_time = time;
         bbList_pushL(&core->do_stack, instruction);
 
@@ -106,7 +106,7 @@ bbFlag bbCoreInput_spawnUnitIn(bbCore* core, bbMapCoords MC,bbMapCoords goalcoor
     bbList_alloc(&core->do_stack, (void**) &instruction);
     instruction->type = bbVInstruction_spawnUnitIn;
     instruction->data.spawn_unit.position = MC;
-    instruction->data.spawn_unit.goal_point = goalcoords;
+    instruction->data.spawn_unit.goalpoint = goalcoords;
     instruction->data.spawn_unit.entity = entity_index;
     instruction->data.spawn_unit.movable = movable_index;
     instruction->data.spawn_unit.type =  type_index;
@@ -134,7 +134,7 @@ bbFlag bbCoreInput_spawnAgent(bbCore* core, bbMapCoords MC,bbMapCoords goalcoord
     instruction->type = bbVInstruction_spawnAgent;
     instruction->data.spawn_agent.type = type_index;
     instruction->data.spawn_agent.position = MC;
-    instruction->data.spawn_agent.goal_point = goalcoords;
+    instruction->data.spawn_agent.goalpoint = goalcoords;
     bbList_pushL(&core->do_stack, instruction);
     return bbSuccess;
 
