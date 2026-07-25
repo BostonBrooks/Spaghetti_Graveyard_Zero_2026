@@ -40,7 +40,7 @@ bbFlag bbVPool_newBloated(bbVPool** Pool, I32 sizeOf, I32 level1, I32 level2, ch
     line)) bbBloatedPool_allocImpl;
     pool->free = (bbFlag(*)(void* pool, void* address)) bbBloatedPool_free;
     pool->lookup = (bbFlag (*)(void* pool, void** address, bbHandle
-    handle)) bbBloatedPool_lookup;
+    handle)) bbBloatedPool_lookup2;
     pool->reverse_lookup = (bbFlag (*)(void* pool, void* address,
             bbHandle* handle)) bbBloatedPool_reverseLookup;
 //    pool->print_header = (bbFlag (*)(void *, void *)) bbBloatedPool_printHeader;
@@ -351,6 +351,7 @@ bbFlag bbBloatedPool_lookupHeader(bbBloatedPool* pool, void** address, bbHandle 
 	U8* lvl2 = pool->elements[lvl1index];
 	bbBloatedPool_Header *element = (bbBloatedPool_Header *)&lvl2[lvl2index * (sizeof(bbBloatedPool_Header) + pool->size_of)];
 	bbHandle elementHandle = element->self;
+
 	bbAssert(handle.bloated.collision == elementHandle.bloated.collision,
 			 "handle collision\n");
 
@@ -361,6 +362,47 @@ bbFlag bbBloatedPool_lookupHeader(bbBloatedPool* pool, void** address, bbHandle 
 bbFlag bbBloatedPool_lookup(bbBloatedPool* pool, void** address, bbHandle handle){
 	bbBloatedPool_Header* element;
 	bbFlag flag = bbBloatedPool_lookupHeader(pool, (void**)&element, handle);
+
+	if (flag == bbSuccess) *address = &element->user_data;
+	else *address = NULL;
+
+	return flag;
+}
+
+bbFlag bbBloatedPool_lookupHeader2(bbBloatedPool* pool, void** address, bbHandle handle){
+
+	if ( handle.bloated.index == 0 && handle.bloated.collision == 0)
+	{
+		*address = NULL;
+		return bbFail;
+	}
+
+	U32 index = handle.bloated.index;
+	U32 collision = handle.bloated.collision;
+	U32 lvl1index = index / pool->level2;
+	bbAssert(lvl1index < pool->level1, "index out of bounds\n");
+	U32 lvl2index = index % pool->level2;
+	U8* lvl2 = pool->elements[lvl1index];
+	bbBloatedPool_Header *element = (bbBloatedPool_Header *)&lvl2[lvl2index * (sizeof(bbBloatedPool_Header) + pool->size_of)];
+
+	if (element->in_use == false)
+	{
+		*address = NULL;
+		return bbFail;
+	}
+
+	bbHandle elementHandle = element->self;
+
+	bbAssert(handle.bloated.collision == elementHandle.bloated.collision,
+			 "handle collision\n");
+
+	*address = element;
+	return bbSuccess;
+}
+
+bbFlag bbBloatedPool_lookup2(bbBloatedPool* pool, void** address, bbHandle handle){
+	bbBloatedPool_Header* element;
+	bbFlag flag = bbBloatedPool_lookupHeader2(pool, (void**)&element, handle);
 
 	if (flag == bbSuccess) *address = &element->user_data;
 	else *address = NULL;
