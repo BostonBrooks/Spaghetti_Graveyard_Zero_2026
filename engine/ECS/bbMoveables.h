@@ -7,6 +7,7 @@
 #include <pthread.h>
 #include <stdatomic.h>
 
+#include "ECS.h"
 #include "engine/core/bbCore.h"
 #include "engine/core/bbInstruction.h"
 #include "engine/geometry/bbCoordinates.h"
@@ -62,6 +63,7 @@ typedef struct
 
 typedef struct
 {
+    bbSystem system;
     I32 updates_per_frame;
     bool use_coords_a;
 

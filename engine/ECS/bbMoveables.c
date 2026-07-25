@@ -80,6 +80,9 @@ bbFlag bbMoveables_init(bbMoveables* moveables)
 
         moveable->type = bbMoveableType_Unused;
     }
+
+
+    home.ECS.ECS.systems[bbECS_Moveables] = (bbSystem* )moveables;
     return bbSuccess;
 }
 
