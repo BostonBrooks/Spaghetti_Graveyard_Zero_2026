@@ -432,7 +432,9 @@ bbFlag bbMoveables_newTest(bbMoveables* moveables, bbHandle* moveable_handle, bb
 
     bbMoveable* moveable = &moveables->moveables[index];
     moveable->goalpoint = position;
+    moveable->goalpoint.i += 10000;
     moveable->position = position;
+
     moveable->ECS_entity_handle = ECS_entity_handle;
     moveable->moveable_handle = moveable_handle1;
     moveable->type = bbMoveableType_Moving;
