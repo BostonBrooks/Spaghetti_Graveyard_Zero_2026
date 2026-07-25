@@ -44,6 +44,9 @@ typedef enum
     bbInstruction_spawnGraphicsComponent,
     bbInstruction_unspawnGraphicsComponent,
 
+    bbInstruction_updateMovables,
+    bbInstruction_unupdateMovables,
+
     bbInstruction_numTypes
 } bbInstruction_type;
 

@@ -7,6 +7,8 @@
 #include <pthread.h>
 #include <stdatomic.h>
 
+#include "engine/core/bbCore.h"
+#include "engine/core/bbInstruction.h"
 #include "engine/geometry/bbCoordinates.h"
 #include "engine/logic/bbHandle.h"
 #include "engine/logic/bbVPool.h"
@@ -93,4 +95,6 @@ bbFlag bbMoveables_copyBuffer(bbMoveables* moveables, bbMoveables_snapshot* targ
 
 bbFlag bbMoveables_newTest(bbMoveables* moveables, bbHandle* moveable_handle, bbMapCoords position, bbHandle ECS_entity_handle);
 
+bbFlag bbCoreInput_updateMovables(bbCore* core, bbInstruction_source source, bbHandle action);
+bbFlag bbInstruction_updateMovables_fn(bbCore* core, bbInstruction* instruction);
 #endif  //BBMoveable

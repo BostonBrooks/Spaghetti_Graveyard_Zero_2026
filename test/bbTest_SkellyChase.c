@@ -177,7 +177,8 @@ int main(void)
                 bbInstructionSource_input, no_handle );
             bbCore_react(&home.core.core);
 
-
+            bbCoreInput_updateMovables(&home.core.core,bbInstructionSource_input, no_handle );
+            bbCore_react(&home.core.core);
 
             //bbMovables_update(&home.agents_app.movables);
             //bbCoreInput_approachGoalpoint(&home.core.core);
