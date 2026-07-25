@@ -415,7 +415,9 @@ bbFlag bbMoveables_copyBuffer(bbMoveables* moveables,
 
             if (moveables->moveables[i].type != bbMoveableType_Unused)
             {
-                bbDebug("index = %d\n", moveables->buffer_front->moveables[i].ECS_entity_handle.bloated.index);
+                bbDebug("index = %d, collision = %d\n",
+                    moveables->buffer_front->moveables[i].ECS_entity_handle.bloated.index,
+                    moveables->buffer_front->moveables[i].ECS_entity_handle.bloated.collision);
             }
         }
         target->time = moveables->buffer_front->time;

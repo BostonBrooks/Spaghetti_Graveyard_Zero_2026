@@ -66,7 +66,6 @@ bbMapCoords MC, I32 index){
 bbFlag bbUnits_consumeBuffer(bbUnits* units, bbVPool* entity_units, bbMoveables_snapshot* snapshot)
 {
     bbHandle* unit_handle;
-    bbVPool* pool = units->pool;
     bbUnit* unit;
     bbDrawable* drawable;
 
@@ -77,7 +76,16 @@ bbFlag bbUnits_consumeBuffer(bbUnits* units, bbVPool* entity_units, bbMoveables_
         if (snapshot->moveables[i].type == bbMoveableType_Unused) continue;
         if (snapshot->moveables[i].type == bbMoveableType_Dead) continue;
 
-        //bbDebug("index = %d\n", snapshot->moveables[i].ECS_entity_handle.bloated.index);
+        bbDebug("index = %d, collision = %d\n",
+        snapshot->moveables[i].ECS_entity_handle.bloated.index,
+        snapshot->moveables[i].ECS_entity_handle.bloated.collision);
+
+        bbVPool_lookup(home.viewport_app.entity_units,(void**)&unit_handle,snapshot->moveables[i].ECS_entity_handle);
+        if (unit_handle == NULL) continue;
+        bbVPool_lookup(home.viewport_app.units->pool,(void**)&unit,*unit_handle);
+        if (unit == NULL) continue;
+        drawable = &unit->drawable;
+        bbDrawable_setLocation(drawable, units,snapshot->moveables[i].position);
     }
 
 }

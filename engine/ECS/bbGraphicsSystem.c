@@ -43,5 +43,9 @@ bbFlag bbInstruction_spawnGraphicsComponent_fn(bbCore* core, bbInstruction* inst
     bbUI_Inbox_NewBanana(&home.UI.inbox, instruction->data.agent_MC.coords,
         instruction->data.agent_MC.handle1,
         instruction->data.agent_MC.handle2);
+
+    bbDebug("index = %d, collision = %d\n",
+    instruction->data.agent_MC.handle1.bloated.index,
+    instruction->data.agent_MC.handle1.bloated.collision);
     return bbSuccess;
 }
