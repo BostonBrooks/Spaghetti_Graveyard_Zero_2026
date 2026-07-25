@@ -373,10 +373,12 @@ bbFlag bbMoveables_update(bbMoveables* moveables)
             = bbMapCoords_getElevation(&home.ground_surface,
                                        moveables->moveables[i].position);
 
+        moveables->buffer_back->moveables[i].ECS_entity_handle = moveables->moveables[i].ECS_entity_handle;
         moveables->buffer_back->moveables[i].goalpoint = moveables->moveables[i]
             .goalpoint;
         moveables->buffer_back->moveables[i].position = moveables->moveables[i].
             position;
+        moveables->buffer_back->moveables[i].type = moveables->moveables[i].type;
         moveables->buffer_back->time = home.core.clock2_handle.map_tick;
     }
     if (home.core.core.simulation_time == home.core.core.actual_time)
@@ -410,6 +412,11 @@ bbFlag bbMoveables_copyBuffer(bbMoveables* moveables,
             target->moveables[i].goalpoint = moveables->buffer_front->moveables[i].goalpoint;
             target->moveables[i].position = moveables->buffer_front->moveables[i].position;
             target->moveables[i].type = moveables->moveables[i].type;
+
+            if (moveables->moveables[i].type != bbMoveableType_Unused)
+            {
+                bbDebug("index = %d\n", moveables->buffer_front->moveables[i].ECS_entity_handle.bloated.index);
+            }
         }
         target->time = moveables->buffer_front->time;
         moveables->buffer_fresh = false;
@@ -424,6 +431,7 @@ bbFlag bbMoveables_copyBuffer(bbMoveables* moveables,
 bbFlag bbMoveables_newTest(bbMoveables* moveables, bbHandle* moveable_handle, bbMapCoords position, bbHandle ECS_entity_handle)
 {
     I32 index = moveables->available++;
+    bbDebug("index = %d\n", index);
 
     bbHandle moveable_handle1;
     moveable_handle1.bloated.index = index;

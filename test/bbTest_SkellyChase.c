@@ -108,6 +108,23 @@ int main(void)
 
 
     bbCoreInput_spawnTestEntity(&home.core.core,home.core.viewpoint, no_handle, bbInstructionSource_input, null_handle);
+    home.core.viewpoint.i += 1000;
+
+
+    bbCoreInput_spawnTestEntity(&home.core.core,home.core.viewpoint, no_handle, bbInstructionSource_input, null_handle);
+    home.core.viewpoint.i += 1000;
+
+
+    bbCoreInput_spawnTestEntity(&home.core.core,home.core.viewpoint, no_handle, bbInstructionSource_input, null_handle);
+    home.core.viewpoint.i += 1000;
+
+
+    bbCoreInput_spawnTestEntity(&home.core.core,home.core.viewpoint, no_handle, bbInstructionSource_input, null_handle);
+    home.core.viewpoint.i += 1000;
+
+
+    bbCoreInput_spawnTestEntity(&home.core.core,home.core.viewpoint, no_handle, bbInstructionSource_input, null_handle);
+    home.core.viewpoint.i += 1000;
 
     pthread_barrier_wait(&barrier1);
 
@@ -238,7 +255,7 @@ void* userinterface_thread(void* arg)
 
     bbNetworkTime* network_time = (bbNetworkTime*)home.network.extra_data;
 
-    //bbMovables_snapshot movables_snapshot;
+    bbMoveables_snapshot moveables_snapshot;
 
     U8 clock_index = 255;
 
@@ -280,6 +297,10 @@ bbHere()
         bbUIApp_draw(&home.UI);
 
 
+
+
+        bbMoveables_copyBuffer(&home.ECS.moveables, &moveables_snapshot);
+        bbUnits_consumeBuffer(home.viewport_app.units, home.viewport_app.entity_units, &moveables_snapshot);
 
 
         sfRenderWindow_display(home.UI.window);

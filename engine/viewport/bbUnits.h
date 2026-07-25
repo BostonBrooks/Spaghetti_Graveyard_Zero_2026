@@ -1,3 +1,7 @@
+#include "engine/ECS/bbMoveables.h"
+#ifndef BB_UNITS_H
+#define BB_UNITS_H
+
 #include "bbDrawables.h"
 
 typedef struct
@@ -39,7 +43,9 @@ bbMapCoords MC, I32 index);
 
 #define bbUnit_setLocation bbDrawable_setLocation
 
-//bbFlag bbUnits_consumeBuffer(bbUnits* units, bbHandle* unit_array, bbMovables_snapshot* snapshot);
+bbFlag bbUnits_consumeBuffer(bbUnits* units, bbVPool* entity_units, bbMoveables_snapshot* snapshot);
 
 //bbFlag bbUnit_newSkelly(bbUnit** self,bbUnits* units, bbGraphicsApp* graphics,
 //bbMapCoords MC, I32 index);
+
+#endif //BB_UNITS_H

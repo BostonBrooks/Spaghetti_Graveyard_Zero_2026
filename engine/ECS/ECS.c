@@ -286,7 +286,7 @@ bbFlag bbCoreInput_spawnTestEntity(bbCore* core, bbMapCoords MC, bbHandle server
     return bbSuccess;
 }
 bbFlag bbInstruction_spawnTestEntity_fn(bbCore* core, bbInstruction* instruction)
-{bbHere()
+{
     bbECS_entity* entity;
     bbCoreSynchronous_spawnEmptyEntity(core, instruction->ECS, &entity, instruction->data.key, bbInstructionSource_internal, no_handle);
 
@@ -296,6 +296,7 @@ bbFlag bbInstruction_spawnTestEntity_fn(bbCore* core, bbInstruction* instruction
     bbECS* ECS = &home.ECS.ECS;
     bbVPool_reverseLookup(ECS->pool, (void*)entity, &entity_handle);
 
+    bbDebug("index = %d\n", entity_handle.bloated.index);
     //TODO This should be a core input?
     bbMoveables_newTest(&home.ECS.moveables, &moveable_handle, MC, entity_handle);
 
