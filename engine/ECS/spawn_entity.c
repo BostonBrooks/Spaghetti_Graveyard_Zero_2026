@@ -83,7 +83,7 @@ bbFlag bbAction_spawnEntity(void* Core,
     bbList_alloc(&core->action_queue,(void**)&action);
     action->header.type = bbActionType_spawnEntity;
     action->header.collision = collision;
-    action->header.act_tick = act_tick + 60;
+    action->header.act_tick = act_tick;
     action->map_coords = map_coords;
     action->handle = server_entity;
     bbList_sortL(&core->action_queue,(void*)action);
