@@ -306,7 +306,7 @@ bbFlag bbBloatedPool_free(bbBloatedPool* pool, void* address)
 	bbBloatedPool_Header* header;
 	bbBloatedPool_getHeader(&header, address);
 	bbBloatedPool_Handle_incrementCollision(&header->self);
-
+	header->in_use = false;
 	//return element to empty pool
 	if (IS_NULL(pool->available.head) || IS_NULL(pool->available.tail))
 	{
@@ -317,7 +317,7 @@ bbFlag bbBloatedPool_free(bbBloatedPool* pool, void* address)
 		pool->available.tail = header->self;
 		header->list.prev = pool->null;
 		header->list.next = pool->null;
-		header->in_use = false;
+
 		return bbSuccess;
 
 	}
@@ -332,7 +332,6 @@ bbFlag bbBloatedPool_free(bbBloatedPool* pool, void* address)
 	pool->available.head = header->self;
 	header->list.prev = pool->null;
 	header->list.next = available_header->self;
-	available_header->in_use = false;
 	return bbSuccess;
 }
 
