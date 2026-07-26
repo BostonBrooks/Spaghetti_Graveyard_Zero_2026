@@ -51,7 +51,7 @@ bbFlag bbInstruction_setServerEntity_fn(bbCore* core, bbInstruction* instruction
 
     //Use server_entity_handle to look up entity_handle
     bbHandle* handle;
-    bbVPool_allocFromHandle(home.ECS.server_entities->ECS_Handles, (void*)&handle, instruction->data.three_handles.handle2);
+    bbVPool_allocFromHandle(home.ECS.server_entities->ECS_Handles, (void*)&handle, component->server_entity_handle );
     *handle = instruction->data.three_handles.handle1;;
 
     bbCoreInput_entity_setComponent(core,&home.ECS.ECS, entity_handle,component_handle, bbECS_ServerEntities, bbInstructionSource_internal, no_handle);
@@ -88,10 +88,16 @@ bbFlag bbInstruction_setServerEntity_fn(bbCore* core, bbInstruction* instruction
 }
 bbFlag bbInstruction_unsetServerEntity_fn(bbCore* core, bbInstruction* instruction)
 {
+
     bbHandle component_handle = instruction->data.three_handles.handle1;
-    void* component;
+    bbServerEntity* component;
     bbVPool_lookup(home.ECS.server_entities->system.pool, (void**)&component, component_handle);
-    bbVPool_free(home.ECS.server_entities->system.pool, component);
+    bbHandle server_entity_handle = component->server_entity_handle;
+    bbVPool_free(home.ECS.server_entities->system.pool,component);
+
+    void* lemon;
+    bbVPool_lookup(home.ECS.server_entities->ECS_Handles, (void*)&lemon, server_entity_handle );
+    bbVPool_free(home.ECS.server_entities->ECS_Handles, lemon);
 
     if (instruction->source == bbInstructionSource_internal)
     {
