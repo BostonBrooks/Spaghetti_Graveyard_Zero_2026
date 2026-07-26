@@ -158,31 +158,6 @@ bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
 
 
 
-#ifdef DEFINE_SKELLYCHASE
-       //     case bbInstruction_unspawnBanana:
-        //        bbInstruction_unspawnBanana_fn(core, instruction);
-        //        break;
-        //    case bbInstruction_unsetViewpoint:
-        //        bbInstruction_unsetViewpoint_fn(core, instruction);
-       //         break;
-
-
-
-            //case bbInstruction_unsetGoalpoint:
-            //    bbInstruction_unsetGoalpoint_fn(core, instruction);
-            //    break;
-
-            //case bbInstruction_unapproachGoalpoint:
-            //    bbInstruction_unapproachGoalpoint_fn(core, instruction);
-            //    break;
-
-            //case bbInstruction_unupdateMovables:
-            //    bbHere()
-            //    bbInstruction_unupdateMovables_fn(core, instruction);
-            //    break;
-#endif
-
-
             default:
                 bbDebug("Unknown undo instruction type %d\n", instruction->type);
 
