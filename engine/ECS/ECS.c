@@ -273,7 +273,7 @@ bbFlag bbInstruction_entity_unsetComponent_fn(bbCore* core, bbInstruction* instr
 }
 
 bbFlag bbCoreInput_spawnTestEntity(bbCore* core, bbMapCoords MC, bbHandle server_entity, bbInstruction_source source, bbHandle action)
-{bbHere()
+{
     bbInstruction* instruction;
     bbList_alloc(&core->do_stack, (void**) &instruction);
     instruction->type = bbInstruction_spawnTestEntity;
@@ -296,7 +296,7 @@ bbFlag bbInstruction_spawnTestEntity_fn(bbCore* core, bbInstruction* instruction
     bbECS* ECS = &home.ECS.ECS;
     bbVPool_reverseLookup(ECS->pool, (void*)entity, &entity_handle);
 
-    bbDebug("index = %d\n", entity_handle.bloated.index);
+
     //TODO This should be a core input?
 
     bbCoreSynchronous_spawnTestMoveable(core,

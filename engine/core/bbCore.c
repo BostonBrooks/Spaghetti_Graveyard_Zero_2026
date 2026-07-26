@@ -157,6 +157,7 @@ bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
                 break;
 
             case bbInstruction_unsetServerEntity:
+                bbHere()
                 bbInstruction_unsetServerEntity_fn(core, instruction);
                 break;
             case bbInstruction_unupdateMoveables:

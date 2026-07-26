@@ -564,7 +564,7 @@ bbFlag bbInstruction_updateMoveables_fn(bbCore* core,
     bbMoveables_snapshot* snapshot;
     bbHandle snapshot_handle;
     bbFlag flag = bbVPool_alloc2(home.ECS.moveables.snapshots, (void**)&snapshot,&snapshot_handle);
-    bbFlag_print(flag)
+
 
     undo_instruction->snapshot = snapshot_handle;
 
@@ -612,7 +612,7 @@ bbInstruction* instruction)
     bbMoveables_snapshot* snapshot;
     bbFlag flag  = bbVPool_lookup(home.ECS.moveables.snapshots, (void**)&snapshot,
                    instruction->snapshot);
-    bbFlag_print(flag);
+
     for (I32 i = 0; i < NUM_MOVEABLES; i++)
     {
         home.ECS.moveables.moveables[i].position = snapshot->moveables[i].

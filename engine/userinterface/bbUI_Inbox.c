@@ -278,10 +278,8 @@ bbFlag bbUI_Inbox_SetUnitHP(bbUI_Inbox* inbox, bbHandle unit, float HP)
 
 bbFlag bbUI_Inbox_newBanana_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
 {
-    bbHere()
        bbViewportApp* app = &home.viewport_app;
     bbMapCoords MC = message->data.coords;
-    bbDebug("bbMapCoords = (%d, %d, %d)\n", MC.i, MC.j, MC.k);
     bbHandle entity_handle = message->data.entity_handle;
     bbHandle moveable_handle = message->data.moveable_handle;
     bbUnit* unit;
