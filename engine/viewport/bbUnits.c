@@ -83,7 +83,37 @@ bbFlag bbUnits_consumeBuffer(bbUnits* units, bbVPool* entity_units, bbMoveables_
         bbVPool_lookup(home.viewport_app.units->pool,(void**)&unit,*unit_handle);
         if (unit == NULL) continue;
         drawable = &unit->drawable;
-        bbDrawable_setLocation(drawable, units,snapshot->moveables[i].position);
-    }
 
+        if (snapshot->time > unit->next_time)
+        {
+            unit->prev_coords = unit->next_coords;
+            unit->prev_goalpoint = unit->next_goalpoint;
+            unit->prev_time = unit->next_time;
+
+            unit->next_coords = snapshot->moveables[i].position;
+            unit->next_goalpoint = snapshot->moveables[i].goalpoint;
+            unit->next_time = snapshot->time;
+            I32 delta_i = unit->next_goalpoint.i - unit->prev_coords.i;
+            I32 delta_j = unit->next_goalpoint.j - unit->prev_coords.j;
+
+            if (delta_i * delta_i + delta_j * delta_j > POINTS_PER_PIXEL)
+            {
+                float rotation = atan2(delta_i, delta_j);
+                drawable->rotation = rotation;
+            }
+        }
+
+        bbMapCoords position
+            = bbMapCoords_interpolate(unit->prev_coords, unit->next_coords, unit->prev_time,
+                home.UI.clock2_handle.map_tick, unit->next_time);
+
+
+        //TODO add list of out of bounds units
+        if (position.i<0 || position.j < 0) continue;
+        if (position.i >= POINTS_PER_MAP || position.j >= POINTS_PER_MAP) continue;
+        bbDrawable_setLocation(drawable, units,position);
+
+
+    }
+    return bbSuccess;
 }
