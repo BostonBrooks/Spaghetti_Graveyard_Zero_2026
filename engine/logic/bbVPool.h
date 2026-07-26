@@ -6,6 +6,7 @@
 
 #include <stdlib.h>
 
+#include "engine/data/bbConstants.h"
 #include "engine/logic/bbTerminal.h"
 #include "engine/logic/bbFlag.h"
 #include "engine/logic/bbHandle.h"
@@ -18,6 +19,7 @@ typedef enum
 
 typedef struct
 {
+    char pool_name[KEY_LENGTH];
     bbHandle null;
     bbVPool_type type;
     U32 size_of;

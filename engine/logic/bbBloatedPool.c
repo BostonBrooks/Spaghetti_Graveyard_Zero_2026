@@ -30,6 +30,7 @@ bbFlag bbVPool_newBloated(bbVPool** Pool, I32 sizeOf, I32 level1, I32 level2, ch
     bbBloatedPool* BloatedPool;
     bbBloatedPool_new(&BloatedPool, sizeOf, level1, level2, key);
     bbVPool* pool = malloc(sizeof(bbVPool));
+	bbStr_setStr(pool->pool_name,key,KEY_LENGTH);
     pool->pool = BloatedPool;
     pool->type = VPoolType_bloated;
     pool->null = BloatedPool->null;
