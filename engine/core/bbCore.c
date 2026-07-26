@@ -167,6 +167,10 @@ bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
             case bbInstruction_unspawnTestMoveable:
                 bbInstruction_unspawnTestMoveable_fn(core, instruction);
                 break;
+
+            case bbInstruction_unspawnGraphicsComponent:
+                bbInstruction_unspawnGraphicsComponent_fn(core, instruction);
+                break;
             default:
                 bbAssert(0==1,"Unknown undo instruction type %d\n", instruction->type);
 

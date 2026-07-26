@@ -71,9 +71,9 @@ bbFlag bbUI_Inbox_check(bbUI_Inbox* inbox)
         case bbUI_Inbox_setUnitHP:
             bbUI_Inbox_setUnitHP_fn(inbox,message);
             break;
-        // case bbUI_Inbox_deleteUnit2:
-        //     bbUI_Inbox_deleteUnit2_fn(inbox,message);
-        //     break;
+        case bbUI_Inbox_deleteUnit:
+            bbUI_Inbox_deleteUnit_fn(inbox,message);
+            break;
 #endif
         default:
 
@@ -252,17 +252,7 @@ bbFlag bbUI_Inbox_NewBanana(bbUI_Inbox* inbox, bbMapCoords MC, bbHandle entity_h
     return bbSuccess;
 }
 
-bbFlag bbUI_Inbox_DeleteUnit(bbUI_Inbox* inbox, I32 entity_index, I32 movable_index)
-{
-    bbUI_Inbox_message* message;
-    bbThreadedQueue_alloc(&inbox->local_message_queue,(void**)&message);
-    message->type = bbUI_Inbox_deleteUnit;
-    message->data.integer = entity_index;
-    message->data.integer2 = movable_index;
 
-    bbThreadedQueue_pushL(&inbox->local_message_queue, (void*)message);
-    return bbSuccess;
-}
 
 bbFlag bbUI_Inbox_SetUnitHP(bbUI_Inbox* inbox, bbHandle unit, float HP)
 {
@@ -452,17 +442,50 @@ bbFlag bbUI_Inbox_newUnit_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
 
 
 
-bbFlag bbUI_Inbox_DeleteUnit2(bbUI_Inbox* inbox, bbHandle handle)
+
+bbFlag bbUI_Inbox_DeleteUnit(bbUI_Inbox* inbox, bbHandle entity_handle, bbHandle moveable_handle)
 {
-    bbAssert(handle.ptr != NULL, "delete null unit\n");
     bbUI_Inbox_message* message;
     bbThreadedQueue_alloc(&inbox->local_message_queue,(void**)&message);
-    message->type = bbUI_Inbox_deleteUnit2;
-    message->data.handle.handle = handle;
+    message->type = bbUI_Inbox_deleteUnit;
+    message->data.entity_handle = entity_handle;
+    message->data.moveable_handle = moveable_handle;
+
 
     bbThreadedQueue_pushL(&inbox->local_message_queue, (void*)message);
     return bbSuccess;
 }
+
+bbFlag bbUI_Inbox_deleteUnit_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
+{
+    bbUnits* units = home.viewport_app.units;
+    bbHandle entity_handle = message->data.entity_handle;
+    bbHandle moveable_handle = message->data.moveable_handle;
+
+    bbHandle* unit_handle;
+    bbVPool_lookup(home.viewport_app.entity_units,(void**)&unit_handle,entity_handle);
+
+    bbHandle* unit_handle2;
+    bbVPool_lookup(home.viewport_app.moveable_units,(void**)&unit_handle2,moveable_handle);
+
+    bbUnit* unit;
+    bbVPool_lookup(home.viewport_app.units->pool,(void**)&unit, *unit_handle);
+
+
+    bbVPool_free(home.viewport_app.entity_units,unit_handle);
+    bbVPool_free(home.viewport_app.moveable_units,unit_handle2);
+
+    bbSquareCoords SC = bbMapCoords_getSquareCoords(unit->drawable.coords);
+    bbUnitSquare* unitSquare = bbDrawables_getSquare(units,SC.i, SC.j, units->squares_i, units->squares_j);
+
+    //bbList_remove(&units->list, unit);
+    bbList_remove(&unitSquare->list, unit);
+    bbVPool_free(units->pool,unit);
+
+    return bbSuccess;
+}
+
+
 // bbFlag bbUI_Inbox_deleteUnit2_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
 // {
 //     bbHere()
