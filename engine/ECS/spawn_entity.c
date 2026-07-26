@@ -13,7 +13,7 @@ bbFlag bbCoreInbox_TestClick2(bbCore* core, bbMapCoords MC)
     bbCoreInboxMessage* message;
     bbThreadedQueue_alloc(&core->local_message_queue, (void** ) &message);
     message->type = bbCoreInbox_testClick;
-    message->act_time = home.core.core.actual_time;
+    message->act_time = home.core.core.actual_time + 60;
     message->data.map_coords = MC;
     bbThreadedQueue_pushL(&core->local_message_queue, message);
     return bbSuccess;
@@ -83,7 +83,7 @@ bbFlag bbAction_spawnEntity(void* Core,
     bbList_alloc(&core->action_queue,(void**)&action);
     action->header.type = bbActionType_spawnEntity;
     action->header.collision = collision;
-    action->header.act_tick = act_tick - 15;
+    action->header.act_tick = act_tick;
     action->map_coords = map_coords;
     action->handle = server_entity;
     bbList_sortL(&core->action_queue,(void*)action);

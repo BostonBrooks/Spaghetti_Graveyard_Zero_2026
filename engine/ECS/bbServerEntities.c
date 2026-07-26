@@ -48,6 +48,9 @@ bbFlag bbInstruction_setServerEntity_fn(bbCore* core, bbInstruction* instruction
     component->bbECS_entity_handle = entity_handle;
     component->server_entity_handle = instruction->data.three_handles.handle2;
 
+    bbDebug("index = %d, collision = %d\n",
+        instruction->data.three_handles.handle2.bloated.index,
+        instruction->data.three_handles.handle2.bloated.collision);
 
     //Use server_entity_handle to look up entity_handle
     bbHandle* handle;
@@ -93,7 +96,11 @@ bbFlag bbInstruction_unsetServerEntity_fn(bbCore* core, bbInstruction* instructi
     bbServerEntity* component;
     bbVPool_lookup(home.ECS.server_entities->system.pool, (void**)&component, component_handle);
     bbHandle server_entity_handle = component->server_entity_handle;
-    bbVPool_free(home.ECS.server_entities->system.pool,component);
+    //bbVPool_free(home.ECS.server_entities->system.pool,component);
+
+    bbDebug("#index = %d, collision = %d\n",
+    server_entity_handle.bloated.index,
+    server_entity_handle.bloated.collision);
 
     void* lemon;
     bbVPool_lookup(home.ECS.server_entities->ECS_Handles, (void*)&lemon, server_entity_handle );
