@@ -1,5 +1,7 @@
 
 #include "engine/ECS/bbMoveables.h"
+
+#include "engine/core/bbAction.h"
 #include "engine/core/bbCoreInputs.h"
 #include "engine/data/bbHome.h"
 #include "engine/logic/bbBloatedPool.h"
@@ -478,6 +480,41 @@ bbFlag bbCoreSynchronous_spawnTestMoveable(bbCore* core,
     bbNotHere()
 }
 
+bbFlag bbInstruction_spawnTestMoveable_fn(bbCore* core, bbInstruction* instruction)
+{
+    bbNotHere()
+}
+
+bbFlag bbInstruction_unspawnTestMoveable_fn(bbCore* core, bbInstruction* instruction)
+{
+    U32 index = instruction->data.three_handles.handle1.bloated.index;
+    bbMoveable* moveable = &home.ECS.moveables.moveables[index];
+    moveable->type = bbMoveableType_Dead;
+
+    if (instruction->source == bbInstructionSource_internal)
+    {
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_input)
+    {
+        bbInstruction* redo_instruction;
+        bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction, instruction->redo_instruction);
+        bbList_pushL(&core->do_stack, redo_instruction);
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_action)
+    {
+        //TODO place instruction->redo_instruction into core->action_queue
+        bbAction* redo_action;
+        bbVPool_lookup(core->action_pool, (void**)&redo_action, instruction->redo_instruction);
+        bbList_sortL(&core->action_queue,(void*)redo_action);
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        return bbSuccess;
+    }
+
+}
 
 bbFlag bbMoveables_newTest(bbMoveables* moveables, bbHandle* moveable_handle, bbMapCoords position, bbHandle ECS_entity_handle)
 {
@@ -526,10 +563,8 @@ bbFlag bbInstruction_updateMoveables_fn(bbCore* core,
 
     bbMoveables_snapshot* snapshot;
     bbHandle snapshot_handle;
-    bbVPool_alloc(home.ECS.moveables.snapshots, (void**)&snapshot);
-
-    bbVPool_reverseLookup(home.ECS.moveables.snapshots, (void*)snapshot,
-                          &snapshot_handle);
+    bbFlag flag = bbVPool_alloc2(home.ECS.moveables.snapshots, (void**)&snapshot,&snapshot_handle);
+    bbFlag_print(flag)
 
     undo_instruction->snapshot = snapshot_handle;
 
@@ -566,5 +601,53 @@ bbFlag bbInstruction_updateMoveables_fn(bbCore* core,
         bbList_pushL(&core->undo_stack, (void*)undo_instruction);
         return bbSuccess;
     }
+    bbNotHere()
+}
+
+
+bbFlag bbInstruction_unupdateMoveables_fn(bbCore* core,
+
+bbInstruction* instruction)
+{
+    bbMoveables_snapshot* snapshot;
+    bbFlag flag  = bbVPool_lookup(home.ECS.moveables.snapshots, (void**)&snapshot,
+                   instruction->snapshot);
+    bbFlag_print(flag);
+    for (I32 i = 0; i < NUM_MOVEABLES; i++)
+    {
+        home.ECS.moveables.moveables[i].position = snapshot->moveables[i].
+            position;
+        home.ECS.moveables.moveables[i].goalpoint = snapshot->moveables[i].
+            goalpoint;
+    }
+
+    bbVPool_free(home.ECS.moveables.snapshots, snapshot);
+
+    if (instruction->source == bbInstructionSource_internal)
+    {
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_input)
+    {
+        bbInstruction* redo_instruction;
+        bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction,
+                       instruction->redo_instruction);
+        bbList_pushL(&core->do_stack, redo_instruction);
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_action)
+    {
+        bbAction* redo_action;
+
+        bbVPool_lookup(core->action_pool, (void**)&redo_action,
+                       instruction->redo_instruction);
+        bbList_sortL(&core->action_queue, (void*)redo_action);
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        return bbSuccess;
+    }
+
+
     bbNotHere()
 }

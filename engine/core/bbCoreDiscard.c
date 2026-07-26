@@ -50,12 +50,12 @@ bbFlag bbCoreDiscard(bbCore* core, U64 time)
 
         }
 
-        //if (undo_instruction->type == bbInstruction_unupdateMovables)
-        //{
-        //    bbMovables_snapshot* snapshot;
-       //     bbVPool_lookup(home.agents_app.movables.snapshots, (void**)&snapshot, undo_instruction->snapshot);
-        //    bbVPool_free(home.agents_app.movables.snapshots, snapshot);
-        //}
+        if (undo_instruction->type == bbInstruction_unupdateMoveables)
+        {
+            bbMoveables_snapshot* snapshot;
+            bbVPool_lookup(home.ECS.moveables.snapshots, (void**)&snapshot, undo_instruction->snapshot);
+            bbVPool_free(home.ECS.moveables.snapshots, snapshot);
+        }
 
         bbVPool_free(core->instruction_pool, undo_instruction);
     }

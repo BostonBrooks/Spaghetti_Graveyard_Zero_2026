@@ -2,6 +2,7 @@
 
 #include <stdlib.h>
 
+#include "engine/core/bbAction.h"
 #include "engine/data/bbHome.h"
 #include "engine/logic/bbBloatedPool.h"
 #include "engine/logic/bbFlag.h"
@@ -55,11 +56,64 @@ bbFlag bbInstruction_setServerEntity_fn(bbCore* core, bbInstruction* instruction
 
     bbCoreInput_entity_setComponent(core,&home.ECS.ECS, entity_handle,component_handle, bbECS_ServerEntities, bbInstructionSource_internal, no_handle);
 
-    //TODO add undo instruction to undo stack
+    bbInstruction* undo_instruction;
+    bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+    undo_instruction->type = bbInstruction_unsetServerEntity;
+    undo_instruction->data.three_handles.handle1 = component_handle;
+    undo_instruction->source = instruction->source;
+
+    if (instruction->source == bbInstructionSource_internal)
+    {
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        undo_instruction->redo_instruction.u64 = 0;
+        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_input)
+    {
+        bbHandle handle;
+        bbVPool_reverseLookup(core->instruction_pool, instruction, &handle);
+        undo_instruction->redo_instruction = handle;
+        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_action)
+    {
+        undo_instruction->redo_instruction = instruction->redo_instruction;
+        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+        return bbSuccess;
+    }
 
     return bbSuccess;
 }
 bbFlag bbInstruction_unsetServerEntity_fn(bbCore* core, bbInstruction* instruction)
 {
-    bbNotHere()
+    bbHandle component_handle = instruction->data.three_handles.handle1;
+    void* component;
+    bbVPool_lookup(home.ECS.server_entities->system.pool, (void**)&component, component_handle);
+    bbVPool_free(home.ECS.server_entities->system.pool, component);
+
+    if (instruction->source == bbInstructionSource_internal)
+    {
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_input)
+    {
+        bbInstruction* redo_instruction;
+        bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction, instruction->redo_instruction);
+        bbList_pushL(&core->do_stack, redo_instruction);
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_action)
+    {
+        //TODO place instruction->redo_instruction into core->action_queue
+        bbAction* redo_action;
+        bbVPool_lookup(core->action_pool, (void**)&redo_action, instruction->redo_instruction);
+        bbList_sortL(&core->action_queue,(void*)redo_action);
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        return bbSuccess;
+    }
+
 }

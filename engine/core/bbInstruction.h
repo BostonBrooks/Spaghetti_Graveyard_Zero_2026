@@ -236,6 +236,9 @@ bbFlag bbInstruction_unapproachGoalpoint_fn(bbCore* core, bbInstruction* instruc
 bbFlag bbInstruction_updateMoveables_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_unupdateMoveables_fn(bbCore* core, bbInstruction* instruction);
 
+bbFlag bbInstruction_spawnTestMoveable_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbInstruction_unspawnTestMoveable_fn(bbCore* core, bbInstruction* instruction);
+
 bbFlag bbInstruction_spawnBananaOut_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_spawnBananaIn_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_unspawnBanana_fn(bbCore* core, bbInstruction* instruction);

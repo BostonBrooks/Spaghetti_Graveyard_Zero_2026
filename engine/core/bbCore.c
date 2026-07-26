@@ -99,8 +99,12 @@ bbFlag bbCore_react(bbCore* core)
             case bbInstruction_updateMoveables:
                 bbInstruction_updateMoveables_fn(core, instruction);
                 break;
+
+            case bbInstruction_unspawnTestMoveable:
+                bbInstruction_unspawnTestMoveable_fn(core, instruction);
+                break;
             default:
-                bbDebug("Unknown instruction type: %d\n", instruction->type);
+                bbAssert(0==1,"Unknown instruction type %d\n", instruction->type);
             }
         }
     }
@@ -155,11 +159,15 @@ bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
             case bbInstruction_unsetServerEntity:
                 bbInstruction_unsetServerEntity_fn(core, instruction);
                 break;
+            case bbInstruction_unupdateMoveables:
+                bbInstruction_unupdateMoveables_fn(core, instruction);
+                break;
 
-
-
+            case bbInstruction_unspawnTestMoveable:
+                bbInstruction_unspawnTestMoveable_fn(core, instruction);
+                break;
             default:
-                bbDebug("Unknown undo instruction type %d\n", instruction->type);
+                bbAssert(0==1,"Unknown undo instruction type %d\n", instruction->type);
 
                 bbVPool_free(core->instruction_pool, (void*)instruction);
             }

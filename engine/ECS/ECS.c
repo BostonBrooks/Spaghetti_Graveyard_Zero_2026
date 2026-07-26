@@ -306,7 +306,7 @@ bbFlag bbInstruction_spawnTestEntity_fn(bbCore* core, bbInstruction* instruction
                                         bbInstructionSource_internal,
                                         no_handle);
 
-    bbCoreInput_entity_setComponent(core,ECS, entity_handle,no_handle, bbECS_Moveables, bbInstructionSource_internal, no_handle);
+    bbCoreInput_entity_setComponent(core,ECS, entity_handle,moveable_handle, bbECS_Moveables, bbInstructionSource_internal, no_handle);
     bbCoreInput_entity_setComponent(core,ECS, entity_handle,no_handle, bbECS_AI, bbInstructionSource_internal, no_handle);
     bbCoreInput_entity_setComponent(core,ECS, entity_handle,no_handle, bbECS_Graphics, bbInstructionSource_internal, no_handle);
 
