@@ -96,8 +96,8 @@ bbFlag bbCore_react(bbCore* core)
                  bbInstruction_spawnGraphicsComponent_fn(core, instruction);
                 break;
 
-            case bbInstruction_updateMovables:
-                bbInstruction_updateMovables_fn(core, instruction);
+            case bbInstruction_updateMoveables:
+                bbInstruction_updateMoveables_fn(core, instruction);
                 break;
             default:
                 bbDebug("Unknown instruction type: %d\n", instruction->type);

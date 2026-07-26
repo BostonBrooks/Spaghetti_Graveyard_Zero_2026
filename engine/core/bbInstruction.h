@@ -44,8 +44,11 @@ typedef enum
     bbInstruction_spawnGraphicsComponent,
     bbInstruction_unspawnGraphicsComponent,
 
-    bbInstruction_updateMovables,
-    bbInstruction_unupdateMovables,
+    bbInstruction_updateMoveables,
+    bbInstruction_unupdateMoveables,
+
+    bbInstruction_spawnTestMoveable,
+    bbInstruction_unspawnTestMoveable,
 
     bbInstruction_numTypes
 } bbInstruction_type;
@@ -230,8 +233,8 @@ bbFlag bbInstruction_approachGoalpoint_fn(bbCore* core, bbInstruction* instructi
 bbFlag bbInstruction_unapproachGoalpoint_fn(bbCore* core, bbInstruction* instruction);
 
 
-bbFlag bbInstruction_updateMovables_fn(bbCore* core, bbInstruction* instruction);
-bbFlag bbInstruction_unupdateMovables_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbInstruction_updateMoveables_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbInstruction_unupdateMoveables_fn(bbCore* core, bbInstruction* instruction);
 
 bbFlag bbInstruction_spawnBananaOut_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_spawnBananaIn_fn(bbCore* core, bbInstruction* instruction);

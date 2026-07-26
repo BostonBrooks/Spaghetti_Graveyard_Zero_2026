@@ -422,12 +422,6 @@ bbFlag bbMoveables_copyBuffer(bbMoveables* moveables,
             target->moveables[i].position = moveables->buffer_front->moveables[i].position;
             target->moveables[i].type = moveables->moveables[i].type;
 
-            if (moveables->moveables[i].type != bbMoveableType_Unused)
-            {
-                bbDebug("index = %d, collision = %d\n",
-                    moveables->buffer_front->moveables[i].ECS_entity_handle.bloated.index,
-                    moveables->buffer_front->moveables[i].ECS_entity_handle.bloated.collision);
-            }
         }
         target->time = moveables->buffer_front->time;
         moveables->buffer_fresh = false;
@@ -437,12 +431,57 @@ bbFlag bbMoveables_copyBuffer(bbMoveables* moveables,
 
     return bbSuccess;
 }
+bbFlag bbCoreSynchronous_spawnTestMoveable(bbCore* core,
+                                           bbHandle ECS_entity_handle,
+                                           bbHandle* moveable_handle,
+                                           bbMapCoords position,
+                                           bbInstruction_source source,
+                                           bbHandle action)
+{
+    I32 index = home.ECS.moveables.available++;
+
+    bbHandle moveable_handle1;
+    moveable_handle1.bloated.index = index;
+    moveable_handle1.bloated.collision = 193;
+
+
+    bbMoveable* moveable = &home.ECS.moveables.moveables[index];
+    moveable->goalpoint = position;
+    moveable->position = position;
+
+    moveable->ECS_entity_handle = ECS_entity_handle;
+    moveable->moveable_handle = moveable_handle1;
+    moveable->type = bbMoveableType_Moving;
+    moveable->speed = 8000;
+
+    moveable->coords_a = bbMapCoords_getMilliCoords(moveable->position);
+    moveable->coords_b = bbMapCoords_getMilliCoords(moveable->position);
+
+    *moveable_handle = moveable_handle1;
+
+    bbInstruction* undo_instruction;
+    bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+    undo_instruction->type = bbInstruction_unspawnTestMoveable;
+    undo_instruction->source = source;
+    undo_instruction->data.three_handles.handle1 = moveable_handle1;
+    if (source == bbInstructionSource_internal)
+    {
+        //bbVPool_free(core->instruction_pool, (void*)instruction);
+        undo_instruction->redo_instruction.u64 = 0;
+        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+        return bbSuccess;
+    }
+    //if (source == bbInstructionSource_input)?
+    //if (source == bbInstructionSource_action)?
+
+
+    bbNotHere()
+}
 
 
 bbFlag bbMoveables_newTest(bbMoveables* moveables, bbHandle* moveable_handle, bbMapCoords position, bbHandle ECS_entity_handle)
 {
     I32 index = moveables->available++;
-    bbDebug("index = %d\n", index);
 
     bbHandle moveable_handle1;
     moveable_handle1.bloated.index = index;
@@ -465,24 +504,24 @@ bbFlag bbMoveables_newTest(bbMoveables* moveables, bbHandle* moveable_handle, bb
     return bbSuccess;
 }
 
-bbFlag bbCoreInput_updateMovables(bbCore* core,
+bbFlag bbCoreInput_updateMoveables(bbCore* core,
                                   bbInstruction_source source, bbHandle action)
 {
     bbInstruction* instruction;
     bbList_alloc(&core->do_stack, (void**) &instruction);
-    instruction->type = bbInstruction_updateMovables;
+    instruction->type = bbInstruction_updateMoveables;
     instruction->source = source;
     instruction->redo_instruction = action;
     bbList_pushL(&core->do_stack, instruction);
     return bbSuccess;
 }
 
-bbFlag bbInstruction_updateMovables_fn(bbCore* core,
+bbFlag bbInstruction_updateMoveables_fn(bbCore* core,
                                         bbInstruction* instruction)
 {
     bbInstruction* undo_instruction;
     bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
-    undo_instruction->type = bbInstruction_unupdateMovables;
+    undo_instruction->type = bbInstruction_unupdateMoveables;
     undo_instruction->source = instruction->source;
 
     bbMoveables_snapshot* snapshot;

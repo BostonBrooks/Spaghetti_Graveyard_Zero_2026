@@ -298,7 +298,13 @@ bbFlag bbInstruction_spawnTestEntity_fn(bbCore* core, bbInstruction* instruction
 
     bbDebug("index = %d\n", entity_handle.bloated.index);
     //TODO This should be a core input?
-    bbMoveables_newTest(&home.ECS.moveables, &moveable_handle, MC, entity_handle);
+
+    bbCoreSynchronous_spawnTestMoveable(core,
+                                        entity_handle,
+                                        &moveable_handle,
+                                        MC,
+                                        bbInstructionSource_internal,
+                                        no_handle);
 
     bbCoreInput_entity_setComponent(core,ECS, entity_handle,no_handle, bbECS_Moveables, bbInstructionSource_internal, no_handle);
     bbCoreInput_entity_setComponent(core,ECS, entity_handle,no_handle, bbECS_AI, bbInstructionSource_internal, no_handle);
