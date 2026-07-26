@@ -433,7 +433,7 @@ bbFlag bbBloatedPool_allocFromHandle(bbBloatedPool* pool, void** address, bbHand
 	lvl2 = pool->elements[lvl1index];
 	bbBloatedPool_Header *element = (bbBloatedPool_Header *)&lvl2[lvl2index * (sizeof(bbBloatedPool_Header) + pool->size_of)];
 
-	bbAssert(element->in_use != true, "alloc from handle - in use\n");
+	bbAssert(element->in_use != true, "alloc from handle - in use\n, pool name: %s\n", pool->pool_name);
 
 
 	bbHandle prev_handle = element->list.prev;

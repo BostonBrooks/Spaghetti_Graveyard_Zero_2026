@@ -449,6 +449,7 @@ bbFlag bbCoreSynchronous_spawnTestMoveable(bbCore* core,
 
     bbMoveable* moveable = &home.ECS.moveables.moveables[index];
     moveable->goalpoint = position;
+    position.i += POINTS_PER_TILE;
     moveable->position = position;
 
     moveable->ECS_entity_handle = ECS_entity_handle;
