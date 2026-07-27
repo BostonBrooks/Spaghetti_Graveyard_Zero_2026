@@ -33,6 +33,7 @@ add_executable(SkellyChase test/bbTest_SkellyChase.c
         engine/ECS/bbServerEntities.c
         engine/ECS/bbGraphicsSystem.c
         engine/ECS/bbMoveables.c
+        engine/ECS/bbEntitySpawner.c
         engine/graphics/bbFonts.c
         engine/graphics/bbSprites.c
         engine/graphics/bbTextures.c
@@ -89,6 +90,7 @@ add_executable(SkellyChase test/bbTest_SkellyChase.c
         engine/groundsurface/bbHillShading.c
         engine/groundsurface/bbGroundSurface.c
         engine/geometry/bbGroundCoords.c
+        games/game0/maps/skellychase/spawner/spawner.c
 )
 
 target_compile_definitions(SkellyChase PRIVATE

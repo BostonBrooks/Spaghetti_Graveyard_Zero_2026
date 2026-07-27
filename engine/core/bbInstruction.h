@@ -62,6 +62,8 @@ typedef enum
     bbInstructionSource_input,
     ///The instruction was added through the action queue
     bbInstructionSource_action,
+    ///The instruction was called before the start of play
+    bbInstructionSource_norewind,
 } bbInstruction_source;
 
 typedef struct

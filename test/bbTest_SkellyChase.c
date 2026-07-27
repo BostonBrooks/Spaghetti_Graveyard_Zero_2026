@@ -4,6 +4,7 @@
 
 #include "engine/ECS/bbServerEntities.h"
 #include "engine/ECS/bbMoveables.h"
+#include "engine/ECS/bbEntitySpawner.h"
 #include "engine/data/CSFML.h"
 #include "engine/core/bbCoreDiscard.h"
 #include "engine/core/bbCoreInputs.h"
@@ -46,6 +47,8 @@ int main(void)
 {
     thread = "MAIN";
     printf("Hello, World!\n");
+
+    bbDebug("no_parse_functions = %d", no_parse_functions);
 
     pthread_barrier_init(&barrier1, NULL, 2);
 
