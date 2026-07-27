@@ -301,41 +301,57 @@ bbFlag bbUI_Inbox_newBanana_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
     unit->next_coords = MC;
     unit->next_time = 2;
     unit->next_goalpoint = MC;
-    unit->drawable.state = 0;
-    bbDictionary_lookup(graphics->drawfunctions->dictionary,
-                            "UNIT_SPRITE",
-                            &drawfunctionHandle);
+    unit->drawable.state = bbDrawableState_moving;
+
+
+    bbDictionary_lookup(home.UI.graphics.drawfunctions->dictionary,
+                        "COMPOSITION_STATE",
+                        &drawfunctionHandle);
+
     unit->drawable.frames[0].drawfunction = drawfunctionHandle.u64;
-    unit->drawable.frames[0].handle.u64 = 627;
-    unit->drawable.frames[0].start_time=  0;
+    unit->drawable.frames[0].handle.u64 = 5;
+    unit->drawable.frames[0].start_time= 0;
     unit->drawable.frames[0].framerate = 1;
     unit->drawable.frames[0].offset.x = 0;
     unit->drawable.frames[0].offset.y = 0;
-    bbDictionary_lookup(graphics->drawfunctions->dictionary,
-                       "DRAWABLE_SHADOW",
-                       &drawfunctionHandle);
 
-        unit->drawable.frames[1].drawfunction = drawfunctionHandle.u64;
-        unit->drawable.frames[1].handle.u64 = 612;
-        unit->drawable.frames[1].start_time = 0;
-        unit->drawable.frames[1].framerate = 0;
-        unit->drawable.frames[1].offset.x = 0;
-        unit->drawable.frames[1].offset.y = 0;
-
-        bbDictionary_lookup(graphics->drawfunctions->dictionary,
-                    "MAPICON_TEST",
+    bbDictionary_lookup(home.UI.graphics.drawfunctions->dictionary,
+                    "DRAWABLE_SHADOW",
                     &drawfunctionHandle);
 
+    unit->drawable.frames[1].drawfunction = drawfunctionHandle.u64;
+    unit->drawable.frames[1].handle.u64 = 612;
+    unit->drawable.frames[1].start_time =  -(rand()%6);
+    unit->drawable.frames[1].framerate = 1;
+    unit->drawable.frames[1].offset.x = 0;
+    unit->drawable.frames[1].offset.y = 0;
+
+    bbDictionary_lookup(home.UI.graphics.drawfunctions->dictionary,
+             "MAPICON_TEST",
+             &drawfunctionHandle);
+
     unit->drawable.frames[2].drawfunction = drawfunctionHandle.u64;
-    unit->drawable.frames[2].handle.u64 = 628;
-    unit->drawable.frames[2].start_time = 0;
-    unit->drawable.frames[2].framerate = 0;
+    unit->drawable.frames[2].handle.u64 = 626;
+    unit->drawable.frames[2].start_time =  -(rand()%6);
+    unit->drawable.frames[2].framerate = 1;
     unit->drawable.frames[2].offset.x = 0;
     unit->drawable.frames[2].offset.y = 0;
 
-        for (I32 k = 3; k < FRAMES_PER_DRAWABLE; k++){
-            unit->drawable.frames[k].drawfunction = -1;
-        }
+    bbDictionary_lookup(home.UI.graphics.drawfunctions->dictionary,
+             "HEALTH_POINTS",
+             &drawfunctionHandle);
+
+    unit->drawable.frames[3].drawfunction = drawfunctionHandle.u64;
+    unit->drawable.frames[3].handle.u64 = 626;
+    unit->drawable.frames[3].start_time =  -(rand()%6);
+    unit->drawable.frames[3].framerate = 1;
+    unit->drawable.frames[3].offset.x = 0;
+    unit->drawable.frames[3].offset.y = 0;
+
+    for (I32 k = 4; k < FRAMES_PER_DRAWABLE; k++){
+        unit->drawable.frames[k].drawfunction = -1;
+    }
+
 
 //        home.agents_app.entities.movable_units[movable_index] = unit_handle;
         bbList_sortL(&unitSquare->list, unit);
