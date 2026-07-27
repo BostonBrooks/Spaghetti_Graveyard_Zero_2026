@@ -108,23 +108,23 @@ int main(void)
 
 
     bbCoreInput_spawnTestEntity(&home.core.core,home.core.viewpoint, no_handle, bbInstructionSource_input, null_handle);
-    home.core.viewpoint.i += 1000;
+    home.core.viewpoint.i += 500;
 
 
     bbCoreInput_spawnTestEntity(&home.core.core,home.core.viewpoint, no_handle, bbInstructionSource_input, null_handle);
-    home.core.viewpoint.i += 1000;
+    home.core.viewpoint.i += 500;
 
 
     bbCoreInput_spawnTestEntity(&home.core.core,home.core.viewpoint, no_handle, bbInstructionSource_input, null_handle);
-    home.core.viewpoint.i += 1000;
+    home.core.viewpoint.i += 500;
 
 
     bbCoreInput_spawnTestEntity(&home.core.core,home.core.viewpoint, no_handle, bbInstructionSource_input, null_handle);
-    home.core.viewpoint.i += 1000;
+    home.core.viewpoint.i += 500;
 
 
     bbCoreInput_spawnTestEntity(&home.core.core,home.core.viewpoint, no_handle, bbInstructionSource_input, null_handle);
-    home.core.viewpoint.i += 1000;
+    home.core.viewpoint.i += 500;
 
     pthread_barrier_wait(&barrier1);
 
