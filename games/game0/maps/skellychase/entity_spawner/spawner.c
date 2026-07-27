@@ -10,22 +10,47 @@ bbFlag bbPF_null(void* spawner, char* string)
     return bbSuccess;
 }
 
-bbFlag bbPF_standard(void* spawner, char* string)
+bbFlag bbPF_standard(void* Spawner, char* string)
 {
+    bbEntitySpawner* spawner = (bbEntitySpawner*)Spawner;
     char key[KEY_LENGTH];
     char entity_type[KEY_LENGTH];
     bbMapCoords position;
     bbMapCoords goalpoint;
     bbHandle server_handle;
+    I32 num_chars;
     char spawn_functions[256];
-    sscanf(string, "%[^','],%[^','],%d,%d,%d,%d,%d,%d,%d,%d,%[^'\n']\n",
+    sscanf(string, "%[^','],%[^','],%d,%d,%d,%d,%d,%d,%d,%d,%n",
         key,entity_type,&position.i,&position.j,&position.k,
         &goalpoint.i,&goalpoint.j,&goalpoint.k,&server_handle.bloated.index,
-        &server_handle.bloated.collision,spawn_functions);
-    bbDebug("%s,%s,%d,%d,%d,%d,%d,%d,%d,%d,%s\n",
-    key,entity_type,position.i,position.j,position.k,
-    goalpoint.i,goalpoint.j,goalpoint.k,server_handle.bloated.index,
-    server_handle.bloated.collision,spawn_functions);
+        &server_handle.bloated.collision,&num_chars);
+    //bbDebug("%s,%s,%d,%d,%d,%d,%d,%d,%d,%d,",
+    //key,entity_type,position.i,position.j,position.k,
+   // goalpoint.i,goalpoint.j,goalpoint.k,server_handle.bloated.index,
+    //server_handle.bloated.collision);
+
+
+    char component[KEY_LENGTH];
+    I32 component_length;
+    while (1)
+    {
+        char separator;
+        sscanf(&string[num_chars], "%[^',\n']%c%n",component,&separator,&component_length);
+        if (separator == '\0' || separator == '\n') break;
+        num_chars += component_length;
+        //printf("%s,",component);
+
+
+        bbSpawnFunction* spawn_function;
+        bbHandle handle;
+        bbDictionary_lookup(spawner->spawn_dict, component, &handle);
+        spawn_function = spawner->spawn_functions[handle.u64];
+
+        spawn_function(spawner, position, goalpoint,server_handle,bbInstructionSource_norewind);
+    }
+
+    printf("\n");
+
     return bbSuccess;
 }
 

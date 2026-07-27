@@ -83,12 +83,12 @@ bbFlag bbEntitySpawner_spawnFile(bbEntitySpawner* spawner, char* file_name)
                 i++;
             }
 
-            bbParseFunction* spawn_function;
+            bbParseFunction* parse_function;
             bbHandle handle;
             bbDictionary_lookup(spawner->parse_dict, key, &handle);
-            spawn_function = spawner->parse_functions[handle.u64];
+            parse_function = spawner->parse_functions[handle.u64];
 
-            spawn_function(spawner, file_line);
+            parse_function(spawner, file_line);
         }
 
         return bbSuccess;
