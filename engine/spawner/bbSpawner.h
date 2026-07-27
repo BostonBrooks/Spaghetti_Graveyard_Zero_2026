@@ -3,7 +3,8 @@
 ///same file, so entities are spawned in pairs. An entity in the main thread will
 ///know how to send a message to an entity in the graphics thread and vice-versa.
 
-#ifndef BB_SPAWNER_H
+//#ifndef BB_SPAWNER_H
+#ifdef DEPRECATED_CODE
 #define BB_SPAWNER_H
 
 

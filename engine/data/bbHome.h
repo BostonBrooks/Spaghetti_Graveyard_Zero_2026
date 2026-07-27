@@ -45,7 +45,7 @@ typedef struct
     bbHome_core core;
     bbViewportApp viewport_app;
     bbGroundSurface ground_surface;
-    bbSpawner spawner;
+    //bbSpawner spawner;
     bbECS_data ECS;
 } bbHome;
 

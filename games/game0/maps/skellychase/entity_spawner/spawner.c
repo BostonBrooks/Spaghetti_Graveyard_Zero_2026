@@ -9,5 +9,3 @@ bbFlag bbPF_null(char* string)
     bbDebug("%s\n", string);
     return bbSuccess;
 }
-
-bbFlag bbSpawner_populate(bbSpawner* spawner);

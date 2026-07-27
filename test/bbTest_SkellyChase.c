@@ -48,8 +48,6 @@ int main(void)
     thread = "MAIN";
     printf("Hello, World!\n");
 
-    bbDebug("no_parse_functions = %d", no_parse_functions);
-
     pthread_barrier_init(&barrier1, NULL, 2);
 
     home.clock2.is_paused = true;
