@@ -72,10 +72,6 @@ int main(void)
     bbCore_init(&home.core.core);
     bbCore_initVInstructions(&home.core.core);
 
-    bbEntitySpawner_init(&home.ECS.spawner);
-    bbEntitySpawner_populate(&home.ECS.spawner);
-    bbEntitySpawner_spawnFile(&home.ECS.spawner, "maps/skellychase/entity_spawner/spawner.csv");
-
 
     bbECS_init(&home.ECS.ECS);
     bbServerEntities_new(&home.ECS.server_entities);
@@ -108,16 +104,12 @@ int main(void)
     bool once = false;
 
 
+    bbEntitySpawner_init(&home.ECS.spawner);
+    bbEntitySpawner_populate(&home.ECS.spawner);
+    bbEntitySpawner_spawnFile(&home.ECS.spawner, "maps/skellychase/entity_spawner/spawner.csv");
 
 
 
-
-    bbCoreInput_spawnTestEntity(&home.core.core,home.core.viewpoint, no_handle, bbInstructionSource_input, null_handle);
-    home.core.viewpoint.i += 500;
-
-
-    bbCoreInput_spawnTestEntity(&home.core.core,home.core.viewpoint, no_handle, bbInstructionSource_input, null_handle);
-    home.core.viewpoint.i += 500;
 
 
     bbCoreInput_spawnTestEntity(&home.core.core,home.core.viewpoint, no_handle, bbInstructionSource_input, null_handle);
@@ -130,6 +122,16 @@ int main(void)
 
     bbCoreInput_spawnTestEntity(&home.core.core,home.core.viewpoint, no_handle, bbInstructionSource_input, null_handle);
     home.core.viewpoint.i += 500;
+
+
+    bbCoreInput_spawnTestEntity(&home.core.core,home.core.viewpoint, no_handle, bbInstructionSource_input, null_handle);
+    home.core.viewpoint.i += 500;
+
+
+    bbCoreInput_spawnTestEntity(&home.core.core,home.core.viewpoint, no_handle, bbInstructionSource_input, null_handle);
+    home.core.viewpoint.i += 500;
+
+
 
     pthread_barrier_wait(&barrier1);
 

@@ -10,9 +10,22 @@ bbFlag bbPF_null(void* spawner, char* string)
     return bbSuccess;
 }
 
-bbFlag bbPF_simple(void* spawner, char* string)
+bbFlag bbPF_standard(void* spawner, char* string)
 {
-    //TODO parse one line of .csv file
+    char key[KEY_LENGTH];
+    char entity_type[KEY_LENGTH];
+    bbMapCoords position;
+    bbMapCoords goalpoint;
+    bbHandle server_handle;
+    char spawn_functions[256];
+    sscanf(string, "%[^','],%[^','],%d,%d,%d,%d,%d,%d,%d,%d,%[^'\n']\n",
+        key,entity_type,&position.i,&position.j,&position.k,
+        &goalpoint.i,&goalpoint.j,&goalpoint.k,&server_handle.bloated.index,
+        &server_handle.bloated.collision,spawn_functions);
+    bbDebug("%s,%s,%d,%d,%d,%d,%d,%d,%d,%d,%s\n",
+    key,entity_type,position.i,position.j,position.k,
+    goalpoint.i,goalpoint.j,goalpoint.k,server_handle.bloated.index,
+    server_handle.bloated.collision,spawn_functions);
     return bbSuccess;
 }
 
@@ -35,6 +48,7 @@ bbFlag bbSF_null(void* spawner,
 bbFlag bbEntitySpawner_populate(bbEntitySpawner* spawner)
 {
     bbParseFunction_add(spawner, bbPF_null, "NULL");
+    bbParseFunction_add(spawner, bbPF_standard, "STANDARD");
 
     bbSpawnFunction_add(spawner, bbSF_null, "NULL");
     return bbSuccess;
