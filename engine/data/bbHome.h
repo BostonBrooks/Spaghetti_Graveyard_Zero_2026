@@ -3,6 +3,7 @@
 
 #include "engine/viewport/bbViewportApp.h"
 #include "engine/core/bbCore.h"
+#include "engine/ECS/bbEntitySpawner.h"
 #include "engine/ECS/bbGraphicsSystem.h"
 #include "engine/ECS/bbServerEntities.h"
 #include "engine/ECS/ECS.h"
@@ -22,6 +23,7 @@ typedef struct
     bbServerEntities* server_entities;
     bbGraphicsSystem* graphics_system;
     bbMoveables moveables;
+    bbEntitySpawner spawner;
 } bbECS_data;
 
 typedef struct

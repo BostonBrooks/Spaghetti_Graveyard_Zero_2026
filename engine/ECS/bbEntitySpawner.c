@@ -15,6 +15,14 @@ bbFlag bbEntitySpawner_init(bbEntitySpawner* entity_spawner)
     bbDictionary_new(&entity_spawner->unspawn_dict, no_unspawn_functions);
 }
 
+bbFlag bbParseFunction_get(bbEntitySpawner* spawner, bbParseFunction** function, char* key)
+{
+    bbHandle handle;
+    bbDictionary_lookup(spawner->parse_dict, key, &handle);
+    *function = spawner->parse_functions[handle.u64];
+    return bbSuccess;
+}
+
 bbFlag bbParseFunction_add(bbEntitySpawner* spawner, bbParseFunction* parse_function, char* key )
 {
 
@@ -49,4 +57,40 @@ bbFlag bbUnspawnFunction_add(bbEntitySpawner* spawner, bbUnspawnFunction* unspaw
 }
 
 
-bbFlag bbUnspawnFunction_add(bbEntitySpawner* spawner, bbUnspawnFunction* unspawn_function, char* key );
+bbFlag bbEntitySpawner_spawnFile(bbEntitySpawner* spawner, char* file_name)
+{
+    {
+        FILE* file = fopen(file_name, "r");
+        bbAssert(file != NULL, "bad spawner file\n");
+
+        char file_line[1024];
+
+        char key[KEY_LENGTH];
+
+        while (1)
+        {
+            char* flag = fgets(file_line, 1024, file);
+            if (flag == NULL) break;
+            I32 i = 0;
+            while(1)
+            {
+                if (file_line[i] == ','|| file_line[i] == '\n' || file_line[i] == '\0'|| i == KEY_LENGTH-1)
+                {
+                    key[i] = '\0';
+                    break;
+                }
+                key[i] = file_line[i];
+                i++;
+            }
+
+            bbParseFunction* spawn_function;
+            bbHandle handle;
+            bbDictionary_lookup(spawner->parse_dict, key, &handle);
+            spawn_function = spawner->parse_functions[handle.u64];
+
+            spawn_function(spawner, file_line);
+        }
+
+        return bbSuccess;
+    }
+}

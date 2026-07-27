@@ -70,8 +70,12 @@ int main(void)
 
 
     bbCore_init(&home.core.core);
-
     bbCore_initVInstructions(&home.core.core);
+
+    bbEntitySpawner_init(&home.ECS.spawner);
+    bbEntitySpawner_populate(&home.ECS.spawner);
+    bbEntitySpawner_spawnFile(&home.ECS.spawner, "maps/skellychase/entity_spawner/spawner.csv");
+
 
     bbECS_init(&home.ECS.ECS);
     bbServerEntities_new(&home.ECS.server_entities);
