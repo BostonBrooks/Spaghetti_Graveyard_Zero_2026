@@ -74,6 +74,9 @@ bbFlag bbUI_Inbox_check(bbUI_Inbox* inbox)
         case bbUI_Inbox_deleteUnit:
             bbUI_Inbox_deleteUnit_fn(inbox,message);
             break;
+        case bbUI_Inbox_newTree:
+            bbUI_Inbox_newTree_fn(inbox,message);
+            break;
 #endif
         default:
 
@@ -435,7 +438,7 @@ bbFlag bbUI_Inbox_setUnitHP_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
 
 bbFlag bbUI_Inbox_NewUnit(bbUI_Inbox* inbox, I32 type_index, bbMapCoords MC, I32 entity_index, I32 movable_index)
 {
-    {
+
         bbUI_Inbox_message* message;
         bbThreadedQueue_alloc(&inbox->local_message_queue,(void**)&message);
         message->type = bbUI_Inbox_newUnit;
@@ -446,7 +449,7 @@ bbFlag bbUI_Inbox_NewUnit(bbUI_Inbox* inbox, I32 type_index, bbMapCoords MC, I32
 
         bbThreadedQueue_pushL(&inbox->local_message_queue, (void*)message);
         return bbSuccess;
-    }
+
 }
 
 bbFlag bbUI_Inbox_newUnit_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
@@ -534,4 +537,27 @@ bbFlag bbUI_Inbox_deleteUnit_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
 //     bbVPool_free(units->pool,unit);
 // }
 
-#endif //DEFINE_SKELLYCHASE
+#endif//DEFINE_SKELLYCHASE
+
+
+bbFlag bbUI_Inbox_NewTree(bbUI_Inbox* inbox, char* tree_type, bbMapCoords position)
+{
+
+    bbUI_Inbox_message* message;
+    bbThreadedQueue_alloc(&inbox->local_message_queue,(void**)&message);
+    message->type = bbUI_Inbox_newTree;
+    message->data.coords = position;
+    bbStr_setStr(message->data.string.string, tree_type,KEY_LENGTH);
+
+    bbThreadedQueue_pushL(&inbox->local_message_queue, (void*)message);
+    return bbSuccess;
+}
+bbFlag bbUI_Inbox_newTree_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
+{
+    bbDrawable* drawable;
+    bbDrawable_newTree(&drawable, home.viewport_app.drawables, &home.UI.graphics,message->data.coords);
+    bbMapIcon* mapicon;
+    bbMapIcon_new(&mapicon, home.viewport_app.mapIcons,&home.UI.graphics, message->data.coords);
+
+
+}

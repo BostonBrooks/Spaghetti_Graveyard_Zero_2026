@@ -1,4 +1,6 @@
+#include "engine/data/bbHome.h"
 #include "engine/ECS/bbEntitySpawner.h"
+#include "engine/groundsurface/bbGroundSurface.h"
 
 I32 no_parse_functions = 193;
 I32 no_spawn_functions = 194;
@@ -7,6 +9,21 @@ I32 no_unspawn_functions = 195;
 bbFlag bbPF_null(void* spawner, char* string)
 {
     printf("%s\n", string);
+    return bbSuccess;
+}
+
+
+bbFlag bbPF_tree(void* spawner, char* string)
+{
+    char key[KEY_LENGTH];
+    char tree_type[KEY_LENGTH];
+    bbMapCoords position;
+    sscanf ( string, "%[^','],%[^','],%d,%d", key, tree_type,&position.i,&position.j);
+
+    position.k = bbMapCoords_getElevation(&home.ground_surface, position);
+
+    bbUI_Inbox_NewTree(&home.UI.inbox,tree_type, position);
+
     return bbSuccess;
 }
 
@@ -74,6 +91,7 @@ bbFlag bbEntitySpawner_populate(bbEntitySpawner* spawner)
 {
     bbParseFunction_add(spawner, bbPF_null, "NULL");
     bbParseFunction_add(spawner, bbPF_standard, "STANDARD");
+    bbParseFunction_add(spawner, bbPF_tree, "TREE");
 
     bbSpawnFunction_add(spawner, bbSF_null, "NULL");
     return bbSuccess;
