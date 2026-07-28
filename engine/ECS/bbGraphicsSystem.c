@@ -95,5 +95,12 @@ bbFlag bbCoreSynchronous_spawnGraphicsComponent(bbCore* core,
                                    bbHandle moveable,
                                    bbInstruction_source source)
 {
+    bbAssert(source == bbInstructionSource_norewind, "not yet implemented")
     bbHere()
+    bbUI_Inbox_NewBanana(&home.UI.inbox,
+                         MC,
+                         entity,
+                         moveable);
+
+
 }

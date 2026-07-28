@@ -82,6 +82,8 @@ bbFlag bbSF_addMoveable_skelly(void* spawner,
                                            bbInstructionSource_norewind,
                                            no_handle);
 
+    bbMoveable_setGoalPoint(&home.ECS.moveables,moveable_handle, goalpoint);
+
     bbHere()
     return bbSuccess;
 }
@@ -93,7 +95,7 @@ bbFlag bbSF_addGraphics_skelly(void* spawner,
                                bbInstruction_source source)
 {
     bbAssert(source == bbInstructionSource_norewind, "not implemented");
-
+    bbHere()
 
     bbHandle handle;
     bbVPool_reverseLookup(home.ECS.ECS.pool, entity, &handle);
@@ -105,7 +107,7 @@ bbFlag bbSF_addGraphics_skelly(void* spawner,
                                    handle,
                                    moveable,
                                    bbInstructionSource_norewind);
-    bbHere()
+
     return bbSuccess;
 }
 
@@ -134,7 +136,7 @@ bbFlag bbPF_skellyParser(void* Spawner, char* string)
     {
         char separator;
         sscanf(&string[num_chars], "%[^',\n']%c%n",component,&separator,&component_length);
-        if (separator == '\0' || separator == '\n') break;
+
         num_chars += component_length;
         //printf("%s,",component);
 
@@ -145,6 +147,7 @@ bbFlag bbPF_skellyParser(void* Spawner, char* string)
         spawn_function = spawner->spawn_functions[handle.u64];
 
         spawn_function(spawner, entity, position, goalpoint,server_handle,bbInstructionSource_norewind);
+        if (separator == '\0' || separator == '\n') break;
     }
 
 }

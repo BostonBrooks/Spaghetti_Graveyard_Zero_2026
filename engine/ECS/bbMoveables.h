@@ -91,7 +91,7 @@ bbFlag bbMoveables_init(bbMoveables* moveables);
 bbFlag bbMoveables_update(bbMoveables* moveables);
 
 bbMilliCoords getForce(bbMoveables* moveables, bbMoveable* moveableA, bbMoveable* moveableB);
-bbFlag bbMoveable_setGoalPoint(bbMoveables* moveables, bbHandle handle, bbMilliCoords goalpoint);
+bbFlag bbMoveable_setGoalPoint(bbMoveables* moveables, bbHandle handle, bbMapCoords goalpoint);
 
 bbFlag bbMoveables_copyBuffer(bbMoveables* moveables, bbMoveables_snapshot* target);
 

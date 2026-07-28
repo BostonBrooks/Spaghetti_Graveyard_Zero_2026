@@ -114,7 +114,7 @@ int main(void)
 
     bbEntitySpawner_spawnFile(&home.ECS.spawner, "maps/skellychase/entity_spawner/spawner.csv");
 
-
+    fflush(stdout);
 
     while (1)
     {

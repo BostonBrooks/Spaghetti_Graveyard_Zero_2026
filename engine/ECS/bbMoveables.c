@@ -653,3 +653,13 @@ bbInstruction* instruction)
 
     bbNotHere()
 }
+
+
+bbFlag bbMoveable_setGoalPoint(bbMoveables* moveables, bbHandle handle, bbMapCoords goalpoint)
+{
+    bbMoveable* moveable = &moveables->moveables[handle.bloated.index];
+
+    moveable->goalpoint = goalpoint;
+
+    return bbSuccess;
+}
