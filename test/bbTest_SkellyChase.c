@@ -31,6 +31,7 @@
 pthread_barrier_t barrier1;
 
 thread_local char* thread;
+thread_local bool debug_off;
 bbHome home;
 
 U64 test_time = 0;
@@ -46,6 +47,7 @@ void* userinterface_thread(void* arg);
 int main(void)
 {
     thread = "MAIN";
+    debug_off = false;
     printf("Hello, World!\n");
 
     pthread_barrier_init(&barrier1, NULL, 2);
@@ -232,6 +234,7 @@ int main(void)
 void* userinterface_thread(void* arg)
 {
     thread = "USER INTERFACE";
+    debug_off = true;
 
     bbUIApp_init(&home.UI);
 

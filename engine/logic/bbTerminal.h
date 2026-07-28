@@ -14,6 +14,8 @@ extern thread_local char* thread;
 static const int stringLength = 512;
 extern U64 test_time;
 
+extern thread_local bool debug_off;
+
 /// Print current file, function, line and thread
 #define bbHere() printf ("In FILE: %s, FUNCTION: %s, LINE: %d, THREAD: %s, TIME: %lu\n",\
 __FILE_NAME__, __func__, __LINE__, thread, test_time);
@@ -58,13 +60,14 @@ printf("%s%s", string1, string2);\
 }
 
 #define bbDebug(...) {\
+if(!debug_off){\
 char string1[stringLength];\
 char string2[stringLength];\
 sprintf (string1, "In FILE: %s, FUNCTION: %s, LINE: %d, THREAD: %s, TIME: %lu\nDEBUG: ",\
 __FILE_NAME__, __func__, __LINE__, thread, test_time);\
 sprintf (string2, __VA_ARGS__);\
 printf("%s%s", string1, string2);\
-}
+}}
 
 #define bbPrintf(...) {\
 char string[stringLength];\
