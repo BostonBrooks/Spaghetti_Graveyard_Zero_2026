@@ -1,6 +1,7 @@
 #include "engine/data/bbHome.h"
 #include "engine/ECS/bbEntitySpawner.h"
 #include "engine/groundsurface/bbGroundSurface.h"
+#include "games/game0/maps/skellychase/entity_spawner/skelly.h"
 
 I32 no_parse_functions = 193;
 I32 no_spawn_functions = 194;
@@ -47,6 +48,7 @@ bbFlag bbPF_standard(void* Spawner, char* string)
     //server_handle.bloated.collision);
 
 
+
     char component[KEY_LENGTH];
     I32 component_length;
     while (1)
@@ -63,7 +65,7 @@ bbFlag bbPF_standard(void* Spawner, char* string)
         bbDictionary_lookup(spawner->spawn_dict, component, &handle);
         spawn_function = spawner->spawn_functions[handle.u64];
 
-        spawn_function(spawner, position, goalpoint,server_handle,bbInstructionSource_norewind);
+        spawn_function(spawner, NULL, position, goalpoint,server_handle,bbInstructionSource_norewind);
     }
 
     printf("\n");
@@ -72,6 +74,7 @@ bbFlag bbPF_standard(void* Spawner, char* string)
 }
 
 bbFlag bbSF_null(void* spawner,
+                               bbECS_entity* entity,
                                bbMapCoords position,
                                bbMapCoords goalpoint,
                                bbHandle server_handle,
@@ -87,12 +90,20 @@ bbFlag bbSF_null(void* spawner,
             source);
 }
 
+
+
+
 bbFlag bbEntitySpawner_populate(bbEntitySpawner* spawner)
 {
     bbParseFunction_add(spawner, bbPF_null, "NULL");
     bbParseFunction_add(spawner, bbPF_standard, "STANDARD");
     bbParseFunction_add(spawner, bbPF_tree, "TREE");
+    bbParseFunction_add(spawner, bbPF_skellyParser, "SKELLY");
 
     bbSpawnFunction_add(spawner, bbSF_null, "NULL");
+
+    bbSpawnFunction_add(spawner, bbSF_addServerEntity_skelly, "SKELLY_SERVER");
+    bbSpawnFunction_add(spawner, bbSF_addMoveable_skelly, "SKELLY_MOVEABLE");
+    bbSpawnFunction_add(spawner, bbSF_addGraphics_skelly, "SKELLY_GRAPHICS");
     return bbSuccess;
 }

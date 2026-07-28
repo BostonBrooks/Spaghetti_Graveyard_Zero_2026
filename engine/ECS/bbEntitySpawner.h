@@ -67,8 +67,10 @@ for the Graphics component
 ///read one line of input file and spawn one entity
 typedef bbFlag bbParseFunction(void* spawner, char* line);
 
-///spawn one or more components, can be called recursively
+///spawn one or more components, can be called recursively. If
+///bbInstructionSource_internal, add rewind instruction.
 typedef bbFlag bbSpawnFunction(void* spawner,
+                               bbECS_entity* entity,
                                bbMapCoords position,
                                bbMapCoords goalpoint,
                                bbHandle server_handle,
@@ -119,6 +121,5 @@ bbFlag bbCoreSynchronous_spawnEntity(bbEntitySpawner* entity_spawner,
                                      bbMapCoords position,
                                      bbMapCoords goalpoint,
                                      bbHandle server_handle);
-
 
 #endif //BB_ENTITYSPAWNER_H
