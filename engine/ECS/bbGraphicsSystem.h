@@ -25,6 +25,12 @@ bbFlag bbCoreInput_spawnGraphicsComponent(bbCore* core,
                                    bbInstruction_source source,
                                    bbHandle action);
 
+bbFlag bbCoreSynchronous_spawnGraphicsComponent(bbCore* core,
+                                   bbMapCoords MC,
+                                   bbHandle entity,
+                                   bbHandle moveable,
+                                   bbInstruction_source source);
+
 bbFlag bbInstruction_spawnGraphicsComponent_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_unspawnGraphicsComponent_fn(bbCore* core, bbInstruction* instruction);
 

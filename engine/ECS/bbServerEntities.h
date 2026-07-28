@@ -38,6 +38,11 @@ bbFlag bbCoreInput_setServerEntity(bbCore* core,
                                    bbInstruction_source source,
                                    bbHandle action);
 
+bbFlag bbCoreSynchronous_setServerEntity(bbCore* core,
+                                   bbHandle entity,
+                                   bbHandle server_entity_handle,
+                                   bbInstruction_source source);
+
 bbFlag bbInstruction_setServerEntity_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_unsetServerEntity_fn(bbCore* core, bbInstruction* instruction);
 #endif

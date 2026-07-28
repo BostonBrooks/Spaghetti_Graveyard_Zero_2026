@@ -439,7 +439,7 @@ bbFlag bbCoreSynchronous_spawnTestMoveable(bbCore* core,
                                            bbMapCoords position,
                                            bbInstruction_source source,
                                            bbHandle action)
-{
+{ bbHere()
     I32 index = home.ECS.moveables.available++;
 
     bbHandle moveable_handle1;
@@ -460,6 +460,8 @@ bbFlag bbCoreSynchronous_spawnTestMoveable(bbCore* core,
     moveable->coords_b = bbMapCoords_getMilliCoords(moveable->position);
 
     *moveable_handle = moveable_handle1;
+
+    if (source == bbInstructionSource_norewind) return  bbSuccess;
 
     bbInstruction* undo_instruction;
     bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);

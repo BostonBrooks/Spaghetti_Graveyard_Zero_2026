@@ -124,3 +124,11 @@ bbFlag bbInstruction_unsetServerEntity_fn(bbCore* core, bbInstruction* instructi
     }
 
 }
+
+bbFlag bbCoreSynchronous_setServerEntity(bbCore* core,
+                                   bbHandle entity,
+                                   bbHandle server_entity_handle,
+                                   bbInstruction_source source)
+{
+    bbHere()
+}

@@ -110,20 +110,6 @@ int main(void)
     bbEntitySpawner_populate(&home.ECS.spawner);
 
 
-
-
-
-    bbCoreInput_spawnTestEntity(&home.core.core,home.core.viewpoint, no_handle, bbInstructionSource_input, null_handle);
-    home.core.viewpoint.i += 500;
-    bbCoreInput_spawnTestEntity(&home.core.core,home.core.viewpoint, no_handle, bbInstructionSource_input, null_handle);
-    home.core.viewpoint.i += 500;
-    bbCoreInput_spawnTestEntity(&home.core.core,home.core.viewpoint, no_handle, bbInstructionSource_input, null_handle);
-    home.core.viewpoint.i += 500;
-    bbCoreInput_spawnTestEntity(&home.core.core,home.core.viewpoint, no_handle, bbInstructionSource_input, null_handle);
-    home.core.viewpoint.i += 500;
-    bbCoreInput_spawnTestEntity(&home.core.core,home.core.viewpoint, no_handle, bbInstructionSource_input, null_handle);
-
-
     pthread_barrier_wait(&barrier1);
 
     bbEntitySpawner_spawnFile(&home.ECS.spawner, "maps/skellychase/entity_spawner/spawner.csv");

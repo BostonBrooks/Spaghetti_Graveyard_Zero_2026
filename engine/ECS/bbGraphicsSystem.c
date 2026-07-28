@@ -88,3 +88,12 @@ bbFlag bbInstruction_unspawnGraphicsComponent_fn(bbCore* core, bbInstruction* in
 
     return bbSuccess;
 }
+
+bbFlag bbCoreSynchronous_spawnGraphicsComponent(bbCore* core,
+                                   bbMapCoords MC,
+                                   bbHandle entity,
+                                   bbHandle moveable,
+                                   bbInstruction_source source)
+{
+    bbHere()
+}

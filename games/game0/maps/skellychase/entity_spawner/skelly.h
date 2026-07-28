@@ -2,6 +2,7 @@
 
 #include "engine/ECS/ECS.h"
 #include "engine/ECS/bbEntitySpawner.h"
+#include "engine/ECS/bbServerEntities.h"
 #include "engine/logic/bbFlag.h"
 
 ///Core synchronous spawn empty entity
@@ -30,6 +31,15 @@ bbFlag bbCS_spawnEmptyEntity(bbECS_entity** entity, bbInstruction_source source)
 {
     bbAssert(source == bbInstructionSource_norewind, "not implemented");
     bbHere()
+    bbCoreSynchronous_spawnEmptyEntity(&home.core.core,
+                                       &home.ECS.ECS,
+                                       entity,
+                                       "SKELLY",
+                                       bbInstructionSource_internal,
+                                       no_handle);
+
+
+
     return bbSuccess;
 }
 
@@ -43,6 +53,14 @@ bbFlag bbSF_addServerEntity_skelly(void* spawner,
 {
     bbAssert(source == bbInstructionSource_norewind, "not implemented");
     bbHere()
+
+    bbHandle handle;
+    bbVPool_reverseLookup(home.ECS.ECS.pool, entity, &handle);
+
+    bbCoreSynchronous_setServerEntity(&home.core.core,
+                                   handle,
+                                   server_handle,
+                                   bbInstructionSource_norewind);
     return bbSuccess;
 }
 bbFlag bbSF_addMoveable_skelly(void* spawner,
@@ -53,6 +71,17 @@ bbFlag bbSF_addMoveable_skelly(void* spawner,
                                bbInstruction_source source)
 {
     bbAssert(source == bbInstructionSource_norewind, "not implemented");
+
+    bbHandle handle;
+    bbVPool_reverseLookup(home.ECS.ECS.pool, entity, &handle);
+    bbHandle moveable_handle;
+    bbCoreSynchronous_spawnTestMoveable(&home.core.core,
+                                           handle,
+                                           &moveable_handle,
+                                           position,
+                                           bbInstructionSource_norewind,
+                                           no_handle);
+
     bbHere()
     return bbSuccess;
 }
@@ -64,6 +93,18 @@ bbFlag bbSF_addGraphics_skelly(void* spawner,
                                bbInstruction_source source)
 {
     bbAssert(source == bbInstructionSource_norewind, "not implemented");
+
+
+    bbHandle handle;
+    bbVPool_reverseLookup(home.ECS.ECS.pool, entity, &handle);
+
+    bbHandle moveable = entity->components[bbECS_Moveables];
+
+    bbCoreSynchronous_spawnGraphicsComponent(&home.core.core,
+                                   position,
+                                   handle,
+                                   moveable,
+                                   bbInstructionSource_norewind);
     bbHere()
     return bbSuccess;
 }
@@ -103,7 +144,7 @@ bbFlag bbPF_skellyParser(void* Spawner, char* string)
         bbDictionary_lookup(spawner->spawn_dict, component, &handle);
         spawn_function = spawner->spawn_functions[handle.u64];
 
-        spawn_function(spawner, NULL, position, goalpoint,server_handle,bbInstructionSource_norewind);
+        spawn_function(spawner, entity, position, goalpoint,server_handle,bbInstructionSource_norewind);
     }
 
 }
