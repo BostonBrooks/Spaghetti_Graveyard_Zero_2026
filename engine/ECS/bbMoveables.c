@@ -665,7 +665,7 @@ bbFlag bbMoveable_setGoalPoint(bbMoveables* moveables, bbHandle handle, bbMapCoo
 }
 
 bbFlag bbMoveable_setGoalMoveable(bbMoveables* moveables, bbHandle handle, bbHandle server_handle)
-{/*
+{
     bbServerEntity* server_entity;
 
     bbVPool_lookup(home.ECS.server_entities->system.pool, (void**)&server_entity,server_handle);
@@ -673,10 +673,10 @@ bbFlag bbMoveable_setGoalMoveable(bbMoveables* moveables, bbHandle handle, bbHan
     bbECS_entity* entity;
     bbVPool_lookup(home.ECS.ECS.pool, (void**)&entity,entity_handle);
     bbHandle moveable_handle = entity->components[bbECS_Moveables];
-*/
+
     bbMoveable* moveable = &moveables->moveables[handle.bloated.index];
     moveable->type = bbMoveableType_Follow;
-    moveable->goal_moveable = server_handle.bloated.index;
+    moveable->goal_moveable = moveable_handle.bloated.index;
 
     return bbSuccess;
 }

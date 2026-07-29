@@ -486,7 +486,7 @@ bbFlag bbBloatedPool_allocFromHandle(bbBloatedPool* pool, void** address, bbHand
 	element->line = line;
 	bbStr_setStr(element->file, file, KEY_LENGTH);
 
-	*address = element->user_data;
+	if (address!=NULL) *address = element->user_data;
 
 
 

@@ -164,10 +164,12 @@ int main(void){
 
                 if (packetStruct.type == PACKETTYPE_TESTCLICK)
                 {
-
+                    static I32 handle_index = 1337;
                     bbMapCoords MC = packetStruct.data.map_coords;
                     bbHandle handle;
-                    bbVPool_alloc2(pool, NULL, &handle);
+                    handle.bloated.index = handle_index++;
+                    handle.bloated.collision = rand();
+                    bbVPool_allocFromHandle(pool, NULL, handle);
 
                     bbDebug("handle index = %d, collision = %d\n", handle.bloated.index, handle.bloated.collision);
                     packetStruct.type = PACKETTYPE_TESTSPAWN;

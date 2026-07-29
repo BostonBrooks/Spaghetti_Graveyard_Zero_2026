@@ -42,7 +42,8 @@ bbFlag bbInstruction_setServerEntity_fn(bbCore* core, bbInstruction* instruction
     //Use component_handle to look up server_entity_handle
     bbHandle component_handle;
     bbServerEntity* component;
-    bbVPool_alloc2(home.ECS.server_entities->system.pool, (void**)&component, &component_handle);
+
+    bbVPool_allocFromHandle(home.ECS.server_entities->system.pool, (void**)&component, instruction->data.three_handles.handle2);
 
     bbHandle entity_handle = instruction->data.three_handles.handle1;
     component->bbECS_entity_handle = entity_handle;
@@ -130,5 +131,21 @@ bbFlag bbCoreSynchronous_setServerEntity(bbCore* core,
                                    bbHandle server_entity_handle,
                                    bbInstruction_source source)
 {
-    bbHere()
+    bbAssert(source == bbInstructionSource_norewind, "rewind not implemented\n");
+
+    bbServerEntity* component;
+    bbVPool_allocFromHandle(home.ECS.server_entities->system.pool, (void**)&component, server_entity_handle);
+
+    bbHandle entity_handle = entity;
+    component->bbECS_entity_handle = entity_handle;
+    component->server_entity_handle = server_entity_handle;
+
+
+    //Use server_entity_handle to look up entity_handle
+    bbHandle* handle;
+    bbVPool_allocFromHandle(home.ECS.server_entities->ECS_Handles, (void*)&handle, component->server_entity_handle );
+    *handle = entity;;
+
+    bbCoreInput_entity_setComponent(core,&home.ECS.ECS, entity_handle,server_entity_handle, bbECS_ServerEntities, bbInstructionSource_internal, no_handle);
+    return bbSuccess;
 }
