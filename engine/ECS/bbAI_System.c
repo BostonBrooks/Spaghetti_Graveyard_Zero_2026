@@ -137,11 +137,3 @@ bbFlag bbAgent_onCommand(bbAI_Component* component,
     return func_pointer(component,type,data);
 }
 
-// bbFlag bbCoreSynchronous_spawnAIComponent(bbCore* core,
-//                                     bbECS_entity* entity,
-//                                    bbAI_Component** this,
-//                                    bbInstruction_source source)
-// {
-//
-//
-// }

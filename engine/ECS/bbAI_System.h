@@ -110,8 +110,17 @@ bbFlag bbAgent_onCommand(bbAI_Component* component,
                           bbAI_CommandType type,
                           bbAI_CommandData data);
 
-bbFlag bbCoreSynchronous_spawnAIComponent(bbCore* core,
-                                   bbAI_Component** component,
-                                   bbInstruction_source source);
+bbFlag bbCS_spawnAIComponent(bbCore* core,
+                             bbECS_entity* entity,
+                             bbAI_Component** this,
+                             bbInstruction_source source,
+                             bbHandle action);
 
+bbFlag bbCI_spawnAIComponent(bbCore* core,
+                             bbECS_entity* entity,
+                             bbInstruction_source source,
+                             bbHandle action);
+
+bbFlag bbI_spawnAIComponent_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbI_spawnAIComponent_fn(bbCore* core, bbInstruction* instruction);
 #endif //BB_AISYSTEM_H

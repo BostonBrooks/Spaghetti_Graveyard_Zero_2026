@@ -14,6 +14,9 @@ typedef enum
     bbI_setString,
     bbI_unsetString,
 
+    bbI_spawnAIComponent,
+    bbI_unspawnAIComponent,
+
     bbInstruction_unfreezeButton,
     bbInstruction_testClick,
 
