@@ -64,6 +64,14 @@ for the Graphics component
 #include "engine/logic/bbDictionary.h"
 #include "engine/logic/bbFlag.h"
 
+typedef struct
+{
+    bbMapCoords position;
+    bbMapCoords goalpoint;
+    bbHandle server_handle;
+    bbHandle goal_server_handle;
+} bbSpawnFunctionArgs;
+
 ///read one line of input file and spawn one entity
 typedef bbFlag bbParseFunction(void* spawner, char* line);
 
@@ -71,9 +79,7 @@ typedef bbFlag bbParseFunction(void* spawner, char* line);
 ///bbInstructionSource_internal, add rewind instruction.
 typedef bbFlag bbSpawnFunction(void* spawner,
                                bbECS_entity* entity,
-                               bbMapCoords position,
-                               bbMapCoords goalpoint,
-                               bbHandle server_handle,
+                               bbSpawnFunctionArgs args,
                                bbInstruction_source source);
 
 ///unspawn component spawned by bbSpawnFunction()

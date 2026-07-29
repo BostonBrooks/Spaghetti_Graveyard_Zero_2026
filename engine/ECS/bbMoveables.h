@@ -92,6 +92,7 @@ bbFlag bbMoveables_update(bbMoveables* moveables);
 
 bbMilliCoords getForce(bbMoveables* moveables, bbMoveable* moveableA, bbMoveable* moveableB);
 bbFlag bbMoveable_setGoalPoint(bbMoveables* moveables, bbHandle handle, bbMapCoords goalpoint);
+bbFlag bbMoveable_setGoalMoveable(bbMoveables* moveables, bbHandle handle, bbHandle server_handle);
 
 bbFlag bbMoveables_copyBuffer(bbMoveables* moveables, bbMoveables_snapshot* target);
 

@@ -35,6 +35,8 @@ bbFlag bbCoreSynchronous_spawnEmptyEntity(bbCore* core, bbECS* ECS, bbECS_entity
 
         *return_entity = new_entity;
 
+        if (source == bbInstructionSource_norewind) return bbSuccess;
+
         bbInstruction* undo_instruction;
         bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
         undo_instruction->type = bbInstruction_unspawnEmptyEntity;

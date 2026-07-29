@@ -33,15 +33,13 @@ bbFlag bbPF_standard(void* Spawner, char* string)
     bbEntitySpawner* spawner = (bbEntitySpawner*)Spawner;
     char key[KEY_LENGTH];
     char entity_type[KEY_LENGTH];
-    bbMapCoords position;
-    bbMapCoords goalpoint;
-    bbHandle server_handle;
+    bbSpawnFunctionArgs args;
     I32 num_chars;
     char spawn_functions[256];
     sscanf(string, "%[^','],%[^','],%d,%d,%d,%d,%d,%d,%d,%d,%n",
-        key,entity_type,&position.i,&position.j,&position.k,
-        &goalpoint.i,&goalpoint.j,&goalpoint.k,&server_handle.bloated.index,
-        &server_handle.bloated.collision,&num_chars);
+        key,entity_type,&args.position.i,&args.position.j,&args.position.k,
+        &args.goalpoint.i,&args.goalpoint.j,&args.goalpoint.k,&args.server_handle.bloated.index,
+        &args.server_handle.bloated.collision,&num_chars);
     //bbDebug("%s,%s,%d,%d,%d,%d,%d,%d,%d,%d,",
     //key,entity_type,position.i,position.j,position.k,
    // goalpoint.i,goalpoint.j,goalpoint.k,server_handle.bloated.index,
@@ -65,7 +63,7 @@ bbFlag bbPF_standard(void* Spawner, char* string)
         bbDictionary_lookup(spawner->spawn_dict, component, &handle);
         spawn_function = spawner->spawn_functions[handle.u64];
 
-        spawn_function(spawner, NULL, position, goalpoint,server_handle,bbInstructionSource_norewind);
+        spawn_function(spawner, NULL, args,bbInstructionSource_norewind);
     }
 
     printf("\n");
@@ -75,18 +73,16 @@ bbFlag bbPF_standard(void* Spawner, char* string)
 
 bbFlag bbSF_null(void* spawner,
                                bbECS_entity* entity,
-                               bbMapCoords position,
-                               bbMapCoords goalpoint,
-                               bbHandle server_handle,
+                               bbSpawnFunctionArgs args,
                                bbInstruction_source source)
 {
     bbDebug("position = (%d, %d, %d)\n"
             "goalpoint = (%d, %d, %d)\n"
             "server_handle = (%d, %d)\n"
             "source = %d\n",
-            position.i, position.j, position.k,
-            goalpoint.i, goalpoint.j, goalpoint.k,
-            server_handle.bloated.index, server_handle.bloated.collision,
+            args.position.i, args.position.j, args.position.k,
+            args.goalpoint.i, args.goalpoint.j, args.goalpoint.k,
+            args.server_handle.bloated.index, args.server_handle.bloated.collision,
             source);
 }
 
@@ -99,11 +95,12 @@ bbFlag bbEntitySpawner_populate(bbEntitySpawner* spawner)
     bbParseFunction_add(spawner, bbPF_standard, "STANDARD");
     bbParseFunction_add(spawner, bbPF_tree, "TREE");
     bbParseFunction_add(spawner, bbPF_skellyParser, "SKELLY");
-
+    bbParseFunction_add(spawner, bbPF_skelly2Parser, "SKELLY2");
     bbSpawnFunction_add(spawner, bbSF_null, "NULL");
 
     bbSpawnFunction_add(spawner, bbSF_addServerEntity_skelly, "SKELLY_SERVER");
     bbSpawnFunction_add(spawner, bbSF_addMoveable_skelly, "SKELLY_MOVEABLE");
+    bbSpawnFunction_add(spawner, bbSF_addMoveable_skelly2, "SKELLY_MOVEABLE2");
     bbSpawnFunction_add(spawner, bbSF_addGraphics_skelly, "SKELLY_GRAPHICS");
     return bbSuccess;
 }

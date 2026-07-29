@@ -28,7 +28,7 @@ bbMilliCoords getForce(bbMoveables* moveables, bbMoveable* moveableA,
     double delta_i = (coords_a.i - coords_b.i);
     double delta_j = (coords_a.j - coords_b.j);
     double distance = sqrt(delta_i * delta_i + delta_j * delta_j);
-    double distanceReduced = (distance - 0.2l * MILLS_PER_TILE) / 10000.l;
+    double distanceReduced = (distance - 0.5l * MILLS_PER_TILE) / 10000.l;
     double distanceReduced2 = distance / 100000.l;
 
     bbMilliCoords mC;
@@ -660,6 +660,23 @@ bbFlag bbMoveable_setGoalPoint(bbMoveables* moveables, bbHandle handle, bbMapCoo
     bbMoveable* moveable = &moveables->moveables[handle.bloated.index];
 
     moveable->goalpoint = goalpoint;
+
+    return bbSuccess;
+}
+
+bbFlag bbMoveable_setGoalMoveable(bbMoveables* moveables, bbHandle handle, bbHandle server_handle)
+{/*
+    bbServerEntity* server_entity;
+
+    bbVPool_lookup(home.ECS.server_entities->system.pool, (void**)&server_entity,server_handle);
+    bbHandle entity_handle = server_entity->bbECS_entity_handle;
+    bbECS_entity* entity;
+    bbVPool_lookup(home.ECS.ECS.pool, (void**)&entity,entity_handle);
+    bbHandle moveable_handle = entity->components[bbECS_Moveables];
+*/
+    bbMoveable* moveable = &moveables->moveables[handle.bloated.index];
+    moveable->type = bbMoveableType_Follow;
+    moveable->goal_moveable = server_handle.bloated.index;
 
     return bbSuccess;
 }
