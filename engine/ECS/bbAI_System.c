@@ -1,4 +1,6 @@
 #include "engine/ECS/bbAI_System.h"
+
+#include "engine/data/bbHome.h"
 #include "engine/logic/bbBloatedPool.h"
 #include "engine/logic/bbPrime.h"
 
@@ -8,7 +10,7 @@ bbFlag bbEntityAIs_init(bbAI_System* system)
     bbList_init(&system->list,system->system.pool,NULL,offsetof(bbAI_Component,list_element),NULL);
 
     bbAI_Functions_init(&system->functions);
-
+    home.ECS.ECS.systems[bbECS_AI] = (bbSystem*)system;
     return bbSuccess;
 }
 
@@ -133,4 +135,13 @@ bbFlag bbAgent_onCommand(bbAI_Component* component,
     }
     bbAI_Command* func_pointer = system->functions.commands[function_index];
     return func_pointer(component,type,data);
+}
+
+bbFlag bbCoreSynchronous_spawnAIComponent(bbCore* core,
+                                    bbECS_entity* entity,
+                                   bbAI_Component** this,
+                                   bbInstruction_source source)
+{
+
+
 }

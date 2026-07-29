@@ -110,4 +110,8 @@ bbFlag bbAgent_onCommand(bbAI_Component* component,
                           bbAI_CommandType type,
                           bbAI_CommandData data);
 
+bbFlag bbCoreSynchronous_spawnAIComponent(bbCore* core,
+                                   bbAI_Component** component,
+                                   bbInstruction_source source);
+
 #endif //BB_AISYSTEM_H
