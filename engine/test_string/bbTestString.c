@@ -6,10 +6,6 @@
 
 bbFlag bbI_setString_fn(bbCore* core, bbInstruction* instruction)
 {
-
-
-
-
     if (instruction->source == bbInstructionSource_internal)
     {
         bbInstruction* undo_instruction;

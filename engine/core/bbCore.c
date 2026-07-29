@@ -5,6 +5,7 @@
 #include "engine/core/bbCoreInbox.h"
 #include "engine/core/bbInstruction.h"
 #include "engine/core/bbAction.h"
+#include "engine/ECS/bbAI_System.h"
 #include "engine/ECS/bbGraphicsSystem.h"
 #include "engine/ECS/bbServerEntities.h"
 #include "engine/ECS/ECS.h"
@@ -65,6 +66,11 @@ bbFlag bbCore_react(bbCore* core)
             case bbI_setString:
                 bbI_setString_fn(core, instruction);
                 break;
+
+            case bbI_spawnAIComponent:
+                bbI_spawnAIComponent_fn(core, instruction);
+                break;
+
             case bbInstruction_unfreezeButton:
                 bbInstruction_unfreezeButton_fn(core, instruction);
                 break;
@@ -148,6 +154,10 @@ bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
 
             case bbI_unsetString:
                 bbI_unsetString_fn(core, instruction);
+                break;
+
+            case bbI_unspawnAIComponent:
+                bbI_unspawnAIComponent_fn(core, instruction);
                 break;
 
             case bbInstruction_uncheckActions:
