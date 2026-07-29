@@ -1,6 +1,8 @@
  /**   A Unit is something that moves around the map on the graphics thread.
 Movables calculate the movement of units.
 EntityAIs control the behaviour of units at a higher level.
+
+use bbCoreSynchronous functions to set data in a way that is "core-safe"
 */
 
 #ifndef BB_AISYSTEM_H
@@ -33,8 +35,8 @@ typedef struct
 
 typedef enum
 {
-    AgentUpdate,
-    AgentCommand
+    AI_Update,
+    AI_Command,
 } bbAI_FunctionType;
 
 typedef enum
@@ -52,10 +54,14 @@ typedef struct
     I32 movable;
 } bbAI_CommandData;
 
-typedef bbFlag bbAI_Update(bbAI_Component* agent);
-typedef bbFlag bbAI_Command (bbAI_Component* agent,
+typedef bbFlag bbAI_Update(bbAI_Component* component);
+typedef bbFlag bbAI_Command(bbAI_Component* component,
                                    bbAI_CommandType type,
                                    bbAI_CommandData data);
+
+
+extern I32 ai_update_function_count;
+extern I32 ai_command_function_count;
 
 typedef struct
 {
@@ -75,8 +81,8 @@ typedef struct
     bbAI_Functions functions;
 } bbAI_System;
 
-bbFlag bbAI_System_init(bbAI_System* entityAIs);
-bbFlag bbAI_System_update(bbAI_System* entityAIs);
+bbFlag bbAI_System_init(bbAI_System* system);
+bbFlag bbAI_System_update(bbAI_System* system);
 
 bbFlag bbAI_Functions_init(bbAI_Functions* self);
 bbFlag bbAI_Functions_populate(bbAI_Functions* self);
@@ -99,7 +105,7 @@ I32 bbAI_Functions_getInt(bbAI_Functions* functions,
 bbFlag bbAI_Component_update(bbAI_Component* component, bbAI_System* system);
 
 
-bbFlag bbAgent2_onCommand(bbAI_Component* component,
+bbFlag bbAgent_onCommand(bbAI_Component* component,
                           bbAI_System* system,
                           bbAI_CommandType type,
                           bbAI_CommandData data);

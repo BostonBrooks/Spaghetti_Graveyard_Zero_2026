@@ -23,7 +23,7 @@
 #include "engine/spawner/bbSpawner.h"
 #include "engine/network/bbNetworkApp.h"
 #include "games/game0/maps/skellychase/core/core_inputs.h"
-
+#include "engine/ECS/bbAI_System.h"
 #include <pthread.h>
 
 #include "engine/ECS/bbGraphicsSystem.h"

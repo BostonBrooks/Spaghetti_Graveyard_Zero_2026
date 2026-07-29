@@ -102,9 +102,9 @@ typedef struct
     bbDictionary* unspawn_dict;
 } bbEntitySpawner;
 
-extern I32 no_parse_functions;
-extern I32 no_spawn_functions;
-extern I32 no_unspawn_functions;
+extern I32 parse_function_count;
+extern I32 spawn_function_count;
+extern I32 unspawn_function_count;
 
 ///Prepare spawner for use in program
 bbFlag bbEntitySpawner_init(bbEntitySpawner* entity_spawner);

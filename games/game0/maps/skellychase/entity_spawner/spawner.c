@@ -3,9 +3,9 @@
 #include "engine/groundsurface/bbGroundSurface.h"
 #include "games/game0/maps/skellychase/entity_spawner/skelly.h"
 
-I32 no_parse_functions = 193;
-I32 no_spawn_functions = 194;
-I32 no_unspawn_functions = 195;
+I32 parse_function_count = 193;
+I32 spawn_function_count = 194;
+I32 unspawn_function_count = 195;
 
 bbFlag bbPF_null(void* spawner, char* string)
 {

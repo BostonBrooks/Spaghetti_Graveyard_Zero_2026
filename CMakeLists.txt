@@ -34,6 +34,7 @@ add_executable(SkellyChase test/bbTest_SkellyChase.c
         engine/ECS/bbGraphicsSystem.c
         engine/ECS/bbMoveables.c
         engine/ECS/bbEntitySpawner.c
+        engine/ECS/bbAI_System.c
         engine/graphics/bbFonts.c
         engine/graphics/bbSprites.c
         engine/graphics/bbTextures.c
@@ -87,6 +88,7 @@ add_executable(SkellyChase test/bbTest_SkellyChase.c
         games/game0/maps/skellychase/core/core.c
         games/game0/maps/skellychase/core/instructions.c
         games/game0/maps/skellychase/core/core_inputs.c
+        games/game0/maps/skellychase/AI_system/AI_System.c
         engine/groundsurface/bbHillShading.c
         engine/groundsurface/bbGroundSurface.c
         engine/geometry/bbGroundCoords.c

@@ -2,17 +2,17 @@
 
 bbFlag bbEntitySpawner_init(bbEntitySpawner* entity_spawner)
 {
-    entity_spawner->parse_functions = calloc(no_parse_functions,sizeof(bbParseFunction*));
+    entity_spawner->parse_functions = calloc(parse_function_count,sizeof(bbParseFunction*));
     entity_spawner->parse_function_count = 0;
-    bbDictionary_new(&entity_spawner->parse_dict, no_parse_functions);
+    bbDictionary_new(&entity_spawner->parse_dict, parse_function_count);
 
-    entity_spawner->spawn_functions = calloc(no_parse_functions,sizeof(bbSpawnFunction*));
+    entity_spawner->spawn_functions = calloc(parse_function_count,sizeof(bbSpawnFunction*));
     entity_spawner->spawn_function_count = 0;
-    bbDictionary_new(&entity_spawner->spawn_dict, no_spawn_functions);
+    bbDictionary_new(&entity_spawner->spawn_dict, spawn_function_count);
 
-    entity_spawner->unspawn_functions = calloc(no_unspawn_functions,sizeof(bbUnspawnFunction*));
+    entity_spawner->unspawn_functions = calloc(unspawn_function_count,sizeof(bbUnspawnFunction*));
     entity_spawner->unspawn_function_count = 0;
-    bbDictionary_new(&entity_spawner->unspawn_dict, no_unspawn_functions);
+    bbDictionary_new(&entity_spawner->unspawn_dict, unspawn_function_count);
 }
 
 bbFlag bbParseFunction_get(bbEntitySpawner* spawner, bbParseFunction** function, char* key)
