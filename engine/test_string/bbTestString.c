@@ -101,38 +101,44 @@ bbFlag bbCS_setString(bbCore* core, char* string, bbInstruction_source source, b
         bbHandle instruction_handle;
         bbFlag flag = bbList_alloc(&core->do_stack,(void**)&instruction);
         bbVPool_reverseLookup(core->instruction_pool, (void*)instruction, &instruction_handle);
+
+        //set input instruction data
         instruction->type = bbI_setString;
         bbStr_setStr(instruction->data.key, string, KEY_LENGTH);
-        instruction->source = source;
-        instruction->redo_instruction = action;
+
         //create undo instruction
         bbInstruction* undo_instruction;
         bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
-        undo_instruction->type = bbI_unsetString;
-        bbStr_setStr(undo_instruction->data.key, test_string, KEY_LENGTH);
         undo_instruction->source = instruction->source;
-        //undo_instruction->redo_instruction = instruction handle
         undo_instruction->redo_instruction = instruction_handle;
 
+        //set instruction data
+        undo_instruction->type = bbI_unsetString;
+        bbStr_setStr(undo_instruction->data.key, test_string, KEY_LENGTH);
         bbList_pushL(&core->undo_stack,(void*)undo_instruction);
     } else if (source == bbInstructionSource_internal)
     {
         //create undo instruction
         bbInstruction* undo_instruction;
         bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        undo_instruction->source = source;
+
+        //set instruction data
         undo_instruction->type = bbI_unsetString;
         bbStr_setStr(undo_instruction->data.key, test_string, KEY_LENGTH);
-        undo_instruction->source = source;
         bbList_pushL(&core->undo_stack,(void*)undo_instruction);
     } else if (source == bbInstructionSource_action)
     {
         //create undo instruction
         bbInstruction* undo_instruction;
         bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        undo_instruction->redo_instruction = action;
+        undo_instruction->source = source;
+
+        //Set instruction data
         undo_instruction->type = bbI_unsetString;
         bbStr_setStr(undo_instruction->data.key, test_string, KEY_LENGTH);
-        undo_instruction->source = source;
-        undo_instruction->redo_instruction = action;
+        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
     } else if (source == bbInstructionSource_norewind)
     {
 
