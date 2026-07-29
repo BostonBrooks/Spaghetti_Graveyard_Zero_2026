@@ -362,14 +362,14 @@ bbFlag bbInstruction_entity_unsetComponent_fn(bbCore* core, bbInstruction* instr
     bbHere()
 }
 
-bbFlag bbCoreInput_spawnTestEntity(bbCore* core, bbMapCoords MC, bbHandle server_entity, bbInstruction_source source, bbHandle action)
+bbFlag bbCoreInput_spawnTestEntity(bbCore* core, bbECS* ECS, bbMapCoords MC, bbHandle server_entity, bbInstruction_source source, bbHandle action)
 {
     bbInstruction* instruction;
     bbList_alloc(&core->do_stack, (void**) &instruction);
     instruction->type = bbInstruction_spawnTestEntity;
     instruction->data.agent_MC.coords = MC;
     instruction->data.agent_MC.handle1 = server_entity;
-    instruction->ECS = &home.ECS.ECS;
+    instruction->ECS = ECS;
     instruction->source = source;
     instruction->redo_instruction = action;
     bbList_pushL(&core->do_stack, instruction);
@@ -383,7 +383,7 @@ bbFlag bbInstruction_spawnTestEntity_fn(bbCore* core, bbInstruction* instruction
     bbHandle server_entity = instruction->data.agent_MC.handle1;
     bbMapCoords MC = instruction->data.agent_MC.coords;
     bbHandle entity_handle, moveable_handle;
-    bbECS* ECS = &home.ECS.ECS;
+    bbECS* ECS = instruction->ECS;
     bbVPool_reverseLookup(ECS->pool, (void*)entity, &entity_handle);
 
 
@@ -402,9 +402,7 @@ bbFlag bbInstruction_spawnTestEntity_fn(bbCore* core, bbInstruction* instruction
 
     bbHandle test_handle = entity_handle;
 
-    if (!bbVPool_handleIsEqual(home.ECS.server_entities->ECS_Handles,
-                                   server_entity,
-                                   null_handle))
+    if (server_entity.u64 != no_handle.u64)
     {
         bbCoreInput_setServerEntity(core,
                                     entity_handle,
@@ -413,8 +411,10 @@ bbFlag bbInstruction_spawnTestEntity_fn(bbCore* core, bbInstruction* instruction
                                     no_handle);
     }
 
-    bbCoreInput_spawnGraphicsComponent(core, MC,entity_handle, moveable_handle, bbInstructionSource_internal, no_handle);
-
+    if (home.UI.inbox.local_message_pool!=0)
+    {
+        bbCoreInput_spawnGraphicsComponent(core, MC,entity_handle, moveable_handle, bbInstructionSource_internal, no_handle);
+    }
 
     bbInstruction* undo_instruction;
     bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);

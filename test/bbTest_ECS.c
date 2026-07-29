@@ -14,6 +14,7 @@
 
 bbCore core;
 bbECS ECS;
+bbAI_System AI_system;
 bbNetwork network;
 bbNetworkTime* network_time;
 U64 test_time = 0;
@@ -41,6 +42,7 @@ int main(void)
     null_handle.u64 = 0;
     bbCore_init(&core);
     bbECS_init(&ECS);
+    bbAI_System_init(&AI_system);
     debug_off = false;
 
     bbNetworkApp_init(&network);
@@ -62,7 +64,9 @@ int main(void)
     bbCore_react(&core);
     test_time = 3;
 
-    //bbCoreInput_spawnTestEntity(&core, &ECS, "Test Entity 1", bbInstructionSource_input, null_handle);
+    bbMapCoords MC = {0};
+
+    bbCoreInput_spawnTestEntity(&core,&ECS,MC, no_handle, bbInstructionSource_input, null_handle);
 
     bbCore_react(&core);
 
@@ -73,13 +77,21 @@ int main(void)
     bbCore_rewindUntil(&core, 2);
     bbCore_react(&core);
 
-    //bbECS_entity* entity;
-    //bbVPool_lookup(ECS.pool, (void**)&entity, ECS.list.list_pointer->head);
+    bbHandle head_handle = ECS.list.list_pointer->head;
+    bbECS_entity* entity;
+    bbVPool_lookup(ECS.pool, (void**)&entity, head_handle);
 
-    //bbDebug("Entity has key: %s\n", entity->key);
 
-    //bbDebug("entity has components ");
-    //print_binary_8(entity->has_component);
+    bbDebug("Entity has key: %s\n", entity->key);
+
+    bbDebug("entity has components ");
+    print_binary_8(entity->has_component);
+
+    bbCS_spawnAIComponent(&core,
+                          head_handle,
+                          NULL,
+                          bbInstructionSource_norewind,
+                          no_handle);
 
     U32 collision = 0;
     char str[KEY_LENGTH];

@@ -66,10 +66,6 @@ int main(void)
     home.core.goalpoint.j = 10000;
     home.core.goalpoint.k = 0;
 
-
-
-
-
     bbCore_init(&home.core.core);
     bbCore_initVInstructions(&home.core.core);
 

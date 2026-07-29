@@ -4,7 +4,7 @@
 #include "engine/logic/bbBloatedPool.h"
 #include "engine/logic/bbPrime.h"
 
-bbFlag bbEntityAIs_init(bbAI_System* system)
+bbFlag bbAI_System_init(bbAI_System* system)
 {
     bbVPool_newBloated(&system->system.pool, sizeof(bbAI_Component),100,100,"ENTITY AI");
     bbList_init(&system->list,system->system.pool,NULL,offsetof(bbAI_Component,list_element),NULL);
@@ -262,7 +262,7 @@ bbFlag bbCS_spawnAIComponent(bbCore* core,
         bbInstruction* undo_instruction;
         bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
         undo_instruction->source = source;
-
+        undo_instruction->redo_instruction.u64 = 0;
         //set instruction data
         undo_instruction->type = bbI_unspawnAIComponent;
         undo_instruction->data.three_handles.handle1 = entity;
@@ -305,6 +305,9 @@ bbFlag bbCS_spawnAIComponent(bbCore* core,
                              no_handle);
 
     bbList_pushL(&home.ECS.AI_system.list,component);
+
+    if (this != NULL) *this = component;
+
     return bbSuccess;
 
 }

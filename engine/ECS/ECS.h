@@ -76,6 +76,7 @@ bbFlag bbCS_spawnTestEntity(bbCore* core,
                             bbHandle action);
 
 bbFlag bbCoreInput_spawnTestEntity(bbCore* core,
+                                   bbECS* ECS,
                                    bbMapCoords MC,
                                    bbHandle server_entity,
                                    bbInstruction_source source,
