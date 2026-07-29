@@ -137,3 +137,53 @@ bbFlag bbAgent_onCommand(bbAI_Component* component,
     return func_pointer(component,type,data);
 }
 
+
+bbFlag bbCI_spawnAIComponent(bbCore* core,
+                             bbHandle entity,
+                             bbInstruction_source source,
+                             bbHandle action)
+{
+
+    bbInstruction* instruction;
+    bbFlag flag = bbList_alloc(&core->do_stack,(void**)&instruction);
+    instruction->type = bbI_spawnAIComponent;
+    instruction->data.three_handles.handle1 = entity;
+    instruction->source = source;
+    instruction->redo_instruction = action;
+    bbList_pushL(&core->do_stack, instruction);
+    return bbSuccess;
+}
+
+
+bbFlag bbI_spawnAIComponent_fn(bbCore* core, bbInstruction* instruction)
+{
+    //TODO add undo instructions
+
+
+    bbAI_Component* component;
+    bbHandle component_handle;
+
+    bbList_alloc(&home.ECS.AI_system.list,(void**)&component);
+    bbVPool_reverseLookup(home.ECS.AI_system.system.pool, component, &component_handle);
+    component->ftable.command = 0;
+    component->ftable.update = 0;
+    component->state = 0;
+    component->ECS_entity_handle = instruction->data.three_handles.handle1;
+
+    bbCS_entity_setComponent(core,
+                             &home.ECS.ECS,
+                             component->ECS_entity_handle,
+                             component_handle,
+                             bbECS_AI,
+                             bbInstructionSource_internal,
+                             no_handle);
+
+    bbList_pushL(&home.ECS.AI_system.list,component);
+    return bbSuccess;
+}
+
+bbFlag bbI_unspawnAIComponent_fn(bbCore* core, bbInstruction* instruction)
+{
+    bbNotHere()
+}
+
