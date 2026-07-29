@@ -40,6 +40,7 @@ sprintf (string1, "In FILE: %s, FUNCTION: %s, LINE: %d, THREAD: %s,"\
 sprintf(string2, __VA_ARGS__);\
 \
 printf("%s%s", string1, string2);\
+fflush(stdout);\
 int x = 1/0;\
 }\
 }
