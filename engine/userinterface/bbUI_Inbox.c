@@ -176,7 +176,6 @@ bbFlag bbUI_Inbox_SetWidgetPosition(bbUI_Inbox* inbox, char* key, bbHandle posit
 
 
 
-#ifdef DEFINE_SKELLYCHASE
 bbFlag bbUI_Inbox_newSkelly_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
 {
     bbNotHere()
@@ -537,7 +536,6 @@ bbFlag bbUI_Inbox_deleteUnit_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
 //     bbVPool_free(units->pool,unit);
 // }
 
-#endif//DEFINE_SKELLYCHASE
 
 
 bbFlag bbUI_Inbox_NewTree(bbUI_Inbox* inbox, char* tree_type, bbMapCoords position)

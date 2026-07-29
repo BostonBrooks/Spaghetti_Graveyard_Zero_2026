@@ -11,6 +11,7 @@
 #include "engine/ECS/spawn_entity.h"
 #include "engine/logic/bbBloatedPool.h"
 #include "engine/threadsafe/bbThreadedPool.h"
+#include "engine/test_string/bbTestString.h"
 
 bbFlag bbCore_init(bbCore* core)
 {
@@ -60,6 +61,9 @@ bbFlag bbCore_react(bbCore* core)
 
             case bbInstruction_setString:
                 bbInstruction_setString_fn(core, instruction);
+                break;
+            case bbI_setString:
+                bbI_setString_fn(core, instruction);
                 break;
             case bbInstruction_unfreezeButton:
                 bbInstruction_unfreezeButton_fn(core, instruction);
@@ -140,6 +144,10 @@ bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
                 ///(6) core "un-reacts" to instruction
             case bbInstruction_unsetString:
                 bbInstruction_unsetString_fn(core, instruction);
+                break;
+
+            case bbI_unsetString:
+                bbI_unsetString_fn(core, instruction);
                 break;
 
             case bbInstruction_uncheckActions:

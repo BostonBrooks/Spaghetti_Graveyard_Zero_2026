@@ -24,7 +24,8 @@
 #include "engine/network/bbNetworkApp.h"
 #include "games/game0/maps/skellychase/core/core_inputs.h"
 #include "engine/ECS/bbAI_System.h"
-#include <pthread.h>
+#include "engine/test_string/bbTestString.h"
+
 
 #include "engine/ECS/bbGraphicsSystem.h"
 
@@ -40,8 +41,6 @@ char test_string[KEY_LENGTH];
 
 bbMapCoords testGoalPoint;
 
-//test bbList_mapL()
-bbFlag bbVInstruction_updateAgentsSquare_fn(bbCore* core, bbInstruction* instruction);
 
 void* userinterface_thread(void* arg);
 int main(void)
@@ -73,7 +72,6 @@ int main(void)
 
     bbCore_init(&home.core.core);
     bbCore_initVInstructions(&home.core.core);
-
 
     bbECS_init(&home.ECS.ECS);
     bbServerEntities_new(&home.ECS.server_entities);

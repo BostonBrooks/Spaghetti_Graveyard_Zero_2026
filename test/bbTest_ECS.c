@@ -7,8 +7,11 @@
 #include "engine/ECS/ECS.h"
 #include "engine/logic/bbBloatedPool.h"
 #include "engine/logic/bbString.h"
-#include "engine/network/bbNetwork.h"
+//#include "engine/network/bbNetwork.h"
+//#include "engine/network/bbNetworkApp.h"
 #include "engine/network/bbNetworkApp.h"
+#include "engine/test_string/bbTestString.h"
+
 bbCore core;
 bbECS ECS;
 bbNetwork network;
@@ -18,6 +21,15 @@ thread_local char* thread;
 char test_string[KEY_LENGTH];
 bbHandle null_handle;
 bbHome home;
+
+
+pthread_barrier_t barrier1;
+
+thread_local bool debug_off;
+
+bbMapCoords testGoalPoint;
+
+
 
 typedef struct
 {
@@ -29,7 +41,7 @@ int main(void)
     null_handle.u64 = 0;
     bbCore_init(&core);
     bbECS_init(&ECS);
-
+    debug_off = false;
 
     bbNetworkApp_init(&network);
     network_time = (bbNetworkTime*)network.extra_data;
@@ -50,7 +62,7 @@ int main(void)
     bbCore_react(&core);
     test_time = 3;
 
-    bbCoreInput_spawnTestEntity(&core, &ECS, "Test Entity 1", bbInstructionSource_input, null_handle);
+    //bbCoreInput_spawnTestEntity(&core, &ECS, "Test Entity 1", bbInstructionSource_input, null_handle);
 
     bbCore_react(&core);
 
@@ -61,18 +73,18 @@ int main(void)
     bbCore_rewindUntil(&core, 2);
     bbCore_react(&core);
 
-    bbECS_entity* entity;
-    bbVPool_lookup(ECS.pool, (void**)&entity, ECS.list.list_pointer->head);
+    //bbECS_entity* entity;
+    //bbVPool_lookup(ECS.pool, (void**)&entity, ECS.list.list_pointer->head);
 
-    bbDebug("Entity has key: %s\n", entity->key);
+    //bbDebug("Entity has key: %s\n", entity->key);
 
-    bbDebug("entity has components ");
-    print_binary_8(entity->has_component);
+    //bbDebug("entity has components ");
+    //print_binary_8(entity->has_component);
 
     U32 collision = 0;
     char str[KEY_LENGTH];
 
-    for (I32 i = 5; i < 9;i++)
+    for (I32 i = 5; i < 100;i++)
     {
         bbCoreInput_setTime(&core, i, bbInstructionSource_input, no_handle);
         test_time = core.actual_time = i;
@@ -89,6 +101,15 @@ int main(void)
 
         bbCoreInput_checkActions(&core,i,bbInstructionSource_input, no_handle);
         bbCore_react(&core);
+
+        sprintf(str, "~(%d)", i);
+
+        bbCI_setString(&core, str,bbInstructionSource_input, no_handle);
+        bbCore_react(&core);
+
+        bbCS_setString(&core, "bish", bbInstructionSource_input, no_handle);
+        bbCS_setString(&core, "bash", bbInstructionSource_internal,no_handle);
+        bbCS_setString(&core, "bosh", bbInstructionSource_norewind, no_handle);
     }
 
 

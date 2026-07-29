@@ -11,6 +11,8 @@ typedef enum
     bbInstruction_setString,
     bbInstruction_unsetString,
 
+    bbI_setString,
+    bbI_unsetString,
 
     bbInstruction_unfreezeButton,
     bbInstruction_testClick,
