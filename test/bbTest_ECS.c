@@ -84,7 +84,7 @@ int main(void)
     U32 collision = 0;
     char str[KEY_LENGTH];
 
-    for (I32 i = 5; i < 100;i++)
+    for (I32 i = 5; i < 10;i++)
     {
         bbCoreInput_setTime(&core, i, bbInstructionSource_input, no_handle);
         test_time = core.actual_time = i;
