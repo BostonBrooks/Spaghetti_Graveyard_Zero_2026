@@ -53,7 +53,6 @@ bbFlag bbPF_standard(void* Spawner, char* string)
     {
         char separator;
         sscanf(&string[num_chars], "%[^',\n']%c%n",component,&separator,&component_length);
-        if (separator == '\0' || separator == '\n') break;
         num_chars += component_length;
         //printf("%s,",component);
 
@@ -64,6 +63,10 @@ bbFlag bbPF_standard(void* Spawner, char* string)
         spawn_function = spawner->spawn_functions[handle.u64];
 
         spawn_function(spawner, NULL, args,bbInstructionSource_norewind);
+        if (separator == '\0' || separator == '\n') break;
+
+
+
     }
 
     printf("\n");
