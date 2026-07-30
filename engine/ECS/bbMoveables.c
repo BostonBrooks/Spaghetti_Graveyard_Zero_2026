@@ -459,6 +459,14 @@ bbFlag bbCoreSynchronous_spawnTestMoveable(bbCore* core,
     moveable->coords_a = bbMapCoords_getMilliCoords(moveable->position);
     moveable->coords_b = bbMapCoords_getMilliCoords(moveable->position);
 
+    bbCS_entity_setComponent(core,
+                             &home.ECS.ECS,
+                             ECS_entity_handle,
+                             moveable_handle1,
+                             bbECS_Moveables,
+                             bbInstructionSource_internal,
+                             no_handle);
+
     *moveable_handle = moveable_handle1;
 
     if (source == bbInstructionSource_norewind) return  bbSuccess;
@@ -677,6 +685,5 @@ bbFlag bbMoveable_setGoalMoveable(bbMoveables* moveables, bbHandle handle, bbHan
     bbMoveable* moveable = &moveables->moveables[handle.bloated.index];
     moveable->type = bbMoveableType_Follow;
     moveable->goal_moveable = moveable_handle.bloated.index;
-
     return bbSuccess;
 }

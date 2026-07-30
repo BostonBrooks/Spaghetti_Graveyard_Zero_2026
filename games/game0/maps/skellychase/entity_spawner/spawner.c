@@ -28,6 +28,30 @@ bbFlag bbPF_tree(void* spawner, char* string)
     return bbSuccess;
 }
 
+bbFlag bbPF_setGoalEntity(void* spawner, char* string)
+{bbHere()
+    char key[KEY_LENGTH];
+    char tree_type[KEY_LENGTH];
+    bbHandle entity_server_handle, goal_server_handle;
+    sscanf ( string, "%[^','],%[^','],%d,%d,%d,%d",
+        key,
+        tree_type,
+        &entity_server_handle.bloated.index,
+        &entity_server_handle.bloated.collision,
+        &goal_server_handle.bloated.index,
+        &goal_server_handle.bloated.collision);
+
+    bbServerEntity *server_entity;
+    bbECS* ECS = &home.ECS.ECS;
+    bbVPool_lookup(home.ECS.server_entities->system.pool,(void**)&server_entity,entity_server_handle);
+    bbECS_entity* ECS_entity;
+    bbVPool_lookup(ECS->pool,(void**) &ECS_entity, server_entity->bbECS_entity_handle);
+    bbHandle moveable_handle = ECS_entity->components[bbECS_Moveables];
+    bbMoveable_setGoalMoveable(&home.ECS.moveables,moveable_handle,goal_server_handle);
+
+    return bbSuccess;
+}
+
 bbFlag bbPF_standard(void* Spawner, char* string)
 {
     bbEntitySpawner* spawner = (bbEntitySpawner*)Spawner;
@@ -99,8 +123,9 @@ bbFlag bbEntitySpawner_populate(bbEntitySpawner* spawner)
     bbParseFunction_add(spawner, bbPF_tree, "TREE");
     bbParseFunction_add(spawner, bbPF_skellyParser, "SKELLY");
     bbParseFunction_add(spawner, bbPF_skelly2Parser, "SKELLY2");
-    bbSpawnFunction_add(spawner, bbSF_null, "NULL");
+    bbParseFunction_add(spawner, bbPF_setGoalEntity, "SET_GOAL");
 
+    bbSpawnFunction_add(spawner, bbSF_null, "NULL");
     bbSpawnFunction_add(spawner, bbSF_addServerEntity_skelly, "SKELLY_SERVER");
     bbSpawnFunction_add(spawner, bbSF_addMoveable_skelly, "SKELLY_MOVEABLE");
     bbSpawnFunction_add(spawner, bbSF_addMoveable_skelly2, "SKELLY_MOVEABLE2");
