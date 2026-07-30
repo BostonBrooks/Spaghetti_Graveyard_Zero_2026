@@ -110,8 +110,8 @@ bbFlag bbCore_react(bbCore* core)
                 bbInstruction_updateMoveables_fn(core, instruction);
                 break;
 
-            case bbInstruction_unspawnTestMoveable:
-                bbInstruction_unspawnTestMoveable_fn(core, instruction);
+            case bbInstruction_spawnTestMoveable:
+                bbInstruction_spawnTestMoveable_fn(core, instruction);
                 break;
             default:
                 bbAssert(0==1,"Unknown instruction type %d\n", instruction->type);
