@@ -81,7 +81,7 @@ typedef struct
     bbAI_Functions functions;
 } bbAI_System;
 
-bbFlag bbAI_System_init(bbAI_System* system);
+bbFlag bbAI_System_init(bbAI_System* system,bbECS* ECS);
 bbFlag bbAI_System_update(bbAI_System* system);
 
 bbFlag bbAI_Functions_init(bbAI_Functions* self);
@@ -111,6 +111,7 @@ bbFlag bbAgent_onCommand(bbAI_Component* component,
                           bbAI_CommandData data);
 
 bbFlag bbCS_spawnAIComponent(bbCore* core,
+                             bbECS* ECS,
                              bbHandle entity,
                              bbAI_Component** this,
                              bbInstruction_source source,

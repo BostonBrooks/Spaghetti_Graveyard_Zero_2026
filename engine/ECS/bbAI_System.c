@@ -4,13 +4,13 @@
 #include "engine/logic/bbBloatedPool.h"
 #include "engine/logic/bbPrime.h"
 
-bbFlag bbAI_System_init(bbAI_System* system)
+bbFlag bbAI_System_init(bbAI_System* system,bbECS* ECS)
 {
     bbVPool_newBloated(&system->system.pool, sizeof(bbAI_Component),100,100,"ENTITY AI");
     bbList_init(&system->list,system->system.pool,NULL,offsetof(bbAI_Component,list_element),NULL);
 
     bbAI_Functions_init(&system->functions);
-    home.ECS.ECS.systems[bbECS_AI] = (bbSystem*)system;
+    ECS->systems[bbECS_AI] = (bbSystem*)system;
     return bbSuccess;
 }
 
@@ -224,6 +224,7 @@ bbFlag bbI_unspawnAIComponent_fn(bbCore* core, bbInstruction* instruction)
 
 
 bbFlag bbCS_spawnAIComponent(bbCore* core,
+                             bbECS* ECS,
                              bbHandle entity,
                              bbAI_Component** this,
                              bbInstruction_source source,
@@ -289,22 +290,23 @@ bbFlag bbCS_spawnAIComponent(bbCore* core,
     bbAI_Component* component;
     bbHandle component_handle;
 
-    bbList_alloc(&home.ECS.AI_system.list,(void**)&component);
-    bbVPool_reverseLookup(home.ECS.AI_system.system.pool, component, &component_handle);
+    bbAI_System* AI_System = (bbAI_System*)ECS->systems[bbECS_AI];
+    bbList_alloc(&AI_System->list,(void**)&component);
+    bbVPool_reverseLookup(AI_System->system.pool, component, &component_handle);
     component->ftable.command = 0;
     component->ftable.update = 0;
     component->state = 0;
     component->ECS_entity_handle = entity;
 
     bbCS_entity_setComponent(core,
-                             &home.ECS.ECS,
+                             ECS,
                              component->ECS_entity_handle,
                              component_handle,
                              bbECS_AI,
                              bbInstructionSource_internal,
                              no_handle);
 
-    bbList_pushL(&home.ECS.AI_system.list,component);
+    bbList_pushL(&AI_System->list,component);
 
     if (this != NULL) *this = component;
 

@@ -42,7 +42,7 @@ int main(void)
     null_handle.u64 = 0;
     bbCore_init(&core);
     bbECS_init(&ECS);
-    bbAI_System_init(&AI_system);
+    bbAI_System_init(&AI_system,&ECS);
     debug_off = false;
 
     bbNetworkApp_init(&network);
@@ -88,6 +88,7 @@ int main(void)
     print_binary_8(entity->has_component);
 
     bbCS_spawnAIComponent(&core,
+                          &ECS,
                           head_handle,
                           NULL,
                           bbInstructionSource_norewind,
