@@ -63,10 +63,8 @@ bbFlag bbUnit_newSkellyx(bbUnit** self, bbMapCoords MC,bbMapCoords goalpoint, I3
     bbUnitSquare* unitSquare = bbDrawables_getSquare(home.viewport_app.units,SC.i, SC.j, home.viewport_app.units->squares_i, home.viewport_app.units->squares_j);
 
     bbUnit* unit;
-    bbFlag flag = bbVPool_alloc(pool, (void**)&unit);
-
     bbHandle unit_handle;
-    bbVPool_reverseLookup(pool, unit, &unit_handle);
+    bbFlag flag = bbVPool_alloc2(pool, (void**)&unit, &unit_handle);
 
     unit->drawable.coords = MC;
     bbHandle drawfunctionHandle;

@@ -51,8 +51,7 @@ bbFlag bbWidget_newEmpty(bbWidget** self, bbWidgets* widgets, bbWidget* parent, 
 {
     bbWidget* widget;
     bbHandle widget_handle;
-    bbVPool_alloc(widgets->pool, (void**)&widget);
-    bbVPool_reverseLookup(widgets->pool, widget, &widget_handle);
+    bbVPool_alloc2(widgets->pool, (void**)&widget,&widget_handle);
 
     bbStr_putStr(widget->key, name, KEY_LENGTH);
 

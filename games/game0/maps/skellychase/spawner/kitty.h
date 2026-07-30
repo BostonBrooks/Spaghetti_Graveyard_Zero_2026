@@ -1,57 +1,4 @@
 
-
-// bbFlag bbAgent_newKitty(bbAgent** self, bbMapCoords MC, I32 movable_index, I32 entity_index)
-// {
-//
-//
-//     MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
-//
-//     bbAgents* agents = home.agents_app.agents;
-//     bbAgent* agent;
-//
-//     bbList_alloc(&agents->full_list, (void**)&agent);
-//     agent->square_list.prev = agents->pool->null;
-//     agent->square_list.next = agents->pool->null;
-//     agent->movable = movable_index;
-//     agent->ftable.update = bbAgentFunctions_getInt(&home.agents_app.functions,
-//                              AgentUpdate, "UPDATE_SKELLY");
-//     agent->ftable.command = -1;
-//     bbMovable* movable = &home.agents_app.movables.movables[movable_index];
-//
-//     agent->state = bbAgentState_Idle;
-//     home.agents_app.movables.available = movable_index+1;
-//
-//     movable->type = bbMovableType_Idle;
-//     movable->position = MC;
-//     movable->goalpoint = MC;
-//
-//     movable->coords_a = bbMapCoords_getMilliCoords(movable->position);
-//     movable->coords_b = bbMapCoords_getMilliCoords(movable->position);
-//
-//     movable->goal_movable = movable_index%8;
-//
-//     movable->speed = 4000;
-//
-//     bbSquareCoords square_coords = bbMapCoords_getSquareCoords(MC);
-//     agent->square_coords = square_coords;
-//     bbAgents_square* square = bbAgents_getSquare(agents, square_coords.i, square_coords.j);
-//
-//     bbList_pushL(&square->agents,agent);
-//     bbList_pushL(&agents->full_list,agent);
-//
-//     bbHandle agent_handle;
-//     bbVPool_reverseLookup(home.agents_app.agents->pool,agent,&agent_handle);
-//     agent->entity = entity_index;
-//         home.agents_app.entities.available = entity_index+1;
-//     home.agents_app.entities.entity[agent->entity].agent = agent_handle;
-//
-//     home.agents_app.entities.entity[agent->entity].movable.u64 = movable_index;
-//
-//
-//     *self = agent;
-//
-//     return bbSuccess;
-// }
 bbFlag bbUnit_newKitty(bbUnit** self, bbMapCoords MC, I32 movable_index, I32 entity_index)
 {
 
@@ -60,10 +7,9 @@ bbFlag bbUnit_newKitty(bbUnit** self, bbMapCoords MC, I32 movable_index, I32 ent
     bbUnitSquare* unitSquare = bbDrawables_getSquare(home.viewport_app.units,SC.i, SC.j, home.viewport_app.units->squares_i, home.viewport_app.units->squares_j);
 
     bbUnit* unit;
-    bbFlag flag = bbVPool_alloc(pool, (void**)&unit);
-
     bbHandle unit_handle;
-    bbVPool_reverseLookup(pool, unit, &unit_handle);
+    bbFlag flag = bbVPool_alloc2(pool, (void**)&unit,&unit_handle);
+
 
     unit->drawable.coords = MC;
     bbHandle drawfunctionHandle;

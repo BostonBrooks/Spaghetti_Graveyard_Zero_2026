@@ -192,37 +192,7 @@ bbFlag bbDrawable_newTree(bbDrawable** self, bbDrawables* drawables,
     drawable->frames[0].offset.x = 0;
     drawable->frames[0].offset.y = 0;
 
-/*
-    bbDictionary_lookup(graphics->drawfunctions->dictionary,
-                        "DRAWABLE_SPRITE",
-                        &drawfunctionHandle);
 
-    drawable->frames[0].drawfunction = drawfunctionHandle.u64;
-    drawable->frames[0].handle.u64 = 134;
-    drawable->frames[0].offset.x = 0;
-    drawable->frames[0].offset.y = 0;
-
-    bbDictionary_lookup(graphics->drawfunctions->dictionary,
-                        "DRAWABLE_ANIMATION",
-                        &drawfunctionHandle);
-
-    drawable->frames[1].drawfunction = drawfunctionHandle.u64;
-    drawable->frames[1].handle.u64 = 8;
-    drawable->frames[1].start_time =  -(rand()%6);
-    drawable->frames[1].framerate = 1;
-    drawable->frames[1].offset.x = 0;
-    drawable->frames[1].offset.y = 0;
-
-
-
-
-    bbDictionary_lookup(graphics->drawfunctions->dictionary,
-                        "DRAWABLE_SHADOW",
-                        &drawfunctionHandle);
-
-    drawable->frames[2].drawfunction = drawfunctionHandle.u64;
-    drawable->frames[2].handle.u64 = 611;
-*/
     for (I32 k = 1; k < FRAMES_PER_DRAWABLE; k++){
         drawable->frames[k].drawfunction = -1;
     }

@@ -63,10 +63,9 @@ bbFlag bbUnit_newFireball(bbUnit** self, bbMapCoords MC, I32 movable_index, I32 
     bbUnitSquare* unitSquare = bbDrawables_getSquare(home.viewport_app.units,SC.i, SC.j, home.viewport_app.units->squares_i, home.viewport_app.units->squares_j);
 
     bbUnit* unit;
-    bbFlag flag = bbVPool_alloc(pool, (void**)&unit);
-
     bbHandle unit_handle;
-    bbVPool_reverseLookup(pool, unit, &unit_handle);
+    bbFlag flag = bbVPool_alloc2(pool, (void**)&unit&unit_handle);
+
 
     unit->drawable.coords = MC;
     bbHandle drawfunctionHandle;

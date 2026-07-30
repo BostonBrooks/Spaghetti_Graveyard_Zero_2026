@@ -23,10 +23,8 @@ bbFlag bbECS_init(bbECS* ECS)
 bbFlag bbCoreSynchronous_spawnEmptyEntity(bbCore* core, bbECS* ECS, bbECS_entity** return_entity, char* key, bbInstruction_source source, bbHandle action)
 {
         bbECS_entity* new_entity;
-        bbVPool_alloc(ECS->pool, (void**)&new_entity);
-
         bbHandle new_handle;
-        bbVPool_reverseLookup(ECS->pool,new_entity,&new_handle);
+        bbVPool_alloc2(ECS->pool, (void**)&new_entity,&new_handle);
 
         new_entity->state = bbECS_alive;
         new_entity->has_component = 0;
@@ -74,12 +72,11 @@ bbFlag bbCoreInput_spawnEmptyEntity(bbCore* core, bbECS* ECS, char* key, bbInstr
 
 bbFlag bbInstruction_spawnEmptyEntity_fn(bbCore* core, bbInstruction* instruction)
 {
-        bbECS_entity* new_entity;
         bbECS* ECS = instruction->ECS;
-        bbVPool_alloc(ECS->pool, (void**)&new_entity);
-
+        bbECS_entity* new_entity;
         bbHandle new_handle;
-        bbVPool_reverseLookup(ECS->pool,new_entity,&new_handle);
+        bbVPool_alloc2(ECS->pool, (void**)&new_entity,&new_handle);
+
 
         new_entity->state = bbECS_alive;
         new_entity->has_component = 0;

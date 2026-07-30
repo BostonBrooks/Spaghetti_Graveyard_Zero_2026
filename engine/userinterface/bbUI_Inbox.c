@@ -280,10 +280,10 @@ bbFlag bbUI_Inbox_newBanana_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
     bbVPool* pool = units->pool;
     bbSquareCoords SC = bbMapCoords_getSquareCoords(MC);
     bbUnitSquare* unitSquare = bbDrawables_getSquare(units,SC.i, SC.j, units->squares_i, units->squares_j);
-    bbFlag flag = bbVPool_alloc(pool, (void**)&unit);
 
     bbHandle unit_handle;
-    bbVPool_reverseLookup(pool, unit, &unit_handle);
+    bbFlag flag = bbVPool_alloc2(pool, (void**)&unit,&unit_handle);
+
     unit->drawable.coords = MC;
     bbHandle drawfunctionHandle;
     if (entity_handle.u64 != no_handle.u64)
