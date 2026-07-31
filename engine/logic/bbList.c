@@ -460,6 +460,25 @@ bbFlag bbList_alloc(bbList* list, void** element)
 }
 
 
+bbFlag bbList_alloc2(bbList* list, void** element, bbHandle* handle)
+{
+    void* new_element;
+    bbHandle element_handle;
+    bbFlag flag = bbVPool_alloc2(list->pool, &new_element, &element_handle);
+    if (flag == bbSuccess)
+    {
+        bbListElement_Handle* element_list = new_element + list->offset_of;
+        element_list->next = list->pool->null;
+        element_list->prev = list->pool->null;
+        if (element!= NULL) *element = new_element;
+        if (handle!=NULL) *handle = element_handle;
+        return bbSuccess;
+
+    }
+    *element = NULL;
+    return flag;
+}
+
 bbFlag bbList_checkIntegrity(bbList* list)
 {
     bbAssert (bbVPool_handleIsEqual(list->pool, list->list.head, list->pool->null)

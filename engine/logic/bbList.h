@@ -96,6 +96,7 @@ bbFlag bbList_mapR(bbList* list, bbListFunction* myFunc, void* cl);
 bbFlag bbList_isEmpty(bbList* list);
 
 bbFlag bbList_alloc(bbList* list, void** element);
+bbFlag bbList_alloc2(bbList* list, void** element, bbHandle* handle);
 
 bbFlag bbList_getNth(bbList* list, void** element, I32 N);
 

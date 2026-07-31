@@ -198,8 +198,7 @@ bbFlag bbI_spawnAIComponent_fn(bbCore* core, bbInstruction* instruction)
     bbAI_Component* component;
     bbHandle component_handle;
 
-    bbList_alloc(&home.ECS.AI_system.list,(void**)&component);
-    bbVPool_reverseLookup(home.ECS.AI_system.system.pool, component, &component_handle);
+    bbList_alloc2(&home.ECS.AI_system.list,(void**)&component, &component_handle);
     component->ftable.command = 0;
     component->ftable.update = 0;
     component->state = 0;
@@ -237,8 +236,7 @@ bbFlag bbCS_spawnAIComponent(bbCore* core,
         //create input instruction
         bbInstruction* instruction;
         bbHandle instruction_handle;
-        bbFlag flag = bbList_alloc(&core->do_stack,(void**)&instruction);
-        bbVPool_reverseLookup(core->instruction_pool, (void*)instruction, &instruction_handle);
+        bbFlag flag = bbList_alloc2(&core->do_stack,(void**)&instruction, &instruction_handle);
 
         //set input instruction data
         instruction->type = bbI_spawnAIComponent;
@@ -291,8 +289,7 @@ bbFlag bbCS_spawnAIComponent(bbCore* core,
     bbHandle component_handle;
 
     bbAI_System* AI_System = (bbAI_System*)ECS->systems[bbECS_AI];
-    bbList_alloc(&AI_System->list,(void**)&component);
-    bbVPool_reverseLookup(AI_System->system.pool, component, &component_handle);
+    bbList_alloc2(&AI_System->list,(void**)&component, &component_handle);
     component->ftable.command = 0;
     component->ftable.update = 0;
     component->state = 0;

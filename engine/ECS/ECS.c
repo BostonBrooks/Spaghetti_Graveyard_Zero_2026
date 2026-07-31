@@ -169,9 +169,8 @@ bbFlag bbCS_entity_setComponent(bbCore* core,
         //create input instruction
         bbInstruction* instruction;
         bbHandle instruction_handle;
-        bbFlag flag = bbList_alloc(&core->do_stack, (void**)&instruction);
-        bbVPool_reverseLookup(core->instruction_pool, (void*)instruction,
-                              &instruction_handle);
+        bbFlag flag = bbList_alloc2(&core->do_stack, (void**)&instruction,&instruction_handle);
+
         instruction->source = source;
 
         //set input instruction data
