@@ -5,10 +5,10 @@
 #include "engine/core/bbCoreInputs.h"
 #include "engine/data/bbHome.h"
 #include "engine/ECS/ECS.h"
+#include "engine/ECS/bbAI_System.h"
+#include "engine/ECS/bbMoveables.h"
 #include "engine/logic/bbBloatedPool.h"
 #include "engine/logic/bbString.h"
-//#include "engine/network/bbNetwork.h"
-//#include "engine/network/bbNetworkApp.h"
 #include "engine/network/bbNetworkApp.h"
 #include "engine/test_string/bbTestString.h"
 
@@ -22,7 +22,7 @@ U64 test_time = 0;
 thread_local char* thread;
 char test_string[KEY_LENGTH];
 bbHandle null_handle;
-bbHome home;
+
 
 
 pthread_barrier_t barrier1;

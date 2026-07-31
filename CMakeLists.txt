@@ -183,7 +183,8 @@ add_executable(Test_ECS  test/bbTest_ECS.c
         engine/geometry/bbGroundCoords.c
         games/game0/maps/skellychase/entity_spawner/spawner.c
         engine/test_string/bbTestString.c)
-target_compile_definitions(Test_ECS PRIVATE DEFINE_TEST_ECS)
+target_compile_definitions(Test_ECS PRIVATE DEFINE_TEST_ECS
+                                    PRIVATE BB_HOME_H)
 target_include_directories(Test_ECS PRIVATE "./"
         PRIVATE "./games/game0/maps/skellychase/")
 target_link_libraries(Test_ECS PRIVATE
