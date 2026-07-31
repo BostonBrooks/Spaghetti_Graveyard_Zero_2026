@@ -153,9 +153,11 @@ bbFlag bbCS_setString(bbCore* core, char* string, bbInstruction_source source, b
 
     //take action
 
-    printf("    +old quote: %s, new quote %s, time = %lu\n",test_string,
+    printf("    +old quote: %s, new quote %s, time = %llu\n",test_string,
     string, core->simulation_time);
 
     bbStr_setStr(test_string, string, KEY_LENGTH);
+
+    return bbSuccess;
 }
 
