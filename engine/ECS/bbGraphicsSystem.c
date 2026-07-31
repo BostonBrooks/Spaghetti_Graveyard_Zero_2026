@@ -4,14 +4,10 @@
 #include "engine/logic/bbBloatedPool.h"
 
 
-bbFlag bbGraphicsSystem_new(bbGraphicsSystem** graphics_system)
+bbFlag bbGraphicsSystem_init(bbGraphicsSystem* graphics_system, bbECS* ECS)
 {
-    bbGraphicsSystem* system = malloc(sizeof(bbGraphicsSystem));
-
-    bbVPool_newBloated(&system->system.pool, sizeof(bbGraphicsComponent), 100, 100, "GRAPHICS SYSTEM");
-
-    *graphics_system = system;
-    home.ECS.ECS.systems[bbECS_Graphics] = (bbSystem* )system;
+    bbVPool_newBloated(&graphics_system->system.pool, sizeof(bbGraphicsComponent), 100, 100, "GRAPHICS SYSTEM");
+    ECS->systems[bbECS_Graphics] = (bbSystem* )graphics_system;
     return bbSuccess;
 }
 

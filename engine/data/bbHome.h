@@ -21,8 +21,8 @@
 typedef struct
 {
     bbECS ECS;
-    bbServerEntities* server_entities;
-    bbGraphicsSystem* graphics_system;
+    bbServerEntities server_entities;
+    bbGraphicsSystem graphics_system;
     bbMoveables moveables;
     bbEntitySpawner spawner;
     bbAI_System AI_system;

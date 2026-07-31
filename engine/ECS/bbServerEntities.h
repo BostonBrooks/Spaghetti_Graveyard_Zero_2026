@@ -30,7 +30,7 @@ typedef struct
     bbVPool* ECS_Handles;
 } bbServerEntities;
 
-bbFlag bbServerEntities_new(bbServerEntities** server_entities);
+bbFlag bbServerEntities_init(bbServerEntities* server_entities, bbECS* ECS);
 
 bbFlag bbCoreInput_setServerEntity(bbCore* core,
                                    bbHandle entity,

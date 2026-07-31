@@ -43,7 +43,7 @@ bbFlag bbPF_setGoalEntity(void* spawner, char* string)
 
     bbServerEntity *server_entity;
     bbECS* ECS = &home.ECS.ECS;
-    bbVPool_lookup(home.ECS.server_entities->system.pool,(void**)&server_entity,entity_server_handle);
+    bbVPool_lookup(home.ECS.server_entities.system.pool,(void**)&server_entity,entity_server_handle);
     bbECS_entity* ECS_entity;
     bbVPool_lookup(ECS->system.pool,(void**) &ECS_entity, server_entity->bbECS_entity_handle);
     bbHandle moveable_handle = ECS_entity->components[bbECS_Moveables];

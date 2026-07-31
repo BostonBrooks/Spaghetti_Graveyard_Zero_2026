@@ -70,9 +70,9 @@ int main(void)
     bbCore_initVInstructions(&home.core.core);
 
     bbECS_init(&home.ECS.ECS);
-    bbServerEntities_new(&home.ECS.server_entities);
-    bbGraphicsSystem_new(&home.ECS.graphics_system);
-    bbMoveables_init(&home.ECS.moveables);
+    bbServerEntities_init(&home.ECS.server_entities,&home.ECS.ECS);
+    bbGraphicsSystem_init(&home.ECS.graphics_system,&home.ECS.ECS);
+    bbMoveables_init(&home.ECS.moveables,&home.ECS.ECS);
 
 
     bbSquareCoords size; size.i = 12; size.j = 12; size.k = 0;

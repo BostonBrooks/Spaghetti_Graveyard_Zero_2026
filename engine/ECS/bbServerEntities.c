@@ -7,15 +7,13 @@
 #include "engine/logic/bbBloatedPool.h"
 #include "engine/logic/bbFlag.h"
 
-bbFlag bbServerEntities_new(bbServerEntities** server_entities)
+bbFlag bbServerEntities_init(bbServerEntities* server_entities,bbECS* ECS)
 {
-    bbServerEntities* system = malloc(sizeof(bbServerEntities));
 
-    bbVPool_newBloated(&system->system.pool, sizeof(bbServerEntity), 100, 100, "SERVER ENTITIES");
-    bbVPool_newBloated(&system->ECS_Handles, sizeof(bbHandle), 100, 100, "ENTITIES SERVER");
+    bbVPool_newBloated(&server_entities->system.pool, sizeof(bbServerEntity), 100, 100, "SERVER ENTITIES");
+    bbVPool_newBloated(&server_entities->ECS_Handles, sizeof(bbHandle), 100, 100, "ENTITIES SERVER");
 
-    *server_entities = system;
-    home.ECS.ECS.systems[bbECS_ServerEntities] = (bbSystem* )system;
+    ECS->systems[bbECS_ServerEntities] = (bbSystem* )server_entities;
 
     return bbSuccess;
 }
@@ -43,7 +41,7 @@ bbFlag bbInstruction_setServerEntity_fn(bbCore* core, bbInstruction* instruction
     bbHandle component_handle;
     bbServerEntity* component;
 
-    bbVPool_allocFromHandle(home.ECS.server_entities->system.pool, (void**)&component, instruction->data.three_handles.handle2);
+    bbVPool_allocFromHandle(home.ECS.server_entities.system.pool, (void**)&component, instruction->data.three_handles.handle2);
 
     bbHandle entity_handle = instruction->data.three_handles.handle1;
     component->bbECS_entity_handle = entity_handle;
@@ -52,7 +50,7 @@ bbFlag bbInstruction_setServerEntity_fn(bbCore* core, bbInstruction* instruction
 
     //Use server_entity_handle to look up entity_handle
     bbHandle* handle;
-    bbVPool_allocFromHandle(home.ECS.server_entities->ECS_Handles, (void*)&handle, component->server_entity_handle );
+    bbVPool_allocFromHandle(home.ECS.server_entities.ECS_Handles, (void*)&handle, component->server_entity_handle );
     *handle = instruction->data.three_handles.handle1;;
 
     bbCoreInput_entity_setComponent(core,&home.ECS.ECS, entity_handle,component_handle, bbECS_ServerEntities, bbInstructionSource_internal, no_handle);
@@ -92,14 +90,14 @@ bbFlag bbInstruction_unsetServerEntity_fn(bbCore* core, bbInstruction* instructi
 
     bbHandle component_handle = instruction->data.three_handles.handle1;
     bbServerEntity* component;
-    bbVPool_lookup(home.ECS.server_entities->system.pool, (void**)&component, component_handle);
+    bbVPool_lookup(home.ECS.server_entities.system.pool, (void**)&component, component_handle);
     bbHandle server_entity_handle = component->server_entity_handle;
     //bbVPool_free(home.ECS.server_entities->system.pool,component);
 
 
     void* lemon;
-    bbVPool_lookup(home.ECS.server_entities->ECS_Handles, (void*)&lemon, server_entity_handle );
-    bbVPool_free(home.ECS.server_entities->ECS_Handles, lemon);
+    bbVPool_lookup(home.ECS.server_entities.ECS_Handles, (void*)&lemon, server_entity_handle );
+    bbVPool_free(home.ECS.server_entities.ECS_Handles, lemon);
 
     if (instruction->source == bbInstructionSource_internal)
     {
@@ -134,7 +132,7 @@ bbFlag bbCoreSynchronous_setServerEntity(bbCore* core,
     bbAssert(source == bbInstructionSource_norewind, "rewind not implemented\n");
 
     bbServerEntity* component;
-    bbVPool_allocFromHandle(home.ECS.server_entities->system.pool, (void**)&component, server_entity_handle);
+    bbVPool_allocFromHandle(home.ECS.server_entities.system.pool, (void**)&component, server_entity_handle);
 
     bbHandle entity_handle = entity;
     component->bbECS_entity_handle = entity_handle;
@@ -143,7 +141,7 @@ bbFlag bbCoreSynchronous_setServerEntity(bbCore* core,
 
     //Use server_entity_handle to look up entity_handle
     bbHandle* handle;
-    bbVPool_allocFromHandle(home.ECS.server_entities->ECS_Handles, (void*)&handle, component->server_entity_handle );
+    bbVPool_allocFromHandle(home.ECS.server_entities.ECS_Handles, (void*)&handle, component->server_entity_handle );
     *handle = entity;;
 
     bbCoreInput_entity_setComponent(core,&home.ECS.ECS, entity_handle,server_entity_handle, bbECS_ServerEntities, bbInstructionSource_internal, no_handle);
