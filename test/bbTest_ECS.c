@@ -15,6 +15,7 @@
 bbCore core;
 bbECS ECS;
 bbAI_System AI_system;
+bbMoveables moveables;
 bbNetwork network;
 bbNetworkTime* network_time;
 U64 test_time = 0;
@@ -43,6 +44,7 @@ int main(void)
     bbCore_init(&core);
     bbECS_init(&ECS);
     bbAI_System_init(&AI_system,&ECS);
+    bbMoveables_init(&moveables,&ECS);
     debug_off = false;
 
     bbNetworkApp_init(&network);
@@ -79,7 +81,7 @@ int main(void)
 
     bbHandle head_handle = ECS.list.list_pointer->head;
     bbECS_entity* entity;
-    bbVPool_lookup(ECS.pool, (void**)&entity, head_handle);
+    bbVPool_lookup(ECS.system.pool, (void**)&entity, head_handle);
 
 
     bbDebug("Entity has key: %s\n", entity->key);

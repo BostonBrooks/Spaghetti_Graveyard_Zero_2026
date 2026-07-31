@@ -62,7 +62,7 @@ bbMilliCoords sumForces(bbMoveables* moveables, bbMoveable* moveableA)
 }
 
 
-bbFlag bbMoveables_init(bbMoveables* moveables)
+bbFlag bbMoveables_init(bbMoveables* moveables,bbECS* ECS)
 {
     moveables->updates_per_frame = 12;
     moveables->use_coords_a = true;
@@ -84,7 +84,7 @@ bbFlag bbMoveables_init(bbMoveables* moveables)
     }
 
 
-    home.ECS.ECS.systems[bbECS_Moveables] = (bbSystem* )moveables;
+    ECS->systems[bbECS_Moveables] = (bbSystem* )moveables;
     return bbSuccess;
 }
 
@@ -679,7 +679,7 @@ bbFlag bbMoveable_setGoalMoveable(bbMoveables* moveables, bbHandle handle, bbHan
     bbVPool_lookup(home.ECS.server_entities->system.pool, (void**)&server_entity,server_handle);
     bbHandle entity_handle = server_entity->bbECS_entity_handle;
     bbECS_entity* entity;
-    bbVPool_lookup(home.ECS.ECS.pool, (void**)&entity,entity_handle);
+    bbVPool_lookup(home.ECS.ECS.system.pool, (void**)&entity,entity_handle);
     bbHandle moveable_handle = entity->components[bbECS_Moveables];
 
     bbMoveable* moveable = &moveables->moveables[handle.bloated.index];

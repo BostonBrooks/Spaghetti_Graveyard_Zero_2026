@@ -87,7 +87,7 @@ typedef struct
 
 } bbMoveables;
 
-bbFlag bbMoveables_init(bbMoveables* moveables);
+bbFlag bbMoveables_init(bbMoveables* moveables,bbECS* ECS);
 bbFlag bbMoveables_update(bbMoveables* moveables);
 
 bbMilliCoords getForce(bbMoveables* moveables, bbMoveable* moveableA, bbMoveable* moveableB);
