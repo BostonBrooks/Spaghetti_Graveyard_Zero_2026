@@ -15,8 +15,9 @@ U64 getMask(bbECS_systems system)
 
 bbFlag bbECS_init(bbECS* ECS)
 {
-        bbVPool_newBloated(&ECS->pool, sizeof(bbECS_entity), 1000, 1000, "ECS");
-        bbList_init(&ECS->list, ECS->pool, NULL, offsetof(bbECS_entity, list_element_handle),NULL);
+        bbVPool_newBloated(&ECS->system.pool, sizeof(bbECS_entity), 1000, 1000, "ECS");
+        bbList_init(&ECS->list, ECS->system.pool, NULL, offsetof(bbECS_entity, list_element_handle),NULL);
+        ECS->systems[bbECS_ECS] = (bbSystem*)ECS;
         return bbSuccess;
 }
 
@@ -24,7 +25,7 @@ bbFlag bbCoreSynchronous_spawnEmptyEntity(bbCore* core, bbECS* ECS, bbECS_entity
 {
         bbECS_entity* new_entity;
         bbHandle new_handle;
-        bbVPool_alloc2(ECS->pool, (void**)&new_entity,&new_handle);
+        bbVPool_alloc2(ECS->system.pool, (void**)&new_entity,&new_handle);
 
         new_entity->state = bbECS_alive;
         new_entity->has_component = 0;
@@ -75,7 +76,7 @@ bbFlag bbInstruction_spawnEmptyEntity_fn(bbCore* core, bbInstruction* instructio
         bbECS* ECS = instruction->ECS;
         bbECS_entity* new_entity;
         bbHandle new_handle;
-        bbVPool_alloc2(ECS->pool, (void**)&new_entity,&new_handle);
+        bbVPool_alloc2(ECS->system.pool, (void**)&new_entity,&new_handle);
 
 
         new_entity->state = bbECS_alive;
@@ -121,10 +122,10 @@ bbFlag bbInstruction_unspawnEmptyEntity_fn(bbCore* core, bbInstruction* instruct
     bbHandle entity_handle = instruction->data.three_handles.handle1;
     bbECS_entity* entity;
 
-    bbVPool_lookup(ECS->pool, (void**)&entity, entity_handle);
+    bbVPool_lookup(ECS->system.pool, (void**)&entity, entity_handle);
     entity->state = bbECS_unused;
     bbList_remove(&ECS->list, entity);
-    bbVPool_free(ECS->pool, (void*)entity);
+    bbVPool_free(ECS->system.pool, (void*)entity);
 
     if (instruction->source == bbInstructionSource_internal)
     {
@@ -234,7 +235,7 @@ bbFlag bbCS_entity_setComponent(bbCore* core,
     //
     U64 mask = getMask(system);
     bbECS_entity* entity;
-    bbVPool_lookup(ECS->pool, (void**)&entity, entity_handle);
+    bbVPool_lookup(ECS->system.pool, (void**)&entity, entity_handle);
 
     if (mask & entity->has_component)
     {
@@ -275,7 +276,7 @@ bbFlag bbInstruction_entity_setComponent_fn(bbCore* core, bbInstruction* instruc
 
     U64 mask = getMask(system);
     bbECS_entity* entity;
-    bbVPool_lookup(ECS->pool, (void**)&entity, entity_handle);
+    bbVPool_lookup(ECS->system.pool, (void**)&entity, entity_handle);
 
     if (mask & entity->has_component)
     {
@@ -326,7 +327,7 @@ bbFlag bbInstruction_entity_unsetComponent_fn(bbCore* core, bbInstruction* instr
     bbECS_systems system = instruction->data.three_handles.handle3.u64;
 
     bbECS_entity* entity;
-    bbVPool_lookup(ECS->pool, (void**)&entity, entity_handle);
+    bbVPool_lookup(ECS->system.pool, (void**)&entity, entity_handle);
     U64 mask = getMask(system);
 
     entity->has_component &= ~mask;
@@ -380,7 +381,7 @@ bbFlag bbInstruction_spawnTestEntity_fn(bbCore* core, bbInstruction* instruction
     bbMapCoords MC = instruction->data.agent_MC.coords;
     bbHandle entity_handle, moveable_handle;
     bbECS* ECS = instruction->ECS;
-    bbVPool_reverseLookup(ECS->pool, (void*)entity, &entity_handle);
+    bbVPool_reverseLookup(ECS->system.pool, (void*)entity, &entity_handle);
 
 
     //TODO This should be a core input?

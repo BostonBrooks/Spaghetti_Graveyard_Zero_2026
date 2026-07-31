@@ -9,6 +9,7 @@
 
 typedef enum
 {
+    bbECS_ECS,
     bbECS_Moveables,
     bbECS_AI,
     bbECS_Graphics,
@@ -44,7 +45,7 @@ typedef struct
 
 typedef struct
 {
-    bbVPool* pool;
+    bbSystem system;
     bbList list;
     bbSystem* systems[bbECS_numSystems];
 } bbECS;
