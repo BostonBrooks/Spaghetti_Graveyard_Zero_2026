@@ -7,12 +7,18 @@
 #include "engine/logic/bbBloatedPool.h"
 #include "engine/logic/bbFlag.h"
 
+
+bbFlag bbServerEntity_getComponent_fn(bbSystem* system, bbComponent** component, bbHandle component_handle);
+bbFlag bbServerEntity_getHandle_fn(bbSystem* system, bbComponent* component, bbHandle* component_handle);
+
 bbFlag bbServerEntities_init(bbServerEntities* server_entities,bbECS* ECS)
 {
 
     bbVPool_newBloated(&server_entities->system.pool, sizeof(bbServerEntity), 100, 100, "SERVER ENTITIES");
     bbVPool_newBloated(&server_entities->ECS_Handles, sizeof(bbHandle), 100, 100, "ENTITIES SERVER");
 
+    server_entities->system.getComponent = bbServerEntity_getComponent_fn;
+    server_entities->system.getHandle = bbServerEntity_getHandle_fn;
     ECS->systems[bbECS_ServerEntities] = (bbSystem* )server_entities;
 
     return bbSuccess;
@@ -44,7 +50,7 @@ bbFlag bbInstruction_setServerEntity_fn(bbCore* core, bbInstruction* instruction
     bbVPool_allocFromHandle(home.ECS.server_entities.system.pool, (void**)&component, instruction->data.three_handles.handle2);
 
     bbHandle entity_handle = instruction->data.three_handles.handle1;
-    component->bbECS_entity_handle = entity_handle;
+    component->component.entity_handle = entity_handle;
     component->server_entity_handle = instruction->data.three_handles.handle2;
 
 
@@ -135,7 +141,7 @@ bbFlag bbCoreSynchronous_setServerEntity(bbCore* core,
     bbVPool_allocFromHandle(home.ECS.server_entities.system.pool, (void**)&component, server_entity_handle);
 
     bbHandle entity_handle = entity;
-    component->bbECS_entity_handle = entity_handle;
+    component->component.entity_handle = entity_handle;
     component->server_entity_handle = server_entity_handle;
 
 
@@ -146,4 +152,14 @@ bbFlag bbCoreSynchronous_setServerEntity(bbCore* core,
 
     bbCoreInput_entity_setComponent(core,&home.ECS.ECS, entity_handle,server_entity_handle, bbECS_ServerEntities, bbInstructionSource_internal, no_handle);
     return bbSuccess;
+}
+
+bbFlag bbServerEntity_getComponent_fn(bbSystem* system, bbComponent** component, bbHandle component_handle)
+{
+    return bbVPool_lookup(system->pool,(void**)component,component_handle);
+}
+
+bbFlag bbServerEntity_getHandle_fn(bbSystem* system, bbComponent* component, bbHandle* component_handle)
+{
+    return bbVPool_reverseLookup(system->pool,(void*)component,component_handle);
 }

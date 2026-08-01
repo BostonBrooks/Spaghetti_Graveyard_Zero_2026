@@ -6,6 +6,9 @@
 #include "engine/data/bbHome.h"
 #include "engine/logic/bbBloatedPool.h"
 
+bbFlag bbMoveable_getComponent_fn(struct bbSystem* system, bbComponent** component, bbHandle component_handle);
+bbFlag bbMoveable_getHandle_fn(struct bbSystem* system, bbComponent* component, bbHandle* component_handle);
+
 bbMilliCoords getForce(bbMoveables* moveables, bbMoveable* moveableA,
                        bbMoveable* moveableB)
 {
@@ -69,6 +72,9 @@ bbFlag bbMoveables_init(bbMoveables* moveables,bbECS* ECS)
     moveables->available = 0;
     bbVPool_newBloated(&moveables->snapshots, sizeof(bbMoveables_snapshot), 100,
                        100, "bbMoveables_snapshot");
+
+    moveables->system.getComponent = bbMoveable_getComponent_fn;
+    moveables->system.getHandle = bbMoveable_getHandle_fn;
 
     moveables->buffer_back = &moveables->buffer_a;
     moveables->buffer_front = &moveables->buffer_b;
@@ -384,7 +390,7 @@ bbFlag bbMoveables_update(bbMoveables* moveables)
             = bbMapCoords_getElevation(&home.ground_surface,
                                        moveables->moveables[i].position);
 
-        moveables->buffer_back->moveables[i].ECS_entity_handle = moveables->moveables[i].ECS_entity_handle;
+        moveables->buffer_back->moveables[i].ECS_entity_handle = moveables->moveables[i].component.entity_handle;
         moveables->buffer_back->moveables[i].goalpoint = moveables->moveables[i]
             .goalpoint;
         moveables->buffer_back->moveables[i].position = moveables->moveables[i].
@@ -451,7 +457,7 @@ bbFlag bbCoreSynchronous_spawnTestMoveable(bbCore* core,
     moveable->goalpoint = position;
     moveable->position = position;
 
-    moveable->ECS_entity_handle = ECS_entity_handle;
+    moveable->component.entity_handle = ECS_entity_handle;
     moveable->moveable_handle = moveable_handle1;
     moveable->type = bbMoveableType_Moving;
     moveable->speed = 8000;
@@ -539,7 +545,7 @@ bbFlag bbMoveables_newTest(bbMoveables* moveables, bbHandle* moveable_handle, bb
     moveable->goalpoint = position;
     moveable->position = position;
 
-    moveable->ECS_entity_handle = ECS_entity_handle;
+    moveable->component.entity_handle = ECS_entity_handle;
     moveable->moveable_handle = moveable_handle1;
     moveable->type = bbMoveableType_Moving;
     moveable->speed = 8000;
@@ -580,7 +586,7 @@ bbFlag bbInstruction_updateMoveables_fn(bbCore* core,
 
     for (I32 i = 0; i < NUM_MOVEABLES; i++)
     {
-        snapshot->moveables[i].ECS_entity_handle = home.ECS.moveables.moveables[i].ECS_entity_handle;
+        snapshot->moveables[i].ECS_entity_handle = home.ECS.moveables.moveables[i].component.entity_handle;
         snapshot->moveables[i].position = home.ECS.moveables.moveables[i].
             position;
         snapshot->moveables[i].goalpoint = home.ECS.moveables.moveables[i].
@@ -677,7 +683,7 @@ bbFlag bbMoveable_setGoalMoveable(bbMoveables* moveables, bbHandle handle, bbHan
     bbServerEntity* server_entity;
 
     bbVPool_lookup(home.ECS.server_entities.system.pool, (void**)&server_entity,server_handle);
-    bbHandle entity_handle = server_entity->bbECS_entity_handle;
+    bbHandle entity_handle = server_entity->component.entity_handle;
     bbECS_entity* entity;
     bbVPool_lookup(home.ECS.ECS.system.pool, (void**)&entity,entity_handle);
     bbHandle moveable_handle = entity->components[bbECS_Moveables];
@@ -685,5 +691,25 @@ bbFlag bbMoveable_setGoalMoveable(bbMoveables* moveables, bbHandle handle, bbHan
     bbMoveable* moveable = &moveables->moveables[handle.bloated.index];
     moveable->type = bbMoveableType_Follow;
     moveable->goal_moveable = moveable_handle.bloated.index;
+    return bbSuccess;
+}
+
+bbFlag bbMoveable_getComponent_fn(struct bbSystem* system, bbComponent** component, bbHandle component_handle)
+{
+    U32 index = component_handle.bloated.index;
+
+    bbMoveables* moveables = (bbMoveables*)system;
+    *component = (bbComponent*)&moveables->moveables[index];
+    return bbSuccess;
+}
+bbFlag bbMoveable_getHandle_fn(struct bbSystem* system, bbComponent* component, bbHandle* component_handle)
+{
+    bbMoveables* moveables = (bbMoveables*)system;
+    U32 offset = component - (bbComponent*)&moveables->moveables[0];
+    U32 index = offset / sizeof(bbMoveable);
+
+    component_handle->bloated.index = index;
+    component_handle->bloated.collision = 193;
+
     return bbSuccess;
 }

@@ -17,7 +17,7 @@
 typedef struct
 {
     //always the first element of component
-    bbHandle bbECS_entity_handle;
+    bbComponent component;
     bbHandle server_entity_handle;
 } bbServerEntity;
 

@@ -4,10 +4,17 @@
 #include "engine/logic/bbBloatedPool.h"
 #include "engine/logic/bbPrime.h"
 
+
+bbFlag bbAI_System_getComponent_fn(struct bbSystem* system, bbComponent** component, bbHandle component_handle);
+bbFlag bbAI_System_getHandle_fn(struct bbSystem* system, bbComponent* component, bbHandle* component_handle);
+
 bbFlag bbAI_System_init(bbAI_System* system,bbECS* ECS)
 {
     bbVPool_newBloated(&system->system.pool, sizeof(bbAI_Component),100,100,"ENTITY AI");
     bbList_init(&system->list,system->system.pool,NULL,offsetof(bbAI_Component,list_element),NULL);
+
+    ECS->system.getComponent = bbAI_System_getComponent_fn;
+    ECS->system.getHandle = bbAI_System_getHandle_fn;
 
     bbAI_Functions_init(&system->functions);
     ECS->systems[bbECS_AI] = (bbSystem*)system;
@@ -202,11 +209,11 @@ bbFlag bbI_spawnAIComponent_fn(bbCore* core, bbInstruction* instruction)
     component->ftable.command = 0;
     component->ftable.update = 0;
     component->state = 0;
-    component->ECS_entity_handle = instruction->data.three_handles.handle1;
+    component->component.entity_handle = instruction->data.three_handles.handle1;
 
     bbCS_entity_setComponent(core,
                              &home.ECS.ECS,
-                             component->ECS_entity_handle,
+                             component->component.entity_handle,
                              component_handle,
                              bbECS_AI,
                              bbInstructionSource_internal,
@@ -293,11 +300,11 @@ bbFlag bbCS_spawnAIComponent(bbCore* core,
     component->ftable.command = 0;
     component->ftable.update = 0;
     component->state = 0;
-    component->ECS_entity_handle = entity;
+    component->component.entity_handle = entity;
 
     bbCS_entity_setComponent(core,
                              ECS,
-                             component->ECS_entity_handle,
+                             component->component.entity_handle,
                              component_handle,
                              bbECS_AI,
                              bbInstructionSource_internal,
@@ -309,4 +316,14 @@ bbFlag bbCS_spawnAIComponent(bbCore* core,
 
     return bbSuccess;
 
+}
+
+
+bbFlag bbAI_System_getComponent_fn(struct bbSystem* system, bbComponent** component, bbHandle component_handle)
+{
+    return bbVPool_lookup(system->pool, (void**)component, component_handle);
+}
+bbFlag bbAI_System_getHandle_fn(struct bbSystem* system, bbComponent* component, bbHandle* component_handle)
+{
+    return bbVPool_reverseLookup(system->pool, (void*)component, component_handle);
 }

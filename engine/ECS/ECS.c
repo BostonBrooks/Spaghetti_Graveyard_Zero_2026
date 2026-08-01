@@ -12,11 +12,18 @@ U64 getMask(bbECS_systems system)
         return 1 << system;
 }
 
+bbFlag bbECS_getComponent_fn(bbSystem* system, bbComponent** component, bbHandle component_handle);
+bbFlag bbECS_getHandle_fn(bbSystem* system, bbComponent* component, bbHandle* component_handle);
+
 
 bbFlag bbECS_init(bbECS* ECS)
 {
         bbVPool_newBloated(&ECS->system.pool, sizeof(bbECS_entity), 1000, 1000, "ECS");
         bbList_init(&ECS->list, ECS->system.pool, NULL, offsetof(bbECS_entity, list_element_handle),NULL);
+
+        ECS->system.getComponent = bbECS_getComponent_fn;
+        ECS->system.getHandle = bbECS_getHandle_fn;
+
         ECS->systems[bbECS_ECS] = (bbSystem*)ECS;
         return bbSuccess;
 }
@@ -469,4 +476,25 @@ bbFlag bbInstruction_unspawnTestEntity_fn(bbCore* core, bbInstruction* instructi
         bbVPool_free(core->instruction_pool, (void*)instruction);
         return bbSuccess;
     }
+}
+
+bbFlag bbECS_getComponent_fn(bbSystem* system, bbComponent** component, bbHandle component_handle)
+{
+    return bbVPool_lookup(system->pool,(void**)component,component_handle);
+}
+
+bbFlag bbECS_getHandle_fn(bbSystem* system, bbComponent* component, bbHandle* component_handle)
+{
+    return bbVPool_reverseLookup(system->pool,(void*)component,component_handle);
+}
+
+bbFlag bbHandle_getComponent(bbSystem* system, bbComponent** component, bbHandle component_handle)
+{
+    bbHandle_getComponent_fn* function = system->getComponent;
+    return function(system, component, component_handle);
+}
+bbFlag bbComponent_getHandle(bbSystem* system, bbComponent* component, bbHandle* component_handle)
+{
+    bbComponent_getHandle_fn* function = system->getHandle;
+    return function(system, component, component_handle);
 }

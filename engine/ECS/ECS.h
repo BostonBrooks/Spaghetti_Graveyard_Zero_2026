@@ -27,8 +27,15 @@ typedef enum
     bbECS_dead,
 } bbECS_states;
 
+
 typedef struct
 {
+    bbHandle entity_handle;
+} bbComponent;
+
+typedef struct
+{
+    bbComponent component;
     char key[KEY_LENGTH];
     bbListElement_Handle list_element_handle;
     bbECS_states state;
@@ -36,13 +43,18 @@ typedef struct
     bbHandle components[bbECS_numSystems];
 } bbECS_entity;
 
-/// Contains a minimal amount of data to make systems somewhat interchangeable
-/// Like a base-class for systems
-typedef struct
+
+struct bbSystem;
+
+typedef bbFlag bbHandle_getComponent_fn(struct bbSystem* system, bbComponent** component, bbHandle component_handle);
+typedef bbFlag bbComponent_getHandle_fn(struct bbSystem* system, bbComponent* component, bbHandle* component_handle);
+
+typedef struct bbSystem
 {
     bbVPool* pool;
+    bbHandle_getComponent_fn* getComponent;
+    bbComponent_getHandle_fn* getHandle;
 } bbSystem;
-
 typedef struct
 {
     bbSystem system;
@@ -51,6 +63,8 @@ typedef struct
 } bbECS;
 
 
+bbFlag bbHandle_getComponent(struct bbSystem* system, bbComponent** component, bbHandle component_handle);
+bbFlag bbComponent_getHandle(struct bbSystem* system, bbComponent* component, bbHandle* component_handle);
 
 bbFlag bbECS_init(bbECS* ECS);
 

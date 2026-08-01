@@ -27,7 +27,7 @@ typedef struct
 
 typedef struct
 {
-    bbHandle ECS_entity_handle;
+    bbComponent component;
     bbListElement_Handle list_element;
     bbAI_FunctionTable ftable;
     bbAI_state state;
@@ -124,4 +124,8 @@ bbFlag bbCI_spawnAIComponent(bbCore* core,
 
 bbFlag bbI_spawnAIComponent_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbI_unspawnAIComponent_fn(bbCore* core, bbInstruction* instruction);
+
+bbFlag bbAI_System_getComponent(struct bbSystem* system, bbComponent** component, bbHandle component_handle);
+bbFlag bbAI_System_getHandle(struct bbSystem* system, bbComponent* component, bbHandle* component_handle);
+
 #endif //BB_AISYSTEM_H

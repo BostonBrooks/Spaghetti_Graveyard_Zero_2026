@@ -49,7 +49,7 @@ typedef struct
 
 typedef struct
 {
-    bbHandle ECS_entity_handle;
+    bbComponent component;
     bbHandle moveable_handle;
     bbMoveable_type type;
     //U64 last_state_change;
@@ -110,4 +110,9 @@ bbFlag bbCoreSynchronous_spawnTestMoveable(bbCore* core,
 
 bbFlag bbInstruction_spawnTestMoveable_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_unspawnTestMoveable_fn(bbCore* core, bbInstruction* instruction);
+
+
+bbFlag bbMoveable_getComponent(struct bbSystem* system, bbComponent** component, bbHandle component_handle);
+bbFlag bbMoveable_getHandle(struct bbSystem* system, bbComponent* component, bbHandle* component_handle);
+
 #endif  //BBMoveable
