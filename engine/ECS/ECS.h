@@ -66,6 +66,20 @@ typedef struct
 bbFlag bbHandle_getComponent(struct bbSystem* system, bbComponent** component, bbHandle component_handle);
 bbFlag bbComponent_getHandle(struct bbSystem* system, bbComponent* component, bbHandle* component_handle);
 
+bbFlag bbHandle_mapComponent(bbECS* ECS,
+                             bbECS_systems system,
+                             bbHandle from_handle,
+                             bbECS_systems component_system,
+                             bbHandle* component_handle,
+                             bbComponent** component);
+
+bbFlag bbComponent_mapComponent(bbECS* ECS,
+                             bbECS_systems system,
+                             bbComponent* from_component,
+                             bbECS_systems component_system,
+                             bbHandle* component_handle,
+                             bbComponent** component);
+
 bbFlag bbECS_init(bbECS* ECS);
 
 //We need a function that spawns an entity, readies the unspawn instruction, then synchronously returns the entity.

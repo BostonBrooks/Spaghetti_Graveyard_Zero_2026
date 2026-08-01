@@ -498,3 +498,49 @@ bbFlag bbComponent_getHandle(bbSystem* system, bbComponent* component, bbHandle*
     bbComponent_getHandle_fn* function = system->getHandle;
     return function(system, component, component_handle);
 }
+
+bbFlag bbComponent_mapComponent(bbECS* ECS,
+                             bbECS_systems system,
+                             bbComponent* from_component,
+                             bbECS_systems component_system,
+                             bbHandle* component_handle,
+                             bbComponent** component)
+{
+    bbHandle entity_handle = from_component->entity_handle;
+
+    bbECS_entity* entity;
+    bbHandle_getComponent(&ECS->system,(bbComponent**)&entity,entity_handle);
+
+    bbSystem* system1 = ECS->systems[component_system];
+
+    bbHandle component_handle1 = entity->components[component_system];
+    bbComponent* component1;
+    bbHandle_getComponent(system1,&component1,component_handle1);
+
+    if (component_handle!=NULL) *component_handle = component_handle1;
+    if (component!=NULL)*component = component1;
+
+
+
+
+    return bbSuccess;
+}
+
+bbFlag bbHandle_mapComponent(bbECS* ECS,
+                             bbECS_systems system,
+                             bbHandle from_handle,
+                             bbECS_systems component_system,
+                             bbHandle* component_handle,
+                             bbComponent** component)
+{
+    bbComponent* component1;
+    bbSystem* system1 = ECS->systems[component_system];
+    bbHandle_getComponent(system1,&component1,from_handle);
+
+    return bbComponent_mapComponent(ECS,
+                             system,
+                             component1,
+                             component_system,
+                             component_handle,
+                             component);
+}
