@@ -108,6 +108,13 @@ int main(void)
 
     bbEntitySpawner_spawnFile(&home.ECS.spawner, "maps/skellychase/entity_spawner/spawner.csv");
 
+
+    bbMoveable* test_moveable = &home.ECS.moveables.moveables[0];
+
+    bbECS_entity* test_entity;
+
+    bbComponent_mapComponent(&home.ECS.ECS, bbECS_Moveables,(bbComponent*)test_moveable,bbECS_ECS,NULL,(bbComponent**)&test_entity);
+
     fflush(stdout);
 
     while (1)
