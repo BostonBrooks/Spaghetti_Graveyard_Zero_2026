@@ -115,6 +115,13 @@ int main(void)
 
     bbComponent_mapComponent(&home.ECS.ECS, bbECS_Moveables,(bbComponent*)test_moveable,bbECS_ECS,NULL,(bbComponent**)&test_entity);
 
+    bbMoveable* test_moveable2;
+    bbHandle test_handle = test_moveable->component.entity_handle;
+    bbHandle_mapComponent(&home.ECS.ECS, bbECS_ECS,test_handle,bbECS_Moveables,NULL,(bbComponent**)&test_moveable2);
+
+    bbDebug("moveable = %p, moveable1 = %p\n", test_moveable, test_moveable2);
+
+
     fflush(stdout);
 
     while (1)
