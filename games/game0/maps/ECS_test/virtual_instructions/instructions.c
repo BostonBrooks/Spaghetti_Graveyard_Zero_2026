@@ -11,6 +11,7 @@
 bbFlag bbInstruction_spawnServerEntity_fn(bbCore* core, bbInstruction* instruction)
 {
     //TODO undo instruciton
+    bbHere()
     bbECS_entity* entity;
     bbCoreSynchronous_spawnEmptyEntity(core,
                                        core->ECS,

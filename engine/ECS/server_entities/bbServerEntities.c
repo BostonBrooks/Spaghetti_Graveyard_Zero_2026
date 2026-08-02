@@ -139,7 +139,7 @@ bbFlag bbCoreSynchronous_setServerEntity(bbCore* core,
                                    bbHandle server_entity_handle,
                                    bbInstruction_source source,
                                    bbHandle action)
-{
+{bbHere()
     // TODO undo instruction
 
     bbServerEntity* component;
