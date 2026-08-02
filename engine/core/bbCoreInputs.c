@@ -59,46 +59,46 @@ bbFlag bbCoreInput_setTime(bbCore* core, U64 time, bbInstruction_source source, 
     return bbSuccess;
 }
 
-bbFlag bbCoreInput_netpauseButton(bbCore* core, char* string)
-{
-    bbInstruction* instruction;
-    bbList_alloc(&core->do_stack, (void**) &instruction);
-
-    instruction->type = bbInstruction_netpauseButton;
-    bbStr_setStr(instruction->data.key, string, KEY_LENGTH);
-
-    bbList_pushL(&core->do_stack, instruction);
-
-    return bbSuccess;
-}
-
-bbFlag bbCoreInput_unfreezeButton(bbCore* core, char* string, bbInstruction_source source, bbHandle action)
-{
-    bbInstruction* instruction;
-    bbFlag flag = bbList_alloc(&core->do_stack,(void**)&instruction);
-
-    instruction->type = bbInstruction_unfreezeButton;
-    bbStr_setStr(instruction->data.key, string, KEY_LENGTH);
-    instruction->source = source;
-    instruction->redo_instruction = action;
-
-    bbList_pushL(&core->do_stack, instruction);
-    return bbSuccess;
-}
-
-
-bbFlag bbCoreInput_testClick(bbCore* core, bbMapCoords MC, bbInstruction_source source, bbHandle action)
-{
-    bbHere()
-
-    bbInstruction* instruction;
-    bbFlag flag = bbList_alloc(&core->do_stack,(void**)&instruction);
-
-    instruction->type = bbInstruction_testClick;
-    instruction->data.map_coords = MC;
-    instruction->source = source;
-    instruction->redo_instruction = action;
-
-    bbList_pushL(&core->do_stack, instruction);
-    return bbSuccess;
-}
+// bbFlag bbCoreInput_netpauseButton(bbCore* core, char* string)
+// {
+//     bbInstruction* instruction;
+//     bbList_alloc(&core->do_stack, (void**) &instruction);
+//
+//     instruction->type = bbInstruction_netpauseButton;
+//     bbStr_setStr(instruction->data.key, string, KEY_LENGTH);
+//
+//     bbList_pushL(&core->do_stack, instruction);
+//
+//     return bbSuccess;
+// }
+//
+// bbFlag bbCoreInput_unfreezeButton(bbCore* core, char* string, bbInstruction_source source, bbHandle action)
+// {
+//     bbInstruction* instruction;
+//     bbFlag flag = bbList_alloc(&core->do_stack,(void**)&instruction);
+//
+//     instruction->type = bbInstruction_unfreezeButton;
+//     bbStr_setStr(instruction->data.key, string, KEY_LENGTH);
+//     instruction->source = source;
+//     instruction->redo_instruction = action;
+//
+//     bbList_pushL(&core->do_stack, instruction);
+//     return bbSuccess;
+// }
+//
+//
+// bbFlag bbCoreInput_testClick(bbCore* core, bbMapCoords MC, bbInstruction_source source, bbHandle action)
+// {
+//     bbHere()
+//
+//     bbInstruction* instruction;
+//     bbFlag flag = bbList_alloc(&core->do_stack,(void**)&instruction);
+//
+//     instruction->type = bbInstruction_testClick;
+//     instruction->data.map_coords = MC;
+//     instruction->source = source;
+//     instruction->redo_instruction = action;
+//
+//     bbList_pushL(&core->do_stack, instruction);
+//     return bbSuccess;
+// }

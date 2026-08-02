@@ -14,11 +14,11 @@ typedef enum
     bbI_setString,
     bbI_unsetString,
 
-    bbI_spawnAIComponent,
-    bbI_unspawnAIComponent,
+    //bbI_spawnAIComponent,
+    //bbI_unspawnAIComponent,
 
-    bbInstruction_unfreezeButton,
-    bbInstruction_testClick,
+    //bbInstruction_unfreezeButton,
+    //bbInstruction_testClick,
 
     bbInstruction_checkActions,
     bbInstruction_uncheckActions,
@@ -26,34 +26,34 @@ typedef enum
     bbInstruction_setTime,
     bbInstruction_unsetTime,
 
-    bbInstruction_netpauseButton,
+    //bbInstruction_netpauseButton,
 
-    bbInstruction_spawnEmptyEntity,
-    bbInstruction_unspawnEmptyEntity,
+    //bbInstruction_spawnEmptyEntity,
+    //bbInstruction_unspawnEmptyEntity,
 
-    bbInstruction_spawnTestEntity,
-    bbInstruction_unspawnTestEntity,
+    //bbInstruction_spawnTestEntity,
+    //bbInstruction_unspawnTestEntity,
 
-    bbInstruction_deleteEntity,
-    bbInstruction_undeleteEntity,
+    //bbInstruction_deleteEntity,
+    //bbInstruction_undeleteEntity,
 
-    bbInstruction_entity_setComponent,
-    bbInstruction_entity_unsetComponent,
+    //bbInstruction_entity_setComponent,
+    //bbInstruction_entity_unsetComponent,
 
 
-    bbInstruction_setServerEntity,
-    bbInstruction_unsetServerEntity,
+    //bbInstruction_setServerEntity,
+    //bbInstruction_unsetServerEntity,
 
-    bbInstruction_spawnEntityOut,
+    //bbInstruction_spawnEntityOut,
 
-    bbInstruction_spawnGraphicsComponent,
-    bbInstruction_unspawnGraphicsComponent,
+    //bbInstruction_spawnGraphicsComponent,
+    //bbInstruction_unspawnGraphicsComponent,
 
-    bbInstruction_updateMoveables,
-    bbInstruction_unupdateMoveables,
+    //bbInstruction_updateMoveables,
+    //bbInstruction_unupdateMoveables,
 
-    bbInstruction_spawnTestMoveable,
-    bbInstruction_unspawnTestMoveable,
+    //bbInstruction_spawnTestMoveable,
+    //bbInstruction_unspawnTestMoveable,
 
     bbInstruction_numTypes
 } bbInstruction_type;

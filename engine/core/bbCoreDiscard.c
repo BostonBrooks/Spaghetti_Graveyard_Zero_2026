@@ -50,7 +50,7 @@ bbFlag bbCoreDiscard(bbCore* core, U64 time)
 
         }
 
-        if (undo_instruction->type == bbInstruction_unupdateMoveables)
+        //if (undo_instruction->type == bbInstruction_unupdateMoveables)
         {
             //TODO virtual function / callback
             //bbMoveables_snapshot* snapshot;

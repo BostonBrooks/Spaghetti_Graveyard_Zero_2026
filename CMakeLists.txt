@@ -235,6 +235,7 @@ target_link_libraries(Core_Test PRIVATE
 
 add_executable(ECS_Test  games/game0/maps/ECS_test/ECS_test.c
         engine/test_string/bbTestString.c
+        games/game0/maps/ECS_test/virtual_instructions/instructions.c
 
         engine/ECS/ECS.c
         engine/ECS/server_entities/bbServerEntities.c

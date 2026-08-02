@@ -4,6 +4,7 @@
 
 #include "engine/core/bbAction.h"
 #include "engine/data/bbHome.h"
+#include "engine/ECS/ECS_instructions.h"
 #include "engine/logic/bbBloatedPool.h"
 #include "engine/logic/bbFlag.h"
 

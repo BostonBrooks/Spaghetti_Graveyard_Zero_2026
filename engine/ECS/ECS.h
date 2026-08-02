@@ -80,7 +80,7 @@ bbFlag bbComponent_mapComponent(bbECS* ECS,
                              bbHandle* component_handle,
                              bbComponent** component);
 
-bbFlag bbECS_init(bbECS* ECS);
+//bbFlag bbECS_init(bbECS* ECS);
 
 bbFlag bbECS_new(bbECS** ECS, I32 num_systems);
 
@@ -136,4 +136,6 @@ bbFlag bbCoreInput_entity_setComponent(bbCore* core,
 
 bbFlag bbInstruction_entity_setComponent_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_entity_unsetComponent_fn(bbCore* core, bbInstruction* instruction);
+
+
 #endif //BB_ECS_H

@@ -4,10 +4,12 @@
 #include "engine/core/bbCore.h"
 #include "engine/core/bbCoreInputs.h"
 #include "engine/data/bbConstants.h"
-#include "../../../../engine/ECS/server_entities/bbServerEntities.h"
+#include "engine/ECS/server_entities/bbServerEntities.h"
 #include "engine/logic/bbHandle.h"
 #include "engine/logic/bbTerminal.h"
 #include "engine/test_string/bbTestString.h"
+#include "engine/ECS/ECS_instructions.h"
+#include "virtual_instructions/instructions.h"
 
 thread_local char* thread;
 thread_local bool debug_off = {0};
@@ -27,6 +29,16 @@ int main(void)
 
     bbCore_init(&core);
 
+    core.instruction_functions = calloc(sizeof(bbInstruction_fn*), 16);
+    core.instruction_functions[bbInstruction_spawnEmptyEntity-bbInstruction_numTypes] = bbInstruction_spawnEmptyEntity_fn;
+    core.instruction_functions[bbInstruction_unspawnEmptyEntity-bbInstruction_numTypes] = bbInstruction_unspawnEmptyEntity_fn;
+    core.instruction_functions[bbInstruction_entity_setComponent-bbInstruction_numTypes] = bbInstruction_entity_setComponent_fn;
+    core.instruction_functions[bbInstruction_entity_unsetComponent-bbInstruction_numTypes] = bbInstruction_entity_unsetComponent_fn;
+    core.instruction_functions[bbInstruction_setServerEntity-bbInstruction_numTypes] = bbInstruction_setServerEntity_fn;
+    core.instruction_functions[bbInstruction_unsetServerEntity-bbInstruction_numTypes] = bbInstruction_unsetServerEntity_fn;
+
+    core.instruction_functions[bbInstruction_spawnServerEntity-bbInstruction_numTypes] = bbInstruction_spawnServerEntity_fn;
+    core.instruction_functions[bbInstruction_unspawnServerEntity-bbInstruction_numTypes] = bbInstruction_unspawnServerEntity_fn;
 
     bbECS_new(&core.ECS, bbECS_numSystems);
 
@@ -71,10 +83,37 @@ int main(void)
         bbCore_react(&core);
     }
 
-
+    bbHandle server_handle;
+    server_handle.bloated.index = 193;
+    server_handle.bloated.collision = 193;
     bbECS_entity* entity;
-    bbCoreSynchronous_spawnEmptyEntity(&core, core.ECS, &entity, "TEST ENTITY", bbInstructionSource_input,no_handle);
+    bbCoreInput_spawnServerEntity(&core,
+                                    "TEST ENTITY",
+                                    server_handle,
+                                    bbInstructionSource_input,
+                                    no_handle);
+    bbCore_react(&core);
+    //bbCoreSynchronous_spawnEmptyEntity(&core, core.ECS, &entity, "TEST ENTITY", bbInstructionSource_input,no_handle);
 
-    bbDebug("Entity.key = %s\n", entity->key);
+    //bbDebug("Entity.key = %s\n", entity->key);
+
+    for (I32 i = 10; i < 15;i++)
+    {
+        bbCoreInput_setTime(&core, i, bbInstructionSource_input, no_handle);
+        test_time = core.actual_time = i;
+        bbCore_react(&core);
+
+        sprintf(str, "(%d)", i-3);
+
+        bbAction_setString(&core,
+                 0,
+                 collision++,
+                 i,
+                 i-3,
+                 str);
+
+        bbCoreInput_checkActions(&core,i,bbInstructionSource_input, no_handle);
+        bbCore_react(&core);
+    }
 
 }

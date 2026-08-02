@@ -18,7 +18,8 @@ bbFlag bbCoreInbox_setString_fn(bbCore* core, bbCoreInboxMessage* message)
 
 bbFlag bbCoreInbox_unfreezeButton_fn(bbCore* core, bbCoreInboxMessage* message)
 {
-    bbCoreInput_unfreezeButton(core, message->data.key, bbInstructionSource_input, no_handle);
+    //TODO virtual instruction / callback
+    //bbCoreInput_unfreezeButton(core, message->data.key, bbInstructionSource_input, no_handle);
 
 
     return bbSuccess;
@@ -28,7 +29,8 @@ bbFlag bbCoreInbox_unfreezeButton_fn(bbCore* core, bbCoreInboxMessage* message)
 bbFlag bbCoreInbox_testClick_fn(bbCore* core, bbCoreInboxMessage* message)
 {
 
-    bbCoreInput_testClick(core, message->data.map_coords, bbInstructionSource_input, no_handle);
+    //TODO virtual instruction / callback
+    //bbCoreInput_testClick(core, message->data.map_coords, bbInstructionSource_input, no_handle);
 
 
     return bbSuccess;

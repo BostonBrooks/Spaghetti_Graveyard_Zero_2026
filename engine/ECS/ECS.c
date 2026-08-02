@@ -4,6 +4,7 @@
 #include "engine/data/bbHome.h"
 #include "engine/logic/bbBloatedPool.h"
 #include "engine/logic/bbString.h"
+#include "engine/ECS/ECS_instructions.h"
 
 extern bbHandle null_handle;
 
@@ -46,38 +47,78 @@ bbFlag bbECS_new(bbECS** ECS, I32 num_systems)
 
 bbFlag bbCoreSynchronous_spawnEmptyEntity(bbCore* core, bbECS* ECS, bbECS_entity** return_entity, char* key, bbInstruction_source source, bbHandle action)
 {
-        bbECS_entity* new_entity;
-        bbHandle new_handle;
-        bbVPool_alloc2(ECS->system.pool, (void**)&new_entity,&new_handle);
+    bbECS_entity* new_entity;
+    bbHandle new_handle;
+    bbVPool_alloc2(ECS->system.pool, (void**)&new_entity,&new_handle);
+    new_entity->state = bbECS_alive;
+    new_entity->has_component = 0;
+    bbStr_setStr(new_entity->key, key, KEY_LENGTH);
+    bbList_pushR(&ECS->list, new_entity);
 
-        new_entity->state = bbECS_alive;
-        new_entity->has_component = 0;
-        bbStr_setStr(new_entity->key, key, KEY_LENGTH);
-        bbList_pushR(&ECS->list, new_entity);
+    bbDebug("entity.key = %s\n", new_entity->key);
 
-        *return_entity = new_entity;
+    if (source == bbInstructionSource_input)
+    {
+        //create input instruction
+        bbInstruction* instruction;
+        bbHandle instruction_handle;
+        bbFlag flag = bbList_alloc2(&core->do_stack,(void**)&instruction, &instruction_handle);
 
-        if (source == bbInstructionSource_norewind) return bbSuccess;
+        //set input instruction data
+        instruction->type = bbInstruction_spawnEmptyEntity;
+        instruction->ECS = ECS;
+        bbStr_setStr(instruction->data.key, key, KEY_LENGTH);
+        instruction->source = source;
+        instruction->redo_instruction = action;
 
+        //create undo instruction
         bbInstruction* undo_instruction;
         bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        undo_instruction->source = instruction->source;
+        undo_instruction->redo_instruction = instruction_handle;
+
+        //set instruction data
         undo_instruction->type = bbInstruction_unspawnEmptyEntity;
         undo_instruction->source = source;
         undo_instruction->data.three_handles.handle1 = new_handle;
         undo_instruction->ECS = ECS;
-        if (source == bbInstructionSource_internal)
-        {
-                //bbVPool_free(core->instruction_pool, (void*)instruction);
-                undo_instruction->redo_instruction.u64 = 0;
-                bbList_pushL(&core->undo_stack, (void*)undo_instruction);
-                return bbSuccess;
-        }
-        //if (source == bbInstructionSource_input)?
-        //if (source == bbInstructionSource_action)?
+        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+    } else if (source == bbInstructionSource_internal)
+    {
+        //create undo instruction
+        bbInstruction* undo_instruction;
+        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        undo_instruction->source = source;
+
+        //set instruction data
+        undo_instruction->type = bbInstruction_unspawnEmptyEntity;
+        undo_instruction->source = source;
+        undo_instruction->data.three_handles.handle1 = new_handle;
+        undo_instruction->ECS = ECS;
+        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+    } else if (source == bbInstructionSource_action)
+    {
+        //create undo instruction
+        bbInstruction* undo_instruction;
+        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        undo_instruction->redo_instruction = action;
+        undo_instruction->source = source;
+
+        //Set instruction data
+        undo_instruction->type = bbInstruction_unspawnEmptyEntity;
+        undo_instruction->source = source;
+        undo_instruction->data.three_handles.handle1 = new_handle;
+        undo_instruction->ECS = ECS;
+        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+    } else if (source == bbInstructionSource_norewind)
+    {
+
+    }
 
 
-        bbNotHere()
+    *return_entity = new_entity;
 
+    return bbSuccess;
 }
 
 bbFlag bbCoreInput_spawnEmptyEntity(bbCore* core, bbECS* ECS, char* key, bbInstruction_source source, bbHandle action)
@@ -106,6 +147,9 @@ bbFlag bbInstruction_spawnEmptyEntity_fn(bbCore* core, bbInstruction* instructio
         new_entity->has_component = 0;
         bbStr_setStr(new_entity->key, instruction->data.key, KEY_LENGTH);
         bbList_pushR(&ECS->list, new_entity);
+
+
+    bbDebug("entity.key = %s\n", new_entity->key);
 
         bbInstruction* undo_instruction;
         bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
@@ -381,6 +425,7 @@ bbFlag bbInstruction_entity_unsetComponent_fn(bbCore* core, bbInstruction* instr
     }
     bbHere()
 }
+
 /*
 bbFlag bbCoreInput_spawnTestEntity(bbCore* core, bbECS* ECS, bbMapCoords MC, bbHandle server_entity, bbInstruction_source source, bbHandle action)
 {
