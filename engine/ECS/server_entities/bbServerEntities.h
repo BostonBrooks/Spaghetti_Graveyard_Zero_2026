@@ -43,7 +43,8 @@ bbFlag bbCoreInput_setServerEntity(bbCore* core,
 bbFlag bbCoreSynchronous_setServerEntity(bbCore* core,
                                    bbHandle entity,
                                    bbHandle server_entity_handle,
-                                   bbInstruction_source source);
+                                   bbInstruction_source source,
+                                   bbHandle action);
 
 bbFlag bbInstruction_setServerEntity_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_unsetServerEntity_fn(bbCore* core, bbInstruction* instruction);
