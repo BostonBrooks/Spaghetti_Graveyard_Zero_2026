@@ -2,7 +2,7 @@
 #include <pthread.h>
 #include <math.h>
 
-#include "engine/ECS/bbServerEntities.h"
+#include "../engine/ECS/server_entities/bbServerEntities.h"
 #include "engine/ECS/bbMoveables.h"
 #include "engine/ECS/bbEntitySpawner.h"
 #include "engine/data/CSFML.h"

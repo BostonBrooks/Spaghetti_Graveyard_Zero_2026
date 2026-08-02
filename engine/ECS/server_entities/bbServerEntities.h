@@ -32,6 +32,8 @@ typedef struct
 
 bbFlag bbServerEntities_init(bbServerEntities* server_entities, bbECS* ECS);
 
+bbFlag bbECS_newServerEntities(bbECS* ECS, bbECS_systems system);
+
 bbFlag bbCoreInput_setServerEntity(bbCore* core,
                                    bbHandle entity,
                                    bbHandle server_entity_handle,

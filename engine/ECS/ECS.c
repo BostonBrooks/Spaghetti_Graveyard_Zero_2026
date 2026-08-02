@@ -28,6 +28,22 @@ bbFlag bbECS_init(bbECS* ECS)
         return bbSuccess;
 }
 
+
+bbFlag bbECS_new(bbECS** ECS, I32 num_systems)
+{
+    bbECS* new_ecs = malloc(sizeof(bbECS)+sizeof(bbSystem*)*num_systems);
+    new_ecs->systems[bbECS_ECS] = (bbSystem*)new_ecs;
+    bbVPool_newBloated(&new_ecs->system.pool, sizeof(bbECS_entity), 1000, 1000, "ECS");
+    bbList_init(&new_ecs->list, new_ecs->system.pool, NULL, offsetof(bbECS_entity, list_element_handle),NULL);
+
+    new_ecs->system.getComponent = bbECS_getComponent_fn;
+    new_ecs->system.getHandle = bbECS_getHandle_fn;
+
+    *ECS = new_ecs;
+    return bbSuccess;
+
+}
+
 bbFlag bbCoreSynchronous_spawnEmptyEntity(bbCore* core, bbECS* ECS, bbECS_entity** return_entity, char* key, bbInstruction_source source, bbHandle action)
 {
         bbECS_entity* new_entity;
@@ -365,7 +381,7 @@ bbFlag bbInstruction_entity_unsetComponent_fn(bbCore* core, bbInstruction* instr
     }
     bbHere()
 }
-
+/*
 bbFlag bbCoreInput_spawnTestEntity(bbCore* core, bbECS* ECS, bbMapCoords MC, bbHandle server_entity, bbInstruction_source source, bbHandle action)
 {
     bbInstruction* instruction;
@@ -378,7 +394,8 @@ bbFlag bbCoreInput_spawnTestEntity(bbCore* core, bbECS* ECS, bbMapCoords MC, bbH
     instruction->redo_instruction = action;
     bbList_pushL(&core->do_stack, instruction);
     return bbSuccess;
-}
+}*/
+/*
 bbFlag bbInstruction_spawnTestEntity_fn(bbCore* core, bbInstruction* instruction)
 {
     bbECS_entity* entity;
@@ -450,6 +467,9 @@ bbFlag bbInstruction_spawnTestEntity_fn(bbCore* core, bbInstruction* instruction
     }
     return bbSuccess;
 }
+*/
+
+/*
 bbFlag bbInstruction_unspawnTestEntity_fn(bbCore* core, bbInstruction* instruction)
 {
     if (instruction->source == bbInstructionSource_internal)
@@ -477,7 +497,7 @@ bbFlag bbInstruction_unspawnTestEntity_fn(bbCore* core, bbInstruction* instructi
         return bbSuccess;
     }
 }
-
+*/
 bbFlag bbECS_getComponent_fn(bbSystem* system, bbComponent** component, bbHandle component_handle)
 {
     return bbVPool_lookup(system->pool,(void**)component,component_handle);

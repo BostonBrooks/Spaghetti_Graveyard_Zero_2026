@@ -52,9 +52,10 @@ bbFlag bbCoreDiscard(bbCore* core, U64 time)
 
         if (undo_instruction->type == bbInstruction_unupdateMoveables)
         {
-            bbMoveables_snapshot* snapshot;
-            bbVPool_lookup(home.ECS.moveables.snapshots, (void**)&snapshot, undo_instruction->snapshot);
-            bbVPool_free(home.ECS.moveables.snapshots, snapshot);
+            //TODO virtual function / callback
+            //bbMoveables_snapshot* snapshot;
+            //bbVPool_lookup(home.ECS.moveables.snapshots, (void**)&snapshot, undo_instruction->snapshot);
+            //bbVPool_free(home.ECS.moveables.snapshots, snapshot);
         }
 
         bbVPool_free(core->instruction_pool, undo_instruction);

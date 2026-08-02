@@ -1,4 +1,4 @@
-#include "engine/ECS/bbServerEntities.h"
+#include "bbServerEntities.h"
 
 #include <stdlib.h>
 
@@ -24,6 +24,7 @@ bbFlag bbServerEntities_init(bbServerEntities* server_entities,bbECS* ECS)
     return bbSuccess;
 }
 
+
 bbFlag bbCoreInput_setServerEntity(bbCore* core,
                                    bbHandle entity_handle,
                                    bbHandle server_entity_handle,
@@ -35,7 +36,7 @@ bbFlag bbCoreInput_setServerEntity(bbCore* core,
     instruction->type = bbInstruction_setServerEntity;
     instruction->data.three_handles.handle1 = entity_handle;
     instruction->data.three_handles.handle2 = server_entity_handle;
-    instruction->ECS = &home.ECS.ECS;
+    instruction->ECS = core->ECS;
     instruction->source = source;
     instruction->redo_instruction = action;
     bbList_pushL(&core->do_stack, instruction);
@@ -47,7 +48,7 @@ bbFlag bbInstruction_setServerEntity_fn(bbCore* core, bbInstruction* instruction
     bbHandle component_handle;
     bbServerEntity* component;
 
-    bbVPool_allocFromHandle(home.ECS.server_entities.system.pool, (void**)&component, instruction->data.three_handles.handle2);
+    bbVPool_allocFromHandle(core->ECS->systems[bbECS_ServerEntities]->pool, (void**)&component, instruction->data.three_handles.handle2);
 
     bbHandle entity_handle = instruction->data.three_handles.handle1;
     component->component.entity_handle = entity_handle;
@@ -56,10 +57,12 @@ bbFlag bbInstruction_setServerEntity_fn(bbCore* core, bbInstruction* instruction
 
     //Use server_entity_handle to look up entity_handle
     bbHandle* handle;
-    bbVPool_allocFromHandle(home.ECS.server_entities.ECS_Handles, (void*)&handle, component->server_entity_handle );
+
+    bbServerEntities* server_entities = (bbServerEntities*)core->ECS->systems[bbECS_ServerEntities];
+    bbVPool_allocFromHandle(server_entities->ECS_Handles, (void*)&handle, component->server_entity_handle );
     *handle = instruction->data.three_handles.handle1;;
 
-    bbCoreInput_entity_setComponent(core,&home.ECS.ECS, entity_handle,component_handle, bbECS_ServerEntities, bbInstructionSource_internal, no_handle);
+    bbCoreInput_entity_setComponent(core,core->ECS, entity_handle,component_handle, bbECS_ServerEntities, bbInstructionSource_internal, no_handle);
 
     bbInstruction* undo_instruction;
     bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
@@ -96,14 +99,14 @@ bbFlag bbInstruction_unsetServerEntity_fn(bbCore* core, bbInstruction* instructi
 
     bbHandle component_handle = instruction->data.three_handles.handle1;
     bbServerEntity* component;
-    bbVPool_lookup(home.ECS.server_entities.system.pool, (void**)&component, component_handle);
+    bbVPool_lookup(core->ECS->systems[bbECS_ServerEntities]->pool, (void**)&component, component_handle);
     bbHandle server_entity_handle = component->server_entity_handle;
     //bbVPool_free(home.ECS.server_entities->system.pool,component);
-
+    bbServerEntities* server_entities = (bbServerEntities*)core->ECS->systems[bbECS_ServerEntities];
 
     void* lemon;
-    bbVPool_lookup(home.ECS.server_entities.ECS_Handles, (void*)&lemon, server_entity_handle );
-    bbVPool_free(home.ECS.server_entities.ECS_Handles, lemon);
+    bbVPool_lookup(server_entities->ECS_Handles, (void*)&lemon, server_entity_handle );
+    bbVPool_free(server_entities->ECS_Handles, lemon);
 
     if (instruction->source == bbInstructionSource_internal)
     {
@@ -138,7 +141,7 @@ bbFlag bbCoreSynchronous_setServerEntity(bbCore* core,
     bbAssert(source == bbInstructionSource_norewind, "rewind not implemented\n");
 
     bbServerEntity* component;
-    bbVPool_allocFromHandle(home.ECS.server_entities.system.pool, (void**)&component, server_entity_handle);
+    bbVPool_allocFromHandle(core->ECS->systems[bbECS_ServerEntities]->pool, (void**)&component, server_entity_handle);
 
     bbHandle entity_handle = entity;
     component->component.entity_handle = entity_handle;
@@ -147,10 +150,12 @@ bbFlag bbCoreSynchronous_setServerEntity(bbCore* core,
 
     //Use server_entity_handle to look up entity_handle
     bbHandle* handle;
-    bbVPool_allocFromHandle(home.ECS.server_entities.ECS_Handles, (void*)&handle, component->server_entity_handle );
+
+    bbServerEntities* server_entities = (bbServerEntities*)core->ECS->systems[bbECS_ServerEntities];
+    bbVPool_allocFromHandle(server_entities->ECS_Handles, (void*)&handle, component->server_entity_handle );
     *handle = entity;;
 
-    bbCoreInput_entity_setComponent(core,&home.ECS.ECS, entity_handle,server_entity_handle, bbECS_ServerEntities, bbInstructionSource_internal, no_handle);
+    bbCoreInput_entity_setComponent(core,core->ECS, entity_handle,server_entity_handle, bbECS_ServerEntities, bbInstructionSource_internal, no_handle);
     return bbSuccess;
 }
 

@@ -55,11 +55,11 @@ typedef struct bbSystem
     bbHandle_getComponent_fn* getComponent;
     bbComponent_getHandle_fn* getHandle;
 } bbSystem;
-typedef struct
+typedef struct bbECS
 {
     bbSystem system;
     bbList list;
-    bbSystem* systems[bbECS_numSystems];
+    bbSystem* systems[];
 } bbECS;
 
 
@@ -81,6 +81,8 @@ bbFlag bbComponent_mapComponent(bbECS* ECS,
                              bbComponent** component);
 
 bbFlag bbECS_init(bbECS* ECS);
+
+bbFlag bbECS_new(bbECS** ECS, I32 num_systems);
 
 //We need a function that spawns an entity, readies the unspawn instruction, then synchronously returns the entity.
 bbFlag bbCoreSynchronous_spawnEmptyEntity(bbCore* core,

@@ -7,7 +7,7 @@
 #include "engine/core/bbAction.h"
 #include "engine/ECS/bbAI_System.h"
 #include "engine/ECS/bbGraphicsSystem.h"
-#include "engine/ECS/bbServerEntities.h"
+#include "../ECS/server_entities/bbServerEntities.h"
 #include "engine/ECS/ECS.h"
 #include "engine/ECS/spawn_entity.h"
 #include "engine/logic/bbBloatedPool.h"
@@ -68,50 +68,62 @@ bbFlag bbCore_react(bbCore* core)
                 break;
 
             case bbI_spawnAIComponent:
-                bbI_spawnAIComponent_fn(core, instruction);
+                //TODO virtual function / callback
+                //bbI_spawnAIComponent_fn(core, instruction);
                 break;
 
             case bbInstruction_unfreezeButton:
-                bbInstruction_unfreezeButton_fn(core, instruction);
+                //TODO virtual function / callback
+                //bbInstruction_unfreezeButton_fn(core, instruction);
                 break;
 
             case bbInstruction_checkActions:
                 bbInstruction_checkActions_fn(core, instruction);
                 break;
             case bbInstruction_spawnEmptyEntity:
-                bbInstruction_spawnEmptyEntity_fn(core, instruction);
+                //TODO virtual function / callback
+                //bbInstruction_spawnEmptyEntity_fn(core, instruction);
                 break;
             case bbInstruction_entity_setComponent:
-                bbInstruction_entity_setComponent_fn(core, instruction);
+                //TODO virtual function / callback
+                //bbInstruction_entity_setComponent_fn(core, instruction);
                 break;
             case bbInstruction_spawnTestEntity:
-                bbInstruction_spawnTestEntity_fn(core, instruction);
+                //TODO virtual function / callback
+                //bbInstruction_spawnTestEntity_fn(core, instruction);
                 break;
 
             case bbInstruction_netpauseButton:
-                bbInstruction_netpauseButton_fn(core, instruction);
+                //TODO virtual function / callback
+                //bbInstruction_netpauseButton_fn(core, instruction);
                 break;
 
             case bbInstruction_testClick:
-                bbInstruction_testClick_fn(core, instruction);
+                //TODO virtual function / callback
+                //bbInstruction_testClick_fn(core, instruction);
                 break;
 
             case bbInstruction_spawnEntityOut:
-                bbInstruction_spawnEntityOut_fn(core, instruction);
+                //TODO virtual function / callback
+                //bbInstruction_spawnEntityOut_fn(core, instruction);
                 break;
             case bbInstruction_setServerEntity:
-                bbInstruction_setServerEntity_fn(core, instruction);
+                //TODO virtual function / callback
+                //bbInstruction_setServerEntity_fn(core, instruction);
                 break;
             case bbInstruction_spawnGraphicsComponent:
-                 bbInstruction_spawnGraphicsComponent_fn(core, instruction);
+                //TODO virtual function / callback
+                //bbInstruction_spawnGraphicsComponent_fn(core, instruction);
                 break;
 
             case bbInstruction_updateMoveables:
-                bbInstruction_updateMoveables_fn(core, instruction);
+                //TODO virtual function / callback
+                //bbInstruction_updateMoveables_fn(core, instruction);
                 break;
 
             case bbInstruction_spawnTestMoveable:
-                bbInstruction_spawnTestMoveable_fn(core, instruction);
+                //TODO virtual function / callback
+                //bbInstruction_spawnTestMoveable_fn(core, instruction);
                 break;
             default:
                 bbAssert(0==1,"Unknown instruction type %d\n", instruction->type);
@@ -157,37 +169,46 @@ bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
                 break;
 
             case bbI_unspawnAIComponent:
-                bbI_unspawnAIComponent_fn(core, instruction);
+                //TODO virtual function / callback
+                //bbI_unspawnAIComponent_fn(core, instruction);
                 break;
 
             case bbInstruction_uncheckActions:
-                bbInstruction_uncheckActions_fn(core, instruction);
+                //TODO virtual function / callback
+                //bbInstruction_uncheckActions_fn(core, instruction);
                 break;
 
             case bbInstruction_unspawnEmptyEntity:
-                bbInstruction_unspawnEmptyEntity_fn(core, instruction);
+                //TODO virtual function / callback
+                //bbInstruction_unspawnEmptyEntity_fn(core, instruction);
                 break;
             case bbInstruction_entity_unsetComponent:
-               bbInstruction_entity_unsetComponent_fn(core, instruction);
+                //TODO virtual function / callback
+                //bbInstruction_entity_unsetComponent_fn(core, instruction);
                 break;
             case bbInstruction_unspawnTestEntity:
-               bbInstruction_unspawnTestEntity_fn(core, instruction);
+                //TODO virtual function / callback
+                //bbInstruction_unspawnTestEntity_fn(core, instruction);
                 break;
 
             case bbInstruction_unsetServerEntity:
                 bbHere()
-                bbInstruction_unsetServerEntity_fn(core, instruction);
+                //TODO virtual function / callback
+//bbInstruction_unsetServerEntity_fn(core, instruction);
                 break;
             case bbInstruction_unupdateMoveables:
-                bbInstruction_unupdateMoveables_fn(core, instruction);
+                //TODO virtual function / callback
+                //bbInstruction_unupdateMoveables_fn(core, instruction);
                 break;
 
             case bbInstruction_unspawnTestMoveable:
-                bbInstruction_unspawnTestMoveable_fn(core, instruction);
+                //TODO virtual function / callback
+                //bbInstruction_unspawnTestMoveable_fn(core, instruction);
                 break;
 
             case bbInstruction_unspawnGraphicsComponent:
-                bbInstruction_unspawnGraphicsComponent_fn(core, instruction);
+                //TODO virtual function / callback
+                //bbInstruction_unspawnGraphicsComponent_fn(core, instruction);
                 break;
             default:
                 bbAssert(0==1,"Unknown undo instruction type %d\n", instruction->type);

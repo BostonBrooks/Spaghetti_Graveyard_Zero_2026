@@ -49,6 +49,7 @@ struct bbCore
     /// Set by clock / incremented at end of loop
     U64 actual_time;
 
+    struct bbECS *ECS;
 };
 
 bbFlag bbCore_init(bbCore* core);

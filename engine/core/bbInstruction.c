@@ -275,7 +275,8 @@ bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
         }
         if (action->header.type == bbActionType_spawnEntity)
         {
-            bbCoreInput_spawnTestEntity(core,&home.ECS.ECS, action->map_coords, action->handle, bbInstructionSource_action, handle);
+            //TODO virtual function / callback
+            //bbCoreInput_spawnTestEntity(core,&home.ECS.ECS, action->map_coords, action->handle, bbInstructionSource_action, handle);
 
 
         }
@@ -316,7 +317,8 @@ bbFlag bbInstruction_uncheckActions_fn(bbCore* core, bbInstruction* instruction)
 
 bbFlag bbInstruction_netpauseButton_fn(bbCore* core, bbInstruction* instruction)
 {
-    bbNetworkApp_netpauseButton(&home.network, instruction->data.key);
+    //TODO virtual function / callback
+    //bbNetworkApp_netpauseButton(&home.network, instruction->data.key);
     return bbSuccess;
 }
 
@@ -325,9 +327,10 @@ bbFlag bbInstruction_netpauseButton_fn(bbCore* core, bbInstruction* instruction)
 bbFlag bbInstruction_unfreezeButton_fn(bbCore* core, bbInstruction* instruction)
 {
 
+    //TODO virtual function / callback
     bbDebug("unfreeze button %s\n", instruction->data.key);
 
-    bbUI_Inbox_UnpressButton2(&home.UI.inbox, instruction->data.key);
+    //bbUI_Inbox_UnpressButton2(&home.UI.inbox, instruction->data.key);
 
     return bbSuccess;
 
@@ -336,6 +339,7 @@ bbFlag bbInstruction_unfreezeButton_fn(bbCore* core, bbInstruction* instruction)
 
 bbFlag bbInstruction_testClick_fn(bbCore* core, bbInstruction* instruction)
 {
-    bbNetworkApp_sendTestClick(&home.network, &instruction->data.map_coords);
+    //TODO virtual function / callback
+    //bbNetworkApp_sendTestClick(&home.network, &instruction->data.map_coords);
     bbHere()
 }

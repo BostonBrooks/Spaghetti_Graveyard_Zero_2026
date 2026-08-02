@@ -54,12 +54,14 @@ bbFlag bbCore_checkInbox(bbCore* core)
             break;
 
         case bbCoreInbox_unfreezeButton:
-            bbCoreInbox_unfreezeButton_fn(core, message);
+            //TODO virtual function / callback
+            //bbCoreInbox_unfreezeButton_fn(core, message);
             bbCore_react(core);
             break;
 
             case bbCoreInbox_testClick:
-            bbCoreInbox_testClick2_fn(core, message);
+            //TODO virtual function / callback
+            //bbCoreInbox_testClick2_fn(core, message);
             bbCore_react(core);
             break;
 

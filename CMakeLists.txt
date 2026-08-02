@@ -30,7 +30,7 @@ target_link_libraries(Server PRIVATE
 add_executable(SkellyChase test/bbTest_SkellyChase.c
         engine/ECS/ECS.c
         engine/ECS/spawn_entity.c
-        engine/ECS/bbServerEntities.c
+        engine/ECS/server_entities/bbServerEntities.c
         engine/ECS/bbGraphicsSystem.c
         engine/ECS/bbMoveables.c
         engine/ECS/bbEntitySpawner.c
@@ -119,7 +119,7 @@ target_include_directories(Test_Pool PRIVATE "./")
 add_executable(Test_ECS  test/bbTest_ECS.c
         engine/ECS/ECS.c
         engine/ECS/spawn_entity.c
-        engine/ECS/bbServerEntities.c
+        engine/ECS/server_entities/bbServerEntities.c
         engine/ECS/bbGraphicsSystem.c
         engine/ECS/bbMoveables.c
         engine/ECS/bbEntitySpawner.c
@@ -188,6 +188,87 @@ target_compile_definitions(Test_ECS PRIVATE DEFINE_TEST_ECS
 target_include_directories(Test_ECS PRIVATE "./"
         PRIVATE "./games/game0/maps/skellychase/")
 target_link_libraries(Test_ECS PRIVATE
+        csfml-graphics
+        csfml-window
+        csfml-system
+        csfml-network
+)
+
+add_executable(Core_Test  games/game0/maps/core_test/core_test.c
+        engine/test_string/bbTestString.c
+
+        engine/core/bbAction.c
+        engine/core/bbCore.c
+        engine/core/bbCoreDiscard.c
+        engine/core/bbCoreInbox.c
+        engine/core/bbCoreInboxInput.c
+        engine/core/bbCoreInputs.c
+        engine/core/bbInstruction.c
+
+        engine/logic/bbList.c
+        engine/logic/bbNestedList.c
+        engine/logic/bbList_sort.c
+        engine/logic/bbList_map.c
+        engine/logic/bbList_iterate.c
+        engine/logic/bbList_getNth.c
+
+        engine/logic/bbTree.c
+        engine/logic/bbBloatedPool.c
+        engine/logic/bbDictionary.c
+
+        engine/threadsafe/bbThreadedQueue_search.c
+        engine/threadsafe/bbThreadedQueue.c
+        engine/threadsafe/bbThreadedPool.c
+)
+
+target_compile_definitions(Core_Test PRIVATE DEFINE_TEST_CORE
+        PRIVATE BB_HOME_H)
+target_include_directories(Core_Test PRIVATE "./"
+        PRIVATE "./games/game0/maps/core_test/")
+target_link_libraries(Core_Test PRIVATE
+        csfml-graphics
+        csfml-window
+        csfml-system
+        csfml-network
+)
+
+
+add_executable(ECS_Test  games/game0/maps/ECS_test/ECS_test.c
+        engine/test_string/bbTestString.c
+
+        engine/ECS/ECS.c
+        engine/ECS/server_entities/bbServerEntities.c
+
+
+        engine/core/bbAction.c
+        engine/core/bbCore.c
+        engine/core/bbCoreDiscard.c
+        engine/core/bbCoreInbox.c
+        engine/core/bbCoreInboxInput.c
+        engine/core/bbCoreInputs.c
+        engine/core/bbInstruction.c
+
+        engine/logic/bbList.c
+        engine/logic/bbNestedList.c
+        engine/logic/bbList_sort.c
+        engine/logic/bbList_map.c
+        engine/logic/bbList_iterate.c
+        engine/logic/bbList_getNth.c
+
+        engine/logic/bbTree.c
+        engine/logic/bbBloatedPool.c
+        engine/logic/bbDictionary.c
+
+        engine/threadsafe/bbThreadedQueue_search.c
+        engine/threadsafe/bbThreadedQueue.c
+        engine/threadsafe/bbThreadedPool.c
+)
+
+target_compile_definitions(ECS_Test  PRIVATE DEFINE_TEST_ECS
+        PRIVATE BB_HOME_H)
+target_include_directories(ECS_Test  PRIVATE "./"
+        PRIVATE "./games/game0/maps/ECS_test/")
+target_link_libraries(ECS_Test PRIVATE
         csfml-graphics
         csfml-window
         csfml-system
