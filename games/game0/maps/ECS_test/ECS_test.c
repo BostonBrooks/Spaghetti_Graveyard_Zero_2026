@@ -95,7 +95,18 @@ int main(void)
     bbCore_react(&core);
     //bbCoreSynchronous_spawnEmptyEntity(&core, core.ECS, &entity, "TEST ENTITY", bbInstructionSource_input,no_handle);
 
-    //bbDebug("Entity.key = %s\n", entity->key);
+    bbVPool_lookup(core.ECS->system.pool,(void**)&entity,core.ECS->list.list.head);
+    bbDebug("Entity.key = %s\n", entity->key);
+
+    bbServerEntity* server_entity;
+    bbHandle server_handle2;
+
+    bbComponent_mapComponent(core.ECS,bbECS_ECS,(bbComponent*)entity,bbECS_ServerEntities,&server_handle2,(bbComponent**)&server_entity);
+
+    bbECS_entity* entity2;
+    bbHandle_mapComponent(core.ECS,bbECS_ServerEntities,server_handle2,bbECS_ECS,NULL,(bbComponent**)&entity2);
+
+    bbDebug("Entity.key = %s\n", entity2->key);
 
     for (I32 i = 10; i < 15;i++)
     {

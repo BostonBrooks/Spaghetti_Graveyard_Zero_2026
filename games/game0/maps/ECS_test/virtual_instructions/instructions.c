@@ -32,6 +32,8 @@ bbFlag bbInstruction_spawnServerEntity_fn(bbCore* core, bbInstruction* instructi
                                    bbInstructionSource_internal,
                                    no_handle);
 
+
+
     return bbSuccess;
 }
 bbFlag bbInstruction_unspawnServerEntity_fn(bbCore* core, bbInstruction* instruction){bbHere()}

@@ -52,8 +52,14 @@ bbFlag bbCoreSynchronous_spawnEmptyEntity(bbCore* core, bbECS* ECS, bbECS_entity
     bbVPool_alloc2(ECS->system.pool, (void**)&new_entity,&new_handle);
     new_entity->state = bbECS_alive;
     new_entity->has_component = 0;
+    new_entity->component.entity_handle = new_handle;
     bbStr_setStr(new_entity->key, key, KEY_LENGTH);
     bbList_pushR(&ECS->list, new_entity);
+
+//Set entity.ecs_entity = entity
+    U64 mask = getMask(bbECS_ECS);
+    new_entity->has_component |= mask;
+    new_entity->components[bbECS_ECS] = new_handle;
 
     bbDebug("entity.key = %s\n", new_entity->key);
 
@@ -148,6 +154,10 @@ bbFlag bbInstruction_spawnEmptyEntity_fn(bbCore* core, bbInstruction* instructio
         bbStr_setStr(new_entity->key, instruction->data.key, KEY_LENGTH);
         bbList_pushR(&ECS->list, new_entity);
 
+    //Set entity.ecs_entity = entity
+    U64 mask = getMask(bbECS_ECS);
+    new_entity->has_component |= mask;
+    new_entity->components[bbECS_ECS] = new_handle;
 
     bbDebug("entity.key = %s\n", new_entity->key);
 
@@ -184,7 +194,7 @@ bbFlag bbInstruction_spawnEmptyEntity_fn(bbCore* core, bbInstruction* instructio
     }
 
 bbFlag bbInstruction_unspawnEmptyEntity_fn(bbCore* core, bbInstruction* instruction)
-{
+{bbHere()
     bbECS* ECS = instruction->ECS;
     bbHandle entity_handle = instruction->data.three_handles.handle1;
     bbECS_entity* entity;
@@ -574,6 +584,9 @@ bbFlag bbComponent_mapComponent(bbECS* ECS,
     bbHandle entity_handle = from_component->entity_handle;
 
     bbECS_entity* entity;
+
+    bbVPool_lookup(ECS->system.pool, (void**)&entity, entity_handle);
+
     bbHandle_getComponent(&ECS->system,(bbComponent**)&entity,entity_handle);
 
     bbSystem* system1 = ECS->systems[component_system];
@@ -581,6 +594,8 @@ bbFlag bbComponent_mapComponent(bbECS* ECS,
     bbHandle component_handle1 = entity->components[component_system];
     bbComponent* component1;
     bbHandle_getComponent(system1,&component1,component_handle1);
+
+    bbAssert(component1 != NULL,"Something returned null\n");
 
     if (component_handle!=NULL) *component_handle = component_handle1;
     if (component!=NULL)*component = component1;
@@ -599,7 +614,7 @@ bbFlag bbHandle_mapComponent(bbECS* ECS,
                              bbComponent** component)
 {
     bbComponent* component1;
-    bbSystem* system1 = ECS->systems[component_system];
+    bbSystem* system1 = ECS->systems[system];
     bbHandle_getComponent(system1,&component1,from_handle);
 
     return bbComponent_mapComponent(ECS,

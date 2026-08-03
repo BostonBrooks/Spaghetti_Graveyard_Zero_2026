@@ -96,13 +96,13 @@ bbFlag bbInstruction_setServerEntity_fn(bbCore* core, bbInstruction* instruction
     return bbSuccess;
 }
 bbFlag bbInstruction_unsetServerEntity_fn(bbCore* core, bbInstruction* instruction)
-{
+{bbHere()
 
     bbHandle component_handle = instruction->data.three_handles.handle1;
     bbServerEntity* component;
     bbVPool_lookup(core->ECS->systems[bbECS_ServerEntities]->pool, (void**)&component, component_handle);
     bbHandle server_entity_handle = component->server_entity_handle;
-    //bbVPool_free(home.ECS.server_entities->system.pool,component);
+    bbVPool_free(core->ECS->systems[bbECS_ServerEntities]->pool,component);
     bbServerEntities* server_entities = (bbServerEntities*)core->ECS->systems[bbECS_ServerEntities];
 
     void* lemon;
@@ -149,6 +149,8 @@ bbFlag bbCoreSynchronous_setServerEntity(bbCore* core,
     component->component.entity_handle = entity_handle;
     component->server_entity_handle = server_entity_handle;
 
+    // bbDebug("entity handle = %d, %d, server entity handle = %d, %d",
+    //     entity_handle.bloated.index, entity_handle.bloated.collision, server_entity_handle.bloated.index,server_entity_handle.bloated.index);
 
     //Use server_entity_handle to look up entity_handle
     bbHandle* handle;
@@ -158,6 +160,66 @@ bbFlag bbCoreSynchronous_setServerEntity(bbCore* core,
     *handle = entity;;
 
     bbCoreInput_entity_setComponent(core,core->ECS, entity_handle,server_entity_handle, bbECS_ServerEntities, bbInstructionSource_internal, no_handle);
+
+    if (source == bbInstructionSource_input)
+    {
+        //create input instruction
+        bbInstruction* instruction;
+        bbHandle instruction_handle;
+        bbFlag flag = bbList_alloc2(&core->do_stack, (void**)&instruction,&instruction_handle);
+
+        instruction->source = source;
+
+        //set input instruction data
+        instruction->type = bbInstruction_setServerEntity;
+        //bbStr_setStr(instruction->data.key, string, KEY_LENGTH);
+
+        //create undo instruction
+        bbInstruction* undo_instruction;
+        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        undo_instruction->source = instruction->source;
+        undo_instruction->redo_instruction = instruction_handle;
+
+        //set instruction data
+        undo_instruction->type = bbInstruction_unsetServerEntity;
+        undo_instruction->data.three_handles.handle1 = server_entity_handle;
+        undo_instruction->source = instruction->source;
+        //undo_instruction->ECS = ECS;
+        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+    }
+    else if (source == bbInstructionSource_internal)
+    {
+        //create undo instruction
+        bbInstruction* undo_instruction;
+        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        undo_instruction->source = source;
+
+        //set instruction data
+        undo_instruction->type = bbInstruction_unsetServerEntity;
+        undo_instruction->data.three_handles.handle1 = server_entity_handle;
+        undo_instruction->source = source;
+        //undo_instruction->ECS = ECS;
+        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+    }
+    else if (source == bbInstructionSource_action)
+    {
+        //create undo instruction
+        bbInstruction* undo_instruction;
+        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        undo_instruction->redo_instruction = action;
+        undo_instruction->source = source;
+
+        //Set instruction data
+        undo_instruction->type = bbInstruction_unsetServerEntity;
+        undo_instruction->data.three_handles.handle1 = server_entity_handle;
+        undo_instruction->source = source;
+        //undo_instruction->ECS = ECS;
+        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+    }
+    else if (source == bbInstructionSource_norewind)
+    {
+    }
+
     return bbSuccess;
 }
 
