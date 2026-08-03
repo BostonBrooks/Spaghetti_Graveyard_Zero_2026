@@ -106,7 +106,11 @@ int main(void)
     bbECS_entity* entity2;
     bbHandle_mapComponent(core.ECS,bbECS_ServerEntities,server_handle2,bbECS_ECS,NULL,(bbComponent**)&entity2);
 
+
     bbDebug("Entity.key = %s\n", entity2->key);
+
+
+
 
     for (I32 i = 10; i < 15;i++)
     {

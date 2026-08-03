@@ -239,7 +239,7 @@ bbFlag bbCS_entity_setComponent(bbCore* core,
                                 bbECS_systems system,
                                 bbInstruction_source source,
                                 bbHandle action)
-{
+{bbHere()
     //Post undo instruction
 
     if (source == bbInstructionSource_input)
@@ -344,7 +344,7 @@ bbFlag bbCoreInput_entity_setComponent(bbCore* core,bbECS* ECS, bbHandle entity,
 }
 
 bbFlag bbInstruction_entity_setComponent_fn(bbCore* core, bbInstruction* instruction)
-{
+{bbHere()
     bbECS* ECS = instruction->ECS;
     bbHandle entity_handle = instruction->data.three_handles.handle1;
     bbHandle component = instruction->data.three_handles.handle2;
@@ -397,7 +397,7 @@ bbFlag bbInstruction_entity_setComponent_fn(bbCore* core, bbInstruction* instruc
 }
 
 bbFlag bbInstruction_entity_unsetComponent_fn(bbCore* core, bbInstruction* instruction)
-{
+{bbHere()
     bbECS* ECS = instruction->ECS;
     bbHandle entity_handle = instruction->data.three_handles.handle1;
     bbHandle component = instruction->data.three_handles.handle2;
