@@ -49,10 +49,10 @@ bbFlag bbSF_addServerEntity_skelly(void* spawner,
     bbHandle handle;
     bbVPool_reverseLookup(home.ECS.ECS.system.pool, entity, &handle);
 
-    //bbCoreSynchronous_setServerEntity(&home.core.core,
-    //                               handle,
-    //                               args.server_handle,
-    //                               bbInstructionSource_norewind);
+    bbCoreSynchronous_setServerEntity(&home.core.core,
+                                   handle,
+                                   args.server_handle,
+                                   bbInstructionSource_norewind);
     return bbSuccess;
 }
 bbFlag bbSF_addMoveable_skelly(void* spawner,

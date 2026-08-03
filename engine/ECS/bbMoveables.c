@@ -1,6 +1,7 @@
 
 #include "engine/ECS/bbMoveables.h"
 
+#include "core/instructions.h"
 #include "engine/core/bbAction.h"
 #include "engine/core/bbCoreInputs.h"
 #include "engine/data/bbHome.h"

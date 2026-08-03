@@ -1,0 +1,72 @@
+#ifndef  INSTRUCTIONS_H
+#define  INSTRUCTIONS_H
+#include "engine/core/bbInstruction.h"
+
+typedef enum
+{
+    bbInstruction_spawnEntityOut,
+    bbInstruction_spawnGraphicsComponent,
+    bbInstruction_unspawnGraphicsComponent,
+    bbInstruction_spawnTestMoveable,
+    bbInstruction_unspawnTestMoveable,
+    bbInstruction_updateMoveables,
+    bbInstruction_unupdateMoveables,
+    bbI_spawnAIComponent,
+    bbI_unspawnAIComponent,
+    bbVInstruction_numTypes
+}bbVInstruction_type;
+
+
+bbFlag bbVInstruction_setGoalpointOut_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbVInstruction_setGoalpointIn_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbVInstruction_unsetGoalpoint_fn(bbCore* core, bbInstruction* instruction);
+
+bbFlag bbVInstruction_updateMovables_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbVInstruction_unupdateMovables_fn(bbCore* core, bbInstruction* instruction);
+
+bbFlag bbVInstruction_setGoalMovable_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbVInstruction_unsetGoalMovable_fn(bbCore* core, bbInstruction* instruction);
+
+
+
+bbFlag bbVInstruction_updateMovables_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbVInstruction_unupdateMovables_fn(bbCore* core, bbInstruction* instruction);
+
+
+
+bbFlag bbVInstruction_updateAgentsSquare_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbVInstruction_unupdateAgentsSquare_fn(bbCore* core, bbInstruction* instruction);
+
+bbFlag bbVInstruction_updateAgentSquare_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbVInstruction_unupdateAgentSquare_fn(bbCore* core, bbInstruction* instruction);
+
+
+
+bbFlag bbVInstruction_updateAgents_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbVInstruction_unupdateAgents_fn(bbCore* core, bbInstruction* instruction);
+
+bbFlag bbVInstruction_updateAgent_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbVInstruction_unupdateAgent_fn(bbCore* core, bbInstruction* instruction);
+
+
+bbFlag bbVInstruction_commandAgent_fn(bbCore* core, bbInstruction* instruction);
+
+
+bbFlag bbVInstruction_spawnUnitOut_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbVInstruction_spawnUnitIn_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbVInstruction_unspawnUnit_fn(bbCore* core, bbInstruction* instruction);
+
+
+bbFlag bbVInstruction_damageAgent_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbVInstruction_undamageAgent_fn(bbCore* core, bbInstruction* instruction);
+
+
+bbFlag bbVInstruction_spawnAgent_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbVInstruction_unspawnAgent_fn(bbCore* core, bbInstruction* instruction);
+
+bbFlag bbVInstruction_commandAgentMapClick_fn(bbCore* core, bbInstruction* instruction);
+
+bbFlag bbVInstruction_deleteEntity_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbVInstruction_undeleteEntity_fn(bbCore* core, bbInstruction* instruction);
+
+#endif// INSTRUCTIONS_H

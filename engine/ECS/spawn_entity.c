@@ -4,6 +4,7 @@
 #include "engine/core/bbAction.h"
 #include "engine/core/bbCoreInbox.h"
 #include "engine/data/bbHome.h"
+#include "core/instructions.h"
 
 extern U32 collision;
 

@@ -1,5 +1,6 @@
 #include "engine/ECS/bbAI_System.h"
 
+#include "core/instructions.h"
 #include "engine/data/bbHome.h"
 #include "engine/logic/bbBloatedPool.h"
 #include "engine/logic/bbPrime.h"
