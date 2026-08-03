@@ -213,7 +213,6 @@ add_executable(Systems_Test games/game0/maps/Systems_test/System_test.c
         games/game0/maps/Systems_test/entity_spawner/spawner.c
 
         engine/test_string/bbTestString.c
-        games/game0/maps/ECS_test/virtual_instructions/instructions.c
 
         engine/ECS/ECS.c
         engine/ECS/server_entities/bbServerEntities.c

@@ -1,10 +1,12 @@
 #ifndef  INSTRUCTIONS_H
 #define  INSTRUCTIONS_H
 #include "engine/core/bbInstruction.h"
+#include "engine/ECS/ECS_instructions.h"
+
 
 typedef enum
 {
-    bbInstruction_spawnEntityOut,
+    bbInstruction_spawnEntityOut = bbInstruction_numECS_Instructions,
     bbInstruction_spawnGraphicsComponent,
     bbInstruction_unspawnGraphicsComponent,
     bbInstruction_spawnTestMoveable,
@@ -13,10 +15,21 @@ typedef enum
     bbInstruction_unupdateMoveables,
     bbI_spawnAIComponent,
     bbI_unspawnAIComponent,
+    bbInstruction_spawnServerEntity,
+    bbInstruction_unspawnServerEntity,
     bbVInstruction_numTypes
 }bbVInstruction_type;
 
+bbFlag bbCoreInput_spawnServerEntity(bbCore* core,
+                                    char* key,
+                                    bbHandle server_entity,
+                                    bbInstruction_source source,
+                                    bbHandle action);
 
+bbFlag bbInstruction_unspawnServerEntity_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbInstruction_spawnServerEntity_fn(bbCore* core, bbInstruction* instruction);
+
+/*
 bbFlag bbVInstruction_setGoalpointOut_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbVInstruction_setGoalpointIn_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbVInstruction_unsetGoalpoint_fn(bbCore* core, bbInstruction* instruction);
@@ -68,5 +81,5 @@ bbFlag bbVInstruction_commandAgentMapClick_fn(bbCore* core, bbInstruction* instr
 
 bbFlag bbVInstruction_deleteEntity_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbVInstruction_undeleteEntity_fn(bbCore* core, bbInstruction* instruction);
-
+*/
 #endif// INSTRUCTIONS_H

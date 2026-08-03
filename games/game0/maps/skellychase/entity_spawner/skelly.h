@@ -47,7 +47,7 @@ bbFlag bbSF_addServerEntity_skelly(void* spawner,
     bbHere()
 
     bbHandle handle;
-    bbVPool_reverseLookup(home.ECS.ECS.system.pool, entity, &handle);
+    bbVPool_reverseLookup(home.ECS.ECS->system.pool, entity, &handle);
 
     //bbCoreSynchronous_setServerEntity(&home.core.core,
     //                               handle,

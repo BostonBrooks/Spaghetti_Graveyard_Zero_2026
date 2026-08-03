@@ -20,7 +20,7 @@
 
 typedef struct
 {
-    bbECS ECS;
+    bbECS* ECS;
     bbServerEntities server_entities;
     bbGraphicsSystem graphics_system;
     bbMoveables moveables;

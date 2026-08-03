@@ -6,19 +6,19 @@
 #include "engine/userinterface/bbWidgets.h"
 #include "engine/data/bbHome.h"
 
-//#include "games/game0/maps/skellychase/mouse/textbox.h"
-//#include "games/game0/maps/skellychase/mouse/react_button.h"
-//#include "games/game0/maps/skellychase/mouse/action_button.h"
-//#include "games/game0/maps/skellychase/mouse/retroaction_button.h"
-//#include "games/game0/maps/skellychase/mouse/netsend_button.h"
-//#include "games/game0/maps/skellychase/mouse/netcode_button.h"
-//#include "games/game0/maps/skellychase/mouse/loop_button.h"
-//#include "games/game0/maps/skellychase/mouse/pause_button.h"
+//#include "games/game0/maps/systems_test/mouse/textbox.h"
+//#include "games/game0/maps/systems_test/mouse/react_button.h"
+//#include "games/game0/maps/systems_test/mouse/action_button.h"
+//#include "games/game0/maps/systems_test/mouse/retroaction_button.h"
+//#include "games/game0/maps/systems_test/mouse/netsend_button.h"
+//#include "games/game0/maps/systems_test/mouse/netcode_button.h"
+//#include "games/game0/maps/systems_test/mouse/loop_button.h"
+//#include "games/game0/maps/systems_test/mouse/pause_button.h"
 
-#include "games/game0/maps/skellychase/mouse/netpause_button.h"
-#include "games/game0/maps/skellychase/mouse/hover.h"
-#include "games/game0/maps/skellychase/mouse/viewport.h"
-#include "games/game0/maps/skellychase/mouse/switch_character_button.h"
+#include "games/game0/maps/systems_test/mouse/netpause_button.h"
+#include "games/game0/maps/systems_test/mouse/hover.h"
+#include "games/game0/maps/systems_test/mouse/viewport.h"
+#include "games/game0/maps/systems_test/mouse/switch_character_button.h"
 bbFlag bbMouseFunctions_populate(bbMouseFunctions* self)
 {
 

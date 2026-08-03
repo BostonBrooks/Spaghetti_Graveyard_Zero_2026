@@ -5,11 +5,11 @@
 #include "engine/groundsurface/bbGroundSurface.h"
 #include "engine/spawner/bbSpawner.h"
 
-#include "games/game0/maps/skellychase/spawner/kitty.h"
-#include "games/game0/maps/skellychase/spawner/balloon.h"
-#include "games/game0/maps/skellychase/spawner/skelly.h"
-#include  "games/game0/maps/skellychase/spawner/zombie.h"
-#include "games/game0/maps/skellychase/spawner/fireball.h"
+#include "games/game0/maps/systems_test/spawner/kitty.h"
+#include "games/game0/maps/systems_test/spawner/balloon.h"
+#include "games/game0/maps/systems_test/spawner/skelly.h"
+#include  "games/game0/maps/systems_test/spawner/zombie.h"
+#include "games/game0/maps/systems_test/spawner/fireball.h"
 
 //typedef bbFlag bbSpawnFunction (char* string);
 //(MC.i, MC.j, movable_index, entity_index);

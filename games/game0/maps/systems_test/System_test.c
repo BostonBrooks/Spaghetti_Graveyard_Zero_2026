@@ -2,6 +2,7 @@
 #include <pthread.h>
 #include <math.h>
 
+#include "core/instructions.h"
 #include "engine/ECS/server_entities/bbServerEntities.h"
 #include "engine/ECS/bbMoveables.h"
 #include "engine/ECS/bbEntitySpawner.h"
@@ -22,9 +23,10 @@
 #include "engine/userinterface/bbMouse.h"
 #include "engine/spawner/bbSpawner.h"
 #include "engine/network/bbNetworkApp.h"
-#include "games/game0/maps/skellychase/core/core_inputs.h"
+#include "games/game0/maps/systems_test/core/core_inputs.h"
 #include "engine/ECS/bbAI_System.h"
 #include "engine/test_string/bbTestString.h"
+#include "engine/ECS/ECS_instructions.h"
 
 
 #include "engine/ECS/bbGraphicsSystem.h"
@@ -69,14 +71,23 @@ int main(void)
     bbCore_init(&home.core.core);
     bbCore_initVInstructions(&home.core.core);
 
-    bbECS_init(&home.ECS.ECS);
-    bbServerEntities_init(&home.ECS.server_entities,&home.ECS.ECS);
-    bbGraphicsSystem_init(&home.ECS.graphics_system,&home.ECS.ECS);
-    bbMoveables_init(&home.ECS.moveables,&home.ECS.ECS);
+    bbECS_new(&home.core.core.ECS, bbECS_numSystems);
 
+    home.ECS.ECS = home.core.core.ECS;
+    bbServerEntities_init(&home.ECS.server_entities,home.core.core.ECS);
+
+    bbHandle server_handle;
+    server_handle.bloated.index = 193;
+    server_handle.bloated.collision = 193;
+    bbECS_entity* entity;
+    bbCoreInput_spawnServerEntity(&home.core.core,
+                                    "TEST ENTITY",
+                                    server_handle,
+                                    bbInstructionSource_input,
+                                    no_handle);
 
     bbSquareCoords size; size.i = 12; size.j = 12; size.k = 0;
-    bbGroundSurface_init(&home.ground_surface, size, "./maps/skellychase/graphics/HeightMap.bmp");
+    bbGroundSurface_init(&home.ground_surface, size, "./maps/systems_test/graphics/HeightMap.bmp");
     //
     // bbSpawner_init(&home.spawner, 69, 193);
     // bbSpawner_populate(&home.spawner);
@@ -101,12 +112,12 @@ int main(void)
 
 
     bbEntitySpawner_init(&home.ECS.spawner);
-    bbEntitySpawner_populate(&home.ECS.spawner);
+//    bbEntitySpawner_populate(&home.ECS.spawner);
 
 
     pthread_barrier_wait(&barrier1);
 
-    //bbEntitySpawner_spawnFile(&home.ECS.spawner, "maps/skellychase/entity_spawner/spawner.csv");
+    //bbEntitySpawner_spawnFile(&home.ECS.spawner, "maps/systems_test/entity_spawner/spawner.csv");
 
 
     //bbMoveable* test_moveable = &home.ECS.moveables.moveables[0];
@@ -259,7 +270,7 @@ void* userinterface_thread(void* arg)
 
 
     //bbEntities_init_graphics(&home.agents_app.entities);
-    //bbSpawner_spawnGraphics(&home.spawner, "./maps/skellychase/spawner/spawner.csv");
+    //bbSpawner_spawnGraphics(&home.spawner, "./maps/systems_test/spawner/spawner.csv");
 
     bbHere()
     bbMapCoords MC;

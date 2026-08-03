@@ -5,7 +5,7 @@
 #include "engine/ECS/bbMoveables.h"
 #include "../../../../../engine/ECS/server_entities/bbServerEntities.h"
 #include "engine/logic/bbFlag.h"
-
+/*
 ///Core synchronous spawn empty entity
 bbFlag bbCS_spawnEmptyEntity(bbECS_entity** entity, bbInstruction_source source);
 bbFlag bbSF_addServerEntity_skelly(void* spawner,
@@ -47,7 +47,7 @@ bbFlag bbSF_addServerEntity_skelly(void* spawner,
     bbHere()
 
     bbHandle handle;
-    bbVPool_reverseLookup(home.ECS.ECS.system.pool, entity, &handle);
+    bbVPool_reverseLookup(home.ECS.ECS->system.pool, entity, &handle);
 
     bbCoreSynchronous_setServerEntity(&home.core.core,
                                    handle,
@@ -205,3 +205,4 @@ bbFlag bbPF_skelly2Parser(void* Spawner, char* string)
     }
 
 }
+*/

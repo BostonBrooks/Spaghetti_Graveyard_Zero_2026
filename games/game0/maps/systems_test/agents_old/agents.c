@@ -3,9 +3,9 @@
 #include "engine/entities/bbMovables.h"
 #include "engine/core/bbCoreInputs.h"
 #include "engine/data/bbHome.h"
-#include "games/game0/maps/skellychase/agents/player.h"
-#include "games/game0/maps/skellychase/agents/fireball.h"
-#include "games/game0/maps/skellychase/agents/skelly.h"
+#include "games/game0/maps/systems_test/agents/player.h"
+#include "games/game0/maps/systems_test/agents/fireball.h"
+#include "games/game0/maps/systems_test/agents/skelly.h"
 
 
 

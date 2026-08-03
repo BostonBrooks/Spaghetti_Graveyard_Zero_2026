@@ -6,10 +6,21 @@
 #include "engine/core/bbInstruction.h"
 #include "engine/logic/bbFlag.h"
 #include "instructions.h"
+#include "engine/ECS/server_entities/bbServerEntities.h"
 
 bbFlag bbCore_initVInstructions(bbCore* core)
 {
-    bbHere()
+    core->instruction_functions = calloc(sizeof(bbInstruction_fn*), 16);
+    core->instruction_functions[bbInstruction_spawnEmptyEntity-bbInstruction_numTypes] = bbInstruction_spawnEmptyEntity_fn;
+    core->instruction_functions[bbInstruction_unspawnEmptyEntity-bbInstruction_numTypes] = bbInstruction_unspawnEmptyEntity_fn;
+    core->instruction_functions[bbInstruction_entity_setComponent-bbInstruction_numTypes] = bbInstruction_entity_setComponent_fn;
+    core->instruction_functions[bbInstruction_entity_unsetComponent-bbInstruction_numTypes] = bbInstruction_entity_unsetComponent_fn;
+    core->instruction_functions[bbInstruction_setServerEntity-bbInstruction_numTypes] = bbInstruction_setServerEntity_fn;
+    core->instruction_functions[bbInstruction_unsetServerEntity-bbInstruction_numTypes] = bbInstruction_unsetServerEntity_fn;
+
+    core->instruction_functions[bbInstruction_spawnServerEntity-bbInstruction_numTypes] = bbInstruction_spawnServerEntity_fn;
+    core->instruction_functions[bbInstruction_unspawnServerEntity-bbInstruction_numTypes] = bbInstruction_unspawnServerEntity_fn;
+
        return bbNone;
 }
 //     core->instruction_functions

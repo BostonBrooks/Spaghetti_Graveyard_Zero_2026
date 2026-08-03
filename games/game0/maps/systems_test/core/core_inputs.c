@@ -1,10 +1,10 @@
 
 
-#include "games/game0/maps/skellychase/core/instructions.h"
+#include "games/game0/maps/systems_test/core/instructions.h"
 //#include "engine/entities/bbAgents.h"
 #include "engine/logic/bbList.h"
 
-
+/*
 
 ///Sort through agents and update square if necessary
 // bbFlag bbCoreInput_updateAgentsSquare(bbCore* core, bbAgents* agents,bbInstruction_source source, bbHandle action)
@@ -22,21 +22,21 @@
 // }
 
 ///If the agent has moved into a different square, add to new list
-bbFlag bbCoreInput_updateAgentSquare(bbCore* core, bbHandle agent, bbSquareCoords SC,bbInstruction_source source, bbHandle action)
-{
-    bbInstruction* instruction;
-    bbList_alloc(&core->do_stack, (void**) &instruction);
-
-    instruction->source = source;
-    instruction->redo_instruction = action;
-
-    instruction->type = bbVInstruction_updateAgentSquare;
-    instruction->data.agent_square.agent = agent;
-    instruction->data.agent_square.square_coords = SC;
-    bbList_pushL(&core->do_stack, instruction);
-
-    return bbSuccess;
-}
+// bbFlag bbCoreInput_updateAgentSquare(bbCore* core, bbHandle agent, bbSquareCoords SC,bbInstruction_source source, bbHandle action)
+// {
+//     bbInstruction* instruction;
+//     bbList_alloc(&core->do_stack, (void**) &instruction);
+//
+//     instruction->source = source;
+//     instruction->redo_instruction = action;
+//
+//     instruction->type = bbVInstruction_updateAgentSquare;
+//     instruction->data.agent_square.agent = agent;
+//     instruction->data.agent_square.square_coords = SC;
+//     bbList_pushL(&core->do_stack, instruction);
+//
+//     return bbSuccess;
+// }
 
 // bbFlag bbCoreInput_updateAgents(bbCore* core, bbAgents* agents,bbInstruction_source source, bbHandle action)
 // {
@@ -52,18 +52,18 @@ bbFlag bbCoreInput_updateAgentSquare(bbCore* core, bbHandle agent, bbSquareCoord
 //     bbList_pushL(&core->do_stack, instruction);
 // }
 
-bbFlag bbCoreInput_updateAgent(bbCore* core, bbHandle agent,bbInstruction_source source, bbHandle action)
-{
-    bbInstruction* instruction;
-    bbList_alloc(&core->do_stack, (void**) &instruction);
-
-    instruction->source = source;
-    instruction->redo_instruction = action;
-    instruction->data.agent_square.agent = agent;
-
-    instruction->type = bbVInstruction_updateAgent;
-    bbList_pushL(&core->do_stack, instruction);
-}
+// bbFlag bbCoreInput_updateAgent(bbCore* core, bbHandle agent,bbInstruction_source source, bbHandle action)
+// {
+//     bbInstruction* instruction;
+//     bbList_alloc(&core->do_stack, (void**) &instruction);
+//
+//     instruction->source = source;
+//     instruction->redo_instruction = action;
+//     instruction->data.agent_square.agent = agent;
+//
+//     instruction->type = bbVInstruction_updateAgent;
+//     bbList_pushL(&core->do_stack, instruction);
+// }
 
 
 bbFlag bbCoreInput_commandAgent_setGoalPoint(bbCore* core, bbHandle agent, bbMapCoords MC,bbInstruction_source source, bbHandle action)
@@ -152,3 +152,5 @@ bbFlag bbCoreInput_DeleteEntity(bbCore* core,I32 entity_int, bbInstruction_sourc
     bbList_pushL(&core->do_stack, instruction);
     return bbSuccess;
 }
+
+*/

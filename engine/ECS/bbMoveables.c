@@ -467,7 +467,7 @@ bbFlag bbCoreSynchronous_spawnTestMoveable(bbCore* core,
     moveable->coords_b = bbMapCoords_getMilliCoords(moveable->position);
 
     bbCS_entity_setComponent(core,
-                             &home.ECS.ECS,
+                             home.ECS.ECS,
                              ECS_entity_handle,
                              moveable_handle1,
                              bbECS_Moveables,
@@ -686,7 +686,7 @@ bbFlag bbMoveable_setGoalMoveable(bbMoveables* moveables, bbHandle handle, bbHan
     bbVPool_lookup(home.ECS.server_entities.system.pool, (void**)&server_entity,server_handle);
     bbHandle entity_handle = server_entity->component.entity_handle;
     bbECS_entity* entity;
-    bbVPool_lookup(home.ECS.ECS.system.pool, (void**)&entity,entity_handle);
+    bbVPool_lookup(home.ECS.ECS->system.pool, (void**)&entity,entity_handle);
     bbHandle moveable_handle = entity->components[bbECS_Moveables];
 
     bbMoveable* moveable = &moveables->moveables[handle.bloated.index];

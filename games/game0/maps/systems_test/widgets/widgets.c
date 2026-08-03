@@ -2,9 +2,9 @@
 #define WIDGET_FUNCTIONS
 #include "engine/userinterface/bbWidgetFunctions.h"
 #include "engine/userinterface/bbWidgets.h"
-#include "games/game0/maps/skellychase/widgets/netpause_button.h"
-#include "games/game0/maps/skellychase/widgets/switch_character_button.h"
-#include "games/game0/maps/skellychase/widgets/server_socket_number.h"
+#include "games/game0/maps/systems_test/widgets/netpause_button.h"
+#include "games/game0/maps/systems_test/widgets/switch_character_button.h"
+#include "games/game0/maps/systems_test/widgets/server_socket_number.h"
 
 bbFlag bbWidget_Constructor_Clock(bbWidget** self,
                                   bbWidgets* widgets,
