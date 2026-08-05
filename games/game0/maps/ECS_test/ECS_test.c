@@ -2,6 +2,8 @@
 
 #include "engine/core/bbAction.h"
 #include "engine/core/bbCore.h"
+#include "engine/core/bbCoreInbox.h"
+#include "engine/core/bbCoreInboxInput.h"
 #include "engine/core/bbCoreInputs.h"
 #include "engine/data/bbConstants.h"
 #include "engine/ECS/server_entities/bbServerEntities.h"
@@ -9,6 +11,8 @@
 #include "engine/logic/bbTerminal.h"
 #include "engine/test_string/bbTestString.h"
 #include "engine/ECS/ECS_instructions.h"
+#include "engine/logic/bbBloatedPool.h"
+#include "engine/logic/bbString.h"
 #include "virtual_instructions/instructions.h"
 
 thread_local char* thread;
@@ -19,6 +23,14 @@ char test_string[KEY_LENGTH];
 
 bbCore core;
 bbServerEntities server_entities;
+
+
+
+typedef struct
+{
+    char key[KEY_LENGTH];
+} test_struct;
+
 int main(void)
 {
     thread = "MAIN";
@@ -130,5 +142,20 @@ int main(void)
         bbCoreInput_checkActions(&core,i,bbInstructionSource_input, no_handle);
         bbCore_react(&core);
     }
+
+
+    bbVPool* pool;
+    test_struct* test_struct_ptr;
+    bbHandle test_handle;
+    bbVPool_newBloated(&pool, sizeof(test_struct), 100,100,"Test Struct");
+    bbVPool_alloc2(pool, (void**)&test_struct_ptr, &test_handle);
+
+    bbVPool_lookup(pool, (void**)&test_struct_ptr, test_handle);
+    bbStr_setStr(test_struct_ptr->key, "Test Struct", KEY_LENGTH);
+
+    bbCoreInbox_SetString(&core, "IWHBYD\n");
+    bbCore_checkInbox(&core);
+
+    exit(EXIT_SUCCESS);
 
 }

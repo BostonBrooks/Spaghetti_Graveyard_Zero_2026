@@ -80,7 +80,7 @@ bbFlag bbComponent_mapComponent(bbECS* ECS,
                              bbHandle* component_handle,
                              bbComponent** component);
 
-//bbFlag bbECS_init(bbECS* ECS);
+bool bbECS_entity_hasComponent(bbECS_entity* entity, bbECS_systems system);
 
 bbFlag bbECS_new(bbECS** ECS, I32 num_systems);
 

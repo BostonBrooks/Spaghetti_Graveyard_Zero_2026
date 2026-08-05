@@ -17,17 +17,15 @@ bbFlag bbECS_getComponent_fn(bbSystem* system, bbComponent** component, bbHandle
 bbFlag bbECS_getHandle_fn(bbSystem* system, bbComponent* component, bbHandle* component_handle);
 
 
-bbFlag bbECS_init(bbECS* ECS)
+bool bbECS_entity_hasComponent(bbECS_entity* entity, bbECS_systems system)
 {
-        bbVPool_newBloated(&ECS->system.pool, sizeof(bbECS_entity), 1000, 1000, "ECS");
-        bbList_init(&ECS->list, ECS->system.pool, NULL, offsetof(bbECS_entity, list_element_handle),NULL);
+    U64 mask = getMask(system);
 
-        ECS->system.getComponent = bbECS_getComponent_fn;
-        ECS->system.getHandle = bbECS_getHandle_fn;
-
-        ECS->systems[bbECS_ECS] = (bbSystem*)ECS;
-        return bbSuccess;
+    if (mask & entity->has_component) return true;
+    else return false;
 }
+
+
 
 
 bbFlag bbECS_new(bbECS** ECS, I32 num_systems)
@@ -318,6 +316,8 @@ bbFlag bbCS_entity_setComponent(bbCore* core,
     {
         return bbFail;
     }
+
+    bbAssert(!bbECS_entity_hasComponent(entity, system), "Entity already has component\n");
     entity->has_component |= mask;
     entity->components[system] = component;
 
@@ -354,6 +354,9 @@ bbFlag bbInstruction_entity_setComponent_fn(bbCore* core, bbInstruction* instruc
     U64 mask = getMask(system);
     bbECS_entity* entity;
     bbVPool_lookup(ECS->system.pool, (void**)&entity, entity_handle);
+
+
+    bbAssert(!bbECS_entity_hasComponent(entity, system), "Entity already has component\n");
 
     if (mask & entity->has_component)
     {
@@ -406,6 +409,9 @@ bbFlag bbInstruction_entity_unsetComponent_fn(bbCore* core, bbInstruction* instr
     bbECS_entity* entity;
     bbVPool_lookup(ECS->system.pool, (void**)&entity, entity_handle);
     U64 mask = getMask(system);
+
+
+    bbAssert(bbECS_entity_hasComponent(entity, system), "Entity doesnt already have component\n");
 
     entity->has_component &= ~mask;
 
