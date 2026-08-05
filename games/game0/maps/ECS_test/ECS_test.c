@@ -13,6 +13,7 @@
 #include "engine/ECS/ECS_instructions.h"
 #include "engine/logic/bbBloatedPool.h"
 #include "engine/logic/bbString.h"
+#include "games/game0/maps/systems_test/core/core_inbox.h"
 #include "virtual_instructions/instructions.h"
 
 thread_local char* thread;
@@ -40,6 +41,7 @@ int main(void)
 
 
     bbCore_init(&core);
+    bbCore_initInboxMessages(&core);
 
     core.instruction_functions = calloc(sizeof(bbInstruction_fn*), 16);
     core.instruction_functions[bbInstruction_spawnEmptyEntity-bbInstruction_numTypes] = bbInstruction_spawnEmptyEntity_fn;
@@ -153,9 +155,14 @@ int main(void)
     bbVPool_lookup(pool, (void**)&test_struct_ptr, test_handle);
     bbStr_setStr(test_struct_ptr->key, "Test Struct", KEY_LENGTH);
 
-    bbCoreInbox_SetString(&core, "IWHBYD\n");
+    bbCoreInbox_SetString(&core, "IWHBYD");
+
+
+    bbCoreInbox_TestMessage(&core);
     bbCore_checkInbox(&core);
 
+    bbHere()
+    fflush(stdout);
     exit(EXIT_SUCCESS);
 
 }

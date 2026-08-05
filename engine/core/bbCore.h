@@ -20,14 +20,17 @@
 
 typedef struct bbCore bbCore;
 typedef struct bbInstruction bbInstruction;
+typedef struct bbCoreInboxMessage bbCoreInboxMessage;
 
 typedef  bbFlag bbInstruction_fn(bbCore* core, bbInstruction* instruction);
+typedef  bbFlag bbCoreInbox_fn(bbCore* core, struct bbCoreInboxMessage* message);
 
 struct bbCore
 {
     U64 core_time;
 
     bbInstruction_fn** instruction_functions;
+    bbCoreInbox_fn** inbox_functions;
 
     bbVPool* instruction_pool;
     bbList do_stack;

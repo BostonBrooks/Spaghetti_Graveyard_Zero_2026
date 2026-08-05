@@ -159,6 +159,7 @@ target_link_libraries(Core_Test PRIVATE
 add_executable(ECS_Test  games/game0/maps/ECS_test/ECS_test.c
         engine/test_string/bbTestString.c
         games/game0/maps/ECS_test/virtual_instructions/instructions.c
+        games/game0/maps/ECS_test/core/core_inbox.c
 
         engine/ECS/ECS.c
         engine/ECS/server_entities/bbServerEntities.c
@@ -209,6 +210,7 @@ add_executable(Systems_Test games/game0/maps/Systems_test/System_test.c
         games/game0/maps/Systems_test/core/core.c
         games/game0/maps/Systems_test/core/instructions.c
         games/game0/maps/Systems_test/core/core_inputs.c
+        games/game0/maps/systems_test/core/core_inbox.c
         games/game0/maps/Systems_test/AI_system/AI_System.c
         games/game0/maps/Systems_test/entity_spawner/spawner.c
 

@@ -47,29 +47,36 @@ bbFlag bbCore_checkInbox(bbCore* core)
         flag = bbThreadedQueue_popR(&core->local_message_queue,(void**)&message);
         if (flag != bbSuccess) return bbSuccess;
 
-
-        switch (message->type)
+        if (message->type >= bbCoreInbox_numTypes)
+        {bbHere()
+            bbCoreInbox_fn* inbox_fn = core->inbox_functions[message->type-bbCoreInbox_numTypes];
+            inbox_fn(core, message);
+            bbCore_react(core);
+        } else
         {
-        case bbCoreInbox_setString:
-            bbCoreInbox_setString_fn(core, message);
-            bbCore_react(core);
-            break;
+            switch (message->type)
+            {
+            case bbCoreInbox_setString:
+                bbCoreInbox_setString_fn(core, message);
+                bbCore_react(core);
+                break;
 
-        case bbCoreInbox_unfreezeButton:
-            //TODO virtual function / callback
-            //bbCoreInbox_unfreezeButton_fn(core, message);
-            bbCore_react(core);
-            break;
+            case bbCoreInbox_unfreezeButton:
+                //TODO virtual function / callback
+                //bbCoreInbox_unfreezeButton_fn(core, message);
+                bbCore_react(core);
+                break;
 
             case bbCoreInbox_testClick:
-            //TODO virtual function / callback
-            //bbCoreInbox_testClick2_fn(core, message);
-            bbCore_react(core);
-            break;
+                //TODO virtual function / callback
+                //bbCoreInbox_testClick2_fn(core, message);
+                bbCore_react(core);
+                break;
 
-        default:
+            default:
 
-            bbDebug("Unknown local message type\n");
+                bbDebug("Unknown local message type\n");
+            }
         }
     }
 }
