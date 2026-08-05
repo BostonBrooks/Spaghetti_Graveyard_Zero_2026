@@ -59,7 +59,7 @@ typedef struct bbECS
 {
     bbSystem system;
     bbList list;
-    bbSystem* systems[];
+    bbSystem** systems;
 } bbECS;
 
 
@@ -82,7 +82,7 @@ bbFlag bbComponent_mapComponent(bbECS* ECS,
 
 bool bbECS_entity_hasComponent(bbECS_entity* entity, bbECS_systems system);
 
-bbFlag bbECS_new(bbECS** ECS, I32 num_systems);
+bbFlag bbECS_init(bbECS* ECS, I32 num_systems);
 
 //We need a function that spawns an entity, readies the unspawn instruction, then synchronously returns the entity.
 bbFlag bbCoreSynchronous_spawnEmptyEntity(bbCore* core,
