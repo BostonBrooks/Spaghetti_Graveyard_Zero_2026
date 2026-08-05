@@ -28,17 +28,19 @@ bool bbECS_entity_hasComponent(bbECS_entity* entity, bbECS_systems system)
 
 
 
-bbFlag bbECS_init(bbECS* ECS, I32 num_systems)
+bbFlag bbECS_new(bbECS** ECS, I32 num_systems)
 {
-    ECS->systems = calloc(num_systems, sizeof(bbSystem));
-    ECS->systems[bbECS_ECS] = (bbSystem*)ECS;
-    bbVPool_newBloated(&ECS->system.pool, sizeof(bbECS_entity), 100, 100, "ECS");
-    bbList_init(&ECS->list, ECS->system.pool, NULL, offsetof(bbECS_entity, list_element_handle),NULL);
+    bbECS* new_ecs = malloc(sizeof(bbECS)+sizeof(bbSystem*)*num_systems);
+    new_ecs->systems[bbECS_ECS] = (bbSystem*)new_ecs;
+    bbVPool_newBloated(&new_ecs->system.pool, sizeof(bbECS_entity), 1000, 1000, "ECS");
+    bbList_init(&new_ecs->list, new_ecs->system.pool, NULL, offsetof(bbECS_entity, list_element_handle),NULL);
 
-    ECS->system.getComponent = bbECS_getComponent_fn;
-    ECS->system.getHandle = bbECS_getHandle_fn;
+    new_ecs->system.getComponent = bbECS_getComponent_fn;
+    new_ecs->system.getHandle = bbECS_getHandle_fn;
 
+    *ECS = new_ecs;
     return bbSuccess;
+
 }
 
 bbFlag bbCoreSynchronous_spawnEmptyEntity(bbCore* core, bbECS* ECS, bbECS_entity** return_entity, char* key, bbInstruction_source source, bbHandle action)

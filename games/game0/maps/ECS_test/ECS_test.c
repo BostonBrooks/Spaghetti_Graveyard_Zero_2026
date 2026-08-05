@@ -52,10 +52,7 @@ int main(void)
     core.instruction_functions[bbInstruction_spawnServerEntity-bbInstruction_numTypes] = bbInstruction_spawnServerEntity_fn;
     core.instruction_functions[bbInstruction_unspawnServerEntity-bbInstruction_numTypes] = bbInstruction_unspawnServerEntity_fn;
 
-    bbECS EntityComponentSystem;
-    bbECS_init(&EntityComponentSystem, bbECS_numSystems);
-
-    core.ECS = &EntityComponentSystem;
+    bbECS_new(&core.ECS, bbECS_numSystems);
 
     bbServerEntities_init(&server_entities,core.ECS);
 
