@@ -3,7 +3,7 @@
 #include "core_inbox.h"
 bbFlag bbCoreInboxTest_fn(bbCore* core, struct bbCoreInboxMessage* message)
 {
-    bbHere()
+    bbHere();
     return bbSuccess;
 }
 
@@ -17,10 +17,11 @@ bbFlag bbCore_initInboxMessages(bbCore* core)
 
 bbFlag bbCoreInbox_TestMessage(bbCore* core)
 {
-    bbHere()
+    bbHere();
     bbCoreInboxMessage* message;
     bbThreadedQueue_alloc(&core->local_message_queue, (void** ) &message);
     message->type = bbCoreInbox_testMessage;
     bbThreadedQueue_pushL(&core->local_message_queue, message);
+
     return bbSuccess;
 }
