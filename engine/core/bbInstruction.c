@@ -314,7 +314,7 @@ bbFlag bbInstruction_uncheckActions_fn(bbCore* core, bbInstruction* instruction)
 
     return bbSuccess;
 }
-
+/*
 bbFlag bbInstruction_netpauseButton_fn(bbCore* core, bbInstruction* instruction)
 {
     //TODO virtual function / callback
@@ -322,7 +322,7 @@ bbFlag bbInstruction_netpauseButton_fn(bbCore* core, bbInstruction* instruction)
     return bbSuccess;
 }
 
-
+*/
 
 bbFlag bbInstruction_unfreezeButton_fn(bbCore* core, bbInstruction* instruction)
 {

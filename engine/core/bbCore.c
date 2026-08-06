@@ -48,6 +48,9 @@ bbFlag bbCore_react(bbCore* core)
         if (instruction->type >= bbInstruction_numTypes)
         {
             bbInstruction_fn* instruction_fn = core->instruction_functions[instruction->type-bbInstruction_numTypes];
+
+            bbAssert(instruction_fn != NULL, "Unknown instruction type %d\n", instruction->type);
+
             instruction_fn(core, instruction);
         } else
         {

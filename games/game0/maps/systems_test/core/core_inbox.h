@@ -3,6 +3,7 @@
 typedef enum
 {
     bbCoreInbox_testMessage = bbCoreInbox_numTypes,
+    bbCoreInbox_netpauseButton
 } bbCoreInbox_vType;
 
 

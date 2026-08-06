@@ -17,6 +17,7 @@ typedef enum
     bbI_unspawnAIComponent,
     bbInstruction_spawnServerEntity,
     bbInstruction_unspawnServerEntity,
+    bbInstruction_netpauseButton,
     bbVInstruction_numTypes
 }bbVInstruction_type;
 
