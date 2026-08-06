@@ -15,7 +15,7 @@ bbFlag bbCoreInbox_setString_fn(bbCore* core, bbCoreInboxMessage* message)
 
     return bbSuccess;
 }
-
+/*
 bbFlag bbCoreInbox_unfreezeButton_fn(bbCore* core, bbCoreInboxMessage* message)
 {
     //TODO virtual instruction / callback
@@ -25,7 +25,7 @@ bbFlag bbCoreInbox_unfreezeButton_fn(bbCore* core, bbCoreInboxMessage* message)
     return bbSuccess;
 }
 
-
+*/
 bbFlag bbCoreInbox_testClick_fn(bbCore* core, bbCoreInboxMessage* message)
 {
 
@@ -60,13 +60,13 @@ bbFlag bbCore_checkInbox(bbCore* core)
                 bbCoreInbox_setString_fn(core, message);
                 bbCore_react(core);
                 break;
-
+/*
             case bbCoreInbox_unfreezeButton:
                 //TODO virtual function / callback
                 //bbCoreInbox_unfreezeButton_fn(core, message);
                 bbCore_react(core);
                 break;
-
+*/
             case bbCoreInbox_testClick:
                 //TODO virtual function / callback
                 //bbCoreInbox_testClick2_fn(core, message);

@@ -22,6 +22,7 @@ bbFlag bbCore_initVInstructions(bbCore* core)
     core->instruction_functions[bbInstruction_spawnServerEntity-bbInstruction_numTypes] = bbInstruction_spawnServerEntity_fn;
     core->instruction_functions[bbInstruction_unspawnServerEntity-bbInstruction_numTypes] = bbInstruction_unspawnServerEntity_fn;
     core->instruction_functions[bbInstruction_netpauseButton-bbInstruction_numTypes] = bbInstruction_netpauseButton_fn;
+    core->instruction_functions[bbInstruction_unfreezeButton-bbInstruction_numTypes] = bbInstruction_unfreezeButton_fn;
        return bbNone;
 }
 //     core->instruction_functions

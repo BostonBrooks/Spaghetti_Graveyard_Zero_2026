@@ -3,6 +3,7 @@
 #include "core_inbox.h"
 
 #include "netpause_button.h"
+#include "unfreeze_button.h"
 
 bbFlag bbCoreInboxTest_fn(bbCore* core, struct bbCoreInboxMessage* message)
 {
@@ -15,6 +16,7 @@ bbFlag bbCore_initInboxMessages(bbCore* core)
     core->inbox_functions = calloc(16,sizeof(bbCoreInbox_fn*));
     core->inbox_functions[bbCoreInbox_testMessage-bbCoreInbox_numTypes] = bbCoreInboxTest_fn;
     core->inbox_functions[bbCoreInbox_netpauseButton-bbCoreInbox_numTypes] = bbCoreInbox_netpauseButton_fn;
+    core->inbox_functions[bbCoreInbox_unfreezeButton-bbCoreInbox_numTypes] = bbCoreInbox_unfreezeButton_fn;
     return bbSuccess;
 }
 

@@ -1,0 +1,50 @@
+in bbLocalMessageInputs.c
+
+bbFlag bbLocalMessage_UnfreezeButton(bbCore* core, char* string)
+{
+    bbLocalMessage* message;
+    bbThreadedQueue_alloc(&core->local_message_queue, (void** ) &message);
+    message->type = bbLocalMessage_unfreezeButton;
+    bbStr_setStr(message->data.key, string, KEY_LENGTH);
+    bbThreadedQueue_pushL(&core->local_message_queue, message);
+    return bbSuccess;
+}
+
+bbLocalMessage_unfreezeButton in enum
+
+in bbLocalMessage.c
+bbFlag bbLocalMessage_unfreezeButton_fn(bbCore* core, bbLocalMessage* message)
+{
+    bbCoreInput_unfreezeButton(core, message->data.key, bbInstructionSource_input, no_handle);
+    //undo message?
+
+    return bbSuccess;
+}
+
+in engine/core/bbCoreInputs.c
+bbFlag bbCoreInput_unfreezeButton(bbCore* core, char* string, bbInstruction_source source, bbHandle action)
+{
+    bbInstruction* instruction;
+    bbFlag flag = bbList_alloc(&core->do_stack,(void**)&instruction);
+
+    instruction->type = bbInstruction_unfreezeButton;
+    bbStr_setStr(instruction->data.key, string, KEY_LENGTH);
+    instruction->source = source;
+    instruction->redo_instruction = action;
+
+    bbList_pushL(&core->do_stack, instruction);
+    return bbSuccess;
+}
+
+bbInstruction_unfreezeButton in enum
+
+in bbInstruction.c
+bbFlag bbInstruction_unfreezeButton_fn(bbCore* core, bbInstruction* instruction)
+{
+
+    bbDebug("unfreeze button %s\n", instruction->data.key);
+
+    bbUI_Inbox_UnpressButton2(&home.UI.inbox, instruction->data.key);
+
+    return bbSuccess;
+}

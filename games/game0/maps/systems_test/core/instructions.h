@@ -18,6 +18,7 @@ typedef enum
     bbInstruction_spawnServerEntity,
     bbInstruction_unspawnServerEntity,
     bbInstruction_netpauseButton,
+    bbInstruction_unfreezeButton,
     bbVInstruction_numTypes
 }bbVInstruction_type;
 

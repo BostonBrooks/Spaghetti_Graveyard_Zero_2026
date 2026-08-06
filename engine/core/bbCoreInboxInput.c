@@ -14,7 +14,7 @@ bbFlag bbCoreInbox_SetString(bbCore* core, char* string)
     return bbSuccess;
 }
 
-
+/*
 bbFlag bbCoreInbox_UnfreezeButton(bbCore* core, char* string)
 {
     bbCoreInboxMessage* message;
@@ -25,7 +25,7 @@ bbFlag bbCoreInbox_UnfreezeButton(bbCore* core, char* string)
     return bbSuccess;
 }
 
-
+*/
 
 bbFlag bbCoreInbox_TestClick(bbCore* core, bbMapCoords MC)
 {

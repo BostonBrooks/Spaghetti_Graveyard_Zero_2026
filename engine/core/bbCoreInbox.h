@@ -6,7 +6,7 @@ typedef struct bbCore bbCore;
 typedef enum
 {
     bbCoreInbox_setString,
-    bbCoreInbox_unfreezeButton,
+    //bbCoreInbox_unfreezeButton,
     bbCoreInbox_testClick,
     bbCoreInbox_numTypes
 } bbCoreInbox_type;

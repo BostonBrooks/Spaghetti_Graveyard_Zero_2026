@@ -323,7 +323,7 @@ bbFlag bbInstruction_netpauseButton_fn(bbCore* core, bbInstruction* instruction)
 }
 
 */
-
+/*
 bbFlag bbInstruction_unfreezeButton_fn(bbCore* core, bbInstruction* instruction)
 {
 
@@ -335,7 +335,7 @@ bbFlag bbInstruction_unfreezeButton_fn(bbCore* core, bbInstruction* instruction)
     return bbSuccess;
 
 }
-
+*/
 
 bbFlag bbInstruction_testClick_fn(bbCore* core, bbInstruction* instruction)
 {
