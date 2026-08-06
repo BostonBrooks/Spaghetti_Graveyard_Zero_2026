@@ -204,6 +204,7 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
 
         games/game0/maps/systems_test/core/netpause_button.c
         games/game0/maps/systems_test/core/unfreeze_button.c
+        games/game0/maps/systems_test/graphics_system/graphics_system.c
         games/game0/maps/systems_test/mouse/mouse.c
         games/game0/maps/systems_test/drawfunctions/drawfunctions.c
         games/game0/maps/systems_test/widgets/widgets.c

@@ -6,6 +6,7 @@
 #include "engine/core/bbInstruction.h"
 #include "engine/logic/bbFlag.h"
 #include "instructions.h"
+#include "engine/ECS/bbGraphicsSystem.h"
 #include "engine/ECS/server_entities/bbServerEntities.h"
 
 bbFlag bbCore_initVInstructions(bbCore* core)
@@ -23,6 +24,7 @@ bbFlag bbCore_initVInstructions(bbCore* core)
     core->instruction_functions[bbInstruction_unspawnServerEntity-bbInstruction_numTypes] = bbInstruction_unspawnServerEntity_fn;
     core->instruction_functions[bbInstruction_netpauseButton-bbInstruction_numTypes] = bbInstruction_netpauseButton_fn;
     core->instruction_functions[bbInstruction_unfreezeButton-bbInstruction_numTypes] = bbInstruction_unfreezeButton_fn;
+    core->instruction_functions[bbInstruction_spawnGraphicsComponent-bbInstruction_numTypes] = bbInstruction_spawnGraphicsComponent_fn;
        return bbNone;
 }
 //     core->instruction_functions

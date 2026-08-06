@@ -15,7 +15,7 @@ typedef struct
     bbSystem system;
 } bbGraphicsSystem;
 
-bbFlag bbGraphicsSystem_init(bbGraphicsSystem* server_entities, bbECS* ECS);
+bbFlag bbGraphicsSystem_init(bbGraphicsSystem* graphics_system, bbECS* ECS);
 
 bbFlag bbCoreInput_spawnGraphicsComponent(bbCore* core,
                                    bbMapCoords MC,

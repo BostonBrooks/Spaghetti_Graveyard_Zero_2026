@@ -81,6 +81,7 @@ int main(void)
 
     home.ECS.ECS = home.core.core.ECS;
     bbServerEntities_init(&home.ECS.server_entities,home.core.core.ECS);
+    bbGraphicsSystem_init(&home.ECS.graphics_system,home.core.core.ECS);
 
     bbHandle server_handle;
     server_handle.bloated.index = 193;
@@ -91,7 +92,7 @@ int main(void)
                                     server_handle,
                                     bbInstructionSource_input,
                                     no_handle);
-
+    bbCore_react(&home.core.core);
     bbSquareCoords size; size.i = 12; size.j = 12; size.k = 0;
     bbGroundSurface_init(&home.ground_surface, size, "./maps/systems_test/graphics/HeightMap.bmp");
     //
@@ -139,7 +140,18 @@ int main(void)
     //bbDebug("moveable = %p, moveable1 = %p\n", test_moveable, test_moveable2);
 
 
+    bbMapCoords MC;
+    MC.i = 10100; MC.j = 10000; MC.k = 0;
 
+    bbHandle entity_handle = home.ECS.ECS->list.list.head;
+
+    bbCoreInput_spawnGraphicsComponent(&home.core.core,
+                                       MC,
+                                       entity_handle,
+                                       no_handle,
+                                       bbInstructionSource_norewind,
+                                       no_handle);
+    bbCore_react(&home.core.core);
     fflush(stdout);
 
     while (1)

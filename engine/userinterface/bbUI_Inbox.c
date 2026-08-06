@@ -59,9 +59,7 @@ bbFlag bbUI_Inbox_check(bbUI_Inbox* inbox)
         case bbUI_Inbox_setUnitState:
             bbUI_Inbox_setUnitState_fn(inbox, message);
             break;
-         case bbUI_Inbox_newBanana:
-             bbUI_Inbox_newBanana_fn(inbox, message);
-             break;
+
         // case bbUI_Inbox_deleteUnit:
         //     bbUI_Inbox_deleteUnit_fn(inbox, message);
         //     break;
@@ -78,6 +76,10 @@ bbFlag bbUI_Inbox_check(bbUI_Inbox* inbox)
             bbUI_Inbox_newTree_fn(inbox,message);
             break;
 #endif
+
+        case bbUI_Inbox_newBanana:
+            bbUI_Inbox_newBanana_fn(inbox, message);
+            break;
         default:
 
             bbDebug("Unknown UI local message type\nmessage->type = %d\n", message->type);
