@@ -139,6 +139,7 @@ int main(void)
     //bbDebug("moveable = %p, moveable1 = %p\n", test_moveable, test_moveable2);
 
 
+
     fflush(stdout);
 
     while (1)
