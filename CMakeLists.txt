@@ -200,19 +200,19 @@ target_link_libraries(ECS_Test PRIVATE
         csfml-network
 )
 
-add_executable(Systems_Test games/game0/maps/Systems_test/System_test.c
+add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
 
 
-        games/game0/maps/Systems_test/mouse/mouse.c
-        games/game0/maps/Systems_test/drawfunctions/drawfunctions.c
-        games/game0/maps/Systems_test/widgets/widgets.c
-        games/game0/maps/Systems_test/widgets/spawn_widgets.c
-        games/game0/maps/Systems_test/core/core.c
-        games/game0/maps/Systems_test/core/instructions.c
-        games/game0/maps/Systems_test/core/core_inputs.c
+        games/game0/maps/systems_test/mouse/mouse.c
+        games/game0/maps/systems_test/drawfunctions/drawfunctions.c
+        games/game0/maps/systems_test/widgets/widgets.c
+        games/game0/maps/systems_test/widgets/spawn_widgets.c
+        games/game0/maps/systems_test/core/core.c
+        games/game0/maps/systems_test/core/instructions.c
+        games/game0/maps/systems_test/core/core_inputs.c
         games/game0/maps/systems_test/core/core_inbox.c
-        games/game0/maps/Systems_test/AI_system/AI_System.c
-        games/game0/maps/Systems_test/entity_spawner/spawner.c
+        games/game0/maps/systems_test/AI_system/AI_System.c
+        games/game0/maps/systems_test/entity_spawner/spawner.c
 
         engine/test_string/bbTestString.c
 
