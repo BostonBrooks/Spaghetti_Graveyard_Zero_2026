@@ -8,6 +8,7 @@
 #include "instructions.h"
 #include "engine/ECS/graphics_system/bbGraphicsSystem.h"
 #include "engine/ECS/server_entities/bbServerEntities.h"
+#include "moveables/moveables.h"
 
 bbFlag bbCore_initVInstructions(bbCore* core)
 {
@@ -25,6 +26,8 @@ bbFlag bbCore_initVInstructions(bbCore* core)
     core->instruction_functions[bbInstruction_netpauseButton-bbInstruction_numTypes] = bbInstruction_netpauseButton_fn;
     core->instruction_functions[bbInstruction_unfreezeButton-bbInstruction_numTypes] = bbInstruction_unfreezeButton_fn;
     core->instruction_functions[bbInstruction_spawnGraphicsComponent-bbInstruction_numTypes] = bbInstruction_spawnGraphicsComponent_fn;
+    core->instruction_functions[bbInstruction_updateMoveables-bbInstruction_numTypes] = bbInstruction_updateMoveables_fn;
+    core->instruction_functions[bbInstruction_unupdateMoveables-bbInstruction_numTypes] = bbInstruction_unupdateMoveables_fn;
        return bbNone;
 }
 //     core->instruction_functions

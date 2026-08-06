@@ -32,6 +32,7 @@
 
 
 #include "engine/ECS/graphics_system/bbGraphicsSystem.h"
+#include "moveables/moveables.h"
 
 pthread_barrier_t barrier1;
 
@@ -85,6 +86,7 @@ int main(void)
     bbMoveables_init(&home.ECS.moveables,home.core.core.ECS);
 
 
+
     bbHandle server_handle;
     server_handle.bloated.index = 193;
     server_handle.bloated.collision = 193;
@@ -101,7 +103,8 @@ int main(void)
     // bbSpawner_init(&home.spawner, 69, 193);
     // bbSpawner_populate(&home.spawner);
 
-
+    bbCoreInput_updateMoveables(&home.core.core,bbInstructionSource_internal, no_handle);
+    bbCore_react(&home.core.core);
 
     pthread_t graphics_pthread;
     pthread_create(&graphics_pthread, NULL, userinterface_thread, NULL);

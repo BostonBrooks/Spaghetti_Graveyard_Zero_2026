@@ -98,19 +98,6 @@ bbFlag bbMoveables_copyBuffer(bbMoveables* moveables, bbMoveables_snapshot* targ
 
 bbFlag bbMoveables_newTest(bbMoveables* moveables, bbHandle* moveable_handle, bbMapCoords position, bbHandle ECS_entity_handle);
 
-bbFlag bbCoreInput_updateMoveables(bbCore* core, bbInstruction_source source, bbHandle action);
-bbFlag bbInstruction_updateMoveables_fn(bbCore* core, bbInstruction* instruction);
-
-bbFlag bbCoreSynchronous_spawnTestMoveable(bbCore* core,
-                                           bbHandle ECS_entity_handle,
-                                           bbHandle* moveable_handle,
-                                           bbMapCoords position,
-                                           bbInstruction_source source,
-                                           bbHandle action);
-
-bbFlag bbInstruction_spawnTestMoveable_fn(bbCore* core, bbInstruction* instruction);
-bbFlag bbInstruction_unspawnTestMoveable_fn(bbCore* core, bbInstruction* instruction);
-
 
 bbFlag bbMoveable_getComponent(struct bbSystem* system, bbComponent** component, bbHandle component_handle);
 bbFlag bbMoveable_getHandle(struct bbSystem* system, bbComponent* component, bbHandle* component_handle);

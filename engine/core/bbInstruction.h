@@ -240,8 +240,8 @@ bbFlag bbInstruction_approachGoalpoint_fn(bbCore* core, bbInstruction* instructi
 bbFlag bbInstruction_unapproachGoalpoint_fn(bbCore* core, bbInstruction* instruction);
 
 
-bbFlag bbInstruction_updateMoveables_fn(bbCore* core, bbInstruction* instruction);
-bbFlag bbInstruction_unupdateMoveables_fn(bbCore* core, bbInstruction* instruction);
+//bbFlag bbInstruction_updateMoveables_fn(bbCore* core, bbInstruction* instruction);
+//bbFlag bbInstruction_unupdateMoveables_fn(bbCore* core, bbInstruction* instruction);
 
 bbFlag bbInstruction_spawnTestMoveable_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_unspawnTestMoveable_fn(bbCore* core, bbInstruction* instruction);
