@@ -213,7 +213,7 @@ bbFlag bbI_spawnAIComponent_fn(bbCore* core, bbInstruction* instruction)
     component->component.entity_handle = instruction->data.three_handles.handle1;
 
     bbCS_entity_setComponent(core,
-                             &home.ECS.ECS,
+                             home.ECS.ECS,
                              component->component.entity_handle,
                              component_handle,
                              bbECS_AI,

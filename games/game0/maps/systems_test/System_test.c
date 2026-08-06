@@ -3,6 +3,8 @@
 #include <math.h>
 
 #include "core/instructions.h"
+#include "core/core_inbox.h"
+#include "core/core_inputs.h"
 #include "engine/ECS/server_entities/bbServerEntities.h"
 #include "engine/ECS/bbMoveables.h"
 #include "engine/ECS/bbEntitySpawner.h"
@@ -70,6 +72,10 @@ int main(void)
 
     bbCore_init(&home.core.core);
     bbCore_initVInstructions(&home.core.core);
+    bbCore_initInboxMessages(&home.core.core);
+
+    bbCoreInbox_TestMessage(&home.core.core);
+    bbCore_checkInbox(&home.core.core);
 
     bbECS_new(&home.core.core.ECS, bbECS_numSystems);
 

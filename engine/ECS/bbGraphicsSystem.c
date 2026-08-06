@@ -1,6 +1,8 @@
 #include "engine/ECS/bbGraphicsSystem.h"
 
 #include "core/instructions.h"
+#include "core/core_inbox.h"
+#include "core/core_inputs.h"
 #include "engine/data/bbHome.h"
 #include "engine/logic/bbBloatedPool.h"
 

@@ -286,10 +286,11 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
 
 target_compile_definitions(Systems_Test  PRIVATE DEFINE_TEST_SYSTEM)
 target_include_directories(Systems_Test  PRIVATE "./"
-        PRIVATE "games/game0/maps/Systems_test/")
+        PRIVATE "games/game0/maps/systems_test/")
 target_link_libraries(Systems_Test PRIVATE
         csfml-graphics
         csfml-window
         csfml-system
         csfml-network
+        m
 )
