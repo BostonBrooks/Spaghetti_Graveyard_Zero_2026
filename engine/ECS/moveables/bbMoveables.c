@@ -1,5 +1,5 @@
 
-#include "engine/ECS/bbMoveables.h"
+#include "bbMoveables.h"
 
 #include "core/instructions.h"
 #include "engine/core/bbAction.h"
@@ -89,9 +89,9 @@ bbFlag bbMoveables_init(bbMoveables* moveables,bbECS* ECS)
 
         moveable->type = bbMoveableType_Unused;
     }
-
-
     ECS->systems[bbECS_Moveables] = (bbSystem* )moveables;
+
+    bbHere()
     return bbSuccess;
 }
 
@@ -570,56 +570,7 @@ bbFlag bbCoreInput_updateMoveables(bbCore* core,
     return bbSuccess;
 }
 
-bbFlag bbInstruction_updateMoveables_fn(bbCore* core,
-                                        bbInstruction* instruction)
-{
-    bbInstruction* undo_instruction;
-    bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
-    undo_instruction->type = bbInstruction_unupdateMoveables;
-    undo_instruction->source = instruction->source;
 
-    bbMoveables_snapshot* snapshot;
-    bbHandle snapshot_handle;
-    bbFlag flag = bbVPool_alloc2(home.ECS.moveables.snapshots, (void**)&snapshot,&snapshot_handle);
-
-
-    undo_instruction->snapshot = snapshot_handle;
-
-    for (I32 i = 0; i < NUM_MOVEABLES; i++)
-    {
-        snapshot->moveables[i].ECS_entity_handle = home.ECS.moveables.moveables[i].component.entity_handle;
-        snapshot->moveables[i].position = home.ECS.moveables.moveables[i].
-            position;
-        snapshot->moveables[i].goalpoint = home.ECS.moveables.moveables[i].
-            goalpoint;
-    }
-
-
-    bbMoveables_update(&home.ECS.moveables);
-
-    if (instruction->source == bbInstructionSource_internal)
-    {
-        bbVPool_free(core->instruction_pool, (void*)instruction);
-        undo_instruction->redo_instruction.u64 = 0;
-        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
-        return bbSuccess;
-    }
-    if (instruction->source == bbInstructionSource_input)
-    {
-        bbHandle handle;
-        bbVPool_reverseLookup(core->instruction_pool, instruction, &handle);
-        undo_instruction->redo_instruction = handle;
-        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
-        return bbSuccess;
-    }
-    if (instruction->source == bbInstructionSource_action)
-    {
-        undo_instruction->redo_instruction = instruction->redo_instruction;
-        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
-        return bbSuccess;
-    }
-    bbNotHere()
-}
 
 
 bbFlag bbInstruction_unupdateMoveables_fn(bbCore* core,

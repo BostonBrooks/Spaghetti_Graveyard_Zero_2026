@@ -16,7 +16,7 @@
 #include "engine/userinterface/bbUIApp.h"
 #include "engine/groundsurface/bbGroundSurface.h"
 #include "engine/spawner/bbSpawner.h"
-#include "engine/ECS/bbMoveables.h"
+#include "../ECS/moveables/bbMoveables.h"
 
 typedef struct
 {

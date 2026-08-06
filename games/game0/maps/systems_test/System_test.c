@@ -6,7 +6,7 @@
 #include "core/core_inbox.h"
 #include "core/core_inputs.h"
 #include "engine/ECS/server_entities/bbServerEntities.h"
-#include "engine/ECS/bbMoveables.h"
+#include "engine/ECS/moveables/bbMoveables.h"
 #include "engine/ECS/bbEntitySpawner.h"
 #include "engine/data/CSFML.h"
 #include "engine/core/bbCoreDiscard.h"
@@ -82,6 +82,8 @@ int main(void)
     home.ECS.ECS = home.core.core.ECS;
     bbServerEntities_init(&home.ECS.server_entities,home.core.core.ECS);
     bbGraphicsSystem_init(&home.ECS.graphics_system,home.core.core.ECS);
+    bbMoveables_init(&home.ECS.moveables,home.core.core.ECS);
+
 
     bbHandle server_handle;
     server_handle.bloated.index = 193;
