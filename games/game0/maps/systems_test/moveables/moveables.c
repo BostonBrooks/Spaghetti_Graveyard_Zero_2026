@@ -18,8 +18,10 @@ bbFlag bbCoreSynchronous_spawnTestMoveable(bbCore* core,
 
 
     bbMoveable* moveable = &home.ECS.moveables.moveables[index];
-    moveable->goalpoint = position;
+
     moveable->position = position;
+    position.i += POINTS_PER_SQUARE;
+    moveable->goalpoint = position;
 
     moveable->component.entity_handle = ECS_entity_handle;
     moveable->moveable_handle = moveable_handle1;
@@ -28,6 +30,8 @@ bbFlag bbCoreSynchronous_spawnTestMoveable(bbCore* core,
 
     moveable->coords_a = bbMapCoords_getMilliCoords(moveable->position);
     moveable->coords_b = bbMapCoords_getMilliCoords(moveable->position);
+
+
 
     bbCS_entity_setComponent(core,
                              home.ECS.ECS,

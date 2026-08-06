@@ -96,6 +96,25 @@ int main(void)
                                     server_handle,
                                     bbInstructionSource_input,
                                     no_handle);
+
+
+    bbCore_react(&home.core.core);
+
+    bbHandle moveable_handle;
+    bbMapCoords moveable_position;
+    moveable_position.i = 10100;
+    moveable_position.j = 10000;
+    moveable_position.k = 0;
+
+
+
+
+    bbCoreSynchronous_spawnTestMoveable(&home.core.core,
+                                           home.ECS.ECS->list.list.head,
+                                           &moveable_handle,
+                                           moveable_position,
+                                           bbInstructionSource_norewind,
+                                           no_handle);
     bbCore_react(&home.core.core);
     bbSquareCoords size; size.i = 12; size.j = 12; size.k = 0;
     bbGroundSurface_init(&home.ground_surface, size, "./maps/systems_test/graphics/HeightMap.bmp");
@@ -153,7 +172,7 @@ int main(void)
     bbCoreInput_spawnGraphicsComponent(&home.core.core,
                                        MC,
                                        entity_handle,
-                                       no_handle,
+                                       moveable_handle,
                                        bbInstructionSource_norewind,
                                        no_handle);
     bbCore_react(&home.core.core);
@@ -225,8 +244,8 @@ int main(void)
             bbCore_react(&home.core.core);
 
             //have not implemented moveables!
-            //bbCoreInput_updateMoveables(&home.core.core,bbInstructionSource_input, no_handle );
-            //bbCore_react(&home.core.core);
+            bbCoreInput_updateMoveables(&home.core.core,bbInstructionSource_input, no_handle );
+            bbCore_react(&home.core.core);
 
             //bbMovables_update(&home.agents_app.movables);
             //bbCoreInput_approachGoalpoint(&home.core.core);
@@ -331,8 +350,8 @@ bbHere()
 
 
 
-//        bbMoveables_copyBuffer(&home.ECS.moveables, &moveables_snapshot);
-//        bbUnits_consumeBuffer(home.viewport_app.units, home.viewport_app.entity_units, &moveables_snapshot);
+        bbMoveables_copyBuffer(&home.ECS.moveables, &moveables_snapshot);
+        bbUnits_consumeBuffer(home.viewport_app.units, home.viewport_app.entity_units, &moveables_snapshot);
 
 
         sfRenderWindow_display(home.UI.window);
