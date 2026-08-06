@@ -17,6 +17,8 @@ bbFlag bbGraphicsSystem_init(bbGraphicsSystem* graphics_system, bbECS* ECS)
 
 
     ECS->systems[bbECS_Graphics] = (bbSystem* )graphics_system;
+
+    return bbSuccess;
 }
 
 
