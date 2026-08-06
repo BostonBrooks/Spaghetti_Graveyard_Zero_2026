@@ -1,5 +1,5 @@
 
-#include "engine/ECS/bbGraphicsSystem.h"
+#include "engine/ECS/graphics_system/bbGraphicsSystem.h"
 
 #include "engine/logic/bbBloatedPool.h"
 

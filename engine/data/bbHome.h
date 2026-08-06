@@ -5,7 +5,7 @@
 #include "engine/core/bbCore.h"
 #include "engine/ECS/bbAI_System.h"
 #include "engine/ECS/bbEntitySpawner.h"
-#include "engine/ECS/bbGraphicsSystem.h"
+#include "engine/ECS/graphics_system/bbGraphicsSystem.h"
 #include "engine/ECS/server_entities/bbServerEntities.h"
 #include "engine/ECS/ECS.h"
 #include "engine/graphics/bbGraphicsApp.h"

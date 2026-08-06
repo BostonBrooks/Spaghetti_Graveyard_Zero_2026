@@ -31,7 +31,7 @@
 #include "engine/ECS/ECS_instructions.h"
 
 
-#include "engine/ECS/bbGraphicsSystem.h"
+#include "engine/ECS/graphics_system/bbGraphicsSystem.h"
 
 pthread_barrier_t barrier1;
 

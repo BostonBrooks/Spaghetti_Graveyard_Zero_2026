@@ -6,7 +6,7 @@
 #include "engine/core/bbInstruction.h"
 #include "engine/logic/bbFlag.h"
 #include "instructions.h"
-#include "engine/ECS/bbGraphicsSystem.h"
+#include "engine/ECS/graphics_system/bbGraphicsSystem.h"
 #include "engine/ECS/server_entities/bbServerEntities.h"
 
 bbFlag bbCore_initVInstructions(bbCore* core)
