@@ -91,11 +91,11 @@ int main(void)
     server_handle.bloated.index = 193;
     server_handle.bloated.collision = 193;
     bbECS_entity* entity;
-    bbCoreInput_spawnServerEntity(&home.core.core,
-                                    "TEST ENTITY",
-                                    server_handle,
-                                    bbInstructionSource_input,
-                                    no_handle);
+    // bbCoreInput_spawnServerEntity(&home.core.core,
+    //                                 "TEST ENTITY",
+    //                                 server_handle,
+    //                                 bbInstructionSource_input,
+    //                                 no_handle);
 
 
     bbCore_react(&home.core.core);
@@ -109,12 +109,12 @@ int main(void)
 
 
 
-    bbCoreSynchronous_spawnTestMoveable(&home.core.core,
-                                           home.ECS.ECS->list.list.head,
-                                           &moveable_handle,
-                                           moveable_position,
-                                           bbInstructionSource_norewind,
-                                           no_handle);
+    // bbCoreSynchronous_spawnTestMoveable(&home.core.core,
+    //                                        home.ECS.ECS->list.list.head,
+    //                                        &moveable_handle,
+    //                                        moveable_position,
+    //                                        bbInstructionSource_norewind,
+    //                                        no_handle);
     bbCore_react(&home.core.core);
     bbSquareCoords size; size.i = 12; size.j = 12; size.k = 0;
     bbGroundSurface_init(&home.ground_surface, size, "./maps/systems_test/graphics/HeightMap.bmp");
@@ -143,12 +143,12 @@ int main(void)
 
 
     bbEntitySpawner_init(&home.ECS.spawner);
-//    bbEntitySpawner_populate(&home.ECS.spawner);
+    bbEntitySpawner_populate(&home.ECS.spawner);
 
 
     pthread_barrier_wait(&barrier1);
 
-    //bbEntitySpawner_spawnFile(&home.ECS.spawner, "maps/systems_test/entity_spawner/spawner.csv");
+    bbEntitySpawner_spawnFile(&home.ECS.spawner, "maps/systems_test/entity_spawner/spawner.csv");
 
 
     //bbMoveable* test_moveable = &home.ECS.moveables.moveables[0];
@@ -168,13 +168,13 @@ int main(void)
     MC.i = 10100; MC.j = 10000; MC.k = 0;
 
     bbHandle entity_handle = home.ECS.ECS->list.list.head;
-
-    bbCoreInput_spawnGraphicsComponent(&home.core.core,
-                                       MC,
-                                       entity_handle,
-                                       moveable_handle,
-                                       bbInstructionSource_norewind,
-                                       no_handle);
+    //
+    // bbCoreInput_spawnGraphicsComponent(&home.core.core,
+    //                                    MC,
+    //                                    entity_handle,
+    //                                    moveable_handle,
+    //                                    bbInstructionSource_norewind,
+    //                                    no_handle);
     bbCore_react(&home.core.core);
     fflush(stdout);
 

@@ -481,6 +481,9 @@ bbFlag bbMoveable_setGoalMoveable(bbMoveables* moveables, bbHandle handle, bbHan
     bbServerEntity* server_entity;
 
     bbVPool_lookup(home.ECS.server_entities.system.pool, (void**)&server_entity,server_handle);
+
+    bbAssert(server_entity != NULL, "bad pool lookup\n");
+
     bbHandle entity_handle = server_entity->component.entity_handle;
     bbECS_entity* entity;
     bbVPool_lookup(home.ECS.ECS->system.pool, (void**)&entity,entity_handle);

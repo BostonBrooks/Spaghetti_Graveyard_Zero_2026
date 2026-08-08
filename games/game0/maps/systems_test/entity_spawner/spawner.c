@@ -1,6 +1,7 @@
 #include "engine/data/bbHome.h"
 #include "engine/ECS/bbEntitySpawner.h"
 #include "engine/groundsurface/bbGroundSurface.h"
+#include "games/game0/maps/skellychase/entity_spawner/skelly.h"
 #include "games/game0/maps/systems_test/entity_spawner/skelly.h"
 
 I32 parse_function_count = 193;
@@ -114,7 +115,6 @@ bbFlag bbSF_null(void* spawner,
 }
 
 
-/*
 
 bbFlag bbEntitySpawner_populate(bbEntitySpawner* spawner)
 {
@@ -132,4 +132,3 @@ bbFlag bbEntitySpawner_populate(bbEntitySpawner* spawner)
     bbSpawnFunction_add(spawner, bbSF_addGraphics_skelly, "SKELLY_GRAPHICS");
     return bbSuccess;
 }
-*/
