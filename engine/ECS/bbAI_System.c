@@ -1,5 +1,6 @@
 #include "engine/ECS/bbAI_System.h"
 
+#include "core/core_inputs.h"
 #include "core/instructions.h"
 #include "engine/data/bbHome.h"
 #include "engine/logic/bbBloatedPool.h"
@@ -129,6 +130,24 @@ bbFlag bbAI_Component_update(bbAI_Component* component, bbAI_System* system)
     bbAI_Update* function = system->functions.updates[function_index];
     return function(component);
 }
+
+bbFlag updateAI_list_fn(bbList* list, void* node, void* cl)
+{
+    bbHandle handle;
+    bbVPool_reverseLookup(list->pool, node, &handle);
+    //bbCoreInput_updateAgent(&home.core.core, handle, bbInstructionSource_input,
+    //                        no_handle);
+
+    bbAI_Component_update(node,&home.ECS.AI_system);
+
+    return bbContinue;
+}
+
+bbFlag bbAI_System_update(bbAI_System* system)
+{
+    bbList_mapL(&system->list,updateAI_list_fn, NULL);
+}
+
 
 bbFlag bbAgent_onCommand(bbAI_Component* component,
                           bbAI_System* system,

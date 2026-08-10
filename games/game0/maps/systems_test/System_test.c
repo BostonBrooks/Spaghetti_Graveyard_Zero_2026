@@ -85,7 +85,9 @@ int main(void)
     bbGraphicsSystem_init(&home.ECS.graphics_system,home.core.core.ECS);
     bbMoveables_init(&home.ECS.moveables,home.core.core.ECS);
 
-
+    bbAI_System_init(&home.ECS.AI_system,home.core.core.ECS);
+    bbAI_Functions_init(&home.ECS.AI_system.functions);
+    bbAI_Functions_populate(&home.ECS.AI_system.functions);
 
     bbHandle server_handle;
     server_handle.bloated.index = 193;
@@ -122,8 +124,8 @@ int main(void)
     // bbSpawner_init(&home.spawner, 69, 193);
     // bbSpawner_populate(&home.spawner);
 
-    bbCoreInput_updateMoveables(&home.core.core,bbInstructionSource_internal, no_handle);
-    bbCore_react(&home.core.core);
+    //bbCoreInput_updateMoveables(&home.core.core,bbInstructionSource_internal, no_handle);
+    //bbCore_react(&home.core.core);
 
     pthread_t graphics_pthread;
     pthread_create(&graphics_pthread, NULL, userinterface_thread, NULL);
@@ -256,7 +258,8 @@ int main(void)
             //bbCoreInput_updateAgentsSquare(&home.core.core, NULL,bbInstructionSource_input, no_handle);
             //bbCore_react(&home.core.core);
 
-
+            //TODO Core Synchronous/Core Input?
+            bbAI_System_update(&home.ECS.AI_system);
             //bbCoreInput_updateAgents(&home.core.core, home.agents_app.agents,
             //                         bbInstructionSource_input, no_handle);
             //bbCore_react(&home.core.core);

@@ -1,7 +1,6 @@
 #include "engine/data/bbHome.h"
 #include "engine/ECS/bbEntitySpawner.h"
 #include "engine/groundsurface/bbGroundSurface.h"
-#include "games/game0/maps/skellychase/entity_spawner/skelly.h"
 #include "games/game0/maps/systems_test/entity_spawner/skelly.h"
 
 I32 parse_function_count = 193;
@@ -114,6 +113,30 @@ bbFlag bbSF_null(void* spawner,
             source);
 }
 
+bbFlag bbSF_addAI_skelly(void* spawner,
+                               bbECS_entity* entity,
+                               bbSpawnFunctionArgs args,
+                               bbInstruction_source source)
+{
+    bbHere()
+
+
+    bbHandle handle;
+    bbVPool_reverseLookup(home.ECS.ECS->system.pool, entity, &handle);
+
+    bbAI_Component* this;
+
+    bbCS_spawnAIComponent(&home.core.core,
+                          home.core.core.ECS,
+                          handle,
+                          &this,
+                          bbInstructionSource_norewind,
+                          no_handle);
+
+    return bbSuccess;
+}
+
+
 
 
 bbFlag bbEntitySpawner_populate(bbEntitySpawner* spawner)
@@ -130,5 +153,6 @@ bbFlag bbEntitySpawner_populate(bbEntitySpawner* spawner)
     bbSpawnFunction_add(spawner, bbSF_addMoveable_skelly, "SKELLY_MOVEABLE");
     bbSpawnFunction_add(spawner, bbSF_addMoveable_skelly2, "SKELLY_MOVEABLE2");
     bbSpawnFunction_add(spawner, bbSF_addGraphics_skelly, "SKELLY_GRAPHICS");
+    bbSpawnFunction_add(spawner, bbSF_addAI_skelly, "SKELLY_AI");
     return bbSuccess;
 }
