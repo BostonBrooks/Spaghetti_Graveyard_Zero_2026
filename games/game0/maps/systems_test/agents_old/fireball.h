@@ -1,5 +1,5 @@
 #include "core/core_inputs.h"
-#include "engine/ECS/bbAI_System.h"
+#include "../../../../../engine/ECS/AI_system/bbAI_System.h"
 #include "engine/core/bbCoreInputs.h"
 #include "engine/core/bbCoreInboxInput.h"
 #include "engine/data/bbHome.h"

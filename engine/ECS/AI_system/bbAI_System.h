@@ -7,7 +7,7 @@ use bbCoreSynchronous functions to set data in a way that is "core-safe"
 
 #ifndef BB_AISYSTEM_H
 #define BB_AISYSTEM_H
-#include "moveables/bbMoveables.h"
+#include "../moveables/bbMoveables.h"
 #include "engine/ECS/ECS.h"
 #include "engine/logic/bbDictionary.h"
 #include "engine/logic/bbHandle.h"
@@ -128,4 +128,5 @@ bbFlag bbI_unspawnAIComponent_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbAI_System_getComponent(struct bbSystem* system, bbComponent** component, bbHandle component_handle);
 bbFlag bbAI_System_getHandle(struct bbSystem* system, bbComponent* component, bbHandle* component_handle);
 
+bbFlag bbCI_updateAI();
 #endif //BB_AISYSTEM_H

@@ -26,7 +26,7 @@
 #include "engine/spawner/bbSpawner.h"
 #include "engine/network/bbNetworkApp.h"
 #include "games/game0/maps/systems_test/core/core_inputs.h"
-#include "engine/ECS/bbAI_System.h"
+#include "engine/ECS/AI_system/bbAI_System.h"
 #include "engine/test_string/bbTestString.h"
 #include "engine/ECS/ECS_instructions.h"
 

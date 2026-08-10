@@ -5,7 +5,7 @@
 #include "engine/core/bbCoreInbox.h"
 #include "engine/core/bbInstruction.h"
 #include "engine/core/bbAction.h"
-#include "engine/ECS/bbAI_System.h"
+#include "../ECS/AI_system/bbAI_System.h"
 #include "engine/ECS/graphics_system/bbGraphicsSystem.h"
 #include "../ECS/server_entities/bbServerEntities.h"
 #include "engine/ECS/ECS.h"

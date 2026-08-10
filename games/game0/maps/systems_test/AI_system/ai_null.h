@@ -1,5 +1,5 @@
 
-#include "engine/ECS/bbAI_System.h"
+#include "engine/ECS/AI_system/bbAI_System.h"
 #include "engine/logic/bbTerminal.h"
 
 bbFlag bbAI_Update_NULL(bbAI_Component* component)

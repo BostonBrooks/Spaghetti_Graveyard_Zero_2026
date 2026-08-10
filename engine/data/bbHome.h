@@ -3,7 +3,7 @@
 
 #include "engine/viewport/bbViewportApp.h"
 #include "engine/core/bbCore.h"
-#include "engine/ECS/bbAI_System.h"
+#include "../ECS/AI_system/bbAI_System.h"
 #include "engine/ECS/bbEntitySpawner.h"
 #include "engine/ECS/graphics_system/bbGraphicsSystem.h"
 #include "engine/ECS/server_entities/bbServerEntities.h"
