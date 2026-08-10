@@ -8,10 +8,11 @@
 #include "engine/viewport/bbViewport.h"
 #include "engine/logic/bbFlag.h"
 #include "engine/userinterface/bbWidgets.h"
+#include "engine/viewport/bbViewportSpawner.h"
 
 
 
-typedef struct
+typedef struct bbViewportApp
 {
     bbDrawables* drawables;
     bbMapIcons* mapIcons;
@@ -23,6 +24,8 @@ typedef struct
     bbVPool* moveable_units;
     //Convert from entity handle to unit handle
     bbVPool* entity_units;
+
+    bbViewportSpawner viewport_spawner;
 } bbViewportApp;
 
 bbFlag bbViewportApp_init(bbViewportApp* app);

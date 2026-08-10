@@ -18,7 +18,8 @@ typedef enum
     bbUI_Inbox_deleteUnit,
     bbUI_Inbox_newUnit,
     bbUI_Inbox_setUnitHP,
-    bbUI_Inbox_newTree
+    bbUI_Inbox_newTree,
+    bbUI_Inbox_newDrawable
 } bbUI_Inbox_type;
 
 typedef struct
@@ -96,4 +97,7 @@ bbFlag bbUI_Inbox_SetUnitHP(bbUI_Inbox* inbox, bbHandle unit, float HP);
 
 bbFlag bbUI_Inbox_NewTree(bbUI_Inbox* inbox, char* tree_type, bbMapCoords position);
 bbFlag bbUI_Inbox_newTree_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message);
+
+bbFlag bbUI_Inbox_NewDrawable(bbUI_Inbox* inbox, I32 type_index, bbMapCoords MC, bbHandle entity_handle, bbHandle moveable_handle);
+bbFlag bbUI_Inbox_newDrawable_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message);
 #endif // BB_UI_INBOX_H

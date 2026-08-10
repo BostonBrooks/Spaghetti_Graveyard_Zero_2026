@@ -133,6 +133,7 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
         games/game0/maps/systems_test/entity_spawner/spawner.c
         games/game0/maps/systems_test/moveables/moveables.c
         games/game0/maps/systems_test/AI_system/ai_instructions.c
+        games/game0/maps/systems_test/viewport_spawner/viewport_spawner.c
 
         engine/test_string/bbTestString.c
 
@@ -188,6 +189,7 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
         engine/viewport/bbUnits.c
         engine/viewport/bbViewport.c
         engine/viewport/bbViewportApp.c
+        engine/viewport/bbViewportSpawner.c
 
         engine/geometry/bbCoordinates.c
         engine/geometry/bbGroundCoords.c

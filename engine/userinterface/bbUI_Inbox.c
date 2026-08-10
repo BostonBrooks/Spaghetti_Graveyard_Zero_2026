@@ -80,6 +80,9 @@ bbFlag bbUI_Inbox_check(bbUI_Inbox* inbox)
         case bbUI_Inbox_newBanana:
             bbUI_Inbox_newBanana_fn(inbox, message);
             break;
+        case bbUI_Inbox_newDrawable:
+            bbUI_Inbox_newDrawable_fn(inbox, message);
+            break;
         default:
 
             bbDebug("Unknown UI local message type\nmessage->type = %d\n", message->type);
@@ -560,4 +563,29 @@ bbFlag bbUI_Inbox_newTree_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
     bbMapIcon_new(&mapicon, home.viewport_app.mapIcons,&home.UI.graphics, message->data.coords);
 
 
+}
+
+
+bbFlag bbUI_Inbox_NewDrawable(bbUI_Inbox* inbox, I32 type_index, bbMapCoords MC, bbHandle entity_handle, bbHandle moveable_handle)
+{
+    bbUI_Inbox_message* message;
+    bbThreadedQueue_alloc(&inbox->local_message_queue,(void**)&message);
+    message->type = bbUI_Inbox_newDrawable;
+
+    message->data.integer = type_index;
+    message->data.coords = MC;
+    message->data.entity_handle = entity_handle;
+    message->data.moveable_handle = moveable_handle;
+
+    bbThreadedQueue_pushL(&inbox->local_message_queue, (void*)message);
+    return bbSuccess;
+
+}
+bbFlag bbUI_Inbox_newDrawable_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message){
+    bbViewportSpawner_spawnDrawable(&home.viewport_app,
+                                     &home.viewport_app.viewport_spawner,
+                                     message->data.integer,
+                                     message->data.coords,
+                                     message->data.entity_handle,
+                                     message->data.moveable_handle);
 }
