@@ -334,8 +334,8 @@ void* userinterface_thread(void* arg)
     bbMapIcon* mapicon;
     bbMapIcon_new(&mapicon, home.viewport_app.mapIcons,&home.UI.graphics, MC);
 
-    I32 skelly_int = bbViewportSpawner_lookupInt(&home.viewport_app.viewport_spawner,
-                                "SKELLY");
+    I32 zombie_int = bbViewportSpawner_lookupInt(&home.viewport_app.viewport_spawner,
+                                "ZOMBIE");
 
     MC.i = 10500;
     MC.j = 10000;
@@ -343,7 +343,7 @@ void* userinterface_thread(void* arg)
 
     MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
 
-    bbUI_Inbox_NewDrawable(&home.UI.inbox, skelly_int, MC, no_handle, no_handle);
+    bbUI_Inbox_NewDrawable(&home.UI.inbox, zombie_int, MC, no_handle, no_handle);
 
     pthread_barrier_wait(&barrier1);
 bbHere()
