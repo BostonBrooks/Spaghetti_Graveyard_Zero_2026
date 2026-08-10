@@ -18,6 +18,7 @@ typedef struct
 bbFlag bbGraphicsSystem_init(bbGraphicsSystem* graphics_system, bbECS* ECS);
 
 bbFlag bbCoreInput_spawnGraphicsComponent(bbCore* core,
+                                   char* type,
                                    bbMapCoords MC,
                                    bbHandle entity,
                                    bbHandle moveable,

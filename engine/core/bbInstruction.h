@@ -108,6 +108,7 @@ typedef struct
 
 typedef struct
 {
+    U32 type;
     bbHandle handle1;
     bbHandle handle2;
     bbMapCoords coords;

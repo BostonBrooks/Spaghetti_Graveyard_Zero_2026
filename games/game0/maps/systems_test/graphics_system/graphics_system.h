@@ -9,11 +9,12 @@
 #include "engine/logic/bbHandle.h"
 
 bbFlag bbCoreInput_spawnGraphicsComponent(bbCore* core,
-                                   bbMapCoords MC,
-                                   bbHandle entity,
-                                   bbHandle moveable,
-                                   bbInstruction_source source,
-                                   bbHandle action);
+                                          char* type,
+                                          bbMapCoords MC,
+                                          bbHandle entity,
+                                          bbHandle moveable,
+                                          bbInstruction_source source,
+                                          bbHandle action);
 
 //bbInstruction_spawnGraphicsComponent is in instructions.h
 

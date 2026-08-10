@@ -1,6 +1,7 @@
 in engine/ECS/bbGraphicsSystem.c
 
 bbFlag bbCoreInput_spawnGraphicsComponent(bbCore* core,
+
                                    bbMapCoords MC,
                                    bbHandle entity,
                                    bbHandle moveable,

@@ -5,15 +5,21 @@
 #include "engine/userinterface/bbUI_Inbox.h"
 
 bbFlag bbCoreInput_spawnGraphicsComponent(bbCore* core,
+                                          char* type,
                                           bbMapCoords MC,
                                           bbHandle entity,
                                           bbHandle moveable,
                                           bbInstruction_source source,
                                           bbHandle action)
 {
+    U32 type_int =  bbViewportSpawner_lookupInt(&home.viewport_app.viewport_spawner,
+                                type);
+
+
     bbInstruction* instruction;
     bbList_alloc(&core->do_stack, (void**)&instruction);
     instruction->type = bbInstruction_spawnGraphicsComponent;
+    instruction->data.agent_MC.type = type_int;
     instruction->data.agent_MC.handle1 = entity;
     instruction->data.agent_MC.handle2 = moveable;
     instruction->data.agent_MC.coords = MC;
@@ -27,14 +33,15 @@ bbFlag bbCoreInput_spawnGraphicsComponent(bbCore* core,
 bbFlag bbInstruction_spawnGraphicsComponent_fn(bbCore* core, bbInstruction* instruction)
 {
 
-    I32 skelly_int = bbViewportSpawner_lookupInt(&home.viewport_app.viewport_spawner,
-                            "SKELLY");
+
+
 
     bbUI_Inbox_NewDrawable(&home.UI.inbox,
-                           skelly_int,
+                           instruction->data.agent_MC.type,
                            instruction->data.agent_MC.coords,
                            instruction->data.agent_MC.handle1,
                            instruction->data.agent_MC.handle2);
+
 
     if (instruction->source == bbInstructionSource_internal)
     {
@@ -43,6 +50,7 @@ bbFlag bbInstruction_spawnGraphicsComponent_fn(bbCore* core, bbInstruction* inst
         undo_instruction->type = bbInstruction_unspawnGraphicsComponent;
         undo_instruction->data.agent_MC.handle1 = instruction->data.agent_MC.handle1;
         undo_instruction->data.agent_MC.handle2 = instruction->data.agent_MC.handle2;
+        undo_instruction->data.agent_MC.type = instruction->data.agent_MC.type;
 
         undo_instruction->source = instruction->source;
         bbVPool_free(core->instruction_pool, (void*)instruction);
@@ -56,6 +64,7 @@ bbFlag bbInstruction_spawnGraphicsComponent_fn(bbCore* core, bbInstruction* inst
         undo_instruction->type = bbInstruction_unspawnGraphicsComponent;
         undo_instruction->data.agent_MC.handle1 = instruction->data.agent_MC.handle1;
         undo_instruction->data.agent_MC.handle2 = instruction->data.agent_MC.handle2;
+        undo_instruction->data.agent_MC.type = instruction->data.agent_MC.type;
 
         undo_instruction->source = instruction->source;
         bbHandle handle;
@@ -70,6 +79,7 @@ bbFlag bbInstruction_spawnGraphicsComponent_fn(bbCore* core, bbInstruction* inst
         undo_instruction->type = bbInstruction_unspawnGraphicsComponent;
         undo_instruction->data.agent_MC.handle1 = instruction->data.agent_MC.handle1;
         undo_instruction->data.agent_MC.handle2 = instruction->data.agent_MC.handle2;
+        undo_instruction->data.agent_MC.type = instruction->data.agent_MC.type;
 
         undo_instruction->source = instruction->source;
         undo_instruction->redo_instruction = instruction->redo_instruction;
@@ -82,7 +92,7 @@ bbFlag bbInstruction_spawnGraphicsComponent_fn(bbCore* core, bbInstruction* inst
 
     bbVPool_alloc2(graphics->system.pool, (void**) &component, &component_handle);
 
-    bbHandle entity_handle = instruction->data.three_handles.handle1;
+    bbHandle entity_handle = instruction->data.agent_MC.handle1;
     component->component.entity_handle = entity_handle;
 
     bbCoreInput_entity_setComponent(core, core->ECS, entity_handle, component_handle, bbECS_Graphics,
