@@ -26,11 +26,15 @@ bbFlag bbCoreInput_spawnGraphicsComponent(bbCore* core,
 
 bbFlag bbInstruction_spawnGraphicsComponent_fn(bbCore* core, bbInstruction* instruction)
 {
-    bbUI_Inbox_NewBanana(&home.UI.inbox,
-                         instruction->data.agent_MC.coords,
-                         instruction->data.agent_MC.handle1,
-                         instruction->data.agent_MC.handle2);
 
+    I32 skelly_int = bbViewportSpawner_lookupInt(&home.viewport_app.viewport_spawner,
+                            "SKELLY");
+
+    bbUI_Inbox_NewDrawable(&home.UI.inbox,
+                           skelly_int,
+                           instruction->data.agent_MC.coords,
+                           instruction->data.agent_MC.handle1,
+                           instruction->data.agent_MC.handle2);
 
     if (instruction->source == bbInstructionSource_internal)
     {
