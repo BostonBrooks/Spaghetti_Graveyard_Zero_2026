@@ -31,7 +31,7 @@ bbFlag bbSF_addGraphics_zombie(void* spawner,
     //                                bbInstructionSource_norewind);
 
     bbCoreInput_spawnGraphicsComponent(&home.core.core,
-                                    "SKELLY",
+                                    "ZOMBIE",
                                    args.position,
                                    handle,
                                    moveable,
