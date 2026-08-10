@@ -2,6 +2,7 @@
 #include "engine/ECS/bbEntitySpawner.h"
 #include "engine/groundsurface/bbGroundSurface.h"
 #include "games/game0/maps/systems_test/entity_spawner/skelly.h"
+#include "games/game0/maps/systems_test/entity_spawner/zombie.h"
 
 I32 parse_function_count = 193;
 I32 spawn_function_count = 194;
@@ -153,6 +154,7 @@ bbFlag bbEntitySpawner_populate(bbEntitySpawner* spawner)
     bbSpawnFunction_add(spawner, bbSF_addMoveable_skelly, "SKELLY_MOVEABLE");
     bbSpawnFunction_add(spawner, bbSF_addMoveable_skelly2, "SKELLY_MOVEABLE2");
     bbSpawnFunction_add(spawner, bbSF_addGraphics_skelly, "SKELLY_GRAPHICS");
+    bbSpawnFunction_add(spawner, bbSF_addGraphics_zombie, "ZOMBIE_GRAPHICS");
     bbSpawnFunction_add(spawner, bbSF_addAI_skelly, "SKELLY_AI");
     return bbSuccess;
 }
