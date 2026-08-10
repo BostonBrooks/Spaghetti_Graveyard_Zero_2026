@@ -132,6 +132,7 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
         games/game0/maps/systems_test/AI_system/AI_System.c
         games/game0/maps/systems_test/entity_spawner/spawner.c
         games/game0/maps/systems_test/moveables/moveables.c
+        games/game0/maps/systems_test/AI_system/ai_instructions.c
 
         engine/test_string/bbTestString.c
 

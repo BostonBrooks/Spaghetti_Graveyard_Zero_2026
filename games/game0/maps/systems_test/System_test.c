@@ -26,6 +26,7 @@
 #include "engine/spawner/bbSpawner.h"
 #include "engine/network/bbNetworkApp.h"
 #include "games/game0/maps/systems_test/core/core_inputs.h"
+#include "games/game0/maps/systems_test/AI_system/ai_instructions.h"
 #include "engine/ECS/AI_system/bbAI_System.h"
 #include "engine/test_string/bbTestString.h"
 #include "engine/ECS/ECS_instructions.h"
@@ -259,7 +260,8 @@ int main(void)
             //bbCore_react(&home.core.core);
 
             //TODO Core Synchronous/Core Input?
-            bbAI_System_update(&home.ECS.AI_system);
+            bbCS_updateAI(&home.core.core, bbInstructionSource_input, no_handle);
+
             //bbCoreInput_updateAgents(&home.core.core, home.agents_app.agents,
             //                         bbInstructionSource_input, no_handle);
             //bbCore_react(&home.core.core);

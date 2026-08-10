@@ -128,5 +128,4 @@ bbFlag bbI_unspawnAIComponent_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbAI_System_getComponent(struct bbSystem* system, bbComponent** component, bbHandle component_handle);
 bbFlag bbAI_System_getHandle(struct bbSystem* system, bbComponent* component, bbHandle* component_handle);
 
-bbFlag bbCI_updateAI();
 #endif //BB_AISYSTEM_H

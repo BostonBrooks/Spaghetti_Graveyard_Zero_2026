@@ -1,3 +1,6 @@
+#ifndef AI_INSTRUCTIONS_H
+#define AI_INSTRUCTIONS_H
+
 #include "engine/core/bbCore.h"
 #include "engine/core/bbInstruction.h"
 #include "engine/logic/bbFlag.h"
@@ -7,7 +10,13 @@
 //Changes to state dont occur until when bbCore_react() is called
 //bbI_unupdateAI_fn doesnt do much but the state changes are tracked by the above state change instructions
 
+//enum bbInstruction_updateAI
+//enum bbInstruction_unupdateAI
+
 bbFlag bbCI_updateAI(bbCore* core, bbInstruction_source source, bbHandle action);
 bbFlag bbCS_updateAI(bbCore* core, bbInstruction_source source, bbHandle action);
 bbFlag bbI_updateAI_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbI_unupdateAI_fn(bbCore* core, bbInstruction* instruction);
+
+
+#endif //AI_INSTRUCTIONS_H
