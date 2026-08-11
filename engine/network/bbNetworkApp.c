@@ -195,9 +195,6 @@ bbFlag bbNetworkApp_checkInbox(bbNetwork* network)
             bbHandle moveable_handle;
             bbHandle_mapComponent(home.ECS.ECS,bbECS_ECS, handle,bbECS_Moveables, &moveable_handle, NULL);
 
-            moveable_handle.bloated.index = 1;
-            moveable_handle.bloated.collision = 193;
-
             bbDebug(//"player handle = %d,%d\n"
                     "moveable handle = %d,%d\n",
                     //handle.bloated.index,   handle.bloated.collision,
