@@ -116,7 +116,7 @@ bbFlag bbCoreInput_updateMoveables(bbCore* core,
 
 bbFlag bbInstruction_updateMoveables_fn(bbCore* core,
                                         bbInstruction* instruction)
-{bbHere()
+{
     bbInstruction* undo_instruction;
     bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
     undo_instruction->type = bbInstruction_unupdateMoveables;

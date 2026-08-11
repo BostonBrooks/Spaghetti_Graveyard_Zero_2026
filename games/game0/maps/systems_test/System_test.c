@@ -321,29 +321,29 @@ void* userinterface_thread(void* arg)
     //bbEntities_init_graphics(&home.agents_app.entities);
     //bbSpawner_spawnGraphics(&home.spawner, "./maps/systems_test/spawner/spawner.csv");
 
-    bbHere()
-    bbMapCoords MC;
-    MC.i = 10000;
-    MC.j = 10000;
-    MC.k = 1500;
-
-    MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
-
-    bbDrawable* drawable;
-    bbDrawable_newTree(&drawable, home.viewport_app.drawables, &home.UI.graphics,MC);
-    bbMapIcon* mapicon;
-    bbMapIcon_new(&mapicon, home.viewport_app.mapIcons,&home.UI.graphics, MC);
-
-    I32 zombie_int = bbViewportSpawner_lookupInt(&home.viewport_app.viewport_spawner,
-                                "ZOMBIE");
-
-    MC.i = 10500;
-    MC.j = 10000;
-    MC.k = 1500;
-
-    MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
-
-    bbUI_Inbox_NewDrawable(&home.UI.inbox, zombie_int, MC, no_handle, no_handle);
+    // bbHere()
+    // bbMapCoords MC;
+    // MC.i = 10000;
+    // MC.j = 10000;
+    // MC.k = 1500;
+    //
+    // MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
+    //
+    // bbDrawable* drawable;
+    // bbDrawable_newTree(&drawable, home.viewport_app.drawables, &home.UI.graphics,MC);
+    // bbMapIcon* mapicon;
+    // bbMapIcon_new(&mapicon, home.viewport_app.mapIcons,&home.UI.graphics, MC);
+    //
+    // I32 zombie_int = bbViewportSpawner_lookupInt(&home.viewport_app.viewport_spawner,
+    //                             "ZOMBIE");
+    //
+    // MC.i = 10500;
+    // MC.j = 10000;
+    // MC.k = 1500;
+    //
+    // MC.k = bbMapCoords_getElevation(&home.ground_surface, MC);
+    //
+    // bbUI_Inbox_NewDrawable(&home.UI.inbox, zombie_int, MC, no_handle, no_handle);
 
     pthread_barrier_wait(&barrier1);
 bbHere()
