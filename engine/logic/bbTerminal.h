@@ -68,6 +68,7 @@ sprintf (string1, "In FILE: %s, FUNCTION: %s, LINE: %d, THREAD: %s, TIME: %lu\nD
 __FILE_NAME__, __func__, __LINE__, thread, test_time);\
 sprintf (string2, __VA_ARGS__);\
 printf("%s%s", string1, string2);\
+fflush(stdout);\
 }}
 
 #define bbPrintf(...) {\

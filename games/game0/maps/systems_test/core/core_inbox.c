@@ -4,13 +4,17 @@
 
 #include "netpause_button.h"
 #include "unfreeze_button.h"
+#include "engine/data/bbHome.h"
 #include "engine/ECS/spawn_entity.h"
+#include "engine/ECS/moveables/bbMoveables.h"
 
 bbFlag bbCoreInboxTest_fn(bbCore* core, struct bbCoreInboxMessage* message)
 {
     bbHere();
     return bbSuccess;
 }
+
+bbFlag bbCoreInbox_setGoalpoint_fn(bbCore* core, bbCoreInboxMessage* message);
 
 bbFlag bbCore_initInboxMessages(bbCore* core)
 {
@@ -20,6 +24,7 @@ bbFlag bbCore_initInboxMessages(bbCore* core)
     core->inbox_functions[bbCoreInbox_unfreezeButton-bbCoreInbox_numTypes] = bbCoreInbox_unfreezeButton_fn;
     core->inbox_functions[bbCoreInbox_testClick-bbCoreInbox_numTypes] = bbCoreInbox_testClick_fn;
     core->inbox_functions[bbCoreInbox_testClick2-bbCoreInbox_numTypes] = bbCoreInbox_testClick2_fn;
+    core->inbox_functions[bbCoreInbox_setGoalpoint-bbCoreInbox_numTypes] = bbCoreInbox_setGoalpoint_fn;
 
     return bbSuccess;
 }
@@ -43,4 +48,23 @@ bbFlag bbCoreInbox_TestClick(bbCore* core, bbMapCoords MC)
     message->data.map_coords = MC;
     bbThreadedQueue_pushL(&core->local_message_queue, message);
     return bbSuccess;
+}
+
+
+
+bbFlag bbCoreInbox_SetGoalpoint(bbCore* core, bbHandle entity, bbMapCoords goalpoint)
+{
+    bbCoreInboxMessage* message;
+    bbThreadedQueue_alloc(&core->local_message_queue, (void** ) &message);
+    message->type = bbCoreInbox_setGoalpoint;
+    message->data.agent_MC.coords = goalpoint;
+    message->data.agent_MC.handle1 = entity;
+    bbThreadedQueue_pushL(&core->local_message_queue, message);
+}
+
+
+bbFlag bbCoreInbox_setGoalpoint_fn(bbCore* core, bbCoreInboxMessage* message)
+{
+
+    bbMoveable_setGoalPoint(&home.ECS.moveables,message->data.agent_MC.handle1, message->data.agent_MC.coords);
 }
