@@ -190,7 +190,23 @@ bbFlag bbNetworkApp_checkInbox(bbNetwork* network)
 
         if (packet->type == PACKETTYPE_TESTCLICK)
         {
-            bbHere()
+
+            bbHandle handle = home.ECS.ECS->player_character;
+            bbHandle moveable_handle;
+            bbHandle_mapComponent(home.ECS.ECS,bbECS_ECS, handle,bbECS_Moveables, &moveable_handle, NULL);
+
+
+            bbMoveable_setGoalPoint((bbMoveables*)&home.ECS.ECS->systems[bbECS_Moveables],
+                                    moveable_handle,
+                                    packet->data.map_coords);
+
+            bbDebug("ecs handle = %d, %d\n"
+                    "moveable handle = %d, %d\n"
+                    "goal point  = %d, %d, %d\n",
+                    handle.bloated.index,handle.bloated.collision,
+                    moveable_handle.bloated.index,moveable_handle.bloated.collision,
+                    packet->data.map_coords.i,packet->data.map_coords.j,packet->data.map_coords.k);
+
         }
 
         bbThreadedQueue_free(&network->inbox, (void**)&packet);

@@ -4,6 +4,7 @@
 
 #include "bbAction.h"
 #include "bbCoreInputs.h"
+#include "engine/ECS/ECS.h"
 
 #ifdef DEFINE_SKELLYCHASE
 #include "core/core_inputs.h"
@@ -14,6 +15,8 @@
 #include "engine/logic/bbString.h"
 #include "engine/network/bbNetworkApp.h"
 #include "engine/userinterface/bbUI_Inbox.h"
+#include "engine/data/bbHome.h"
+
 extern char test_string[KEY_LENGTH];
 
 U32 collision = 0;
@@ -276,7 +279,7 @@ bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
         if (action->header.type == bbActionType_spawnEntity)
         {
             //TODO virtual function / callback
-            //bbCoreInput_spawnTestEntity(core,&home.ECS.ECS, action->map_coords, action->handle, bbInstructionSource_action, handle);
+            bbCoreInput_spawnTestEntity(core,&home.ECS.ECS, action->map_coords, action->handle, bbInstructionSource_action, handle);
 
 
         }

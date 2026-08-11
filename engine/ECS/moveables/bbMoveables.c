@@ -468,11 +468,11 @@ bbFlag bbMoveables_newTest(bbMoveables* moveables, bbHandle* moveable_handle, bb
 
 
 bbFlag bbMoveable_setGoalPoint(bbMoveables* moveables, bbHandle handle, bbMapCoords goalpoint)
-{
+{//TODO make core-safe?
     bbMoveable* moveable = &moveables->moveables[handle.bloated.index];
 
     moveable->goalpoint = goalpoint;
-
+    moveable->type = bbMoveableType_MovingThrough;
     return bbSuccess;
 }
 
