@@ -344,7 +344,7 @@ bbFlag bbCoreInput_entity_setComponent(bbCore* core,bbECS* ECS, bbHandle entity,
 }
 
 bbFlag bbInstruction_entity_setComponent_fn(bbCore* core, bbInstruction* instruction)
-{bbHere()
+{
     bbECS* ECS = instruction->ECS;
     bbHandle entity_handle = instruction->data.three_handles.handle1;
     bbHandle component = instruction->data.three_handles.handle2;
