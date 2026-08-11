@@ -21,6 +21,7 @@ typedef enum
     bbInstruction_unfreezeButton,
     bbInstruction_updateAI,
     bbInstruction_unupdateAI,
+    bbInstruction_testClick,
     bbVInstruction_numTypes
 }bbVInstruction_type;
 
@@ -33,6 +34,7 @@ bbFlag bbCoreInput_spawnServerEntity(bbCore* core,
 bbFlag bbInstruction_unspawnServerEntity_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_spawnServerEntity_fn(bbCore* core, bbInstruction* instruction);
 
+bbFlag bbInstruction_testClick_fn(bbCore* core, bbInstruction* instruction);
 /*
 bbFlag bbVInstruction_setGoalpointOut_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbVInstruction_setGoalpointIn_fn(bbCore* core, bbInstruction* instruction);

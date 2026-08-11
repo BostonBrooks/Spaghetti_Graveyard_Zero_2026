@@ -48,8 +48,9 @@ bbFlag bbCore_checkInbox(bbCore* core)
         if (flag != bbSuccess) return bbSuccess;
 
         if (message->type >= bbCoreInbox_numTypes)
-        {bbHere()
+        {bbDebug("inbox instruction = %d\n", message->type);
             bbCoreInbox_fn* inbox_fn = core->inbox_functions[message->type-bbCoreInbox_numTypes];
+
             inbox_fn(core, message);
             bbCore_react(core);
         } else
@@ -60,18 +61,7 @@ bbFlag bbCore_checkInbox(bbCore* core)
                 bbCoreInbox_setString_fn(core, message);
                 bbCore_react(core);
                 break;
-/*
-            case bbCoreInbox_unfreezeButton:
-                //TODO virtual function / callback
-                //bbCoreInbox_unfreezeButton_fn(core, message);
-                bbCore_react(core);
-                break;
-*/
-            case bbCoreInbox_testClick:
-                //TODO virtual function / callback
-                //bbCoreInbox_testClick2_fn(core, message);
-                bbCore_react(core);
-                break;
+
 
             default:
 

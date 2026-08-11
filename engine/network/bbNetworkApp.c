@@ -187,8 +187,15 @@ bbFlag bbNetworkApp_checkInbox(bbNetwork* network)
                             packet->collision,
                             packet->act_tick);
         }
+
+        if (packet->type == PACKETTYPE_TESTCLICK)
+        {
+            bbHere()
+        }
+
         bbThreadedQueue_free(&network->inbox, (void**)&packet);
     }
+    return bbSuccess;
 }
 
 //Notify user interface of network connection

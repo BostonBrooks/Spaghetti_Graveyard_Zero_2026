@@ -125,6 +125,14 @@ bbFlag bbVInstruction_setGoalpointOut_fn(bbCore* core,
                                  instruction->act_time, collision++);
     return bbSuccess;
 }
+
+bbFlag bbInstruction_testClick_fn(bbCore* core, bbInstruction* instruction)
+{
+    //TODO virtual function / callback
+    bbNetworkApp_sendTestClick(&home.network, &instruction->data.map_coords);
+    bbHere()
+}
+
 //
 // bbFlag bbVInstruction_setGoalpointIn_fn(bbCore* core,
 //                                         bbInstruction* instruction)

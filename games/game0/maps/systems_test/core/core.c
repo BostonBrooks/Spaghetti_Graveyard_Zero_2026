@@ -7,6 +7,7 @@
 #include "engine/logic/bbFlag.h"
 #include "instructions.h"
 #include "AI_system/ai_instructions.h"
+#include "engine/ECS/spawn_entity.h"
 #include "engine/ECS/graphics_system/bbGraphicsSystem.h"
 #include "engine/ECS/server_entities/bbServerEntities.h"
 #include "moveables/moveables.h"
@@ -21,6 +22,7 @@ bbFlag bbCore_initVInstructions(bbCore* core)
     core->instruction_functions[bbInstruction_entity_unsetComponent-bbInstruction_numTypes] = bbInstruction_entity_unsetComponent_fn;
     core->instruction_functions[bbInstruction_setServerEntity-bbInstruction_numTypes] = bbInstruction_setServerEntity_fn;
     core->instruction_functions[bbInstruction_unsetServerEntity-bbInstruction_numTypes] = bbInstruction_unsetServerEntity_fn;
+    core->instruction_functions[bbInstruction_spawnEntityOut-bbInstruction_numTypes] = bbInstruction_spawnEntityOut_fn;
 
     core->instruction_functions[bbInstruction_spawnServerEntity-bbInstruction_numTypes] = bbInstruction_spawnServerEntity_fn;
     core->instruction_functions[bbInstruction_unspawnServerEntity-bbInstruction_numTypes] = bbInstruction_unspawnServerEntity_fn;
@@ -33,6 +35,7 @@ bbFlag bbCore_initVInstructions(bbCore* core)
     core->instruction_functions[bbInstruction_unspawnTestMoveable-bbInstruction_numTypes] = bbInstruction_unspawnTestMoveable_fn;
     core->instruction_functions[bbInstruction_updateAI-bbInstruction_numTypes] = bbI_updateAI_fn;
     core->instruction_functions[bbInstruction_unupdateAI-bbInstruction_numTypes] = bbI_unupdateAI_fn;
+    core->instruction_functions[bbInstruction_testClick-bbInstruction_numTypes] = bbInstruction_testClick_fn;
        return bbNone;
 }
 //     core->instruction_functions

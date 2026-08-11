@@ -27,12 +27,3 @@ bbFlag bbCoreInbox_UnfreezeButton(bbCore* core, char* string)
 
 */
 
-bbFlag bbCoreInbox_TestClick(bbCore* core, bbMapCoords MC)
-{
-    bbCoreInboxMessage* message;
-    bbThreadedQueue_alloc(&core->local_message_queue, (void** ) &message);
-    message->type = bbCoreInbox_testClick;
-    message->data.map_coords = MC;
-    bbThreadedQueue_pushL(&core->local_message_queue, message);
-    return bbSuccess;
-}

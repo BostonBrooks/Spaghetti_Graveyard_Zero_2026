@@ -16,6 +16,5 @@ bbFlag bbCoreInput_setTime(bbCore* core, U64 time, bbInstruction_source source, 
 
 bbFlag bbCoreInput_unfreezeButton(bbCore* core, char* string, bbInstruction_source source, bbHandle action);
 
-bbFlag bbCoreInput_testClick(bbCore* core, bbMapCoords MC, bbInstruction_source source, bbHandle action);
 
 #endif

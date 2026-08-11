@@ -27,4 +27,7 @@ bbFlag bbCoreInput_spawnAgent(bbCore* core, bbMapCoords MC,bbMapCoords goalcoord
 
 bbFlag bbCoreInput_DeleteEntity(bbCore* core,I32 entity_int, bbInstruction_source source, bbHandle action);
 
+
+bbFlag bbCoreInput_testClick(bbCore* core, bbMapCoords MC, bbInstruction_source source, bbHandle action);
+
 #endif //COREINPUTS_H

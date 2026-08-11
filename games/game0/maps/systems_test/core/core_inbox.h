@@ -6,7 +6,9 @@ typedef enum
 {
     bbCoreInbox_testMessage = bbCoreInbox_numTypes,
     bbCoreInbox_netpauseButton,
-    bbCoreInbox_unfreezeButton
+    bbCoreInbox_unfreezeButton,
+    bbCoreInbox_testClick,
+    bbCoreInbox_testClick2
 } bbCoreInbox_vType;
 
 

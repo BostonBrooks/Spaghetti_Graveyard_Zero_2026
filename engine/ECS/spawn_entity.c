@@ -5,6 +5,7 @@
 #include "engine/core/bbCoreInbox.h"
 #include "engine/data/bbHome.h"
 #include "core/instructions.h"
+#include "core/core_inbox.h"
 
 extern U32 collision;
 
@@ -13,7 +14,7 @@ bbFlag bbCoreInbox_TestClick2(bbCore* core, bbMapCoords MC)
 
     bbCoreInboxMessage* message;
     bbThreadedQueue_alloc(&core->local_message_queue, (void** ) &message);
-    message->type = bbCoreInbox_testClick;
+    message->type = bbCoreInbox_testClick2;
     message->act_time = home.core.core.actual_time;
     message->data.map_coords = MC;
     bbThreadedQueue_pushL(&core->local_message_queue, message);

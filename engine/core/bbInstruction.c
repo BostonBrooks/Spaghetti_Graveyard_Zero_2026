@@ -336,10 +336,3 @@ bbFlag bbInstruction_unfreezeButton_fn(bbCore* core, bbInstruction* instruction)
 
 }
 */
-
-bbFlag bbInstruction_testClick_fn(bbCore* core, bbInstruction* instruction)
-{
-    //TODO virtual function / callback
-    //bbNetworkApp_sendTestClick(&home.network, &instruction->data.map_coords);
-    bbHere()
-}

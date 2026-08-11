@@ -251,5 +251,4 @@ bbFlag bbInstruction_spawnBananaOut_fn(bbCore* core, bbInstruction* instruction)
 bbFlag bbInstruction_spawnBananaIn_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_unspawnBanana_fn(bbCore* core, bbInstruction* instruction);
 
-bbFlag bbInstruction_testClick_fn(bbCore* core, bbInstruction* instruction);
 #endif //BB_INSTRUCTION_H
