@@ -471,8 +471,18 @@ bbFlag bbMoveable_setGoalPoint(bbMoveables* moveables, bbHandle handle, bbMapCoo
 {//TODO make core-safe?
     bbMoveable* moveable = &moveables->moveables[handle.bloated.index];
 
+    bbDebug("goalpoint was %d,%d\n", moveable->goalpoint.i, moveable->goalpoint.j);
+
     moveable->goalpoint = goalpoint;
-    moveable->type = bbMoveableType_MovingThrough;
+    moveable->type = bbMoveableType_Moving;
+
+    bbDebug("index = %d\n"
+             "handle = %d,%d\n"
+            "goalpoint = %d,%d\n",
+            handle.bloated.index,
+            moveable->moveable_handle.bloated.index,moveable->moveable_handle.bloated.collision,
+            moveable->goalpoint.i, moveable->goalpoint.j);
+
     return bbSuccess;
 }
 

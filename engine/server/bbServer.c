@@ -164,7 +164,7 @@ int main(void){
 
                 if (packetStruct.type == PACKETTYPE_TESTCLICK)
                 {
-                    static I32 handle_index = 1337;
+                    /*static I32 handle_index = 1337;
                     bbMapCoords MC = packetStruct.data.map_coords;
                     bbHandle handle;
                     handle.bloated.index = handle_index++;
@@ -177,7 +177,7 @@ int main(void){
                     packetStruct.data.test_spawn.handle = handle;
 
                     sfPacket_clear(packet);
-                    bbNetworkPacket_fromStruct(packet, &packetStruct);
+                    bbNetworkPacket_fromStruct(packet, &packetStruct);*/
 
                 }
 
