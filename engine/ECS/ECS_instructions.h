@@ -10,6 +10,8 @@ typedef enum {
     bbInstruction_entity_unsetComponent,
     bbInstruction_setServerEntity,
     bbInstruction_unsetServerEntity,
+    bbI_moveable_setState,
+    bbI_moveable_unsetState,
     bbInstruction_numECS_Instructions
 } bbECS_Instruction_type;
 

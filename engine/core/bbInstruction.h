@@ -151,14 +151,14 @@ typedef struct
     I32 movable_int;
 } bbInstructionsData_unspawnAgent;
 
-// typedef struct
-// {
-//     bbMovable_type type;
-//     I32 movable;
-//     I32 goal_movable;
-//     bbMapCoords goal_coords;
-//     U64 last_state_change;
-// } bbInstructionsData_goalMovable;
+typedef struct
+{
+    bbHandle handle;
+    I32 type;
+    bbMapCoords goalpoint;
+    I32 goal_moveable;
+} bbInstructionsData_moveableState;
+
 
 typedef union
 {
@@ -176,6 +176,8 @@ typedef union
     bbInstructionsData_spawnAgent spawn_agent;
     bbInstructionsData_unspawnAgent unspawn_agent;
     bbInstructionsData_entity entity;
+    bbInstructionsData_moveableState moveable_state;
+
 } bbInstruction_data;
 
 typedef struct bbInstruction
