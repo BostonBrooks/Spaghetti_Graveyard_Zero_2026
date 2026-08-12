@@ -13,6 +13,7 @@
 #include "engine/logic/bbBloatedPool.h"
 #include "engine/threadsafe/bbThreadedPool.h"
 #include "engine/test_string/bbTestString.h"
+#include "engine/core/bbAction_check.h"
 
 bbFlag bbCore_init(bbCore* core)
 {
@@ -63,9 +64,9 @@ bbFlag bbCore_react(bbCore* core)
                 bbInstruction_setTime_fn(core, instruction);
                 break;
 
-            case bbInstruction_setString:
-                bbInstruction_setString_fn(core, instruction);
-                break;
+            // case bbInstruction_setString:
+            //     bbInstruction_setString_fn(core, instruction);
+            //     break;
             case bbI_setString:
                 bbI_setString_fn(core, instruction);
                 break;
@@ -163,9 +164,9 @@ bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
                 break;
 
                 ///(6) core "un-reacts" to instruction
-            case bbInstruction_unsetString:
-                bbInstruction_unsetString_fn(core, instruction);
-                break;
+            // case bbInstruction_unsetString:
+            //     bbInstruction_unsetString_fn(core, instruction);
+            //     break;
 
             case bbI_unsetString:
                 bbI_unsetString_fn(core, instruction);

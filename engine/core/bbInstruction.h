@@ -195,12 +195,6 @@ typedef struct bbInstruction
 } bbInstruction;
 
 
-bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction);
-bbFlag bbInstruction_uncheckActions_fn(bbCore* core, bbInstruction* instruction);
-
-
-bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction);
-bbFlag bbInstruction_uncheckActions2_fn(bbCore* core, bbInstruction* instruction);
 
 bbFlag bbInstruction_updateBall_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_unupdateBall_fn(bbCore* core, bbInstruction* instruction);
