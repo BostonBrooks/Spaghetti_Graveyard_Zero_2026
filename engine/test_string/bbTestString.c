@@ -38,6 +38,10 @@ bbFlag bbI_setString_fn(bbCore* core, bbInstruction* instruction)
         undo_instruction->source = instruction->source;
         undo_instruction->redo_instruction = instruction->redo_instruction;
         bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+
+        bbAction* action;
+        bbVPool_lookup(core->action_queue.pool, (void**)&action, instruction->redo_instruction);
+        printf("collision = %d ", action->header.collision);
     } //else source == no rewind
 
     printf("    +old quote: %s, new quote %s, time = %lu\n",test_string,
@@ -49,6 +53,13 @@ bbFlag bbI_setString_fn(bbCore* core, bbInstruction* instruction)
 }
 bbFlag bbI_unsetString_fn(bbCore* core, bbInstruction* instruction)
 {
+
+    if (instruction->source == bbInstructionSource_action)
+    {
+        bbAction* redo_action;
+        bbVPool_lookup(core->action_pool, (void**)&redo_action, instruction->redo_instruction);
+        printf("collision = %d ", redo_action->header.collision);
+    }
 
     printf("-new quote %s, old quote: %s, time = %lu\n",
         instruction->data.key,test_string, core->simulation_time);
@@ -75,6 +86,10 @@ bbFlag bbI_unsetString_fn(bbCore* core, bbInstruction* instruction)
         bbVPool_lookup(core->action_pool, (void**)&redo_action, instruction->redo_instruction);
         bbList_sortL(&core->action_queue,(void*)redo_action);
         bbVPool_free(core->instruction_pool, (void*)instruction);
+
+
+
+
         return bbSuccess;
     }
     bbAssert(0==1, "We should not get here\n");

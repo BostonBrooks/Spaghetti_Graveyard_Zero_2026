@@ -5,6 +5,7 @@
 #include "bbAction.h"
 #include "bbCoreInputs.h"
 #include "engine/ECS/ECS.h"
+#include "engine/test_string/bbTestString.h"
 
 #ifdef DEFINE_SKELLYCHASE
 #include "core/core_inputs.h"
@@ -273,7 +274,7 @@ bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
 
         if (action->header.type == bbActionType_setString)
         {
-            bbCoreInput_setString(core,action->header.key,bbInstructionSource_action,handle);
+            bbCI_setString(core,action->header.key,bbInstructionSource_action,handle);
 
         }
         if (action->header.type == bbActionType_spawnEntity)
@@ -283,6 +284,8 @@ bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
 
 
         }
+//TODO i dont like #ifndef statements in code
+#ifndef DEFINE_TEST_ECS
         if (action->header.type == bbActionType_setGoalpoint)
         {
             //TODO bbCoreInput
@@ -296,7 +299,7 @@ bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
                                     action->map_coords);
 
         }
-
+#endif
         flag = bbList_popL(&core->action_temp_fifo,(void**)&action);
     }
     //may or may not need the following call

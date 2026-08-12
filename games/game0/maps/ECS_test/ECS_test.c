@@ -141,6 +141,14 @@ int main(void)
                  i-3,
                  str);
 
+
+        bbAction_setString(&core,
+                 0,
+                 collision++,
+                 i,
+                 i-3,
+                 str);
+
         bbCoreInput_checkActions(&core,i,bbInstructionSource_input, no_handle);
         bbCore_react(&core);
     }
