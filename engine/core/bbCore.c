@@ -37,14 +37,17 @@ bbFlag bbCore_init(bbCore* core)
 }
 
 bbFlag bbCore_react(bbCore* core)
-{
+{printf("+++\n");
     bbFlag flag;
     bbInstruction* instruction;
 
     while (1)
     {
         flag = bbList_popL(&core->do_stack, (void**)&instruction);
-        if (flag != bbSuccess) return bbSuccess;
+        if (flag != bbSuccess)
+        {printf("---\n");
+            return bbSuccess;
+        }
 
         if (instruction->type >= bbInstruction_numTypes)
         {

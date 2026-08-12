@@ -58,6 +58,11 @@ int main(void)
 
     bbServerEntities_init(&server_entities,core.ECS);
 
+
+
+    char str[KEY_LENGTH];
+    U32 collision = 0;
+/*
     bbCoreInput_setTime(&core, 1, bbInstructionSource_input, no_handle);
     bbCore_react(&core);
     test_time = 1;
@@ -75,13 +80,14 @@ int main(void)
     bbCS_setString(&core, "bash", bbInstructionSource_internal,no_handle);
     bbCS_setString(&core, "bosh", bbInstructionSource_norewind, no_handle);
 
-    char str[KEY_LENGTH];
-    U32 collision = 0;
 
     for (I32 i = 4; i < 10;i++)
     {
         bbCoreInput_setTime(&core, i, bbInstructionSource_input, no_handle);
         test_time = core.actual_time = i;
+        bbCore_react(&core);
+
+        bbCI_setString(&core, "INTERLEAVED!", bbInstructionSource_input, no_handle);
         bbCore_react(&core);
 
         sprintf(str, "(%d)", i-3);
@@ -123,37 +129,45 @@ int main(void)
 
     bbDebug("Entity.key = %s\n", entity2->key);
 
-
-
-
     for (I32 i = 10; i < 15;i++)
+*/
+
+
+    for (I32 i = 0; i < 5;i++)
     {
         bbCoreInput_setTime(&core, i, bbInstructionSource_input, no_handle);
         test_time = core.actual_time = i;
         bbCore_react(&core);
 
-        sprintf(str, "(%d)", i-3);
+        sprintf(str, "(%d)", i);
 
         bbAction_setString(&core,
                  0,
                  collision++,
                  i,
-                 i-3,
-                 str);
-
-
-        bbAction_setString(&core,
-                 0,
-                 collision++,
                  i,
-                 i-3,
                  str);
+
 
         bbCoreInput_checkActions(&core,i,bbInstructionSource_input, no_handle);
         bbCore_react(&core);
     }
 
+    sprintf(str, "(%d)", 1);
 
+    bbAction_setString(&core,
+             0,
+             collision++,
+             1,
+             1,
+             str);
+
+
+
+    bbCoreInput_checkActions(&core,6,bbInstructionSource_input, no_handle);
+    bbCore_react(&core);
+
+/*
     bbVPool* pool;
     test_struct* test_struct_ptr;
     bbHandle test_handle;
@@ -168,7 +182,7 @@ int main(void)
 
     bbCoreInbox_TestMessage(&core);
     bbCore_checkInbox(&core);
-
+*/
     bbHere()
     fflush(stdout);
     exit(EXIT_SUCCESS);

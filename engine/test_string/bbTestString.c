@@ -44,8 +44,8 @@ bbFlag bbI_setString_fn(bbCore* core, bbInstruction* instruction)
         printf("collision = %d ", action->header.collision);
     } //else source == no rewind
 
-    printf("    +old quote: %s, new quote %s, time = %lu\n",test_string,
-        instruction->data.key, core->simulation_time);
+    printf("    +old quote: %s, new quote %s, simulation time = %lu, actual time = %lu\n",test_string,
+        instruction->data.key, core->simulation_time,core->actual_time);
 
     bbStr_setStr(test_string, instruction->data.key, KEY_LENGTH);
 
@@ -61,8 +61,8 @@ bbFlag bbI_unsetString_fn(bbCore* core, bbInstruction* instruction)
         printf("collision = %d ", redo_action->header.collision);
     }
 
-    printf("-new quote %s, old quote: %s, time = %lu\n",
-        instruction->data.key,test_string, core->simulation_time);
+    printf("-new quote %s, old quote: %s, simulation time = %lu, actual time = %lu\n",
+        instruction->data.key,test_string, core->simulation_time, core->actual_time);
 
     bbStr_setStr(test_string,instruction->data.key, KEY_LENGTH);
 

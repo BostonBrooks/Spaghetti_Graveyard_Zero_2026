@@ -2,7 +2,7 @@
 
 
 bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
-{
+{bbHere()
 
     bbAction* action;
     bbFlag flag;
@@ -126,7 +126,7 @@ bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
         flag = bbList_popL(&core->action_temp_fifo,(void**)&action);
     }
     //may or may not need the following call
-    //bbCore_react(core);
+   // bbCore_react(core);
 }
 
 bbFlag bbInstruction_uncheckActions_fn(bbCore* core, bbInstruction* instruction)
@@ -146,7 +146,6 @@ bbFlag bbInstruction_uncheckActions_fn(bbCore* core, bbInstruction* instruction)
     }
     if (instruction->source == bbInstructionSource_action)
     {
-        //TODO place instruction->redo_instruction into core->action_queue
         bbAction* redo_action;
         bbVPool_lookup(core->action_pool, (void**)&redo_action, instruction->redo_instruction);
         bbList_sortL(&core->action_queue,(void*)redo_action);
