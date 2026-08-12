@@ -191,21 +191,13 @@ bbFlag bbNetworkApp_checkInbox(bbNetwork* network)
         if (packet->type == PACKETTYPE_TESTCLICK)
         {//TODO this should be an Action
 
-            bbHandle handle = home.ECS.ECS->player_character;
-            bbHandle moveable_handle;
-            bbHandle_mapComponent(home.ECS.ECS,bbECS_ECS, handle,bbECS_Moveables, &moveable_handle, NULL);
 
-            bbDebug(//"player handle = %d,%d\n"
-                    "moveable handle = %d,%d\n",
-                    //handle.bloated.index,   handle.bloated.collision,
-                    moveable_handle.bloated.index,moveable_handle.bloated.collision);
-
-
-
-            bbMoveable_setGoalPoint((bbMoveables*)home.ECS.ECS->systems[bbECS_Moveables],
-                                    moveable_handle,
-                                    packet->data.map_coords);
-
+            bbAction_setGoalpoint(&home.core.core,
+                                        packet->data.map_coords,
+                                        home.ECS.ECS->player_character,
+                                        packet->collision,
+                                        0,
+                                        packet->act_tick);
 
 
         }

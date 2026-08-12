@@ -283,6 +283,19 @@ bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
 
 
         }
+        if (action->header.type == bbActionType_setGoalpoint)
+        {
+            //TODO bbCoreInput
+            //TODO move to ECS folder
+
+            bbHandle moveable_handle;
+            bbHandle_mapComponent(home.ECS.ECS,bbECS_ECS, action->handle,bbECS_Moveables, &moveable_handle, NULL);
+
+            bbMoveable_setGoalPoint((bbMoveables*)home.ECS.ECS->systems[bbECS_Moveables],
+                                    moveable_handle,
+                                    action->map_coords);
+
+        }
 
         flag = bbList_popL(&core->action_temp_fifo,(void**)&action);
     }

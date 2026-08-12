@@ -68,9 +68,9 @@ bbFlag bbAction_setViewpoint(void* core,
 
 bbFlag bbAction_setGoalpoint(void* Core,
                             bbMapCoords map_coords,
+                            bbHandle handle,
                             U32 collision,
                             U64 created_tick,
-                            U64 act_tick,
-                            U8 player);
+                            U64 act_tick);
 
 #endif //BB_ACTION_H
