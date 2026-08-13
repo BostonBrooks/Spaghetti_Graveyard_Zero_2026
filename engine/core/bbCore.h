@@ -35,6 +35,7 @@ struct bbCore
     bbInstruction_fn** instruction_functions;
     bbCoreInbox_fn** inbox_functions;
     bbAction_fn** action_functions;
+    bbInstruction_fn** discard_functions;
 
     bbVPool* instruction_pool;
     bbList do_stack;

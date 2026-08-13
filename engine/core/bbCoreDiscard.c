@@ -2,8 +2,9 @@
 
 #include "engine/data/bbHome.h"
 
-#ifdef DEFINE_SKELLYCHASE
-#include "games/game0/maps/skellychase/core/instructions.h"
+
+#ifdef DEFINE_TEST_SYSTEM
+#include "games/game0/maps/systems_test/core/instructions.h"
 #endif
 
 bbFlag bbCoreDiscard(bbCore* core, U64 time)
@@ -50,13 +51,13 @@ bbFlag bbCoreDiscard(bbCore* core, U64 time)
 
         }
 
-        //if (undo_instruction->type == bbInstruction_unupdateMoveables)
+        if (undo_instruction->type > bbInstruction_numTypes)
         {
-            //TODO virtual function / callback
-            //bbMoveables_snapshot* snapshot;
-            //bbVPool_lookup(home.ECS.moveables.snapshots, (void**)&snapshot, undo_instruction->snapshot);
-            //bbVPool_free(home.ECS.moveables.snapshots, snapshot);
+            bbInstruction_fn* function = core->discard_functions[undo_instruction->type - bbInstruction_numTypes];
+            if (function != NULL)
+                function(core,undo_instruction);
         }
+
 
         bbVPool_free(core->instruction_pool, undo_instruction);
     }

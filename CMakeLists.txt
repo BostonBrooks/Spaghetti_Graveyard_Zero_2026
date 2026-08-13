@@ -138,6 +138,7 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
         games/game0/maps/systems_test/AI_system/ai_instructions.c
         games/game0/maps/systems_test/viewport_spawner/viewport_spawner.c
         games/game0/maps/systems_test/core/actions.c
+        games/game0/maps/systems_test/core/core_discard.c
 
         engine/test_string/bbTestString.c
 

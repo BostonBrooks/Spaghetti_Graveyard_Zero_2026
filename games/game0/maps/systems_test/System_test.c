@@ -76,6 +76,7 @@ int main(void)
     bbCore_initVInstructions(&home.core.core);
     bbCore_initInboxMessages(&home.core.core);
     bbCore_initActions(&home.core.core);
+    bbCore_initDiscard(&home.core.core);
 
     bbCoreInbox_TestMessage(&home.core.core);
     bbCore_checkInbox(&home.core.core);
@@ -274,7 +275,7 @@ int main(void)
 
         bbCore_react(&home.core.core);
 
-        bbCoreDiscard(&home.core.core, home.core.clock2_handle.map_tick-180);
+        bbCoreDiscard(&home.core.core, home.core.clock2_handle.map_tick-300);
         //bbActions_react(&home.core.core, core_time);
 
         if (clock_handle_init == false) sfSleep(sfSeconds(1.f/60.f));

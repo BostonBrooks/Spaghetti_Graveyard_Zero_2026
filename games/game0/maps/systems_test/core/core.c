@@ -36,7 +36,7 @@ bbFlag bbCore_initVInstructions(bbCore* core)
     core->instruction_functions[bbInstruction_updateAI-bbInstruction_numTypes] = bbI_updateAI_fn;
     core->instruction_functions[bbInstruction_unupdateAI-bbInstruction_numTypes] = bbI_unupdateAI_fn;
     core->instruction_functions[bbInstruction_testClick-bbInstruction_numTypes] = bbInstruction_testClick_fn;
-       return bbNone;
+       return bbSuccess;
 }
 //     core->instruction_functions
 //         = calloc(bbVInstruction_numTypes-bbInstruction_numTypes,
