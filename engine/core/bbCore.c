@@ -237,11 +237,11 @@ bbFlag bbPrintStack_fn(bbList* list, void* node, void* cl)
 }
 bbFlag bbCore_printStack(bbCore* core)
 {
-    bbDebug("Do Stack:\n");
+    printf("Do Stack:\n");
     bbList_mapL(&core->do_stack, bbPrintStack_fn, NULL);
 
 
-    bbDebug("Undo Stack:\n");
+    printf("Undo Stack:\n");
     bbList_mapL(&core->undo_stack, bbPrintStack_fn, NULL);
 
     return bbSuccess;
