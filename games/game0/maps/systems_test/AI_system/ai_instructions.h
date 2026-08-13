@@ -3,6 +3,8 @@
 
 #include "engine/core/bbCore.h"
 #include "engine/core/bbInstruction.h"
+#include "engine/ECS/ECS.h"
+#include "engine/ECS/AI_system/bbAI_System.h"
 #include "engine/logic/bbFlag.h"
 #include "engine/logic/bbHandle.h"
 
@@ -17,6 +19,26 @@ bbFlag bbCI_updateAI(bbCore* core, bbInstruction_source source, bbHandle action)
 bbFlag bbCS_updateAI(bbCore* core, bbInstruction_source source, bbHandle action);
 bbFlag bbI_updateAI_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbI_unupdateAI_fn(bbCore* core, bbInstruction* instruction);
+
+
+bbFlag bbCS_spawnAIComponent2(bbCore* core,
+                             bbECS* ECS,
+                             bbHandle entity,
+                             I32 update,
+                             I32 command,
+                             bbAI_Component** this,
+                             bbInstruction_source source,
+                             bbHandle action);
+
+bbFlag bbCI_spawnAIComponent2(bbCore* core,
+                             bbHandle entity,
+                             I32 update,
+                             I32 command,
+                             bbInstruction_source source,
+                             bbHandle action);
+
+bbFlag bbI_spawnAIComponent2_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbI_unspawnAIComponent2_fn(bbCore* core, bbInstruction* instruction);
 
 
 #endif //AI_INSTRUCTIONS_H

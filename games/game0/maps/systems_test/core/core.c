@@ -38,6 +38,8 @@ bbFlag bbCore_initVInstructions(bbCore* core)
     core->instruction_functions[bbInstruction_unspawnTestMoveable-bbInstruction_numTypes] = bbInstruction_unspawnTestMoveable_fn;
     core->instruction_functions[bbInstruction_updateAI-bbInstruction_numTypes] = bbI_updateAI_fn;
     core->instruction_functions[bbInstruction_unupdateAI-bbInstruction_numTypes] = bbI_unupdateAI_fn;
+    core->instruction_functions[bbI_spawnAIComponent2-bbInstruction_numTypes] = bbI_spawnAIComponent2_fn;
+    core->instruction_functions[bbI_unspawnAIComponent2-bbInstruction_numTypes] = bbI_unspawnAIComponent2_fn;
     core->instruction_functions[bbInstruction_testClick-bbInstruction_numTypes] = bbInstruction_testClick_fn;
        return bbSuccess;
 }

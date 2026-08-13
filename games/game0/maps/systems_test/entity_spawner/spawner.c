@@ -1,3 +1,4 @@
+#include "AI_system/ai_instructions.h"
 #include "engine/data/bbHome.h"
 #include "engine/ECS/bbEntitySpawner.h"
 #include "engine/groundsurface/bbGroundSurface.h"
@@ -127,9 +128,10 @@ bbFlag bbSF_addAI_skelly(void* spawner,
 
     bbAI_Component* this;
 
-    bbCS_spawnAIComponent(&home.core.core,
+    bbCS_spawnAIComponent2(&home.core.core,
                           home.core.core.ECS,
                           handle,
+                          1,0,
                           &this,
                           bbInstructionSource_norewind,
                           no_handle);

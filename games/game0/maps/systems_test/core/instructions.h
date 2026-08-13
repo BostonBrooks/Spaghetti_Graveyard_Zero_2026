@@ -15,6 +15,8 @@ typedef enum
     bbInstruction_unupdateMoveables,
     bbI_spawnAIComponent,
     bbI_unspawnAIComponent,
+    bbI_spawnAIComponent2,
+    bbI_unspawnAIComponent2,
     bbInstruction_spawnServerEntity,
     bbInstruction_unspawnServerEntity,
     bbInstruction_netpauseButton,
