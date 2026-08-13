@@ -1,7 +1,6 @@
 #ifndef ACTIONS_H
 #define ACTIONS_H
 #include "engine/core/bbAction.h"
-
 typedef enum
 {
 

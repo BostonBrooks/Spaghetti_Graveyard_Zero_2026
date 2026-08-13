@@ -3,6 +3,8 @@
 #include "games/game0/maps/systems_test/core/actions.h"
 
 
+#include "games/game0/maps/systems_test/core/action_set_goalpoint.h"
+
 bbFlag bbAction_bbHere(void* Core,
                        U32 player,
                        U32 collision,
@@ -34,4 +36,6 @@ bbFlag bbCore_initActions(bbCore* core)
     core->action_functions = calloc(bbActionType_numVActions - bbActionType_numActions, sizeof(bbAction_fn*));
 
     core->action_functions[bbActionType_bbHere- bbActionType_numActions] = bbAction_bbHere_fn;
+    core->action_functions[bbActionType_setGoalpoint- bbActionType_numActions] = bbAction_setGoalpoint_fn;
     return bbSuccess;
+}

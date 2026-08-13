@@ -75,6 +75,7 @@ int main(void)
     bbCore_init(&home.core.core);
     bbCore_initVInstructions(&home.core.core);
     bbCore_initInboxMessages(&home.core.core);
+    bbCore_initActions(&home.core.core);
 
     bbCoreInbox_TestMessage(&home.core.core);
     bbCore_checkInbox(&home.core.core);
