@@ -189,7 +189,7 @@ bbFlag bbNetworkApp_checkInbox(bbNetwork* network)
         }
 
         if (packet->type == PACKETTYPE_TESTCLICK)
-        {//TODO this should be an Action
+        {
 
 
             bbAction_setGoalpoint(&home.core.core,

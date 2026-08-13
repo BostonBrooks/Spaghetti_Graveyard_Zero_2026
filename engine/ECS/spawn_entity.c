@@ -25,12 +25,12 @@ bbFlag bbCoreInbox_TestClick2(bbCore* core, bbMapCoords MC)
 
 bbFlag bbCoreInbox_testClick2_fn(bbCore* core, bbCoreInboxMessage* message)
 {
-
-    bbCoreInput_spawnEntityOut(core, message->data.map_coords, message->act_time, bbInstructionSource_input, no_handle);
+//TODO bbInstructionSource_input?
+    bbCoreInput_testClick3(core, message->data.map_coords, message->act_time, bbInstructionSource_input, no_handle);
     return bbSuccess;
 }
 
-bbFlag bbCoreInput_spawnEntityOut(bbCore* core,
+bbFlag bbCoreInput_testClick3(bbCore* core,
                                   bbMapCoords MC,
                                   U64 time,
                                   bbInstruction_source source,
@@ -39,7 +39,7 @@ bbFlag bbCoreInput_spawnEntityOut(bbCore* core,
 
     bbInstruction* instruction;
     bbList_alloc(&core->do_stack, (void**) &instruction);
-    instruction->type = bbInstruction_spawnEntityOut;
+    instruction->type = bbInstruction_testClick3;
     instruction->data.map_coords = MC;
     instruction->act_time = time;
     bbList_pushL(&core->do_stack, instruction);
@@ -49,13 +49,13 @@ bbFlag bbCoreInput_spawnEntityOut(bbCore* core,
 
 
 
-bbFlag bbInstruction_spawnEntityOut_fn(bbCore* core, bbInstruction* instruction)
+bbFlag bbInstruction_testClick3_fn(bbCore* core, bbInstruction* instruction)
 {
-    bbNetworkApp_spawnEntityOut(&home.network, instruction->data.map_coords, instruction->act_time, collision++);
+    bbNetworkApp_setClick3(&home.network, instruction->data.map_coords, instruction->act_time, collision++);
     return bbSuccess;
 }
 
-bbFlag bbNetworkApp_spawnEntityOut(bbNetwork* Network, bbMapCoords MC, U64 time, U32 collision)
+bbFlag bbNetworkApp_setClick3(bbNetwork* Network, bbMapCoords MC, U64 time, U32 collision)
 {
     bbNetwork* network = (bbNetwork*)Network;
     bbNetworkPacket* packet;

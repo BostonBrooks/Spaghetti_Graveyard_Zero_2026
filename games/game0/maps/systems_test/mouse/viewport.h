@@ -22,15 +22,14 @@ bbFlag Viewport_RightDown (void* Mouse, void* Widgets, void* Widget, void*
                           Graphics)
 {
 bbHere()
-    // bbMouse* mouse = (bbMouse*)Mouse;
-    // bbWidget* widget = (bbWidget*)Widget;
-    //
-    // bbScreenPoints screen_points = mouse->position;
-    // bbViewportCoords VC = bbScreenPoints_getViewportPoints(&home.viewport_app.viewport, screen_points);
-    // bbMapCoords MC = bbViewportCoords_getMapCoords(VC);
-    // bbLocalMessage_MapClick(&home.core.core, MC, 0);
-    //
-    //
-    // //bbDebug("move to i = %d, j = %d, k = %d\n", MC.i, MC.j, MC.k);
+    bbMouse* mouse = (bbMouse*)Mouse;
+    bbWidget* widget = (bbWidget*)Widget;
+    bbScreenPoints screen_points = mouse->position;
+    bbViewportCoords VC = bbScreenPoints_getViewportPoints(&home.viewport_app.viewport, screen_points);
+    bbMapCoords MC = home.viewport_app.viewport.viewpoint;
+    bbMapCoords MC2 = bbViewportCoords_getMapCoords(VC);
+
+    bbCoreInbox_TestClick(&home.core.core, MC2);
+
     return bbSuccess;
 }

@@ -31,10 +31,11 @@ bbFlag bbAction_setGoalpoint_fn(bbCore* core, bbAction* action)
     bbAI_CommandData data;
     data.goal_point = action->map_coords;
 
-    bbAgent_onCommand(component,
+    bbAI_onCommand(component,
                           (bbAI_System*)home.ECS.ECS->systems[bbECS_AI],
                           bbAI_setGoalPoint,
-                          data);
+                          data,
+                          true);
 
     return bbSuccess;
 }

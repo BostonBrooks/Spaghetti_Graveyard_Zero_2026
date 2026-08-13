@@ -17,8 +17,8 @@ bbFlag bbAI_System_init(bbAI_System* system,bbECS* ECS)
     bbVPool_newBloated(&system->system.pool, sizeof(bbAI_Component),100,100,"ENTITY AI");
     bbList_init(&system->list,system->system.pool,NULL,offsetof(bbAI_Component,list_element),NULL);
 
-    ECS->system.getComponent = bbAI_System_getComponent_fn;
-    ECS->system.getHandle = bbAI_System_getHandle_fn;
+    system->system.getComponent = bbAI_System_getComponent_fn;
+    system->system.getHandle = bbAI_System_getHandle_fn;
 
     bbAI_Functions_init(&system->functions);
     ECS->systems[bbECS_AI] = (bbSystem*)system;
@@ -151,10 +151,11 @@ bbFlag bbAI_System_update(bbAI_System* system)
 }
 
 
-bbFlag bbAgent_onCommand(bbAI_Component* component,
+bbFlag bbAI_onCommand(bbAI_Component* component,
                           bbAI_System* system,
                           bbAI_CommandType type,
-                          bbAI_CommandData data)
+                          bbAI_CommandData data,
+                          bool is_action)
 {
     I32 function_index = component->ftable.command;
     if (function_index < 0)
@@ -163,7 +164,7 @@ bbFlag bbAgent_onCommand(bbAI_Component* component,
         return bbNone;
     }
     bbAI_Command* func_pointer = system->functions.commands[function_index];
-    return func_pointer(component,type,data);
+    return func_pointer(component,type,data,is_action);
 }
 
 
@@ -335,6 +336,7 @@ bbFlag bbCS_spawnAIComponent(bbCore* core,
     bbList_pushL(&AI_System->list,component);
 
     if (this != NULL) *this = component;
+
 
     return bbSuccess;
 

@@ -6,7 +6,7 @@
 
 typedef enum
 {
-    bbInstruction_spawnEntityOut = bbInstruction_numECS_Instructions,
+    bbInstruction_testClick3 = bbInstruction_numECS_Instructions,
     bbInstruction_spawnGraphicsComponent,
     bbInstruction_unspawnGraphicsComponent,
     bbInstruction_spawnTestMoveable,

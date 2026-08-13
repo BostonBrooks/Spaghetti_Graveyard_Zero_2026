@@ -57,7 +57,8 @@ typedef struct
 typedef bbFlag bbAI_Update(bbAI_Component* component);
 typedef bbFlag bbAI_Command(bbAI_Component* component,
                                    bbAI_CommandType type,
-                                   bbAI_CommandData data);
+                                   bbAI_CommandData data,
+                                   bool is_action);
 
 
 extern I32 ai_update_function_count;
@@ -105,10 +106,11 @@ I32 bbAI_Functions_getInt(bbAI_Functions* functions,
 bbFlag bbAI_Component_update(bbAI_Component* component, bbAI_System* system);
 
 
-bbFlag bbAgent_onCommand(bbAI_Component* component,
+bbFlag bbAI_onCommand(bbAI_Component* component,
                           bbAI_System* system,
                           bbAI_CommandType type,
-                          bbAI_CommandData data);
+                          bbAI_CommandData data,
+                          bool is_action);
 
 bbFlag bbCS_spawnAIComponent(bbCore* core,
                              bbECS* ECS,

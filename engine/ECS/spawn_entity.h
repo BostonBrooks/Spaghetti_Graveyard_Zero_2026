@@ -13,15 +13,15 @@
 bbFlag bbCoreInbox_TestClick2(bbCore* core, bbMapCoords mapCoords);
 bbFlag bbCoreInbox_testClick2_fn(bbCore* core, bbCoreInboxMessage* message);
 
-bbFlag bbCoreInput_spawnEntityOut(bbCore* core,
+bbFlag bbCoreInput_testClick3(bbCore* core,
                                   bbMapCoords MC,
                                   U64 time,
                                   bbInstruction_source source,
                                   bbHandle action);
 
-bbFlag bbInstruction_spawnEntityOut_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbInstruction_testClick3_fn(bbCore* core, bbInstruction* instruction);
 
-bbFlag bbNetworkApp_spawnEntityOut(bbNetwork* network, bbMapCoords MC, U64 time, U32 collision);
+bbFlag bbNetworkApp_setClick3(bbNetwork* network, bbMapCoords MC, U64 time, U32 collision);
 
 
 bbFlag bbAction_spawnEntity(void* Core,

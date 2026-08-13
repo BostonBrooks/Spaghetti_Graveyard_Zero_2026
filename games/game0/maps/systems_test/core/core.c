@@ -23,7 +23,7 @@ bbFlag bbCore_initVInstructions(bbCore* core)
     core->instruction_functions[bbInstruction_entity_unsetComponent-bbInstruction_numTypes] = bbInstruction_entity_unsetComponent_fn;
     core->instruction_functions[bbInstruction_setServerEntity-bbInstruction_numTypes] = bbInstruction_setServerEntity_fn;
     core->instruction_functions[bbInstruction_unsetServerEntity-bbInstruction_numTypes] = bbInstruction_unsetServerEntity_fn;
-    core->instruction_functions[bbInstruction_spawnEntityOut-bbInstruction_numTypes] = bbInstruction_spawnEntityOut_fn;
+    core->instruction_functions[bbInstruction_testClick3-bbInstruction_numTypes] = bbInstruction_testClick3_fn;
     core->instruction_functions[bbI_moveable_setState-bbInstruction_numTypes] = bbI_Moveable_setState_fn;
     core->instruction_functions[bbI_moveable_unsetState-bbInstruction_numTypes] = bbI_Moveable_unsetState_fn;
 
