@@ -87,7 +87,12 @@ bbFlag bbI_Moveable_setState_fn(bbCore* core, bbInstruction* instruction)
         bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
         undo_instruction->type = bbI_moveable_unsetState;
 
-//TODO Lookup old moveable state
+
+        bbMoveables* moveables = (bbMoveables*)core->ECS->systems[bbECS_Moveables];
+        bbMoveable* moveable = &moveables->moveables[instruction->data.moveable_state.handle.bloated.index];
+        undo_instruction->data.moveable_state.type = moveable->type;
+        undo_instruction->data.moveable_state.goalpoint = moveable->goalpoint;
+        undo_instruction->data.moveable_state.goal_moveable = moveable->goal_moveable;
 
         undo_instruction->source = instruction->source;
         bbVPool_free(core->instruction_pool, (void*)instruction);
@@ -101,8 +106,12 @@ bbFlag bbI_Moveable_setState_fn(bbCore* core, bbInstruction* instruction)
         undo_instruction->type = bbI_moveable_unsetState;
 
 
-        //TODO Lookup old moveable state
 
+        bbMoveables* moveables = (bbMoveables*)core->ECS->systems[bbECS_Moveables];
+        bbMoveable* moveable = &moveables->moveables[instruction->data.moveable_state.handle.bloated.index];
+        undo_instruction->data.moveable_state.type = moveable->type;
+        undo_instruction->data.moveable_state.goalpoint = moveable->goalpoint;
+        undo_instruction->data.moveable_state.goal_moveable = moveable->goal_moveable;
 
         undo_instruction->source = instruction->source;
         bbHandle handle;
@@ -116,7 +125,12 @@ bbFlag bbI_Moveable_setState_fn(bbCore* core, bbInstruction* instruction)
         bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
         undo_instruction->type = bbI_moveable_unsetState;
 
-        //TODO Lookup old moveable state
+
+        bbMoveables* moveables = (bbMoveables*)core->ECS->systems[bbECS_Moveables];
+        bbMoveable* moveable = &moveables->moveables[instruction->data.moveable_state.handle.bloated.index];
+        undo_instruction->data.moveable_state.type = moveable->type;
+        undo_instruction->data.moveable_state.goalpoint = moveable->goalpoint;
+        undo_instruction->data.moveable_state.goal_moveable = moveable->goal_moveable;
 
         undo_instruction->source = instruction->source;
         undo_instruction->redo_instruction = instruction->redo_instruction;
@@ -136,7 +150,40 @@ bbFlag bbI_Moveable_setState_fn(bbCore* core, bbInstruction* instruction)
 }
 bbFlag bbI_Moveable_unsetState_fn(bbCore* core, bbInstruction* instruction)
 {
-    bbNotHere()
+    bbMoveables* moveables = (bbMoveables*)core->ECS->systems[bbECS_Moveables];
+    bbMoveable* moveable = &moveables->moveables[instruction->data.moveable_state.handle.bloated.index];
+    moveable->type = instruction->data.moveable_state.type;
+    moveable->goalpoint = instruction->data.moveable_state.goalpoint;
+    moveable->goal_moveable = instruction->data.moveable_state.goal_moveable;
+
+
+    if (instruction->source == bbInstructionSource_internal)
+    {
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_input)
+    {
+        bbInstruction* redo_instruction;
+        bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction, instruction->redo_instruction);
+        bbList_pushL(&core->do_stack, redo_instruction);
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_action)
+    {
+        bbAction* redo_action;
+
+        bbVPool_lookup(core->action_pool, (void**)&redo_action, instruction->redo_instruction);
+        bbList_sortL(&core->action_queue,(void*)redo_action);
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+
+
+
+
+        return bbSuccess;
+    }
+    bbAssert(0==1, "We should not get here\n");
 }
 
 bbFlag bbCS_Moveable_setGoalpoint(bbCore* core,
