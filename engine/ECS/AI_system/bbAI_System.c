@@ -321,7 +321,7 @@ bbFlag bbCS_spawnAIComponent(bbCore* core,
     bbAI_System* AI_System = (bbAI_System*)ECS->systems[bbECS_AI];
     bbList_alloc2(&AI_System->list,(void**)&component, &component_handle);
     component->ftable.command = 0;
-    component->ftable.update = 0;
+    component->ftable.update = 1;
     component->state = 0;
     component->component.entity_handle = entity;
 
