@@ -6,6 +6,7 @@
 #include "engine/ECS/ECS_instructions.h"
 #include "engine/logic/bbFlag.h"
 #include "engine/logic/bbHandle.h"
+#include "engine/data/bbHome.h"
 
 
 bbFlag bbCI_Moveable_setGoalpoint(bbCore* core,
@@ -122,10 +123,15 @@ bbFlag bbI_Moveable_setState_fn(bbCore* core, bbInstruction* instruction)
         bbList_pushL(&core->undo_stack, (void*)undo_instruction);
     } //else source == no rewind
 
-    //TODO set new moveable state
+    bbMoveables* moveables = (bbMoveables*)core->ECS->systems[bbECS_Moveables];
 
-    bbStr_setStr(test_string, instruction->data.key, KEY_LENGTH);
+    bbMoveable* moveable = &moveables->moveables[instruction->data.moveable_state.handle.bloated.index];
 
+    moveable->type = instruction->data.moveable_state.type;
+    moveable->goalpoint = instruction->data.moveable_state.goalpoint;
+    moveable->goal_moveable = instruction->data.moveable_state.goal_moveable;
+
+//
     return bbSuccess;
 }
 bbFlag bbI_Moveable_unsetState_fn(bbCore* core, bbInstruction* instruction)
@@ -133,3 +139,72 @@ bbFlag bbI_Moveable_unsetState_fn(bbCore* core, bbInstruction* instruction)
     bbNotHere()
 }
 
+bbFlag bbCS_Moveable_setGoalpoint(bbCore* core,
+                             bbHandle moveable_handle,
+                             bbMapCoords goalpoint,
+                             bbInstruction_source source,
+                             bbHandle action)
+{
+    //Post undo instruction
+
+    if (source == bbInstructionSource_input)
+    {
+        //create input instruction
+        bbInstruction* instruction;
+        bbHandle instruction_handle;
+        bbFlag flag = bbList_alloc2(&core->do_stack,(void**)&instruction, &instruction_handle);
+
+        //set input instruction data
+        instruction->type = bbI_moveable_setState;
+        //bbStr_setStr(instruction->data.key, string, KEY_LENGTH);
+
+        //create undo instruction
+        bbInstruction* undo_instruction;
+        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        undo_instruction->source = instruction->source;
+        undo_instruction->redo_instruction = instruction_handle;
+
+        //set instruction data
+        undo_instruction->type = bbI_moveable_unsetState;
+        //bbStr_setStr(undo_instruction->data.key, test_string, KEY_LENGTH);
+        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+    } else if (source == bbInstructionSource_internal)
+    {
+        //create undo instruction
+        bbInstruction* undo_instruction;
+        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        undo_instruction->source = source;
+
+        //set instruction data
+        undo_instruction->type = bbI_moveable_unsetState;
+        //bbStr_setStr(undo_instruction->data.key, test_string, KEY_LENGTH);
+        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+    } else if (source == bbInstructionSource_action)
+    {
+        //create undo instruction
+        bbInstruction* undo_instruction;
+        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        undo_instruction->redo_instruction = action;
+        undo_instruction->source = source;
+
+        bbDebug("action = %d, %d\n", action.bloated.index, action.bloated.collision);
+        //Set instruction data
+        undo_instruction->type = bbI_moveable_unsetState;
+        //bbStr_setStr(undo_instruction->data.key, test_string, KEY_LENGTH);
+        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+    } else if (source == bbInstructionSource_norewind)
+    {
+
+    }
+
+    //take action
+    bbMoveables* moveables = (bbMoveables*)core->ECS->systems[bbECS_Moveables];
+
+    bbMoveable* moveable = &moveables->moveables[moveable_handle.bloated.index];
+
+    moveable->type = bbMoveableType_Moving;
+    moveable->goalpoint = goalpoint;
+
+
+    return bbSuccess;
+}

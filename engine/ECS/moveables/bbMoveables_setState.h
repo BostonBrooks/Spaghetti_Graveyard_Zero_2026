@@ -28,4 +28,12 @@ bbFlag bbCI_Moveable_setIdle(bbCore* core,
 bbFlag bbI_Moveable_setState_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbI_Moveable_unsetState_fn(bbCore* core, bbInstruction* instruction);
 
+
+
+bbFlag bbCS_Moveable_setGoalpoint(bbCore* core,
+                             bbHandle moveable_handle,
+                             bbMapCoords goalpoint,
+                             bbInstruction_source source,
+                             bbHandle action);
+
 #endif //BB_MOVEABLES_SETSTATE_H

@@ -131,7 +131,6 @@ bbFlag bbI_unupdateAI_fn(bbCore* core, bbInstruction* instruction)
     if (instruction->source == bbInstructionSource_action)
     {
         bbAction* redo_action;
-
         bbVPool_lookup(core->action_pool, (void**)&redo_action, instruction->redo_instruction);
         bbList_sortL(&core->action_queue,(void*)redo_action);
         bbVPool_free(core->instruction_pool, (void*)instruction);

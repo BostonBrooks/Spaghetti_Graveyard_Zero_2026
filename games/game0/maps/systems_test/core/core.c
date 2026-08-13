@@ -9,6 +9,7 @@
 #include "AI_system/ai_instructions.h"
 #include "engine/ECS/spawn_entity.h"
 #include "engine/ECS/graphics_system/bbGraphicsSystem.h"
+#include "engine/ECS/moveables/bbMoveables_setState.h"
 #include "engine/ECS/server_entities/bbServerEntities.h"
 #include "moveables/moveables.h"
 
@@ -23,6 +24,8 @@ bbFlag bbCore_initVInstructions(bbCore* core)
     core->instruction_functions[bbInstruction_setServerEntity-bbInstruction_numTypes] = bbInstruction_setServerEntity_fn;
     core->instruction_functions[bbInstruction_unsetServerEntity-bbInstruction_numTypes] = bbInstruction_unsetServerEntity_fn;
     core->instruction_functions[bbInstruction_spawnEntityOut-bbInstruction_numTypes] = bbInstruction_spawnEntityOut_fn;
+    core->instruction_functions[bbI_moveable_setState-bbInstruction_numTypes] = bbI_Moveable_setState_fn;
+    core->instruction_functions[bbI_moveable_unsetState-bbInstruction_numTypes] = bbI_Moveable_unsetState_fn;
 
     core->instruction_functions[bbInstruction_spawnServerEntity-bbInstruction_numTypes] = bbInstruction_spawnServerEntity_fn;
     core->instruction_functions[bbInstruction_unspawnServerEntity-bbInstruction_numTypes] = bbInstruction_unspawnServerEntity_fn;
