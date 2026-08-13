@@ -15,13 +15,26 @@ bbFlag bbAction_setGoalpoint_fn(bbCore* core, bbAction* action)
     bbHandle action_handle;
     bbVPool_reverseLookup(core->action_pool,action,&action_handle);
 
-    bbCI_Moveable_setGoalpoint(core,
-                             moveable_handle,
-                             action->map_coords,
-                             bbInstructionSource_action,
-                             action_handle);
+    // bbCI_Moveable_setGoalpoint(core,
+    //                          moveable_handle,
+    //                          action->map_coords,
+    //                          bbInstructionSource_action,
+    //                          action_handle);
 
     bbCore_react(core);
+
+
+
+    bbAI_Component* component;
+    bbHandle_mapComponent(home.ECS.ECS,bbECS_ECS, action->handle,bbECS_Moveables, NULL, (bbComponent**) &component);
+
+    bbAI_CommandData data;
+    data.goal_point = action->map_coords;
+
+    bbAgent_onCommand(component,
+                          (bbAI_System*)home.ECS.ECS->systems[bbECS_AI],
+                          bbAI_setGoalPoint,
+                          data);
 
     return bbSuccess;
 }
