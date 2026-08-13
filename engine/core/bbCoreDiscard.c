@@ -36,8 +36,6 @@ bbFlag bbCoreDiscard(bbCore* core, U64 time)
 
         if (undo_instruction->source == bbInstructionSource_action)
         {
-            bbDebug("action = %d, %d\n", undo_instruction->redo_instruction.bloated.index, undo_instruction->redo_instruction.bloated.collision);
-            bbDebug("instruction type = %d\n", undo_instruction->type);
 
             bbAssert(undo_instruction->redo_instruction.ptr != NULL, "redo action not found\n");
 

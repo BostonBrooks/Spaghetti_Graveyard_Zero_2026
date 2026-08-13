@@ -48,7 +48,7 @@ bbFlag bbCore_checkInbox(bbCore* core)
         if (flag != bbSuccess) return bbSuccess;
 
         if (message->type >= bbCoreInbox_numTypes)
-        {bbDebug("inbox instruction = %d\n", message->type);
+        {//bbDebug("inbox instruction = %d\n", message->type);
             bbCoreInbox_fn* inbox_fn = core->inbox_functions[message->type-bbCoreInbox_numTypes];
 
             inbox_fn(core, message);

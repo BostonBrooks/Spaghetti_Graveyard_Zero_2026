@@ -113,7 +113,9 @@ bbFlag bbInstruction_setTime_fn(bbCore* core, bbInstruction* instruction)
 
     core->simulation_time = instruction->data.u64 ;
 
+#ifdef DEFINE_TEST_ECS
     bbDebug("+time = %lu\n", core->simulation_time);
+#endif
     if (instruction->source == bbInstructionSource_internal)
     {
         bbVPool_free(core->instruction_pool, (void*)instruction);
@@ -150,8 +152,9 @@ bbFlag bbInstruction_unsetTime_fn(bbCore* core, bbInstruction* instruction)
 
 
 
-
+#ifdef DEFINE_TEST_ECS
     bbDebug("-time = %lu\n", core->simulation_time);
+#endif
     if (instruction->source == bbInstructionSource_internal)
     {
         bbVPool_free(core->instruction_pool, (void*)instruction);
