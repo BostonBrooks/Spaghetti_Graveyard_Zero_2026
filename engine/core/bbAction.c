@@ -72,6 +72,9 @@ bbFlag bbAction_setGoalpoint(void* Core,
                             U64 created_tick,
                             U64 act_tick)
 {
+
+    bbDebug("handle: %d, %d\n", handle.bloated.index, handle.bloated.collision);
+
     bbCore* core = (bbCore*)Core;
 
     bbAction* action;

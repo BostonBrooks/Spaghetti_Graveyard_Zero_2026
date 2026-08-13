@@ -17,7 +17,6 @@ bbFlag bbAI_Command_NULL(bbAI_Component* component,
 {
     if (type == bbAI_setGoalPoint && is_action)
     {
-        bbDebug("goalpoint = %d, %d\n", data.goal_point.i, data.goal_point.j);
 
 
         bbHandle moveable_handle;

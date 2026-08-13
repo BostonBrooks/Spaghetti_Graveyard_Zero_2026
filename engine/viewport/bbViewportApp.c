@@ -14,3 +14,19 @@ bbFlag bbViewportApp_init(bbViewportApp* app)
     bbVPool_newBloated(&app->entity_units, sizeof(bbHandle), 100,100,"ENTITY_UNITS");
     return bbSuccess;
 }
+
+
+bbFlag bbViewportApp_updateViewpoint(bbViewportApp* app)
+{
+
+    bbHandle* unit_handle;
+    bbVPool_lookup(home.viewport_app.entity_units,(void**)&unit_handle,app->viewport_focus);
+    if (unit_handle == NULL) return bbFail;
+    bbUnit* unit;
+    bbVPool_lookup(home.viewport_app.units->pool,(void**)&unit,*unit_handle);
+    if (unit == NULL) return bbFail;
+
+    app->viewport.viewpoint = unit->drawable.coords;
+
+
+}

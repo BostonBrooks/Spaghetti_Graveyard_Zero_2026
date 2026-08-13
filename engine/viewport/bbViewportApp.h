@@ -20,6 +20,8 @@ typedef struct bbViewportApp
     bbViewport viewport;
     bbWidget* viewport_widget;
 
+    bbHandle viewport_focus;
+
     //Convert from movable handle to unit handle
     bbVPool* moveable_units;
     //Convert from entity handle to unit handle
@@ -31,5 +33,7 @@ typedef struct bbViewportApp
 bbFlag bbViewportApp_init(bbViewportApp* app);
 
 bbFlag spawnDrawables(void);
+
+bbFlag bbViewportApp_updateViewpoint(bbViewportApp* app);
 
 #endif //BB_VIEWPORTAPP_H

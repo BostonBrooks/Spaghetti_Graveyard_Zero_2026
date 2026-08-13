@@ -140,7 +140,7 @@ bbFlag bbUI_Inbox_setWidgetPosition_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* me
 
 bbFlag bbUI_Inbox_setViewpoint_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
 {
-    home.viewport_app.viewport.viewpoint = message->data.coords;
+    home.viewport_app.viewport_focus = message->data.entity_handle;
 
     return bbSuccess;
 }
@@ -192,12 +192,12 @@ bbFlag bbUI_Inbox_newSkelly_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
 }
 
 
-bbFlag bbUI_Inbox_SetViewpoint(bbUI_Inbox* inbox, bbMapCoords MC)
+bbFlag bbUI_Inbox_SetViewpoint(bbUI_Inbox* inbox, bbHandle entity_handle)
 {
     bbUI_Inbox_message* message;
     bbThreadedQueue_alloc(&inbox->local_message_queue,(void**)&message);
     message->type = bbUI_Inbox_setViewpoint;
-    message->data.coords = MC;
+    message->data.entity_handle = entity_handle;
     bbThreadedQueue_pushL(&inbox->local_message_queue, (void*)message);
     return bbSuccess;
 }

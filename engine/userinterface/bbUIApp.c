@@ -79,7 +79,10 @@ bbFlag bbUIApp_draw(bbUIApp* app)
     cl.graphics = &home.UI.graphics;
     cl.target = &home.viewport_app.viewport;
 
-#ifndef DEFINE_PONG
+#ifndef DEFINE_PONG //pong has no viewport
+
+    bbViewportApp_updateViewpoint(&home.viewport_app);
+
 
     bbSquareCoords SC = bbMapCoords_getSquareCoords(home.viewport_app.viewport.viewpoint);
 
