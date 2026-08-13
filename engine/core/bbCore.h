@@ -13,6 +13,7 @@
 #ifndef BB_CORE_H
 #define BB_CORE_H
 
+#include "bbAction.h"
 #include "engine/logic/bbIntTypes.h"
 #include "engine/logic/bbList.h"
 #include "engine/logic/bbVPool.h"
@@ -24,6 +25,8 @@ typedef struct bbCoreInboxMessage bbCoreInboxMessage;
 
 typedef  bbFlag bbInstruction_fn(bbCore* core, bbInstruction* instruction);
 typedef  bbFlag bbCoreInbox_fn(bbCore* core, struct bbCoreInboxMessage* message);
+typedef  bbFlag bbAction_fn(bbCore* core, bbAction* action);
+
 
 struct bbCore
 {
@@ -31,6 +34,7 @@ struct bbCore
 
     bbInstruction_fn** instruction_functions;
     bbCoreInbox_fn** inbox_functions;
+    bbAction_fn** action_functions;
 
     bbVPool* instruction_pool;
     bbList do_stack;
@@ -66,6 +70,7 @@ bbFlag bbCore_initVInstructions(bbCore* core);
 
 bbFlag bbCore_printStack(bbCore* core);
 
+bbFlag bbCore_initActions(bbCore* core);
 
 #define PrintStack(core)\
     {bbHere()\

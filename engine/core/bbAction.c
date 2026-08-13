@@ -1,6 +1,7 @@
 #include "engine/core/bbAction.h"
 
 #include "bbCore.h"
+#include "core/actions.h"
 #include "engine/logic/bbString.h"
 
 

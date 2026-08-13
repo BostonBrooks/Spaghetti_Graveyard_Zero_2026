@@ -2,7 +2,7 @@
 
 
 bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
-{bbHere()
+{
 
     bbInstruction* undo_instruction;
     bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
@@ -98,11 +98,18 @@ bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
         bbHandle handle;
         bbVPool_reverseLookup(core->action_pool,action,&handle);
 
+        if (action->header.type >= bbActionType_numActions)
+        {
+            bbAction_fn* action_fn = core->action_functions[action->header.type- bbActionType_numActions];
+            action_fn(core,action);
+
+        }else
+
         if (action->header.type == bbActionType_setString)
         {
             bbCI_setString(core,action->header.key,bbInstructionSource_action,handle);
 
-        }
+        }else
         if (action->header.type == bbActionType_spawnEntity)
         {
             //TODO virtual function / callback
@@ -144,9 +151,8 @@ bbFlag bbInstruction_uncheckActions_fn(bbCore* core, bbInstruction* instruction)
         bbInstruction* redo_instruction;
         bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction, instruction->redo_instruction);
 
-        PrintStack(core);
         bbList_pushL(&core->do_stack, redo_instruction);
-        PrintStack(core);
+
         bbVPool_free(core->instruction_pool, (void*)instruction);
         return bbSuccess;
     }

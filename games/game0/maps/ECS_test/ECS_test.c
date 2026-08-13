@@ -13,7 +13,7 @@
 #include "engine/ECS/ECS_instructions.h"
 #include "engine/logic/bbBloatedPool.h"
 #include "engine/logic/bbString.h"
-#include "games/game0/maps/systems_test/core/core_inbox.h"
+#include "games/game0/maps/ECS_test/core/actions.h"
 #include "virtual_instructions/instructions.h"
 
 thread_local char* thread;
@@ -57,7 +57,7 @@ int main(void)
     bbECS_new(&core.ECS, bbECS_numSystems);
 
     bbServerEntities_init(&server_entities,core.ECS);
-
+    bbCore_initActions(&core);
 
 
     char str[KEY_LENGTH];
@@ -148,6 +148,11 @@ int main(void)
                  i,
                  str);
 
+        bbAction_bbHere(&core,
+                 0,
+                 collision++,
+                 i,
+                 i);
 
         bbCoreInput_checkActions(&core,i,bbInstructionSource_input, no_handle);
         bbCore_react(&core);
@@ -166,6 +171,10 @@ int main(void)
 
     bbCoreInput_checkActions(&core,6,bbInstructionSource_input, no_handle);
     bbCore_react(&core);
+
+
+    PrintStack(&core)
+
 
 /*
     bbVPool* pool;

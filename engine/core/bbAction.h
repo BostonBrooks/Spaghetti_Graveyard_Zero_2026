@@ -5,13 +5,14 @@
 #include "engine/logic/bbFlag.h"
 #include "engine/logic/bbHandle.h"
 
+
 ///Different action types do different things
 typedef enum
 {
     bbActionType_setString,
     bbActionType_setViewpoint,
-    bbActionType_setGoalpoint,
     bbActionType_spawnEntity,
+    bbActionType_numActions
 } bbAction_type;
 
 ///Action header used to figure out what order to enact actions

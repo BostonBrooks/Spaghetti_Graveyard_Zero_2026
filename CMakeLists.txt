@@ -76,6 +76,8 @@ add_executable(ECS_Test  games/game0/maps/ECS_test/ECS_test.c
         engine/test_string/bbTestString.c
         games/game0/maps/ECS_test/virtual_instructions/instructions.c
         games/game0/maps/ECS_test/core/core_inbox.c
+        games/game0/maps/ECS_test/core/actions.c
+
 
         engine/ECS/ECS.c
         engine/ECS/server_entities/bbServerEntities.c
@@ -135,6 +137,7 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
         games/game0/maps/systems_test/moveables/moveables.c
         games/game0/maps/systems_test/AI_system/ai_instructions.c
         games/game0/maps/systems_test/viewport_spawner/viewport_spawner.c
+        games/game0/maps/systems_test/core/actions.c
 
         engine/test_string/bbTestString.c
 
