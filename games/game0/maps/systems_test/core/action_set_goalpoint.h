@@ -15,7 +15,10 @@ bbFlag bbAction_setGoalpoint_fn(bbCore* core, bbAction* action)
 
 
     bbAI_Component* component;
-    bbHandle_mapComponent(home.ECS.ECS,bbECS_ECS, action->handle,bbECS_Moveables, NULL, (bbComponent**) &component);
+    bbHandle_mapComponent(home.ECS.ECS,bbECS_ECS, action->handle,bbECS_AI, NULL, (bbComponent**) &component);
+
+    bbDebug("command = %d, handle = %d,%d\n", component->ftable.command,
+        action->handle.bloated.index,action->handle.bloated.collision);
 
     bbAI_CommandData data;
     data.goal_point = action->map_coords;
