@@ -142,7 +142,7 @@ bbFlag bbCore_react(bbCore* core)
 }
 
 
-bbFlag
+bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
 {
     bbFlag flag;
     bbInstruction* instruction;
