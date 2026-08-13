@@ -142,7 +142,7 @@ bbFlag bbCore_react(bbCore* core)
 }
 
 
-bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
+bbFlag
 {
     bbFlag flag;
     bbInstruction* instruction;
@@ -181,8 +181,7 @@ bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
             //     break;
 
             case bbInstruction_uncheckActions:
-                //TODO virtual function / callback
-                //bbInstruction_uncheckActions_fn(core, instruction);
+                bbInstruction_uncheckActions_fn(core, instruction);
                 break;
 
 //             case bbInstruction_unspawnEmptyEntity:
@@ -228,3 +227,22 @@ bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
     return bbSuccess;
 }
 
+
+bbFlag bbPrintStack_fn(bbList* list, void* node, void* cl)
+{
+    bbInstruction* instruction = (bbInstruction*)node;
+    printf("instruction = %d\n", (instruction->type));
+
+    return bbContinue;
+}
+bbFlag bbCore_printStack(bbCore* core)
+{
+    bbDebug("Do Stack:\n");
+    bbList_mapL(&core->do_stack, bbPrintStack_fn, NULL);
+
+
+    bbDebug("Undo Stack:\n");
+    bbList_mapL(&core->undo_stack, bbPrintStack_fn, NULL);
+
+    return bbSuccess;
+}

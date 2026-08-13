@@ -64,5 +64,13 @@ bbFlag bbCore_clearFuture(bbCore* core);
 bbFlag bbCore_rewindUntil(bbCore* core, U64 time);
 bbFlag bbCore_initVInstructions(bbCore* core);
 
+bbFlag bbCore_printStack(bbCore* core);
+
+
+#define PrintStack(core)\
+    {bbHere()\
+    bbCore_printStack(core);\
+}\
+
 #endif // BB_CORE_H
 

@@ -4,6 +4,35 @@
 bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
 {bbHere()
 
+    bbInstruction* undo_instruction;
+    bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+    undo_instruction->type = bbInstruction_uncheckActions;
+    undo_instruction->data.u64 = core->simulation_time;
+    undo_instruction->source = instruction->source;
+
+    if (instruction->source == bbInstructionSource_internal)
+    {
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        undo_instruction->redo_instruction.u64 = 0;
+        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+
+    }
+    if (instruction->source == bbInstructionSource_input)
+    {
+        bbHandle handle;
+        bbVPool_reverseLookup(core->instruction_pool, instruction, &handle);
+        undo_instruction->redo_instruction = handle;
+        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+
+
+    }
+    if (instruction->source == bbInstructionSource_action)
+    {
+        undo_instruction->redo_instruction = instruction->redo_instruction;
+        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+
+    }
+
     bbAction* action;
     bbFlag flag;
 
@@ -13,7 +42,7 @@ bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
 
     if (flag != bbSuccess) // list empty
     {
-        bbInstruction* undo_instruction;
+ /*       bbInstruction* undo_instruction;
         bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
         undo_instruction->type = bbInstruction_uncheckActions;
         //undo_instruction->data.unsigned_long = core->simulation_time;
@@ -40,7 +69,7 @@ bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
             bbList_pushL(&core->undo_stack,(void*)undo_instruction);
 
         }
-
+*/
         return bbSuccess;
     }
     if (action->header.act_tick < core->simulation_time) //or < the previous time this instruction was called?
@@ -49,33 +78,7 @@ bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
         bbCore_react(core);
     }
 
-    bbInstruction* undo_instruction;
-    bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
-    undo_instruction->type = bbInstruction_uncheckActions;
-    undo_instruction->data.u64 = core->simulation_time;
-    undo_instruction->source = instruction->source;
 
-    if (instruction->source == bbInstructionSource_internal)
-    {
-        bbVPool_free(core->instruction_pool, (void*)instruction);
-        undo_instruction->redo_instruction.u64 = 0;
-        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
-
-    }
-    if (instruction->source == bbInstructionSource_input)
-    {
-        bbHandle handle;
-        bbVPool_reverseLookup(core->instruction_pool, instruction, &handle);
-        undo_instruction->redo_instruction = handle;
-        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
-
-    }
-    if (instruction->source == bbInstructionSource_action)
-    {
-        undo_instruction->redo_instruction = instruction->redo_instruction;
-        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
-
-    }
 
 
     //Reverse the order of objects in queue
@@ -140,7 +143,10 @@ bbFlag bbInstruction_uncheckActions_fn(bbCore* core, bbInstruction* instruction)
     {
         bbInstruction* redo_instruction;
         bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction, instruction->redo_instruction);
+
+        PrintStack(core);
         bbList_pushL(&core->do_stack, redo_instruction);
+        PrintStack(core);
         bbVPool_free(core->instruction_pool, (void*)instruction);
         return bbSuccess;
     }
