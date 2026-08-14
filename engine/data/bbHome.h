@@ -4,7 +4,7 @@
 #include "engine/viewport/bbViewportApp.h"
 #include "engine/core/bbCore.h"
 #include "../ECS/AI_system/bbAI_System.h"
-#include "engine/ECS/bbEntitySpawner.h"
+#include "../ECS/entity_spawner/bbEntitySpawner.h"
 #include "engine/ECS/graphics_system/bbGraphicsSystem.h"
 #include "engine/ECS/server_entities/bbServerEntities.h"
 #include "engine/ECS/ECS.h"

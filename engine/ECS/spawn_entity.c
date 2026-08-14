@@ -6,6 +6,7 @@
 #include "engine/data/bbHome.h"
 #include "core/instructions.h"
 #include "core/core_inbox.h"
+#include "entity_spawner/live_spawn.h"
 
 extern U32 collision;
 
@@ -51,6 +52,7 @@ bbFlag bbCoreInput_testClick3(bbCore* core,
 
 bbFlag bbInstruction_testClick3_fn(bbCore* core, bbInstruction* instruction)
 {
+
     bbNetworkApp_setClick3(&home.network, instruction->data.map_coords, instruction->act_time, collision++);
     return bbSuccess;
 }

@@ -1,4 +1,4 @@
-#include "engine/ECS/bbEntitySpawner.h"
+#include "bbEntitySpawner.h"
 
 bbFlag bbEntitySpawner_init(bbEntitySpawner* entity_spawner)
 {
@@ -10,9 +10,9 @@ bbFlag bbEntitySpawner_init(bbEntitySpawner* entity_spawner)
     entity_spawner->spawn_function_count = 0;
     bbDictionary_new(&entity_spawner->spawn_dict, spawn_function_count);
 
-    entity_spawner->unspawn_functions = calloc(unspawn_function_count,sizeof(bbUnspawnFunction*));
-    entity_spawner->unspawn_function_count = 0;
-    bbDictionary_new(&entity_spawner->unspawn_dict, unspawn_function_count);
+    entity_spawner->live_spawn_functions = calloc(live_spawn_function_count,sizeof(bbLiveSpawnFunction*));
+    entity_spawner->live_spawn_function_count = 0;
+    bbDictionary_new(&entity_spawner->live_spawn_dict, live_spawn_function_count);
 }
 
 bbFlag bbParseFunction_get(bbEntitySpawner* spawner, bbParseFunction** function, char* key)
@@ -45,16 +45,17 @@ bbFlag bbSpawnFunction_add(bbEntitySpawner* spawner, bbSpawnFunction* spawn_func
     return bbSuccess;
 }
 
-bbFlag bbUnspawnFunction_add(bbEntitySpawner* spawner, bbUnspawnFunction* unspawn_function, char* key )
+bbFlag bbLiveSpawnFunction_add(bbEntitySpawner* spawner, bbLiveSpawnFunction* live_spawn_function, char* key )
 {
 
-    U32 available = spawner->unspawn_function_count++;
-    spawner->unspawn_functions[available] = unspawn_function;
+    U32 available = spawner->live_spawn_function_count++;
+    spawner->live_spawn_functions[available] = live_spawn_function;
     bbHandle handle;
     handle.u64 = available;
-    bbDictionary_add(spawner->unspawn_dict, key, handle);
+    bbDictionary_add(spawner->live_spawn_dict, key, handle);
     return bbSuccess;
 }
+
 
 
 bbFlag bbEntitySpawner_spawnFile(bbEntitySpawner* spawner, char* file_name)

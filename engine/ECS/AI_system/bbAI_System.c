@@ -14,7 +14,7 @@ bbFlag bbAI_System_getHandle_fn(struct bbSystem* system, bbComponent* component,
 
 bbFlag bbAI_System_init(bbAI_System* system,bbECS* ECS)
 {
-    bbVPool_newBloated(&system->system.pool, sizeof(bbAI_Component),100,100,"ENTITY AI");
+    bbVPool_newBloated(&system->system.pool, sizeof(bbAI_Component),10,1000,"ENTITY AI");
     bbList_init(&system->list,system->system.pool,NULL,offsetof(bbAI_Component,list_element),NULL);
 
     system->system.getComponent = bbAI_System_getComponent_fn;

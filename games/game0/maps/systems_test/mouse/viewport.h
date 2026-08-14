@@ -21,7 +21,6 @@ bbFlag Viewport_LeftDown (void* Mouse, void* Widgets, void* Widget, void*
 bbFlag Viewport_RightDown (void* Mouse, void* Widgets, void* Widget, void*
                           Graphics)
 {
-bbHere()
     bbMouse* mouse = (bbMouse*)Mouse;
     bbWidget* widget = (bbWidget*)Widget;
     bbScreenPoints screen_points = mouse->position;

@@ -72,13 +72,12 @@ bbFlag bbAction_setGoalpoint(void* Core,
                             U64 created_tick,
                             U64 act_tick)
 {
-
-    bbDebug("handle: %d, %d\n", handle.bloated.index, handle.bloated.collision);
-
     bbCore* core = (bbCore*)Core;
 
     bbAction* action;
-    bbList_alloc(&core->action_queue,(void**)&action);
+    bbFlag flag = bbList_alloc(&core->action_queue,(void**)&action);
+
+    bbAssert(flag == bbSuccess, "action pool full!\n");
     action->header.type = bbActionType_setGoalpoint;
     action->header.collision = collision;
     action->header.created_tick = created_tick;

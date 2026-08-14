@@ -1,7 +1,7 @@
 
 
 #include "engine/ECS/ECS.h"
-#include "engine/ECS/bbEntitySpawner.h"
+#include "../../../../../engine/ECS/entity_spawner/bbEntitySpawner.h"
 #include "engine/ECS/moveables/bbMoveables.h"
 #include "engine/ECS/server_entities/bbServerEntities.h"
 #include "engine/logic/bbFlag.h"
@@ -52,7 +52,7 @@ bbFlag bbSF_addServerEntity_skelly(void* spawner,
 
     bbCoreSynchronous_setServerEntity(&home.core.core,
                                    handle,
-                                   args.server_handle,
+                                   args.handle,
                                   bbInstructionSource_norewind,
                                   no_handle);
     return bbSuccess;
@@ -96,7 +96,7 @@ bbFlag bbSF_addMoveable_skelly2(void* spawner,
                                            args.position,
                                            bbInstructionSource_norewind,
                                            no_handle);
-    bbMoveable_setGoalMoveable(&home.ECS.moveables,moveable_handle, args.goal_server_handle);
+    bbMoveable_setGoalMoveable(&home.ECS.moveables,moveable_handle, args.goal_handle);
 
 
     bbHere()
@@ -145,8 +145,8 @@ bbFlag bbPF_skellyParser(void* Spawner, char* string)
     char spawn_functions[256];
     sscanf(string, "%[^','],%[^','],%d,%d,%d,%d,%d,%d,%d,%d,%n",
         key,entity_type,&args.position.i,&args.position.j,&args.position.k,
-        &args.goalpoint.i,&args.goalpoint.j,&args.goalpoint.k,&args.server_handle.bloated.index,
-        &args.server_handle.bloated.collision,&num_chars);
+        &args.goalpoint.i,&args.goalpoint.j,&args.goalpoint.k,&args.handle.bloated.index,
+        &args.handle.bloated.collision,&num_chars);
 
     bbECS_entity* entity;
     bbCS_spawnEmptyEntity(&entity, bbInstructionSource_norewind);
@@ -187,8 +187,8 @@ bbFlag bbPF_skelly2Parser(void* Spawner, char* string)
         key,entity_type,
         &args.position.i,&args.position.j,&args.position.k,
         &args.goalpoint.i,&args.goalpoint.j,&args.goalpoint.k,
-        &args.server_handle.bloated.index,&args.server_handle.bloated.collision,
-        &args.goal_server_handle.bloated.index,&args.goal_server_handle.bloated.collision,
+        &args.handle.bloated.index,&args.handle.bloated.collision,
+        &args.goal_handle.bloated.index,&args.goal_handle.bloated.collision,
         &num_chars);
 
     bbECS_entity* entity;
@@ -214,4 +214,41 @@ bbFlag bbPF_skelly2Parser(void* Spawner, char* string)
         if (separator == '\0' || separator == '\n') break;
     }
 
+}
+
+
+bbFlag bbSF_addAI_skelly(void* spawner,
+                               bbECS_entity* entity,
+                               bbSpawnFunctionArgs args,
+                               bbInstruction_source source);
+
+bbFlag bbLSF_liveSpawnSkelly(void* spawner,
+                                  bbSpawnFunctionArgs args,
+                                  bbInstruction_source source)
+{
+    //TODO instruction source internal not yet implemented
+    bbECS_entity* entity;
+    bbCoreSynchronous_spawnEmptyEntity(&home.core.core,
+                                   home.ECS.ECS,
+                                   &entity,
+                                   "SKELLY",
+                                   bbInstructionSource_norewind,
+                                   no_handle);
+
+    bbSF_addMoveable_skelly(spawner,
+                               entity,
+                               args,
+                               bbInstructionSource_norewind);
+
+
+    bbSF_addGraphics_skelly(spawner,
+                               entity,
+                               args,
+                               bbInstructionSource_norewind);
+
+    bbSF_addAI_skelly(spawner,
+                      entity,
+                      args,
+                      bbInstructionSource_norewind);
+    return bbSuccess;
 }

@@ -11,6 +11,7 @@
 #include "engine/ECS/graphics_system/bbGraphicsSystem.h"
 #include "engine/ECS/moveables/bbMoveables_setState.h"
 #include "engine/ECS/server_entities/bbServerEntities.h"
+#include "entity_spawner/live_spawn.h"
 #include "moveables/moveables.h"
 
 bbFlag bbCore_initVInstructions(bbCore* core)
@@ -41,6 +42,8 @@ bbFlag bbCore_initVInstructions(bbCore* core)
     core->instruction_functions[bbI_spawnAIComponent2-bbInstruction_numTypes] = bbI_spawnAIComponent2_fn;
     core->instruction_functions[bbI_unspawnAIComponent2-bbInstruction_numTypes] = bbI_unspawnAIComponent2_fn;
     core->instruction_functions[bbInstruction_testClick-bbInstruction_numTypes] = bbInstruction_testClick_fn;
+    core->instruction_functions[bbI_live_spawnEntity-bbInstruction_numTypes] = bbI_live_spawnEntity_fn;
+    core->instruction_functions[bbI_live_unpawnEntity-bbInstruction_numTypes] = bbI_live_unspawnEntity_fn;
        return bbSuccess;
 }
 //     core->instruction_functions

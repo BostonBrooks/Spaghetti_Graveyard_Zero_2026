@@ -40,6 +40,12 @@ bbMilliCoords getForce(bbMoveables* moveables, bbMoveable* moveableA,
     mC.j = ((delta_j) / (distanceReduced2 * distanceReduced * distanceReduced));
     mC.k = 0;
 
+    if (mC.i > MILLS_PER_TILE) mC.i = MILLS_PER_TILE;
+    if (mC.j > MILLS_PER_TILE) mC.j = MILLS_PER_TILE;
+    if (mC.i < - MILLS_PER_TILE) mC.i = -MILLS_PER_TILE;
+    if (mC.j < - MILLS_PER_TILE) mC.j = -MILLS_PER_TILE;
+
+
     return mC;
 }
 

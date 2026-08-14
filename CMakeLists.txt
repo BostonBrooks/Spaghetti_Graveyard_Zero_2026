@@ -139,6 +139,7 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
         games/game0/maps/systems_test/viewport_spawner/viewport_spawner.c
         games/game0/maps/systems_test/core/actions.c
         games/game0/maps/systems_test/core/core_discard.c
+        games/game0/maps/systems_test/entity_spawner/live_spawn.c
 
 
         engine/test_string/bbTestString.c
@@ -149,9 +150,9 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
         engine/ECS/moveables/bbMoveables.c
         engine/ECS/moveables/bbAvoidables.c
         engine/ECS/graphics_system/bbGraphicsSystem.c
-        engine/ECS/bbEntitySpawner.c
+        engine/ECS/entity_spawner/bbEntitySpawner.c
         engine/ECS/AI_system/bbAI_System.c
-        engine/ECS/bbEntitySpawner.c
+        engine/ECS/entity_spawner/bbEntitySpawner.c
         engine/ECS/moveables/bbMoveables_setState.c
 
         engine/core/bbAction.c

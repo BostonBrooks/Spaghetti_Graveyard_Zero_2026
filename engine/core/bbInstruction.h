@@ -160,6 +160,15 @@ typedef struct
 } bbInstructionsData_moveableState;
 
 
+typedef struct
+{
+    I32 type;
+    bbMapCoords position;
+    bbMapCoords goalpoint;
+    bbHandle handle;
+    bbHandle goal_handle;
+} bbSpawnFunctionArgs;
+
 typedef union
 {
     char key[KEY_LENGTH];
@@ -177,6 +186,7 @@ typedef union
     bbInstructionsData_unspawnAgent unspawn_agent;
     bbInstructionsData_entity entity;
     bbInstructionsData_moveableState moveable_state;
+    bbSpawnFunctionArgs sfArgs;
 
 } bbInstruction_data;
 

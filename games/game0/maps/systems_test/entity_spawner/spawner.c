@@ -1,13 +1,14 @@
 #include "AI_system/ai_instructions.h"
 #include "engine/data/bbHome.h"
-#include "engine/ECS/bbEntitySpawner.h"
+#include "../../../../../engine/ECS/entity_spawner/bbEntitySpawner.h"
 #include "engine/groundsurface/bbGroundSurface.h"
 #include "games/game0/maps/systems_test/entity_spawner/skelly.h"
 #include "games/game0/maps/systems_test/entity_spawner/zombie.h"
+#include "games/game0/maps/systems_test/entity_spawner/live_spawn.h"
 
 I32 parse_function_count = 193;
 I32 spawn_function_count = 194;
-I32 unspawn_function_count = 195;
+I32 live_spawn_function_count = 195;
 
 bbFlag bbPF_null(void* spawner, char* string)
 {
@@ -66,8 +67,8 @@ bbFlag bbPF_standard(void* Spawner, char* string)
     char spawn_functions[256];
     sscanf(string, "%[^','],%[^','],%d,%d,%d,%d,%d,%d,%d,%d,%n",
         key,entity_type,&args.position.i,&args.position.j,&args.position.k,
-        &args.goalpoint.i,&args.goalpoint.j,&args.goalpoint.k,&args.server_handle.bloated.index,
-        &args.server_handle.bloated.collision,&num_chars);
+        &args.goalpoint.i,&args.goalpoint.j,&args.goalpoint.k,&args.handle.bloated.index,
+        &args.handle.bloated.collision,&num_chars);
     //bbDebug("%s,%s,%d,%d,%d,%d,%d,%d,%d,%d,",
     //key,entity_type,position.i,position.j,position.k,
    // goalpoint.i,goalpoint.j,goalpoint.k,server_handle.bloated.index,
@@ -113,7 +114,7 @@ bbFlag bbSF_null(void* spawner,
             "source = %d\n",
             args.position.i, args.position.j, args.position.k,
             args.goalpoint.i, args.goalpoint.j, args.goalpoint.k,
-            args.server_handle.bloated.index, args.server_handle.bloated.collision,
+            args.handle.bloated.index, args.handle.bloated.collision,
             source);
 }
 
@@ -159,6 +160,7 @@ bbFlag bbSF_setPlayer(void* spawner,
 
 
 
+
 bbFlag bbEntitySpawner_populate(bbEntitySpawner* spawner)
 {
     bbParseFunction_add(spawner, bbPF_null, "NULL");
@@ -176,5 +178,7 @@ bbFlag bbEntitySpawner_populate(bbEntitySpawner* spawner)
     bbSpawnFunction_add(spawner, bbSF_addGraphics_zombie, "ZOMBIE_GRAPHICS");
     bbSpawnFunction_add(spawner, bbSF_addAI_skelly, "SKELLY_AI");
     bbSpawnFunction_add(spawner, bbSF_setPlayer, "PLAYER");
+
+    bbLiveSpawnFunction_add(spawner,  bbLSF_liveSpawnSkelly, "SKELLY");
     return bbSuccess;
 }

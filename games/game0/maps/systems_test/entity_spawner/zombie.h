@@ -1,5 +1,5 @@
 #include "engine/ECS/ECS.h"
-#include "engine/ECS/bbEntitySpawner.h"
+#include "../../../../../engine/ECS/entity_spawner/bbEntitySpawner.h"
 #include "engine/ECS/moveables/bbMoveables.h"
 #include "engine/ECS/server_entities/bbServerEntities.h"
 #include "engine/logic/bbFlag.h"

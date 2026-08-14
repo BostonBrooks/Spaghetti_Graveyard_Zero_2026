@@ -60,17 +60,11 @@ for the Graphics component
 #ifndef BB_ENTITYSPAWNER_H
 #define BB_ENTITYSPAWNER_H
 
+#include "engine/core/bbInstruction.h"
 #include "engine/ECS/ECS.h"
 #include "engine/logic/bbDictionary.h"
 #include "engine/logic/bbFlag.h"
 
-typedef struct
-{
-    bbMapCoords position;
-    bbMapCoords goalpoint;
-    bbHandle server_handle;
-    bbHandle goal_server_handle;
-} bbSpawnFunctionArgs;
 
 ///read one line of input file and spawn one entity
 typedef bbFlag bbParseFunction(void* spawner, char* line);
@@ -82,10 +76,9 @@ typedef bbFlag bbSpawnFunction(void* spawner,
                                bbSpawnFunctionArgs args,
                                bbInstruction_source source);
 
-///unspawn component spawned by bbSpawnFunction()
-typedef bbFlag bbUnspawnFunction(void* spawner,
-                                 bbHandle component);
-
+typedef bbFlag bbLiveSpawnFunction(void* spawner,
+                                  bbSpawnFunctionArgs args,
+                                  bbInstruction_source source);
 
 typedef struct
 {
@@ -97,14 +90,14 @@ typedef struct
     I32 spawn_function_count;
     bbDictionary* spawn_dict;
 
-    bbUnspawnFunction** unspawn_functions;
-    I32 unspawn_function_count;
-    bbDictionary* unspawn_dict;
+    bbLiveSpawnFunction** live_spawn_functions;
+    I32 live_spawn_function_count;
+    bbDictionary* live_spawn_dict;
 } bbEntitySpawner;
 
 extern I32 parse_function_count;
 extern I32 spawn_function_count;
-extern I32 unspawn_function_count;
+extern I32 live_spawn_function_count;
 
 ///Prepare spawner for use in program
 bbFlag bbEntitySpawner_init(bbEntitySpawner* entity_spawner);
@@ -112,7 +105,7 @@ bbFlag bbEntitySpawner_init(bbEntitySpawner* entity_spawner);
 ///Load one function into vtable
 bbFlag bbParseFunction_add(bbEntitySpawner* spawner, bbParseFunction* parse_function, char* key );
 bbFlag bbSpawnFunction_add(bbEntitySpawner* spawner, bbSpawnFunction* spawn_function, char* key );
-bbFlag bbUnspawnFunction_add(bbEntitySpawner* spawner, bbUnspawnFunction* unspawn_function, char* key );
+bbFlag bbLiveSpawnFunction_add(bbEntitySpawner* spawner, bbLiveSpawnFunction* live_spawn_function, char* key );
 
 
 ///Load functions specific to this map
