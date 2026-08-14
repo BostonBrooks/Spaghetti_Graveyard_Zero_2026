@@ -27,6 +27,8 @@ bbFlag bbPF_tree(void* spawner, char* string)
 
     bbUI_Inbox_NewTree(&home.UI.inbox,tree_type, position);
 
+    bbAvoidable_newCircle(home.ECS.avoidables, position, 4*POINTS_PER_TILE);
+
     return bbSuccess;
 }
 

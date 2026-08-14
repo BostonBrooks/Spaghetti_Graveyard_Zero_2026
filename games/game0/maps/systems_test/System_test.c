@@ -87,6 +87,7 @@ int main(void)
     bbServerEntities_init(&home.ECS.server_entities,home.core.core.ECS);
     bbGraphicsSystem_init(&home.ECS.graphics_system,home.core.core.ECS);
     bbMoveables_init(&home.ECS.moveables,home.core.core.ECS);
+    bbAvoidables_new(&home.ECS.avoidables, 12, 12);
 
     bbAI_System_init(&home.ECS.AI_system,home.core.core.ECS);
     bbAI_Functions_init(&home.ECS.AI_system.functions);

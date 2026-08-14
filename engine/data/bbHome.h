@@ -17,6 +17,7 @@
 #include "engine/groundsurface/bbGroundSurface.h"
 #include "engine/spawner/bbSpawner.h"
 #include "../ECS/moveables/bbMoveables.h"
+#include "engine/ECS/moveables/bbAvoidables.h"
 
 typedef struct
 {
@@ -26,6 +27,7 @@ typedef struct
     bbMoveables moveables;
     bbEntitySpawner spawner;
     bbAI_System AI_system;
+    bbAvoidables* avoidables;
 } bbECS_data;
 
 typedef struct
