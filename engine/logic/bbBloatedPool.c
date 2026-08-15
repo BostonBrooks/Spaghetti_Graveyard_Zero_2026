@@ -158,7 +158,6 @@ bbFlag bbBloatedPool_expand(bbBloatedPool* pool){
 	element_B->list.next = pool->null;
 	element_A = (bbBloatedPool_Header *)&level2[0 * (sizeof(bbBloatedPool_Header) + pool->size_of)];
 
-
 	pool->elements[i] = level2;
 	pool->available.head = element_A->self;
 	pool->available.tail = element_B->self;

@@ -17,6 +17,7 @@ bbFlag bbCS_updateAI(bbCore* core, bbInstruction_source source, bbHandle action)
 
         //set input instruction data
         instruction->type = bbInstruction_updateAI;
+        instruction->source = bbInstructionSource_input;
 
         //create undo instruction
         bbInstruction* undo_instruction;

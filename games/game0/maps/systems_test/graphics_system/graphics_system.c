@@ -106,3 +106,9 @@ bbFlag bbInstruction_spawnGraphicsComponent_fn(bbCore* core, bbInstruction* inst
 
     return bbSuccess;
 }
+
+bbFlag bbInstruction_unspawnGraphicsComponent_fn(bbCore* core, bbInstruction* instruction)
+{
+
+    bbNotHere() //TODO
+}
