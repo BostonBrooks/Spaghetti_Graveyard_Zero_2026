@@ -13,7 +13,13 @@ bbFlag Viewport_LeftDown (void* Mouse, void* Widgets, void* Widget, void*
     bbViewportCoords VC = bbScreenPoints_getViewportPoints(&home.viewport_app.viewport, screen_points);
     bbMapCoords MC = home.viewport_app.viewport.viewpoint;
     bbMapCoords MC2 = bbViewportCoords_getMapCoords(VC);
+
+
+    //send message to server
+    //message from server spawns skelly
     bbCoreInbox_TestClick2(&home.core.core, MC2);
+
+
 
     return bbSuccess;
 }
@@ -28,6 +34,9 @@ bbFlag Viewport_RightDown (void* Mouse, void* Widgets, void* Widget, void*
     bbMapCoords MC = home.viewport_app.viewport.viewpoint;
     bbMapCoords MC2 = bbViewportCoords_getMapCoords(VC);
 
+    //send command to player,
+    //player sends request to server,
+    //message from server spawns skelly
     bbCoreInbox_TestClick(&home.core.core, MC2);
 
     return bbSuccess;
