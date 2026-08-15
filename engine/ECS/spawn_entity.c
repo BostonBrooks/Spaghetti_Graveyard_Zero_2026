@@ -64,7 +64,7 @@ bbFlag bbNetworkApp_setClick3(bbNetwork* Network, bbMapCoords MC, U64 time, U32 
     bbThreadedQueue_alloc(&network->outbox, (void**)&packet);
     packet->act_tick = time;
     packet->collision = collision;
-    packet->type = PACKETTYPE_TESTCLICK;
+    packet->type = PACKETTYPE_TESTSPAWN;
     packet->data.map_coords.i = MC.i;
     packet->data.map_coords.j = MC.j;
     packet->data.map_coords.k = MC.k;

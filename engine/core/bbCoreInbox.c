@@ -34,33 +34,35 @@ bbFlag bbCoreInbox_testClick_fn(bbCore* core, bbCoreInboxMessage* message)
 {
 
 
-    bbSpawnFunctionArgs args;
+    // bbSpawnFunctionArgs args;
+    //
+    // args.position = message->data.map_coords;
+    // args.goalpoint = message->data.map_coords;
+    // args.handle = no_handle;
+    // args.goal_handle = no_handle;
+    //
+    // bbCI_live_spawnEntity(core, args, "SKELLY", bbInstructionSource_internal, no_handle);
 
-    args.position = message->data.map_coords;
-    args.goalpoint = message->data.map_coords;
-    args.handle = no_handle;
-    args.goal_handle = no_handle;
 
-    bbCI_live_spawnEntity(core, args, "SKELLY", bbInstructionSource_internal, no_handle);
 
     // //TODO virtual instruction / callback
     // //bbCoreInput_testClick(core, message->data.map_coords, bbInstructionSource_input, no_handle);
-    // bbHandle ai_handle;
-    // bbAI_Component* component;
+     bbHandle ai_handle;
+     bbAI_Component* component;
     //
-    // bbHandle_mapComponent(home.ECS.ECS, bbECS_ECS,home.ECS.ECS->player_character,
-    //     bbECS_AI,&ai_handle,(bbComponent**)&component);
+     bbHandle_mapComponent(home.ECS.ECS, bbECS_ECS,home.ECS.ECS->player_character,
+         bbECS_AI,&ai_handle,(bbComponent**)&component);
     //
-    // bbAI_CommandData data;
-    // data.goal_point = message->data.map_coords;
+    bbAI_CommandData data;
+    data.goal_point = message->data.map_coords;
     //
     // //TODO bbCoreInput
     //
-    // bbAI_onCommand(component,
-    //                   (bbAI_System*)home.ECS.ECS->systems[bbECS_AI],
-    //                   bbAI_mapClick,
-    //                   data,
-    //                   false);
+     bbAI_onCommand(component,
+                   (bbAI_System*)home.ECS.ECS->systems[bbECS_AI],
+                   bbAI_mapClick,
+                   data,
+                   false);
 
     return bbSuccess;
 }

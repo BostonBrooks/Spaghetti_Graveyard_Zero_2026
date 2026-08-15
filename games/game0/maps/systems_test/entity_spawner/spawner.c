@@ -132,6 +132,9 @@ bbFlag bbSF_addAI_skelly(void* spawner,
 
     bbAI_Component* this;
 
+
+
+
     bbCS_spawnAIComponent2(&home.core.core,
                           home.core.core.ECS,
                           handle,
@@ -178,6 +181,7 @@ bbFlag bbEntitySpawner_populate(bbEntitySpawner* spawner)
     bbSpawnFunction_add(spawner, bbSF_addGraphics_skelly, "SKELLY_GRAPHICS");
     bbSpawnFunction_add(spawner, bbSF_addGraphics_zombie, "ZOMBIE_GRAPHICS");
     bbSpawnFunction_add(spawner, bbSF_addAI_skelly, "SKELLY_AI");
+    bbSpawnFunction_add(spawner, bbSF_addAI_player, "PLAYER_AI");
     bbSpawnFunction_add(spawner, bbSF_setPlayer, "PLAYER");
 
     bbLiveSpawnFunction_add(spawner,  bbLSF_liveSpawnSkelly, "SKELLY");

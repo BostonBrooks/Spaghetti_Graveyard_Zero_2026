@@ -40,3 +40,31 @@ bbFlag bbSF_addGraphics_zombie(void* spawner,
 
     return bbSuccess;
 }
+
+bbFlag bbSF_addAI_player(void* spawner,
+                               bbECS_entity* entity,
+                               bbSpawnFunctionArgs args,
+                               bbInstruction_source source)
+{
+
+    bbAssert(source == bbInstructionSource_norewind || source == bbInstructionSource_internal, "not implemented");
+
+
+    bbHandle handle;
+    bbVPool_reverseLookup(home.ECS.ECS->system.pool, entity, &handle);
+
+    bbAI_Component* this;
+
+
+
+
+    bbCS_spawnAIComponent2(&home.core.core,
+                          home.core.core.ECS,
+                          handle,
+                          0,1,
+                          &this,
+                          source,
+                          no_handle);
+
+    return bbSuccess;
+}

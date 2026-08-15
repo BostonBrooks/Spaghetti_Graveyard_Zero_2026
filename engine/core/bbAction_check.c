@@ -1,5 +1,7 @@
 #include "engine/core/bbAction_check.h"
 
+#include "entity_spawner/live_spawn.h"
+
 
 bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
 {
@@ -87,7 +89,10 @@ bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
         {
             //TODO virtual function / callback
             //bbCoreInput_spawnTestEntity(core,&home.ECS.ECS, action->map_coords, action->handle, bbInstructionSource_action, handle);
-
+            bbSpawnFunctionArgs args;
+            args.position = action->map_coords;
+            args.goalpoint = action->map_coords;
+            bbCI_live_spawnEntity(core, args, "SKELLY", bbInstructionSource_internal, no_handle);
 
         }
 
