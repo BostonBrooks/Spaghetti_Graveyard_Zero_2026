@@ -6,7 +6,7 @@
 #include "engine/core/bbAction.h"
 #include "engine/core/bbCoreInboxInput.h"
 #include "engine/data/bbHome.h"
-#include "engine/ECS/spawn_entity.h"
+#include "games/game0/maps/systems_test/core/spawn_entity.h"
 #include "engine/logic/bbDictionary.h"
 #include "engine/logic/bbString.h"
 #include "engine/logic/bbTerminal.h"

@@ -51,7 +51,7 @@ typedef struct
 {
     bbMoveable_type type;
     bbMapCoords goal_point;
-    I32 movable;
+    I32 integer;
 } bbAI_CommandData;
 
 typedef bbFlag bbAI_Update(bbAI_Component* component);

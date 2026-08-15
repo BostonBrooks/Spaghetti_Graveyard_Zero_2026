@@ -140,13 +140,13 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
         games/game0/maps/systems_test/core/actions.c
         games/game0/maps/systems_test/core/core_discard.c
         games/game0/maps/systems_test/entity_spawner/live_spawn.c
-
+        games/game0/maps/systems_test/core/player_goalpoint.c
+        games/game0/maps/systems_test/core/spawn_entity.c
 
         engine/test_string/bbTestString.c
 
         engine/ECS/ECS.c
         engine/ECS/server_entities/bbServerEntities.c
-        engine/ECS/spawn_entity.c
         engine/ECS/moveables/bbMoveables.c
         engine/ECS/moveables/bbAvoidables.c
         engine/ECS/graphics_system/bbGraphicsSystem.c

@@ -1,6 +1,7 @@
 #include "engine/ECS/AI_system/bbAI_System.h"
 #include "engine/logic/bbIntTypes.h"
 #include "ai_null.h"
+#include "games/game0/maps/systems_test/core/player_goalpoint.h"
 
 I32 ai_update_function_count = 193;
 I32 ai_command_function_count = 194;
@@ -35,6 +36,8 @@ bbFlag bbAI_Update_Chase(bbAI_Component* component)
 
 }
 
+
+
 bbFlag bbAI_Command_Player(bbAI_Component* component,
                          bbAI_CommandType type,
                          bbAI_CommandData data,
@@ -63,7 +66,14 @@ bbFlag bbAI_Command_Player(bbAI_Component* component,
 
     if (type == bbAI_mapClick)
     {
-        bbCoreInput_testClick3(&home.core.core, data.goal_point, home.core.core.actual_time, bbInstructionSource_internal, no_handle);
+        if (data.integer == 0)
+        {
+            bbCoreInput_testClick3(&home.core.core, data.goal_point, home.core.core.actual_time, bbInstructionSource_internal, no_handle);
+        } else
+        {
+            bbCoreInput_testClick4(&home.core.core, data.goal_point, home.core.core.actual_time, bbInstructionSource_internal, no_handle);
+        }
+
     }
     return bbSuccess;
 }

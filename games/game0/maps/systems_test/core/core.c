@@ -7,7 +7,8 @@
 #include "engine/logic/bbFlag.h"
 #include "instructions.h"
 #include "AI_system/ai_instructions.h"
-#include "engine/ECS/spawn_entity.h"
+#include "games/game0/maps/systems_test/core/player_goalpoint.h"
+#include "games/game0/maps/systems_test/core/spawn_entity.h"
 #include "engine/ECS/graphics_system/bbGraphicsSystem.h"
 #include "engine/ECS/moveables/bbMoveables_setState.h"
 #include "engine/ECS/server_entities/bbServerEntities.h"
@@ -25,6 +26,7 @@ bbFlag bbCore_initVInstructions(bbCore* core)
     core->instruction_functions[bbInstruction_setServerEntity-bbInstruction_numTypes] = bbInstruction_setServerEntity_fn;
     core->instruction_functions[bbInstruction_unsetServerEntity-bbInstruction_numTypes] = bbInstruction_unsetServerEntity_fn;
     core->instruction_functions[bbInstruction_testClick3-bbInstruction_numTypes] = bbInstruction_testClick3_fn;
+    core->instruction_functions[bbInstruction_testClick4-bbInstruction_numTypes] = bbInstruction_testClick4_fn;
     core->instruction_functions[bbI_moveable_setState-bbInstruction_numTypes] = bbI_Moveable_setState_fn;
     core->instruction_functions[bbI_moveable_unsetState-bbInstruction_numTypes] = bbI_Moveable_unsetState_fn;
 

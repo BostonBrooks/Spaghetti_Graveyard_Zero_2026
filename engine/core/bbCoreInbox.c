@@ -7,7 +7,7 @@
 #include "engine/core/bbAction.h"
 #include "engine/core/bbCoreInputs.h"
 #include "engine/data/bbHome.h"
-#include "engine/ECS/spawn_entity.h"
+#include "games/game0/maps/systems_test/core/spawn_entity.h"
 #include "engine/threadsafe/bbThreadedQueue.h"
 
 bbFlag bbCoreInbox_setString_fn(bbCore* core, bbCoreInboxMessage* message)
@@ -54,8 +54,8 @@ bbFlag bbCoreInbox_testClick_fn(bbCore* core, bbCoreInboxMessage* message)
          bbECS_AI,&ai_handle,(bbComponent**)&component);
     //
     bbAI_CommandData data;
-    data.goal_point = message->data.map_coords;
-    //
+    data.goal_point = message->data.map_click.coords;
+    data.integer = message->data.map_click.button;
     // //TODO bbCoreInput
     //
      bbAI_onCommand(component,

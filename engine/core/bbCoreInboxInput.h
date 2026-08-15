@@ -7,5 +7,5 @@ bbFlag bbCoreInbox_SetString(bbCore* core, char* string);
 
 bbFlag bbCoreInbox_UnfreezeButton(bbCore* core, char* string);
 
-bbFlag bbCoreInbox_TestClick(bbCore* core, bbMapCoords MC);
+bbFlag bbCoreInbox_TestClick(bbCore* core, bbMapCoords MC, I32 button);
 #endif //BB_LOCAL_MESSAGE_INPUTS_H

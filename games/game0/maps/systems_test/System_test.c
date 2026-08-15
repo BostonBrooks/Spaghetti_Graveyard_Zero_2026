@@ -276,7 +276,10 @@ int main(void)
 
         bbCore_react(&home.core.core);
 
-        bbCoreDiscard(&home.core.core, home.core.clock2_handle.map_tick-300);
+        if (home.core.clock2_handle.map_tick > 300)
+        {
+            bbCoreDiscard(&home.core.core, home.core.clock2_handle.map_tick-300);
+        }
         //bbActions_react(&home.core.core, core_time);
 
         if (clock_handle_init == false) sfSleep(sfSeconds(1.f/60.f));

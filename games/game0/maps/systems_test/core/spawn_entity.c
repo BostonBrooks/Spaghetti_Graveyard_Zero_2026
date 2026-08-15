@@ -1,5 +1,5 @@
 #include "engine/logic/bbHandle.h"
-#include "engine/ECS/spawn_entity.h"
+#include "games/game0/maps/systems_test/core/spawn_entity.h"
 
 #include "engine/core/bbAction.h"
 #include "engine/core/bbCoreInbox.h"

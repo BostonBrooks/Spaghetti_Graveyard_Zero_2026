@@ -9,7 +9,7 @@
 #include "engine/ECS/graphics_system/bbGraphicsSystem.h"
 #include "../ECS/server_entities/bbServerEntities.h"
 #include "engine/ECS/ECS.h"
-#include "engine/ECS/spawn_entity.h"
+#include "games/game0/maps/systems_test/core/spawn_entity.h"
 #include "engine/logic/bbBloatedPool.h"
 #include "engine/threadsafe/bbThreadedPool.h"
 #include "engine/test_string/bbTestString.h"

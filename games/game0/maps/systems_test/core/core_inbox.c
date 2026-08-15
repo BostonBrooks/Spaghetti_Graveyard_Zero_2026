@@ -5,7 +5,7 @@
 #include "netpause_button.h"
 #include "unfreeze_button.h"
 #include "engine/data/bbHome.h"
-#include "engine/ECS/spawn_entity.h"
+#include "games/game0/maps/systems_test/core/spawn_entity.h"
 #include "engine/ECS/moveables/bbMoveables.h"
 
 bbFlag bbCoreInboxTest_fn(bbCore* core, struct bbCoreInboxMessage* message)
@@ -40,12 +40,13 @@ bbFlag bbCoreInbox_TestMessage(bbCore* core)
     return bbSuccess;
 }
 
-bbFlag bbCoreInbox_TestClick(bbCore* core, bbMapCoords MC)
+bbFlag bbCoreInbox_TestClick(bbCore* core, bbMapCoords MC, I32 button)
 {
     bbCoreInboxMessage* message;
     bbThreadedQueue_alloc(&core->local_message_queue, (void** ) &message);
     message->type = bbCoreInbox_testClick;
-    message->data.map_coords = MC;
+    message->data.map_click.coords = MC;
+    message->data.map_click.button = button;
     bbThreadedQueue_pushL(&core->local_message_queue, message);
     return bbSuccess;
 }

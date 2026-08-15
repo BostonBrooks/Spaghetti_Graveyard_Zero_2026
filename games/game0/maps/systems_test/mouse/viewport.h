@@ -1,6 +1,6 @@
 #include "engine/core/bbCoreInboxInput.h"
 #include "engine/data/bbHome.h"
-#include "engine/ECS/spawn_entity.h"
+#include "games/game0/maps/systems_test/core/spawn_entity.h"
 #include "engine/geometry/bbGroundCoords.h"
 #include "engine/geometry/bbViewportCoords.h"
 
@@ -15,11 +15,11 @@ bbFlag Viewport_LeftDown (void* Mouse, void* Widgets, void* Widget, void*
     bbMapCoords MC2 = bbViewportCoords_getMapCoords(VC);
 
 
-    //send message to server
+
+    //send command to player,
+    //player sends request to server,
     //message from server spawns skelly
-    bbCoreInbox_TestClick2(&home.core.core, MC2);
-
-
+    bbCoreInbox_TestClick(&home.core.core, MC2,1);
 
     return bbSuccess;
 }
@@ -37,7 +37,7 @@ bbFlag Viewport_RightDown (void* Mouse, void* Widgets, void* Widget, void*
     //send command to player,
     //player sends request to server,
     //message from server spawns skelly
-    bbCoreInbox_TestClick(&home.core.core, MC2);
+    bbCoreInbox_TestClick(&home.core.core, MC2,0);
 
     return bbSuccess;
 }

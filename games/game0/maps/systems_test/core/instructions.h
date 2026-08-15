@@ -7,6 +7,7 @@
 typedef enum
 {
     bbInstruction_testClick3 = bbInstruction_numECS_Instructions,
+    bbInstruction_testClick4,
     bbInstruction_spawnGraphicsComponent,
     bbInstruction_unspawnGraphicsComponent,
     bbInstruction_spawnTestMoveable,

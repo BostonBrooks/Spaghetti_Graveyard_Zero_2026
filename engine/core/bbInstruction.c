@@ -12,7 +12,7 @@
 #include "core/instructions.h"
 #endif
 #include "engine/data/bbHome.h"
-#include "engine/ECS/spawn_entity.h"
+#include "games/game0/maps/systems_test/core/spawn_entity.h"
 #include "engine/logic/bbString.h"
 #include "engine/network/bbNetworkApp.h"
 #include "engine/userinterface/bbUI_Inbox.h"
