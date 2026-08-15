@@ -77,6 +77,7 @@ typedef bbFlag bbSpawnFunction(void* spawner,
                                bbInstruction_source source);
 
 typedef bbFlag bbLiveSpawnFunction(void* spawner,
+                                  bbHandle* entity,
                                   bbSpawnFunctionArgs args,
                                   bbInstruction_source source);
 

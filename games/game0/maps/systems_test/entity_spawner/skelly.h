@@ -223,32 +223,37 @@ bbFlag bbSF_addAI_skelly(void* spawner,
                                bbInstruction_source source);
 
 bbFlag bbLSF_liveSpawnSkelly(void* spawner,
+                                  bbHandle* Entity,
                                   bbSpawnFunctionArgs args,
                                   bbInstruction_source source)
 {
     //TODO instruction source internal not yet implemented
     bbECS_entity* entity;
+
     bbCoreSynchronous_spawnEmptyEntity(&home.core.core,
                                    home.ECS.ECS,
                                    &entity,
                                    "SKELLY",
-                                   bbInstructionSource_norewind,
+                                   bbInstructionSource_internal,
                                    no_handle);
 
     bbSF_addMoveable_skelly(spawner,
                                entity,
                                args,
-                               bbInstructionSource_norewind);
+                               bbInstructionSource_internal);
 
 
     bbSF_addGraphics_skelly(spawner,
                                entity,
                                args,
-                               bbInstructionSource_norewind);
+                               bbInstructionSource_internal);
 
     bbSF_addAI_skelly(spawner,
                       entity,
                       args,
-                      bbInstructionSource_norewind);
+                      bbInstructionSource_internal);
+
+
+    bbComponent_getHandle(&home.ECS.ECS->system,(bbComponent*)entity,Entity);
     return bbSuccess;
 }

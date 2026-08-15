@@ -43,7 +43,7 @@ bbFlag bbCore_initVInstructions(bbCore* core)
     core->instruction_functions[bbI_unspawnAIComponent2-bbInstruction_numTypes] = bbI_unspawnAIComponent2_fn;
     core->instruction_functions[bbInstruction_testClick-bbInstruction_numTypes] = bbInstruction_testClick_fn;
     core->instruction_functions[bbI_live_spawnEntity-bbInstruction_numTypes] = bbI_live_spawnEntity_fn;
-    core->instruction_functions[bbI_live_unpawnEntity-bbInstruction_numTypes] = bbI_live_unspawnEntity_fn;
+    core->instruction_functions[bbI_live_unspawnEntity-bbInstruction_numTypes] = bbI_live_unspawnEntity_fn;
        return bbSuccess;
 }
 //     core->instruction_functions

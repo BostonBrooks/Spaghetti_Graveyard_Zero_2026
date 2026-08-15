@@ -25,7 +25,7 @@ typedef enum
     bbInstruction_unupdateAI,
     bbInstruction_testClick,
     bbI_live_spawnEntity,
-    bbI_live_unpawnEntity,
+    bbI_live_unspawnEntity,
     bbVInstruction_numTypes
 }bbVInstruction_type;
 
