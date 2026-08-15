@@ -124,7 +124,6 @@ bbFlag bbInstruction_unsetServerEntity_fn(bbCore* core, bbInstruction* instructi
     }
     if (instruction->source == bbInstructionSource_action)
     {
-        //TODO place instruction->redo_instruction into core->action_queue
         bbAction* redo_action;
         bbVPool_lookup(core->action_pool, (void**)&redo_action, instruction->redo_instruction);
         bbList_sortL(&core->action_queue,(void*)redo_action);
@@ -139,8 +138,7 @@ bbFlag bbCoreSynchronous_setServerEntity(bbCore* core,
                                    bbHandle server_entity_handle,
                                    bbInstruction_source source,
                                    bbHandle action)
-{bbHere()
-    // TODO undo instruction
+{
 
     bbServerEntity* component;
     bbVPool_allocFromHandle(core->ECS->systems[bbECS_ServerEntities]->pool, (void**)&component, server_entity_handle);

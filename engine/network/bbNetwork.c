@@ -123,7 +123,7 @@ void* bbNetwork_receiveThread(void* args)
         if (status != sfSocketDone) continue;
 
         char message[512];
-        //TODO Convert network packet to struct
+
         bbNetworkPacket* test;
         bbThreadedQueue_alloc(queue, (void**)&test);
         bbNetworkPacket_toStruct(packet, test);

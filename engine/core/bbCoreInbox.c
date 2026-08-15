@@ -33,20 +33,6 @@ bbFlag bbCoreInbox_unfreezeButton_fn(bbCore* core, bbCoreInboxMessage* message)
 bbFlag bbCoreInbox_testClick_fn(bbCore* core, bbCoreInboxMessage* message)
 {
 
-
-    // bbSpawnFunctionArgs args;
-    //
-    // args.position = message->data.map_coords;
-    // args.goalpoint = message->data.map_coords;
-    // args.handle = no_handle;
-    // args.goal_handle = no_handle;
-    //
-    // bbCI_live_spawnEntity(core, args, "SKELLY", bbInstructionSource_internal, no_handle);
-
-
-
-    // //TODO virtual instruction / callback
-    // //bbCoreInput_testClick(core, message->data.map_coords, bbInstructionSource_input, no_handle);
      bbHandle ai_handle;
      bbAI_Component* component;
     //
@@ -56,8 +42,7 @@ bbFlag bbCoreInbox_testClick_fn(bbCore* core, bbCoreInboxMessage* message)
     bbAI_CommandData data;
     data.goal_point = message->data.map_click.coords;
     data.integer = message->data.map_click.button;
-    // //TODO bbCoreInput
-    //
+
      bbAI_onCommand(component,
                    (bbAI_System*)home.ECS.ECS->systems[bbECS_AI],
                    bbAI_mapClick,

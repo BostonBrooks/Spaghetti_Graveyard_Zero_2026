@@ -280,12 +280,7 @@ bbFlag bbDrawable_setLocation(bbDrawable* drawable, bbDrawables* drawables,
                               bbMapCoords MC){
     bbSquareCoords newSC = bbMapCoords_getSquareCoords(MC);
     bbSquareCoords oldSC = bbMapCoords_getSquareCoords(drawable->coords);
-    I32 newIndex = bbDrawables_getSquareIndex(newSC.i,
-                                           newSC.j,
-                                           drawables->squares_i, drawables->squares_j);
-    I32 oldIndex = bbDrawables_getSquareIndex(oldSC.i,
-                                              oldSC.j,
-                                              drawables->squares_i, drawables->squares_j);
+
     bbDrawableSquare* newSquare= bbDrawables_getSquare(drawables,newSC.i, newSC.j, drawables->squares_i, drawables->squares_j);
 
 
