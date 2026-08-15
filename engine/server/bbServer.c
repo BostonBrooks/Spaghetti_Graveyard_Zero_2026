@@ -26,7 +26,7 @@ int main(void){
     bool is_paused = true;
 
     bbVPool* pool;
-    bbVPool_newBloated(&pool, sizeof(bbServerEntity),100,100,"SERVER ENTITIES");
+    bbVPool_newBloated(&pool, sizeof(bbServerEntity),1000,10,"SERVER ENTITIES");
 
     printf("Hello, server!\n");
 

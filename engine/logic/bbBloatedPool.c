@@ -364,8 +364,11 @@ bbFlag bbBloatedPool_lookup(bbBloatedPool* pool, void** address, bbHandle handle
 	bbFlag flag = bbBloatedPool_lookupHeader(pool, (void**)&element, handle);
 
 	if (flag == bbSuccess) *address = &element->user_data;
-	else *address = NULL;
-
+	else
+	{
+		*address = NULL;
+		bbNotHere()
+	}
 	return flag;
 }
 

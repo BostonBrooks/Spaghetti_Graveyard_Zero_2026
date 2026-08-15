@@ -10,7 +10,7 @@ bbVPool* bbNestedList_pool;
 
 bbFlag bbNestedList_init(bbNestedList* nestedList) {
     if (bbNestedList_pool == NULL){
-        bbVPool_newBloated(&bbNestedList_pool, sizeof(bbNestedListElement), 100, 100, "bbNestedListElement");
+        bbVPool_newBloated(&bbNestedList_pool, sizeof(bbNestedListElement), 1000, 10, "bbNestedListElement");
     }
     bbList_init(&nestedList->list,
                 bbNestedList_pool,

@@ -17,7 +17,7 @@
 
 bbFlag bbCore_init(bbCore* core)
 {
-    bbVPool_newBloated(&core->instruction_pool, sizeof(bbInstruction), 100, 1000, "bbInstruction");
+    bbVPool_newBloated(&core->instruction_pool, sizeof(bbInstruction), 1000, 10, "bbInstruction");
     bbList_init(&core->do_stack, core->instruction_pool, NULL, offsetof(bbInstruction, list_element),NULL);
     bbList_init(&core->undo_stack, core->instruction_pool, NULL, offsetof(bbInstruction, list_element),NULL);
 
@@ -28,7 +28,7 @@ bbFlag bbCore_init(bbCore* core)
                           sizeof(bbCoreInboxMessage),
                           1000,offsetof(bbCoreInboxMessage, list_element));
 
-    bbVPool_newBloated(&core->action_pool,sizeof(bbAction),100,1000, "bbAction");
+    bbVPool_newBloated(&core->action_pool,sizeof(bbAction),1000,10, "bbAction");
     bbList_init(&core->action_queue, core->action_pool, NULL, offsetof(bbAction, header.list_element),bbAction_compare);
     bbList_init(&core->action_temp_fifo, core->action_pool, NULL, offsetof(bbAction, header.list_element),bbAction_compare);
 

@@ -10,7 +10,7 @@ bbFlag bbGraphicsSystem_getHandle_fn(bbSystem* system, bbComponent* component, b
 
 bbFlag bbGraphicsSystem_init(bbGraphicsSystem* graphics_system, bbECS* ECS)
 {
-    bbVPool_newBloated(&graphics_system->system.pool, sizeof(bbGraphicsComponent), 100, 100, "GRAPHICS SYSTEM");
+    bbVPool_newBloated(&graphics_system->system.pool, sizeof(bbGraphicsComponent), 1000, 10, "GRAPHICS SYSTEM");
 
     graphics_system->system.getComponent = bbGraphicsSystem_getComponent_fn;
     graphics_system->system.getHandle = bbGraphicsSystem_getHandle_fn;

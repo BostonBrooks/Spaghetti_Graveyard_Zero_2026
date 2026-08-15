@@ -15,8 +15,8 @@ bbFlag bbServerEntity_getHandle_fn(bbSystem* system, bbComponent* component, bbH
 bbFlag bbServerEntities_init(bbServerEntities* server_entities,bbECS* ECS)
 {
 
-    bbVPool_newBloated(&server_entities->system.pool, sizeof(bbServerEntity), 100, 100, "SERVER ENTITIES");
-    bbVPool_newBloated(&server_entities->ECS_Handles, sizeof(bbHandle), 100, 100, "ENTITIES SERVER");
+    bbVPool_newBloated(&server_entities->system.pool, sizeof(bbServerEntity), 1000, 10, "SERVER ENTITIES");
+    bbVPool_newBloated(&server_entities->ECS_Handles, sizeof(bbHandle), 1000, 10, "ENTITIES SERVER");
 
     server_entities->system.getComponent = bbServerEntity_getComponent_fn;
     server_entities->system.getHandle = bbServerEntity_getHandle_fn;

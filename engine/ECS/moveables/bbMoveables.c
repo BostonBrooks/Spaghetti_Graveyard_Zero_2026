@@ -77,8 +77,8 @@ bbFlag bbMoveables_init(bbMoveables* moveables,bbECS* ECS)
     moveables->updates_per_frame = 12;
     moveables->use_coords_a = true;
     moveables->available = 0;
-    bbVPool_newBloated(&moveables->snapshots, sizeof(bbMoveables_snapshot), 100,
-                       100, "bbMoveables_snapshot");
+    bbVPool_newBloated(&moveables->snapshots, sizeof(bbMoveables_snapshot), 1000,
+                       10, "bbMoveables_snapshot");
 
     moveables->system.getComponent = bbMoveable_getComponent_fn;
     moveables->system.getHandle = bbMoveable_getHandle_fn;
