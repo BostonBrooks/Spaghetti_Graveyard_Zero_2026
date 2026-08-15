@@ -11,50 +11,70 @@ bbFlag bbAI_Update_Chase(bbAI_Component* component)
     //bbHere()
     bbMoveable* moveable;
     bbHandle moveable_handle;
-    bbComponent_mapComponent(home.ECS.ECS, bbECS_AI,(bbComponent*)component, bbECS_Moveables,&moveable_handle, (bbComponent**)&moveable);
+    bbComponent_mapComponent(home.ECS.ECS, bbECS_AI, (bbComponent*)component,
+                             bbECS_Moveables, &moveable_handle,
+                             (bbComponent**)&moveable);
 
-    if (moveable->type != bbMoveableType_Moving) return bbSuccess;
 
     bbMoveable* player_moveable;
     bbHandle player_handle;
 
-    bbHandle_mapComponent(home.ECS.ECS, bbECS_ECS,home.ECS.ECS->player_character, bbECS_Moveables,&player_handle, (bbComponent**)&player_moveable);
+    bbHandle_mapComponent(home.ECS.ECS, bbECS_ECS,
+                          home.ECS.ECS->player_character, bbECS_Moveables,
+                          &player_handle, (bbComponent**)&player_moveable);
 
-    if (moveable_handle.bloated.index == player_handle.bloated.index) return bbSuccess;
+    if (moveable_handle.bloated.index == player_handle.bloated.index) return
+        bbSuccess;
 
     U64 distance_squared = (moveable->position.i - player_moveable->position.i)
-                           *(moveable->position.i - player_moveable->position.i)
-                           +(moveable->position.j - player_moveable->position.j)
-                           *(moveable->position.j - player_moveable->position.j);
+        * (moveable->position.i - player_moveable->position.i)
+        + (moveable->position.j - player_moveable->position.j)
+        * (moveable->position.j - player_moveable->position.j);
 
-    if (distance_squared > POINTS_PER_TILE * POINTS_PER_TILE * 64) return bbSuccess;
+    if (moveable->type == bbMoveableType_Idle)
+    {
+        if (distance_squared > POINTS_PER_TILE * POINTS_PER_TILE * 72) return
+            bbSuccess;
 
-    bbCI_Moveable_setGoalMovable(&home.core.core,moveable_handle,player_handle,bbInstructionSource_internal,no_handle);
+        bbCI_Moveable_setGoalMovable(&home.core.core, moveable_handle,
+                                     player_handle,
+                                     bbInstructionSource_internal, no_handle);
 
+
+    }
+
+
+
+    if (moveable->type == bbMoveableType_Follow)
+    {
+        if (distance_squared < POINTS_PER_TILE * POINTS_PER_TILE * 64) return
+            bbSuccess;
+
+        bbCI_Moveable_setIdle(&home.core.core,
+                                     moveable_handle,
+                                     player_handle,
+                                     bbInstructionSource_internal, no_handle);
+    }
     return bbSuccess;
-
-
 }
 
 
-
 bbFlag bbAI_Command_Player(bbAI_Component* component,
-                         bbAI_CommandType type,
-                         bbAI_CommandData data,
-                         bool is_action)
-{//is action: command is unable to modify state unless this function was called by a bbAction to ensure "core safeness"
+                           bbAI_CommandType type,
+                           bbAI_CommandData data,
+                           bool is_action)
+{
+    //is action: command is unable to modify state unless this function was called by a bbAction to ensure "core safeness"
     if (type == bbAI_setGoalPoint && is_action)
     {
-
-
         bbHandle moveable_handle;
 
         bbComponent_mapComponent(home.ECS.ECS,
-            bbECS_AI,
-            (bbComponent*)component,
-            bbECS_Moveables,
-            &moveable_handle,
-            NULL);
+                                 bbECS_AI,
+                                 (bbComponent*)component,
+                                 bbECS_Moveables,
+                                 &moveable_handle,
+                                 NULL);
 
 
         bbCS_Moveable_setGoalpoint(&home.core.core,
@@ -62,18 +82,31 @@ bbFlag bbAI_Command_Player(bbAI_Component* component,
                                    data.goal_point,
                                    bbInstructionSource_internal,
                                    no_handle);
+
+        bbComponent_mapComponent(home.ECS.ECS,
+                         bbECS_AI,
+                         (bbComponent*)component,
+                         bbECS_ECS,
+                         &moveable_handle,
+                         NULL);
+
+
     }
 
     if (type == bbAI_mapClick)
     {
         if (data.integer == 0)
         {
-            bbCoreInput_testClick3(&home.core.core, data.goal_point, home.core.core.actual_time, bbInstructionSource_internal, no_handle);
-        } else
-        {
-            bbCoreInput_testClick4(&home.core.core, data.goal_point, home.core.core.actual_time, bbInstructionSource_internal, no_handle);
+            bbCoreInput_testClick3(&home.core.core, data.goal_point,
+                                   home.core.core.actual_time,
+                                   bbInstructionSource_internal, no_handle);
         }
-
+        else
+        {
+            bbCoreInput_testClick4(&home.core.core, data.goal_point,
+                                   home.core.core.actual_time,
+                                   bbInstructionSource_internal, no_handle);
+        }
     }
     return bbSuccess;
 }
@@ -88,11 +121,9 @@ bbFlag bbAI_Functions_populate(bbAI_Functions* self)
     // bbAgentFunctions_add(self, AgentCommand, bbAgent_Command_Skelly,"COMMAND_SKELLY");
 
 
-    bbAI_Functions_add(self,  AI_Update, bbAI_Update_NULL,"UPDATE_NULL" );
-    bbAI_Functions_add(self,  AI_Update, bbAI_Update_Chase,"UPDATE_CHASE" );
-    bbAI_Functions_add(self,  AI_Command, bbAI_Command_NULL,"COMMAND_NULL" );
-    bbAI_Functions_add(self,  AI_Command, bbAI_Command_Player,"COMMAND_PLAYER" );
+    bbAI_Functions_add(self, AI_Update, bbAI_Update_NULL, "UPDATE_NULL");
+    bbAI_Functions_add(self, AI_Update, bbAI_Update_Chase, "UPDATE_CHASE");
+    bbAI_Functions_add(self, AI_Command, bbAI_Command_NULL, "COMMAND_NULL");
+    bbAI_Functions_add(self, AI_Command, bbAI_Command_Player, "COMMAND_PLAYER");
     return bbSuccess;
 }
-
-

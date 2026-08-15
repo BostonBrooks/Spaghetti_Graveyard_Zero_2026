@@ -18,12 +18,13 @@ typedef struct
 bbFlag bbGraphicsSystem_init(bbGraphicsSystem* graphics_system, bbECS* ECS);
 
 bbFlag bbCoreInput_spawnGraphicsComponent(bbCore* core,
-                                   char* type,
-                                   bbMapCoords MC,
-                                   bbHandle entity,
-                                   bbHandle moveable,
-                                   bbInstruction_source source,
-                                   bbHandle action);
+                                          char* type,
+                                          bbMapCoords MC,
+                                          I32 drawable_state,
+                                          bbHandle entity,
+                                          bbHandle moveable,
+                                          bbInstruction_source source,
+                                          bbHandle action);
 
 bbFlag bbCoreSynchronous_spawnGraphicsComponent(bbCore* core,
                                    bbMapCoords MC,

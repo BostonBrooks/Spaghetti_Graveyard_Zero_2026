@@ -109,6 +109,7 @@ typedef struct
 typedef struct
 {
     U32 type;
+    U32 drawable_state;
     bbHandle handle1;
     bbHandle handle2;
     bbMapCoords coords;

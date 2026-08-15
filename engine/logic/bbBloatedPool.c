@@ -388,6 +388,8 @@ bbFlag bbBloatedPool_lookupHeader2(bbBloatedPool* pool, void** address, bbHandle
 	bbAssert(lvl1index < pool->level1, "index out of bounds\n");
 	U32 lvl2index = index % pool->level2;
 	U8* lvl2 = pool->elements[lvl1index];
+
+	bbAssert(lvl2!=NULL,"index out of bounds?\n");
 	bbBloatedPool_Header *element = (bbBloatedPool_Header *)&lvl2[lvl2index * (sizeof(bbBloatedPool_Header) + pool->size_of)];
 
 	if (element->in_use == false)

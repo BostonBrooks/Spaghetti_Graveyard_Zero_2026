@@ -3,6 +3,7 @@
 #include "engine/ECS/ECS.h"
 #include "../../../../../engine/ECS/entity_spawner/bbEntitySpawner.h"
 #include "engine/ECS/moveables/bbMoveables.h"
+#include "engine/ECS/moveables/bbMoveables_setState.h"
 #include "engine/ECS/server_entities/bbServerEntities.h"
 #include "engine/logic/bbFlag.h"
 #include "moveables/moveables.h"
@@ -75,7 +76,7 @@ bbFlag bbSF_addMoveable_skelly(void* spawner,
                                            no_handle);
 
     //We dont need to undo this, will be nuked by bbInstruction_unspawnTestMoveable_fn
-    bbMoveable_setGoalPoint(&home.ECS.moveables,moveable_handle, args.goalpoint);
+    bbCI_Moveable_setIdle(&home.core.core,moveable_handle,no_handle,source,no_handle);
 
     bbHere()
     return bbSuccess;
@@ -126,6 +127,7 @@ bbFlag bbSF_addGraphics_skelly(void* spawner,
     bbCoreInput_spawnGraphicsComponent(&home.core.core,
                                     "SKELLY",
                                    args.position,
+                                   bbDrawableState_moving,
                                    handle,
                                    moveable,
                                    source,
@@ -133,6 +135,38 @@ bbFlag bbSF_addGraphics_skelly(void* spawner,
 
     return bbSuccess;
 }
+
+bbFlag bbSF_addGraphics_skelly2(void* spawner,
+                               bbECS_entity* entity,
+                               bbSpawnFunctionArgs args,
+                               bbInstruction_source source)
+{
+
+    bbAssert(source == bbInstructionSource_norewind || source == bbInstructionSource_internal, "not implemented");
+
+    bbHandle handle;
+    bbVPool_reverseLookup(home.ECS.ECS->system.pool, entity, &handle);
+
+    bbHandle moveable = entity->components[bbECS_Moveables];
+    //
+    // bbCoreSynchronous_spawnGraphicsComponent(&home.core.core,
+    //                                args.position,
+    //                                handle,
+    //                                moveable,
+    //                                bbInstructionSource_norewind);
+
+    bbCoreInput_spawnGraphicsComponent(&home.core.core,
+                                    "SKELLY",
+                                   args.position,
+                                   bbDrawableState_idle,
+                                   handle,
+                                   moveable,
+                                   source,
+                                   no_handle);
+
+    return bbSuccess;
+}
+
 
 //scans a line from spawner.csv that looks like
 //PARSER,UNUSED,POSITION I,J,K,GOALPOINT I, J, K, SERVER_HANDLE_INDEX,COLLISION
@@ -245,7 +279,7 @@ bbFlag bbLSF_liveSpawnSkelly(void* spawner,
                                source);
 
 
-    bbSF_addGraphics_skelly(spawner,
+    bbSF_addGraphics_skelly2(spawner,
                                entity,
                                args,
                                source);

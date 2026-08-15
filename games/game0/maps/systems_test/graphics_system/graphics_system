@@ -1,12 +1,13 @@
 in engine/ECS/bbGraphicsSystem.c
 
 bbFlag bbCoreInput_spawnGraphicsComponent(bbCore* core,
-
-                                   bbMapCoords MC,
-                                   bbHandle entity,
-                                   bbHandle moveable,
-                                   bbInstruction_source source,
-                                   bbHandle action)
+                                          char* type,
+                                          bbMapCoords MC,
+                                          I32 drawable_state,
+                                          bbHandle entity,
+                                          bbHandle moveable,
+                                          bbInstruction_source source,
+                                          bbHandle action)
 {
     bbInstruction* instruction;
     bbList_alloc(&core->do_stack, (void**) &instruction);

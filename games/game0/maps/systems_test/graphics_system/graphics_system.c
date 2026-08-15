@@ -7,6 +7,7 @@
 bbFlag bbCoreInput_spawnGraphicsComponent(bbCore* core,
                                           char* type,
                                           bbMapCoords MC,
+                                          I32 drawable_state,
                                           bbHandle entity,
                                           bbHandle moveable,
                                           bbInstruction_source source,
@@ -23,6 +24,7 @@ bbFlag bbCoreInput_spawnGraphicsComponent(bbCore* core,
     instruction->data.agent_MC.handle1 = entity;
     instruction->data.agent_MC.handle2 = moveable;
     instruction->data.agent_MC.coords = MC;
+    instruction->data.agent_MC.drawable_state = drawable_state;
 
     instruction->source = source;
     instruction->redo_instruction = action;
@@ -42,6 +44,8 @@ bbFlag bbInstruction_spawnGraphicsComponent_fn(bbCore* core, bbInstruction* inst
                            instruction->data.agent_MC.handle1,
                            instruction->data.agent_MC.handle2);
 
+
+    bbUI_Inbox_SetEntityState(&home.UI.inbox,instruction->data.agent_MC.handle1, instruction->data.agent_MC.drawable_state);
 
     if (instruction->source == bbInstructionSource_internal)
     {

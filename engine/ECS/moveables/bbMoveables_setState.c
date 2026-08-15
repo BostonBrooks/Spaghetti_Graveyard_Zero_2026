@@ -68,6 +68,7 @@ bbFlag bbCI_Moveable_setIdle(bbCore* core,
     bbFlag flag = bbList_alloc(&core->do_stack,(void**)&instruction);
 
     instruction->type = bbI_moveable_setState;
+    instruction->data.moveable_state.handle = moveable_handle;
 
     instruction->data.moveable_state.type = bbMoveableType_Idle;
 
@@ -144,6 +145,16 @@ bbFlag bbI_Moveable_setState_fn(bbCore* core, bbInstruction* instruction)
     moveable->type = instruction->data.moveable_state.type;
     moveable->goalpoint = instruction->data.moveable_state.goalpoint;
     moveable->goal_moveable = instruction->data.moveable_state.goal_moveable;
+
+    bbHandle entity_handle;
+
+    bbComponent_mapComponent(home.ECS.ECS, bbECS_Moveables,(bbComponent*)moveable, bbECS_ECS,&entity_handle,NULL);
+    if (instruction->data.moveable_state.type == bbMoveableType_Idle)
+        bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_idle);
+    if (instruction->data.moveable_state.type == bbMoveableType_Follow)
+        bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_moving);
+    if (instruction->data.moveable_state.type == bbMoveableType_Moving)
+        bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_moving);
 
 //
     return bbSuccess;
@@ -251,6 +262,11 @@ bbFlag bbCS_Moveable_setGoalpoint(bbCore* core,
 
     moveable->type = bbMoveableType_Moving;
     moveable->goalpoint = goalpoint;
+
+    bbHandle entity_handle;
+
+    bbComponent_mapComponent(home.ECS.ECS, bbECS_Moveables,(bbComponent*)moveable, bbECS_ECS,&entity_handle,NULL);
+    bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_moving);
 
 
     return bbSuccess;

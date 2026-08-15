@@ -1,5 +1,7 @@
 #include "bbEntitySpawner.h"
 
+#include "engine/data/bbHome.h"
+
 bbFlag bbEntitySpawner_init(bbEntitySpawner* entity_spawner)
 {
     entity_spawner->parse_functions = calloc(parse_function_count,sizeof(bbParseFunction*));
@@ -90,6 +92,8 @@ bbFlag bbEntitySpawner_spawnFile(bbEntitySpawner* spawner, char* file_name)
             parse_function = spawner->parse_functions[handle.u64];
 
             parse_function(spawner, file_line);
+
+            bbCore_react(&home.core.core);
         }
 
         return bbSuccess;
