@@ -23,7 +23,7 @@ bbFlag bbUI_Inbox_init(bbUI_Inbox* inbox)
     return bbSuccess;
 }
 bbFlag bbUI_Inbox_setWidgetPosition_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message);
-
+bbFlag bbUI_Inbox_setEntityState_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message);
 bbFlag bbUI_Inbox_check(bbUI_Inbox* inbox)
 {
     bbUI_Inbox_message* message;
@@ -51,6 +51,10 @@ bbFlag bbUI_Inbox_check(bbUI_Inbox* inbox)
 
         case bbUI_Inbox_setViewpoint:
             bbUI_Inbox_setViewpoint_fn(inbox, message);
+            break;
+
+        case bbUI_Inbox_setEntityState:
+            bbUI_Inbox_setEntityState_fn(inbox, message);
             break;
 #ifdef DEFINE_SKELLYCHASE
         case bbUI_Inbox_newSkelly:
@@ -243,6 +247,43 @@ bbFlag bbUI_Inbox_setUnitState_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message
         unit->drawable.frames[7].start_time = home.UI.clock2_handle.map_tick;
     }
     else {bbHere()}
+    return bbSuccess;
+}
+
+
+bbFlag bbUI_Inbox_SetEntityState(bbUI_Inbox* inbox, bbHandle entity, I32 state)
+{
+    bbUI_Inbox_message* message;
+    bbThreadedQueue_alloc(&inbox->local_message_queue,(void**)&message);
+    message->type = bbUI_Inbox_setEntityState;
+    message->data.handle.handle = entity;
+    message->data.integer = state;
+    bbThreadedQueue_pushL(&inbox->local_message_queue, (void*)message);
+    return bbSuccess;
+}
+
+
+bbFlag bbUI_Inbox_setEntityState_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
+{
+    bbHandle* unit_handle;
+    bbFlag flag = bbVPool_lookup(home.viewport_app.entity_units, (void**)&unit_handle, message->data.handle.handle);
+
+    if (flag != bbSuccess) bbNotHere()
+    bbUnit* unit;
+    flag = bbVPool_lookup(home.viewport_app.units->pool, (void**)&unit, *unit_handle);
+    if (flag != bbSuccess) bbNotHere()
+
+        unit->drawable.state = message->data.integer;
+        unit->drawable.frames[0].start_time = home.UI.clock2_handle.map_tick;
+        unit->drawable.frames[1].start_time = home.UI.clock2_handle.map_tick;
+        unit->drawable.frames[2].start_time = home.UI.clock2_handle.map_tick;
+        unit->drawable.frames[3].start_time = home.UI.clock2_handle.map_tick;
+        unit->drawable.frames[4].start_time = home.UI.clock2_handle.map_tick;
+        unit->drawable.frames[5].start_time = home.UI.clock2_handle.map_tick;
+        unit->drawable.frames[6].start_time = home.UI.clock2_handle.map_tick;
+        unit->drawable.frames[7].start_time = home.UI.clock2_handle.map_tick;
+
+
     return bbSuccess;
 }
 

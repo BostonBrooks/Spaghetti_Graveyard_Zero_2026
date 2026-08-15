@@ -53,7 +53,7 @@ bbFlag bbViewportSpawnSkelly(bbViewportApp* viewport_app,
     unit->next_coords = MC;
     unit->next_time = 2;
     unit->next_goalpoint = MC;
-    unit->drawable.state = bbDrawableState_moving;
+    unit->drawable.state = bbDrawableState_idle;
 
 
     bbDictionary_lookup(home.UI.graphics.drawfunctions->dictionary,

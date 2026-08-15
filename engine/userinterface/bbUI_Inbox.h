@@ -14,6 +14,7 @@ typedef enum
     bbUI_Inbox_setViewpoint,
     bbUI_Inbox_newSkelly,
     bbUI_Inbox_setUnitState,
+    bbUI_Inbox_setEntityState,
     bbUI_Inbox_newBanana,
     bbUI_Inbox_deleteUnit,
     bbUI_Inbox_newUnit,
@@ -65,7 +66,7 @@ typedef struct
 } bbUI_Inbox;
 
 bbFlag bbUI_Inbox_init(bbUI_Inbox* inbox);
-
+bbFlag bbUI_Inbox_SetEntityState(bbUI_Inbox* inbox, bbHandle entity, I32 state);
 bbFlag bbUI_Inbox_check(bbUI_Inbox* inbox);
 bbFlag bbUI_Inbox_unpressButton_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message);
 bbFlag bbUI_Inbox_unpressButton2_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message);
