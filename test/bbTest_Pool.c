@@ -17,8 +17,8 @@ int main(void)
     bbVPool *pool1, *pool2;
     test_struct *test1, *test2;
     bbHandle handle;
-    bbVPool_newBloated(&pool1, sizeof(test_struct), 100,100, "Test Struct");
-    bbVPool_newBloated(&pool2, sizeof(test_struct), 100,100, "Test Struct");
+    bbVPool_newBloated(&pool1, sizeof(test_struct), 1000,10, "Test Struct");
+    bbVPool_newBloated(&pool2, sizeof(test_struct), 1000,10, "Test Struct");
 
     handle.bloated.index = 1005;
     handle.bloated.collision = 193;

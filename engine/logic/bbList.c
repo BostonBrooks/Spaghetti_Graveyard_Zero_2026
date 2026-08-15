@@ -49,7 +49,7 @@ bbFlag bbList_pushL(bbList* list, void* element){
 
     //Empty list
     if(isNULL(list->list_pointer->head)){
-        bbAssert(isNULL(list->list_pointer->head), "head/tail mismatch\n");
+        bbAssert(isNULL(list->list_pointer->tail), "head/tail mismatch\n");
         list_element->prev = handle_element;
         list_element->next = handle_element;
         list->list_pointer->head = handle_element;
@@ -59,7 +59,8 @@ bbFlag bbList_pushL(bbList* list, void* element){
     }
 
     void* head;
-    bbVPool_lookup(list->pool, &head, list->list_pointer->head);
+    bbFlag flag = bbVPool_lookup(list->pool, &head, list->list_pointer->head);
+    bbAssert(flag == bbSuccess, "why null?\n");
     bbListElement_Handle* head_list_element = head + list->offset_of;
 
     //One element in list

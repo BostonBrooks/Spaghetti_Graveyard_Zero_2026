@@ -150,7 +150,7 @@ bbFlag bbBloatedPool_expand(bbBloatedPool* pool){
 
 		j++;
 	}
-	element_A->in_use = false;
+	element_B->in_use = false;
 	element_B = (bbBloatedPool_Header *) &level2[j * (sizeof(bbBloatedPool_Header) + pool->size_of)];
 	element_B->list.prev = element_A->self;
 	//TODO the next line is a guess
@@ -258,6 +258,8 @@ bbFlag bbBloatedPool_allocImpl(bbBloatedPool* pool, void** address, bbHandle* ha
 		element->list.prev = pool->null;
 		element->list.next = pool->null;
 
+		element->in_use = true;
+
 		if (address != NULL) *address = &element->user_data;
 		if (handle != NULL) *handle = element_handle;
 		return bbSuccess;
@@ -355,6 +357,7 @@ bbFlag bbBloatedPool_lookupHeader(bbBloatedPool* pool, void** address, bbHandle 
 	bbAssert(handle.bloated.collision == elementHandle.bloated.collision,
 			 "handle collision\n");
 
+	bbAssert(element != NULL, "element not found?\n")
 	*address = element;
 	return bbSuccess;
 }
@@ -367,7 +370,6 @@ bbFlag bbBloatedPool_lookup(bbBloatedPool* pool, void** address, bbHandle handle
 	else
 	{
 		*address = NULL;
-		bbNotHere()
 	}
 	return flag;
 }
@@ -399,6 +401,7 @@ bbFlag bbBloatedPool_lookupHeader2(bbBloatedPool* pool, void** address, bbHandle
 	bbAssert(handle.bloated.collision == elementHandle.bloated.collision,
 			 "handle collision\n");
 
+	bbAssert(element != NULL, "element not found?\n")
 	*address = element;
 	return bbSuccess;
 }

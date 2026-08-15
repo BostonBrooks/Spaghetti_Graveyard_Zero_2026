@@ -18,6 +18,7 @@ bbFlag bbViewportApp_init(bbViewportApp* app)
 
 bbFlag bbViewportApp_updateViewpoint(bbViewportApp* app)
 {
+    if (app->viewport_focus.u64 == 0) return bbNone;
 
     bbHandle* unit_handle;
     bbVPool_lookup(home.viewport_app.entity_units,(void**)&unit_handle,app->viewport_focus);
