@@ -123,7 +123,8 @@ bbFlag bbSF_addAI_skelly(void* spawner,
                                bbSpawnFunctionArgs args,
                                bbInstruction_source source)
 {
-    bbHere()
+
+    bbAssert(source == bbInstructionSource_norewind || source == bbInstructionSource_internal, "not implemented");
 
 
     bbHandle handle;
@@ -136,7 +137,7 @@ bbFlag bbSF_addAI_skelly(void* spawner,
                           handle,
                           1,0,
                           &this,
-                          bbInstructionSource_norewind,
+                          source,
                           no_handle);
 
     return bbSuccess;

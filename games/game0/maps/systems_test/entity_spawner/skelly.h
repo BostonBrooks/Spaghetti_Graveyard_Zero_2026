@@ -62,7 +62,7 @@ bbFlag bbSF_addMoveable_skelly(void* spawner,
                                bbSpawnFunctionArgs args,
                                bbInstruction_source source)
 {
-    bbAssert(source == bbInstructionSource_norewind, "not implemented");
+    bbAssert(source == bbInstructionSource_norewind || source == bbInstructionSource_internal, "not implemented");
 
     bbHandle handle;
     bbVPool_reverseLookup(home.ECS.ECS->system.pool, entity, &handle);
@@ -71,9 +71,10 @@ bbFlag bbSF_addMoveable_skelly(void* spawner,
                                            handle,
                                            &moveable_handle,
                                            args.position,
-                                           bbInstructionSource_norewind,
+                                           source,
                                            no_handle);
 
+    //We dont need to undo this, will be nuked by bbInstruction_unspawnTestMoveable_fn
     bbMoveable_setGoalPoint(&home.ECS.moveables,moveable_handle, args.goalpoint);
 
     bbHere()
@@ -85,7 +86,7 @@ bbFlag bbSF_addMoveable_skelly2(void* spawner,
                                bbSpawnFunctionArgs args,
                                bbInstruction_source source)
 {
-    bbAssert(source == bbInstructionSource_norewind, "not implemented");
+    bbAssert(source == bbInstructionSource_norewind || source == bbInstructionSource_internal, "not implemented");
 
     bbHandle handle;
     bbVPool_reverseLookup(home.ECS.ECS->system.pool, entity, &handle);
@@ -94,11 +95,11 @@ bbFlag bbSF_addMoveable_skelly2(void* spawner,
                                            handle,
                                            &moveable_handle,
                                            args.position,
-                                           bbInstructionSource_norewind,
+                                           source,
                                            no_handle);
     bbMoveable_setGoalMoveable(&home.ECS.moveables,moveable_handle, args.goal_handle);
 
-
+    //We dont need to undo this, will be nuked by bbInstruction_unspawnTestMoveable_fn
     bbHere()
     return bbSuccess;
 }
@@ -108,8 +109,8 @@ bbFlag bbSF_addGraphics_skelly(void* spawner,
                                bbSpawnFunctionArgs args,
                                bbInstruction_source source)
 {
-    bbAssert(source == bbInstructionSource_norewind, "not implemented");
-    bbHere()
+
+    bbAssert(source == bbInstructionSource_norewind || source == bbInstructionSource_internal, "not implemented");
 
     bbHandle handle;
     bbVPool_reverseLookup(home.ECS.ECS->system.pool, entity, &handle);
@@ -127,7 +128,7 @@ bbFlag bbSF_addGraphics_skelly(void* spawner,
                                    args.position,
                                    handle,
                                    moveable,
-                                   bbInstructionSource_norewind,
+                                   source,
                                    no_handle);
 
     return bbSuccess;
@@ -227,31 +228,32 @@ bbFlag bbLSF_liveSpawnSkelly(void* spawner,
                                   bbSpawnFunctionArgs args,
                                   bbInstruction_source source)
 {
-    //TODO instruction source internal not yet implemented
+    bbAssert(source == bbInstructionSource_norewind || source == bbInstructionSource_internal, "not implemented");
+
     bbECS_entity* entity;
 
     bbCoreSynchronous_spawnEmptyEntity(&home.core.core,
                                    home.ECS.ECS,
                                    &entity,
                                    "SKELLY",
-                                   bbInstructionSource_internal,
+                                   source,
                                    no_handle);
 
     bbSF_addMoveable_skelly(spawner,
                                entity,
                                args,
-                               bbInstructionSource_internal);
+                               source);
 
 
     bbSF_addGraphics_skelly(spawner,
                                entity,
                                args,
-                               bbInstructionSource_internal);
+                               source);
 
     bbSF_addAI_skelly(spawner,
                       entity,
                       args,
-                      bbInstructionSource_internal);
+                      source);
 
 
     bbComponent_getHandle(&home.ECS.ECS->system,(bbComponent*)entity,Entity);
