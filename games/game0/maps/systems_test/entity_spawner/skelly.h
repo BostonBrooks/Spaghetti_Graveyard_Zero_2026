@@ -89,6 +89,8 @@ bbFlag bbSF_addMoveable_skelly2(void* spawner,
 {
     bbAssert(source == bbInstructionSource_norewind || source == bbInstructionSource_internal, "not implemented");
 
+
+
     bbHandle handle;
     bbVPool_reverseLookup(home.ECS.ECS->system.pool, entity, &handle);
     bbHandle moveable_handle;
@@ -98,7 +100,17 @@ bbFlag bbSF_addMoveable_skelly2(void* spawner,
                                            args.position,
                                            source,
                                            no_handle);
-    bbMoveable_setGoalMoveable(&home.ECS.moveables,moveable_handle, args.goal_handle);
+
+    if (args.state == bbMoveableType_Follow)
+    {
+        bbMoveable_setGoalMoveable(&home.ECS.moveables,moveable_handle, args.goal_handle);
+    } else if (args.state == bbMoveableType_Idle)
+    {
+        bbCI_Moveable_setIdle(&home.core.core,moveable_handle,no_handle,source,no_handle);
+    } else
+    {
+        bbNotHere() //Not yet implemented
+    }
 
     //We dont need to undo this, will be nuked by bbInstruction_unspawnTestMoveable_fn
     bbHere()
@@ -148,17 +160,20 @@ bbFlag bbSF_addGraphics_skelly2(void* spawner,
     bbVPool_reverseLookup(home.ECS.ECS->system.pool, entity, &handle);
 
     bbHandle moveable = entity->components[bbECS_Moveables];
-    //
-    // bbCoreSynchronous_spawnGraphicsComponent(&home.core.core,
-    //                                args.position,
-    //                                handle,
-    //                                moveable,
-    //                                bbInstructionSource_norewind);
+
+    I32 state;
+    if (args.state == bbMoveableType_Idle)
+    {
+        state = bbDrawableState_idle;
+    } else
+    {
+        state = bbDrawableState_moving;
+    }
 
     bbCoreInput_spawnGraphicsComponent(&home.core.core,
                                     "SKELLY",
                                    args.position,
-                                   bbDrawableState_idle,
+                                   state,
                                    handle,
                                    moveable,
                                    source,
@@ -214,17 +229,22 @@ bbFlag bbPF_skelly2Parser(void* Spawner, char* string)
 {
     bbEntitySpawner* spawner = (bbEntitySpawner*)Spawner;
     char key[KEY_LENGTH];
-    char entity_type[KEY_LENGTH];
+    char state[KEY_LENGTH];
     bbSpawnFunctionArgs args;
     I32 num_chars;
     char spawn_functions[256];
     sscanf(string, "%[^','],%[^','],%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%n",
-        key,entity_type,
+        key,state,
         &args.position.i,&args.position.j,&args.position.k,
         &args.goalpoint.i,&args.goalpoint.j,&args.goalpoint.k,
         &args.handle.bloated.index,&args.handle.bloated.collision,
         &args.goal_handle.bloated.index,&args.goal_handle.bloated.collision,
         &num_chars);
+
+    bbHandle state_handle;
+    bbDictionary_lookup(spawner->states, state, &state_handle);
+
+    args.state = state_handle.u64;
 
     bbECS_entity* entity;
     bbCS_spawnEmptyEntity(&entity, bbInstructionSource_norewind);

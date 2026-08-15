@@ -164,6 +164,7 @@ typedef struct
 typedef struct
 {
     I32 type;
+    I32 state;
     bbMapCoords position;
     bbMapCoords goalpoint;
     bbHandle handle;

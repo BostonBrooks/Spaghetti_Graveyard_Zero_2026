@@ -15,6 +15,9 @@ bbFlag bbEntitySpawner_init(bbEntitySpawner* entity_spawner)
     entity_spawner->live_spawn_functions = calloc(live_spawn_function_count,sizeof(bbLiveSpawnFunction*));
     entity_spawner->live_spawn_function_count = 0;
     bbDictionary_new(&entity_spawner->live_spawn_dict, live_spawn_function_count);
+
+    bbDictionary_new(&entity_spawner->states, 12);
+
 }
 
 bbFlag bbParseFunction_get(bbEntitySpawner* spawner, bbParseFunction** function, char* key)

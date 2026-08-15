@@ -215,5 +215,13 @@ bbFlag bbEntitySpawner_populate(bbEntitySpawner* spawner)
     bbSpawnFunction_add(spawner, bbSF_setPlayer, "PLAYER");
 
     bbLiveSpawnFunction_add(spawner,  bbLSF_liveSpawnSkelly, "SKELLY");
+
+    bbHandle handle;
+    handle.u64 = bbMoveableType_Follow;
+    bbDictionary_add(spawner->states,"FOLLOW", handle);
+    handle.u64 = bbMoveableType_Moving;
+    bbDictionary_add(spawner->states,"MOVING", handle);
+    handle.u64 = bbMoveableType_Idle;
+    bbDictionary_add(spawner->states,"IDLE", handle);
     return bbSuccess;
 }
