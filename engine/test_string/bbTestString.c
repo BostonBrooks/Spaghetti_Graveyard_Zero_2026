@@ -120,7 +120,7 @@ bbFlag bbCS_setString(bbCore* core, char* string, bbInstruction_source source, b
         bbInstruction* instruction;
         bbHandle instruction_handle;
         bbFlag flag = bbList_alloc2(&core->do_stack,(void**)&instruction, &instruction_handle);
-
+        instruction->source = source;
         //set input instruction data
         instruction->type = bbI_setString;
         bbStr_setStr(instruction->data.key, string, KEY_LENGTH);
@@ -128,7 +128,7 @@ bbFlag bbCS_setString(bbCore* core, char* string, bbInstruction_source source, b
         //create undo instruction
         bbInstruction* undo_instruction;
         bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
-        undo_instruction->source = instruction->source;
+        undo_instruction->source = source;
         undo_instruction->redo_instruction = instruction_handle;
 
         //set instruction data
