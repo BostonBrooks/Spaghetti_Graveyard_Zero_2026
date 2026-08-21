@@ -13,7 +13,7 @@
 
 
 // The following refer to the viewport, which we are not using
-#define POINTS_PER_PIXEL      64
+#define POINTS_PER_PIXEL      8
 #define PIXELS_PER_TILE       16
 #define POINTS_PER_TILE       (POINTS_PER_PIXEL*PIXELS_PER_TILE)
 #define TILES_PER_SQUARE      32
@@ -24,7 +24,7 @@
 #define PIXELS_PER_MAP        (PIXELS_PER_TILE * TILES_PER_MAP)
 #define POINTS_PER_MAP        (POINTS_PER_PIXEL * PIXELS_PER_MAP)
 
-#define MILLS_PER_POINT       128
+#define MILLS_PER_POINT       1024
 #define MILLS_PER_PIXEL       (MILLS_PER_POINT * POINTS_PER_PIXEL)
 #define MILLS_PER_TILE        (MILLS_PER_POINT * POINTS_PER_TILE)
 #define MILLS_PER_SQUARE      (MILLS_PER_POINT * POINTS_PER_SQUARE)
