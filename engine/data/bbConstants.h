@@ -13,7 +13,7 @@
 
 
 // The following refer to the viewport, which we are not using
-#define POINTS_PER_PIXEL      8
+#define POINTS_PER_PIXEL      64
 #define PIXELS_PER_TILE       16
 #define POINTS_PER_TILE       (POINTS_PER_PIXEL*PIXELS_PER_TILE)
 #define TILES_PER_SQUARE      32

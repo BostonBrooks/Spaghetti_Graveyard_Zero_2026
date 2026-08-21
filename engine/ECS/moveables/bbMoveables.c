@@ -369,6 +369,9 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
 
 bbFlag bbMoveables_update(bbMoveables* moveables)
 {
+    moveables->old_time = moveables->time;
+    moveables->time = moveables->buffer_front->time;
+
     for (I32 i = 0; i < NUM_MOVEABLES; i++)
     {
         //moveables->moveables[i].goalpoint = moveables->moveables[0].position;
@@ -387,23 +390,33 @@ bbFlag bbMoveables_update(bbMoveables* moveables)
     for (I32 i = 0; i < NUM_MOVEABLES; i++)
     {
         if (moveables->use_coords_a)
+        {
+            moveables->moveables[i].old_position = moveables->moveables[i].position;
             moveables->moveables[i].position
                 = bbMilliCoords_getMapCoords(moveables->moveables[i].coords_a);
-        else
+        }else
+        {
+            moveables->moveables[i].old_position = moveables->moveables[i].position;
             moveables->moveables[i].position
                 = bbMilliCoords_getMapCoords(moveables->moveables[i].coords_b);
+        }
 
         moveables->moveables[i].position.k
             = bbMapCoords_getElevation(&home.ground_surface,
                                        moveables->moveables[i].position);
 
         moveables->buffer_back->moveables[i].ECS_entity_handle = moveables->moveables[i].component.entity_handle;
+
+
         moveables->buffer_back->moveables[i].goalpoint = moveables->moveables[i]
-            .goalpoint;
+        .goalpoint;
         moveables->buffer_back->moveables[i].position = moveables->moveables[i].
-            position;
+        position;
+        moveables->buffer_back->moveables[i].old_position = moveables->moveables[i].
+            old_position;
         moveables->buffer_back->moveables[i].type = moveables->moveables[i].type;
-        moveables->buffer_back->time = home.core.clock2_handle.map_tick;
+        moveables->buffer_back->time = moveables->time;
+        moveables->buffer_back->old_time = moveables->old_time;
     }
     if (home.core.core.simulation_time == home.core.core.actual_time)
     {
@@ -435,10 +448,12 @@ bbFlag bbMoveables_copyBuffer(bbMoveables* moveables,
                 = moveables->buffer_front->moveables[i].ECS_entity_handle;
             target->moveables[i].goalpoint = moveables->buffer_front->moveables[i].goalpoint;
             target->moveables[i].position = moveables->buffer_front->moveables[i].position;
+            target->moveables[i].old_position = moveables->buffer_front->moveables[i].old_position;
             target->moveables[i].type = moveables->moveables[i].type;
 
         }
-        target->time = moveables->buffer_front->time;
+        target->time = moveables->time;
+        target->old_time = moveables->old_time;
         moveables->buffer_fresh = false;
     }
     bbMutexUnlock(&moveables->buffer_mutex);

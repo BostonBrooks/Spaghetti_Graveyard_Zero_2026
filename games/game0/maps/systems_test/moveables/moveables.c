@@ -20,6 +20,7 @@ bbFlag bbCoreSynchronous_spawnTestMoveable(bbCore* core,
     bbMoveable* moveable = &home.ECS.moveables.moveables[index];
 
     moveable->position = position;
+    moveable->old_position = position;
     position.i += POINTS_PER_SQUARE;
     moveable->goalpoint = position;
 

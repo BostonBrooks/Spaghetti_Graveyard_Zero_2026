@@ -83,11 +83,11 @@ bbFlag bbUnits_consumeBuffer(bbUnits* units, bbVPool* entity_units, bbMoveables_
         if (unit == NULL) continue;
         drawable = &unit->drawable;
 
-        if (snapshot->time > unit->next_time)
+        //if (snapshot->time > unit->next_time)
         {
-            unit->prev_coords = unit->next_coords;
+            unit->prev_coords = snapshot->moveables[i].old_position;
             unit->prev_goalpoint = unit->next_goalpoint;
-            unit->prev_time = unit->next_time;
+            unit->prev_time = snapshot->old_time;
 
             unit->next_coords = snapshot->moveables[i].position;
             unit->next_goalpoint = snapshot->moveables[i].goalpoint;
