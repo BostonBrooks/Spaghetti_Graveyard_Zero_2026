@@ -368,13 +368,14 @@ bbHere()
 
         bbUI_Inbox_check(&home.UI.inbox);
 
+        bbMoveables_copyBuffer(&home.ECS.moveables, &moveables_snapshot);
+        bbUnits_consumeBuffer(home.viewport_app.units, home.viewport_app.entity_units, &moveables_snapshot);
+
         bbUIApp_draw(&home.UI);
 
 
 
 
-        bbMoveables_copyBuffer(&home.ECS.moveables, &moveables_snapshot);
-        bbUnits_consumeBuffer(home.viewport_app.units, home.viewport_app.entity_units, &moveables_snapshot);
 
 
         sfRenderWindow_display(home.UI.window);
