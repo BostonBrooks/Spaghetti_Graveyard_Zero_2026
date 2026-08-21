@@ -241,6 +241,15 @@ bbFlag bbPF_skelly2Parser(void* Spawner, char* string)
         &args.goal_handle.bloated.index,&args.goal_handle.bloated.collision,
         &num_chars);
 
+    ///POINTS_PER_PIXEL was 8
+    args.position.i*=(POINTS_PER_PIXEL / 8);
+    args.position.j*=(POINTS_PER_PIXEL / 8);
+    args.position.k*=(POINTS_PER_PIXEL / 8);
+    args.goalpoint.i*=(POINTS_PER_PIXEL / 8);
+    args.goalpoint.j*=(POINTS_PER_PIXEL / 8);
+    args.goalpoint.k*=(POINTS_PER_PIXEL / 8);
+
+
     bbHandle state_handle;
     bbDictionary_lookup(spawner->states, state, &state_handle);
 

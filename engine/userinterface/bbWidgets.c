@@ -282,10 +282,10 @@ bbFlag bbWidget_newViewport(bbWidget** self, bbGraphicsApp* graphics,
 
 
     bbScreenPointsRect rect;
-    rect.left = 12 * POINTS_PER_PIXEL;
-    rect.top = 12 * POINTS_PER_PIXEL;
-    rect.width = 466 * POINTS_PER_PIXEL;
-    rect.height = 456 * POINTS_PER_PIXEL;
+    rect.left = 12 * SCREEN_PPP;
+    rect.top = 12 * SCREEN_PPP;
+    rect.width = 466 * SCREEN_PPP;
+    rect.height = 456 * SCREEN_PPP;
 
 
     int funcInt = bbMouseFunctions_getInt(&widgets->mouse->functions,

@@ -138,8 +138,8 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
                     {
                         moveable->coords_b = goalPoint;
                         bbMilliCoords forces = sumForces(moveables, moveable);
-                        moveable->coords_b.i += forces.i;
-                        moveable->coords_b.j += forces.j;
+                        moveable->coords_b.i += forces.i/2;
+                        moveable->coords_b.j += forces.j/2;
                     }
                     else
                     {
@@ -154,8 +154,8 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
                             bbAvoidables_sumForces(moveables, home.ECS.avoidables, moveable);
 
 
-                        moveable->coords_b.i = currentLocation.i + delta_i + forces.i + avoidables_forces.i;
-                        moveable->coords_b.j = currentLocation.j + delta_j + forces.j + avoidables_forces.j;
+                        moveable->coords_b.i = currentLocation.i + delta_i + forces.i/2 + avoidables_forces.i;
+                        moveable->coords_b.j = currentLocation.j + delta_j + forces.j/2 + avoidables_forces.j;
                     }
                     // moveable->position = moveable->coords_b;
                 }
@@ -269,8 +269,8 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
                     {
                         moveable->coords_a = goalPoint;
                         bbMilliCoords forces = sumForces(moveables, moveable);
-                        moveable->coords_a.i += forces.i;
-                        moveable->coords_a.j += forces.j;
+                        moveable->coords_a.i += forces.i/2;
+                        moveable->coords_a.j += forces.j/2;
                     }
                     else
                     {
@@ -284,8 +284,8 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
                         bbMilliCoords avoidables_forces =
                             bbAvoidables_sumForces(moveables, home.ECS.avoidables, moveable);
 
-                        moveable->coords_a.i = currentLocation.i + delta_i + forces.i + avoidables_forces.i;
-                        moveable->coords_a.j = currentLocation.j + delta_j + forces.j + avoidables_forces.j;
+                        moveable->coords_a.i = currentLocation.i + delta_i + forces.i/2 + avoidables_forces.i;
+                        moveable->coords_a.j = currentLocation.j + delta_j + forces.j/2 + avoidables_forces.j;
                     }
                 }
                 break;

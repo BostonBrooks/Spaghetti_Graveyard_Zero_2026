@@ -24,6 +24,9 @@ bbFlag bbPF_tree(void* spawner, char* string)
     bbMapCoords position;
     sscanf ( string, "%[^','],%[^','],%d,%d", key, tree_type,&position.i,&position.j);
 
+    //POINTS_PER_PIXEL was 8
+    position.i*=(POINTS_PER_PIXEL / 8);
+    position.j*=(POINTS_PER_PIXEL / 8);
     position.k = bbMapCoords_getElevation(&home.ground_surface, position);
 
     bbUI_Inbox_NewTree(&home.UI.inbox,tree_type, position);
