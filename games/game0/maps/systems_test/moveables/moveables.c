@@ -144,10 +144,12 @@ bbFlag bbInstruction_updateMoveables_fn(bbCore* core,
         snapshot->moveables[i].ECS_entity_handle = home.ECS.moveables.moveables[i].component.entity_handle;
         snapshot->moveables[i].position = home.ECS.moveables.moveables[i].
             position;
+        snapshot->moveables[i].old_position = home.ECS.moveables.moveables[i].old_position;
         snapshot->moveables[i].goalpoint = home.ECS.moveables.moveables[i].
             goalpoint;
     }
-
+    snapshot->time = home.ECS.moveables.time;
+    snapshot->old_time = home.ECS.moveables.old_time;
 
     bbMoveables_update(&home.ECS.moveables);
 
@@ -188,10 +190,14 @@ bbInstruction* instruction)
     for (I32 i = 0; i < NUM_MOVEABLES; i++)
     {
         home.ECS.moveables.moveables[i].position = snapshot->moveables[i].
-            position;
+        position;
+        home.ECS.moveables.moveables[i].old_position = snapshot->moveables[i].
+            old_position;
         home.ECS.moveables.moveables[i].goalpoint = snapshot->moveables[i].
             goalpoint;
     }
+    home.ECS.moveables.time = snapshot->time;
+    home.ECS.moveables.old_time = snapshot->old_time;
 
     bbVPool_free(home.ECS.moveables.snapshots, snapshot);
 
