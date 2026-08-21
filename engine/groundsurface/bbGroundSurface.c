@@ -8,7 +8,7 @@
 #include "engine/viewport/bbViewport.h"
 
 #define HEIGHT_MAP_PADDING    16
-#define ELEVATION_SCALE        8
+#define ELEVATION_SCALE        POINTS_PER_PIXEL
 //#define HEIGHT_MAP_SIZE       (TILES_PER_MAP + 1 + 2 * HEIGHT_MAP_PADDING)
 
 bbFlag Create_Ground_Shaders (bbGroundSurface* surface){

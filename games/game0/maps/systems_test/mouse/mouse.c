@@ -23,6 +23,7 @@ bbFlag bbMouseFunctions_populate(bbMouseFunctions* self)
 {
 
     bbMouseFunctions_add(self, MouseIsOver, IsOver_Hover, "HOVER");
+    bbMouseFunctions_add(self, MouseIsOver, IsOver_Viewport, "VIEWPORT");
     //bbMouseFunctions_add(self, MouseIsOver,IsOver_Butterfly,"BUTTERFLY");
     //bbMouseFunctions_add(self, MouseLeftDown,Textbox_LeftDown,"TEXTBOX");
     //bbMouseFunctions_add(self, MouseLeftDown,ReactButton_LeftDown,"BUTTON");

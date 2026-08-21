@@ -7,7 +7,7 @@
 #include "engine/data/bbHome.h"
 #include "engine/viewport/bbViewport.h"
 
-
+#define DEBUG_GROUNGSURFACE
 //bbMapCoords bbScreenCoords_getMapCoords(bbScreenPoints SP);
 //I32 bbTileCoords_getElevation(bbGroundSurface* surface, bbTileCoords coords);
 //I32 bbMapCoords_getElevation(bbGroundSurface* ground_surface, bbMapCoords coords);
