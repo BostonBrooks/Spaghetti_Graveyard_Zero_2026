@@ -141,6 +141,10 @@ bbFlag bbDrawablesPlus_draw(drawFuncClosure* cl,
     I32 squares_i = drawables->squares_i;
     I32 squares_j = drawables->squares_j;
 
+
+    bbNestedList_attach(&list, &drawables->lost.list);
+    bbNestedList_attach(&list, &units->lost.list);
+
     for (I32 i = square_i_min; i < square_i_max; ++i) {
         for (I32 j = square_j_min; j < square_j_max; ++j) {
             I32 n = i + squares_i * j;
