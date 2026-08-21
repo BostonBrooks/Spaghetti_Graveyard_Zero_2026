@@ -10,8 +10,8 @@ bbFlag bbViewportApp_init(bbViewportApp* app)
     bbUnits_new((void**)&app->units, 12, 12);
     bbViewport_init(&app->viewport, 456, 466);
 
-    bbVPool_newBloated(&app->moveable_units, sizeof(bbHandle), 1000,10,"MOVEABLE_UNITS");
-    bbVPool_newBloated(&app->entity_units, sizeof(bbHandle), 1000,10,"ENTITY_UNITS");
+    bbVPool_newBloated(&app->moveable_units, sizeof(bbHandle), 10,1000,"MOVEABLE_UNITS");
+    bbVPool_newBloated(&app->entity_units, sizeof(bbHandle), 10,1000,"ENTITY_UNITS");
     return bbSuccess;
 }
 
@@ -29,5 +29,6 @@ bbFlag bbViewportApp_updateViewpoint(bbViewportApp* app)
 
     app->viewport.viewpoint = unit->drawable.coords;
 
+    return bbSuccess;
 
 }

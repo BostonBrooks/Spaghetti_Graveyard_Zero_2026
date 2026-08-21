@@ -28,7 +28,7 @@ bbFlag bbCore_init(bbCore* core)
                           sizeof(bbCoreInboxMessage),
                           1000,offsetof(bbCoreInboxMessage, list_element));
 
-    bbVPool_newBloated(&core->action_pool,sizeof(bbAction),1000,10, "bbAction");
+    bbVPool_newBloated(&core->action_pool,sizeof(bbAction),10,1000, "bbAction");
     bbList_init(&core->action_queue, core->action_pool, NULL, offsetof(bbAction, header.list_element),bbAction_compare);
     bbList_init(&core->action_temp_fifo, core->action_pool, NULL, offsetof(bbAction, header.list_element),bbAction_compare);
 
