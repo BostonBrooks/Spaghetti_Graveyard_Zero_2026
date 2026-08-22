@@ -3,6 +3,7 @@
 
 #include "engine/core/bbCore.h"
 #include "engine/logic/bbFlag.h"
+
 bbFlag bbCoreInbox_NetpauseButton(bbCore* core, char* key);
 
 // enum bbCoreInbox_netpauseButton in core_inbox.h
