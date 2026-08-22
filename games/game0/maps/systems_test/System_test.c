@@ -215,10 +215,15 @@ int main(void)
                 //core_time = home.clock2.map_tick;
             }
             U64 ticks_per_frame = 6;
+
             U64 new_map_tick = home.core.clock2_handle.map_tick
                 - home.core.clock2_handle.map_tick % ticks_per_frame + ticks_per_frame;
-            bbClock_waitTick(&home.clock2,&home.core.clock2_handle,new_map_tick);
 
+            U64 before_tick = home.clock2.map_tick;
+            bbClock_waitTick(&home.clock2,&home.core.clock2_handle,new_map_tick);
+            U64 after_tick = home.clock2.map_tick;;
+
+            bbDebug("wait time  = %llu\n", after_tick-before_tick);
 
         } else
         {
@@ -231,7 +236,7 @@ int main(void)
         {
             home.core.core.actual_time = home.core.clock2_handle.map_tick;
 
-            bbCoreInput_setTime(&home.core.core,  home.core.clock2_handle.map_tick, bbInstructionSource_input, no_handle);
+            bbCoreInput_setTime(&home.core.core,  home.core.core.actual_time, bbInstructionSource_input, no_handle);
             bbCore_react(&home.core.core);
         }
         bbCore_checkInbox(&home.core.core);
