@@ -33,7 +33,7 @@ bbFlag bbAI_Update_Chase(bbAI_Component* component)
 
     if (moveable->type == bbMoveableType_Idle)
     {
-        if (distance_squared > POINTS_PER_TILE * POINTS_PER_TILE * 144) return
+        if (distance_squared > POINTS_PER_TILE * POINTS_PER_TILE * 200) return
             bbSuccess;
 
         bbCI_Moveable_setGoalMovable(&home.core.core, moveable_handle,
@@ -47,7 +47,7 @@ bbFlag bbAI_Update_Chase(bbAI_Component* component)
 
     if (moveable->type == bbMoveableType_Follow)
     {
-        if (distance_squared < POINTS_PER_TILE * POINTS_PER_TILE * 121) return
+        if (distance_squared < POINTS_PER_TILE * POINTS_PER_TILE * 160) return
             bbSuccess;
 
         bbCI_Moveable_setIdle(&home.core.core,
