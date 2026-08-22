@@ -40,10 +40,22 @@ bbMilliCoords getForce(bbMoveables* moveables, bbMoveable* moveableA,
     mC.j = ((delta_j) / (distanceReduced2 * distanceReduced * distanceReduced));
     mC.k = 0;
 
-    if (mC.i > MILLS_PER_TILE/4){ mC.i = MILLS_PER_TILE/4; bbHere()}
-    if (mC.j > MILLS_PER_TILE/4) { mC.j = MILLS_PER_TILE/4; bbHere()}
-    if (mC.i < - MILLS_PER_TILE/4) { mC.i = MILLS_PER_TILE/4; bbHere()}
-    if (mC.j < - MILLS_PER_TILE/4){ mC.j = MILLS_PER_TILE/4; bbHere()}
+    if (mC.i > MILLS_PER_TILE/4)
+    {
+        mC.i = MILLS_PER_TILE/4; //bbHere()
+    }
+    if (mC.j > MILLS_PER_TILE/4)
+    {
+        mC.j = MILLS_PER_TILE/4; //bbHere()
+    }
+    if (mC.i < - MILLS_PER_TILE/4)
+    {
+        mC.i = MILLS_PER_TILE/4; //bbHere()
+    }
+    if (mC.j < - MILLS_PER_TILE/4)
+    {
+        mC.j = MILLS_PER_TILE/4; //bbHere()
+    }
 
 
     return mC;
@@ -70,10 +82,22 @@ bbMilliCoords sumForces(bbMoveables* moveables, bbMoveable* moveableA)
     }
 
 
-    if (total.i > MILLS_PER_TILE){ total.i = MILLS_PER_TILE; bbHere()}
-    if (total.j > MILLS_PER_TILE) { total.j = MILLS_PER_TILE; bbHere()}
-    if (total.i < - MILLS_PER_TILE) { total.i = MILLS_PER_TILE; bbHere()}
-    if (total.j < - MILLS_PER_TILE){ total.j = MILLS_PER_TILE; bbHere()}
+    if (total.i > MILLS_PER_TILE)
+    {
+        total.i = MILLS_PER_TILE; //bbHere()
+    }
+    if (total.j > MILLS_PER_TILE)
+    {
+        total.j = MILLS_PER_TILE; //bbHere()
+    }
+    if (total.i < - MILLS_PER_TILE)
+    {
+        total.i = MILLS_PER_TILE; //bbHere()
+    }
+    if (total.j < - MILLS_PER_TILE)
+    {
+        total.j = MILLS_PER_TILE; //bbHere()
+    }
 
     return total;
 }
