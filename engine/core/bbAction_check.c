@@ -1,6 +1,6 @@
 #include "engine/core/bbAction_check.h"
 
-#include "entity_spawner/live_spawn.h"
+#include "games/game0/maps/systems_test/entity_spawner/live_spawn.h"
 
 
 bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
@@ -84,7 +84,9 @@ bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
         {
             bbCI_setString(core,action->header.key,bbInstructionSource_action,handle);
 
-        }else
+        }
+#ifdef DEFINE_TEST_SYSTEM
+        else
         if (action->header.type == bbActionType_spawnEntity)
         {
             bbSpawnFunctionArgs args;
@@ -93,7 +95,7 @@ bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
             bbCI_live_spawnEntity(core, args, "SKELLY", bbInstructionSource_action, handle);
 
         }
-
+#endif
         flag = bbList_popL(&core->action_temp_fifo,(void**)&action);
     }
     bbInstruction* undo_instruction;

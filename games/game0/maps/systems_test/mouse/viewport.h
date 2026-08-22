@@ -54,9 +54,9 @@ bbFlag IsOver_Viewport(bbMouse* mouse, bbWidgets* widgets, bbWidget* widget)
         bbVPool_reverseLookup(pool,widget,&handle);
 
 
-         bbScreenPoints screen_points = mouse->position;
-         bbViewportCoords VC = bbScreenPoints_getViewportPoints(&home.viewport_app.viewport, screen_points);
-         bbMapCoords MC = bbViewportCoords_getMapCoords(VC);
+         //bbScreenPoints screen_points = mouse->position;
+         //bbViewportCoords VC = bbScreenPoints_getViewportPoints(&home.viewport_app.viewport, screen_points);
+         //bbMapCoords MC = bbViewportCoords_getMapCoords(VC);
         //
         // bbDrawable* drawable;
         // bbDrawable_newPoint(&drawable, home.viewport_app.drawables,
@@ -72,32 +72,3 @@ bbFlag IsOver_Viewport(bbMouse* mouse, bbWidgets* widgets, bbWidget* widget)
     return bbContinue;
 }
 
-bbFlag IsOver_Viewport(bbMouse* mouse, bbWidgets* widgets, bbWidget* widget)
-{
-
-    bbScreenPointsRect rect = widget->rect;
-    bbScreenPoints point = mouse->position;
-
-    if (bbScreenPoints_inScreenPointsRect(point, rect)){
-        bbVPool* pool = widgets->pool;
-        bbHandle handle;
-        bbVPool_reverseLookup(pool,widget,&handle);
-
-
-         bbScreenPoints screen_points = mouse->position;
-         bbViewportCoords VC = bbScreenPoints_getViewportPoints(&home.viewport_app.viewport, screen_points);
-         bbMapCoords MC = bbViewportCoords_getMapCoords(VC);
-        //
-        // bbDrawable* drawable;
-        // bbDrawable_newPoint(&drawable, home.viewport_app.drawables,
-        //                   &home.UI.graphics, MC);
-
-        if (!bbVPool_handleIsEqual(pool,handle,mouse->is_over))
-        {
-            mouse->was_over = mouse->is_over;
-            mouse->is_over = handle;
-        }
-        return bbBreak;
-    }
-    return bbContinue;
-}

@@ -13,7 +13,27 @@ bbFlag bbCoreInboxTest_fn(bbCore* core, struct bbCoreInboxMessage* message)
     bbHere();
     return bbSuccess;
 }
+bbFlag bbCoreInbox_testClick_fn(bbCore* core, bbCoreInboxMessage* message)
+{
 
+    bbHandle ai_handle;
+    bbAI_Component* component;
+    //
+    bbHandle_mapComponent(home.ECS.ECS, bbECS_ECS,home.ECS.ECS->player_character,
+        bbECS_AI,&ai_handle,(bbComponent**)&component);
+    //
+    bbAI_CommandData data;
+    data.goal_point = message->data.map_click.coords;
+    data.integer = message->data.map_click.button;
+
+    bbAI_onCommand(component,
+                  (bbAI_System*)home.ECS.ECS->systems[bbECS_AI],
+                  bbAI_mapClick,
+                  data,
+                  false);
+
+    return bbSuccess;
+}
 bbFlag bbCoreInbox_setGoalpoint_fn(bbCore* core, bbCoreInboxMessage* message);
 
 bbFlag bbCore_initInboxMessages(bbCore* core)

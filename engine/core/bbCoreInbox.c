@@ -1,9 +1,7 @@
 #include "engine/core/bbCoreInbox.h"
 
-#include "entity_spawner/live_spawn.h"
-#ifdef DEFINE_SKELLYCHASE
-#include "core/core_inputs.h"
-#endif
+#include "games/game0/maps/systems_test/entity_spawner/live_spawn.h"
+
 #include "engine/core/bbAction.h"
 #include "engine/core/bbCoreInputs.h"
 #include "engine/data/bbHome.h"
@@ -14,40 +12,6 @@ bbFlag bbCoreInbox_setString_fn(bbCore* core, bbCoreInboxMessage* message)
 {
     bbCoreInput_setString(core, message->data.key, bbInstructionSource_input, no_handle);
     //undo message?
-
-    return bbSuccess;
-}
-/*
-bbFlag bbCoreInbox_unfreezeButton_fn(bbCore* core, bbCoreInboxMessage* message)
-{
-    //TODO virtual instruction / callback
-    //bbCoreInput_unfreezeButton(core, message->data.key, bbInstructionSource_input, no_handle);
-
-
-    return bbSuccess;
-}
-
-*/
-
-//TODO engine depends on map
-bbFlag bbCoreInbox_testClick_fn(bbCore* core, bbCoreInboxMessage* message)
-{
-
-     bbHandle ai_handle;
-     bbAI_Component* component;
-    //
-     bbHandle_mapComponent(home.ECS.ECS, bbECS_ECS,home.ECS.ECS->player_character,
-         bbECS_AI,&ai_handle,(bbComponent**)&component);
-    //
-    bbAI_CommandData data;
-    data.goal_point = message->data.map_click.coords;
-    data.integer = message->data.map_click.button;
-
-     bbAI_onCommand(component,
-                   (bbAI_System*)home.ECS.ECS->systems[bbECS_AI],
-                   bbAI_mapClick,
-                   data,
-                   false);
 
     return bbSuccess;
 }
