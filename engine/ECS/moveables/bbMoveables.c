@@ -32,7 +32,7 @@ bbMilliCoords getForce(bbMoveables* moveables, bbMoveable* moveableA,
     double delta_i = (coords_a.i - coords_b.i);
     double delta_j = (coords_a.j - coords_b.j);
     double distance = sqrt(delta_i * delta_i + delta_j * delta_j);
-    double distanceReduced = (distance - 0.5l * MILLS_PER_TILE) / 10000.l;
+    double distanceReduced = (distance - 1.l * MILLS_PER_TILE) / 10000.l;
     double distanceReduced2 = distance / 100000.l;
 
     bbMilliCoords mC;
@@ -40,10 +40,10 @@ bbMilliCoords getForce(bbMoveables* moveables, bbMoveable* moveableA,
     mC.j = ((delta_j) / (distanceReduced2 * distanceReduced * distanceReduced));
     mC.k = 0;
 
-    if (mC.i > MILLS_PER_TILE) mC.i = MILLS_PER_TILE;
-    if (mC.j > MILLS_PER_TILE) mC.j = MILLS_PER_TILE;
-    if (mC.i < - MILLS_PER_TILE) mC.i = -MILLS_PER_TILE;
-    if (mC.j < - MILLS_PER_TILE) mC.j = -MILLS_PER_TILE;
+    if (mC.i > MILLS_PER_TILE/4){ mC.i = MILLS_PER_TILE/4; bbHere()}
+    if (mC.j > MILLS_PER_TILE/4) { mC.j = MILLS_PER_TILE/4; bbHere()}
+    if (mC.i < - MILLS_PER_TILE/4) { mC.i = MILLS_PER_TILE/4; bbHere()}
+    if (mC.j < - MILLS_PER_TILE/4){ mC.j = MILLS_PER_TILE/4; bbHere()}
 
 
     return mC;
@@ -68,6 +68,13 @@ bbMilliCoords sumForces(bbMoveables* moveables, bbMoveable* moveableA)
         total.i += single.i;
         total.j += single.j;
     }
+
+
+    if (total.i > MILLS_PER_TILE){ total.i = MILLS_PER_TILE; bbHere()}
+    if (total.j > MILLS_PER_TILE) { total.j = MILLS_PER_TILE; bbHere()}
+    if (total.i < - MILLS_PER_TILE) { total.i = MILLS_PER_TILE; bbHere()}
+    if (total.j < - MILLS_PER_TILE){ total.j = MILLS_PER_TILE; bbHere()}
+
     return total;
 }
 
