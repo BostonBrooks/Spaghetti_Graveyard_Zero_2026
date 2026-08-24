@@ -227,13 +227,6 @@ int main(void)
 
             bbPerformance_start(&home.performance);
 
-
-
-            bbDebug("Uptime: %f, Downtime: %f, Framerate: %f\n",
-                home.performance.uptime,
-                home.performance.downtime,
-                home.performance.framerate);
-
         } else
         {
 
