@@ -21,7 +21,7 @@ bbFlag bbWidget_Constructor_Clock(bbWidget** self,
     rect.left = screen_points.x;
     rect.top = screen_points.y;
     rect.width = 0;
-    rect.height = 0;
+    rect.height = 400;
 
     widget->rect = rect;
 
@@ -73,12 +73,57 @@ bbFlag bbWidget_Constructor_Clock(bbWidget** self,
 
     return bbSuccess;
 }
+
+
+
+bbFlag bbWidget_Constructor_Performance(bbWidget** self,
+                                  bbWidgets* widgets,
+                                  bbWidget* parent,
+                                  char* name,
+                                  bbScreenPoints screen_points,
+                                  bbGraphicsApp* graphics){
+
+    bbWidget* widget;
+
+    bbWidget_newEmpty(&widget, widgets, parent, name);
+
+    bbScreenPointsRect rect;
+    rect.left = screen_points.x;
+    rect.top = screen_points.y;
+    rect.width = 75;
+    rect.height = 240;
+
+    widget->rect = rect;
+
+    bbHandle drawfunctionHandle;
+    bbDictionary_lookup(graphics->drawfunctions->dictionary,
+                     "PERFORMANCE",
+                     &drawfunctionHandle);
+
+    widget->frames[0].drawfunction = drawfunctionHandle.u64;
+
+    widget->frames[0].offset.x = 0;
+    widget->frames[0].offset.y = 0;
+
+    bbHandle handle;
+    bbVPool_reverseLookup(widgets->pool, widget, &handle);
+    bbDictionary_add(widgets->dict, name, handle);
+
+    if (self!=NULL) *self = widget;
+
+    return bbSuccess;
+}
 bbFlag bbWidgetFunctions_populate(bbWidgetFunctions* self)
 {
     bbWidgetFunctions_add(self,
         WidgetConstructor,
         bbWidget_Constructor_Clock,
         "CLOCK");
+
+    bbWidgetFunctions_add(self,
+        WidgetConstructor,
+        bbWidget_Constructor_Performance,
+        "PERFORMANCE");
 
     bbWidgetFunctions_add(self,
         WidgetConstructor,
@@ -90,17 +135,12 @@ bbFlag bbWidgetFunctions_populate(bbWidgetFunctions* self)
         bbWidget_Constructor_SwitchCharacterButton,
         "SWITCH_CHARACTER_BUTTON");
 
-
-
     bbWidgetFunctions_add(self,
-    WidgetConstructor,
-    bbWidget_Constructor_Socket_Number,
-    "SOCKET_NUMBER");
+        WidgetConstructor,
+        bbWidget_Constructor_Socket_Number,
+        "SOCKET_NUMBER");
 
     return bbSuccess;
 }
-
-
-
 
 #endif //WIDGET_FUNCTIONS

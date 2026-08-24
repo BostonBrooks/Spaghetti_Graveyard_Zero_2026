@@ -215,6 +215,8 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
         engine/graphics/bbCompositions.c
         engine/graphics/bbColours.c
         engine/graphics/bbAnimations.c
+
+        engine/data/bbPerformance.c
 )
 
 target_compile_definitions(Systems_Test  PRIVATE DEFINE_TEST_SYSTEM)

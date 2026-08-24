@@ -1,6 +1,7 @@
 #ifndef	BB_HOME_H
 #define BB_HOME_H
 
+#include "bbPerformance.h"
 #include "engine/viewport/bbViewportApp.h"
 #include "engine/core/bbCore.h"
 #include "../ECS/AI_system/bbAI_System.h"
@@ -53,6 +54,7 @@ typedef struct
     bbGroundSurface ground_surface;
     //bbSpawner spawner;
     bbECS_data ECS;
+    bbPerformance performance;
 } bbHome;
 
 

@@ -19,6 +19,7 @@
 #include "games/game0/maps/systems_test/drawfunctions/unit_sprite.h"
 #include "games/game0/maps/systems_test/drawfunctions/compositions.h"
 #include "games/game0/maps/systems_test/drawfunctions/health_bar.h"
+#include "games/game0/maps/systems_test/drawfunctions/performance.h"
 
 #define NUM_DRAWFUNCTIONS 69
 
@@ -151,6 +152,12 @@ bbFlag bbDrawfunctions_new(bbDrawfunctions** drawfunctions){
     functions->functions[21] = bbDF_socketNumber;
     handle.u64 = 21;
     bbDictionary_add(functions->dictionary, "SOCKET_NUMBER", handle);
+
+    functions->functions[22] = bbDF_widgetPerformance;
+    handle.u64 = 22;
+    bbDictionary_add(functions->dictionary, "PERFORMANCE", handle);
+
+
 
     *drawfunctions = functions;
     return bbSuccess;

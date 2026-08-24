@@ -72,6 +72,8 @@ int main(void)
     home.core.goalpoint.j = 10000;
     home.core.goalpoint.k = 0;
 
+
+    bbPerformance_init(&home.performance);
     bbCore_init(&home.core.core);
     bbCore_initVInstructions(&home.core.core);
     bbCore_initInboxMessages(&home.core.core);
@@ -219,11 +221,18 @@ int main(void)
             U64 new_map_tick = home.core.clock2_handle.map_tick
                 - home.core.clock2_handle.map_tick % ticks_per_frame + ticks_per_frame;
 
-            U64 before_tick = home.clock2.map_tick;
+            bbPerformance_end(&home.performance);
             bbClock_waitTick(&home.clock2,&home.core.clock2_handle,new_map_tick);
-            U64 after_tick = home.clock2.map_tick;;
+                        bbCore_react(&home.core.core);
 
-            bbDebug("wait time  = %llu\n", after_tick-before_tick);
+            bbPerformance_start(&home.performance);
+
+
+
+            bbDebug("Uptime: %f, Downtime: %f, Framerate: %f\n",
+                home.performance.uptime,
+                home.performance.downtime,
+                home.performance.framerate);
 
         } else
         {
@@ -240,12 +249,15 @@ int main(void)
             bbCore_react(&home.core.core);
         }
         bbCore_checkInbox(&home.core.core);
-
+        bbCore_react(&home.core.core);
 
 
 
         if (home.network.send_ready && home.network.receive_ready)
-                 bbNetworkApp_checkInbox(&home.network);
+        {
+            bbNetworkApp_checkInbox(&home.network);
+            bbCore_react(&home.core.core);
+        }
 
 
 
@@ -272,6 +284,7 @@ int main(void)
 
             //TODO Core Synchronous/Core Input?
             bbCS_updateAI(&home.core.core, bbInstructionSource_input, no_handle);
+            bbCore_react(&home.core.core);
 
             //bbCoreInput_updateAgents(&home.core.core, home.agents_app.agents,
             //                         bbInstructionSource_input, no_handle);
@@ -365,6 +378,7 @@ bbHere()
     {
 
         counter++;
+        bbPerformance_newFrame(&home.performance);
 
         bbInput_poll(&home.UI.input, home.UI.window);
 
