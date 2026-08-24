@@ -3,7 +3,7 @@
 #include "engine/viewport/bbUnits.h"
 #include "engine/data/bbHome.h"
 #include "engine/logic/bbBloatedPool.h"
-extern bool interp_positions;
+//extern bool interp_positions;
 
 bbFlag bbUnit_newSkeleton(bbUnit** self,bbUnits* units, bbGraphicsApp* graphics,
 bbMapCoords MC, I32 index){
@@ -102,14 +102,14 @@ bbFlag bbUnits_consumeBuffer(bbUnits* units, bbVPool* entity_units, bbMoveables_
             }
         }
         bbMapCoords position;
-        if (interp_positions)
-        {
+        //if (interp_positions)
+        //{
             position
                = bbMapCoords_interpolate(unit->prev_coords, unit->next_coords, unit->prev_time,
                    map_time, unit->next_time);
-        }else{
-            position = unit->next_coords;
-        }
+        //}else{
+        //    position = unit->next_coords;
+        //}
         //If the drawable is out of bounds, it will be put in a separate bin
         bbDrawable_setLocation(drawable, units,position);
 

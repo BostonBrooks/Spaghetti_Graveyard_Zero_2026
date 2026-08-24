@@ -46,7 +46,7 @@ bbHandle null_handle;
 char test_string[KEY_LENGTH];
 
 bbMapCoords testGoalPoint;
-bool interp_positions;
+//bool interp_positions;
 
 void* userinterface_thread(void* arg);
 int main(void)
