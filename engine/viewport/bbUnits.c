@@ -106,10 +106,7 @@ bbFlag bbUnits_consumeBuffer(bbUnits* units, bbVPool* entity_units, bbMoveables_
             = bbMapCoords_interpolate(unit->prev_coords, unit->next_coords, unit->prev_time,
                 home.UI.clock2_handle.map_tick, unit->next_time);
 
-
-        //TODO add list of out of bounds units
-        //if (position.i<0 || position.j < 0) continue;
-        //if (position.i >= POINTS_PER_MAP || position.j >= POINTS_PER_MAP) continue;
+        //If the drawable is out of bounds, it will be put in a separate bin
         bbDrawable_setLocation(drawable, units,position);
 
 
