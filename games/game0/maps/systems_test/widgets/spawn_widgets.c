@@ -37,7 +37,7 @@ bbFlag bbUIApp_spawnWidgets(bbUIApp* app)
                      "PERFORMANCE",
                      "LAYOUT",
                      "PERFORMANCE",
-                     (bbScreenPoints){12*SCREEN_PPP,458*SCREEN_PPP});
+                     (bbScreenPoints){12*SCREEN_PPP,468*SCREEN_PPP});
 
     bbWidget_constructor(NULL,
                  &home.UI.widgets,

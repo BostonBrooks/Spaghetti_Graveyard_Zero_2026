@@ -204,6 +204,8 @@ int main(void)
         }
 
         //if (home.clock.clock_running == true && home.clock2.is_running == true)
+
+        bbPerformance_end(&home.performance);
         if ( home.clock2.is_running == true)
         {
             if (clock_handle_init == false)
@@ -221,17 +223,17 @@ int main(void)
             U64 new_map_tick = home.core.clock2_handle.map_tick
                 - home.core.clock2_handle.map_tick % ticks_per_frame + ticks_per_frame;
 
-            bbPerformance_end(&home.performance);
             bbClock_waitTick(&home.clock2,&home.core.clock2_handle,new_map_tick);
                         bbCore_react(&home.core.core);
 
-            bbPerformance_start(&home.performance);
+
 
         } else
         {
 
             //core_time += 3;
         }
+        bbPerformance_start(&home.performance);
         //home.core.core.simulation_time = home.core.clock2_handle.map_tick;
 
         if (home.core.core.actual_time != home.core.clock2_handle.map_tick)
@@ -275,7 +277,7 @@ int main(void)
             //bbCoreInput_updateAgentsSquare(&home.core.core, NULL,bbInstructionSource_input, no_handle);
             //bbCore_react(&home.core.core);
 
-            //TODO Core Synchronous/Core Input?
+            //updateAI is a bbCoreSynchronous function. We dont want to call bbCore_react() inside updateAI
             bbCS_updateAI(&home.core.core, bbInstructionSource_input, no_handle);
             bbCore_react(&home.core.core);
 
