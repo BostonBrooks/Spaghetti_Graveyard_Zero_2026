@@ -2,13 +2,14 @@
 #include "engine/data/CSFML.h"
 #include "engine/userinterface/bbInput.h"
 
+#include "core/core_inbox.h"
 #include "engine/core/bbCoreInboxInput.h"
 #include "engine/userinterface/bbWidgetFunctions.h"
 #include "engine/logic/bbTerminal.h"
 
 #include "engine/data/bbHome.h"
 
-
+extern bool interp_positions;
 
 bbFlag bbInput_init(bbInput* input,
                    sfRenderWindow* window,
@@ -207,6 +208,11 @@ bbFlag bbInput_poll(bbInput* input, sfRenderWindow* window){
                 {
                     if (keyCode == sfKeyEscape) exit(EXIT_SUCCESS);
 
+                    //TOSO debug code
+                    if (keyCode == sfKeyF1) interp_positions = true;
+                    if (keyCode == sfKeyF2) interp_positions = false;
+                    if (keyCode == sfKeyF3)
+                         bbCoreInbox_Freeze(&home.core.core);
                 }
                 //special character
             /*TODO code up mouse

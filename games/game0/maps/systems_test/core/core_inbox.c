@@ -8,7 +8,26 @@
 #include "games/game0/maps/systems_test/core/spawn_entity.h"
 #include "engine/ECS/moveables/bbMoveables.h"
 
-bbFlag bbCoreInboxTest_fn(bbCore* core, struct bbCoreInboxMessage* message)
+
+bbFlag bbCoreInbox_Freeze(bbCore* core)
+{
+    bbCoreInboxMessage* message;
+    bbThreadedQueue_alloc(&core->local_message_queue, (void** ) &message);
+    message->type = bbCoreInbox_freeze;
+    bbThreadedQueue_pushL(&core->local_message_queue, message);
+
+    return bbSuccess;
+}
+
+
+bbFlag bbCoreInbox_Freese_fn(bbCore* core, struct bbCoreInboxMessage* message)
+{
+    bbHere();
+    sfSleep(sfSeconds(1.f));
+    return bbSuccess;
+}
+
+bbFlag bbCoreInbox_Test_fn(bbCore* core, struct bbCoreInboxMessage* message)
 {
     bbHere();
     return bbSuccess;
@@ -39,13 +58,13 @@ bbFlag bbCoreInbox_setGoalpoint_fn(bbCore* core, bbCoreInboxMessage* message);
 bbFlag bbCore_initInboxMessages(bbCore* core)
 {
     core->inbox_functions = calloc(16,sizeof(bbCoreInbox_fn*));
-    core->inbox_functions[bbCoreInbox_testMessage-bbCoreInbox_numTypes] = bbCoreInboxTest_fn;
+    core->inbox_functions[bbCoreInbox_testMessage-bbCoreInbox_numTypes] = bbCoreInbox_Test_fn;
     core->inbox_functions[bbCoreInbox_netpauseButton-bbCoreInbox_numTypes] = bbCoreInbox_netpauseButton_fn;
     core->inbox_functions[bbCoreInbox_unfreezeButton-bbCoreInbox_numTypes] = bbCoreInbox_unfreezeButton_fn;
     core->inbox_functions[bbCoreInbox_testClick-bbCoreInbox_numTypes] = bbCoreInbox_testClick_fn;
     core->inbox_functions[bbCoreInbox_testClick2-bbCoreInbox_numTypes] = bbCoreInbox_testClick2_fn;
     core->inbox_functions[bbCoreInbox_setGoalpoint-bbCoreInbox_numTypes] = bbCoreInbox_setGoalpoint_fn;
-
+    core->inbox_functions[bbCoreInbox_freeze-bbCoreInbox_numTypes] = bbCoreInbox_Freese_fn;
     return bbSuccess;
 }
 

@@ -40,22 +40,10 @@ bbMilliCoords getForce(bbMoveables* moveables, bbMoveable* moveableA,
     mC.j = ((delta_j) / (distanceReduced2 * distanceReduced * distanceReduced));
     mC.k = 0;
 
-    if (mC.i > MILLS_PER_TILE/4)
-    {
-        mC.i = MILLS_PER_TILE/4; //bbHere()
-    }
-    if (mC.j > MILLS_PER_TILE/4)
-    {
-        mC.j = MILLS_PER_TILE/4; //bbHere()
-    }
-    if (mC.i < - MILLS_PER_TILE/4)
-    {
-        mC.i = MILLS_PER_TILE/4; //bbHere()
-    }
-    if (mC.j < - MILLS_PER_TILE/4)
-    {
-        mC.j = MILLS_PER_TILE/4; //bbHere()
-    }
+    mC.i = (double)MILLS_PER_TILE/4.f*atan((double)mC.i/((double)MILLS_PER_TILE/4.f));
+    mC.j = (double)MILLS_PER_TILE/4.f*atan((double)mC.j/((double)MILLS_PER_TILE/4.f));
+
+
 
 
     return mC;
@@ -82,22 +70,8 @@ bbMilliCoords sumForces(bbMoveables* moveables, bbMoveable* moveableA)
     }
 
 
-    if (total.i > MILLS_PER_TILE)
-    {
-        total.i = MILLS_PER_TILE; //bbHere()
-    }
-    if (total.j > MILLS_PER_TILE)
-    {
-        total.j = MILLS_PER_TILE; //bbHere()
-    }
-    if (total.i < - MILLS_PER_TILE)
-    {
-        total.i = MILLS_PER_TILE; //bbHere()
-    }
-    if (total.j < - MILLS_PER_TILE)
-    {
-        total.j = MILLS_PER_TILE; //bbHere()
-    }
+    total.i = (double)MILLS_PER_TILE/4.f*atan((double)total.i/((double)MILLS_PER_TILE/4.f));
+    total.j = (double)MILLS_PER_TILE/4.f*atan((double)total.j/((double)MILLS_PER_TILE/4.f));
 
     return total;
 }
@@ -422,12 +396,10 @@ bbFlag bbMoveables_update(bbMoveables* moveables)
     {
         if (moveables->use_coords_a)
         {
-            moveables->moveables[i].old_position = moveables->moveables[i].position;
-            moveables->moveables[i].position
+           moveables->moveables[i].position
                 = bbMilliCoords_getMapCoords(moveables->moveables[i].coords_a);
         }else
         {
-            moveables->moveables[i].old_position = moveables->moveables[i].position;
             moveables->moveables[i].position
                 = bbMilliCoords_getMapCoords(moveables->moveables[i].coords_b);
         }
@@ -443,11 +415,8 @@ bbFlag bbMoveables_update(bbMoveables* moveables)
         .goalpoint;
         moveables->buffer_back->moveables[i].position = moveables->moveables[i].
         position;
-        moveables->buffer_back->moveables[i].old_position = moveables->moveables[i].
-            old_position;
         moveables->buffer_back->moveables[i].type = moveables->moveables[i].type;
-        moveables->buffer_back->time = moveables->time;
-        moveables->buffer_back->old_time = moveables->old_time;
+        moveables->buffer_back->time = home.core.clock2_handle.map_tick;
     }
     if (home.core.core.simulation_time == home.core.core.actual_time)
     {
@@ -479,7 +448,6 @@ bbFlag bbMoveables_copyBuffer(bbMoveables* moveables,
                 = moveables->buffer_front->moveables[i].ECS_entity_handle;
             target->moveables[i].goalpoint = moveables->buffer_front->moveables[i].goalpoint;
             target->moveables[i].position = moveables->buffer_front->moveables[i].position;
-            target->moveables[i].old_position = moveables->buffer_front->moveables[i].old_position;
             target->moveables[i].type = moveables->moveables[i].type;
 
         }

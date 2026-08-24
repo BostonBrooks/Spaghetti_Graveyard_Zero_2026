@@ -36,7 +36,6 @@ typedef enum
 typedef struct
 {
     bbHandle ECS_entity_handle;
-    bbMapCoords old_position;
     bbMapCoords position;
     bbMapCoords goalpoint;
     bbMoveable_type type;
@@ -56,7 +55,6 @@ typedef struct
     bbMoveable_type type;
     //U64 last_state_change;
     bbMapCoords position;
-    bbMapCoords old_position;
     I32 goal_moveable;
     bbMapCoords goalpoint;
     bbMilliCoords coords_a;

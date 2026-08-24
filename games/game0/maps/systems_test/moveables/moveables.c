@@ -20,7 +20,6 @@ bbFlag bbCoreSynchronous_spawnTestMoveable(bbCore* core,
     bbMoveable* moveable = &home.ECS.moveables.moveables[index];
 
     moveable->position = position;
-    moveable->old_position = position;
     position.i += POINTS_PER_SQUARE;
     moveable->goalpoint = position;
 
@@ -144,8 +143,7 @@ bbFlag bbInstruction_updateMoveables_fn(bbCore* core,
         snapshot->moveables[i].ECS_entity_handle = home.ECS.moveables.moveables[i].component.entity_handle;
         snapshot->moveables[i].position = home.ECS.moveables.moveables[i].
             position;
-        snapshot->moveables[i].old_position = home.ECS.moveables.moveables[i].old_position;
-        snapshot->moveables[i].goalpoint = home.ECS.moveables.moveables[i].
+         snapshot->moveables[i].goalpoint = home.ECS.moveables.moveables[i].
             goalpoint;
     }
     snapshot->time = home.ECS.moveables.time;
@@ -191,8 +189,6 @@ bbInstruction* instruction)
     {
         home.ECS.moveables.moveables[i].position = snapshot->moveables[i].
         position;
-        home.ECS.moveables.moveables[i].old_position = snapshot->moveables[i].
-            old_position;
         home.ECS.moveables.moveables[i].goalpoint = snapshot->moveables[i].
             goalpoint;
     }

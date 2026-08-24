@@ -1,7 +1,7 @@
 #include "engine/core/bbCore.h"
 #include "engine/core/bbCoreInbox.h"
 #include "core_inbox.h"
-bbFlag bbCoreInboxTest_fn(bbCore* core, struct bbCoreInboxMessage* message)
+bbFlag bbCoreInbox_Test_fn(bbCore* core, struct bbCoreInboxMessage* message)
 {
     bbHere();
     return bbSuccess;
@@ -10,7 +10,7 @@ bbFlag bbCoreInboxTest_fn(bbCore* core, struct bbCoreInboxMessage* message)
 bbFlag bbCore_initInboxMessages(bbCore* core)
 {
     core->inbox_functions = calloc(16,sizeof(bbCoreInbox_fn*));
-    core->inbox_functions[bbCoreInbox_testMessage-bbCoreInbox_numTypes] = bbCoreInboxTest_fn;
+    core->inbox_functions[bbCoreInbox_testMessage-bbCoreInbox_numTypes] = bbCoreInbox_Test_fn;
 
     return bbSuccess;
 }

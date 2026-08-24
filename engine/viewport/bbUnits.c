@@ -3,7 +3,7 @@
 #include "engine/viewport/bbUnits.h"
 #include "engine/data/bbHome.h"
 #include "engine/logic/bbBloatedPool.h"
-
+extern bool interp_positions;
 
 bbFlag bbUnit_newSkeleton(bbUnit** self,bbUnits* units, bbGraphicsApp* graphics,
 bbMapCoords MC, I32 index){
@@ -68,10 +68,10 @@ bbFlag bbUnits_consumeBuffer(bbUnits* units, bbVPool* entity_units, bbMoveables_
     bbUnit* unit;
     bbDrawable* drawable;
 
+    I64 map_time = home.UI.clock2_handle.map_tick;
+
     for (I32 i = 0; i < NUM_MOVEABLES; i++)
     {
-
-
         if (snapshot->moveables[i].type == bbMoveableType_Unused) continue;
         if (snapshot->moveables[i].type == bbMoveableType_Dead) continue;
 
@@ -83,11 +83,11 @@ bbFlag bbUnits_consumeBuffer(bbUnits* units, bbVPool* entity_units, bbMoveables_
         if (unit == NULL) continue;
         drawable = &unit->drawable;
 
-        //if (snapshot->time > unit->next_time)
+        if (snapshot->time > unit->next_time)
         {
-            unit->prev_coords = snapshot->moveables[i].old_position;
+            unit->prev_coords = unit->next_coords;
             unit->prev_goalpoint = unit->next_goalpoint;
-            unit->prev_time = snapshot->old_time;
+            unit->prev_time = unit->next_time;
 
             unit->next_coords = snapshot->moveables[i].position;
             unit->next_goalpoint = snapshot->moveables[i].goalpoint;
@@ -101,11 +101,15 @@ bbFlag bbUnits_consumeBuffer(bbUnits* units, bbVPool* entity_units, bbMoveables_
                 drawable->rotation = rotation;
             }
         }
-
-        bbMapCoords position
-            = bbMapCoords_interpolate(unit->prev_coords, unit->next_coords, unit->prev_time,
-                home.UI.clock2_handle.map_tick, unit->next_time);
-
+        bbMapCoords position;
+        if (interp_positions)
+        {
+            position
+               = bbMapCoords_interpolate(unit->prev_coords, unit->next_coords, unit->prev_time,
+                   map_time, unit->next_time);
+        }else{
+            position = unit->next_coords;
+        }
         //If the drawable is out of bounds, it will be put in a separate bin
         bbDrawable_setLocation(drawable, units,position);
 

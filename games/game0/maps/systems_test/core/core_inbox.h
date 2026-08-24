@@ -9,7 +9,8 @@ typedef enum
     bbCoreInbox_unfreezeButton,
     bbCoreInbox_testClick,
     bbCoreInbox_testClick2,
-    bbCoreInbox_setGoalpoint
+    bbCoreInbox_setGoalpoint,
+    bbCoreInbox_freeze,
 } bbCoreInbox_vType;
 
 
@@ -17,4 +18,5 @@ typedef enum
 bbFlag bbCoreInbox_TestMessage(bbCore* core);
 bbFlag bbCoreInbox_SetGoalpoint(bbCore* core, bbHandle entity, bbMapCoords goalpoint);
 
+bbFlag bbCoreInbox_Freeze(bbCore* core);
 #endif //UNFREEZE_BUTTON_CODE_H
