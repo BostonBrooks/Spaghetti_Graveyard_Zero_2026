@@ -25,6 +25,12 @@ target_link_libraries(Server PRIVATE
         csfml-network
 )
 
+add_executable(Test_Interpolate engine/logic/bbInterpolate.c
+        test/bbTest_Interpolate.c)
+target_compile_definitions(Test_Interpolate PRIVATE
+        DEFINE_INTERPOLATE)
+target_include_directories(Test_Interpolate  PRIVATE "./")
+
 
 add_executable(Test_Pool test/bbTest_Pool.c
         engine/logic/bbBloatedPool.c)
