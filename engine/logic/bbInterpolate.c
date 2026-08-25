@@ -32,7 +32,7 @@ bbFlag bbInterpolate_new(bbInterpolate** interp, char* filename)
 
 
 #ifdef DEBUG_INTERPOLATE
-    printf("length = %d, divsisor = %d",
+    printf("length = %d, divisor = %d",
         interpolate->length,
         interpolate->denominator);
 
@@ -46,7 +46,7 @@ bbFlag bbInterpolate_new(bbInterpolate** interp, char* filename)
     *interp = interpolate;
 
 
-
+    fclose(file);
 
     return bbSuccess;
 }
