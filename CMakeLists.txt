@@ -223,6 +223,7 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
         engine/graphics/bbAnimations.c
 
         engine/data/bbPerformance.c
+        engine/logic/bbInterpolate.c
 )
 
 target_compile_definitions(Systems_Test  PRIVATE DEFINE_TEST_SYSTEM)
