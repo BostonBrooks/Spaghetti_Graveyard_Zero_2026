@@ -10,6 +10,21 @@
 #include "engine/logic/bbIntTypes.h"
 #include "engine/logic/bbTerminal.h"
 
+static U32 bbArith_sqrt(U32 n)
+{
+    if (n <= 1) return n;
+
+    U32 x = n;
+    U32 y = (n + 1) / 2;
+
+    while (y < x)
+    {
+        x = y;
+        y = (x + n / x) / 2;
+    }
+    return x;
+}
+
 /// The larger of two integers
 static I32 bbArith_max (I32 x, I32 y){
     return x > y ? x : y;
@@ -54,6 +69,21 @@ static I32 bbArith_roundUp (I32 x, I32 y){
 /// round x down to the nearest multiple of y
 static I32 bbArith_roundDown (I32 x, I32 y){
     return x >= 0 ? (x / y) * y : ((x - y + 1) / y) * y;
+}
+
+static U64 bbArith64_sqrt(U64 n)
+{
+    if (n <= 1) return n;
+
+    U64 x = n;
+    U64 y = (n + 1) / 2;
+
+    while (y < x)
+    {
+        x = y;
+        y = (x + n / x) / 2;
+    }
+    return x;
 }
 
 static I64 bbArith64_max (I64 x, I64 y){
