@@ -34,26 +34,24 @@ bbMilliCoords getForce(bbMoveables* moveables, bbMoveable* moveableA,
     I64 distance = bbArith64_sqrt(delta_i * delta_i + delta_j * delta_j);
     I64 gap = distance-MILLS_PER_TILE;
 
+    I64 force = MILLS_PER_TILE/128*(M_PI_2 - atan(gap*4/MILLS_PER_TILE));
 
-
-
-    double distanceReduced = (distance - 1.l * MILLS_PER_TILE) / 10000.l;
-    double distanceReduced2 = distance / 100000.l;
 
     bbMilliCoords mC;
-    mC.i = ((delta_i) / (distanceReduced2 * distanceReduced * distanceReduced));
-    mC.j = ((delta_j) / (distanceReduced2 * distanceReduced * distanceReduced));
+    mC.i = delta_i * force / distance;
+    mC.j = delta_j * force / distance;
     mC.k = 0;
 
-    mC.i = (double)MILLS_PER_TILE/4.f*atan((double)mC.i/((double)MILLS_PER_TILE/4.f));
-    mC.j = (double)MILLS_PER_TILE/4.f*atan((double)mC.j/((double)MILLS_PER_TILE/4.f));
 
 
-    I64 force = bbArith64_sqrt(mC.i * mC.i + mC.j * mC.j);
+    static I32 counter;
+    counter++;
 
-
-    printf("%lld,%lld\n", gap, force);
-
+    if (counter >= 10000)
+    {
+        counter = 0;
+        printf("%lld,%lld\n", gap, force);
+    }
     return mC;
 }
 

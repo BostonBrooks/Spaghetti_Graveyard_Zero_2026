@@ -21,37 +21,21 @@ char test_string[KEY_LENGTH];
 
 bbMapCoords testGoalPoint;
 
-int main (void)
+int main(void)
 {
-for (I64 delta_i = 0; delta_i < MILLS_PER_TILE*4; delta_i+= MILLS_PER_TILE/4)
-{
-    I64 delta_j = 0;
-    I64 distance = bbArith64_sqrt(delta_i * delta_i + delta_j * delta_j);
+    for (I64 delta_i = 0; delta_i < MILLS_PER_TILE * 4; delta_i +=
+         MILLS_PER_TILE / 8)
+    {
+        I64 delta_j = 0;
+        I64 distance = bbArith64_sqrt(delta_i * delta_i + delta_j * delta_j);
 
 
-
-    I64 gap = distance-MILLS_PER_TILE;
-
+        I64 gap = distance - MILLS_PER_TILE;
 
 
-
-    double distanceReduced = (distance - 1.l * MILLS_PER_TILE) / 10000.l;
-    double distanceReduced2 = distance / 100000.l;
-
-    if (distanceReduced == 0.0 || distanceReduced2 == 0.0) continue;
-
-    bbMilliCoords mC;
-    mC.i = ((delta_i) / (distanceReduced2 * distanceReduced * distanceReduced));
-    mC.j = ((delta_j) / (distanceReduced2 * distanceReduced * distanceReduced));
-    mC.k = 0;
-
-    mC.i = (double)MILLS_PER_TILE/4.f*atan((double)mC.i/((double)MILLS_PER_TILE/4.f));
-    mC.j = (double)MILLS_PER_TILE/4.f*atan((double)mC.j/((double)MILLS_PER_TILE/4.f));
+        I64 force = MILLS_PER_TILE / 4 * (M_PI_2 - atan(gap * 64 / MILLS_PER_TILE));
 
 
-    double force = sqrt(mC.i * mC.i + mC.j * mC.j);
-
-
-    printf("%lld,%f\n", gap, force);
-}
+        printf("%lld,%lld\n", gap, force);
+    }
 }
