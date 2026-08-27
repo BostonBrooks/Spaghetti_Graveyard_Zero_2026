@@ -268,7 +268,7 @@ bbFlag bbViewportSpawnCow(bbViewportApp* viewport_app,
              &drawfunctionHandle);
 
     unit->drawable.frames[2].drawfunction = drawfunctionHandle.u64;
-    unit->drawable.frames[2].handle.u64 = 626;
+    unit->drawable.frames[2].handle.u64 = 704;
     unit->drawable.frames[2].start_time =  -(rand()%6);
     unit->drawable.frames[2].framerate = 1;
     unit->drawable.frames[2].offset.x = 0;
