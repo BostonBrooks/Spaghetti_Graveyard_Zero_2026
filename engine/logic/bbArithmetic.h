@@ -7,7 +7,11 @@
 #ifndef BB_ARITHMETIC_H
 #define BB_ARITHMETIC_H
 
+
+
 #include "engine/logic/bbIntTypes.h"
+
+
 #include "engine/logic/bbTerminal.h"
 
 static U32 bbArith_sqrt(U32 n)
@@ -84,6 +88,32 @@ static U64 bbArith64_sqrt(U64 n)
         y = (x + n / x) / 2;
     }
     return x;
+}
+
+
+static U64 bbArith64_sqrt2(U64 n)
+{
+    U64 res = 0;
+    U64 bit = 1LLU << 62;
+
+    while (bit > n)
+    {
+        bit >>= 2;
+    }
+
+    while (bit != 0)
+    {
+        if (n >= res + bit)
+        {
+            n -= res + bit;
+            res = (res >> 1) + bit;
+        } else
+        {
+            res >>= 1;
+        }
+        bit >>= 2;
+    }
+    return res;
 }
 
 static I64 bbArith64_max (I64 x, I64 y){
