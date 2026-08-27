@@ -44,14 +44,14 @@ bbMilliCoords getForce(bbMoveables* moveables, bbMoveable* moveableA,
 
 
 
-    static I32 counter;
-    counter++;
+   // static I32 counter;
+   // counter++;
 
-    if (counter >= 10000)
-    {
-        counter = 0;
-        printf("%lld,%lld\n", gap, force);
-    }
+   // if (counter >= 10000)
+   // {
+   //     counter = 0;
+   //     printf("%lld,%lld\n", gap, force);
+   // }
     return mC;
 }
 
