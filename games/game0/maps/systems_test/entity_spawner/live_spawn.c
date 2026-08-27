@@ -32,6 +32,8 @@ bbFlag bbCI_live_spawnEntity(bbCore* core, bbSpawnFunctionArgs args, char* key, 
     instruction->data.sfArgs.goalpoint = args.goalpoint;
     instruction->data.sfArgs.handle = args.handle;
     instruction->data.sfArgs.goal_handle = args.goal_handle;
+    instruction->data.sfArgs.speed = args.speed;
+    instruction->data.sfArgs.radius = args.radius;
 
     instruction->type = bbI_live_spawnEntity;
     instruction->source = source;

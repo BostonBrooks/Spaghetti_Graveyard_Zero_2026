@@ -7,6 +7,8 @@ bbFlag bbCoreSynchronous_spawnTestMoveable(bbCore* core,
                                            bbHandle ECS_entity_handle,
                                            bbHandle* moveable_handle,
                                            bbMapCoords position,
+                                           I32 speed,
+                                           I32 radius,
                                            bbInstruction_source source,
                                            bbHandle action)
 { bbHere()
@@ -36,8 +38,8 @@ bbFlag bbCoreSynchronous_spawnTestMoveable(bbCore* core,
 
 
     moveable->type = bbMoveableType_Moving;
-    moveable->speed = 8000;
-    moveable->radius = MILLS_PER_TILE/2;
+    moveable->speed = speed;
+    moveable->radius = radius;
 
     moveable->coords_a = bbMapCoords_getMilliCoords(moveable->position);
     moveable->coords_b = bbMapCoords_getMilliCoords(moveable->position);

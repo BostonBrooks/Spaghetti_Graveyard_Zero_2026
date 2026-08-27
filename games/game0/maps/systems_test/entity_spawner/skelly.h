@@ -72,6 +72,8 @@ bbFlag bbSF_addMoveable_skelly(void* spawner,
                                            handle,
                                            &moveable_handle,
                                            args.position,
+                                           args.speed,
+                                           args.radius,
                                            source,
                                            no_handle);
 
@@ -89,7 +91,7 @@ bbFlag bbSF_addMoveable_skelly2(void* spawner,
 {
     bbAssert(source == bbInstructionSource_norewind || source == bbInstructionSource_internal, "not implemented");
 
-
+    bbDebug("speed = %d, radius = %d\n", args.speed, args.radius);
 
     bbHandle handle;
     bbVPool_reverseLookup(home.ECS.ECS->system.pool, entity, &handle);
@@ -98,8 +100,12 @@ bbFlag bbSF_addMoveable_skelly2(void* spawner,
                                            handle,
                                            &moveable_handle,
                                            args.position,
+                                           args.speed,
+                                           args.radius,
                                            source,
                                            no_handle);
+
+
 
     if (args.state == bbMoveableType_Follow)
     {
@@ -233,12 +239,12 @@ bbFlag bbPF_skelly2Parser(void* Spawner, char* string)
     bbSpawnFunctionArgs args;
     I32 num_chars;
     char spawn_functions[256];
-    sscanf(string, "%[^','],%[^','],%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%n",
+    sscanf(string, "%[^','],%[^','],%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%n",
         key,state,
         &args.position.i,&args.position.j,&args.position.k,
         &args.goalpoint.i,&args.goalpoint.j,&args.goalpoint.k,
         &args.handle.bloated.index,&args.handle.bloated.collision,
-        &args.goal_handle.bloated.index,&args.goal_handle.bloated.collision,
+        &args.goal_handle.bloated.index,&args.goal_handle.bloated.collision,&args.speed,&args.radius,
         &num_chars);
 
     ///POINTS_PER_PIXEL was 8

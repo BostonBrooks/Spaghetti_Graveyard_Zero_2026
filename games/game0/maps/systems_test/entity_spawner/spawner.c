@@ -68,10 +68,10 @@ bbFlag bbPF_standard(void* Spawner, char* string)
     bbSpawnFunctionArgs args;
     I32 num_chars;
     char spawn_functions[256];
-    sscanf(string, "%[^','],%[^','],%d,%d,%d,%d,%d,%d,%d,%d,%n",
+    sscanf(string, "%[^','],%[^','],%d,%d%d,%d,%d,%d,%d,%d,%d,%d,%n",
         key,entity_type,&args.position.i,&args.position.j,&args.position.k,
         &args.goalpoint.i,&args.goalpoint.j,&args.goalpoint.k,&args.handle.bloated.index,
-        &args.handle.bloated.collision,&num_chars);
+        &args.handle.bloated.collision,&args.speed,&args.radius,&num_chars);
     //bbDebug("%s,%s,%d,%d,%d,%d,%d,%d,%d,%d,",
     //key,entity_type,position.i,position.j,position.k,
    // goalpoint.i,goalpoint.j,goalpoint.k,server_handle.bloated.index,
@@ -111,14 +111,14 @@ bbFlag bbSF_null(void* spawner,
                                bbSpawnFunctionArgs args,
                                bbInstruction_source source)
 {
-    bbDebug("position = (%d, %d, %d)\n"
+   /* bbDebug("position = (%d, %d, %d)\n"
             "goalpoint = (%d, %d, %d)\n"
             "server_handle = (%d, %d)\n"
             "source = %d\n",
             args.position.i, args.position.j, args.position.k,
             args.goalpoint.i, args.goalpoint.j, args.goalpoint.k,
             args.handle.bloated.index, args.handle.bloated.collision,
-            source);
+            source);*/
 }
 
 bbFlag bbSF_addAI_skelly(void* spawner,

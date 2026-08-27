@@ -10,6 +10,8 @@ bbFlag bbCoreSynchronous_spawnTestMoveable(bbCore* core,
                                            bbHandle ECS_entity_handle,
                                            bbHandle* moveable_handle,
                                            bbMapCoords position,
+                                           I32 speed,
+                                           I32 radius,
                                            bbInstruction_source source,
                                            bbHandle action);
 

@@ -53,7 +53,6 @@ bbMilliCoords getForce(bbMoveables* moveables, bbMoveable* moveableA,
     mC.k = 0;
 
 
-
    // static I32 counter;
    // counter++;
 

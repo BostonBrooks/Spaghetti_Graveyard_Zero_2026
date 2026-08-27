@@ -165,6 +165,8 @@ typedef struct
 {
     I32 type;
     I32 state;
+    I32 speed;
+    I32 radius;
     bbMapCoords position;
     bbMapCoords goalpoint;
     bbHandle handle;
