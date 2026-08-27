@@ -10,6 +10,17 @@
 bbFlag bbMoveable_getComponent_fn(struct bbSystem* system, bbComponent** component, bbHandle component_handle);
 bbFlag bbMoveable_getHandle_fn(struct bbSystem* system, bbComponent* component, bbHandle* component_handle);
 
+I64 force_function (I64 distance)
+{
+    if (distance > 800000) return 0;
+
+    U64 dist_reduced = 800000 - distance;
+    dist_reduced /= 18000;
+
+    return dist_reduced*dist_reduced;
+
+}
+
 bbMilliCoords getForce(bbMoveables* moveables, bbMoveable* moveableA,
                        bbMoveable* moveableB)
 {
@@ -31,11 +42,10 @@ bbMilliCoords getForce(bbMoveables* moveables, bbMoveable* moveableA,
 
     I64 delta_i = (coords_a.i - coords_b.i);
     I64 delta_j = (coords_a.j - coords_b.j);
-    I64 distance = bbArith64_sqrt2(delta_i * delta_i + delta_j * delta_j);
-    I64 gap = distance-MILLS_PER_TILE;
+    I64 distance = bbArith64_sqrt2(delta_i * delta_i + delta_j * delta_j)+1;
+    I64 gap = distance - moveableA->radius - moveableB->radius;
 
-    I64 force = MILLS_PER_TILE/64*(M_PI_2 - atan(gap*4/MILLS_PER_TILE));
-
+    I64 force = force_function(gap);
 
     bbMilliCoords mC;
     mC.i = delta_i * force / distance;
@@ -47,7 +57,7 @@ bbMilliCoords getForce(bbMoveables* moveables, bbMoveable* moveableA,
    // static I32 counter;
    // counter++;
 
-   // if (counter >= 10000)
+   // if (counter >= 10000 && force > 0)
    // {
    //     counter = 0;
    //     printf("%lld,%lld\n", gap, force);
@@ -76,8 +86,8 @@ bbMilliCoords sumForces(bbMoveables* moveables, bbMoveable* moveableA)
     }
 
 
-    total.i = (double)MILLS_PER_TILE/4.f*atan((double)total.i/((double)MILLS_PER_TILE/4.f));
-    total.j = (double)MILLS_PER_TILE/4.f*atan((double)total.j/((double)MILLS_PER_TILE/4.f));
+  //  total.i = (double)MILLS_PER_TILE/4.f*atan((double)total.i/((double)MILLS_PER_TILE/4.f));
+  //  total.j = (double)MILLS_PER_TILE/4.f*atan((double)total.j/((double)MILLS_PER_TILE/4.f));
 
     return total;
 }

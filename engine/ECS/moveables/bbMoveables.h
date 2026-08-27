@@ -60,6 +60,7 @@ typedef struct
     bbMilliCoords coords_a;
     bbMilliCoords coords_b;
     I32 speed;
+    I32 radius;
 } bbMoveable;
 
 typedef struct
