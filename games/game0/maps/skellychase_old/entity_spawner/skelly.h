@@ -73,6 +73,7 @@ bbFlag bbSF_addMoveable_skelly(void* spawner,
                                            args.position,
                                            args.speed,
                                            args.radius,
+                                           args.mass,
                                            bbInstructionSource_norewind,
                                            no_handle);
 
@@ -98,6 +99,7 @@ bbFlag bbSF_addMoveable_skelly2(void* spawner,
                                            args.position,
                                            args.speed,
                                            args.radius,
+                                           args.mass,
                                            bbInstructionSource_norewind,
                                            no_handle);
     bbMoveable_setGoalMoveable(&home.ECS.moveables,moveable_handle, args.goal_server_handle);

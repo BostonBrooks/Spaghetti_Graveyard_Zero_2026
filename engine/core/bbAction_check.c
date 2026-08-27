@@ -92,6 +92,9 @@ bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
             bbSpawnFunctionArgs args;
             args.position = action->map_coords;
             args.goalpoint = action->map_coords;
+            args.speed = 8000;
+            args.radius = 65536;
+            args.mass = 512;
             bbCI_live_spawnEntity(core, args, "SKELLY", bbInstructionSource_action, handle);
 
         }

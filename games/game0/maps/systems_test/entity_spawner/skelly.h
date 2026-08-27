@@ -74,6 +74,7 @@ bbFlag bbSF_addMoveable_skelly(void* spawner,
                                            args.position,
                                            args.speed,
                                            args.radius,
+                                           args.mass,
                                            source,
                                            no_handle);
 
@@ -102,6 +103,7 @@ bbFlag bbSF_addMoveable_skelly2(void* spawner,
                                            args.position,
                                            args.speed,
                                            args.radius,
+                                           args.mass,
                                            source,
                                            no_handle);
 
@@ -239,12 +241,12 @@ bbFlag bbPF_skelly2Parser(void* Spawner, char* string)
     bbSpawnFunctionArgs args;
     I32 num_chars;
     char spawn_functions[256];
-    sscanf(string, "%[^','],%[^','],%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%n",
+    sscanf(string, "%[^','],%[^','],%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%n",
         key,state,
         &args.position.i,&args.position.j,&args.position.k,
         &args.goalpoint.i,&args.goalpoint.j,&args.goalpoint.k,
         &args.handle.bloated.index,&args.handle.bloated.collision,
-        &args.goal_handle.bloated.index,&args.goal_handle.bloated.collision,&args.speed,&args.radius,
+        &args.goal_handle.bloated.index,&args.goal_handle.bloated.collision,&args.speed,&args.radius,&args.mass,
         &num_chars);
 
     ///POINTS_PER_PIXEL was 8

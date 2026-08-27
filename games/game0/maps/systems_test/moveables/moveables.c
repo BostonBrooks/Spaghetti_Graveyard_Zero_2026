@@ -9,6 +9,7 @@ bbFlag bbCoreSynchronous_spawnTestMoveable(bbCore* core,
                                            bbMapCoords position,
                                            I32 speed,
                                            I32 radius,
+                                           I32 mass,
                                            bbInstruction_source source,
                                            bbHandle action)
 { bbHere()
@@ -40,6 +41,7 @@ bbFlag bbCoreSynchronous_spawnTestMoveable(bbCore* core,
     moveable->type = bbMoveableType_Moving;
     moveable->speed = speed;
     moveable->radius = radius;
+    moveable->mass = mass;
 
     moveable->coords_a = bbMapCoords_getMilliCoords(moveable->position);
     moveable->coords_b = bbMapCoords_getMilliCoords(moveable->position);

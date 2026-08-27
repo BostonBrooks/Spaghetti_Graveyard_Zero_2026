@@ -12,6 +12,7 @@ bbFlag bbCoreSynchronous_spawnTestMoveable(bbCore* core,
                                            bbMapCoords position,
                                            I32 speed,
                                            I32 radius,
+                                           I32 mass,
                                            bbInstruction_source source,
                                            bbHandle action);
 
