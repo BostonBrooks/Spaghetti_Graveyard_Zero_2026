@@ -34,7 +34,7 @@ bbMilliCoords getForce(bbMoveables* moveables, bbMoveable* moveableA,
     I64 distance = bbArith64_sqrt(delta_i * delta_i + delta_j * delta_j);
     I64 gap = distance-MILLS_PER_TILE;
 
-    I64 force = MILLS_PER_TILE/128*(M_PI_2 - atan(gap*4/MILLS_PER_TILE));
+    I64 force = MILLS_PER_TILE/64*(M_PI_2 - atan(gap*4/MILLS_PER_TILE));
 
 
     bbMilliCoords mC;
