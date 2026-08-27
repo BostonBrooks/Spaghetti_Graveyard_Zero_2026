@@ -195,7 +195,6 @@ bbFlag bbSF_setPlayer(void* spawner,
 
 
 
-
 bbFlag bbEntitySpawner_populate(bbEntitySpawner* spawner)
 {
     bbParseFunction_add(spawner, bbPF_null, "NULL");
@@ -212,6 +211,7 @@ bbFlag bbEntitySpawner_populate(bbEntitySpawner* spawner)
     bbSpawnFunction_add(spawner, bbSF_addGraphics_skelly, "SKELLY_GRAPHICS");
     bbSpawnFunction_add(spawner, bbSF_addGraphics_skelly2, "SKELLY_GRAPHICS2");
     bbSpawnFunction_add(spawner, bbSF_addGraphics_zombie, "ZOMBIE_GRAPHICS");
+    bbSpawnFunction_add(spawner, bbSF_addGraphics_cow, "COW_GRAPHICS");
     bbSpawnFunction_add(spawner, bbSF_addAI_skelly, "SKELLY_AI");
     bbSpawnFunction_add(spawner, bbSF_addAI_player, "PLAYER_AI");
     bbSpawnFunction_add(spawner, bbSF_addAI_null, "NULL_AI");

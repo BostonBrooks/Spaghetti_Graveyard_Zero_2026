@@ -156,6 +156,37 @@ bbFlag bbSF_addGraphics_skelly(void* spawner,
     return bbSuccess;
 }
 
+bbFlag bbSF_addGraphics_cow(void* spawner,
+                               bbECS_entity* entity,
+                               bbSpawnFunctionArgs args,
+                               bbInstruction_source source)
+{
+
+    bbAssert(source == bbInstructionSource_norewind || source == bbInstructionSource_internal, "not implemented");
+
+    bbHandle handle;
+    bbVPool_reverseLookup(home.ECS.ECS->system.pool, entity, &handle);
+
+    bbHandle moveable = entity->components[bbECS_Moveables];
+    //
+    // bbCoreSynchronous_spawnGraphicsComponent(&home.core.core,
+    //                                args.position,
+    //                                handle,
+    //                                moveable,
+    //                                bbInstructionSource_norewind);
+
+    bbCoreInput_spawnGraphicsComponent(&home.core.core,
+                                    "COW",
+                                   args.position,
+                                   bbDrawableState_moving,
+                                   handle,
+                                   moveable,
+                                   source,
+                                   no_handle);
+
+    return bbSuccess;
+}
+
 bbFlag bbSF_addGraphics_skelly2(void* spawner,
                                bbECS_entity* entity,
                                bbSpawnFunctionArgs args,

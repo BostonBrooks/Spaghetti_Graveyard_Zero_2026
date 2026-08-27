@@ -1,4 +1,4 @@
-Number of Animations:,18,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Number of Animations:,19,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Label:,Integer Address:,Width:,Height:,Draw Function:,Angles:,Frames:,Framerate:,Sprites:,...,Comment:,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 NULL,0,0,0,WIDGET_ANIMATION,1,1,0,NULL,,Exception,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 LAYOUT_480,1,0,0,TEST,1,1,0,LAYOUT_480,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
@@ -18,6 +18,6 @@ BLUECLOCK,14,0,0,WIDGET_ANIMATION,1,60,1,BLUECLOCK0,BLUECLOCK1,BLUECLOCK2,BLUECL
 FIREBALL,15,0,0,TEST,1,1,0,FIREBALL,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 FIREBALL_LARGE,16,0,0,TEST,1,1,0,FIREBALL_LARGE,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 SKELETON_DEATH,17,0,0,WIDGET_ANIMATION,8,6,0.1,SKELETONA22,SKELETONA23,SKELETONA24,SKELETONA25,SKELETONA26,SKELETONA27,SKELETONB22,SKELETONB23,SKELETONB24,SKELETONB25,SKELETONB26,SKELETONB27,SKELETONC22,SKELETONC23,SKELETONC24,SKELETONC25,SKELETONC26,SKELETONC27,SKELETOND22,SKELETOND23,SKELETOND24,SKELETOND25,SKELETOND26,SKELETOND27,SKELETONE22,SKELETONE23,SKELETONE24,SKELETONE25,SKELETONE26,SKELETONE27,SKELETONF22,SKELETONF23,SKELETONF24,SKELETONF25,SKELETONF26,SKELETONF27,SKELETONG22,SKELETONG23,SKELETONG24,SKELETONG25,SKELETONG26,SKELETONG27,SKELETONH22,SKELETONH23,SKELETONH24,SKELETONH25,SKELETONH26,SKELETONH27, its a skeleton
-
+COW,18,0,0,WIDGET_ANIMATION,2,1,1,COW_R,COW_L,lets see if this works
 
 Label:,Integer Address:,Width:,Height:,Draw Function:,Angles:,Frames:,Framerate:,Sprites:,...,Comment:

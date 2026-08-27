@@ -1,4 +1,4 @@
-Number of Sprites:,703,,,,,,,,,,,,
+Number of Sprites:,704,,,,,,,,,,,,
 Label:,Integer Address:,Texture:,Left:,Top:,Width:,Height:,Origin X:,Origin Y:,Scale X:,Scale Y:,Scale By:,Comment:,
 NULL,0,NULL,0,0,128,128,0,0,1,1,None,Exception,
 LAYOUT_480,1,LAYOUT_480,0,0,720,480,0,0,1,1,None,The root of the widget tree,
@@ -703,5 +703,6 @@ BALLOON_MAGENTA,699,BALLOONS,399,0,39,98,19,97,1,1,Widget,a clock hand
 FIREBALL,700,FIREBALL,0,0,672,700,322,1000,0.1,0.1,Widget,a fireball
 FIREBALL_LARGE,701,FIREBALL,0,0,672,700,322,675,0.2,0.2,Widget,a large fireball
 X,702,X,0,0,60,60,30,30,1,1,Widget, X marks the spot
+COW_L,703,SPRITESHEET,280,9,93,155,33,162,-1,1,None,A cow;
 
 Label:,Integer Address:,Texture:,Left:,Top:,Width:,Height:,Origin X:,Origin Y:,Scale X:,Scale Y:,Scale By:,Comment:,
