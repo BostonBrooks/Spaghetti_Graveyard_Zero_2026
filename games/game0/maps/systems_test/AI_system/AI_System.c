@@ -1,3 +1,4 @@
+#include "ai_instructions.h"
 #include "engine/ECS/AI_system/bbAI_System.h"
 #include "engine/logic/bbIntTypes.h"
 #include "ai_null.h"
@@ -23,8 +24,8 @@ bbFlag bbAI_Update_Chase(bbAI_Component* component)
                           home.ECS.ECS->player_character, bbECS_Moveables,
                           &player_handle, (bbComponent**)&player_moveable);
 
-    if (moveable_handle.bloated.index == player_handle.bloated.index) return
-        bbSuccess;
+    if (moveable_handle.bloated.index == player_handle.bloated.index)
+        return bbSuccess;
 
     U64 distance_squared = (moveable->position.i - player_moveable->position.i)
         * (moveable->position.i - player_moveable->position.i)
@@ -33,8 +34,10 @@ bbFlag bbAI_Update_Chase(bbAI_Component* component)
 
     if (moveable->type == bbMoveableType_Idle)
     {
-        if (distance_squared > POINTS_PER_TILE * POINTS_PER_TILE * 200) return
-            bbSuccess;
+        if (distance_squared > POINTS_PER_TILE * POINTS_PER_TILE * 200)
+            return bbSuccess;
+
+        if (component->last_state_change > home.core.core.simulation_time - 60) return bbSuccess;
 
         bbCI_Moveable_setGoalMovable(&home.core.core, moveable_handle,
                                      player_handle,
@@ -47,6 +50,24 @@ bbFlag bbAI_Update_Chase(bbAI_Component* component)
 
     if (moveable->type == bbMoveableType_Follow)
     {
+        if (distance_squared < POINTS_PER_TILE * POINTS_PER_TILE * 8) {
+            bbCI_Moveable_setIdle(&home.core.core,
+                             moveable_handle,
+                             player_handle,
+                             bbInstructionSource_internal, no_handle);
+
+            bbHandle AI_handle;
+
+            bbComponent_getHandle(&home.ECS.AI_system.system,(bbComponent*)component,&AI_handle);
+
+            bbCI_AI_setState(&home.core.core,
+                                         AI_handle,
+                                         home.core.core.simulation_time,
+                             bbInstructionSource_internal, no_handle);
+            return bbSuccess;
+
+        }
+
         if (distance_squared < POINTS_PER_TILE * POINTS_PER_TILE * 160) return
             bbSuccess;
 
@@ -54,6 +75,8 @@ bbFlag bbAI_Update_Chase(bbAI_Component* component)
                                      moveable_handle,
                                      player_handle,
                                      bbInstructionSource_internal, no_handle);
+
+
     }
     return bbSuccess;
 }

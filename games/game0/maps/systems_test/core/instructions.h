@@ -27,6 +27,8 @@ typedef enum
     bbInstruction_testClick,
     bbI_live_spawnEntity,
     bbI_live_unspawnEntity,
+    bbI_AI_setState,
+    bbI_AI_unsetState,
     bbVInstruction_numTypes
 }bbVInstruction_type;
 
@@ -38,6 +40,10 @@ bbFlag bbCoreInput_spawnServerEntity(bbCore* core,
 
 bbFlag bbInstruction_unspawnServerEntity_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_spawnServerEntity_fn(bbCore* core, bbInstruction* instruction);
+
+
+
+
 
 bbFlag bbInstruction_testClick_fn(bbCore* core, bbInstruction* instruction);
 /*

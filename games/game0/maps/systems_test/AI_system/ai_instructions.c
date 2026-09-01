@@ -326,3 +326,40 @@ bbFlag bbCS_spawnAIComponent2(bbCore* core,
 }
 
 
+bbFlag bbCI_AI_setState(bbCore* core,
+                             bbHandle AI_handle,
+                             U64 current_time,
+                             bbInstruction_source source,
+                             bbHandle action)
+{
+    bbInstruction* instruction;
+    bbFlag flag = bbList_alloc(&core->do_stack,(void**)&instruction);
+
+    instruction->type = bbI_AI_setState;
+    instruction->data.three_handles.handle1 = AI_handle;
+
+    instruction->data.three_handles.handle2.u64 = current_time;
+
+
+
+    instruction->source = source;
+    instruction->redo_instruction = action;
+
+    bbList_pushL(&core->do_stack, instruction);
+    return bbSuccess;
+}
+
+bbFlag bbI_AI_setState_fn(bbCore* core, bbInstruction* instruction)
+{
+    bbAI_Component* component;
+    bbHandle_getComponent(&home.ECS.AI_system.system,(bbComponent**)&component,instruction->data.three_handles.handle1);
+
+    component->last_state_change = instruction->data.three_handles.handle2.u64;
+    return bbSuccess;
+}
+
+bbFlag bbI_AI_unsetState_fn(bbCore* core, bbInstruction* instruction)
+{
+    bbNotHere()
+    return bbSuccess;
+}

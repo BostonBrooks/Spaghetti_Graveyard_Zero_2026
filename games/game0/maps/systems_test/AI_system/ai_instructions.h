@@ -41,4 +41,14 @@ bbFlag bbI_spawnAIComponent2_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbI_unspawnAIComponent2_fn(bbCore* core, bbInstruction* instruction);
 
 
+bbFlag bbI_AI_setState_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbI_AI_unsetState_fn(bbCore* core, bbInstruction* instruction);
+
+
+bbFlag bbCI_AI_setState(bbCore* core,
+                             bbHandle AI_handle,
+                             U64 current_time,
+                             bbInstruction_source source,
+                             bbHandle action);
+
 #endif //AI_INSTRUCTIONS_H
