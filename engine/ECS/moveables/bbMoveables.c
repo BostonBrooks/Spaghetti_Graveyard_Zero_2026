@@ -15,9 +15,9 @@ I64 force_function (I64 distance)
     if (distance > 800000) return 0;
 
     U64 dist_reduced = 800000 - distance;
-    dist_reduced /= 18000;
+    dist_reduced /= 40000;
 
-    return dist_reduced*dist_reduced;
+    return dist_reduced*dist_reduced*dist_reduced;
 
 }
 
