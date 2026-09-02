@@ -295,7 +295,7 @@ bbFlag bbAI_Update_Lunging(bbAI_Component* component)
         }
     case bbAIState_Striking:
         {
-            if (component->last_state_change < home.core.core.simulation_time - 10)
+            if (component->last_state_change < home.core.core.simulation_time - 20)
             {
                 bbCI_Moveable_setIdle(&home.core.core,
                  moveable_handle,
@@ -312,8 +312,28 @@ bbFlag bbAI_Update_Lunging(bbAI_Component* component)
         }
     case bbAIState_Recovering:
         {
-            if (component->last_state_change < home.core.core.simulation_time - 10)
+            if (component->last_state_change < home.core.core.simulation_time - 30)
             {
+
+                if (distance<POINTS_PER_TILE * 10)
+                {
+                    bbCI_Moveable_setGoalLunging(&home.core.core,
+                                     moveable_handle,
+                                     player_handle,
+                                     bbInstructionSource_internal, no_handle);
+
+
+
+
+                    bbCI_AI_setStriking(&home.core.core,
+                                           AI_handle,
+                                           home.ECS.ECS->player_character,
+                                           home.core.core.simulation_time,
+                                     bbInstructionSource_internal, no_handle);
+                    break;
+                }
+
+
                 bbCI_Moveable_setGoalMovable(&home.core.core, moveable_handle,
                                  player_handle,
                                  bbInstructionSource_internal, no_handle);

@@ -7,6 +7,8 @@
 #include "engine/data/bbHome.h"
 #include "engine/logic/bbBloatedPool.h"
 
+#define LUNGE_SPEED 3.5f
+
 bbFlag bbMoveable_getComponent_fn(struct bbSystem* system, bbComponent** component, bbHandle component_handle);
 bbFlag bbMoveable_getHandle_fn(struct bbSystem* system, bbComponent* component, bbHandle* component_handle);
 
@@ -274,9 +276,9 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
                     {
                         //TODO use fixed point
                         double delta_i = distance_i / distance * moveable->
-                            speed*2;
+                            speed*LUNGE_SPEED;
                         double delta_j = distance_j / distance * moveable->
-                            speed*2;
+                            speed*LUNGE_SPEED;
 
                         bbMilliCoords forces = sumForces(moveables, moveable);
 
@@ -439,9 +441,9 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
                     else
                     {
                         double delta_i = distance_i / distance * moveable->
-                            speed*2;
+                            speed*LUNGE_SPEED;
                         double delta_j = distance_j / distance * moveable->
-                            speed*2;
+                            speed*LUNGE_SPEED;
 
                         bbMilliCoords forces = sumForces(moveables, moveable);
 

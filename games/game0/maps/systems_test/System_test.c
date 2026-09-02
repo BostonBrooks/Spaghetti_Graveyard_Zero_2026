@@ -400,8 +400,10 @@ bbHere()
                 bbClock_handle_init(&home.clock2, &home.UI.clock2_handle, 0,"USER INTERFACE");
             }
 
-            home.UI.clock2_handle.map_tick = home.clock2.map_tick;
-
+            if (home.clock2.map_tick >= 6)
+            {
+                home.UI.clock2_handle.map_tick = home.clock2.map_tick-6;
+            }
             test_time = home.UI.clock2_handle.map_tick;
             cl.map_time = home.UI.clock2_handle.map_tick;
             cl.GUI_time = home.UI.clock2_handle.server_tick;

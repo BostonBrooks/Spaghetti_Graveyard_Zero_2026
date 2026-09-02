@@ -16,6 +16,10 @@ bbFlag bbPF_null(void* spawner, char* string)
     return bbSuccess;
 }
 
+bbFlag bbPF_Hash(void* spawner, char* string)
+{
+    return bbSuccess;
+}
 
 bbFlag bbPF_tree(void* spawner, char* string)
 {
@@ -198,6 +202,7 @@ bbFlag bbSF_setPlayer(void* spawner,
 bbFlag bbEntitySpawner_populate(bbEntitySpawner* spawner)
 {
     bbParseFunction_add(spawner, bbPF_null, "NULL");
+    bbParseFunction_add(spawner, bbPF_Hash, "#");
     bbParseFunction_add(spawner, bbPF_standard, "STANDARD");
     bbParseFunction_add(spawner, bbPF_tree, "TREE");
     bbParseFunction_add(spawner, bbPF_skellyParser, "SKELLY");
