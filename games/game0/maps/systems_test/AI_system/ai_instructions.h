@@ -51,4 +51,44 @@ bbFlag bbCI_AI_setState(bbCore* core,
                              bbInstruction_source source,
                              bbHandle action);
 
+
+bbFlag bbCI_AI_setIdle(bbCore* core,
+                             bbHandle AI_handle,
+                             U64 current_time,
+                             bbInstruction_source source,
+                             bbHandle action);
+
+
+bbFlag bbCI_AI_setApproaching(bbCore* core,
+                             bbHandle AI_handle,
+                             bbHandle target_handle,
+                             U64 current_time,
+                             bbInstruction_source source,
+                             bbHandle action);
+
+
+bbFlag bbCI_AI_setStriking(bbCore* core,
+                             bbHandle AI_handle,
+                             bbHandle target_handle,
+                             U64 current_time,
+                             bbInstruction_source source,
+                             bbHandle action);
+
+
+bbFlag bbCI_AI_setRecovering(bbCore* core,
+                             bbHandle AI_handle,
+                             U64 current_time,
+                             bbInstruction_source source,
+                             bbHandle action);
+
+
+
+
+bbFlag bbCI_AI_setApproaching(bbCore* core,
+                             bbHandle AI_handle,
+                             bbHandle target_handle,
+                             U64 current_time,
+                             bbInstruction_source source,
+                             bbHandle action);
+
 #endif //AI_INSTRUCTIONS_H

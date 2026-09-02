@@ -16,8 +16,11 @@ use bbCoreSynchronous functions to set data in a way that is "core-safe"
 typedef enum
 {
     bbAIState_Idle,
-    bbAIState_Follow,
-    bbAIState_Attacking,
+    bbAIState_Approaching,
+    bbAIState_Striking,
+    bbAIState_Recovering,
+
+
 } bbAI_state;
 
 typedef struct
@@ -33,6 +36,8 @@ typedef struct
     bbAI_FunctionTable ftable;
     bbAI_state state;
     U64 last_state_change;
+    bbMapCoords goalpoint;
+    bbHandle target;
 } bbAI_Component;
 
 typedef enum

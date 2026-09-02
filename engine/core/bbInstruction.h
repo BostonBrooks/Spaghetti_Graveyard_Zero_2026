@@ -94,6 +94,15 @@ typedef struct
 
 typedef struct
 {
+    bbHandle AI_handle;
+    U32 AI_state;
+    U64 last_state_change;
+    bbHandle target_handle;
+    bbMapCoords goalpoint;
+} bbInstructionsData_AI_State;
+
+typedef struct
+{
     I32 entity_int;
     bbHandle agent;
     bbHandle movable;
@@ -191,6 +200,7 @@ typedef union
     bbInstructionsData_unspawnAgent unspawn_agent;
     bbInstructionsData_entity entity;
     bbInstructionsData_moveableState moveable_state;
+    bbInstructionsData_AI_State AI_state;
     bbSpawnFunctionArgs sfArgs;
 
 } bbInstruction_data;

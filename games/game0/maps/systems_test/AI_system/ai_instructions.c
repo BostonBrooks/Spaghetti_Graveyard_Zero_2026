@@ -326,7 +326,8 @@ bbFlag bbCS_spawnAIComponent2(bbCore* core,
 }
 
 
-bbFlag bbCI_AI_setState(bbCore* core,
+
+bbFlag bbCI_AI_setIdle(bbCore* core,
                              bbHandle AI_handle,
                              U64 current_time,
                              bbInstruction_source source,
@@ -336,11 +337,9 @@ bbFlag bbCI_AI_setState(bbCore* core,
     bbFlag flag = bbList_alloc(&core->do_stack,(void**)&instruction);
 
     instruction->type = bbI_AI_setState;
-    instruction->data.three_handles.handle1 = AI_handle;
-
-    instruction->data.three_handles.handle2.u64 = current_time;
-
-
+    instruction->data.AI_state.AI_handle = AI_handle;
+    instruction->data.AI_state.AI_state = bbAIState_Idle;
+    instruction->data.AI_state.last_state_change = current_time;
 
     instruction->source = source;
     instruction->redo_instruction = action;
@@ -349,12 +348,121 @@ bbFlag bbCI_AI_setState(bbCore* core,
     return bbSuccess;
 }
 
+
+bbFlag bbCI_AI_setApproaching(bbCore* core,
+                             bbHandle AI_handle,
+                             bbHandle target_handle,
+                             U64 current_time,
+                             bbInstruction_source source,
+                             bbHandle action)
+{
+    bbInstruction* instruction;
+    bbFlag flag = bbList_alloc(&core->do_stack,(void**)&instruction);
+
+    instruction->type = bbI_AI_setState;
+    instruction->data.AI_state.AI_handle = AI_handle;
+    instruction->data.AI_state.AI_state = bbAIState_Approaching;
+    instruction->data.AI_state.last_state_change = current_time;
+    instruction->data.AI_state.target_handle = target_handle;
+
+    instruction->source = source;
+    instruction->redo_instruction = action;
+
+    bbList_pushL(&core->do_stack, instruction);
+    return bbSuccess;
+}
+
+
+bbFlag bbCI_AI_setStriking(bbCore* core,
+                             bbHandle AI_handle,
+                             bbHandle target_handle,
+                             U64 current_time,
+                             bbInstruction_source source,
+                             bbHandle action)
+{
+    bbInstruction* instruction;
+    bbFlag flag = bbList_alloc(&core->do_stack,(void**)&instruction);
+
+    instruction->type = bbI_AI_setState;
+    instruction->data.AI_state.AI_handle = AI_handle;
+    instruction->data.AI_state.AI_state = bbAIState_Striking;
+    instruction->data.AI_state.last_state_change = current_time;
+    instruction->data.AI_state.target_handle = target_handle;
+
+    instruction->source = source;
+    instruction->redo_instruction = action;
+
+    bbList_pushL(&core->do_stack, instruction);
+    return bbSuccess;
+}
+
+
+bbFlag bbCI_AI_setRecovering(bbCore* core,
+                             bbHandle AI_handle,
+                             U64 current_time,
+                             bbInstruction_source source,
+                             bbHandle action)
+{
+    bbInstruction* instruction;
+    bbFlag flag = bbList_alloc(&core->do_stack,(void**)&instruction);
+
+    instruction->type = bbI_AI_setState;
+    instruction->data.AI_state.AI_handle = AI_handle;
+    instruction->data.AI_state.AI_state = bbAIState_Recovering;
+    instruction->data.AI_state.last_state_change = current_time;
+
+    instruction->source = source;
+    instruction->redo_instruction = action;
+
+    bbList_pushL(&core->do_stack, instruction);
+    return bbSuccess;
+}
+
+// bbFlag bbCI_AI_setState(bbCore* core,
+//                              bbHandle AI_handle,
+//                              U64 current_time,
+//                              bbInstruction_source source,
+//                              bbHandle action)
+// {
+//     bbInstruction* instruction;
+//     bbFlag flag = bbList_alloc(&core->do_stack,(void**)&instruction);
+//
+//     instruction->type = bbI_AI_setState;
+//     instruction->data.three_handles.handle1 = AI_handle;
+//
+//     instruction->data.three_handles.handle3.u64 = current_time;
+//
+//
+//
+//     instruction->source = source;
+//     instruction->redo_instruction = action;
+//
+//     bbList_pushL(&core->do_stack, instruction);
+//     return bbSuccess;
+// }
+
 bbFlag bbI_AI_setState_fn(bbCore* core, bbInstruction* instruction)
 {
     bbAI_Component* component;
     bbHandle_getComponent(&home.ECS.AI_system.system,(bbComponent**)&component,instruction->data.three_handles.handle1);
 
-    component->last_state_change = instruction->data.three_handles.handle2.u64;
+    component->last_state_change = instruction->data.AI_state.last_state_change;
+    component->state = instruction->data.AI_state.AI_state;
+
+    switch(component->state)
+    {
+        case bbAIState_Idle:
+        break;
+        case bbAIState_Approaching:
+        component->target = instruction->data.AI_state.target_handle;
+        break;
+        case bbAIState_Striking:
+        component->target = instruction->data.AI_state.target_handle;
+        break;
+        case bbAIState_Recovering:
+        break;
+    }
+
     return bbSuccess;
 }
 
