@@ -109,7 +109,7 @@ bbFlag bbSF_addMoveable_skelly2(void* spawner,
 
 
 
-    if (args.state == bbMoveableType_Follow)
+    if (args.state == bbMoveableType_Following)
     {
         bbMoveable_setGoalMoveable(&home.ECS.moveables,moveable_handle, args.goal_handle);
     } else if (args.state == bbMoveableType_Idle)

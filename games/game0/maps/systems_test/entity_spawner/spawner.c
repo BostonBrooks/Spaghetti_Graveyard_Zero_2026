@@ -220,7 +220,7 @@ bbFlag bbEntitySpawner_populate(bbEntitySpawner* spawner)
     bbLiveSpawnFunction_add(spawner,  bbLSF_liveSpawnSkelly, "SKELLY");
 
     bbHandle handle;
-    handle.u64 = bbMoveableType_Follow;
+    handle.u64 = bbMoveableType_Following;
     bbDictionary_add(spawner->states,"FOLLOW", handle);
     handle.u64 = bbMoveableType_Moving;
     bbDictionary_add(spawner->states,"MOVING", handle);

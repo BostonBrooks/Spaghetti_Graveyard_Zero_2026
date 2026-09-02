@@ -212,7 +212,7 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
                     // moveable->position = moveable->coords_b;
                 }
                 break;
-            case bbMoveableType_Follow:
+            case bbMoveableType_Following:
                 {
                     moveable->goalpoint = moveables->moveables[moveable->
                         goal_moveable].position;
@@ -250,6 +250,44 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
                     }
                 }
                 break;
+            case bbMoveableType_Lunging:
+                {
+                    moveable->goalpoint = moveables->moveables[moveable->
+                        goal_moveable].position;
+                    bbMilliCoords currentLocation = moveable->coords_a;
+                    bbMilliCoords goalPoint
+                        = bbMapCoords_getMilliCoords(moveable->goalpoint);
+
+
+                    //TODO don't use floats or doubles
+                    double distance_i = goalPoint.i - currentLocation.i;
+                    double distance_j = goalPoint.j - currentLocation.j;
+
+                    double distance = sqrt(
+                        distance_i * distance_i + distance_j * distance_j);
+
+                    if (distance < moveable->speed)
+                    {
+                        moveable->coords_b = goalPoint;
+                    }
+                    else
+                    {
+                        //TODO use fixed point
+                        double delta_i = distance_i / distance * moveable->
+                            speed*2;
+                        double delta_j = distance_j / distance * moveable->
+                            speed*2;
+
+                        bbMilliCoords forces = sumForces(moveables, moveable);
+
+                        bbMilliCoords avoidables_forces =
+                            bbAvoidables_sumForces(moveables, home.ECS.avoidables, moveable);
+
+                        moveable->coords_b.i = currentLocation.i + delta_i + forces.i + avoidables_forces.i;
+                        moveable->coords_b.j = currentLocation.j + delta_j + forces.j + avoidables_forces.j;
+                    }
+                }
+            break;
             }
         }
 
@@ -341,7 +379,7 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
                     }
                 }
                 break;
-            case bbMoveableType_Follow:
+            case bbMoveableType_Following:
                 {
                     moveable->goalpoint = moveables->moveables[moveable->
                         goal_moveable].position;
@@ -378,6 +416,43 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
                     }
                 }
                 break;
+            case bbMoveableType_Lunging:
+                {
+                    moveable->goalpoint = moveables->moveables[moveable->
+                        goal_moveable].position;
+                    bbMilliCoords currentLocation = moveable->coords_b;
+                    bbMilliCoords goalPoint
+                        = bbMapCoords_getMilliCoords(moveable->goalpoint);
+
+
+                    //TODO don't use floats or doubles
+                    double distance_i = goalPoint.i - currentLocation.i;
+                    double distance_j = goalPoint.j - currentLocation.j;
+
+                    double distance = sqrt(
+                        distance_i * distance_i + distance_j * distance_j);
+
+                    if (distance < moveable->speed)
+                    {
+                        moveable->coords_a = goalPoint;
+                    }
+                    else
+                    {
+                        double delta_i = distance_i / distance * moveable->
+                            speed*2;
+                        double delta_j = distance_j / distance * moveable->
+                            speed*2;
+
+                        bbMilliCoords forces = sumForces(moveables, moveable);
+
+                        bbMilliCoords avoidables_forces =
+                            bbAvoidables_sumForces(moveables, home.ECS.avoidables, moveable);
+
+                        moveable->coords_a.i = currentLocation.i + delta_i + forces.i + avoidables_forces.i;
+                        moveable->coords_a.j = currentLocation.j + delta_j + forces.j + avoidables_forces.j;
+                    }
+                }
+            break;
             }
         }
 
@@ -540,11 +615,29 @@ bbFlag bbMoveable_setGoalMoveable(bbMoveables* moveables, bbHandle handle, bbHan
     bbHandle moveable_handle = entity->components[bbECS_Moveables];
 
     bbMoveable* moveable = &moveables->moveables[handle.bloated.index];
-    moveable->type = bbMoveableType_Follow;
+    moveable->type = bbMoveableType_Following;
     moveable->goal_moveable = moveable_handle.bloated.index;
     return bbSuccess;
 }
 
+bbFlag bbMoveable_setGoalLunging(bbMoveables* moveables, bbHandle handle, bbHandle server_handle)
+{
+    bbServerEntity* server_entity;
+
+    bbVPool_lookup(home.ECS.server_entities.system.pool, (void**)&server_entity,server_handle);
+
+    bbAssert(server_entity != NULL, "bad pool lookup\n");
+
+    bbHandle entity_handle = server_entity->component.entity_handle;
+    bbECS_entity* entity;
+    bbVPool_lookup(home.ECS.ECS->system.pool, (void**)&entity,entity_handle);
+    bbHandle moveable_handle = entity->components[bbECS_Moveables];
+
+    bbMoveable* moveable = &moveables->moveables[handle.bloated.index];
+    moveable->type = bbMoveableType_Lunging;
+    moveable->goal_moveable = moveable_handle.bloated.index;
+    return bbSuccess;
+}
 bbFlag bbMoveable_getComponent_fn(struct bbSystem* system, bbComponent** component, bbHandle component_handle)
 {
     U32 index = component_handle.bloated.index;
