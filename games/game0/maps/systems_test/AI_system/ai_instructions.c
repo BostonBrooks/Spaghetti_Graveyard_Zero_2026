@@ -305,7 +305,7 @@ bbFlag bbCS_spawnAIComponent2(bbCore* core,
     bbList_alloc2(&AI_System->list,(void**)&component, &component_handle);
     component->ftable.command = command;
     component->ftable.update = update;
-    component->state = 0;
+    component->state = bbAIState_Idle;
     component->component.entity_handle = entity;
 
     bbCS_entity_setComponent(core,
