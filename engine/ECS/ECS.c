@@ -59,7 +59,7 @@ bbFlag bbCoreSynchronous_spawnEmptyEntity(bbCore* core, bbECS* ECS, bbECS_entity
     new_entity->has_component |= mask;
     new_entity->components[bbECS_ECS] = new_handle;
 
-    bbDebug("entity.key = %s\n", new_entity->key);
+    //bbDebug("entity.key = %s\n", new_entity->key);
 
     if (source == bbInstructionSource_input)
     {
@@ -157,7 +157,7 @@ bbFlag bbInstruction_spawnEmptyEntity_fn(bbCore* core, bbInstruction* instructio
     new_entity->has_component |= mask;
     new_entity->components[bbECS_ECS] = new_handle;
 
-    bbDebug("entity.key = %s\n", new_entity->key);
+    //bbDebug("entity.key = %s\n", new_entity->key);
 
         bbInstruction* undo_instruction;
         bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);

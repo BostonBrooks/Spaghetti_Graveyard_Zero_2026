@@ -92,7 +92,7 @@ bbFlag bbSF_addMoveable_skelly2(void* spawner,
 {
     bbAssert(source == bbInstructionSource_norewind || source == bbInstructionSource_internal, "not implemented");
 
-    bbDebug("speed = %d, radius = %d\n", args.speed, args.radius);
+    //bbDebug("speed = %d, radius = %d\n", args.speed, args.radius);
 
     bbHandle handle;
     bbVPool_reverseLookup(home.ECS.ECS->system.pool, entity, &handle);

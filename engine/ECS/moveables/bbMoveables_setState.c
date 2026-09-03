@@ -274,7 +274,7 @@ bbFlag bbCS_Moveable_setGoalpoint(bbCore* core,
         undo_instruction->redo_instruction = action;
         undo_instruction->source = source;
 
-        bbDebug("action = %d, %d\n", action.bloated.index, action.bloated.collision);
+        //bbDebug("action = %d, %d\n", action.bloated.index, action.bloated.collision);
         //Set instruction data
         undo_instruction->type = bbI_moveable_unsetState;
         //bbStr_setStr(undo_instruction->data.key, test_string, KEY_LENGTH);

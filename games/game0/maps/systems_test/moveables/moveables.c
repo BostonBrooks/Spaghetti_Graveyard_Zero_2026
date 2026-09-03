@@ -30,12 +30,12 @@ bbFlag bbCoreSynchronous_spawnTestMoveable(bbCore* core,
     moveable->component.entity_handle = ECS_entity_handle;
     moveable->moveable_handle = moveable_handle1;
 
-    bbDebug("entity handle: %d,%d\n"
-            "moveable handle: %d,%d\n",
-            moveable->component.entity_handle.bloated.index,
-            moveable->component.entity_handle.bloated.collision,
-            moveable->moveable_handle.bloated.index,
-            moveable->moveable_handle.bloated.collision);
+    // bbDebug("entity handle: %d,%d\n"
+    //         "moveable handle: %d,%d\n",
+    //         moveable->component.entity_handle.bloated.index,
+    //         moveable->component.entity_handle.bloated.collision,
+    //         moveable->moveable_handle.bloated.index,
+    //         moveable->moveable_handle.bloated.collision);
 
 
     moveable->type = bbMoveableType_Moving;
