@@ -72,7 +72,7 @@ bbFlag bbPF_standard(void* Spawner, char* string)
     bbSpawnFunctionArgs args;
     I32 num_chars;
     char spawn_functions[256];
-    sscanf(string, "%[^','],%[^','],%d,%d%d,%d,%d,%d,%d,%d,%d,%d,%n",
+    sscanf(string, "%[^','],%[^','],%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%n",
         key,entity_type,&args.position.i,&args.position.j,&args.position.k,
         &args.goalpoint.i,&args.goalpoint.j,&args.goalpoint.k,&args.handle.bloated.index,
         &args.handle.bloated.collision,&args.speed,&args.radius,&num_chars);
@@ -202,8 +202,7 @@ bbFlag bbSF_setPlayer(void* spawner,
 bbFlag bbEntitySpawner_populate(bbEntitySpawner* spawner)
 {
     bbParseFunction_add(spawner, bbPF_null, "NULL");
-    bbParseFunction_add(spawner, bbPF_Hash, "#");
-    bbParseFunction_add(spawner, bbPF_standard, "STANDARD");
+    //bbParseFunction_add(spawner, bbPF_standard, "STANDARD");
     bbParseFunction_add(spawner, bbPF_tree, "TREE");
     bbParseFunction_add(spawner, bbPF_skellyParser, "SKELLY");
     bbParseFunction_add(spawner, bbPF_skelly2Parser, "SKELLY2");
