@@ -153,6 +153,34 @@ bbFlag bbSF_addAI_skelly(void* spawner,
     return bbSuccess;
 }
 
+bbFlag bbSF_addAI_cow(void* spawner,
+                               bbECS_entity* entity,
+                               bbSpawnFunctionArgs args,
+                               bbInstruction_source source)
+{
+
+    bbAssert(source == bbInstructionSource_norewind || source == bbInstructionSource_internal, "not implemented");
+
+
+    bbHandle handle;
+    bbVPool_reverseLookup(home.ECS.ECS->system.pool, entity, &handle);
+
+    bbAI_Component* this;
+
+
+
+
+    bbCS_spawnAIComponent2(&home.core.core,
+                          home.core.core.ECS,
+                          handle,
+                          2,0,
+                          &this,
+                          source,
+                          no_handle);
+
+    return bbSuccess;
+}
+
 bbFlag bbSF_addAI_null(void* spawner,
                                bbECS_entity* entity,
                                bbSpawnFunctionArgs args,
@@ -217,6 +245,7 @@ bbFlag bbEntitySpawner_populate(bbEntitySpawner* spawner)
     bbSpawnFunction_add(spawner, bbSF_addGraphics_zombie, "ZOMBIE_GRAPHICS");
     bbSpawnFunction_add(spawner, bbSF_addGraphics_cow, "COW_GRAPHICS");
     bbSpawnFunction_add(spawner, bbSF_addAI_skelly, "SKELLY_AI");
+    bbSpawnFunction_add(spawner, bbSF_addAI_cow, "COW_AI");
     bbSpawnFunction_add(spawner, bbSF_addAI_player, "PLAYER_AI");
     bbSpawnFunction_add(spawner, bbSF_addAI_null, "NULL_AI");
     bbSpawnFunction_add(spawner, bbSF_setPlayer, "PLAYER");
