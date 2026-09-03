@@ -443,8 +443,63 @@ bbFlag bbCI_AI_setRecovering(bbCore* core,
 
 bbFlag bbI_AI_setState_fn(bbCore* core, bbInstruction* instruction)
 {
+    bbHandle AI_handle = instruction->data.AI_state.AI_handle;
     bbAI_Component* component;
-    bbHandle_getComponent(&home.ECS.AI_system.system,(bbComponent**)&component,instruction->data.three_handles.handle1);
+    bbVPool_lookup(home.ECS.AI_system.system.pool, (void**)&component, AI_handle);
+
+    //bbHandle_getComponent(&home.ECS.AI_system.system,(bbComponent**)&component,AI_handle);
+
+    if (instruction->source == bbInstructionSource_internal)
+    {
+        bbInstruction* undo_instruction;
+        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        undo_instruction->type = bbI_AI_unsetState;
+
+        undo_instruction->data.AI_state.AI_handle = AI_handle;
+        undo_instruction->data.AI_state.AI_state = bbAIState_Recovering;
+        undo_instruction->data.AI_state.last_state_change = component->last_state_change;
+        undo_instruction->data.AI_state.target_handle = component->target;
+
+
+        undo_instruction->source = instruction->source;
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        undo_instruction->redo_instruction.u64 = 0;
+        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+    }
+    else if (instruction->source == bbInstructionSource_input)
+    {
+        bbInstruction* undo_instruction;
+        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        undo_instruction->type = bbI_AI_unsetState;
+
+        undo_instruction->data.AI_state.AI_handle = AI_handle;
+        undo_instruction->data.AI_state.AI_state = bbAIState_Recovering;
+        undo_instruction->data.AI_state.last_state_change = component->last_state_change;
+        undo_instruction->data.AI_state.target_handle = component->target;
+
+        undo_instruction->source = instruction->source;
+        bbHandle handle;
+        bbVPool_reverseLookup(core->instruction_pool, instruction, &handle);
+        undo_instruction->redo_instruction = handle;
+        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+    }
+    else if (instruction->source == bbInstructionSource_action)
+    {
+        bbInstruction* undo_instruction;
+        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        undo_instruction->type = bbI_AI_unsetState;
+
+        undo_instruction->data.AI_state.AI_handle = AI_handle;
+        undo_instruction->data.AI_state.AI_state = bbAIState_Recovering;
+        undo_instruction->data.AI_state.last_state_change = component->last_state_change;
+        undo_instruction->data.AI_state.target_handle = component->target;
+
+        undo_instruction->source = instruction->source;
+        undo_instruction->redo_instruction = instruction->redo_instruction;
+        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+    } //else source == no rewind
+
+
 
     component->last_state_change = instruction->data.AI_state.last_state_change;
     component->state = instruction->data.AI_state.AI_state;
@@ -468,6 +523,6 @@ bbFlag bbI_AI_setState_fn(bbCore* core, bbInstruction* instruction)
 
 bbFlag bbI_AI_unsetState_fn(bbCore* core, bbInstruction* instruction)
 {
-    bbNotHere()
+    bbHere()
     return bbSuccess;
 }
