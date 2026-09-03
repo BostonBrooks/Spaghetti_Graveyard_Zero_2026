@@ -192,7 +192,7 @@ bbFlag bbInstruction_spawnEmptyEntity_fn(bbCore* core, bbInstruction* instructio
     }
 
 bbFlag bbInstruction_unspawnEmptyEntity_fn(bbCore* core, bbInstruction* instruction)
-{bbHere()
+{//bbHere()
     bbECS* ECS = instruction->ECS;
     bbHandle entity_handle = instruction->data.three_handles.handle1;
     bbECS_entity* entity;
@@ -237,7 +237,7 @@ bbFlag bbCS_entity_setComponent(bbCore* core,
                                 bbECS_systems system,
                                 bbInstruction_source source,
                                 bbHandle action)
-{bbHere()
+{//bbHere()
     //Post undo instruction
 
     if (source == bbInstructionSource_input)

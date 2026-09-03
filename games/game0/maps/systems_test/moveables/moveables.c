@@ -12,7 +12,7 @@ bbFlag bbCoreSynchronous_spawnTestMoveable(bbCore* core,
                                            I32 mass,
                                            bbInstruction_source source,
                                            bbHandle action)
-{ bbHere()
+{ //bbHere()
     I32 index = home.ECS.moveables.available++;
 
     bbHandle moveable_handle1;

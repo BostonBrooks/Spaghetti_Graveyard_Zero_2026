@@ -41,7 +41,7 @@ bbFlag bbPF_tree(void* spawner, char* string)
 }
 
 bbFlag bbPF_setGoalEntity(void* spawner, char* string)
-{bbHere()
+{//bbHere()
     char key[KEY_LENGTH];
     char tree_type[KEY_LENGTH];
     bbHandle entity_server_handle, goal_server_handle;

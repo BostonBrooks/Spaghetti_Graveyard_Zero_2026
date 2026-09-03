@@ -17,7 +17,7 @@ bbFlag bbSF_addGraphics_zombie(void* spawner,
                                bbInstruction_source source)
 {
     bbAssert(source == bbInstructionSource_norewind, "not implemented");
-    bbHere()
+    //bbHere()
 
     bbHandle handle;
     bbVPool_reverseLookup(home.ECS.ECS->system.pool, entity, &handle);
