@@ -523,6 +523,38 @@ bbFlag bbI_AI_setState_fn(bbCore* core, bbInstruction* instruction)
 
 bbFlag bbI_AI_unsetState_fn(bbCore* core, bbInstruction* instruction)
 {
-    bbHere()
+    bbHandle AI_handle = instruction->data.AI_state.AI_handle;
+    bbAI_Component* component;
+    bbVPool_lookup(home.ECS.AI_system.system.pool, (void**)&component, AI_handle);
+
+    component->state = instruction->data.AI_state.AI_state;
+    component->last_state_change = instruction->data.AI_state.last_state_change;
+    component->target = instruction->data.AI_state.target_handle;
+
+
+
+    if (instruction->source == bbInstructionSource_internal)
+    {
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_input)
+    {
+        bbInstruction* redo_instruction;
+        bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction, instruction->redo_instruction);
+        bbList_pushL(&core->do_stack, redo_instruction);
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_action)
+    {
+        bbAction* redo_action;
+
+        bbVPool_lookup(core->action_pool, (void**)&redo_action, instruction->redo_instruction);
+        bbList_sortL(&core->action_queue,(void*)redo_action);
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+
+        return bbSuccess;
+    }
     return bbSuccess;
 }
