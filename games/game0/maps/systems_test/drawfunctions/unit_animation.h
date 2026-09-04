@@ -10,6 +10,8 @@
 #include "engine/viewport/bbMapIcons.h"
 #include "engine/geometry/bbViewportCoords.h"
 #include "engine/data/bbHome.h"
+
+
 /*
 bbFlag bbDF_drawableAnimation(void* Drawable, void* frameDescriptor, void* cl){
     bbDrawable* drawable = Drawable;
@@ -49,7 +51,11 @@ bbFlag bbDF_drawableAnimation(void* Drawable, void* frameDescriptor, void* cl){
 I32 getAngleXD(float radians, I32 numAngles)
 {
 
-    //TODO if(numAngles = 2) {left or right, 0 or 1}
+    if(numAngles == 2){
+
+        if (radians > M_PI-M_PI/4.f || radians < -M_PI/4) return 1;
+        return 0;
+    }
 
     I32 angle = ((I32)((radians*0.15915494309f+1)*numAngles + numAngles/2.f - 0.5f))%numAngles;
     //bbDebug("radians/2pi = %f, getAngle = %d\n",radians*0.15915494309f, angle);
