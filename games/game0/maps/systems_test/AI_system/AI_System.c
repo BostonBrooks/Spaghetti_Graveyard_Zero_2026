@@ -135,7 +135,7 @@ bbFlag bbAI_Update_Striking(bbAI_Component* component)
         }
     case bbAIState_Approaching:
         {
-            if (distance<POINTS_PER_TILE * 5)
+            if (distance<POINTS_PER_TILE * 3)
             {
                 bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_attacking);
 
