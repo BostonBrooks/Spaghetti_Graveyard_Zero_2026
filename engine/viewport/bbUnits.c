@@ -92,14 +92,16 @@ bbFlag bbUnits_consumeBuffer(bbUnits* units, bbVPool* entity_units, bbMoveables_
             unit->next_coords = snapshot->moveables[i].position;
             unit->next_goalpoint = snapshot->moveables[i].goalpoint;
             unit->next_time = snapshot->time;
-            I32 delta_i = unit->next_goalpoint.i - unit->prev_coords.i;
-            I32 delta_j = unit->next_goalpoint.j - unit->prev_coords.j;
+            I32 delta_i = unit->next_coords.i - unit->prev_coords.i;
+            I32 delta_j = unit->next_coords.j - unit->prev_coords.j;
 
-            if (delta_i * delta_i + delta_j * delta_j > POINTS_PER_PIXEL)
+
+            //TODO this condition is always true
+            if (delta_i * delta_i + delta_j * delta_j > POINTS_PER_PIXEL*POINTS_PER_PIXEL)
             {
                 float rotation = atan2(delta_i, delta_j);
                 drawable->rotation = rotation;
-            }
+            } else {bbHere()}
         }
         bbMapCoords position;
         //if (interp_positions)

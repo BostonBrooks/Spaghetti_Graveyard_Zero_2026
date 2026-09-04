@@ -313,6 +313,21 @@ bbFlag bbAI_Update_Lunging(bbAI_Component* component)
         }
     case bbAIState_Striking:
         {
+            if (distance<POINTS_PER_TILE * 2)
+            {
+                bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_idle);
+
+                bbCI_Moveable_setIdle(&home.core.core,
+                 moveable_handle,
+                 bbInstructionSource_internal, no_handle);
+
+                bbCI_AI_setRecovering(&home.core.core,
+                                       AI_handle,
+                                       home.core.core.simulation_time,
+                                 bbInstructionSource_internal, no_handle);
+            }
+
+
             if (component->last_state_change < home.core.core.simulation_time - 20)
             {
                 bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_idle);

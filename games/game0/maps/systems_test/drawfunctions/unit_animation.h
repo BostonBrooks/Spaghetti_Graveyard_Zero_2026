@@ -48,6 +48,9 @@ bbFlag bbDF_drawableAnimation(void* Drawable, void* frameDescriptor, void* cl){
 */
 I32 getAngleXD(float radians, I32 numAngles)
 {
+
+    //TODO if(numAngles = 2) {left or right, 0 or 1}
+
     I32 angle = ((I32)((radians*0.15915494309f+1)*numAngles + numAngles/2.f - 0.5f))%numAngles;
     //bbDebug("radians/2pi = %f, getAngle = %d\n",radians*0.15915494309f, angle);
     return angle;
@@ -75,12 +78,7 @@ bbFlag bbDF_unitAnimationWAngle(void* Drawable, void* frameDescriptor, void* cl)
 
     I32 spriteInt = animation->Sprites[angle*frames+frameInt].u64;
 
-    if (animationInt == 9)
-    {
-       // bbDebug("rotation = %f, angles = %d, angle = %d, frames = %d, frameInt = %d, spriteInt = %d\n",
-        //drawable->rotation, numAngles, angle,frames,frameInt,spriteInt);
 
-    }
 
     bbAssert(spriteInt >= 0, "Array index out of bounds");
     sfSprite* sprite = animation->sprites->sprites[spriteInt];
@@ -115,17 +113,10 @@ bbFlag bbDF_unitStillWAngle(void* Drawable, void* frameDescriptor, void* cl){
 
     I32 frames = animation->frames;
 
-    I32 frameInt = 0;//(I64)((double)(foo->map_time - frame->start_time)
-            //*(double)animation->framerate*(double)frame->framerate) % frames;
+    I32 frameInt = 0;
 
     I32 spriteInt = animation->Sprites[angle*frames+frameInt].u64;
 
-    if (animationInt == 9)
-    {
-        // bbDebug("rotation = %f, angles = %d, angle = %d, frames = %d, frameInt = %d, spriteInt = %d\n",
-        //drawable->rotation, numAngles, angle,frames,frameInt,spriteInt);
-
-    }
 
     bbAssert(spriteInt >= 0, "Array index out of bounds");
     sfSprite* sprite = animation->sprites->sprites[spriteInt];
