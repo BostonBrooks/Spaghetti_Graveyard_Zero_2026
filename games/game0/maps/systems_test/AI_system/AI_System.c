@@ -137,7 +137,7 @@ bbFlag bbAI_Update_Striking(bbAI_Component* component)
         {
             if (distance<POINTS_PER_TILE * 5)
             {
-                bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_idle);
+                bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_attacking);
 
                 bbCI_Moveable_setIdle(&home.core.core,
                                  moveable_handle,
@@ -176,7 +176,7 @@ bbFlag bbAI_Update_Striking(bbAI_Component* component)
             if (component->last_state_change < home.core.core.simulation_time - 10)
             {
 
-                bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_idle);
+                //bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_idle);
 
                 bbCI_Moveable_setIdle(&home.core.core,
                  moveable_handle,
@@ -514,8 +514,8 @@ bbFlag bbAI_Functions_populate(bbAI_Functions* self)
 
 
     bbAI_Functions_add(self, AI_Update, bbAI_Update_NULL, "UPDATE_NULL");
-    bbAI_Functions_add(self, AI_Update, bbAI_Update_Lunging, "UPDATE_LUNGING");
     bbAI_Functions_add(self, AI_Update, bbAI_Update_Striking, "UPDATE_STRIKING");
+    bbAI_Functions_add(self, AI_Update, bbAI_Update_Lunging, "UPDATE_LUNGING");
     bbAI_Functions_add(self, AI_Update, bbAI_Update_Player, "UPDATE_PLAYER");
     bbAI_Functions_add(self, AI_Command, bbAI_Command_NULL, "COMMAND_NULL");
     bbAI_Functions_add(self, AI_Command, bbAI_Command_Player, "COMMAND_PLAYER");
