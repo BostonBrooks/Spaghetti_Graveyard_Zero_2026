@@ -92,9 +92,12 @@ bbFlag bbCI_Moveable_setIdle(bbCore* core,
     bbInstruction* instruction;
     bbFlag flag = bbList_alloc(&core->do_stack,(void**)&instruction);
 
+    bbMoveable* moveable;
+    bbHandle_getComponent(&home.ECS.moveables.system,(bbComponent**)&moveable,moveable_handle);
+
     instruction->type = bbI_moveable_setState;
     instruction->data.moveable_state.handle = moveable_handle;
-
+    instruction->data.moveable_state.goalpoint = moveable->goalpoint;
     instruction->data.moveable_state.type = bbMoveableType_Idle;
 
 
