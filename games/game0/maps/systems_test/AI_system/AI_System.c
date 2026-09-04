@@ -53,7 +53,6 @@ bbFlag bbAI_Update_Chase(bbAI_Component* component)
         if (distance_squared < POINTS_PER_TILE * POINTS_PER_TILE * 8) {
             bbCI_Moveable_setIdle(&home.core.core,
                              moveable_handle,
-                             player_handle,
                              bbInstructionSource_internal, no_handle);
 
             bbHandle AI_handle;
@@ -69,7 +68,6 @@ bbFlag bbAI_Update_Chase(bbAI_Component* component)
 
         bbCI_Moveable_setIdle(&home.core.core,
                                      moveable_handle,
-                                     player_handle,
                                      bbInstructionSource_internal, no_handle);
 
 
@@ -143,7 +141,6 @@ bbFlag bbAI_Update_Striking(bbAI_Component* component)
 
                 bbCI_Moveable_setIdle(&home.core.core,
                                  moveable_handle,
-                                 player_handle,
                                  bbInstructionSource_internal, no_handle);
 
 
@@ -162,7 +159,6 @@ bbFlag bbAI_Update_Striking(bbAI_Component* component)
 
                 bbCI_Moveable_setIdle(&home.core.core,
                                  moveable_handle,
-                                 player_handle,
                                  bbInstructionSource_internal, no_handle);
 
 
@@ -184,7 +180,6 @@ bbFlag bbAI_Update_Striking(bbAI_Component* component)
 
                 bbCI_Moveable_setIdle(&home.core.core,
                  moveable_handle,
-                 player_handle,
                  bbInstructionSource_internal, no_handle);
 
                 bbCI_AI_setRecovering(&home.core.core,
@@ -304,7 +299,6 @@ bbFlag bbAI_Update_Lunging(bbAI_Component* component)
 
                 bbCI_Moveable_setIdle(&home.core.core,
                                  moveable_handle,
-                                 player_handle,
                                  bbInstructionSource_internal, no_handle);
 
 
@@ -325,7 +319,6 @@ bbFlag bbAI_Update_Lunging(bbAI_Component* component)
 
                 bbCI_Moveable_setIdle(&home.core.core,
                  moveable_handle,
-                 player_handle,
                  bbInstructionSource_internal, no_handle);
 
                 bbCI_AI_setRecovering(&home.core.core,
@@ -383,6 +376,52 @@ bbFlag bbAI_Update_Lunging(bbAI_Component* component)
 }
 
 
+bbFlag bbAI_Update_Player(bbAI_Component* component)
+{
+
+    switch (component->state)
+    {
+    case bbAIState_Moving:
+        {
+            bbMoveable* moveable;
+            bbHandle moveable_handle;
+            bbComponent_mapComponent(home.ECS.ECS, bbECS_AI, (bbComponent*)component,
+                                     bbECS_Moveables, &moveable_handle,
+                                     (bbComponent**)&moveable);
+
+            I64 delta_i = moveable->goalpoint.i - moveable->position.i;
+            I64 delta_j = moveable->goalpoint.j - moveable->position.j;
+
+            I64 distance_squared = delta_i * delta_i + delta_j * delta_j;
+
+            if (distance_squared<=POINTS_PER_PIXEL * POINTS_PER_PIXEL)
+            {
+                bbHandle entity_handle;
+
+                bbComponent_mapComponent(home.ECS.ECS, bbECS_AI, (bbComponent*)component,
+                                         bbECS_ECS, &entity_handle,
+                                         (bbComponent**)&moveable);
+
+                bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_idle);
+                bbHandle AI_handle;
+
+                bbComponent_getHandle(&home.ECS.AI_system.system,(bbComponent*)component,&AI_handle);
+
+                bbCI_AI_setIdle(&home.core.core,
+                             AI_handle,
+                             home.core.core.simulation_time,
+                                 bbInstructionSource_internal, no_handle);
+
+                bbCI_Moveable_setIdle(&home.core.core,
+                    moveable_handle,
+                    bbInstructionSource_internal, no_handle);
+            }
+
+
+        }
+    }
+}
+
 bbFlag bbAI_Command_Player(bbAI_Component* component,
                            bbAI_CommandType type,
                            bbAI_CommandData data,
@@ -401,6 +440,16 @@ bbFlag bbAI_Command_Player(bbAI_Component* component,
 
         bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_moving);
 
+        bbHandle AI_handle;
+        bbComponent_getHandle(&home.ECS.AI_system.system,(bbComponent*)component,&AI_handle);
+
+        bbCI_AI_setMoving(&home.core.core,
+             AI_handle,
+             home.core.core.simulation_time,
+                 bbInstructionSource_internal, no_handle);
+
+        //TODO set state AI state moving
+
         bbHandle moveable_handle;
 
         bbComponent_mapComponent(home.ECS.ECS,
@@ -417,12 +466,6 @@ bbFlag bbAI_Command_Player(bbAI_Component* component,
                                    bbInstructionSource_internal,
                                    no_handle);
 
-        bbComponent_mapComponent(home.ECS.ECS,
-                         bbECS_AI,
-                         (bbComponent*)component,
-                         bbECS_ECS,
-                         &moveable_handle,
-                         NULL);
 
 
     }
@@ -458,6 +501,7 @@ bbFlag bbAI_Functions_populate(bbAI_Functions* self)
     bbAI_Functions_add(self, AI_Update, bbAI_Update_NULL, "UPDATE_NULL");
     bbAI_Functions_add(self, AI_Update, bbAI_Update_Lunging, "UPDATE_LUNGING");
     bbAI_Functions_add(self, AI_Update, bbAI_Update_Striking, "UPDATE_STRIKING");
+    bbAI_Functions_add(self, AI_Update, bbAI_Update_Player, "UPDATE_PLAYER");
     bbAI_Functions_add(self, AI_Command, bbAI_Command_NULL, "COMMAND_NULL");
     bbAI_Functions_add(self, AI_Command, bbAI_Command_Player, "COMMAND_PLAYER");
     return bbSuccess;

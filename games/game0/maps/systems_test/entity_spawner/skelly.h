@@ -79,7 +79,7 @@ bbFlag bbSF_addMoveable_skelly(void* spawner,
                                            no_handle);
 
     //We dont need to undo this, will be nuked by bbInstruction_unspawnTestMoveable_fn
-    bbCI_Moveable_setIdle(&home.core.core,moveable_handle,no_handle,source,no_handle);
+    bbCI_Moveable_setIdle(&home.core.core,moveable_handle,source,no_handle);
 
     //bbHere()
     return bbSuccess;
@@ -114,7 +114,7 @@ bbFlag bbSF_addMoveable_skelly2(void* spawner,
         bbMoveable_setGoalMoveable(&home.ECS.moveables,moveable_handle, args.goal_handle);
     } else if (args.state == bbMoveableType_Idle)
     {
-        bbCI_Moveable_setIdle(&home.core.core,moveable_handle,no_handle,source,no_handle);
+        bbCI_Moveable_setIdle(&home.core.core,moveable_handle,source,no_handle);
     } else
     {
         bbNotHere() //Not yet implemented

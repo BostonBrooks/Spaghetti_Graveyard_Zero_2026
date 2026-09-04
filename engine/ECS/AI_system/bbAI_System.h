@@ -19,6 +19,7 @@ typedef enum
     bbAIState_Approaching,
     bbAIState_Striking,
     bbAIState_Recovering,
+    bbAIState_Moving,
 
 
 } bbAI_state;

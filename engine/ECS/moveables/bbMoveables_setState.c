@@ -86,7 +86,6 @@ bbFlag bbCI_Moveable_setGoalLunging(bbCore* core,
 
 bbFlag bbCI_Moveable_setIdle(bbCore* core,
                              bbHandle moveable_handle,
-                             bbHandle goal_moveable_handle,
                              bbInstruction_source source,
                              bbHandle action)
 {
@@ -176,14 +175,6 @@ bbFlag bbI_Moveable_setState_fn(bbCore* core, bbInstruction* instruction)
     bbHandle entity_handle;
 
     bbComponent_mapComponent(home.ECS.ECS, bbECS_Moveables,(bbComponent*)moveable, bbECS_ECS,&entity_handle,NULL);
-    // if (instruction->data.moveable_state.type == bbMoveableType_Idle)
-    //     bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_idle);
-    // if (instruction->data.moveable_state.type == bbMoveableType_Lunging)
-    //     bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_moving);
-    // if (instruction->data.moveable_state.type == bbMoveableType_Following)
-    //     bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_moving);
-    // if (instruction->data.moveable_state.type == bbMoveableType_Moving)
-    //     bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_moving);
 
 //
     return bbSuccess;

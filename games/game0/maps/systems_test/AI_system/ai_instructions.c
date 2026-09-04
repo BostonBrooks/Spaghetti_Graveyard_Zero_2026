@@ -396,6 +396,27 @@ bbFlag bbCI_AI_setStriking(bbCore* core,
     return bbSuccess;
 }
 
+bbFlag bbCI_AI_setMoving(bbCore* core,
+                             bbHandle AI_handle,
+                             U64 current_time,
+                             bbInstruction_source source,
+                             bbHandle action)
+{
+    bbInstruction* instruction;
+    bbFlag flag = bbList_alloc(&core->do_stack,(void**)&instruction);
+
+    instruction->type = bbI_AI_setState;
+    instruction->data.AI_state.AI_handle = AI_handle;
+    instruction->data.AI_state.AI_state = bbAIState_Moving;
+    instruction->data.AI_state.last_state_change = current_time;
+
+    instruction->source = source;
+    instruction->redo_instruction = action;
+
+    bbList_pushL(&core->do_stack, instruction);
+    return bbSuccess;
+}
+
 
 bbFlag bbCI_AI_setRecovering(bbCore* core,
                              bbHandle AI_handle,
@@ -456,7 +477,7 @@ bbFlag bbI_AI_setState_fn(bbCore* core, bbInstruction* instruction)
         undo_instruction->type = bbI_AI_unsetState;
 
         undo_instruction->data.AI_state.AI_handle = AI_handle;
-        undo_instruction->data.AI_state.AI_state = bbAIState_Recovering;
+        undo_instruction->data.AI_state.AI_state = component->state;
         undo_instruction->data.AI_state.last_state_change = component->last_state_change;
         undo_instruction->data.AI_state.target_handle = component->target;
 
@@ -473,7 +494,7 @@ bbFlag bbI_AI_setState_fn(bbCore* core, bbInstruction* instruction)
         undo_instruction->type = bbI_AI_unsetState;
 
         undo_instruction->data.AI_state.AI_handle = AI_handle;
-        undo_instruction->data.AI_state.AI_state = bbAIState_Recovering;
+        undo_instruction->data.AI_state.AI_state = component->state;
         undo_instruction->data.AI_state.last_state_change = component->last_state_change;
         undo_instruction->data.AI_state.target_handle = component->target;
 
@@ -490,7 +511,7 @@ bbFlag bbI_AI_setState_fn(bbCore* core, bbInstruction* instruction)
         undo_instruction->type = bbI_AI_unsetState;
 
         undo_instruction->data.AI_state.AI_handle = AI_handle;
-        undo_instruction->data.AI_state.AI_state = bbAIState_Recovering;
+        undo_instruction->data.AI_state.AI_state = component->state;
         undo_instruction->data.AI_state.last_state_change = component->last_state_change;
         undo_instruction->data.AI_state.target_handle = component->target;
 
@@ -504,17 +525,19 @@ bbFlag bbI_AI_setState_fn(bbCore* core, bbInstruction* instruction)
     component->last_state_change = instruction->data.AI_state.last_state_change;
     component->state = instruction->data.AI_state.AI_state;
 
-    switch(component->state)
+    switch (component->state)
     {
-        case bbAIState_Idle:
+    case bbAIState_Idle:
         break;
-        case bbAIState_Approaching:
+    case bbAIState_Moving:
+        break;
+    case bbAIState_Approaching:
         component->target = instruction->data.AI_state.target_handle;
         break;
-        case bbAIState_Striking:
+    case bbAIState_Striking:
         component->target = instruction->data.AI_state.target_handle;
         break;
-        case bbAIState_Recovering:
+    case bbAIState_Recovering:
         break;
     }
 

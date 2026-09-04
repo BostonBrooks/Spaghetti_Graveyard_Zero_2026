@@ -10,7 +10,7 @@ ANIMATION,KITTY,ANIMATION_DEFAULT,0,0,0,0.9,
 ANIMATION,KITTY,ANIMATION_DEFAULT,12,1000,0,1,
 ANIMATION,KITTY,ANIMATION_DEFAULT,24,2000,0,1.1,
 ,,,,,,,
-Label:,KITTIESX,Integer Address:,2,num:,3,Comment:,This is a composition of KITTY compositions
+Label:,KITTIES2,Integer Address:,2,num:,3,Comment:,This is a composition of KITTY compositions
 Type:,Key:,Drawfunction:,startTime,Offest X:,Offset Y:,Frame Rate:,
 COMPOSITION,KITTIES,COMPOSITION,0,0,0,0.98,
 COMPOSITION,KITTIES,COMPOSITION,0,0,800,1,
@@ -36,10 +36,12 @@ ANIMATION,SKELETON,UNIT_ANIMATION_ANGLE,0,0,0,1,
 ANIMATION,KITTY,NONE,0,0,0,1,
 ANIMATION,SKELETON_DEATH,DRAWABLE_ANIMATION_ONCE,0,0,0,1,
 ,,,,,,,
-Label:,ZOMBIE,Integer Address:,6,num:,2,Comment,Testing conditional rendering
+Label:,ZOMBIE,Integer Address:,6,num:,4,Comment,Testing conditional rendering
 Type:,Key:,Drawfunction:,startTime,Offest X:,Offset Y:,Frame Rate:,
 ANIMATION,ZOMBIE,UNIT_STILL_ANGLE,0,0,0,1,
 ANIMATION,ZOMBIE,UNIT_ANIMATION_ANGLE,0,0,0,1,
+ANIMATION,KITTY,NONE,0,0,0,1,
+ANIMATION,SKELETON_DEATH,DRAWABLE_ANIMATION_ONCE,0,0,0,1,
 ,,,,,,,
 
 Label:,COW,Integer Address:,7,num:,2,Comment,Testing conditional rendering

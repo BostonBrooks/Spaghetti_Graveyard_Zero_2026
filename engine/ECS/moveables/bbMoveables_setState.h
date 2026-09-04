@@ -27,7 +27,6 @@ bbFlag bbCI_Moveable_setGoalLunging(bbCore* core,
 
 bbFlag bbCI_Moveable_setIdle(bbCore* core,
                              bbHandle moveable_handle,
-                             bbHandle goal_moveable_handle,
                              bbInstruction_source source,
                              bbHandle action);
 

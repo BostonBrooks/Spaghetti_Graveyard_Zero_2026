@@ -62,7 +62,7 @@ bbFlag bbSF_addAI_player(void* spawner,
     bbCS_spawnAIComponent2(&home.core.core,
                           home.core.core.ECS,
                           handle,
-                          0,1,
+                          3,1,
                           &this,
                           source,
                           no_handle);
