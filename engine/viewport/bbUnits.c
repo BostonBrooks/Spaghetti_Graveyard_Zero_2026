@@ -101,7 +101,7 @@ bbFlag bbUnits_consumeBuffer(bbUnits* units, bbVPool* entity_units, bbMoveables_
             {
                 float rotation = atan2(delta_i, delta_j);
                 drawable->rotation = rotation;
-            } else {bbHere()}
+            }
         }
         bbMapCoords position;
         //if (interp_positions)
