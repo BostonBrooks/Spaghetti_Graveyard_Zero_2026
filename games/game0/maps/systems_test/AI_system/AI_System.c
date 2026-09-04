@@ -85,6 +85,10 @@ bbFlag bbAI_Update_Striking(bbAI_Component* component)
     bbComponent_getHandle(&home.ECS.AI_system.system,(bbComponent*)component, &AI_handle);
 
 
+    bbHandle entity_handle;
+    bbComponent_mapComponent(home.ECS.ECS, bbECS_AI, (bbComponent*)component,
+                             bbECS_ECS, &entity_handle,
+                             NULL);
 
     bbMoveable* moveable;
     bbHandle moveable_handle;
@@ -117,6 +121,8 @@ bbFlag bbAI_Update_Striking(bbAI_Component* component)
         {
             if (distance > POINTS_PER_TILE * 20) return bbSuccess;
 
+            bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_moving);
+
             bbCI_Moveable_setGoalMovable(&home.core.core, moveable_handle,
                              player_handle,
                              bbInstructionSource_internal, no_handle);
@@ -133,6 +139,8 @@ bbFlag bbAI_Update_Striking(bbAI_Component* component)
         {
             if (distance<POINTS_PER_TILE * 5)
             {
+                bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_idle);
+
                 bbCI_Moveable_setIdle(&home.core.core,
                                  moveable_handle,
                                  player_handle,
@@ -150,6 +158,8 @@ bbFlag bbAI_Update_Striking(bbAI_Component* component)
 
             if (distance>POINTS_PER_TILE * 25)
             {
+                bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_idle);
+
                 bbCI_Moveable_setIdle(&home.core.core,
                                  moveable_handle,
                                  player_handle,
@@ -169,6 +179,9 @@ bbFlag bbAI_Update_Striking(bbAI_Component* component)
         {
             if (component->last_state_change < home.core.core.simulation_time - 10)
             {
+
+                bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_idle);
+
                 bbCI_Moveable_setIdle(&home.core.core,
                  moveable_handle,
                  player_handle,
@@ -186,6 +199,8 @@ bbFlag bbAI_Update_Striking(bbAI_Component* component)
         {
             if (component->last_state_change < home.core.core.simulation_time - 10)
             {
+                bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_moving);
+
                 bbCI_Moveable_setGoalMovable(&home.core.core, moveable_handle,
                                  player_handle,
                                  bbInstructionSource_internal, no_handle);
@@ -212,6 +227,10 @@ bbFlag bbAI_Update_Lunging(bbAI_Component* component)
     bbHandle AI_handle;
     bbComponent_getHandle(&home.ECS.AI_system.system,(bbComponent*)component, &AI_handle);
 
+    bbHandle entity_handle;
+    bbComponent_mapComponent(home.ECS.ECS, bbECS_AI, (bbComponent*)component,
+                             bbECS_ECS, &entity_handle,
+                             NULL);
 
 
     bbMoveable* moveable;
@@ -245,6 +264,8 @@ bbFlag bbAI_Update_Lunging(bbAI_Component* component)
         {
             if (distance > POINTS_PER_TILE * 20) return bbSuccess;
 
+            bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_moving);
+
             bbCI_Moveable_setGoalMovable(&home.core.core, moveable_handle,
                              player_handle,
                              bbInstructionSource_internal, no_handle);
@@ -266,7 +287,7 @@ bbFlag bbAI_Update_Lunging(bbAI_Component* component)
                                  player_handle,
                                  bbInstructionSource_internal, no_handle);
 
-
+                bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_moving);
 
 
                 bbCI_AI_setStriking(&home.core.core,
@@ -278,6 +299,9 @@ bbFlag bbAI_Update_Lunging(bbAI_Component* component)
 
             if (distance>POINTS_PER_TILE * 25)
             {
+
+                bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_idle);
+
                 bbCI_Moveable_setIdle(&home.core.core,
                                  moveable_handle,
                                  player_handle,
@@ -297,6 +321,8 @@ bbFlag bbAI_Update_Lunging(bbAI_Component* component)
         {
             if (component->last_state_change < home.core.core.simulation_time - 20)
             {
+                bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_idle);
+
                 bbCI_Moveable_setIdle(&home.core.core,
                  moveable_handle,
                  player_handle,
@@ -317,6 +343,9 @@ bbFlag bbAI_Update_Lunging(bbAI_Component* component)
 
                 if (distance<POINTS_PER_TILE * 10)
                 {
+
+                    bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_moving);
+
                     bbCI_Moveable_setGoalLunging(&home.core.core,
                                      moveable_handle,
                                      player_handle,
@@ -333,6 +362,7 @@ bbFlag bbAI_Update_Lunging(bbAI_Component* component)
                     break;
                 }
 
+                bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_moving);
 
                 bbCI_Moveable_setGoalMovable(&home.core.core, moveable_handle,
                                  player_handle,
@@ -358,9 +388,19 @@ bbFlag bbAI_Command_Player(bbAI_Component* component,
                            bbAI_CommandData data,
                            bool is_action)
 {
+
+
     //is action: command is unable to modify state unless this function was called by a bbAction to ensure "core safeness"
+    //What does this mean????
     if (type == bbAI_setGoalPoint && is_action)
     {
+        bbHandle entity_handle;
+        bbComponent_mapComponent(home.ECS.ECS, bbECS_AI, (bbComponent*)component,
+                                 bbECS_ECS, &entity_handle,
+                                 NULL);
+
+        bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_moving);
+
         bbHandle moveable_handle;
 
         bbComponent_mapComponent(home.ECS.ECS,
