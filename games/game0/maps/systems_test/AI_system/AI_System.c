@@ -391,7 +391,7 @@ bbFlag bbAI_Command_Player(bbAI_Component* component,
 
 
     //is action: command is unable to modify state unless this function was called by a bbAction to ensure "core safeness"
-    //What does this mean????
+    //I need to be careful about the player modifying the state without sending a message to the server and back
     if (type == bbAI_setGoalPoint && is_action)
     {
         bbHandle entity_handle;
