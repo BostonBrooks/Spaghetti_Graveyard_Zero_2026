@@ -313,7 +313,7 @@ bbFlag bbAI_Update_Lunging(bbAI_Component* component)
         }
     case bbAIState_Striking:
         {
-            if (distance<POINTS_PER_TILE * 2)
+            if (distance<POINTS_PER_TILE * 4)
             {
                 bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_idle);
 
