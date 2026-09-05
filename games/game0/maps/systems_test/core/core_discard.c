@@ -16,7 +16,7 @@ bbFlag discard_unupdate_moveables_fn(bbCore* core, bbInstruction* undo_instructi
 
 bbFlag bbCore_initDiscard(bbCore* core)
 {
-    I32 max_instructions = 32;//Careful no tomake this too small;
+    I32 max_instructions = bbVInstruction_numTypes;
     core->discard_functions = calloc(sizeof(bbInstruction_fn*), max_instructions);
 
     core->discard_functions[bbInstruction_unupdateMoveables-bbInstruction_numTypes] = discard_unupdate_moveables_fn;
