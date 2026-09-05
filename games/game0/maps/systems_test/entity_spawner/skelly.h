@@ -85,6 +85,33 @@ bbFlag bbSF_addMoveable_skelly(void* spawner,
     return bbSuccess;
 }
 
+bbFlag bbSF_addMoveable_fireball(void* spawner,
+                               bbECS_entity* entity,
+                               bbSpawnFunctionArgs args,
+                               bbInstruction_source source)
+{
+    bbAssert(source == bbInstructionSource_norewind || source == bbInstructionSource_internal, "not implemented");
+
+    bbHandle handle;
+    bbVPool_reverseLookup(home.ECS.ECS->system.pool, entity, &handle);
+    bbHandle moveable_handle;
+    bbCoreSynchronous_spawnTestMoveable(&home.core.core,
+                                           handle,
+                                           &moveable_handle,
+                                           args.position,
+                                           args.speed,
+                                           args.radius,
+                                           args.mass,
+                                           source,
+                                           no_handle);
+
+    //We dont need to undo this, will be nuked by bbInstruction_unspawnTestMoveable_fn
+    bbCI_Moveable_setMovingThrough(&home.core.core,moveable_handle,args.goalpoint,source,no_handle);
+
+    //bbHere()
+    return bbSuccess;
+}
+
 bbFlag bbSF_addMoveable_skelly2(void* spawner,
                                bbECS_entity* entity,
                                bbSpawnFunctionArgs args,

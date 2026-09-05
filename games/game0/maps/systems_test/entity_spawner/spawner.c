@@ -153,6 +153,34 @@ bbFlag bbSF_addAI_skelly(void* spawner,
     return bbSuccess;
 }
 
+bbFlag bbSF_addAI_fireball(void* spawner,
+                               bbECS_entity* entity,
+                               bbSpawnFunctionArgs args,
+                               bbInstruction_source source)
+{
+
+    bbAssert(source == bbInstructionSource_norewind || source == bbInstructionSource_internal, "not implemented");
+
+
+    bbHandle handle;
+    bbVPool_reverseLookup(home.ECS.ECS->system.pool, entity, &handle);
+
+    bbAI_Component* this;
+
+
+
+
+    bbCS_spawnAIComponent2(&home.core.core,
+                          home.core.core.ECS,
+                          handle,
+                          4,0,
+                          &this,
+                          source,
+                          no_handle);
+
+    return bbSuccess;
+}
+
 bbFlag bbSF_addAI_cow(void* spawner,
                                bbECS_entity* entity,
                                bbSpawnFunctionArgs args,
@@ -239,6 +267,7 @@ bbFlag bbEntitySpawner_populate(bbEntitySpawner* spawner)
     bbSpawnFunction_add(spawner, bbSF_null, "NULL");
     bbSpawnFunction_add(spawner, bbSF_addServerEntity_skelly, "SKELLY_SERVER");
     bbSpawnFunction_add(spawner, bbSF_addMoveable_skelly, "SKELLY_MOVEABLE");
+    bbSpawnFunction_add(spawner, bbSF_addMoveable_fireball, "FIREBALL_MOVEABLE");
     bbSpawnFunction_add(spawner, bbSF_addMoveable_skelly2, "SKELLY_MOVEABLE2");
     bbSpawnFunction_add(spawner, bbSF_addGraphics_skelly, "SKELLY_GRAPHICS");
     bbSpawnFunction_add(spawner, bbSF_addGraphics_skelly2, "SKELLY_GRAPHICS2");
@@ -250,6 +279,7 @@ bbFlag bbEntitySpawner_populate(bbEntitySpawner* spawner)
     bbSpawnFunction_add(spawner, bbSF_addAI_cow, "COW_AI");
     bbSpawnFunction_add(spawner, bbSF_addAI_player, "PLAYER_AI");
     bbSpawnFunction_add(spawner, bbSF_addAI_null, "NULL_AI");
+    bbSpawnFunction_add(spawner, bbSF_addAI_fireball, "FIREBALL_AI");
     bbSpawnFunction_add(spawner, bbSF_setPlayer, "PLAYER");
 
     bbLiveSpawnFunction_add(spawner,  bbLSF_liveSpawnSkelly, "SKELLY");

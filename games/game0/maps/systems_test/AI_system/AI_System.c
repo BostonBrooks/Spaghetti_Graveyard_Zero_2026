@@ -7,6 +7,13 @@
 I32 ai_update_function_count = 193;
 I32 ai_command_function_count = 194;
 
+
+bbFlag bbAI_Update_Fireball(bbAI_Component* component)
+{
+    //if close to player or timed out, explode then delete self
+    return bbSuccess;
+}
+
 bbFlag bbAI_Update_Chase(bbAI_Component* component)
 {
     //bbHere()
@@ -517,6 +524,7 @@ bbFlag bbAI_Functions_populate(bbAI_Functions* self)
     bbAI_Functions_add(self, AI_Update, bbAI_Update_Striking, "UPDATE_STRIKING");
     bbAI_Functions_add(self, AI_Update, bbAI_Update_Lunging, "UPDATE_LUNGING");
     bbAI_Functions_add(self, AI_Update, bbAI_Update_Player, "UPDATE_PLAYER");
+    bbAI_Functions_add(self, AI_Update, bbAI_Update_Fireball, "UPDATE_FIREBALL");
     bbAI_Functions_add(self, AI_Command, bbAI_Command_NULL, "COMMAND_NULL");
     bbAI_Functions_add(self, AI_Command, bbAI_Command_Player, "COMMAND_PLAYER");
     return bbSuccess;
