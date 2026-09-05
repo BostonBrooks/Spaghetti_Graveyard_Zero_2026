@@ -26,7 +26,7 @@ bbFlag bbSF_addGraphics_skelly(void* spawner,
 bbFlag bbCS_spawnEmptyEntity(bbECS_entity** entity, bbInstruction_source source)
 {
     bbAssert(source == bbInstructionSource_norewind, "not implemented");
-    bbHere()
+    //bbHere()
     bbCoreSynchronous_spawnEmptyEntity(&home.core.core,
                                        home.ECS.ECS,
                                        entity,
@@ -46,7 +46,7 @@ bbFlag bbSF_addServerEntity_skelly(void* spawner,
                                bbInstruction_source source)
 {
     bbAssert(source == bbInstructionSource_norewind, "not implemented");
-    bbHere()
+    //bbHere()
 
     bbHandle handle;
     bbVPool_reverseLookup(home.ECS.ECS->system.pool, entity, &handle);
@@ -79,9 +79,36 @@ bbFlag bbSF_addMoveable_skelly(void* spawner,
                                            no_handle);
 
     //We dont need to undo this, will be nuked by bbInstruction_unspawnTestMoveable_fn
-    bbCI_Moveable_setIdle(&home.core.core,moveable_handle,no_handle,source,no_handle);
+    bbCI_Moveable_setIdle(&home.core.core,moveable_handle,source,no_handle);
 
-    bbHere()
+    //bbHere()
+    return bbSuccess;
+}
+
+bbFlag bbSF_addMoveable_fireball(void* spawner,
+                               bbECS_entity* entity,
+                               bbSpawnFunctionArgs args,
+                               bbInstruction_source source)
+{
+    bbAssert(source == bbInstructionSource_norewind || source == bbInstructionSource_internal, "not implemented");
+
+    bbHandle handle;
+    bbVPool_reverseLookup(home.ECS.ECS->system.pool, entity, &handle);
+    bbHandle moveable_handle;
+    bbCoreSynchronous_spawnTestMoveable(&home.core.core,
+                                           handle,
+                                           &moveable_handle,
+                                           args.position,
+                                           args.speed,
+                                           args.radius,
+                                           args.mass,
+                                           source,
+                                           no_handle);
+
+    //We dont need to undo this, will be nuked by bbInstruction_unspawnTestMoveable_fn
+    bbCI_Moveable_setMovingThrough(&home.core.core,moveable_handle,args.goalpoint,source,no_handle);
+
+    //bbHere()
     return bbSuccess;
 }
 
@@ -92,7 +119,7 @@ bbFlag bbSF_addMoveable_skelly2(void* spawner,
 {
     bbAssert(source == bbInstructionSource_norewind || source == bbInstructionSource_internal, "not implemented");
 
-    bbDebug("speed = %d, radius = %d\n", args.speed, args.radius);
+    //bbDebug("speed = %d, radius = %d\n", args.speed, args.radius);
 
     bbHandle handle;
     bbVPool_reverseLookup(home.ECS.ECS->system.pool, entity, &handle);
@@ -109,19 +136,19 @@ bbFlag bbSF_addMoveable_skelly2(void* spawner,
 
 
 
-    if (args.state == bbMoveableType_Follow)
+    if (args.state == bbMoveableType_Following)
     {
         bbMoveable_setGoalMoveable(&home.ECS.moveables,moveable_handle, args.goal_handle);
     } else if (args.state == bbMoveableType_Idle)
     {
-        bbCI_Moveable_setIdle(&home.core.core,moveable_handle,no_handle,source,no_handle);
+        bbCI_Moveable_setIdle(&home.core.core,moveable_handle,source,no_handle);
     } else
     {
         bbNotHere() //Not yet implemented
     }
 
     //We dont need to undo this, will be nuked by bbInstruction_unspawnTestMoveable_fn
-    bbHere()
+    //bbHere()
     return bbSuccess;
 }
 
@@ -177,6 +204,68 @@ bbFlag bbSF_addGraphics_cow(void* spawner,
 
     bbCoreInput_spawnGraphicsComponent(&home.core.core,
                                     "COW",
+                                   args.position,
+                                   bbDrawableState_moving,
+                                   handle,
+                                   moveable,
+                                   source,
+                                   no_handle);
+
+    return bbSuccess;
+}
+
+bbFlag bbSF_addGraphics_lizard(void* spawner,
+                               bbECS_entity* entity,
+                               bbSpawnFunctionArgs args,
+                               bbInstruction_source source)
+{
+
+    bbAssert(source == bbInstructionSource_norewind || source == bbInstructionSource_internal, "not implemented");
+
+    bbHandle handle;
+    bbVPool_reverseLookup(home.ECS.ECS->system.pool, entity, &handle);
+
+    bbHandle moveable = entity->components[bbECS_Moveables];
+    //
+    // bbCoreSynchronous_spawnGraphicsComponent(&home.core.core,
+    //                                args.position,
+    //                                handle,
+    //                                moveable,
+    //                                bbInstructionSource_norewind);
+
+    bbCoreInput_spawnGraphicsComponent(&home.core.core,
+                                    "LIZARD",
+                                   args.position,
+                                   bbDrawableState_moving,
+                                   handle,
+                                   moveable,
+                                   source,
+                                   no_handle);
+
+    return bbSuccess;
+}
+
+bbFlag bbSF_addGraphics_fireball(void* spawner,
+                               bbECS_entity* entity,
+                               bbSpawnFunctionArgs args,
+                               bbInstruction_source source)
+{
+
+    bbAssert(source == bbInstructionSource_norewind || source == bbInstructionSource_internal, "not implemented");
+
+    bbHandle handle;
+    bbVPool_reverseLookup(home.ECS.ECS->system.pool, entity, &handle);
+
+    bbHandle moveable = entity->components[bbECS_Moveables];
+    //
+    // bbCoreSynchronous_spawnGraphicsComponent(&home.core.core,
+    //                                args.position,
+    //                                handle,
+    //                                moveable,
+    //                                bbInstructionSource_norewind);
+
+    bbCoreInput_spawnGraphicsComponent(&home.core.core,
+                                    "FIREBALL",
                                    args.position,
                                    bbDrawableState_moving,
                                    handle,
@@ -325,6 +414,11 @@ bbFlag bbSF_addAI_skelly(void* spawner,
                                bbSpawnFunctionArgs args,
                                bbInstruction_source source);
 
+bbFlag bbSF_addAI_fireball(void* spawner,
+                               bbECS_entity* entity,
+                               bbSpawnFunctionArgs args,
+                               bbInstruction_source source);
+
 bbFlag bbLSF_liveSpawnSkelly(void* spawner,
                                   bbHandle* Entity,
                                   bbSpawnFunctionArgs args,
@@ -353,6 +447,42 @@ bbFlag bbLSF_liveSpawnSkelly(void* spawner,
                                source);
 
     bbSF_addAI_skelly(spawner,
+                      entity,
+                      args,
+                      source);
+
+
+    bbComponent_getHandle(&home.ECS.ECS->system,(bbComponent*)entity,Entity);
+    return bbSuccess;
+}
+bbFlag bbLSF_liveSpawnFireball(void* spawner,
+                                  bbHandle* Entity,
+                                  bbSpawnFunctionArgs args,
+                                  bbInstruction_source source)
+{
+    bbAssert(source == bbInstructionSource_norewind || source == bbInstructionSource_internal, "not implemented");
+
+    bbECS_entity* entity;
+
+    bbCoreSynchronous_spawnEmptyEntity(&home.core.core,
+                                   home.ECS.ECS,
+                                   &entity,
+                                   "FIREBALL",
+                                   source,
+                                   no_handle);
+
+    bbSF_addMoveable_fireball(spawner,
+                               entity,
+                               args,
+                               source);
+
+
+    bbSF_addGraphics_fireball(spawner,
+                               entity,
+                               args,
+                               source);
+
+    bbSF_addAI_fireball(spawner,
                       entity,
                       args,
                       source);

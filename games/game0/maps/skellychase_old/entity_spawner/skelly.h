@@ -25,7 +25,7 @@ bbFlag bbSF_addGraphics_skelly(void* spawner,
 bbFlag bbCS_spawnEmptyEntity(bbECS_entity** entity, bbInstruction_source source)
 {
     bbAssert(source == bbInstructionSource_norewind, "not implemented");
-    bbHere()
+    //bbHere()
     bbCoreSynchronous_spawnEmptyEntity(&home.core.core,
                                        home.ECS.ECS,
                                        entity,
@@ -45,7 +45,7 @@ bbFlag bbSF_addServerEntity_skelly(void* spawner,
                                bbInstruction_source source)
 {
     bbAssert(source == bbInstructionSource_norewind, "not implemented");
-    bbHere()
+    //bbHere()
 
     bbHandle handle;
     bbVPool_reverseLookup(home.ECS.ECS->system.pool, entity, &handle);
@@ -79,7 +79,7 @@ bbFlag bbSF_addMoveable_skelly(void* spawner,
 
     bbMoveable_setGoalPoint(&home.ECS.moveables,moveable_handle, args.goalpoint);
 
-    bbHere()
+    //bbHere()
     return bbSuccess;
 }
 
@@ -105,7 +105,7 @@ bbFlag bbSF_addMoveable_skelly2(void* spawner,
     bbMoveable_setGoalMoveable(&home.ECS.moveables,moveable_handle, args.goal_server_handle);
 
 
-    bbHere()
+    //bbHere()
     return bbSuccess;
 }
 

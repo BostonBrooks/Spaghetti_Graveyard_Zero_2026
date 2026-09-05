@@ -16,6 +16,10 @@ bbFlag bbPF_null(void* spawner, char* string)
     return bbSuccess;
 }
 
+bbFlag bbPF_Hash(void* spawner, char* string)
+{
+    return bbSuccess;
+}
 
 bbFlag bbPF_tree(void* spawner, char* string)
 {
@@ -37,7 +41,7 @@ bbFlag bbPF_tree(void* spawner, char* string)
 }
 
 bbFlag bbPF_setGoalEntity(void* spawner, char* string)
-{bbHere()
+{//bbHere()
     char key[KEY_LENGTH];
     char tree_type[KEY_LENGTH];
     bbHandle entity_server_handle, goal_server_handle;
@@ -68,7 +72,7 @@ bbFlag bbPF_standard(void* Spawner, char* string)
     bbSpawnFunctionArgs args;
     I32 num_chars;
     char spawn_functions[256];
-    sscanf(string, "%[^','],%[^','],%d,%d%d,%d,%d,%d,%d,%d,%d,%d,%n",
+    sscanf(string, "%[^','],%[^','],%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%n",
         key,entity_type,&args.position.i,&args.position.j,&args.position.k,
         &args.goalpoint.i,&args.goalpoint.j,&args.goalpoint.k,&args.handle.bloated.index,
         &args.handle.bloated.collision,&args.speed,&args.radius,&num_chars);
@@ -149,6 +153,90 @@ bbFlag bbSF_addAI_skelly(void* spawner,
     return bbSuccess;
 }
 
+bbFlag bbSF_addAI_fireball(void* spawner,
+                               bbECS_entity* entity,
+                               bbSpawnFunctionArgs args,
+                               bbInstruction_source source)
+{
+
+    bbAssert(source == bbInstructionSource_norewind || source == bbInstructionSource_internal, "not implemented");
+
+
+    bbHandle handle;
+    bbVPool_reverseLookup(home.ECS.ECS->system.pool, entity, &handle);
+
+    bbAI_Component* this;
+
+
+
+
+    bbCS_spawnAIComponent2(&home.core.core,
+                          home.core.core.ECS,
+                          handle,
+                          4,0,
+                          &this,
+                          source,
+                          no_handle);
+
+    return bbSuccess;
+}
+
+bbFlag bbSF_addAI_castfireball(void* spawner,
+                               bbECS_entity* entity,
+                               bbSpawnFunctionArgs args,
+                               bbInstruction_source source)
+{
+
+    bbAssert(source == bbInstructionSource_norewind || source == bbInstructionSource_internal, "not implemented");
+
+
+    bbHandle handle;
+    bbVPool_reverseLookup(home.ECS.ECS->system.pool, entity, &handle);
+
+    bbAI_Component* this;
+
+
+
+
+    bbCS_spawnAIComponent2(&home.core.core,
+                          home.core.core.ECS,
+                          handle,
+                          5,0,
+                          &this,
+                          source,
+                          no_handle);
+
+    return bbSuccess;
+}
+
+bbFlag bbSF_addAI_cow(void* spawner,
+                               bbECS_entity* entity,
+                               bbSpawnFunctionArgs args,
+                               bbInstruction_source source)
+{
+
+    bbAssert(source == bbInstructionSource_norewind || source == bbInstructionSource_internal, "not implemented");
+
+
+    bbHandle handle;
+    bbVPool_reverseLookup(home.ECS.ECS->system.pool, entity, &handle);
+
+    bbAI_Component* this;
+
+
+
+
+    bbCS_spawnAIComponent2(&home.core.core,
+                          home.core.core.ECS,
+                          handle,
+                          2,0,
+                          &this,
+                          source,
+                          no_handle);
+
+    return bbSuccess;
+}
+
 bbFlag bbSF_addAI_null(void* spawner,
                                bbECS_entity* entity,
                                bbSpawnFunctionArgs args,
@@ -198,7 +286,7 @@ bbFlag bbSF_setPlayer(void* spawner,
 bbFlag bbEntitySpawner_populate(bbEntitySpawner* spawner)
 {
     bbParseFunction_add(spawner, bbPF_null, "NULL");
-    bbParseFunction_add(spawner, bbPF_standard, "STANDARD");
+    //bbParseFunction_add(spawner, bbPF_standard, "STANDARD");
     bbParseFunction_add(spawner, bbPF_tree, "TREE");
     bbParseFunction_add(spawner, bbPF_skellyParser, "SKELLY");
     bbParseFunction_add(spawner, bbPF_skelly2Parser, "SKELLY2");
@@ -207,20 +295,27 @@ bbFlag bbEntitySpawner_populate(bbEntitySpawner* spawner)
     bbSpawnFunction_add(spawner, bbSF_null, "NULL");
     bbSpawnFunction_add(spawner, bbSF_addServerEntity_skelly, "SKELLY_SERVER");
     bbSpawnFunction_add(spawner, bbSF_addMoveable_skelly, "SKELLY_MOVEABLE");
+    bbSpawnFunction_add(spawner, bbSF_addMoveable_fireball, "FIREBALL_MOVEABLE");
     bbSpawnFunction_add(spawner, bbSF_addMoveable_skelly2, "SKELLY_MOVEABLE2");
     bbSpawnFunction_add(spawner, bbSF_addGraphics_skelly, "SKELLY_GRAPHICS");
     bbSpawnFunction_add(spawner, bbSF_addGraphics_skelly2, "SKELLY_GRAPHICS2");
     bbSpawnFunction_add(spawner, bbSF_addGraphics_zombie, "ZOMBIE_GRAPHICS");
     bbSpawnFunction_add(spawner, bbSF_addGraphics_cow, "COW_GRAPHICS");
+    bbSpawnFunction_add(spawner, bbSF_addGraphics_lizard, "LIZARD_GRAPHICS");
+    bbSpawnFunction_add(spawner, bbSF_addGraphics_fireball, "FIREBALL_GRAPHICS");
     bbSpawnFunction_add(spawner, bbSF_addAI_skelly, "SKELLY_AI");
+    bbSpawnFunction_add(spawner, bbSF_addAI_cow, "COW_AI");
     bbSpawnFunction_add(spawner, bbSF_addAI_player, "PLAYER_AI");
     bbSpawnFunction_add(spawner, bbSF_addAI_null, "NULL_AI");
+    bbSpawnFunction_add(spawner, bbSF_addAI_fireball, "FIREBALL_AI");
+    bbSpawnFunction_add(spawner, bbSF_addAI_castfireball, "CASTFIREBALL_AI");
     bbSpawnFunction_add(spawner, bbSF_setPlayer, "PLAYER");
 
     bbLiveSpawnFunction_add(spawner,  bbLSF_liveSpawnSkelly, "SKELLY");
+    bbLiveSpawnFunction_add(spawner,  bbLSF_liveSpawnFireball, "FIREBALL");
 
     bbHandle handle;
-    handle.u64 = bbMoveableType_Follow;
+    handle.u64 = bbMoveableType_Following;
     bbDictionary_add(spawner->states,"FOLLOW", handle);
     handle.u64 = bbMoveableType_Moving;
     bbDictionary_add(spawner->states,"MOVING", handle);

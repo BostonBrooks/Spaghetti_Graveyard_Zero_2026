@@ -17,7 +17,7 @@ bbFlag bbSF_addGraphics_zombie(void* spawner,
                                bbInstruction_source source)
 {
     bbAssert(source == bbInstructionSource_norewind, "not implemented");
-    bbHere()
+    //bbHere()
 
     bbHandle handle;
     bbVPool_reverseLookup(home.ECS.ECS->system.pool, entity, &handle);
@@ -62,7 +62,7 @@ bbFlag bbSF_addAI_player(void* spawner,
     bbCS_spawnAIComponent2(&home.core.core,
                           home.core.core.ECS,
                           handle,
-                          0,1,
+                          3,1,
                           &this,
                           source,
                           no_handle);

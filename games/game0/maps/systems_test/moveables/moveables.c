@@ -12,15 +12,28 @@ bbFlag bbCoreSynchronous_spawnTestMoveable(bbCore* core,
                                            I32 mass,
                                            bbInstruction_source source,
                                            bbHandle action)
-{ bbHere()
-    I32 index = home.ECS.moveables.available++;
+{ //bbHere()
+    I32 index = home.ECS.moveables.available+1;
+    index %= NUM_MOVEABLES;
+    home.ECS.moveables.available = index;
+    bbMoveable* moveable = &home.ECS.moveables.moveables[index];
+
+    while (moveable->type != bbMoveableType_Unused)
+    {
+
+        index = home.ECS.moveables.available+1;
+        index %= NUM_MOVEABLES;
+        home.ECS.moveables.available = index;
+        moveable = &home.ECS.moveables.moveables[index];
+    }
+
+    bbDebug("index = %d\n",index);
 
     bbHandle moveable_handle1;
     moveable_handle1.bloated.index = index;
     moveable_handle1.bloated.collision = 193;
 
 
-    bbMoveable* moveable = &home.ECS.moveables.moveables[index];
 
     moveable->position = position;
     position.i += POINTS_PER_SQUARE;
@@ -30,12 +43,12 @@ bbFlag bbCoreSynchronous_spawnTestMoveable(bbCore* core,
     moveable->component.entity_handle = ECS_entity_handle;
     moveable->moveable_handle = moveable_handle1;
 
-    bbDebug("entity handle: %d,%d\n"
-            "moveable handle: %d,%d\n",
-            moveable->component.entity_handle.bloated.index,
-            moveable->component.entity_handle.bloated.collision,
-            moveable->moveable_handle.bloated.index,
-            moveable->moveable_handle.bloated.collision);
+    // bbDebug("entity handle: %d,%d\n"
+    //         "moveable handle: %d,%d\n",
+    //         moveable->component.entity_handle.bloated.index,
+    //         moveable->component.entity_handle.bloated.collision,
+    //         moveable->moveable_handle.bloated.index,
+    //         moveable->moveable_handle.bloated.collision);
 
 
     moveable->type = bbMoveableType_Moving;

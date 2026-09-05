@@ -77,8 +77,8 @@ bbFlag bbUnits_consumeBuffer(bbUnits* units, bbVPool* entity_units, bbMoveables_
 
 
 
-        bbVPool_lookup(home.viewport_app.entity_units,(void**)&unit_handle,snapshot->moveables[i].ECS_entity_handle);
-        if (unit_handle == NULL) continue;
+        bbFlag flag = bbVPool_lookup(home.viewport_app.entity_units,(void**)&unit_handle,snapshot->moveables[i].ECS_entity_handle);
+        if (flag != bbSuccess) continue;
         bbVPool_lookup(home.viewport_app.units->pool,(void**)&unit,*unit_handle);
         if (unit == NULL) continue;
         drawable = &unit->drawable;
@@ -92,10 +92,20 @@ bbFlag bbUnits_consumeBuffer(bbUnits* units, bbVPool* entity_units, bbMoveables_
             unit->next_coords = snapshot->moveables[i].position;
             unit->next_goalpoint = snapshot->moveables[i].goalpoint;
             unit->next_time = snapshot->time;
-            I32 delta_i = unit->next_goalpoint.i - unit->prev_coords.i;
-            I32 delta_j = unit->next_goalpoint.j - unit->prev_coords.j;
 
-            if (delta_i * delta_i + delta_j * delta_j > POINTS_PER_PIXEL)
+
+            I32 delta_i = unit->next_coords.i - unit->prev_coords.i;
+            I32 delta_j = unit->next_coords.j - unit->prev_coords.j;
+
+            if (drawable->state == bbDrawableState_attacking)
+            {
+
+                delta_i = unit->next_goalpoint.i - unit->prev_coords.i;
+                delta_j = unit->next_goalpoint.j - unit->prev_coords.j;
+            }
+
+            //TODO this condition is always true
+            if (delta_i * delta_i + delta_j * delta_j > POINTS_PER_PIXEL*POINTS_PER_PIXEL)
             {
                 float rotation = atan2(delta_i, delta_j);
                 drawable->rotation = rotation;
@@ -112,6 +122,7 @@ bbFlag bbUnits_consumeBuffer(bbUnits* units, bbVPool* entity_units, bbMoveables_
         //}
         //If the drawable is out of bounds, it will be put in a separate bin
         bbDrawable_setLocation(drawable, units,position);
+
 
 
     }

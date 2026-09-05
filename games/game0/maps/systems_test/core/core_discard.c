@@ -20,5 +20,6 @@ bbFlag bbCore_initDiscard(bbCore* core)
     core->discard_functions = calloc(sizeof(bbInstruction_fn*), max_instructions);
 
     core->discard_functions[bbInstruction_unupdateMoveables-bbInstruction_numTypes] = discard_unupdate_moveables_fn;
+    core->discard_functions[bbInstruction_entity_undeleteEntity-bbInstruction_numTypes] =discard_entity_undeleteEntity_fn;
        return bbSuccess;
 }

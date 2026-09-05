@@ -509,7 +509,7 @@ bbFlag bbList_checkIntegrity(bbList* list)
             break;
         }
 
-        if (i%60 == 0) bbDebug("i = %d\n", i);
+        //if (i%60 == 0) bbDebug("i = %d\n", i);
         i++;
     }
 
@@ -533,7 +533,7 @@ bbFlag bbList_checkIntegrity(bbList* list)
             bbHere()
             break;
         }
-        if (i%60 == 0) bbDebug("i = %d\n", i);
+        //if (i%60 == 0) bbDebug("i = %d\n", i);
         i++;
 
     }

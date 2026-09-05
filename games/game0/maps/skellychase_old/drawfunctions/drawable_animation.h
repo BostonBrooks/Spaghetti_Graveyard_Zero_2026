@@ -30,7 +30,7 @@ bbFlag bbDF_drawableAnimation(void* Drawable, void* frameDescriptor, void* cl){
 
     I32 spriteInt = animation->Sprites[angle*frames+frameInt].u64;
 
-    if (animationInt == 9){ bbDebug("spriteInt = %d\n", spriteInt);}
+    //if (animationInt == 9){ bbDebug("spriteInt = %d\n", spriteInt);}
 
     sfSprite* sprite = animation->sprites->sprites[spriteInt];
     sfRenderTexture* renderTexture = VP->main.renderTexture;

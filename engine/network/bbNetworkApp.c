@@ -175,13 +175,13 @@ bbFlag bbNetworkApp_checkInbox(bbNetwork* network)
 
         if (packet->type == PACKETTYPE_SETSOCKETNUMBER)
         {
-            bbDebug("Set socket number %d\n", packet->data.integer);
+            //bbDebug("Set socket number %d\n", packet->data.integer);
             network->server_socket_number = packet->data.integer;
         }
 
         if (packet->type == PACKETTYPE_TESTSPAWN)
         {
-            bbDebug("player character: %d, %d\n",packet->data.test_spawn.handle.bloated.index,packet->data.test_spawn.handle.bloated.index)
+            //bbDebug("player character: %d, %d\n",packet->data.test_spawn.handle.bloated.index,packet->data.test_spawn.handle.bloated.index)
 
             bbAction_spawnEntity(&home.core.core,
                             packet->data.test_spawn.position,
@@ -193,7 +193,7 @@ bbFlag bbNetworkApp_checkInbox(bbNetwork* network)
         if (packet->type == PACKETTYPE_TESTCLICK)
         {
 
-            bbDebug("player character: %d, %d\n",home.ECS.ECS->player_character.bloated.index,home.ECS.ECS->player_character.bloated.index)
+            //bbDebug("player character: %d, %d\n",home.ECS.ECS->player_character.bloated.index,home.ECS.ECS->player_character.bloated.index)
 
             bbAction_setGoalpoint(&home.core.core,
                                         packet->data.map_coords,

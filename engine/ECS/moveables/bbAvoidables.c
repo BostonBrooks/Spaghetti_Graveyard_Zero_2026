@@ -3,6 +3,18 @@
 #include "engine/data/bbHome.h"
 #include "engine/logic/bbBloatedPool.h"
 
+
+I64 force_function2 (I64 distance)
+{
+    if (distance > 800000) return 0;
+
+    U64 dist_reduced = 800000 - distance;
+    dist_reduced /= 40000;
+
+    return dist_reduced*dist_reduced*dist_reduced;
+
+}
+
 bbMilliCoords bbAvoidable_getForce(bbMoveables* moveables, bbMoveable* moveableA, bbAvoidable* avoidable)
 {
 
@@ -23,13 +35,14 @@ bbMilliCoords bbAvoidable_getForce(bbMoveables* moveables, bbMoveable* moveableA
 
     double delta_i = (coords_a.i - coords_b.i);
     double delta_j = (coords_a.j - coords_b.j);
-    double distance = sqrt(delta_i * delta_i + delta_j * delta_j);
-    double distanceReduced = (distance - 2.l*MILLS_PER_TILE)/10000.l;
-    double distanceReduced2 = distance/100000.l;
+    I64 distance = bbArith64_sqrt2(delta_i * delta_i + delta_j * delta_j)+1;
+    I64 gap = distance - moveableA->radius - 2*MILLS_PER_TILE;
+
+    I64 force = force_function2(gap);
 
     bbMilliCoords mC;
-    mC.i = ((delta_i)/(distanceReduced2*distanceReduced*distanceReduced));
-    mC.j = ((delta_j)/(distanceReduced2*distanceReduced*distanceReduced));
+    mC.i = delta_i * force  / distance;
+    mC.j = delta_j * force  / distance;
     mC.k = 0;
 
     return mC;

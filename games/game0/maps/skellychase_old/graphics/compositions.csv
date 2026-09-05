@@ -10,7 +10,7 @@ ANIMATION,KITTY,ANIMATION_DEFAULT,0,0,0,0.9,
 ANIMATION,KITTY,ANIMATION_DEFAULT,12,1000,0,1,
 ANIMATION,KITTY,ANIMATION_DEFAULT,24,2000,0,1.1,
 ,,,,,,,
-Label:,KITTIESX,Integer Address:,2,num:,3,Comment:,This is a composition of KITTY compositions
+Label:,KITTIES2,Integer Address:,2,num:,3,Comment:,This is a composition of KITTY compositions
 Type:,Key:,Drawfunction:,startTime,Offest X:,Offset Y:,Frame Rate:,
 COMPOSITION,KITTIES,COMPOSITION,0,0,0,0.98,
 COMPOSITION,KITTIES,COMPOSITION,0,0,800,1,

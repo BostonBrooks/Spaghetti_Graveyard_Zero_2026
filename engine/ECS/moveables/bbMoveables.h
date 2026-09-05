@@ -15,14 +15,15 @@
 #include "engine/logic/bbVPool.h"
 
 
-#define NUM_MOVEABLES 1001
+#define NUM_MOVEABLES 200
 
 typedef enum
 {
     bbMoveableType_Unused,
     bbMoveableType_Idle,
     bbMoveableType_Moving,
-    bbMoveableType_Follow,
+    bbMoveableType_Following,
+    bbMoveableType_Lunging,
     bbMoveableType_Attacking,
     bbMoveableType_Dead,
     bbMoveableType_MovingThrough
@@ -99,6 +100,7 @@ bbFlag bbMoveables_update(bbMoveables* moveables);
 bbMilliCoords getForce(bbMoveables* moveables, bbMoveable* moveableA, bbMoveable* moveableB);
 bbFlag bbMoveable_setGoalPoint(bbMoveables* moveables, bbHandle handle, bbMapCoords goalpoint);
 bbFlag bbMoveable_setGoalMoveable(bbMoveables* moveables, bbHandle handle, bbHandle server_handle);
+bbFlag bbMoveable_setGoalLunging(bbMoveables* moveables, bbHandle handle, bbHandle server_handle);
 
 bbFlag bbMoveables_copyBuffer(bbMoveables* moveables, bbMoveables_snapshot* target);
 

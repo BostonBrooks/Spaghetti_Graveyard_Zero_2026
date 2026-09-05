@@ -110,5 +110,33 @@ bbFlag bbInstruction_spawnGraphicsComponent_fn(bbCore* core, bbInstruction* inst
 bbFlag bbInstruction_unspawnGraphicsComponent_fn(bbCore* core, bbInstruction* instruction)
 {
 
-    bbNotHere() //TODO
+
+    bbHandle entity_handle = instruction->data.agent_MC.handle1;
+    bbHandle moveable_handle = instruction->data.agent_MC.handle2;
+    bbUI_Inbox_DeleteUnit(&home.UI.inbox,entity_handle,moveable_handle);
+
+    //TODO At some point we'll want to de-allocate component from graphics->system.pool
+
+    if (instruction->source == bbInstructionSource_internal)
+    {
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_input)
+    {
+        bbInstruction* redo_instruction;
+        bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction, instruction->redo_instruction);
+        bbList_pushL(&core->do_stack, redo_instruction);
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_action)
+    {
+        bbAction* redo_action;
+
+        bbVPool_lookup(core->action_pool, (void**)&redo_action, instruction->redo_instruction);
+        bbList_sortL(&core->action_queue,(void*)redo_action);
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+    }
+
 }
