@@ -441,7 +441,7 @@ bbFlag bbViewportSpawnFireball(bbViewportApp* viewport_app,
                     "DRAWABLE_SHADOW",
                     &drawfunctionHandle);
 
-    unit->drawable.frames[1].drawfunction = drawfunctionHandle.u64;
+    unit->drawable.frames[1].drawfunction = -1; //drawfunctionHandle.u64;
     unit->drawable.frames[1].handle.u64 = 612;
     unit->drawable.frames[1].start_time =  -(rand()%6);
     unit->drawable.frames[1].framerate = 1;

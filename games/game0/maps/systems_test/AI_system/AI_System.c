@@ -208,14 +208,6 @@ bbFlag bbAI_Update_Striking(bbAI_Component* component)
                              bbInstructionSource_internal, no_handle);
 
 
-            bbSpawnFunctionArgs args;
-            args.position = moveable->position;
-            args.goalpoint = player_moveable->position;
-            args.speed = 18000;
-            args.radius = 0;
-            args.mass = 1;
-            bbCI_live_spawnEntity(&home.core.core, args, "FIREBALL", bbInstructionSource_internal, no_handle);
-
             break;
         }
     case bbAIState_Approaching:
