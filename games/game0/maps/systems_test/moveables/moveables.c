@@ -13,14 +13,27 @@ bbFlag bbCoreSynchronous_spawnTestMoveable(bbCore* core,
                                            bbInstruction_source source,
                                            bbHandle action)
 { //bbHere()
-    I32 index = home.ECS.moveables.available++;
+    I32 index = home.ECS.moveables.available+1;
+    index %= NUM_MOVEABLES;
+    home.ECS.moveables.available = index;
+    bbMoveable* moveable = &home.ECS.moveables.moveables[index];
+
+    while (moveable->type != bbMoveableType_Unused)
+    {
+
+        index = home.ECS.moveables.available+1;
+        index %= NUM_MOVEABLES;
+        home.ECS.moveables.available = index;
+        moveable = &home.ECS.moveables.moveables[index];
+    }
+
+    bbDebug("index = %d\n",index);
 
     bbHandle moveable_handle1;
     moveable_handle1.bloated.index = index;
     moveable_handle1.bloated.collision = 193;
 
 
-    bbMoveable* moveable = &home.ECS.moveables.moveables[index];
 
     moveable->position = position;
     position.i += POINTS_PER_SQUARE;

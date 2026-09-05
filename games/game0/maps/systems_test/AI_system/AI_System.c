@@ -74,6 +74,10 @@ bbFlag bbAI_Update_Fireball(bbAI_Component* component)
                                        AI_handle,
                                        home.core.core.simulation_time,
                                  bbInstructionSource_internal, no_handle);
+
+                bbCoreInput_entity_deleteEntity(&home.core.core,
+                                       home.ECS.ECS,
+                                       entity_handle);
             }
             break;
         }

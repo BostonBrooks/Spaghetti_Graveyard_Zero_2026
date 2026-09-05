@@ -327,7 +327,7 @@ bbFlag bbCS_entity_setComponent(bbCore* core,
 bbFlag bbCoreInput_entity_setComponent(bbCore* core,bbECS* ECS, bbHandle entity,
     bbHandle component, bbECS_systems system, bbInstruction_source source, bbHandle action)
 {
-    {
+
         bbInstruction* instruction;
         bbList_alloc(&core->do_stack, (void**) &instruction);
         instruction->type = bbInstruction_entity_setComponent;
@@ -340,7 +340,7 @@ bbFlag bbCoreInput_entity_setComponent(bbCore* core,bbECS* ECS, bbHandle entity,
         bbList_pushL(&core->do_stack, instruction);
         return bbSuccess;
 
-    }
+
 }
 
 bbFlag bbInstruction_entity_setComponent_fn(bbCore* core, bbInstruction* instruction)
@@ -632,4 +632,128 @@ bbFlag bbHandle_mapComponent(bbECS* ECS,
                              component_system,
                              component_handle,
                              component);
+}
+
+
+///spawn a delete entity instruction
+bbFlag bbCoreInput_entity_deleteEntity(bbCore* core,
+                                       bbECS* ECS,
+                                       bbHandle entity)
+{
+
+
+        bbInstruction* instruction;
+        bbList_alloc(&core->do_stack, (void**) &instruction);
+        instruction->type = bbInstruction_entity_deleteEntity;
+        instruction->data.three_handles.handle1 = entity;
+        bbList_pushL(&core->do_stack, instruction);
+        return bbSuccess;
+
+
+
+}
+
+bbFlag bbInstruction_entity_deleteEntity_fn(bbCore* core, bbInstruction* instruction)
+{
+    if (instruction->source == bbInstructionSource_internal)
+    {
+        bbInstruction* undo_instruction;
+        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        undo_instruction->type = bbInstruction_entity_undeleteEntity;
+
+        undo_instruction->data.three_handles.handle1 = instruction->data.three_handles.handle1;
+
+        undo_instruction->source = instruction->source;
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        undo_instruction->redo_instruction.u64 = 0;
+        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+    }
+    else if (instruction->source == bbInstructionSource_input)
+    {
+        bbInstruction* undo_instruction;
+        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        undo_instruction->type = bbInstruction_entity_undeleteEntity;
+        undo_instruction->data.three_handles.handle1 = instruction->data.three_handles.handle1;
+
+
+        undo_instruction->source = instruction->source;
+        bbHandle handle;
+        bbVPool_reverseLookup(core->instruction_pool, instruction, &handle);
+        undo_instruction->redo_instruction = handle;
+        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+    }
+    else if (instruction->source == bbInstructionSource_action)
+    {
+        bbInstruction* undo_instruction;
+        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        undo_instruction->type = bbInstruction_entity_undeleteEntity;
+        undo_instruction->data.three_handles.handle1 = instruction->data.three_handles.handle1;
+
+
+        undo_instruction->source = instruction->source;
+        undo_instruction->redo_instruction = instruction->redo_instruction;
+        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+
+        bbAction* action;
+        bbVPool_lookup(core->action_queue.pool, (void**)&action, instruction->redo_instruction);
+        printf("collision = %d ", action->header.collision);
+    } //else source == no rewind
+
+    //set entity state to dead
+    //set component states to "dead" using reversible instructions? or do this in the calling function
+
+    return bbSuccess;
+}
+
+bbFlag bbInstruction_entity_undeleteEntity_fn(bbCore* core, bbInstruction* instruction)
+{
+
+    //restore entity state
+
+    if (instruction->source == bbInstructionSource_internal)
+    {
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_input)
+    {
+        bbInstruction* redo_instruction;
+        bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction, instruction->redo_instruction);
+        bbList_pushL(&core->do_stack, redo_instruction);
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_action)
+    {
+        bbAction* redo_action;
+
+        bbVPool_lookup(core->action_pool, (void**)&redo_action, instruction->redo_instruction);
+        bbList_sortL(&core->action_queue,(void*)redo_action);
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+
+
+
+
+        return bbSuccess;
+    }
+    bbAssert(0==1, "We should not get here\n");
+}
+
+
+bbFlag discard_entity_undeleteEntity_fn(bbCore* core, bbInstruction* undo_instruction)
+{
+    //TODO UI_inbox delete unit, free components, free entity
+
+    bbHandle entity_handle = undo_instruction->data.three_handles.handle1;
+
+
+
+    bbMoveable* moveable;
+    bbHandle moveable_handle;
+    bbHandle_mapComponent(home.ECS.ECS,bbECS_ECS,entity_handle,bbECS_Moveables,&moveable_handle,(bbComponent**)&moveable);
+
+
+    bbUI_Inbox_DeleteUnit(&home.UI.inbox, entity_handle, moveable_handle);
+
+    moveable->type = bbMoveableType_Unused;
 }

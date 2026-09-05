@@ -139,5 +139,17 @@ bbFlag bbCoreInput_entity_setComponent(bbCore* core,
 bbFlag bbInstruction_entity_setComponent_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbInstruction_entity_unsetComponent_fn(bbCore* core, bbInstruction* instruction);
 
+///spawn a delete entity instruction
+bbFlag bbCoreInput_entity_deleteEntity(bbCore* core,
+                                       bbECS* ECS,
+                                       bbHandle entity);
 
+///set aside all entity data ///could do this in the calling thread?
+bbFlag bbInstruction_entity_deleteEntity_fn(bbCore* core, bbInstruction* instruction);
+
+///restore entity and all data
+bbFlag bbInstruction_entity_undeleteEntity_fn(bbCore* core, bbInstruction* instruction);
+
+///discard data needed to restore entity
+bbFlag discard_entity_undeleteEntity_fn(bbCore* core, bbInstruction* undo_instruction);
 #endif //BB_ECS_H
