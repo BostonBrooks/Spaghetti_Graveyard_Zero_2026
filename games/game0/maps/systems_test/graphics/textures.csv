@@ -1,4 +1,4 @@
-Number of Textures:,46,,,,
+Number of Textures:,47,,,,
 Label:,Integer Address:,File:,Smooth:,Comment:,
 NULL,0,./graphics/NULL.png,F,Exception,
 LAYOUT_480,1,./graphics/Layout_480.png,F,The root of the widget tree,
@@ -46,3 +46,4 @@ BLUECLOCK,42,./graphics/Clockface_blue.png,T, a blue clock hand
 BALLOONS,43,./graphics/Balloons.png,T, some coloured balloons
 FIREBALL,44,./graphics/Fireball.png,T, a fireball
 X,45,./graphics/X.png,T, X marks the spot
+CHERRYBLOSSOM,46,./graphics/CherryBlossom.png,T, X marks the spot
