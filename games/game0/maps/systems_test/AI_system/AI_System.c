@@ -10,7 +10,80 @@ I32 ai_command_function_count = 194;
 
 bbFlag bbAI_Update_Fireball(bbAI_Component* component)
 {
-    //if close to player or timed out, explode then delete self
+    //if close to goalpoint
+
+    switch (component->state)
+    {
+    case bbAIState_Idle:
+        {
+            bbMoveable* moveable;
+            bbHandle moveable_handle;
+            bbComponent_mapComponent(home.ECS.ECS, bbECS_AI, (bbComponent*)component,
+                                     bbECS_Moveables, &moveable_handle,
+                                     (bbComponent**)&moveable);
+
+            I64 delta_i = (moveable->goalpoint.i - moveable->position.i);
+            I64 delta_j = (moveable->goalpoint.j - moveable->position.j);
+
+            int64_t distance_squared = delta_i * delta_i + delta_j * delta_j;
+
+            if (distance_squared < POINTS_PER_TILE * POINTS_PER_TILE)
+            {
+                bbHandle entity_handle;
+
+                bbComponent_mapComponent(home.ECS.ECS, bbECS_AI, (bbComponent*)component,
+                         bbECS_ECS, &entity_handle,
+                         (bbComponent**)&moveable);
+
+                bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_attacking);
+
+                bbCI_Moveable_setIdle(&home.core.core,
+                                 moveable_handle,
+                                 bbInstructionSource_internal, no_handle);
+
+                bbHandle AI_handle;
+
+                bbComponent_getHandle(&home.ECS.AI_system.system,(bbComponent*)component, &AI_handle);
+
+
+                bbCI_AI_setStriking(&home.core.core,
+                                       AI_handle,
+                                       home.ECS.ECS->player_character,
+                                       home.core.core.simulation_time,
+                                 bbInstructionSource_internal, no_handle);
+            }
+
+            break;
+        }
+    case bbAIState_Striking:
+        {
+            if (component->last_state_change < home.core.core.simulation_time - 10)
+            {
+                bbHandle entity_handle;
+
+                bbComponent_mapComponent(home.ECS.ECS, bbECS_AI, (bbComponent*)component,
+                         bbECS_ECS, &entity_handle,NULL);
+                bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_dead);
+
+
+                bbMoveable* moveable;
+                bbHandle moveable_handle;
+                bbComponent_mapComponent(home.ECS.ECS, bbECS_AI, (bbComponent*)component,
+                                         bbECS_Moveables, &moveable_handle,
+                                         (bbComponent**)&moveable);
+
+                bbHandle AI_handle;
+                bbComponent_getHandle(&home.ECS.AI_system.system,(bbComponent*)component, &AI_handle);
+
+                bbCI_AI_setRecovering(&home.core.core,
+                                       AI_handle,
+                                       home.core.core.simulation_time,
+                                 bbInstructionSource_internal, no_handle);
+            }
+            break;
+        }
+    }
+
     return bbSuccess;
 }
 
