@@ -53,7 +53,7 @@ Type:,Key:,Drawfunction:,startTime,Offest X:,Offset Y:,Frame Rate:,
 ANIMATION,FIREBALL,UNIT_ANIMATION_ANGLE,0,0,0,1,
 ANIMATION,FIREBALL,UNIT_ANIMATION_ANGLE,0,0,0,1,
 ANIMATION,FIREBALL_LARGE,UNIT_STILL_ANGLE,0,0,0,1,
-SPRITE,SHADOW1,DRAWABLE_SHADOW,0,0,0,1,
+SPRITE,SHADOW2,DRAWABLE_SHADOW,0,0,0,1,
 ,,,,,,,
 Label:,LIZARD,Integer Address:,9,num:,4,Comment,Testing conditional rendering
 Type:,Key:,Drawfunction:,startTime,Offest X:,Offset Y:,Frame Rate:,
