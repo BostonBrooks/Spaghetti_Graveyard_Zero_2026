@@ -165,13 +165,23 @@ bbFlag bbCI_spawnAIComponent2(bbCore* core,
 
 bbFlag bbI_spawnAIComponent2_fn(bbCore* core, bbInstruction* instruction)
 {
+    bbAI_Component* component;
+    bbHandle component_handle;
+
+    bbList_alloc2(&home.ECS.AI_system.list,(void**)&component, &component_handle);
+    component->ftable.update = instruction->data.three_handles.handle2.bloated.index;
+    component->ftable.command = instruction->data.three_handles.handle2.bloated.collision;
+    component->state = 0;
+    component->component.entity_handle = instruction->data.three_handles.handle1;
+
+    bbList_pushL(&home.ECS.AI_system.list,component);
+
     if (instruction->source == bbInstructionSource_internal)
     {
         bbInstruction* undo_instruction;
         bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
         undo_instruction->type = bbI_unspawnAIComponent2;
-        undo_instruction->data.three_handles.handle1 = instruction->data.
-            three_handles.handle1;
+        undo_instruction->data.three_handles.handle1 = component_handle;
         undo_instruction->source = instruction->source;
         bbVPool_free(core->instruction_pool, (void*)instruction);
         undo_instruction->redo_instruction.u64 = 0;
@@ -182,8 +192,7 @@ bbFlag bbI_spawnAIComponent2_fn(bbCore* core, bbInstruction* instruction)
         bbInstruction* undo_instruction;
         bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
         undo_instruction->type = bbI_unspawnAIComponent2;
-        undo_instruction->data.three_handles.handle1 = instruction->data.
-            three_handles.handle1;
+        undo_instruction->data.three_handles.handle1 = component_handle;
         undo_instruction->source = instruction->source;
         bbHandle handle;
         bbVPool_reverseLookup(core->instruction_pool, instruction, &handle);
@@ -195,22 +204,15 @@ bbFlag bbI_spawnAIComponent2_fn(bbCore* core, bbInstruction* instruction)
         bbInstruction* undo_instruction;
         bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
         undo_instruction->type = bbI_unspawnAIComponent2;
-        undo_instruction->data.three_handles.handle1 = instruction->data.
-            three_handles.handle1;
+        undo_instruction->data.three_handles.handle1 = component_handle;
         undo_instruction->source = instruction->source;
         undo_instruction->redo_instruction = instruction->redo_instruction;
         bbList_pushL(&core->undo_stack, (void*)undo_instruction);
     } //else source == no rewind
 
 
-    bbAI_Component* component;
-    bbHandle component_handle;
 
-    bbList_alloc2(&home.ECS.AI_system.list,(void**)&component, &component_handle);
-    component->ftable.update = instruction->data.three_handles.handle2.bloated.index;
-    component->ftable.command = instruction->data.three_handles.handle2.bloated.collision;
-    component->state = 0;
-    component->component.entity_handle = instruction->data.three_handles.handle1;
+
 
     bbCS_entity_setComponent(core,
                              home.ECS.ECS,
@@ -220,13 +222,21 @@ bbFlag bbI_spawnAIComponent2_fn(bbCore* core, bbInstruction* instruction)
                              bbInstructionSource_internal,
                              no_handle);
 
-    bbList_pushL(&home.ECS.AI_system.list,component);
     return bbSuccess;
 }
 
 bbFlag bbI_unspawnAIComponent2_fn(bbCore* core, bbInstruction* instruction)
 {
-    bbNotHere()
+    bbHandle AI_handle = instruction->data.three_handles.handle1;
+
+    bbComponent* component;
+    bbVPool_lookup(home.ECS.AI_system.system.pool, (void**)&component, AI_handle);
+
+    bbList_remove(&home.ECS.AI_system.list,component);
+    bbVPool_free(home.ECS.AI_system.system.pool,component);
+
+    return bbSuccess;
+
 }
 
 
@@ -239,7 +249,17 @@ bbFlag bbCS_spawnAIComponent2(bbCore* core,
                              bbInstruction_source source,
                              bbHandle action)
 {
-    //Post undo instruction
+    bbAI_Component* component;
+    bbHandle component_handle;
+
+    bbAI_System* AI_System = (bbAI_System*)ECS->systems[bbECS_AI];
+    bbList_alloc2(&AI_System->list,(void**)&component, &component_handle);
+    component->ftable.command = command;
+    component->ftable.update = update;
+    component->state = bbAIState_Idle;
+    component->component.entity_handle = entity;
+
+    bbList_pushL(&AI_System->list,component);
 
     if (source == bbInstructionSource_input)
     {
@@ -266,7 +286,7 @@ bbFlag bbCS_spawnAIComponent2(bbCore* core,
 
         //set instruction data
         undo_instruction->type = bbI_unspawnAIComponent2;
-        undo_instruction->data.three_handles.handle1 = entity;
+        undo_instruction->data.three_handles.handle1 = component_handle;
         bbList_pushL(&core->undo_stack,(void*)undo_instruction);
     } else if (source == bbInstructionSource_internal)
     {
@@ -277,7 +297,7 @@ bbFlag bbCS_spawnAIComponent2(bbCore* core,
         undo_instruction->redo_instruction.u64 = 0;
         //set instruction data
         undo_instruction->type = bbI_unspawnAIComponent2;
-        undo_instruction->data.three_handles.handle1 = entity;
+        undo_instruction->data.three_handles.handle1 = component_handle;
         bbList_pushL(&core->undo_stack,(void*)undo_instruction);
     } else if (source == bbInstructionSource_action)
     {
@@ -289,7 +309,7 @@ bbFlag bbCS_spawnAIComponent2(bbCore* core,
 
         //Set instruction data
         undo_instruction->type = bbI_unspawnAIComponent2;
-        undo_instruction->data.three_handles.handle1 = entity;
+        undo_instruction->data.three_handles.handle1 = component_handle;
         bbList_pushL(&core->undo_stack,(void*)undo_instruction);
     } else if (source == bbInstructionSource_norewind)
     {
@@ -298,15 +318,7 @@ bbFlag bbCS_spawnAIComponent2(bbCore* core,
 
     //take action
 
-    bbAI_Component* component;
-    bbHandle component_handle;
 
-    bbAI_System* AI_System = (bbAI_System*)ECS->systems[bbECS_AI];
-    bbList_alloc2(&AI_System->list,(void**)&component, &component_handle);
-    component->ftable.command = command;
-    component->ftable.update = update;
-    component->state = bbAIState_Idle;
-    component->component.entity_handle = entity;
 
     bbCS_entity_setComponent(core,
                              ECS,
@@ -316,7 +328,6 @@ bbFlag bbCS_spawnAIComponent2(bbCore* core,
                              bbInstructionSource_internal,
                              no_handle);
 
-    bbList_pushL(&AI_System->list,component);
 
     if (this != NULL) *this = component;
 

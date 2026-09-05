@@ -73,10 +73,11 @@ bbFlag bbUI_Inbox_check(bbUI_Inbox* inbox)
         case bbUI_Inbox_setUnitHP:
             bbUI_Inbox_setUnitHP_fn(inbox,message);
             break;
+#endif
+
         case bbUI_Inbox_deleteUnit:
             bbUI_Inbox_deleteUnit_fn(inbox,message);
             break;
-#endif
         case bbUI_Inbox_newTree:
             bbUI_Inbox_newTree_fn(inbox,message);
             break;
@@ -252,7 +253,7 @@ bbFlag bbUI_Inbox_setUnitState_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message
 
 
 bbFlag bbUI_Inbox_SetEntityState(bbUI_Inbox* inbox, bbHandle entity, I32 state)
-{bbHere()
+{
     bbUI_Inbox_message* message;
     bbThreadedQueue_alloc(&inbox->local_message_queue,(void**)&message);
     message->type = bbUI_Inbox_setEntityState;

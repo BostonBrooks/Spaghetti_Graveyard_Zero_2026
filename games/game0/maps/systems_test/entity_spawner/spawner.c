@@ -181,6 +181,34 @@ bbFlag bbSF_addAI_fireball(void* spawner,
     return bbSuccess;
 }
 
+bbFlag bbSF_addAI_castfireball(void* spawner,
+                               bbECS_entity* entity,
+                               bbSpawnFunctionArgs args,
+                               bbInstruction_source source)
+{
+
+    bbAssert(source == bbInstructionSource_norewind || source == bbInstructionSource_internal, "not implemented");
+
+
+    bbHandle handle;
+    bbVPool_reverseLookup(home.ECS.ECS->system.pool, entity, &handle);
+
+    bbAI_Component* this;
+
+
+
+
+    bbCS_spawnAIComponent2(&home.core.core,
+                          home.core.core.ECS,
+                          handle,
+                          5,0,
+                          &this,
+                          source,
+                          no_handle);
+
+    return bbSuccess;
+}
+
 bbFlag bbSF_addAI_cow(void* spawner,
                                bbECS_entity* entity,
                                bbSpawnFunctionArgs args,
@@ -280,9 +308,11 @@ bbFlag bbEntitySpawner_populate(bbEntitySpawner* spawner)
     bbSpawnFunction_add(spawner, bbSF_addAI_player, "PLAYER_AI");
     bbSpawnFunction_add(spawner, bbSF_addAI_null, "NULL_AI");
     bbSpawnFunction_add(spawner, bbSF_addAI_fireball, "FIREBALL_AI");
+    bbSpawnFunction_add(spawner, bbSF_addAI_castfireball, "CASTFIREBALL_AI");
     bbSpawnFunction_add(spawner, bbSF_setPlayer, "PLAYER");
 
     bbLiveSpawnFunction_add(spawner,  bbLSF_liveSpawnSkelly, "SKELLY");
+    bbLiveSpawnFunction_add(spawner,  bbLSF_liveSpawnFireball, "FIREBALL");
 
     bbHandle handle;
     handle.u64 = bbMoveableType_Following;

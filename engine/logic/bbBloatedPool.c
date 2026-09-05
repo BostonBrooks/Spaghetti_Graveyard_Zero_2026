@@ -397,12 +397,13 @@ bbFlag bbBloatedPool_lookupHeader2(bbBloatedPool* pool, void** address, bbHandle
 		return bbFail;
 	}
 
+	bbAssert(element != NULL, "element not found?\n");
+
 	bbHandle elementHandle = element->self;
 
 	bbAssert(handle.bloated.collision == elementHandle.bloated.collision,
 			 "handle collision\n");
 
-	bbAssert(element != NULL, "element not found?\n")
 	*address = element;
 	return bbSuccess;
 }

@@ -18,6 +18,12 @@ bbFlag bbCI_Moveable_setMovingThrough(bbCore* core,
                                   bbInstruction_source source,
                                   bbHandle action);
 
+
+bbFlag bbCI_Moveable_setDead(bbCore* core,
+                                  bbHandle moveable_handle,
+                                  bbInstruction_source source,
+                                  bbHandle action);
+
 bbFlag bbCI_Moveable_setGoalMovable(bbCore* core,
                              bbHandle moveable_handle,
                              bbHandle goal_moveable_handle,

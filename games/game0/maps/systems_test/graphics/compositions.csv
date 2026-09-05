@@ -55,8 +55,10 @@ ANIMATION,FIREBALL,UNIT_ANIMATION_ANGLE,0,0,0,1,
 ANIMATION,FIREBALL_LARGE,UNIT_STILL_ANGLE,0,0,0,1,
 SPRITE,BALLOON_WHITE,DRAWABLE_SPRITE,0,0,0,1,
 ,,,,,,,
-Label:,LIZARD,Integer Address:,9,num:,2,Comment,Testing conditional rendering
+Label:,LIZARD,Integer Address:,9,num:,4,Comment,Testing conditional rendering
 Type:,Key:,Drawfunction:,startTime,Offest X:,Offset Y:,Frame Rate:,
+ANIMATION,LIZARD,UNIT_STILL_ANGLE,0,0,0,1,
+ANIMATION,LIZARD,UNIT_STILL_ANGLE,0,0,0,1,
 ANIMATION,LIZARD,UNIT_STILL_ANGLE,0,0,0,1,
 ANIMATION,LIZARD,UNIT_STILL_ANGLE,0,0,0,1,
 ,,,,,,,

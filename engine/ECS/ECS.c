@@ -410,6 +410,7 @@ bbFlag bbInstruction_entity_unsetComponent_fn(bbCore* core, bbInstruction* instr
     bbVPool_lookup(ECS->system.pool, (void**)&entity, entity_handle);
     U64 mask = getMask(system);
 
+    entity->components[system] = no_handle;
 
     bbAssert(bbECS_entity_hasComponent(entity, system), "Entity doesnt already have component\n");
 
@@ -591,7 +592,9 @@ bbFlag bbComponent_mapComponent(bbECS* ECS,
 
     bbECS_entity* entity;
 
-    bbVPool_lookup(ECS->system.pool, (void**)&entity, entity_handle);
+    bbFlag flag = bbVPool_lookup(ECS->system.pool, (void**)&entity, entity_handle);
+
+    bbAssert(flag == bbSuccess,"Entity not found\n");
 
     bbHandle_getComponent(&ECS->system,(bbComponent**)&entity,entity_handle);
 

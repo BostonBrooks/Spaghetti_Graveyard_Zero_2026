@@ -414,6 +414,11 @@ bbFlag bbSF_addAI_skelly(void* spawner,
                                bbSpawnFunctionArgs args,
                                bbInstruction_source source);
 
+bbFlag bbSF_addAI_fireball(void* spawner,
+                               bbECS_entity* entity,
+                               bbSpawnFunctionArgs args,
+                               bbInstruction_source source);
+
 bbFlag bbLSF_liveSpawnSkelly(void* spawner,
                                   bbHandle* Entity,
                                   bbSpawnFunctionArgs args,
@@ -442,6 +447,42 @@ bbFlag bbLSF_liveSpawnSkelly(void* spawner,
                                source);
 
     bbSF_addAI_skelly(spawner,
+                      entity,
+                      args,
+                      source);
+
+
+    bbComponent_getHandle(&home.ECS.ECS->system,(bbComponent*)entity,Entity);
+    return bbSuccess;
+}
+bbFlag bbLSF_liveSpawnFireball(void* spawner,
+                                  bbHandle* Entity,
+                                  bbSpawnFunctionArgs args,
+                                  bbInstruction_source source)
+{
+    bbAssert(source == bbInstructionSource_norewind || source == bbInstructionSource_internal, "not implemented");
+
+    bbECS_entity* entity;
+
+    bbCoreSynchronous_spawnEmptyEntity(&home.core.core,
+                                   home.ECS.ECS,
+                                   &entity,
+                                   "FIREBALL",
+                                   source,
+                                   no_handle);
+
+    bbSF_addMoveable_fireball(spawner,
+                               entity,
+                               args,
+                               source);
+
+
+    bbSF_addGraphics_fireball(spawner,
+                               entity,
+                               args,
+                               source);
+
+    bbSF_addAI_fireball(spawner,
                       entity,
                       args,
                       source);

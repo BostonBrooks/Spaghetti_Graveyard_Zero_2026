@@ -34,6 +34,32 @@ bbFlag bbCI_Moveable_setGoalpoint(bbCore* core,
     return bbSuccess;
 }
 
+bbFlag bbCI_Moveable_setDead(bbCore* core,
+                                  bbHandle moveable_handle,
+                                  bbInstruction_source source,
+                                  bbHandle action)
+{
+    bbInstruction* instruction;
+    bbFlag flag = bbList_alloc(&core->do_stack,(void**)&instruction);
+
+    bbMoveable* moveable;
+    bbHandle_getComponent(&home.ECS.moveables.system,(bbComponent**)&moveable,moveable_handle);
+
+    instruction->type = bbI_moveable_setState;
+    instruction->data.moveable_state.handle = moveable_handle;
+    instruction->data.moveable_state.goalpoint = moveable->goalpoint;
+    instruction->data.moveable_state.type = bbMoveableType_Dead;
+
+
+
+    instruction->source = source;
+    instruction->redo_instruction = action;
+
+    bbList_pushL(&core->do_stack, instruction);
+    return bbSuccess;
+}
+
+
 bbFlag bbCI_Moveable_setMovingThrough(bbCore* core,
                                   bbHandle moveable_handle,
                                   bbMapCoords goalpoint,

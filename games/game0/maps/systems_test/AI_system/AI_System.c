@@ -2,6 +2,7 @@
 #include "engine/ECS/AI_system/bbAI_System.h"
 #include "engine/logic/bbIntTypes.h"
 #include "ai_null.h"
+#include "entity_spawner/live_spawn.h"
 #include "games/game0/maps/systems_test/core/player_goalpoint.h"
 
 I32 ai_update_function_count = 193;
@@ -37,7 +38,7 @@ bbFlag bbAI_Update_Fireball(bbAI_Component* component)
 
                 bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_attacking);
 
-                bbCI_Moveable_setIdle(&home.core.core,
+                bbCI_Moveable_setDead(&home.core.core,
                                  moveable_handle,
                                  bbInstructionSource_internal, no_handle);
 
@@ -65,12 +66,6 @@ bbFlag bbAI_Update_Fireball(bbAI_Component* component)
                          bbECS_ECS, &entity_handle,NULL);
                 bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_dead);
 
-
-                bbMoveable* moveable;
-                bbHandle moveable_handle;
-                bbComponent_mapComponent(home.ECS.ECS, bbECS_AI, (bbComponent*)component,
-                                         bbECS_Moveables, &moveable_handle,
-                                         (bbComponent**)&moveable);
 
                 bbHandle AI_handle;
                 bbComponent_getHandle(&home.ECS.AI_system.system,(bbComponent*)component, &AI_handle);
@@ -211,6 +206,16 @@ bbFlag bbAI_Update_Striking(bbAI_Component* component)
                                    home.ECS.ECS->player_character,
                                    home.core.core.simulation_time,
                              bbInstructionSource_internal, no_handle);
+
+
+            bbSpawnFunctionArgs args;
+            args.position = moveable->position;
+            args.goalpoint = player_moveable->position;
+            args.speed = 18000;
+            args.radius = 0;
+            args.mass = 1;
+            bbCI_live_spawnEntity(&home.core.core, args, "FIREBALL", bbInstructionSource_internal, no_handle);
+
             break;
         }
     case bbAIState_Approaching:
@@ -517,6 +522,146 @@ bbFlag bbAI_Update_Player(bbAI_Component* component)
     }
 }
 
+
+bbFlag bbAI_Update_CastFireball(bbAI_Component* component)
+{
+    //bbHere()
+
+    bbHandle AI_handle;
+    bbComponent_getHandle(&home.ECS.AI_system.system,(bbComponent*)component, &AI_handle);
+
+
+    bbHandle entity_handle;
+    bbComponent_mapComponent(home.ECS.ECS, bbECS_AI, (bbComponent*)component,
+                             bbECS_ECS, &entity_handle,
+                             NULL);
+
+    bbMoveable* moveable;
+    bbHandle moveable_handle;
+    bbComponent_mapComponent(home.ECS.ECS, bbECS_AI, (bbComponent*)component,
+                             bbECS_Moveables, &moveable_handle,
+                             (bbComponent**)&moveable);
+
+
+    bbMoveable* player_moveable;
+    bbHandle player_handle;
+
+    bbHandle_mapComponent(home.ECS.ECS, bbECS_ECS,
+                          home.ECS.ECS->player_character, bbECS_Moveables,
+                          &player_handle, (bbComponent**)&player_moveable);
+
+
+    I64 delta_i = (player_moveable->position.i - moveable->position.i);
+    I64 delta_j = (player_moveable->position.j - moveable->position.j);
+    I64 distance = bbArith64_sqrt2(delta_i * delta_i + delta_j * delta_j);
+
+
+    //bbAIState_Idle,
+    //bbAIState_Approaching,
+    //bbAIState_Striking,
+    //bbAIState_Recovering,
+
+    switch (component->state)
+    {
+    case bbAIState_Idle:
+        {
+            if (distance > POINTS_PER_TILE * 40) return bbSuccess;
+
+            bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_moving);
+
+            bbCI_Moveable_setGoalMovable(&home.core.core, moveable_handle,
+                             player_handle,
+                             bbInstructionSource_internal, no_handle);
+
+
+            bbCI_AI_setApproaching(&home.core.core,
+                                   AI_handle,
+                                   home.ECS.ECS->player_character,
+                                   home.core.core.simulation_time,
+                             bbInstructionSource_internal, no_handle);
+
+
+
+
+            break;
+        }
+    case bbAIState_Approaching:
+        {
+            if (distance<POINTS_PER_TILE * 20)
+            {
+                bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_attacking);
+
+                bbCI_Moveable_setIdle(&home.core.core,
+                                 moveable_handle,
+                                 bbInstructionSource_internal, no_handle);
+
+
+
+
+                bbCI_AI_setStriking(&home.core.core,
+                                       AI_handle,
+                                       home.ECS.ECS->player_character,
+                                       home.core.core.simulation_time,
+                                 bbInstructionSource_internal, no_handle);
+
+
+            }
+
+
+            break;
+        }
+    case bbAIState_Striking:
+        {
+            if (component->last_state_change < home.core.core.simulation_time - 10)
+            {
+
+                //bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_idle);
+
+                bbCI_Moveable_setIdle(&home.core.core,
+                 moveable_handle,
+                 bbInstructionSource_internal, no_handle);
+
+                bbCI_AI_setRecovering(&home.core.core,
+                                       AI_handle,
+                                       home.core.core.simulation_time,
+                                 bbInstructionSource_internal, no_handle);
+
+
+                bbSpawnFunctionArgs args;
+                args.position = moveable->position;
+                args.goalpoint = player_moveable->position;
+                args.speed = 18000;
+                args.radius = 0;
+                args.mass = 1;
+                bbCI_live_spawnEntity(&home.core.core, args, "FIREBALL", bbInstructionSource_internal, no_handle);
+            }
+
+            break;
+        }
+    case bbAIState_Recovering:
+        {
+            if (component->last_state_change < home.core.core.simulation_time - 10)
+            {
+                bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_moving);
+
+                bbCI_Moveable_setGoalMovable(&home.core.core, moveable_handle,
+                                 player_handle,
+                                 bbInstructionSource_internal, no_handle);
+
+                bbCI_AI_setApproaching(&home.core.core,
+                                       AI_handle,
+                                       home.ECS.ECS->player_character,
+                                       home.core.core.simulation_time,
+                                 bbInstructionSource_internal, no_handle);
+            }
+
+            break;
+        }
+    }
+
+    return bbSuccess;
+}
+
 bbFlag bbAI_Command_Player(bbAI_Component* component,
                            bbAI_CommandType type,
                            bbAI_CommandData data,
@@ -598,6 +743,7 @@ bbFlag bbAI_Functions_populate(bbAI_Functions* self)
     bbAI_Functions_add(self, AI_Update, bbAI_Update_Lunging, "UPDATE_LUNGING");
     bbAI_Functions_add(self, AI_Update, bbAI_Update_Player, "UPDATE_PLAYER");
     bbAI_Functions_add(self, AI_Update, bbAI_Update_Fireball, "UPDATE_FIREBALL");
+    bbAI_Functions_add(self, AI_Update, bbAI_Update_CastFireball, "UPDATE_CASTFIREBALL");
     bbAI_Functions_add(self, AI_Command, bbAI_Command_NULL, "COMMAND_NULL");
     bbAI_Functions_add(self, AI_Command, bbAI_Command_Player, "COMMAND_PLAYER");
     return bbSuccess;
