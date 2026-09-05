@@ -110,12 +110,7 @@ bbFlag bbInstruction_spawnGraphicsComponent_fn(bbCore* core, bbInstruction* inst
 bbFlag bbInstruction_unspawnGraphicsComponent_fn(bbCore* core, bbInstruction* instruction)
 {
 
-    if (instruction->source == bbInstructionSource_action)
-    {
-        bbAction* redo_action;
-        bbVPool_lookup(core->action_pool, (void**)&redo_action, instruction->redo_instruction);
-        printf("collision = %d ", redo_action->header.collision);
-    }
+
     bbHandle entity_handle = instruction->data.agent_MC.handle1;
     bbHandle moveable_handle = instruction->data.agent_MC.handle2;
     bbUI_Inbox_DeleteUnit(&home.UI.inbox,entity_handle,moveable_handle);
