@@ -74,6 +74,11 @@ bbFlag bbCore_react(bbCore* core)
                 bbI_setString_fn(core, instruction);
                 break;
 
+
+            case bbI_doNothing:
+                bbI_doNothing_fn(core, instruction);
+                break;
+
             //case bbI_spawnAIComponent:
                 //TODO virtual function / callback
                 //bbI_spawnAIComponent_fn(core, instruction);
@@ -173,6 +178,10 @@ bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
 
             case bbI_unsetString:
                 bbI_unsetString_fn(core, instruction);
+                break;
+
+            case bbI_undoNothing:
+                bbI_undoNothing_fn(core, instruction);
                 break;
 
             // case bbI_unspawnAIComponent:

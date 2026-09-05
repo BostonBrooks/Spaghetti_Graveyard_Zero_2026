@@ -26,7 +26,7 @@ bbFlag bbAction_setGoalpoint_fn(bbCore* core, bbAction* action)
     bbHandle action_handle;
     bbVPool_reverseLookup(core->action_pool,action,&action_handle);
 
-    bbCI_setString(core, "preserve action", bbInstructionSource_action, action_handle);
+    bbCI_doNothing(core, bbInstructionSource_action, action_handle);
 
     bbCore_react(core);
     return bbSuccess;

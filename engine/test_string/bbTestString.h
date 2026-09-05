@@ -21,6 +21,13 @@ bbFlag bbI_unsetString_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbCI_setString(bbCore* core, char* string, bbInstruction_source source, bbHandle action);
 bbFlag bbCS_setString(bbCore* core, char* string, bbInstruction_source source, bbHandle action);
 
+
+bbFlag bbI_doNothing_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbI_undoNothing_fn(bbCore* core, bbInstruction* instruction);
+
+bbFlag bbCI_doNothing(bbCore* core, bbInstruction_source source, bbHandle action);
+bbFlag bbCS_doNothing(bbCore* core, bbInstruction_source source, bbHandle action);
+
 bbFlag bbA_setString(void* Core,
                             U32 player,
                             U32 collision,
