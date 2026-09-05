@@ -77,8 +77,8 @@ bbFlag bbUnits_consumeBuffer(bbUnits* units, bbVPool* entity_units, bbMoveables_
 
 
 
-        bbVPool_lookup(home.viewport_app.entity_units,(void**)&unit_handle,snapshot->moveables[i].ECS_entity_handle);
-        if (unit_handle == NULL) continue;
+        bbFlag flag = bbVPool_lookup(home.viewport_app.entity_units,(void**)&unit_handle,snapshot->moveables[i].ECS_entity_handle);
+        if (flag != bbSuccess) continue;
         bbVPool_lookup(home.viewport_app.units->pool,(void**)&unit,*unit_handle);
         if (unit == NULL) continue;
         drawable = &unit->drawable;

@@ -401,8 +401,16 @@ bbFlag bbBloatedPool_lookupHeader2(bbBloatedPool* pool, void** address, bbHandle
 
 	bbHandle elementHandle = element->self;
 
-	bbAssert(handle.bloated.collision == elementHandle.bloated.collision,
-			 "handle collision\n");
+	if (handle.bloated.collision != elementHandle.bloated.collision)
+	{
+		bbWarning(0==1, "Handle collision\n");
+		address = NULL;
+		return bbFail;
+	}
+
+	//bbAssert(handle.bloated.collision == elementHandle.bloated.collision,
+	//		 "handle collision\n");
+
 
 	*address = element;
 	return bbSuccess;
