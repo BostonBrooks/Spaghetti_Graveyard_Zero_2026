@@ -1,4 +1,4 @@
-Number of Sprites:,707,,,,,,,,,,,,
+Number of Sprites:,708,,,,,,,,,,,,
 Label:,Integer Address:,Texture:,Left:,Top:,Width:,Height:,Origin X:,Origin Y:,Scale X:,Scale Y:,Scale By:,Comment:,
 NULL,0,NULL,0,0,128,128,0,0,1,1,None,Exception,
 LAYOUT_480,1,LAYOUT_480,0,0,720,480,0,0,1,1,None,The root of the widget tree,
@@ -707,5 +707,6 @@ COW_L,703,SPRITESHEET,280,9,93,155,33,152,-1,1,None,A cow;
 COW_SMALL,704,SPRITESHEET,280,9,93,155,33,152,0.1,0.1,None,A cow;
 LIZARD_L,705,SPRITESHEET,471,8,87,102,57,99,-1,1,None,A cow;
 LIZARD_R,706,SPRITESHEET,471,8,87,102,57,99,1,1,None,A cow;
+LIZARD_SMALL,707,SPRITESHEET,471,8,87,102,57,99,0.2,0.2,None,A cow;
 
 Label:,Integer Address:,Texture:,Left:,Top:,Width:,Height:,Origin X:,Origin Y:,Scale X:,Scale Y:,Scale By:,Comment:,

@@ -360,7 +360,7 @@ bbFlag bbViewportSpawnLizard(bbViewportApp* viewport_app,
              &drawfunctionHandle);
 
     unit->drawable.frames[2].drawfunction = drawfunctionHandle.u64;
-    unit->drawable.frames[2].handle.u64 = 704;
+    unit->drawable.frames[2].handle.u64 = 707;
     unit->drawable.frames[2].start_time =  -(rand()%6);
     unit->drawable.frames[2].framerate = 1;
     unit->drawable.frames[2].offset.x = 0;
@@ -452,7 +452,7 @@ bbFlag bbViewportSpawnFireball(bbViewportApp* viewport_app,
              "MAPICON_TEST",
              &drawfunctionHandle);
 
-    unit->drawable.frames[2].drawfunction = drawfunctionHandle.u64;
+    unit->drawable.frames[2].drawfunction = -1;//drawfunctionHandle.u64;
     unit->drawable.frames[2].handle.u64 = 704;
     unit->drawable.frames[2].start_time =  -(rand()%6);
     unit->drawable.frames[2].framerate = 1;
@@ -463,7 +463,7 @@ bbFlag bbViewportSpawnFireball(bbViewportApp* viewport_app,
              "HEALTH_POINTS",
              &drawfunctionHandle);
 
-    unit->drawable.frames[3].drawfunction = drawfunctionHandle.u64;
+    unit->drawable.frames[3].drawfunction = -1;// drawfunctionHandle.u64;
     unit->drawable.frames[3].handle.u64 = 626;
     unit->drawable.frames[3].start_time =  -(rand()%6);
     unit->drawable.frames[3].framerate = 1;
