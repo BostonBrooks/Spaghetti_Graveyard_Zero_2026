@@ -51,7 +51,7 @@ bbFlag bbCore_initVInstructions(bbCore* core)
     core->instruction_functions[bbI_AI_unsetState-bbInstruction_numTypes] = bbI_AI_unsetState_fn;
 
 
-    ;
+
        return bbSuccess;
 }
 //     core->instruction_functions
