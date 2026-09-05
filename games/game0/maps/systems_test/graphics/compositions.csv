@@ -1,4 +1,4 @@
-Number of Compositions:,9,,,,,,
+Number of Compositions:,10,,,,,,
 ,,,,,,,
 Label:,NULL,Integer Address:,0,num:,1,Comment,Void Composition
 Type:,Key:,Drawfunction:,startTime,Offest X:,Offset Y:,Frame Rate:,
@@ -43,7 +43,6 @@ ANIMATION,ZOMBIE,UNIT_ANIMATION_ANGLE,0,0,0,1,
 ANIMATION,KITTY,NONE,0,0,0,1,
 ANIMATION,SKELETON_DEATH,DRAWABLE_ANIMATION_ONCE,0,0,0,1,
 ,,,,,,,
-
 Label:,COW,Integer Address:,7,num:,2,Comment,Testing conditional rendering
 Type:,Key:,Drawfunction:,startTime,Offest X:,Offset Y:,Frame Rate:,
 ANIMATION,COW,UNIT_STILL_ANGLE,0,0,0,1,
@@ -55,5 +54,9 @@ ANIMATION,KITTY,NONE,0,0,0,1,
 ANIMATION,FIREBALL,UNIT_ANIMATION_ANGLE,0,0,0,1,
 ANIMATION,FIREBALL_LARGE,UNIT_STILL_ANGLE,0,0,0,1,
 SPRITE,BALLOON_WHITE,DRAWABLE_SPRITE,0,0,0,1,
-
+,,,,,,,
+Label:,LIZARD,Integer Address:,9,num:,2,Comment,Testing conditional rendering
+Type:,Key:,Drawfunction:,startTime,Offest X:,Offset Y:,Frame Rate:,
+ANIMATION,LIZARD,UNIT_STILL_ANGLE,0,0,0,1,
+ANIMATION,LIZARD,UNIT_STILL_ANGLE,0,0,0,1,
 ,,,,,,,
