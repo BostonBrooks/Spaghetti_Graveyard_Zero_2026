@@ -17,7 +17,7 @@
 
 bbFlag bbCore_initVInstructions(bbCore* core)
 {
-    I32 max_instructions = 32;//Careful no tomake this too small;
+    I32 max_instructions = bbVInstruction_numTypes - bbInstruction_numTypes;//Careful no tomake this too small;
     core->instruction_functions = calloc(sizeof(bbInstruction_fn*), max_instructions);
     core->instruction_functions[bbInstruction_spawnEmptyEntity-bbInstruction_numTypes] = bbInstruction_spawnEmptyEntity_fn;
     core->instruction_functions[bbInstruction_unspawnEmptyEntity-bbInstruction_numTypes] = bbInstruction_unspawnEmptyEntity_fn;
