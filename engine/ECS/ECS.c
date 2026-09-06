@@ -638,19 +638,18 @@ bbFlag bbHandle_mapComponent(bbECS* ECS,
 ///spawn a delete entity instruction
 bbFlag bbCoreInput_entity_deleteEntity(bbCore* core,
                                        bbECS* ECS,
-                                       bbHandle entity)
+                                       bbHandle entity,
+                                       bbInstruction_source source,
+                                       bbHandle action)
 {
-
-
-        bbInstruction* instruction;
-        bbList_alloc(&core->do_stack, (void**) &instruction);
-        instruction->type = bbInstruction_entity_deleteEntity;
-        instruction->data.three_handles.handle1 = entity;
-        bbList_pushL(&core->do_stack, instruction);
-        return bbSuccess;
-
-
-
+    bbInstruction* instruction;
+    bbList_alloc(&core->do_stack, (void**)&instruction);
+    instruction->type = bbInstruction_entity_deleteEntity;
+    instruction->source = source;
+    instruction->redo_instruction = action;
+    instruction->data.three_handles.handle1 = entity;
+    bbList_pushL(&core->do_stack, instruction);
+    return bbSuccess;
 }
 
 bbFlag bbInstruction_entity_deleteEntity_fn(bbCore* core, bbInstruction* instruction)

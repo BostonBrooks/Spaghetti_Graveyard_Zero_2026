@@ -142,7 +142,9 @@ bbFlag bbInstruction_entity_unsetComponent_fn(bbCore* core, bbInstruction* instr
 ///spawn a delete entity instruction
 bbFlag bbCoreInput_entity_deleteEntity(bbCore* core,
                                        bbECS* ECS,
-                                       bbHandle entity);
+                                       bbHandle entity,
+                                       bbInstruction_source source,
+                                       bbHandle action);
 
 ///set aside all entity data ///could do this in the calling thread?
 bbFlag bbInstruction_entity_deleteEntity_fn(bbCore* core, bbInstruction* instruction);
