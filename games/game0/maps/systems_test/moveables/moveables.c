@@ -27,7 +27,6 @@ bbFlag bbCoreSynchronous_spawnTestMoveable(bbCore* core,
         moveable = &home.ECS.moveables.moveables[index];
     }
 
-    bbDebug("index = %d\n",index);
 
     bbHandle moveable_handle1;
     moveable_handle1.bloated.index = index;

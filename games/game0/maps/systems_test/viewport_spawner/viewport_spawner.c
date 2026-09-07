@@ -39,15 +39,15 @@ bbFlag bbViewportSpawnSkelly(bbViewportApp* viewport_app,
     if (entity_handle.u64 != no_handle.u64)
     {
         bbHandle* entity_unit;
-        bbVPool_allocFromHandle(home.viewport_app.entity_units, (void**)&entity_unit, entity_handle);
-        *entity_unit = unit_handle;
+        //bbVPool_allocFromHandle(home.viewport_app.entity_units, (void**)&entity_unit, entity_handle);
+        //*entity_unit = unit_handle;
 
         bbLookupTable_update(home.viewport_app.entity_units2,entity_handle,unit_handle);
     }
     if (moveable_handle.u64 != no_handle.u64){
         bbHandle* moveable_unit;
-        bbVPool_allocFromHandle(home.viewport_app.moveable_units, (void**)&moveable_unit, moveable_handle);
-        *moveable_unit = unit_handle;
+        //bbVPool_allocFromHandle(home.viewport_app.moveable_units, (void**)&moveable_unit, moveable_handle);
+        //*moveable_unit = unit_handle;
     }
     unit->prev_coords = MC;
     unit->prev_time = 0;
@@ -133,15 +133,15 @@ bbFlag bbViewportSpawnZombie(bbViewportApp* viewport_app,
     if (entity_handle.u64 != no_handle.u64)
     {
         bbHandle* entity_unit;
-        bbVPool_allocFromHandle(home.viewport_app.entity_units, (void**)&entity_unit, entity_handle);
-        *entity_unit = unit_handle;
+        //bbVPool_allocFromHandle(home.viewport_app.entity_units, (void**)&entity_unit, entity_handle);
+        //*entity_unit = unit_handle;
 
         bbLookupTable_update(home.viewport_app.entity_units2,entity_handle,unit_handle);
     }
     if (moveable_handle.u64 != no_handle.u64){
         bbHandle* moveable_unit;
-        bbVPool_allocFromHandle(home.viewport_app.moveable_units, (void**)&moveable_unit, moveable_handle);
-        *moveable_unit = unit_handle;
+        //bbVPool_allocFromHandle(home.viewport_app.moveable_units, (void**)&moveable_unit, moveable_handle);
+        //*moveable_unit = unit_handle;
     }
     unit->prev_coords = MC;
     unit->prev_time = 0;
@@ -227,16 +227,16 @@ bbFlag bbViewportSpawnCow(bbViewportApp* viewport_app,
     bbHandle drawfunctionHandle;
     if (entity_handle.u64 != no_handle.u64)
     {
-        bbHandle* entity_unit;
-        bbVPool_allocFromHandle(home.viewport_app.entity_units, (void**)&entity_unit, entity_handle);
-        *entity_unit = unit_handle;
+        //bbHandle* entity_unit;
+        //bbVPool_allocFromHandle(home.viewport_app.entity_units, (void**)&entity_unit, entity_handle);
+        //*entity_unit = unit_handle;
 
         bbLookupTable_update(home.viewport_app.entity_units2,entity_handle,unit_handle);
     }
     if (moveable_handle.u64 != no_handle.u64){
-        bbHandle* moveable_unit;
-        bbVPool_allocFromHandle(home.viewport_app.moveable_units, (void**)&moveable_unit, moveable_handle);
-        *moveable_unit = unit_handle;
+       // bbHandle* moveable_unit;
+        //bbVPool_allocFromHandle(home.viewport_app.moveable_units, (void**)&moveable_unit, moveable_handle);
+        //*moveable_unit = unit_handle;
     }
     unit->prev_coords = MC;
     unit->prev_time = 0;
@@ -321,16 +321,16 @@ bbFlag bbViewportSpawnLizard(bbViewportApp* viewport_app,
     bbHandle drawfunctionHandle;
     if (entity_handle.u64 != no_handle.u64)
     {
-        bbHandle* entity_unit;
-        bbVPool_allocFromHandle(home.viewport_app.entity_units, (void**)&entity_unit, entity_handle);
-        *entity_unit = unit_handle;
+        //bbHandle* entity_unit;
+        //bbVPool_allocFromHandle(home.viewport_app.entity_units, (void**)&entity_unit, entity_handle);
+        //*entity_unit = unit_handle;
 
         bbLookupTable_update(home.viewport_app.entity_units2,entity_handle,unit_handle);
     }
     if (moveable_handle.u64 != no_handle.u64){
-        bbHandle* moveable_unit;
-        bbVPool_allocFromHandle(home.viewport_app.moveable_units, (void**)&moveable_unit, moveable_handle);
-        *moveable_unit = unit_handle;
+        //bbHandle* moveable_unit;
+        //bbVPool_allocFromHandle(home.viewport_app.moveable_units, (void**)&moveable_unit, moveable_handle);
+        //*moveable_unit = unit_handle;
     }
     unit->prev_coords = MC;
     unit->prev_time = 0;
@@ -416,16 +416,16 @@ bbFlag bbViewportSpawnFireball(bbViewportApp* viewport_app,
     bbHandle drawfunctionHandle;
     if (entity_handle.u64 != no_handle.u64)
     {
-        bbHandle* entity_unit;
-        bbVPool_allocFromHandle(home.viewport_app.entity_units, (void**)&entity_unit, entity_handle);
-        *entity_unit = unit_handle;
+        //bbHandle* entity_unit;
+        //bbVPool_allocFromHandle(home.viewport_app.entity_units, (void**)&entity_unit, entity_handle);
+        //*entity_unit = unit_handle;
 
         bbLookupTable_update(home.viewport_app.entity_units2,entity_handle,unit_handle);
     }
     if (moveable_handle.u64 != no_handle.u64){
-        bbHandle* moveable_unit;
-        bbVPool_allocFromHandle(home.viewport_app.moveable_units, (void**)&moveable_unit, moveable_handle);
-        *moveable_unit = unit_handle;
+        //bbHandle* moveable_unit;
+        //bbVPool_allocFromHandle(home.viewport_app.moveable_units, (void**)&moveable_unit, moveable_handle);
+        //*moveable_unit = unit_handle;
     }
     unit->prev_coords = MC;
     unit->prev_time = 0;

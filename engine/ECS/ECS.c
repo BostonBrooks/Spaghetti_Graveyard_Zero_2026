@@ -33,7 +33,8 @@ bbFlag bbECS_new(bbECS** ECS, I32 num_systems)
 {
     bbECS* new_ecs = malloc(sizeof(bbECS)+sizeof(bbSystem*)*num_systems);
     new_ecs->systems[bbECS_ECS] = (bbSystem*)new_ecs;
-    bbVPool_newSystem(&new_ecs->system.pool, bbECS_ECS, sizeof(bbECS_entity), 1000, 10, "ECS");
+    bbVPool_newSystem(&new_ecs->system.pool, bbECS_ECS
+        , sizeof(bbECS_entity), 1000, 10, "ECS");
     bbList_init(&new_ecs->list, new_ecs->system.pool, NULL, offsetof(bbECS_entity, list_element_handle),NULL);
 
     new_ecs->system.getComponent = bbECS_getComponent_fn;

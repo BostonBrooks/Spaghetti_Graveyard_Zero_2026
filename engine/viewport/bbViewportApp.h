@@ -24,9 +24,9 @@ typedef struct bbViewportApp
     bbHandle viewport_focus;
 
     //Convert from movable handle to unit handle
-    bbVPool* moveable_units;
+    //bbVPool* moveable_units;
     //Convert from entity handle to unit handle
-    bbVPool* entity_units;
+    //bbVPool* entity_units;
     bbLookupTable* entity_units2;
 
     bbViewportSpawner viewport_spawner;

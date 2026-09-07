@@ -52,7 +52,7 @@ void* userinterface_thread(void* arg);
 int main(void)
 {
     thread = "MAIN";
-    debug_off = false;
+    debug_off = true;
     printf("Hello, World!\n");
 
     pthread_barrier_init(&barrier1, NULL, 2);
@@ -310,7 +310,7 @@ int main(void)
 void* userinterface_thread(void* arg)
 {
     thread = "USER INTERFACE";
-    debug_off = true;
+    debug_off = false;
 
     bbUIApp_init(&home.UI);
 
@@ -383,7 +383,7 @@ bbHere()
         bbUI_Inbox_check(&home.UI.inbox);
 
         bbMoveables_copyBuffer(&home.ECS.moveables, &moveables_snapshot);
-        bbUnits_consumeBuffer(home.viewport_app.units, home.viewport_app.entity_units, &moveables_snapshot);
+        bbUnits_consumeBuffer(home.viewport_app.units, NULL, &moveables_snapshot);
 
         bbUIApp_draw(&home.UI);
 

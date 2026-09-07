@@ -267,11 +267,19 @@ bbFlag bbUI_Inbox_SetEntityState(bbUI_Inbox* inbox, bbHandle entity, I32 state)
 bbFlag bbUI_Inbox_setEntityState_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
 {
     bbHandle* unit_handle;
-    bbFlag flag = bbVPool_lookup(home.viewport_app.entity_units, (void**)&unit_handle, message->data.handle.handle);
+    bbFlag flag;// = bbVPool_lookup(home.viewport_app.entity_units, (void**)&unit_handle, message->data.handle.handle);
 
-    if (flag != bbSuccess) bbNotHere()
+    bbHandle unit_handle2;
+    bbFlag flag2 = bbLookupTable_lookup(home.viewport_app.entity_units2,message->data.handle.handle,&unit_handle2);
+
+
+    if (flag2 != bbSuccess)
+    {
+        bbDebug("entity handle table lookup failed when setting unit state\n");
+        return bbFail;
+    }
     bbUnit* unit;
-    flag = bbVPool_lookup(home.viewport_app.units->pool, (void**)&unit, *unit_handle);
+    flag = bbVPool_lookup(home.viewport_app.units->pool, (void**)&unit, unit_handle2);
     if (flag != bbSuccess) bbNotHere()
 
         unit->drawable.state = message->data.integer;
@@ -337,14 +345,14 @@ bbFlag bbUI_Inbox_newBanana_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
     if (entity_handle.u64 != no_handle.u64)
     {
         bbHandle* entity_unit;
-        bbVPool_allocFromHandle(home.viewport_app.entity_units, (void**)&entity_unit, entity_handle);
+        //bbVPool_allocFromHandle(home.viewport_app.entity_units, (void**)&entity_unit, entity_handle);
         *entity_unit = unit_handle;
 
         bbLookupTable_update(home.viewport_app.entity_units2,entity_handle,unit_handle);
     }
     if (moveable_handle.u64 != no_handle.u64){
         bbHandle* moveable_unit;
-        bbVPool_allocFromHandle(home.viewport_app.moveable_units, (void**)&moveable_unit, moveable_handle);
+        //bbVPool_allocFromHandle(home.viewport_app.moveable_units, (void**)&moveable_unit, moveable_handle);
         *moveable_unit = unit_handle;
     }
     unit->prev_coords = MC;
@@ -531,17 +539,27 @@ bbFlag bbUI_Inbox_deleteUnit_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
     bbHandle moveable_handle = message->data.moveable_handle;
 
     bbHandle* unit_handle;
-    bbVPool_lookup(home.viewport_app.entity_units,(void**)&unit_handle,entity_handle);
+    //bbVPool_lookup(home.viewport_app.entity_units,(void**)&unit_handle,entity_handle);
 
+
+    bbHandle unit_handle3;
+    bbFlag flag = bbLookupTable_lookup(home.viewport_app.entity_units2,message->data.handle.handle,&unit_handle3);
+    bbFlag_print(flag);
+
+    if (flag != bbSuccess)
+    {
+        bbDebug("entity handle table lookup failed when deleting unit");
+        return bbFail;
+    }
     bbHandle* unit_handle2;
-    bbVPool_lookup(home.viewport_app.moveable_units,(void**)&unit_handle2,moveable_handle);
+    //bbVPool_lookup(home.viewport_app.moveable_units,(void**)&unit_handle2,moveable_handle);
 
     bbUnit* unit;
-    bbVPool_lookup(home.viewport_app.units->pool,(void**)&unit, *unit_handle);
+    bbVPool_lookup(home.viewport_app.units->pool,(void**)&unit, unit_handle3);
 
 
-    bbVPool_free(home.viewport_app.entity_units,unit_handle);
-    bbVPool_free(home.viewport_app.moveable_units,unit_handle2);
+    //bbVPool_free(home.viewport_app.entity_units,unit_handle);
+    //bbVPool_free(home.viewport_app.moveable_units,unit_handle2);
 
     bbSquareCoords SC = bbMapCoords_getSquareCoords(unit->drawable.coords);
     bbUnitSquare* unitSquare = bbDrawables_getSquare(units,SC.i, SC.j, units->squares_i, units->squares_j);
