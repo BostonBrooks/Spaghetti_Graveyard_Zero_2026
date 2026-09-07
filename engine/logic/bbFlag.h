@@ -25,7 +25,6 @@ typedef enum {
     bbHandleError_System,
     bbHandleError_Index,
     bbHandleError_Generation,
-    bbHandleError_Stale,
     bbHandleError_NULL,
 
 } bbFlag;
