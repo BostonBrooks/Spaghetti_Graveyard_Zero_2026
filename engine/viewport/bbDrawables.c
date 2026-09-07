@@ -36,14 +36,14 @@ I32 bbDrawable_isCloser(void* one, void* two){
     return (foo > 0);
 }
 
-bbFlag bbDrawables_newImpl(void** self, I32 squares_i, I32 squares_j, I32 sizeOf){
+bbFlag bbDrawables_newImpl(void** self, U32 system, I32 squares_i, I32 squares_j, I32 sizeOf){
     bbDrawables* drawables = malloc(sizeof(bbDrawables) + sizeof
             (bbDrawableSquare)*squares_i*squares_j);
     bbAssert(drawables != NULL, "bad malloc\n");
 
     bbVPool* pool;
 
-    bbVPool_newSystem(&pool, bbSystem_Drawables, sizeOf, 1000, 10,"bbDrawable_Impl");
+    bbVPool_newSystem(&pool, system, sizeOf, 1000, 10,"bbDrawable_Impl");
 
     drawables->pool = pool;
     bbList_init(&drawables->list, pool,NULL,offsetof(bbDrawable, listElement)

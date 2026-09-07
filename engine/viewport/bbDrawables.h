@@ -56,11 +56,10 @@ typedef struct
     bbDrawableSquare squares[];
 } bbDrawables;
 
-bbFlag bbDrawables_newImpl(void** self, I32 squares_i, I32
-squares_j, I32 sizeOf);
+bbFlag bbDrawables_newImpl(void** self, U32 system, I32 squares_i, I32 squares_j, I32 sizeOf);
 
 #define bbDrawables_new(self, squares_i, squares_j)\
-bbDrawables_newImpl(self, squares_i, squares_j, sizeof(bbDrawable));
+bbDrawables_newImpl(self, bbSystem_Drawables , squares_i, squares_j, sizeof(bbDrawable));
 
 I32 bbDrawable_isCloser(void* one, void* two);
 

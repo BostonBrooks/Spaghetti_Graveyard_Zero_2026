@@ -19,7 +19,9 @@ typedef enum
 
 typedef enum
 {
-    bbSystem_Drawables = bbECS_numSystems
+    bbSystem_Drawables = bbECS_numSystems,
+    bbSystem_Units,
+    bbSystem_MapIcons
 } bbSystems;
 
 

@@ -26,7 +26,7 @@ typedef struct
 } bbUnit;
 
 #define bbUnits_new(self, squares_i, squares_j)\
-bbDrawables_newImpl(self, squares_i, squares_j, sizeof(bbUnit));
+bbDrawables_newImpl(self, bbSystem_Units, squares_i, squares_j, sizeof(bbUnit));
 
 #define bbUnitSquare bbDrawableSquare
 
