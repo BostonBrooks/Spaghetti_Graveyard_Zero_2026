@@ -41,6 +41,8 @@ bbFlag bbViewportSpawnSkelly(bbViewportApp* viewport_app,
         bbHandle* entity_unit;
         bbVPool_allocFromHandle(home.viewport_app.entity_units, (void**)&entity_unit, entity_handle);
         *entity_unit = unit_handle;
+
+        bbLookupTable_update(home.viewport_app.entity_units2,entity_handle,unit_handle);
     }
     if (moveable_handle.u64 != no_handle.u64){
         bbHandle* moveable_unit;
@@ -133,6 +135,8 @@ bbFlag bbViewportSpawnZombie(bbViewportApp* viewport_app,
         bbHandle* entity_unit;
         bbVPool_allocFromHandle(home.viewport_app.entity_units, (void**)&entity_unit, entity_handle);
         *entity_unit = unit_handle;
+
+        bbLookupTable_update(home.viewport_app.entity_units2,entity_handle,unit_handle);
     }
     if (moveable_handle.u64 != no_handle.u64){
         bbHandle* moveable_unit;
@@ -226,6 +230,8 @@ bbFlag bbViewportSpawnCow(bbViewportApp* viewport_app,
         bbHandle* entity_unit;
         bbVPool_allocFromHandle(home.viewport_app.entity_units, (void**)&entity_unit, entity_handle);
         *entity_unit = unit_handle;
+
+        bbLookupTable_update(home.viewport_app.entity_units2,entity_handle,unit_handle);
     }
     if (moveable_handle.u64 != no_handle.u64){
         bbHandle* moveable_unit;
@@ -318,6 +324,8 @@ bbFlag bbViewportSpawnLizard(bbViewportApp* viewport_app,
         bbHandle* entity_unit;
         bbVPool_allocFromHandle(home.viewport_app.entity_units, (void**)&entity_unit, entity_handle);
         *entity_unit = unit_handle;
+
+        bbLookupTable_update(home.viewport_app.entity_units2,entity_handle,unit_handle);
     }
     if (moveable_handle.u64 != no_handle.u64){
         bbHandle* moveable_unit;
@@ -411,6 +419,8 @@ bbFlag bbViewportSpawnFireball(bbViewportApp* viewport_app,
         bbHandle* entity_unit;
         bbVPool_allocFromHandle(home.viewport_app.entity_units, (void**)&entity_unit, entity_handle);
         *entity_unit = unit_handle;
+
+        bbLookupTable_update(home.viewport_app.entity_units2,entity_handle,unit_handle);
     }
     if (moveable_handle.u64 != no_handle.u64){
         bbHandle* moveable_unit;

@@ -19,6 +19,8 @@ bbFlag bbLookupTable_new(bbLookupTable** self,
     {
         table->elements[i] = NULL;
     }
+    *self = table;
+    return bbSuccess;
 }
 
 bbFlag bbLookupTable_expand(bbLookupTable* table,

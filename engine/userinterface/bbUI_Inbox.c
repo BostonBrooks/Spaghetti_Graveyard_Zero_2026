@@ -339,6 +339,8 @@ bbFlag bbUI_Inbox_newBanana_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
         bbHandle* entity_unit;
         bbVPool_allocFromHandle(home.viewport_app.entity_units, (void**)&entity_unit, entity_handle);
         *entity_unit = unit_handle;
+
+        bbLookupTable_update(home.viewport_app.entity_units2,entity_handle,unit_handle);
     }
     if (moveable_handle.u64 != no_handle.u64){
         bbHandle* moveable_unit;
