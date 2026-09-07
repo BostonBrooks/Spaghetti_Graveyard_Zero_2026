@@ -230,6 +230,8 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
 
         engine/data/bbPerformance.c
         engine/logic/bbInterpolate.c
+        engine/logic/bbLookupTable.c
+        engine/logic/bbSystemPool.c
 )
 
 target_compile_definitions(Systems_Test  PRIVATE DEFINE_TEST_SYSTEM)

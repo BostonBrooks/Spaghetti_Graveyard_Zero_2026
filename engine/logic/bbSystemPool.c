@@ -13,8 +13,8 @@
 
 bbFlag bbSystemPool_handleIsEqual(bbSystemPool* UNUSED, bbHandle A, bbHandle B){
 	if (A.system.system != B.system.system) return bbHandleError_System;
-	if (A.system.index != B.system.index) return bbIndexMismatch;
-	if (A.system.generation != B.system.generation) return bbGenerationMismatch;
+	if (A.system.index != B.system.index) return bbHandleError_Index;
+	if (A.system.generation != B.system.generation) return bbHandleError_Generation;
 	return  bbSuccess;
 };
 

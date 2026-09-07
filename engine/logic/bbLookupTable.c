@@ -67,7 +67,7 @@ bbFlag bbLookupTable_update(bbLookupTable* table,
     }
 
 
-    bbLookupTable_element* element = level2[level2_index];
+    bbLookupTable_element* element = &level2[level2_index];
 
 
     if (value.system.generation != 0)
@@ -98,16 +98,16 @@ bbFlag bbLookupTable_lookup(bbLookupTable* table,
 
     if (level2 == NULL) return bbNone;
 
-    bbLookupTable_element* element = level2[level2_index];
+    bbLookupTable_element element = level2[level2_index];
 
-    bbAssert (element->index.system.system == table->system, "memory corruption?\n");
+    bbAssert (element.index.system.system == table->system, "memory corruption?\n");
 
-    if (element->index.system.generation == 0) return bbHandleError_Generation;
-    if (element->value.system.generation == 0) return bbNone;
+    if (element.index.system.generation == 0) return bbHandleError_Generation;
+    if (element.value.system.generation == 0) return bbHandleError_NULL;
 
-    if (element->index.system.generation != index.system.generation) return bbHandleError_Stale;
+    if (element.index.system.generation != index.system.generation) return bbHandleError_Stale;
 
-    *value = element->value;
+    *value = element.value;
 
     return bbSuccess;
 

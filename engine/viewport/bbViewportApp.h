@@ -7,6 +7,7 @@
 #include "engine/viewport/bbDrawables.h"
 #include "engine/viewport/bbViewport.h"
 #include "engine/logic/bbFlag.h"
+#include "engine/logic/bbLookupTable.h"
 #include "engine/userinterface/bbWidgets.h"
 #include "engine/viewport/bbViewportSpawner.h"
 
@@ -26,6 +27,7 @@ typedef struct bbViewportApp
     bbVPool* moveable_units;
     //Convert from entity handle to unit handle
     bbVPool* entity_units;
+    bbLookupTable* entity_units2;
 
     bbViewportSpawner viewport_spawner;
 } bbViewportApp;
