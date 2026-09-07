@@ -3,6 +3,7 @@
 //#include "engine/viewport/bbUnits.h"
 #include "engine/data/bbHome.h"
 #include "engine/logic/bbBloatedPool.h"
+#include "engine/logic/bbSystemPool.h"
 
 I32 bbDrawables_getSquareIndex(I32 i, I32 j, I32 squares_i, I32 squares_j){
 
@@ -35,15 +36,15 @@ I32 bbDrawable_isCloser(void* one, void* two){
     return (foo > 0);
 }
 
-bbFlag bbDrawables_newImpl(void** self, I32 squares_i, I32
-squares_j, I32 sizeOf){
+bbFlag bbDrawables_newImpl(void** self, I32 squares_i, I32 squares_j, I32 sizeOf){
     bbDrawables* drawables = malloc(sizeof(bbDrawables) + sizeof
             (bbDrawableSquare)*squares_i*squares_j);
     bbAssert(drawables != NULL, "bad malloc\n");
 
     bbVPool* pool;
 
-    bbVPool_newBloated(&pool, sizeOf, 1000, 10,"bbDrawable_Impl");
+    //TODO name systems eg bbSystem_Drawables
+    bbVPool_newSystem(&pool, bbECS_numSystems, sizeOf, 1000, 10,"bbDrawable_Impl");
 
     drawables->pool = pool;
     bbList_init(&drawables->list, pool,NULL,offsetof(bbDrawable, listElement)

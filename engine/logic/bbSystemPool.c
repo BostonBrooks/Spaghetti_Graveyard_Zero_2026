@@ -44,7 +44,7 @@ bbFlag bbVPool_newSystem(bbVPool** Pool,
 	bbStr_setStr(pool->pool_name,key,KEY_LENGTH);
     pool->pool = SystemPool;
 	pool->system = system;
-    pool->type = VPoolType_bloated;
+    pool->type = VPoolType_system;
     pool->null = SystemPool->null;
     pool->size_of = SystemPool->size_of;
     pool->delete = (bbFlag (*)(void* pool)) bbSystemPool_delete;

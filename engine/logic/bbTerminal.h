@@ -114,6 +114,21 @@ break;\
 case bbTail:\
 bbDebug ("Flag = Tail\n");\
 break;            \
+case bbHandleError_System:\
+bbDebug ("Flag = bbHandleError_System\n");\
+break;            \
+case bbHandleError_Index:\
+bbDebug ("Flag = bbHandleError_Index\n");\
+break;            \
+case bbHandleError_Generation:\
+bbDebug ("Flag = bbHandleError_Generation\n");\
+break;            \
+case bbHandleError_Stale:\
+bbDebug ("Flag = bbHandleError_Stale\n");\
+break;            \
+case bbHandleError_NULL:\
+bbDebug ("Flag = bbHandleError_NULL\n");\
+break;            \
 \
 }\
 }\

@@ -14,7 +14,8 @@
 typedef enum
 {
     VPoolType_lean,
-    VPoolType_bloated
+    VPoolType_bloated,
+    VPoolType_system,
 } bbVPool_type;
 
 typedef struct
