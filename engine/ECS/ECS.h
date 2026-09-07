@@ -17,6 +17,10 @@ typedef enum
     bbECS_numSystems
 } bbECS_systems;
 
+typedef enum
+{
+    bbSystem_Drawables = bbECS_numSystems
+} bbSystems;
 
 
 typedef enum

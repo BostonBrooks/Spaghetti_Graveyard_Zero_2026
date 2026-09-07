@@ -3,6 +3,7 @@
 //#include "engine/viewport/bbUnits.h"
 #include "engine/data/bbHome.h"
 #include "engine/logic/bbBloatedPool.h"
+#include "engine/logic/bbSystemPool.h"
 
 I32 bbDrawables_getSquareIndex(I32 i, I32 j, I32 squares_i, I32 squares_j){
 
@@ -42,7 +43,7 @@ bbFlag bbDrawables_newImpl(void** self, I32 squares_i, I32 squares_j, I32 sizeOf
 
     bbVPool* pool;
 
-    bbVPool_newBloated(&pool, sizeOf, 1000, 10,"bbDrawable_Impl");
+    bbVPool_newSystem(&pool, bbSystem_Drawables, sizeOf, 1000, 10,"bbDrawable_Impl");
 
     drawables->pool = pool;
     bbList_init(&drawables->list, pool,NULL,offsetof(bbDrawable, listElement)
