@@ -11,7 +11,7 @@
 
 //Elements available to be allocated are stored in a non-circular list
 
-bool bbBloatedPool_handleIsEqual(bbBloatedPool* UNUSED, bbHandle A, bbHandle B){
+bbFlag bbBloatedPool_handleIsEqual(bbBloatedPool* UNUSED, bbHandle A, bbHandle B){
 	return(A.bloated.collision == B.bloated.collision
 			&& A.bloated.index == B.bloated.index);
 };
