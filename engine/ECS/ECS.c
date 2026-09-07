@@ -743,6 +743,7 @@ bbFlag discard_entity_undeleteEntity_fn(bbCore* core, bbInstruction* undo_instru
 {
     //TODO UI_inbox delete unit, free components, free entity
 
+    //TODO move to a different file, outside of ECS code?
     bbHandle entity_handle = undo_instruction->data.three_handles.handle1;
 
 
