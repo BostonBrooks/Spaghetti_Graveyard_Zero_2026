@@ -104,7 +104,7 @@ bbFlag bbMouse_Update(bbMouse* mouse, void* Widgets, bbGraphicsApp* graphics)
 
     bbWidgets* widgets = Widgets;
     bbVPool* pool = widgets->pool;
-    if(!bbVPool_handleIsEqual(pool, mouse->was_over, pool->null)){
+    if(bbSuccess != bbVPool_handleIsEqual(pool, mouse->was_over, pool->null)){
         bbWidget* toLeave;
         bbWidget* toEnter;
 
@@ -124,13 +124,13 @@ bbFlag bbMouse_Update(bbMouse* mouse, void* Widgets, bbGraphicsApp* graphics)
 
     } else if (!mouse->left_down && mouse->left_changed) {
         bbWidget* widget;
-        if(!bbVPool_handleIsEqual(pool, mouse->selected, pool->null)) {
+        if(bbSuccess != bbVPool_handleIsEqual(pool, mouse->selected, pool->null)) {
             bbVPool_lookup(pool, (void **) &widget, mouse->selected);
             bbMouse_LeftUpWidget(mouse, widgets, widget, graphics);
         }
     } else if (mouse->left_down && !mouse->left_changed) {
         bbWidget* widget;
-        if(!bbVPool_handleIsEqual(pool, mouse->selected, pool->null)) {
+        if(bbSuccess != bbVPool_handleIsEqual(pool, mouse->selected, pool->null)) {
             bbVPool_lookup(pool, (void **) &widget, mouse->selected);
             bbMouse_LeftDragWidget(mouse, widgets, widget, graphics);
         }
@@ -144,13 +144,13 @@ bbFlag bbMouse_Update(bbMouse* mouse, void* Widgets, bbGraphicsApp* graphics)
 
     } else if (!mouse->right_down && mouse->right_changed) {
         bbWidget* widget;
-        if(!bbVPool_handleIsEqual(pool, mouse->selected, pool->null)) {
+        if(bbSuccess != bbVPool_handleIsEqual(pool, mouse->selected, pool->null)) {
             bbVPool_lookup(pool, (void **) &widget, mouse->selected);
             bbMouse_RightUpWidget(mouse, widgets, widget, graphics);
         }
     } else if (mouse->right_down && !mouse->right_changed) {
         bbWidget* widget;
-        if(!bbVPool_handleIsEqual(pool, mouse->selected, pool->null)) {
+        if(bbSuccess != bbVPool_handleIsEqual(pool, mouse->selected, pool->null)) {
             bbVPool_lookup(pool, (void **) &widget, mouse->selected);
             bbMouse_RightDragWidget(mouse, widgets, widget, graphics);
         }
@@ -187,7 +187,7 @@ bbFlag bbMouse_Draw(bbMouse* mouse, void* Widgets, bbGraphicsApp* graphics,
     bbWidgets* widgets = (bbWidgets*)Widgets;
 
     bbHandle selected_handle = mouse->selected;
-    if (!bbVPool_handleIsEqual(widgets->pool, selected_handle,
+    if (bbSuccess != bbVPool_handleIsEqual(widgets->pool, selected_handle,
                               widgets->pool->null)){
         bbWidget* selected;
         bbVPool_lookup(widgets->pool, (void**)&selected, selected_handle);

@@ -5,8 +5,8 @@
 #include "engine/logic/bbTerminal.h"
 
 
-#define isEqual(A, B) bbVPool_handleIsEqual(list->pool, A, B)
-#define isNULL(A) bbVPool_handleIsEqual(list->pool, A, list->pool->null)
+#define isEqual(A, B) (bbSuccess ==  bbVPool_handleIsEqual(list->pool, A, B))
+#define isNULL(A) (bbSuccess == bbVPool_handleIsEqual(list->pool, A, list->pool->null))
 
 bbFlag bbList_mapL(bbList* list, bbListFunction* myFunc, void* cl){
 

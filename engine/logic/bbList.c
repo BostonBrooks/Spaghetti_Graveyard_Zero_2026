@@ -2,8 +2,8 @@
 
 #include "engine/logic/bbTerminal.h"
 
-#define isEqual(A, B) bbVPool_handleIsEqual(list->pool, A, B)
-#define isNULL(A) bbVPool_handleIsEqual(list->pool, A, list->pool->null)
+#define isEqual(A, B) (bbSuccess == bbVPool_handleIsEqual(list->pool, A, B))
+#define isNULL(A) (bbSuccess == bbVPool_handleIsEqual(list->pool, A, list->pool->null))
 
 bbFlag bbList_new(bbList** list, bbVPool* pool, void* listPtr, size_t offset_of,
                   I32 (*compare)(void* A, void* B)){
@@ -482,11 +482,11 @@ bbFlag bbList_alloc2(bbList* list, void** element, bbHandle* handle)
 
 bbFlag bbList_checkIntegrity(bbList* list)
 {
-    bbAssert (bbVPool_handleIsEqual(list->pool, list->list.head, list->pool->null)
-              == bbVPool_handleIsEqual(list->pool, list->list.tail, list->pool->null),
+    bbAssert (bbSuccess == (bbVPool_handleIsEqual(list->pool, list->list.head, list->pool->null))
+              == (bbSuccess ==  bbVPool_handleIsEqual(list->pool, list->list.tail, list->pool->null)),
                   "head/tail mismatch\n");
 
-    if (bbVPool_handleIsEqual(list->pool, list->list.head, list->pool->null)) return bbEmpty;
+    if (bbSuccess == bbVPool_handleIsEqual(list->pool, list->list.head, list->pool->null)) return bbEmpty;
 
     void* element;
     bbListElement_Handle* list_element;
@@ -500,7 +500,7 @@ bbFlag bbList_checkIntegrity(bbList* list)
     {
         list_element = element + list->offset_of;
         element_handle = list_element->next;
-        if (bbVPool_handleIsEqual(list->pool, element_handle, list->list.head)) break;
+        if (bbSuccess == bbVPool_handleIsEqual(list->pool, element_handle, list->list.head)) break;
         bbFlag flag = bbVPool_lookup(list->pool, (void**)&element,element_handle);
 
         if (element == first_element)
@@ -525,7 +525,7 @@ bbFlag bbList_checkIntegrity(bbList* list)
     {
         list_element = element + list->offset_of;
         element_handle = list_element->prev;
-        if (bbVPool_handleIsEqual(list->pool, element_handle, list->list.tail)) break;
+        if (bbSuccess == bbVPool_handleIsEqual(list->pool, element_handle, list->list.tail)) break;
         bbFlag flag = bbVPool_lookup(list->pool, (void**)&element,element_handle);
 
         if (element == first_element)

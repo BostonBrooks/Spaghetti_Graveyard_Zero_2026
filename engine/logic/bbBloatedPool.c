@@ -12,11 +12,12 @@
 //Elements available to be allocated are stored in a non-circular list
 
 bbFlag bbBloatedPool_handleIsEqual(bbBloatedPool* UNUSED, bbHandle A, bbHandle B){
-	return(A.bloated.collision == B.bloated.collision
-			&& A.bloated.index == B.bloated.index);
+	if(A.bloated.collision == B.bloated.collision
+			&& A.bloated.index == B.bloated.index) return  bbSuccess;
+	return bbFail;
 };
 
-#define IS_NULL(A) bbBloatedPool_handleIsEqual(NULL, A, pool->null)
+#define IS_NULL(A) (bbSuccess == bbBloatedPool_handleIsEqual(NULL, A, pool->null))
 
 bbFlag bbBloatedPool_print (bbBloatedPool* pool);
 
@@ -235,13 +236,13 @@ bbFlag bbBloatedPool_allocImpl(bbBloatedPool* pool, void** address, bbHandle* ha
 	//If no elements available
 	if (IS_NULL(pool->available.head) || IS_NULL(pool->available.tail))
 	{
-		bbAssert(bbBloatedPool_handleIsEqual(NULL,pool->available.head,pool->available.tail),
+		bbAssert(bbSuccess == bbBloatedPool_handleIsEqual(NULL,pool->available.head,pool->available.tail),
 			"head/tail mismatch\n");
 		bbBloatedPool_expand(pool);
 	}
 
 	//If one element available
-	if (bbBloatedPool_handleIsEqual(NULL, pool->available.head,
+	if (bbSuccess == bbBloatedPool_handleIsEqual(NULL, pool->available.head,
 								pool->available.tail))
 	{
         bbBloatedPool_Header *element;
@@ -311,7 +312,7 @@ bbFlag bbBloatedPool_free(bbBloatedPool* pool, void* address)
 	//return element to empty pool
 	if (IS_NULL(pool->available.head) || IS_NULL(pool->available.tail))
 	{
-		bbAssert(bbBloatedPool_handleIsEqual(NULL,pool->available.head,pool->available.tail ),
+		bbAssert(bbSuccess == bbBloatedPool_handleIsEqual(NULL,pool->available.head,pool->available.tail ),
 			"head/tail mismatch\n");
 
 		pool->available.head = header->self;
@@ -460,8 +461,8 @@ bbFlag bbBloatedPool_allocFromHandle(bbBloatedPool* pool, void** address, bbHand
 
 	bbHandle old_handle = element->self;
 
-	bool is_head = bbBloatedPool_handleIsEqual(pool, head_handle, old_handle);
-	bool is_tail = bbBloatedPool_handleIsEqual(pool, tail_handle, old_handle);
+	bool is_head = bbSuccess == bbBloatedPool_handleIsEqual(pool, head_handle, old_handle);
+	bool is_tail = bbSuccess == bbBloatedPool_handleIsEqual(pool, tail_handle, old_handle);
 
 	element->in_use = true;
 	element->self.bloated.collision = collision;

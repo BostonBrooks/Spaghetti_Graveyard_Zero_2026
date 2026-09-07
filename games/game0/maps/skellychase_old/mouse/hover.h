@@ -10,7 +10,7 @@ bbFlag IsOver_Hover(bbMouse* mouse, bbWidgets* widgets, bbWidget* widget)
         bbHandle handle;
         bbVPool_reverseLookup(pool,widget,&handle);
 
-        if (!bbVPool_handleIsEqual(pool,handle,mouse->is_over))
+        if (bbSuccess != bbVPool_handleIsEqual(pool,handle,mouse->is_over))
         {
             mouse->was_over = mouse->is_over;
             mouse->is_over = handle;

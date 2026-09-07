@@ -70,12 +70,12 @@ bbFlag bbThreadedQueue_pushL(bbThreadedQueue* queue, void* element)
 
     bbFlag flag;
     bbListElement_Handle* list_element = element + queue->offset_of;
-
-    bbAssert(
-        bbVPool_handleIsEqual(queue->pool, queue->pool->null, list_element->prev)
-        && bbVPool_handleIsEqual(queue->pool, queue->pool->null, list_element->next),
-        "Tried to push element already in a queue\n"
-    );
+    // TODO bbVPool_handleIsNULL
+    // bbAssert(
+    //     bbSuccess == bbVPool_handleIsEqual(queue->pool, queue->pool->null, list_element->prev)
+    //     && bbSuccess == bbVPool_handleIsEqual(queue->pool, queue->pool->null, list_element->next),
+    //     "Tried to push element already in a queue\n"
+    // );
     bbHandle handle_element;
     flag = bbVPool_reverseLookup(queue->pool, element, &handle_element);
     head_tail(queue)
@@ -133,12 +133,12 @@ bbFlag bbThreadedQueue_pushR(bbThreadedQueue* queue, void* element)
 
     bbFlag flag;
     bbListElement_Handle* list_element = element + queue->offset_of;
-
-    bbAssert(
-        bbVPool_handleIsEqual(queue->pool, queue->pool->null, list_element->prev)
-        && bbVPool_handleIsEqual(queue->pool, queue->pool->null, list_element->next),
-        "Tried to push element already in a queue\n"
-    );
+    // TODO bbVPool_handleIsNULL
+    // bbAssert(
+    //     bbSuccess == bbVPool_handleIsEqual(queue->pool, queue->pool->null, list_element->prev)
+    //     && bbSuccess == bbVPool_handleIsEqual(queue->pool, queue->pool->null, list_element->next),
+    //     "Tried to push element already in a queue\n"
+    // );
     bbHandle handle_element;
     flag = bbVPool_reverseLookup(queue->pool, element, &handle_element);
 

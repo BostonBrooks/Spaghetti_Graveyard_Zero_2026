@@ -7,8 +7,8 @@
 #include <stdlib.h>
 
 
-#define isEqual(A, B) bbVPool_handleIsEqual(list->pool, A, B)
-#define isNULL(A) bbVPool_handleIsEqual(list->pool, A, list->pool->null)
+#define isEqual(A, B) (bbSuccess == bbVPool_handleIsEqual(list->pool, A, B))
+#define isNULL(A) (bbSuccess == bbVPool_handleIsEqual(list->pool, A, list->pool->null))
 
 I32 getLength(bbList* list, bbList_Handle temp_list){
     if(isNULL(temp_list.head)){

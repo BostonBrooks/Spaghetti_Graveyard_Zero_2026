@@ -2,8 +2,8 @@
 #include "engine/logic/bbFlag.h"
 
 
-#define isEqual(A, B) bbVPool_handleIsEqual(list->pool, A, B)
-#define isNULL(A) bbVPool_handleIsEqual(list->pool, A, list->pool->null)
+#define isEqual(A, B) (bbSuccess == bbVPool_handleIsEqual(list->pool, A, B))
+#define isNULL(A) (bbSuccess == bbVPool_handleIsEqual(list->pool, A, list->pool->null))
 
 ///point the iterator to the head of the list
 bbFlag bbList_setHead(bbList* list, void** element){

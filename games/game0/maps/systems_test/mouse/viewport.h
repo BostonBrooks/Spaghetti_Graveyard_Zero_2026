@@ -62,7 +62,7 @@ bbFlag IsOver_Viewport(bbMouse* mouse, bbWidgets* widgets, bbWidget* widget)
         // bbDrawable_newPoint(&drawable, home.viewport_app.drawables,
         //                   &home.UI.graphics, MC);
 
-        if (!bbVPool_handleIsEqual(pool,handle,mouse->is_over))
+        if (bbSuccess != bbVPool_handleIsEqual(pool,handle,mouse->is_over))
         {
             mouse->was_over = mouse->is_over;
             mouse->is_over = handle;

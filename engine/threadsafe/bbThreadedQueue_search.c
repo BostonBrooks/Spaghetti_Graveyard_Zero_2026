@@ -13,8 +13,8 @@ bbFlag bbThreadedQueue_removeUnchecked(bbThreadedQueue* queue, void* element) {
         bbAssert(queue->head == element_int, "element not in list\n");
 
         bbAssert(
-            bbVPool_handleIsEqual(queue->pool, list_element->prev, queue->pool->null) &&
-            bbVPool_handleIsEqual(queue->pool, list_element->next, queue->pool->null),
+            bbSuccess == bbVPool_handleIsEqual(queue->pool, list_element->prev, queue->pool->null) &&
+            bbSuccess == bbVPool_handleIsEqual(queue->pool, list_element->next, queue->pool->null),
             "weird bbPool_ListElement\n"
         );
         queue->head = -1;
@@ -148,7 +148,7 @@ bbFlag bbThreadedQueue_search(bbThreadedQueue* queue, void** Element, bbCallback
 
         bbListElement_Handle* list_element = (element + queue->offset_of);
         bbHandle next_handle = list_element->next;
-        if (bbVPool_handleIsEqual(queue->pool, next_handle, queue->pool->null)) {
+        if (bbSuccess == bbVPool_handleIsEqual(queue->pool, next_handle, queue->pool->null)) {
             return bbNone;
         }
         bbVPool_lookup(queue->pool, &element, next_handle);
