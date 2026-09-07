@@ -31,6 +31,7 @@ bbFlag bbLookupTable_expand(bbLookupTable* table,
     U32 index = handle.system.index;
 
     U32 level1 = handle.system.index / table->level2;
+    bbAssert(level1 <= table->level1, "out of bounds");
 
     if (table->elements[level1] != NULL) return bbFail;
 
@@ -56,6 +57,9 @@ bbFlag bbLookupTable_update(bbLookupTable* table,
 
     U32 handle_index = value.system.index;
     U32 level1_index = handle_index / table->level2;
+
+    bbAssert(level1_index <= table->level1, "out of bounds");
+
     U32 level2_index = handle_index % table->level2;
 
 
@@ -93,6 +97,9 @@ bbFlag bbLookupTable_lookup(bbLookupTable* table,
 
     U32 handle_index = index.system.index;
     U32 level1_index = handle_index / table->level2;
+
+    bbAssert(level1_index <= table->level1, "out of bounds");
+
     U32 level2_index = handle_index % table->level2;
 
 
