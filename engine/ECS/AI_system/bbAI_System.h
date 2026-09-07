@@ -69,8 +69,8 @@ typedef bbFlag bbAI_Command(bbAI_Component* component,
                                    bool is_action);
 
 
-extern I32 ai_update_function_count;
-extern I32 ai_command_function_count;
+#define ai_update_function_count   123
+#define ai_command_function_count  193
 
 typedef struct
 {

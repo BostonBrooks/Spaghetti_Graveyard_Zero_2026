@@ -5,8 +5,7 @@
 #include "entity_spawner/live_spawn.h"
 #include "games/game0/maps/systems_test/core/player_goalpoint.h"
 
-I32 ai_update_function_count = 193;
-I32 ai_command_function_count = 194;
+
 
 
 bbFlag bbAI_Update_Fireball(bbAI_Component* component)
