@@ -27,7 +27,6 @@ bbFlag bbViewportApp_updateViewpoint(bbViewportApp* app)
 
     bbHandle unit_handle2;
     bbFlag flag = bbLookupTable_lookup(home.viewport_app.entity_units2,app->viewport_focus,&unit_handle2);
-    bbFlag_print(flag);
 
     if (unit_handle == NULL) return bbFail;
     bbUnit* unit;
