@@ -4,6 +4,7 @@ project(Spaghetti_Graveyard_Zero_2026 C)
 set(CMAKE_C_STANDARD 23)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../games/game0)
 
+
 if (CSFML3)
     add_definitions(-DCSFML3=1)
 endif (CSFML3)
