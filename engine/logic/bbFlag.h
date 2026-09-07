@@ -22,6 +22,11 @@ typedef enum {
     bbDelete,
     bbHead,
     bbTail,
+    bbHandleError_System,
+    bbHandleError_Index,
+    bbHandleError_Generation,
+    bbHandleError_NULL,
+
 } bbFlag;
 
 #endif // BB_FLAG_H

@@ -24,6 +24,7 @@ typedef struct
     bbVPool_type type;
     U32 size_of;
     void* pool;
+    U16 system;
 
     bbFlag (*delete)(void* pool);
     bbFlag (*clear)(void* pool);

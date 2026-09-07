@@ -7,15 +7,23 @@
 
 //may want to do a 16:48 split to allow 2^48 indices
 typedef struct {
-    U32 collision;
     U32 index;
+    U32 collision;
 } bbBloatedPool_Handle;
+
+typedef struct
+{
+    U32 index;
+    U16 system;
+    U16 generation;
+} bbSystem_Handle;
 
 typedef union {
     void* ptr;
     bbBloatedPool_Handle bloated;
     U64 u64;
     I32x2 i32x2;
+    bbSystem_Handle system;
 } bbHandle;
 
 typedef struct
