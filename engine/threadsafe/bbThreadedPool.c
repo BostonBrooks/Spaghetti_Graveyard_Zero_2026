@@ -231,9 +231,9 @@ bbFlag bbThreadedPool_reverseLookup(void* Pool, void* address, bbHandle* Handle)
     return bbSuccess;
 }
 
-bool bbThreadedPool_handleIsEqual(void* USUSED, bbHandle A, bbHandle B)
+bbFlag bbThreadedPool_handleIsEqual(void* USUSED, bbHandle A, bbHandle B)
 {
-    return (A.u64 == B.u64);
+    return (A.u64 != B.u64); //=bbSuccess for True
 }
 
 bbFlag bbThreadedPool_clear(void* Pool)
