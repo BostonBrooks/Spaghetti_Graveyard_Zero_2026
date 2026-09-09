@@ -14,7 +14,7 @@ bbFlag bbGraphicsSystem_init(bbGraphicsSystem* graphics_system, bbECS* ECS)
 
     graphics_system->system.getComponent = bbGraphicsSystem_getComponent_fn;
     graphics_system->system.getHandle = bbGraphicsSystem_getHandle_fn;
-
+    graphics_system->system.ECS = ECS;
 
     ECS->systems[bbECS_Graphics] = (bbSystem* )graphics_system;
 

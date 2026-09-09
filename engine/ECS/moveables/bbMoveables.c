@@ -5,6 +5,7 @@
 #include "engine/core/bbAction.h"
 #include "engine/core/bbCoreInputs.h"
 #include "engine/data/bbHome.h"
+#include "engine/ECS/spatial/bbSpatial_query.h"
 #include "engine/logic/bbBloatedPool.h"
 
 #define LUNGE_SPEED 3.5f
@@ -66,6 +67,64 @@ bbMilliCoords getForce(bbMoveables* moveables, bbMoveable* moveableA,
     return mC;
 }
 
+typedef struct
+{
+    bbECS* ECS;
+    bbMoveables* moveables;
+    bbMoveable* self;
+    bbMilliCoords total;
+} sumForces_cl;
+
+bbFlag sumForces_fn (bbList* list, void* node, void* cl)
+{
+    sumForces_cl* data = cl;
+
+    bbSpatial_Component* component = node;
+    bbMoveable* moveable;
+
+    bbComponent_mapComponent(data->ECS,
+                            bbECS_Spatial,
+                            (bbComponent*)component,
+                            bbECS_Moveables,
+                            NULL,
+                            (bbComponent**)&moveable);
+
+
+    if (moveable->type == bbMoveableType_Unused) return bbContinue;
+    if (moveable->type == bbMoveableType_MovingThrough) return bbContinue;
+    if (moveable->type == bbMoveableType_Dead) return bbContinue;
+    if (data->self == moveable) return bbContinue;
+
+    bbMilliCoords force = getForce(data->moveables, data->self, moveable);
+
+    data->total.i += force.i;
+    data->total.j += force.j;
+
+    return  bbContinue;
+
+}
+
+bbMilliCoords sumForces2(bbMoveables* moveables, bbMoveable* moveableA)
+{
+    sumForces_cl data;
+    data.ECS = moveables->system.ECS;
+    data.moveables = moveables;
+    data.self = moveableA;
+    data.total.i = 0;
+    data.total.j = 0;
+    data.total.k = 0;
+
+
+    bbSpatial_mapRadius((bbSpatial*)moveables->system.ECS->systems[bbECS_Spatial],
+                        moveableA->position,
+                        800000 / MILLS_PER_POINT,
+                        sumForces_fn,
+                        &data);
+
+    return data.total;
+
+}
+
 bbMilliCoords sumForces(bbMoveables* moveables, bbMoveable* moveableA)
 {
     bbMoveable* moveableB;
@@ -104,6 +163,7 @@ bbFlag bbMoveables_init(bbMoveables* moveables,bbECS* ECS)
 
     moveables->system.getComponent = bbMoveable_getComponent_fn;
     moveables->system.getHandle = bbMoveable_getHandle_fn;
+    moveables->system.ECS = ECS;
 
     moveables->buffer_back = &moveables->buffer_a;
     moveables->buffer_front = &moveables->buffer_b;
@@ -171,7 +231,7 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
                         double delta_j = distance_j / distance * moveable->
                             speed;
 
-                        bbMilliCoords forces = sumForces(moveables, moveable);
+                        bbMilliCoords forces = sumForces2(moveables, moveable);
                         bbMilliCoords avoidables_forces =
                             bbAvoidables_sumForces(moveables, home.ECS.avoidables, moveable);
 
@@ -242,7 +302,7 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
                         double delta_j = distance_j / distance * moveable->
                             speed;
 
-                        bbMilliCoords forces = sumForces(moveables, moveable);
+                        bbMilliCoords forces = sumForces2(moveables, moveable);
 
                         bbMilliCoords avoidables_forces =
                             bbAvoidables_sumForces(moveables, home.ECS.avoidables, moveable);

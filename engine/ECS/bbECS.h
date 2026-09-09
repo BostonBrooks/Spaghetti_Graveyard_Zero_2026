@@ -61,6 +61,7 @@ typedef struct bbSystem
     bbVPool* pool;
     bbHandle_getComponent_fn* getComponent;
     bbComponent_getHandle_fn* getHandle;
+    struct bbECS* ECS;
 } bbSystem;
 typedef struct bbECS
 {

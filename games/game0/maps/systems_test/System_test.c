@@ -202,14 +202,14 @@ int main(void)
     while (1)
     {
 
-        I32 count = 0;
-
-        bbSpatial_mapRadius(&home.ECS.spatial,
-                        home.viewport_app.viewport.viewpoint,
-                        POINTS_PER_SQUARE,
-                        test_func,
-                        &count);
-        bbDebug ("count = %d\n",count);
+        // I32 count = 0;
+        //
+        // bbSpatial_mapRadius(&home.ECS.spatial,
+        //                 home.viewport_app.viewport.viewpoint,
+        //                 POINTS_PER_SQUARE,
+        //                 test_func,
+        //                 &count);
+        // bbDebug ("count = %d\n",count);
 
         if (home.network.send_ready && home.network.receive_ready)
         {

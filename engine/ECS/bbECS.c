@@ -39,6 +39,7 @@ bbFlag bbECS_new(bbECS** ECS, I32 num_systems)
 
     new_ecs->system.getComponent = bbECS_getComponent_fn;
     new_ecs->system.getHandle = bbECS_getHandle_fn;
+    new_ecs->system.ECS = new_ecs;
 
     *ECS = new_ecs;
     return bbSuccess;

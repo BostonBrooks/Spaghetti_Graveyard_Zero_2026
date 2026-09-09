@@ -19,7 +19,7 @@ bbFlag bbAI_System_init(bbAI_System* system,bbECS* ECS)
 
     system->system.getComponent = bbAI_System_getComponent_fn;
     system->system.getHandle = bbAI_System_getHandle_fn;
-
+    system->system.ECS = ECS;
     bbAI_Functions_init(&system->functions);
     ECS->systems[bbECS_AI] = (bbSystem*)system;
     return bbSuccess;

@@ -20,6 +20,7 @@ bbFlag bbServerEntities_init(bbServerEntities* server_entities,bbECS* ECS)
 
     server_entities->system.getComponent = bbServerEntity_getComponent_fn;
     server_entities->system.getHandle = bbServerEntity_getHandle_fn;
+    server_entities->system.ECS = ECS;
     ECS->systems[bbECS_ServerEntities] = (bbSystem* )server_entities;
 
     return bbSuccess;

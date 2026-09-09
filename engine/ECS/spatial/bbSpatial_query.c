@@ -40,8 +40,8 @@ bbFlag bbSpatial_mapRadius(bbSpatial* spatial,
     bbSquareCoords left_square = bbMapCoords_getSquareCoords(left);
     bbSquareCoords right_square = bbMapCoords_getSquareCoords(right);
 
-    bbDebug("left.i = %d, left.j = %d, right.i = %d, right.j = %d\n",
-        left_square.i, left_square.j, right_square.i, right_square.j);
+    // bbDebug("left.i = %d, left.j = %d, right.i = %d, right.j = %d\n",
+    //     left_square.i, left_square.j, right_square.i, right_square.j);
 
     bbSpatial_queryRadius_cl query;
     query.radius = radius_points;
@@ -59,7 +59,7 @@ bbFlag bbSpatial_mapRadius(bbSpatial* spatial,
             bbIterator iterator = bbIterator_new(&square->list);
             bbFlag flag = bbIterator_mapL(&iterator, bbListFunction_queryRadius, &query);
             //TODO process flag
-            bbDebug("i = %d, j = %d\n", i, j);
+            //bbDebug("i = %d, j = %d\n", i, j);
         }
     }
     return bbSuccess;

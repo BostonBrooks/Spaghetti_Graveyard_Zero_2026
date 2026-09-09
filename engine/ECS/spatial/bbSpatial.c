@@ -43,6 +43,7 @@ bbFlag bbSpatial_init(bbSpatial* system,bbECS* ECS, I32 squares_i, I32 squares_j
 
     system->system.getComponent = bbSpatial_getComponent_fn;
     system->system.getHandle = bbSpatial_getHandle_fn;
+    system->system.ECS = ECS;
 
     ECS->systems[bbECS_Spatial] = (bbSystem*)system;
 
