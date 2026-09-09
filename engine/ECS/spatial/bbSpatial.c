@@ -92,7 +92,7 @@ bbFlag bbSpatial_unpdateOnce(bbList* list, void* node, void* cl)
 
     if (flag != bbSuccess)
     {
-        bbFlag_print(flag);
+        bbDebug("Probable orphaned spatial component\n");
         return bbContinue;
     }
 
