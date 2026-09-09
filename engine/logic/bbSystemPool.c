@@ -18,11 +18,12 @@ bbFlag bbSystemPool_handleIsEqual(bbSystemPool* UNUSED, bbHandle A, bbHandle B){
 	return  bbSuccess;
 };
 
-bool bbSystemPool_handleIsNULL(bbHandle handle){
-	return (handle.system.generation == 0);
+bbFlag bbSystemPool_handleIsNULL(bbVPool* pool, bbHandle A){
+	if(A.system.generation == 0) return bbHandleError_NULL;
+	return bbSuccess;
 };
 
-#define IS_NULL(A) bbSystemPool_handleIsNULL(A)
+#define IS_NULL(A) (bbSuccess != bbSystemPool_handleIsNULL(NULL, A))
 
 bbFlag bbSystemPool_print (bbSystemPool* pool);
 
@@ -59,6 +60,7 @@ bbFlag bbVPool_newSystem(bbVPool** Pool,
     pool->handle_is_equal = (bbFlag (*)(void* USUSED, bbHandle A, bbHandle B)) bbSystemPool_handleIsEqual;
 	pool->alloc_from_handle = (bbFlag (*)(void* pool, void** address, bbHandle handle, char* file, int
 	line)) bbSystemPool_allocFromHandle;
+	pool->handle_is_NULL = (bbFlag (*)(void* USUSED, bbHandle A)) bbSystemPool_handleIsNULL;
 	*Pool = pool;
     return bbSuccess;
 }

@@ -47,6 +47,7 @@ bbFlag bbBloatedPool_lookup2(bbBloatedPool* pool, void** address, bbHandle handl
 bbFlag bbBloatedPool_reverseLookup(bbBloatedPool* pool, void* address, bbHandle* handle);
 bbFlag bbBloatedPool_printHeader(bbBloatedPool* pool, void* address);
 bbFlag bbBloatedPool_handleIsEqual(bbBloatedPool* USUSED, bbHandle A, bbHandle B);
+bbFlag bbBloatedPool_handleIsNULL(bbVPool* pool, bbHandle A);
 
 //Get the header used to track allocation of elements in pool
 bbFlag bbBloatedPool_lookupHeader(bbBloatedPool* pool, void** address, bbHandle handle);

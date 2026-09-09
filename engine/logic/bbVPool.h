@@ -35,6 +35,7 @@ typedef struct
     bbFlag (*reverse_lookup)(void* pool, void* address, bbHandle* handle);
     bbFlag (*print_header)(void* pool, void* address);
     bbFlag (*handle_is_equal)(void* pool, bbHandle a, bbHandle b);
+    bbFlag (*handle_is_NULL)(void* pool, bbHandle a);
     bbFlag (*alloc_from_handle)(void* pool, void** address, bbHandle handle, char* file, I32 line);
 
 }bbVPool;
@@ -89,6 +90,11 @@ static bbFlag bbVPool_printHeader(bbVPool* pool, void* address)
 static bbFlag bbVPool_handleIsEqual(bbVPool* pool, bbHandle A, bbHandle B)
 {
     return pool->handle_is_equal(pool->pool, A, B);
+}
+
+static bbFlag bbVPool_handleIsNULL(bbVPool* pool, bbHandle A)
+{
+    return pool->handle_is_NULL(pool->pool, A);
 }
 
 #define bbVPool_alloc(pool, address)\

@@ -82,6 +82,8 @@ bbFlag bbSystemPool_printHeader(bbSystemPool* pool, void* address);
 ///return true if handles are equal. return different flag for system/index/generation mismatch
 bbFlag bbSystemPool_handleIsEqual(bbSystemPool* UNUSED, bbHandle a, bbHandle b);
 
+///return bbSuccess if handle is not NULL
+bbFlag bbSystemPool_handleIsNULL(bbVPool* pool, bbHandle A);
 
 ///Get the header used to track allocation of elements in pool
 bbFlag bbSystemPool_lookupHeader(bbSystemPool* pool, void** address, bbHandle handle);
