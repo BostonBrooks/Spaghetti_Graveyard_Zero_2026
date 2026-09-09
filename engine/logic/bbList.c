@@ -3,7 +3,7 @@
 #include "engine/logic/bbTerminal.h"
 
 #define isEqual(A, B) (bbSuccess == bbVPool_handleIsEqual(list->pool, A, B))
-#define isNULL(A) (bbSuccess == bbVPool_handleIsEqual(list->pool, A, list->pool->null))
+#define isNULL(A) (bbSuccess != bbVPool_handleIsNULL(list->pool, A))
 
 bbFlag bbList_new(bbList** list, bbVPool* pool, void* listPtr, size_t offset_of,
                   I32 (*compare)(void* A, void* B)){

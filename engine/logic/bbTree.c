@@ -3,7 +3,7 @@
 
 
 #define isEqual(A, B) (bbSuccess == bbVPool_handleIsEqual(tree->pool, A, B))
-#define isNULL(A) (bbSuccess == bbVPool_handleIsEqual(tree->pool, A, tree->pool->null))
+#define isNULL(A) (bbSuccess != bbVPool_handleIsNULL(tree->pool, A))
 
 
 bbFlag bbTree_new (bbTree** Tree, void* pool, size_t offset){

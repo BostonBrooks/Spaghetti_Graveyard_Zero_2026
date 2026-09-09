@@ -47,6 +47,7 @@ bbFlag bbThreadedPool_reverseLookup(void* Pool, void* address, bbHandle*
 handle);
 bbFlag bbThreadedPool_printHeader(void* Pool, void* address);
 bbFlag bbThreadedPool_handleIsEqual(void* USUSED, bbHandle A, bbHandle B);
+bbFlag bbThreadedPool_handleIsNULL(void* USUSED, bbHandle A);
 
 
 

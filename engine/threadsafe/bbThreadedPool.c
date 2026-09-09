@@ -47,6 +47,7 @@ bbFlag bbVPool_newThreaded(bbVPool** self, I32 size_of, I32 num)
     pool->reverse_lookup = bbThreadedPool_reverseLookup;
     //pool->printHeader = bbThreadedPool_printHeader;
     pool->handle_is_equal = bbThreadedPool_handleIsEqual;
+    pool->handle_is_NULL = bbThreadedPool_handleIsNULL;
     *self = pool;
     return bbSuccess;
 
@@ -235,6 +236,13 @@ bbFlag bbThreadedPool_handleIsEqual(void* USUSED, bbHandle A, bbHandle B)
 {
     return (A.u64 != B.u64); //=bbSuccess for True
 }
+
+
+bbFlag bbThreadedPool_handleIsNULL(void* USUSED, bbHandle A)
+{
+    if(A.u64 == 0) return bbHandleError_NULL;
+    return bbSuccess;
+};
 
 bbFlag bbThreadedPool_clear(void* Pool)
 {
