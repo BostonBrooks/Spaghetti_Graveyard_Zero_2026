@@ -8,6 +8,7 @@
 #define isEqual(A, B) (bbSuccess ==  bbVPool_handleIsEqual(list->pool, A, B))
 #define isNULL(A)  (bbSuccess != bbVPool_handleIsNULL(list->pool, A))
 
+//typedef bbFlag bbListFunction(bbList* list, void* node, void* cl);
 bbFlag bbList_mapL(bbList* list, bbListFunction* myFunc, void* cl){
 
 
@@ -44,6 +45,7 @@ bbFlag bbList_mapL(bbList* list, bbListFunction* myFunc, void* cl){
 
 }
 
+//typedef bbFlag bbListFunction(bbList* list, void* node, void* cl);
 bbFlag bbList_mapR(bbList* list, bbListFunction* myFunc, void* cl){
 
 

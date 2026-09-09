@@ -130,7 +130,6 @@ bbFlag bbIterator_decrement(bbIterator* iterator, bbHandle* handle, void** eleme
 //typedef bbFlag bbListFunction(bbList* list, void* node, void* cl);
 bbFlag bbIterator_mapL(bbIterator* iterator, bbListFunction* myFunc, void* cl)
 {
-    bbAssert(iterator->current != NULL, "Iterator has no current element\n");
 
     bbHandle handle;
     void* element;
@@ -157,6 +156,7 @@ bbFlag bbIterator_mapL(bbIterator* iterator, bbListFunction* myFunc, void* cl)
 }
 
 
+//typedef bbFlag bbListFunction(bbList* list, void* node, void* cl);
 bbFlag bbIterator_mapR(bbIterator* iterator, bbListFunction* myFunc, void* cl)
 {
     bbAssert(iterator->current != NULL, "Iterator has no current element\n");

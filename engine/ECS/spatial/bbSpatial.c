@@ -1,5 +1,6 @@
 #include "engine/ECS/spatial/bbSpatial.h"
 
+#include "bbSpatial_query.h"
 #include "engine/ECS/AI_system/bbAI_System.h"
 #include "engine/logic/bbBloatedPool.h"
 #include "engine/logic/bbSystemPool.h"

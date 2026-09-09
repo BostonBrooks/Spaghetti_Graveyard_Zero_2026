@@ -177,6 +177,7 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
         engine/ECS/entity_spawner/bbEntitySpawner.c
         engine/ECS/moveables/bbMoveables_setState.c
         engine/ECS/spatial/bbSpatial.c
+        engine/ECS/spatial/bbSpatial_query.c
 
         engine/core/bbAction.c
         engine/core/bbCore.c
@@ -197,6 +198,7 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
         engine/logic/bbTree.c
         engine/logic/bbBloatedPool.c
         engine/logic/bbDictionary.c
+        engine/logic/bbIterator.c
 
         engine/threadsafe/bbThreadedQueue_search.c
         engine/threadsafe/bbThreadedQueue.c

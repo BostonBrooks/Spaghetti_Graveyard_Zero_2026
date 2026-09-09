@@ -33,6 +33,7 @@
 
 
 #include "engine/ECS/graphics_system/bbGraphicsSystem.h"
+#include "engine/ECS/spatial/bbSpatial_query.h"
 #include "moveables/moveables.h"
 
 pthread_barrier_t barrier1;
@@ -48,11 +49,22 @@ char test_string[KEY_LENGTH];
 bbMapCoords testGoalPoint;
 //bool interp_positions;
 
+//typedef bbFlag bbListFunction(bbList* list, void* node, void* cl);
+bbFlag test_func (bbList* list, void* node, void* cl)
+{
+    I32* i = cl;
+    *i++;
+
+    bbDebug("i = %d\n", *i);
+
+    return bbContinue;
+}
+
 void* userinterface_thread(void* arg);
 int main(void)
 {
     thread = "MAIN";
-    debug_off = true;
+    debug_off = false;
     printf("Hello, World!\n");
 
     pthread_barrier_init(&barrier1, NULL, 2);
@@ -269,6 +281,18 @@ int main(void)
             bbCoreInput_updateMoveables(&home.core.core,bbInstructionSource_input, no_handle );
             bbCore_react(&home.core.core);
 
+            bbMapCoords test_coords;
+            test_coords.i = 10000; test_coords.j = 10100; test_coords.k = 0;
+
+            I32 count = 0;
+
+            bbSpatial_mapRadius(&home.ECS.spatial,
+                            test_coords,
+                            POINTS_PER_SQUARE,
+                            test_func,
+                            &count);
+            bbDebug ("count = %d\n",count);
+
             //bbMovables_update(&home.agents_app.movables);
             //bbCoreInput_approachGoalpoint(&home.core.core);
 
@@ -311,7 +335,7 @@ int main(void)
 void* userinterface_thread(void* arg)
 {
     thread = "USER INTERFACE";
-    debug_off = false;
+    debug_off = true;
 
     bbUIApp_init(&home.UI);
 
