@@ -301,6 +301,7 @@ bbFlag bbEntitySpawner_populate(bbEntitySpawner* spawner)
     bbSpawnFunction_add(spawner, bbSF_addGraphics_skelly2, "SKELLY_GRAPHICS2");
     bbSpawnFunction_add(spawner, bbSF_addGraphics_zombie, "ZOMBIE_GRAPHICS");
     bbSpawnFunction_add(spawner, bbSF_addGraphics_cow, "COW_GRAPHICS");
+    bbSpawnFunction_add(spawner, bbSF_addGraphics_fox, "FOX_GRAPHICS");
     bbSpawnFunction_add(spawner, bbSF_addGraphics_lizard, "LIZARD_GRAPHICS");
     bbSpawnFunction_add(spawner, bbSF_addGraphics_fireball, "FIREBALL_GRAPHICS");
     bbSpawnFunction_add(spawner, bbSF_addAI_skelly, "SKELLY_AI");

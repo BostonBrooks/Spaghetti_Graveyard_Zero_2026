@@ -1,4 +1,4 @@
-Number of Sprites:,709,,,,,,,,,,,,
+Number of Sprites:,712,,,,,,,,,,,,
 Label:,Integer Address:,Texture:,Left:,Top:,Width:,Height:,Origin X:,Origin Y:,Scale X:,Scale Y:,Scale By:,Comment:,
 NULL,0,NULL,0,0,128,128,0,0,1,1,None,Exception,
 LAYOUT_480,1,LAYOUT_480,0,0,720,480,0,0,1,1,None,The root of the widget tree,
@@ -709,5 +709,7 @@ LIZARD_L,705,SPRITESHEET,471,8,87,102,57,99,-1,1,None,A lizard;
 LIZARD_R,706,SPRITESHEET,471,8,87,102,57,99,1,1,None,A lizard;
 LIZARD_SMALL,707,SPRITESHEET,471,8,87,102,57,99,0.2,0.2,None,A lizard;
 CHERRYBLOSSOM,708,CHERRYBLOSSOM,0,0,320,400,157,362,0.8,0.8,None,A cherry blosum tree;
-
+FOX_L,709,SPRITESHEET,0,0,66,99,26,98,-1,1,None, Mr Fox.
+FOX_R,710,SPRITESHEET,0,0,66,99,26,98,1,1,None, Mr Fox.
+FOX_SMALL,711,SPRITESHEET,0,0,66,99,26,98,0.2,0.2,None, Mr Fox.
 Label:,Integer Address:,Texture:,Left:,Top:,Width:,Height:,Origin X:,Origin Y:,Scale X:,Scale Y:,Scale By:,Comment:,

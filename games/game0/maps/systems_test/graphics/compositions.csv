@@ -1,4 +1,4 @@
-Number of Compositions:,10,,,,,,
+Number of Compositions:,11,,,,,,
 ,,,,,,,
 Label:,NULL,Integer Address:,0,num:,1,Comment,Void Composition
 Type:,Key:,Drawfunction:,startTime,Offest X:,Offset Y:,Frame Rate:,
@@ -62,3 +62,9 @@ ANIMATION,LIZARD,UNIT_STILL_ANGLE,0,0,0,1,
 ANIMATION,LIZARD,UNIT_STILL_ANGLE,0,0,0,1,
 ANIMATION,LIZARD,UNIT_STILL_ANGLE,0,0,0,1,
 ,,,,,,,
+Label:,FOX,Integer Address:,10,num:,4,Comment,Testing conditional rendering
+Type:,Key:,Drawfunction:,startTime,Offest X:,Offset Y:,Frame Rate:,
+ANIMATION,FOX,UNIT_STILL_ANGLE,0,0,0,1,
+ANIMATION,FOX,UNIT_STILL_ANGLE,0,0,0,1,
+ANIMATION,FOX,UNIT_STILL_ANGLE,0,0,0,1,
+ANIMATION,FOX,UNIT_STILL_ANGLE,0,0,0,1,
