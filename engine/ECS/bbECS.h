@@ -55,12 +55,14 @@ struct bbSystem;
 
 typedef bbFlag bbHandle_getComponent_fn(struct bbSystem* system, bbComponent** component, bbHandle component_handle);
 typedef bbFlag bbComponent_getHandle_fn(struct bbSystem* system, bbComponent* component, bbHandle* component_handle);
+typedef bbFlag bbHandle_deleteComponent_fn(struct bbSystem* system, bbHandle component_handle);
 
 typedef struct bbSystem
 {
     bbVPool* pool;
     bbHandle_getComponent_fn* getComponent;
     bbComponent_getHandle_fn* getHandle;
+    bbHandle_deleteComponent_fn* delete;
     struct bbECS* ECS;
 } bbSystem;
 typedef struct bbECS
@@ -75,6 +77,7 @@ typedef struct bbECS
 
 bbFlag bbHandle_getComponent(struct bbSystem* system, bbComponent** component, bbHandle component_handle);
 bbFlag bbComponent_getHandle(struct bbSystem* system, bbComponent* component, bbHandle* component_handle);
+bbFlag bbHandle_deleteComponent(struct bbSystem* system, bbHandle component_handle);
 
 bbFlag bbHandle_mapComponent(bbECS* ECS,
                              bbECS_systems system,

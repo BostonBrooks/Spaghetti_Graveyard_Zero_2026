@@ -12,6 +12,7 @@
 
 bbFlag bbMoveable_getComponent_fn(struct bbSystem* system, bbComponent** component, bbHandle component_handle);
 bbFlag bbMoveable_getHandle_fn(struct bbSystem* system, bbComponent* component, bbHandle* component_handle);
+bbFlag bbMoveable_deleteComponent_fn(struct bbSystem* system, bbHandle component_handle);
 
 I64 force_function (I64 distance)
 {
@@ -163,6 +164,7 @@ bbFlag bbMoveables_init(bbMoveables* moveables,bbECS* ECS)
 
     moveables->system.getComponent = bbMoveable_getComponent_fn;
     moveables->system.getHandle = bbMoveable_getHandle_fn;
+    moveables->system.delete = bbMoveable_deleteComponent_fn;
     moveables->system.ECS = ECS;
 
     moveables->buffer_back = &moveables->buffer_a;
@@ -718,4 +720,16 @@ bbFlag bbMoveable_getHandle_fn(struct bbSystem* system, bbComponent* component, 
     component_handle->bloated.collision = 193;
 
     return bbSuccess;
+}
+
+
+bbFlag bbMoveable_deleteComponent_fn(struct bbSystem* system, bbHandle component_handle)
+{
+    bbMoveables* moveables = (bbMoveables*)system;
+    bbMoveable* moveable;
+    bbMoveable_getComponent_fn(system, (bbComponent**)&moveable, component_handle);
+    moveable->type = bbMoveableType_Unused;
+
+    return bbSuccess;
+
 }

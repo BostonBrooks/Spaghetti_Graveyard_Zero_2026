@@ -34,6 +34,23 @@ bbFlag bbSpatial_getHandle_fn(struct bbSystem* system, bbComponent* component, b
 {
     return bbVPool_reverseLookup(system->pool, (void*)component, component_handle);
 }
+bbFlag bbSpatial_deleteComponent_fn(struct bbSystem* system, bbHandle component_handle)
+{
+    bbSpatial* spatial = (bbSpatial*)system;
+    bbSpatial_Component* component;
+    bbSpatial_getComponent_fn(system, (bbComponent**)&component, component_handle);
+
+    bbSquareCoords SC = bbMapCoords_getSquareCoords(component->map_coords);
+
+    bbSpatialSquare* square = bbSpatial_getSquare(spatial, SC.i, SC.j, spatial->squares_i, spatial->squares_j);
+
+    bbList_remove(&square->list,component);
+    bbList_remove(&spatial->master_list,component);
+    bbVPool_free(spatial->system.pool,component);
+
+    return bbSuccess;
+
+}
 
 bbFlag bbSpatial_init(bbSpatial* system,bbECS* ECS, I32 squares_i, I32 squares_j)
 {
@@ -43,6 +60,7 @@ bbFlag bbSpatial_init(bbSpatial* system,bbECS* ECS, I32 squares_i, I32 squares_j
 
     system->system.getComponent = bbSpatial_getComponent_fn;
     system->system.getHandle = bbSpatial_getHandle_fn;
+    system->system.delete = bbSpatial_deleteComponent_fn;
     system->system.ECS = ECS;
 
     ECS->systems[bbECS_Spatial] = (bbSystem*)system;

@@ -584,6 +584,13 @@ bbFlag bbComponent_getHandle(bbSystem* system, bbComponent* component, bbHandle*
     return function(system, component, component_handle);
 }
 
+
+bbFlag bbHandle_deleteComponent(struct bbSystem* system, bbHandle component_handle)
+{
+    bbHandle_deleteComponent_fn* function = system->delete;
+    return function(system, component_handle);
+}
+
 bbFlag bbComponent_mapComponent(bbECS* ECS,
                              bbECS_systems system,
                              bbComponent* from_component,
@@ -752,12 +759,15 @@ bbFlag discard_entity_undeleteEntity_fn(bbCore* core, bbInstruction* undo_instru
 
 
 
-    bbMoveable* moveable;
     bbHandle moveable_handle;
-    bbHandle_mapComponent(home.ECS.ECS,bbECS_ECS,entity_handle,bbECS_Moveables,&moveable_handle,(bbComponent**)&moveable);
+    bbHandle_mapComponent(home.ECS.ECS,bbECS_ECS,entity_handle,bbECS_Moveables,&moveable_handle,NULL);
+    bbHandle_deleteComponent((bbSystem*)&home.ECS.moveables, moveable_handle);
 
+
+    bbHandle spatial_handle;
+    bbHandle_mapComponent(home.ECS.ECS,bbECS_ECS,entity_handle,bbECS_Spatial,&spatial_handle,NULL);
+    bbHandle_deleteComponent((bbSystem*)&home.ECS.spatial, spatial_handle);
 
     bbUI_Inbox_DeleteUnit(&home.UI.inbox, entity_handle, moveable_handle);
 
-    moveable->type = bbMoveableType_Unused;
 }
