@@ -174,7 +174,7 @@ bbFlag bbI_Moveable_setState_fn(bbCore* core, bbInstruction* instruction)
         undo_instruction->data.moveable_state.type = moveable->type;
         undo_instruction->data.moveable_state.goalpoint = moveable->goalpoint;
         undo_instruction->data.moveable_state.goal_moveable = moveable->goal_moveable;
-
+        undo_instruction->data.moveable_state.handle = instruction->data.moveable_state.handle;
         undo_instruction->source = instruction->source;
         bbVPool_free(core->instruction_pool, (void*)instruction);
         undo_instruction->redo_instruction.u64 = 0;
@@ -193,6 +193,7 @@ bbFlag bbI_Moveable_setState_fn(bbCore* core, bbInstruction* instruction)
         undo_instruction->data.moveable_state.type = moveable->type;
         undo_instruction->data.moveable_state.goalpoint = moveable->goalpoint;
         undo_instruction->data.moveable_state.goal_moveable = moveable->goal_moveable;
+        undo_instruction->data.moveable_state.handle = instruction->data.moveable_state.handle;
 
         undo_instruction->source = instruction->source;
         bbHandle handle;
@@ -212,6 +213,7 @@ bbFlag bbI_Moveable_setState_fn(bbCore* core, bbInstruction* instruction)
         undo_instruction->data.moveable_state.type = moveable->type;
         undo_instruction->data.moveable_state.goalpoint = moveable->goalpoint;
         undo_instruction->data.moveable_state.goal_moveable = moveable->goal_moveable;
+        undo_instruction->data.moveable_state.handle = instruction->data.moveable_state.handle;
 
         undo_instruction->source = instruction->source;
         undo_instruction->redo_instruction = instruction->redo_instruction;
