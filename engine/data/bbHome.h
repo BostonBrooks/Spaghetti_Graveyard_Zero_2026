@@ -8,7 +8,7 @@
 #include "../ECS/entity_spawner/bbEntitySpawner.h"
 #include "engine/ECS/graphics_system/bbGraphicsSystem.h"
 #include "engine/ECS/server_entities/bbServerEntities.h"
-#include "engine/ECS/ECS.h"
+#include "engine/ECS/bbECS.h"
 #include "engine/graphics/bbGraphicsApp.h"
 #include "engine/interthread/bbClock.h"
 #include "engine/network/bbNetwork.h"

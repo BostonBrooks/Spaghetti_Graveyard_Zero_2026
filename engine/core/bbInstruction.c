@@ -4,7 +4,7 @@
 
 #include "bbAction.h"
 #include "bbCoreInputs.h"
-#include "engine/ECS/ECS.h"
+#include "engine/ECS/bbECS.h"
 #include "engine/test_string/bbTestString.h"
 
 #ifdef DEFINE_SKELLYCHASE

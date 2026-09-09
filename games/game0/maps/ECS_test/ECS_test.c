@@ -1,4 +1,4 @@
-#include "engine/ECS/ECS.h"
+#include "engine/ECS/bbECS.h"
 
 #include "engine/core/bbAction.h"
 #include "engine/core/bbCore.h"
@@ -10,7 +10,7 @@
 #include "engine/logic/bbHandle.h"
 #include "engine/logic/bbTerminal.h"
 #include "engine/test_string/bbTestString.h"
-#include "engine/ECS/ECS_instructions.h"
+#include "engine/ECS/bbECS_instructions.h"
 #include "engine/logic/bbBloatedPool.h"
 #include "engine/logic/bbString.h"
 #include "games/game0/maps/ECS_test/core/actions.h"

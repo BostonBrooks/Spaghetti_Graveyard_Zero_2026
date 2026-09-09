@@ -8,7 +8,7 @@ use bbCoreSynchronous functions to set data in a way that is "core-safe"
 #ifndef BB_AISYSTEM_H
 #define BB_AISYSTEM_H
 #include "../moveables/bbMoveables.h"
-#include "engine/ECS/ECS.h"
+#include "engine/ECS/bbECS.h"
 #include "engine/logic/bbDictionary.h"
 #include "engine/logic/bbHandle.h"
 #include "engine/logic/bbIntTypes.h"

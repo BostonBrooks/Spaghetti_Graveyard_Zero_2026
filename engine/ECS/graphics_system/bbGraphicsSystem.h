@@ -2,7 +2,7 @@
 #define BB_GRAPHICS_SYSTEM_H
 
 
-#include "engine/ECS/ECS.h"
+#include "engine/ECS/bbECS.h"
 
 typedef struct
 {

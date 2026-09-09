@@ -61,7 +61,7 @@ for the Graphics component
 #define BB_ENTITYSPAWNER_H
 
 #include "engine/core/bbInstruction.h"
-#include "engine/ECS/ECS.h"
+#include "engine/ECS/bbECS.h"
 #include "engine/logic/bbDictionary.h"
 #include "engine/logic/bbFlag.h"
 

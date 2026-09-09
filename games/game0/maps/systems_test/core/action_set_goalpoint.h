@@ -1,7 +1,7 @@
 //bbFlag bbAction_fn(bbCore* core, bbAction* action);
 
 #include "engine/core/bbCore.h"
-#include "engine/ECS/ECS.h"
+#include "engine/ECS/bbECS.h"
 #include "engine/data/bbHome.h"
 #include "engine/ECS/moveables/bbMoveables.h"
 #include "engine/ECS/moveables/bbMoveables_setState.h"

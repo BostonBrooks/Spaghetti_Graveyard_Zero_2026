@@ -29,7 +29,7 @@
 #include "games/game0/maps/systems_test/AI_system/ai_instructions.h"
 #include "engine/ECS/AI_system/bbAI_System.h"
 #include "engine/test_string/bbTestString.h"
-#include "engine/ECS/ECS_instructions.h"
+#include "engine/ECS/bbECS_instructions.h"
 
 
 #include "engine/ECS/graphics_system/bbGraphicsSystem.h"

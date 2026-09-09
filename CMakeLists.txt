@@ -91,7 +91,7 @@ add_executable(ECS_Test  games/game0/maps/ECS_test/ECS_test.c
         games/game0/maps/ECS_test/core/actions.c
 
 
-        engine/ECS/ECS.c
+        engine/ECS/bbECS.c
         engine/ECS/server_entities/bbServerEntities.c
 
 
@@ -157,7 +157,7 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
 
         engine/test_string/bbTestString.c
 
-        engine/ECS/ECS.c
+        engine/ECS/bbECS.c
         engine/ECS/server_entities/bbServerEntities.c
         engine/ECS/moveables/bbMoveables.c
         engine/ECS/moveables/bbAvoidables.c

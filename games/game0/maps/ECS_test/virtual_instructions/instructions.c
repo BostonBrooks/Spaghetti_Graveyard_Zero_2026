@@ -4,7 +4,7 @@
 #include "engine/core/bbAction.h"
 #include "engine/core/bbCore.h"
 #include "engine/core/bbInstruction.h"
-#include "engine/ECS/ECS.h"
+#include "engine/ECS/bbECS.h"
 #include "engine/ECS/server_entities/bbServerEntities.h"
 #include "engine/logic/bbFlag.h"
 #include "engine/logic/bbString.h"

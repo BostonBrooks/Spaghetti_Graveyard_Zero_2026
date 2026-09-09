@@ -7,7 +7,7 @@
 #include <pthread.h>
 #include <stdatomic.h>
 
-#include "engine/ECS/ECS.h"
+#include "engine/ECS/bbECS.h"
 #include "engine/core/bbCore.h"
 #include "engine/core/bbInstruction.h"
 #include "engine/geometry/bbCoordinates.h"

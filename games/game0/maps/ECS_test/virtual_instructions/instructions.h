@@ -2,7 +2,7 @@
 #define INSTRUCTIONS_H
 #include "engine/core/bbCore.h"
 #include "engine/core/bbInstruction.h"
-#include "engine/ECS/ECS_instructions.h"
+#include "engine/ECS/bbECS_instructions.h"
 #include "engine/logic/bbFlag.h"
 
 typedef enum

@@ -11,7 +11,7 @@
 
 #ifndef SERVER_ENTITY_H
 #define SERVER_ENTITY_H
-#include "engine/ECS/ECS.h"
+#include "engine/ECS/bbECS.h"
 
 //Component
 typedef struct

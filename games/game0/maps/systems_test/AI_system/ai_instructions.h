@@ -3,7 +3,7 @@
 
 #include "engine/core/bbCore.h"
 #include "engine/core/bbInstruction.h"
-#include "engine/ECS/ECS.h"
+#include "engine/ECS/bbECS.h"
 #include "engine/ECS/AI_system/bbAI_System.h"
 #include "engine/logic/bbFlag.h"
 #include "engine/logic/bbHandle.h"

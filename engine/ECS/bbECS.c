@@ -1,10 +1,10 @@
-#include "engine/ECS/ECS.h"
+#include "engine/ECS/bbECS.h"
 #include <stddef.h>
 #include "engine/core/bbAction.h"
 #include "engine/data/bbHome.h"
 #include "engine/logic/bbBloatedPool.h"
 #include "engine/logic/bbString.h"
-#include "engine/ECS/ECS_instructions.h"
+#include "engine/ECS/bbECS_instructions.h"
 #include "engine/logic/bbSystemPool.h"
 
 extern bbHandle null_handle;
