@@ -14,7 +14,9 @@ typedef enum {
     bbI_moveable_unsetState,
     bbInstruction_entity_deleteEntity,
     bbInstruction_entity_undeleteEntity,
-    bbInstruction_numECS_Instructions
+    bbInstruction_numECS_Instructions,
+    spawnSpatialComponent,
+    unspawnSpatialComponent
 } bbECS_Instruction_type;
 
 #endif //ECS_INSTRUCTIONS

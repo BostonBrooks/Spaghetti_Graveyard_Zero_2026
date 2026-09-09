@@ -70,6 +70,14 @@ bbFlag bbCoreSynchronous_spawnTestMoveable(bbCore* core,
 
     *moveable_handle = moveable_handle1;
 
+    bbCS_spawnSpatialComponent(core,
+                             home.ECS.ECS,
+                             ECS_entity_handle,
+                             NULL,
+                             position,
+                             bbInstructionSource_internal,
+                             no_handle);
+
     if (source == bbInstructionSource_norewind) return  bbSuccess;
 
     bbInstruction* undo_instruction;
@@ -168,6 +176,7 @@ bbFlag bbInstruction_updateMoveables_fn(bbCore* core,
     snapshot->old_time = home.ECS.moveables.old_time;
 
     bbMoveables_update(&home.ECS.moveables);
+    bbSpatial_update(&home.ECS.spatial,home.ECS.ECS);
 
     if (instruction->source == bbInstructionSource_internal)
     {
@@ -214,6 +223,9 @@ bbInstruction* instruction)
     home.ECS.moveables.old_time = snapshot->old_time;
 
     bbVPool_free(home.ECS.moveables.snapshots, snapshot);
+
+
+    bbSpatial_update(&home.ECS.spatial,home.ECS.ECS);
 
     if (instruction->source == bbInstructionSource_internal)
     {

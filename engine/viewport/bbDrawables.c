@@ -286,10 +286,11 @@ bbFlag bbDrawable_setLocation(bbDrawable* drawable, bbDrawables* drawables,
     bbSquareCoords oldSC = bbMapCoords_getSquareCoords(drawable->coords);
 
     bbDrawableSquare* newSquare= bbDrawables_getSquare(drawables,newSC.i, newSC.j, drawables->squares_i, drawables->squares_j);
-
-
     bbDrawableSquare* oldSquare= bbDrawables_getSquare(drawables,oldSC.i, oldSC.j, drawables->squares_i, drawables->squares_j);
 
+    //We need to remove and replace the drawable every time because is needs to
+    //be sorted back into the list. In future we could write a function to
+    //move the element up or down in the list
 
     bbList_remove(&oldSquare->list, drawable);
     drawable->coords = MC;

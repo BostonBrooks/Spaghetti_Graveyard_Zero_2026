@@ -166,6 +166,7 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
         engine/ECS/AI_system/bbAI_System.c
         engine/ECS/entity_spawner/bbEntitySpawner.c
         engine/ECS/moveables/bbMoveables_setState.c
+        engine/ECS/spatial/bbSpatial.c
 
         engine/core/bbAction.c
         engine/core/bbCore.c

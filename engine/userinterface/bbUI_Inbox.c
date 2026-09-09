@@ -548,7 +548,7 @@ bbFlag bbUI_Inbox_deleteUnit_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
 
     if (flag != bbSuccess)
     {
-        bbDebug("entity handle table lookup failed when deleting unit");
+        bbDebug("entity handle table lookup failed when deleting unit\n");
         return bbFail;
     }
     bbHandle* unit_handle2;

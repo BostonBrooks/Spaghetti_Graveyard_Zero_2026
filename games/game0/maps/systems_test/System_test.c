@@ -90,6 +90,7 @@ int main(void)
     bbGraphicsSystem_init(&home.ECS.graphics_system,home.core.core.ECS);
     bbMoveables_init(&home.ECS.moveables,home.core.core.ECS);
     bbAvoidables_new(&home.ECS.avoidables, 12, 12);
+    bbSpatial_init(&home.ECS.spatial,home.core.core.ECS, 12, 12);
 
     bbAI_System_init(&home.ECS.AI_system,home.core.core.ECS);
     bbAI_Functions_init(&home.ECS.AI_system.functions);

@@ -596,7 +596,7 @@ bbFlag bbComponent_mapComponent(bbECS* ECS,
 
     bbFlag flag = bbVPool_lookup(ECS->system.pool, (void**)&entity, entity_handle);
 
-    bbAssert(flag == bbSuccess,"Entity not found\n");
+    if (flag != bbSuccess) return flag;
 
     bbHandle_getComponent(&ECS->system,(bbComponent**)&entity,entity_handle);
 
@@ -606,6 +606,7 @@ bbFlag bbComponent_mapComponent(bbECS* ECS,
     bbComponent* component1;
     bbHandle_getComponent(system1,&component1,component_handle1);
 
+    //TODO return bbFail
     bbAssert(component1 != NULL,"Something returned null\n");
 
     if (component_handle!=NULL) *component_handle = component_handle1;
