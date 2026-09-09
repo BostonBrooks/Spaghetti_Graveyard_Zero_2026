@@ -20,8 +20,6 @@ typedef enum
     bbAIState_Striking,
     bbAIState_Recovering,
     bbAIState_Moving,
-
-
 } bbAI_state;
 
 typedef struct
