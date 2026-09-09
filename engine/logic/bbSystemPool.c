@@ -75,9 +75,9 @@ level2, char* key){
             (void*));
 
     I32 size = bbArith_roundUp(sizeOf, 8);
-    pool->null.bloated.index = 0;
-    pool->null.bloated.collision = 0;
-
+    pool->null.system.index = 0;
+    pool->null.system.generation = 0;
+	pool->null.system.system = system;
 	pool->system = system;
 	bbStr_putStr(pool->pool_name,key, KEY_LENGTH);
     pool->size_of = size;

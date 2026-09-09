@@ -104,7 +104,7 @@ bbFlag bbList_pushR(bbList* list, void* element){
 
     //Empty list
     if(isNULL(list->list_pointer->head)){
-        bbAssert(isNULL(list->list_pointer->head), "head/tail mismatch\n");
+        bbAssert(isNULL(list->list_pointer->tail), "head/tail mismatch\n");
         list_element->prev = handle_element;
         list_element->next = handle_element;
         list->list_pointer->head = handle_element;

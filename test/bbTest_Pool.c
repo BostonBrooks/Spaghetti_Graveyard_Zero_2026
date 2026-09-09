@@ -1,11 +1,16 @@
+#include "engine/geometry/bbCoordinates.h"
 #include "engine/logic/bbBloatedPool.h"
 #include "engine/logic/bbVPool.h"
 #include "engine/logic/bbDictionary.h"
+#include "engine/data/bbHome.h"
 
-
-U64 test_time = 0;
 thread_local char* thread;
+thread_local bool debug_off;
+bbHome home;
+U64 test_time = 0;
+bbHandle null_handle;
 char test_string[KEY_LENGTH];
+bbMapCoords testGoalPoint;
 
 typedef struct
 {
