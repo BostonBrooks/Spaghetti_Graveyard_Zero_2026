@@ -45,6 +45,16 @@ target_compile_definitions(Test_Pool PRIVATE
 target_include_directories(Test_Pool PRIVATE "./")
 
 
+add_executable(Test_Iterator test/bbTest_iterator.c
+        engine/logic/bbIterator.c
+        engine/logic/bbList.c
+        engine/logic/bbSystemPool.c
+        engine/logic/bbBloatedPool.c)
+target_compile_definitions(Test_Iterator PRIVATE
+        DEFINE_TEST_ITERATOR)
+target_include_directories(Test_Iterator PRIVATE "./")
+
+
 add_executable(Core_Test  games/game0/maps/core_test/core_test.c
         engine/test_string/bbTestString.c
 
