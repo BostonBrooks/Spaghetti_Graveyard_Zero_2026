@@ -40,6 +40,9 @@ bbFlag bbSpatial_mapRadius(bbSpatial* spatial,
     bbSquareCoords left_square = bbMapCoords_getSquareCoords(left);
     bbSquareCoords right_square = bbMapCoords_getSquareCoords(right);
 
+    bbDebug("left.i = %d, left.j = %d, right.i = %d, right.j = %d\n",
+        left_square.i, left_square.j, right_square.i, right_square.j);
+
     bbSpatial_queryRadius_cl query;
     query.radius = radius_points;
     query.function = myFunc;
@@ -48,7 +51,7 @@ bbFlag bbSpatial_mapRadius(bbSpatial* spatial,
 
     for (I32 i = left_square.i; i <= right_square.i; i++)
     {
-        for (I32 j = right_square.j; j <= right_square.j; j++)
+        for (I32 j = left_square.j; j <= right_square.j; j++)
         {
             I32 index = bbSpatial_getSquareIndex(i, j, spatial->squares_i, spatial->squares_j);
             if (index < 0) continue;

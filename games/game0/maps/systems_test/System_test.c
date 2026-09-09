@@ -53,9 +53,9 @@ bbMapCoords testGoalPoint;
 bbFlag test_func (bbList* list, void* node, void* cl)
 {
     I32* i = cl;
-    *i++;
+    *i = *i+1;
 
-    bbDebug("i = %d\n", *i);
+    //bbDebug("i = %d\n", *i);
 
     return bbContinue;
 }
@@ -202,6 +202,15 @@ int main(void)
     while (1)
     {
 
+        I32 count = 0;
+
+        bbSpatial_mapRadius(&home.ECS.spatial,
+                        home.viewport_app.viewport.viewpoint,
+                        POINTS_PER_SQUARE,
+                        test_func,
+                        &count);
+        bbDebug ("count = %d\n",count);
+
         if (home.network.send_ready && home.network.receive_ready)
         {
             bbNetworkTime_ping(&home.network);
@@ -281,17 +290,8 @@ int main(void)
             bbCoreInput_updateMoveables(&home.core.core,bbInstructionSource_input, no_handle );
             bbCore_react(&home.core.core);
 
-            bbMapCoords test_coords;
-            test_coords.i = 10000; test_coords.j = 10100; test_coords.k = 0;
 
-            I32 count = 0;
 
-            bbSpatial_mapRadius(&home.ECS.spatial,
-                            test_coords,
-                            POINTS_PER_SQUARE,
-                            test_func,
-                            &count);
-            bbDebug ("count = %d\n",count);
 
             //bbMovables_update(&home.agents_app.movables);
             //bbCoreInput_approachGoalpoint(&home.core.core);
