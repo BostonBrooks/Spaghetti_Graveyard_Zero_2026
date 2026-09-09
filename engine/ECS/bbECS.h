@@ -14,6 +14,7 @@ typedef enum
     bbECS_AI,
     bbECS_Graphics,
     bbECS_ServerEntities,
+    bbECS_Spatial,
     bbECS_numSystems
 } bbECS_systems;
 
