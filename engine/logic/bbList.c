@@ -452,6 +452,8 @@ bbFlag bbList_alloc(bbList* list, void** element)
         bbListElement_Handle* element_list = new_element + list->offset_of;
         element_list->next = list->pool->null;
         element_list->prev = list->pool->null;
+
+
         *element = new_element;
         return bbSuccess;
 

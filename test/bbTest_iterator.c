@@ -39,12 +39,12 @@ int main(void)
     {
         bbList_alloc2(list, (void**)&structure, &handle);
         structure->integer = i;
-        bbList_pushR(list, (void*)&structure);
+        bbList_pushR(list, (void*)structure);
     }
 
     bbIterator iterator = bbIterator_new(list);
-    bbIterator_mapR(&iterator, testFunction, NULL);
     bbIterator_mapL(&iterator, testFunction, NULL);
+    bbIterator_mapR(&iterator, testFunction, NULL);
 
     exit(EXIT_SUCCESS);
 }
