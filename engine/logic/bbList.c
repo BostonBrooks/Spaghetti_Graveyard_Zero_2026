@@ -81,8 +81,9 @@ bbFlag bbList_pushL(bbList* list, void* element){
     //More than one element in list
     void* tail;
     bbFlag flag2 = bbVPool_lookup(list->pool, &tail, list->list_pointer->tail);
-    bbFlag_print(flag2);
+    if (flag != bbSuccess){    bbFlag_print(flag2);}
 
+    bbAssert(flag2 != bbHandleError_Generation, "Stale list tail\n");
     bbListElement_Handle* tailListElement = tail + list->offset_of;
 
     tailListElement->next = handle_element;

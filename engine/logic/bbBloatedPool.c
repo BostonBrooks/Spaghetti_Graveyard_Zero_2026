@@ -50,7 +50,7 @@ bbFlag bbVPool_newBloated(bbVPool** Pool, I32 sizeOf, I32 level1, I32 level2, ch
     handle)) bbBloatedPool_lookup2;
     pool->reverse_lookup = (bbFlag (*)(void* pool, void* address,
             bbHandle* handle)) bbBloatedPool_reverseLookup;
-//    pool->print_header = (bbFlag (*)(void *, void *)) bbBloatedPool_printHeader;
+    pool->print_header = (bbFlag (*)(void *, void *)) bbBloatedPool_printHeader;
     pool->handle_is_equal = (bbFlag (*)(void* USUSED, bbHandle A, bbHandle B)) bbBloatedPool_handleIsEqual;
 	pool->alloc_from_handle = (bbFlag (*)(void* pool, void** address, bbHandle handle, char* file, int
 	line)) bbBloatedPool_allocFromHandle;

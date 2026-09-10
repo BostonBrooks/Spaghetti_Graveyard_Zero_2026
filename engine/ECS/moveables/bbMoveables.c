@@ -83,7 +83,7 @@ bbFlag sumForces_fn (bbList* list, void* node, void* cl)
     bbSpatial_Component* component = node;
     bbMoveable* moveable;
 
-    bbComponent_mapComponent(data->ECS,
+    bbFlag flag = bbComponent_mapComponent(data->ECS,
                             bbECS_Spatial,
                             (bbComponent*)component,
                             bbECS_Moveables,
@@ -91,6 +91,12 @@ bbFlag sumForces_fn (bbList* list, void* node, void* cl)
                             (bbComponent**)&moveable);
 
 
+    if (flag == bbHandleError_Generation)
+    {
+        bbDebug ("orphaned spatial component\n")
+        return bbContinue;
+    }
+    bbAssert(flag == bbSuccess, "Some error from bbComponent_mapComponent()\n");
     if (moveable->type == bbMoveableType_Unused) return bbContinue;
     if (moveable->type == bbMoveableType_MovingThrough) return bbContinue;
     if (moveable->type == bbMoveableType_Dead) return bbContinue;
@@ -706,7 +712,11 @@ bbFlag bbMoveable_getComponent_fn(struct bbSystem* system, bbComponent** compone
 {
     U32 index = component_handle.bloated.index;
 
+
     bbMoveables* moveables = (bbMoveables*)system;
+
+    bbAssert (index < NUM_MOVEABLES, "index out of range\n");
+
     *component = (bbComponent*)&moveables->moveables[index];
     return bbSuccess;
 }

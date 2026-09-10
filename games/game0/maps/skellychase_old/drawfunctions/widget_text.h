@@ -18,7 +18,7 @@ bbFlag bbDF_widgetText(void* Drawable, void* frameDescriptor, void* cl){
 
         if (text == NULL)
         {
-#ifdef CSFML3
+#ifdef BB_CSFML3
             text = sfText_create(graphics->fonts->fonts[0]);
 #else
             text = sfText_create();
@@ -52,7 +52,7 @@ bbFlag bbDF_socketNumber(void* Drawable, void* frameDescriptor, void* cl){
 
     if (text == NULL)
     {
-#ifdef CSFML3
+#ifdef BB_CSFML3
         text = sfText_create(graphics->fonts->fonts[0]);
 #else
         text = sfText_create();

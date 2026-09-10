@@ -61,7 +61,7 @@ bbFlag Create_Ground_Shaders (bbGroundSurface* surface){
     sfVector2u size;
     size.x = PIXELS_PER_TILE * TILES_PER_SQUARE;
     size.y = PIXELS_PER_TILE * TILES_PER_SQUARE;
-#ifdef CSFML3
+#ifdef BB_CSFML3
     surface->null_render_texture = sfRenderTexture_create (size, NULL);
 #else
     surface->null_render_texture = sfRenderTexture_create (size.x, size.y, sfFalse);
@@ -77,7 +77,7 @@ bbFlag Create_Ground_Shaders (bbGroundSurface* surface){
     surface->ground_renderer.shader = surface->ground_shader;
     surface->ground_renderer.blendMode = sfBlendAlpha;
     surface->ground_renderer.transform = sfTransform_Identity;
-#ifdef CSFML3
+#ifdef BB_CSFML3
     surface->ground_renderer.coordinateType = sfCoordinateTypePixels;
 #endif
     surface->ground_renderer.texture = surface->null_texture;
@@ -265,7 +265,7 @@ bbFlag bbGroundSurface_init(bbGroundSurface* surface, bbSquareCoords size, char*
             texture_size.x = PIXELS_PER_SQUARE;
             texture_size.y = PIXELS_PER_SQUARE;
 
-#ifdef CSFML3
+#ifdef BB_CSFML3
 
             square->Base_Render_Texture
             = sfRenderTexture_create(texture_size,NULL);
@@ -278,7 +278,7 @@ bbFlag bbGroundSurface_init(bbGroundSurface* surface, bbSquareCoords size, char*
             = sfRenderTexture_getTexture(square->Base_Render_Texture);
             sfRenderTexture_clear(square->Base_Render_Texture, bbTeal);
 
-#ifdef CSFML3
+#ifdef BB_CSFML3
             square->Shadows_Render_Texture
             = sfRenderTexture_create(texture_size,NULL);
 #else
@@ -290,9 +290,10 @@ bbFlag bbGroundSurface_init(bbGroundSurface* surface, bbSquareCoords size, char*
             = sfRenderTexture_getTexture(square->Shadows_Render_Texture);
             sfRenderTexture_clear(square->Shadows_Render_Texture, bbTeal);
 
-#ifdef CSFML3
+#ifdef BB_CSFML3
             square->Hill_Shading_Render_Texture
             = sfRenderTexture_create(texture_size,NULL);
+            sfRenderTexture_clear(square->Hill_Shading_Render_Texture, bbTeal);
 #else
             square->Hill_Shading_Render_Texture
             = sfRenderTexture_create(texture_size.x, texture_size.y,sfFalse);
@@ -300,11 +301,11 @@ bbFlag bbGroundSurface_init(bbGroundSurface* surface, bbSquareCoords size, char*
 #endif
 
 
+
             square->Hill_Shading_Texture
             = sfRenderTexture_getTexture(square->Hill_Shading_Render_Texture);
-            sfRenderTexture_clear(square->Hill_Shading_Render_Texture, bbTeal);
 
-#ifdef CSFML3
+#ifdef BB_CSFML3
 
             square->Footprints_Render_Texture
             = sfRenderTexture_create(texture_size,NULL);
@@ -321,7 +322,7 @@ bbFlag bbGroundSurface_init(bbGroundSurface* surface, bbSquareCoords size, char*
             sfRenderTexture_clear(square->Footprints_Render_Texture, bbTeal);
 
 
-#ifdef CSFML3
+#ifdef BB_CSFML3
             square->Auras_Render_Texture
             = sfRenderTexture_create(texture_size,NULL);
 #else
@@ -333,7 +334,7 @@ bbFlag bbGroundSurface_init(bbGroundSurface* surface, bbSquareCoords size, char*
             sfRenderTexture_clear(square->Auras_Render_Texture, bbTeal);
 
 
-#ifdef CSFML3
+#ifdef BB_CSFML3
             square->Circles_Render_Texture
             = sfRenderTexture_create(texture_size,NULL);
 #else

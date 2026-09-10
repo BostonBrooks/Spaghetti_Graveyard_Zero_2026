@@ -148,6 +148,9 @@ bbFlag bbThreadedQueue_search(bbThreadedQueue* queue, void** Element, bbCallback
 
         bbListElement_Handle* list_element = (element + queue->offset_of);
         bbHandle next_handle = list_element->next;
+
+        //TODO use bbVPool_handleIsNULL
+        if (next_handle.u64 == 0) return bbNone;
         if (bbSuccess == bbVPool_handleIsEqual(queue->pool, next_handle, queue->pool->null)) {
             return bbNone;
         }

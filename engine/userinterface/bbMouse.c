@@ -26,21 +26,21 @@ bbFlag bbMouse_Event(bbMouse* mouse, sfEvent* event)
     switch (event->type){
         case sfEvtMouseMoved:
 
-#ifdef CSFML3
+#ifdef BB_CSFML3
         mouse->position = pixel_getScreenPoints(event->mouseMove.position.x,
                                                 event->mouseMove.position.y);
 #endif
-#ifndef CSFML3
+#ifndef BB_CSFML3
         mouse->position = pixel_getScreenPoints(event->mouseMove.x,
                                     event->mouseMove.y);
 #endif
         break;
         case sfEvtMouseButtonPressed:
             button = event->mouseButton.button;
-#ifdef CSFML3
+#ifdef BB_CSFML3
             mouse->position = pixel_getScreenPoints(event->mouseButton.position.x,event->mouseButton.position.y);
 #endif
-#ifndef CSFML3
+#ifndef BB_CSFML3
         mouse->position = pixel_getScreenPoints(event->mouseButton.x,event->mouseButton.y);
 #endif
         if (button == sfMouseLeft)
@@ -59,10 +59,10 @@ bbFlag bbMouse_Event(bbMouse* mouse, sfEvent* event)
         case sfEvtMouseButtonReleased:
 
             button = event->mouseButton.button;
-#ifdef CSFML3
+#ifdef BB_CSFML3
         mouse->position = pixel_getScreenPoints(event->mouseButton.position.x,event->mouseButton.position.y);
 #endif
-#ifndef CSFML3
+#ifndef BB_CSFML3
         mouse->position = pixel_getScreenPoints(event->mouseButton.x,event->mouseButton.y);
 #endif
         if (button == sfMouseLeft)

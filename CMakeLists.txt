@@ -6,16 +6,19 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../games/game0)
 
 
 if (CSFML3)
-    add_definitions(-DCSFML3=1)
+    add_definitions(-DBB_CSFML3=1)
 endif (CSFML3)
 
+if (CMAKE_BUILD_TYPE MATCHES "Debug")
+    add_compile_options(-fsanitize=address -fno-omit-frame-pointer -g)
+    add_link_options(-fsanitize=address)
+endif()
 
 add_executable(Server engine/server/bbServer.c
         engine/network/bbNetworkPacket.c
         engine/threadsafe/bbThreadedPool.c
         engine/threadsafe/bbThreadedQueue.c
-        engine/logic/bbBloatedPool.c
-        engine/logic/bbVPool.h)
+        engine/logic/bbBloatedPool.c)
 target_compile_definitions(Server PRIVATE
         DEFINE_SERVER)
 target_include_directories(Server  PRIVATE "./")

@@ -62,6 +62,7 @@ bbFlag bbVPool_newSystem(bbVPool** Pool,
 	line)) bbSystemPool_allocFromHandle;
 	pool->handle_is_NULL = (bbFlag (*)(void* USUSED, bbHandle A)) bbSystemPool_handleIsNULL;
 	*Pool = pool;
+	pool->print_header = (bbFlag (*)(void* pool, void* element))bbSystemPool_printHeader;
     return bbSuccess;
 }
 bbFlag bbSystemPool_expand(bbSystemPool* pool);

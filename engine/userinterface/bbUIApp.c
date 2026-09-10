@@ -7,10 +7,10 @@ bbFlag bbUIApp_init(bbUIApp* app)
 {
     home.UI.SplashTexture = sfTexture_createFromFile("./graphics/Splash.png", NULL);
 
-#ifdef CSFML3
+#ifdef BB_CSFML3
     home.UI.SplashSprite = sfSprite_create(home.UI.SplashTexture);
 #endif
-#ifndef CSFML3
+#ifndef BB_CSFML3
     home.UI.SplashSprite = sfSprite_create();
 
     sfSprite_setTexture(home.UI.SplashSprite, home.UI.SplashTexture, sfTrue);
@@ -19,21 +19,21 @@ bbFlag bbUIApp_init(bbUIApp* app)
     home.UI.widgets.selected_textbox = NULL;
 
     sfVideoMode mode;
-#ifdef CSFML3
+#ifdef BB_CSFML3
     mode.size.x = 720;
     mode.size.y = 480;
     mode.bitsPerPixel = 32;
 #endif
-#ifndef CSFML3
+#ifndef BB_CSFML3
     mode.height = 480;
     mode.width = 720;
     mode.bitsPerPixel = 32;
 #endif
 
-#ifdef CSFML3
+#ifdef BB_CSFML3
     home.UI.window = sfRenderWindow_create(mode, "early demo", sfResize | sfClose,sfWindowed, NULL);
 #endif
-#ifndef CSFML3
+#ifndef BB_CSFML3
     home.UI.window = sfRenderWindow_create(mode, "early demo", sfResize | sfClose, NULL);
 #endif
 

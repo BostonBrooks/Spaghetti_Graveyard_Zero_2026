@@ -88,6 +88,8 @@ bbFlag bbIterator_increment(bbIterator* iterator, bbHandle* handle, void** eleme
     iterator->current = next_element;
     iterator->handle = next_handle;
 
+    bbVPool_printHeader(iterator->list->pool,next_element);
+
     if (handle != NULL) *handle = next_handle;
     if (element != NULL) *element = next_element;
     return bbSuccess;

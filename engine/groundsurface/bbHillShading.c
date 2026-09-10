@@ -185,7 +185,7 @@ bbFlag bbHillShading_init( bbHillShading* hill_shading, char* file)
 
     hill_shading->null_texture = sfTexture_createFromFile("./graphics/MAGENTA.png", NULL);
 	    bbAssert(hill_shading->null_texture != NULL, "constructor returned NULL\n");
-#ifdef CSFML3
+#ifdef BB_CSFML3
     hill_shading->null_sprite = sfSprite_create(hill_shading->null_texture);
 	    bbAssert(hill_shading->null_sprite != NULL, "constructor returned NULL\n");
 #else
@@ -207,6 +207,15 @@ bbFlag bbHillShading_init( bbHillShading* hill_shading, char* file)
 	hill_shading->render_states->transform = sfTransform_Identity;
 	hill_shading->render_states->texture = hill_shading->height_texture;
 
+#ifdef BB_CSFML3
+	hill_shading->render_states->stencilMode = sfStencilMode_default;
+	hill_shading->render_states->coordinateType = sfCoordinateTypeNormalized;
+
+#endif
+
+	sfShader_setIntUniform(hill_shading->render_states->shader, "square_x", 12);
+	sfShader_setIntUniform(hill_shading->render_states->shader, "square_y", 12);
+
     return bbSuccess;
 }
 
@@ -214,12 +223,13 @@ bbFlag bbHillShading_init( bbHillShading* hill_shading, char* file)
 bbFlag bbHillshading_calculate(bbHillShading* hill_shading,
 	sfRenderTexture* target, bbSquareCoords square_coords)
 {
+
+	bbAssert(hill_shading->render_states != NULL, "constructor returned NULL\n");
 	sfShader_setIntUniform(hill_shading->render_states->shader, "square_x", square_coords.j);
 	sfShader_setIntUniform(hill_shading->render_states->shader, "square_y", square_coords.i);
 
 	sfRenderTexture_drawSprite(target, hill_shading->null_sprite, hill_shading->render_states);
 
-	//sfRenderTexture_clear(target,bbGrey);
 	sfRenderTexture_display(target);
 
 

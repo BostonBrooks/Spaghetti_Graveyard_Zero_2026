@@ -22,7 +22,7 @@ typedef struct {
 bbFlag bbSprite_new(bbSprites* sprites, char* key, I32 address, sfTexture* texture, sprite_dimensions* dimensions){
 
     sfSprite* sprite;
-#ifdef CSFML3
+#ifdef BB_CSFML3
     sprite = sfSprite_create(texture);
     bbAssert(sprite != NULL, "sfSprite_create(NULL) returned NULL\n");
 #else
@@ -32,7 +32,7 @@ bbFlag bbSprite_new(bbSprites* sprites, char* key, I32 address, sfTexture* textu
 #endif
     sfIntRect rect;
 
-#ifdef CSFML3
+#ifdef BB_CSFML3
     rect.position.x = dimensions->left;
     rect.position.y = dimensions->top;
     rect.size.x = dimensions->width;
