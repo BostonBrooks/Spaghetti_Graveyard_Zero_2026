@@ -14,14 +14,18 @@ bbFlag bbCoreSynchronous_spawnTestMoveable(bbCore* core,
                                            bbHandle action)
 { //bbHere()
     I32 index = home.ECS.moveables.available+1;
+    I32 start_index = index;
     index %= NUM_MOVEABLES;
     home.ECS.moveables.available = index;
     bbMoveable* moveable = &home.ECS.moveables.moveables[index];
 
     while (moveable->type != bbMoveableType_Unused)
     {
-
         index = home.ECS.moveables.available+1;
+        bbAssert(index<start_index, "moveable pool full\n")
+
+        bbDebug("index = %d\n", index);
+
         index %= NUM_MOVEABLES;
         home.ECS.moveables.available = index;
         moveable = &home.ECS.moveables.moveables[index];

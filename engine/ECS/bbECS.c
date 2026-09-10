@@ -604,8 +604,11 @@ bbFlag bbComponent_mapComponent(bbECS* ECS,
 
     bbFlag flag = bbVPool_lookup(ECS->system.pool, (void**)&entity, entity_handle);
 
-    if (flag != bbSuccess) return flag;
-
+    if (flag != bbSuccess)
+    {
+        bbFlag_print(flag)
+        return flag;
+    }
     bbHandle_getComponent(&ECS->system,(bbComponent**)&entity,entity_handle);
 
     bbSystem* system1 = ECS->systems[component_system];
@@ -765,7 +768,10 @@ bbFlag discard_entity_undeleteEntity_fn(bbCore* core, bbInstruction* undo_instru
 
 
     bbHandle spatial_handle;
-    bbHandle_mapComponent(home.ECS.ECS,bbECS_ECS,entity_handle,bbECS_Spatial,&spatial_handle,NULL);
+    bbFlag flag = bbHandle_mapComponent(home.ECS.ECS,bbECS_ECS,entity_handle,bbECS_Spatial,&spatial_handle,NULL);
+
+    bbAssert(flag == bbSuccess, "bad handle lookup\n")
+
     bbHandle_deleteComponent((bbSystem*)&home.ECS.spatial, spatial_handle);
 
     bbUI_Inbox_DeleteUnit(&home.UI.inbox, entity_handle, moveable_handle);

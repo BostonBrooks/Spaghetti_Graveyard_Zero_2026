@@ -104,8 +104,8 @@ bbFlag sumForces_fn (bbList* list, void* node, void* cl)
 
     bbMilliCoords force = getForce(data->moveables, data->self, moveable);
 
-    data->total.i += force.i;
-    data->total.j += force.j;
+    data->total.i = data->total.i + force.i;
+    data->total.j = data->total.j + force.j;
 
     return  bbContinue;
 
@@ -124,7 +124,7 @@ bbMilliCoords sumForces2(bbMoveables* moveables, bbMoveable* moveableA)
 
     bbSpatial_mapRadius((bbSpatial*)moveables->system.ECS->systems[bbECS_Spatial],
                         moveableA->position,
-                        800000 / MILLS_PER_POINT,
+                        40000, //TODO what is the correct radius?
                         sumForces_fn,
                         &data);
 
@@ -227,7 +227,7 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
                     if (distance < moveable->speed)
                     {
                         moveable->coords_b = goalPoint;
-                        bbMilliCoords forces = sumForces(moveables, moveable);
+                        bbMilliCoords forces = sumForces2(moveables, moveable);
                         moveable->coords_b.i += forces.i;
                         moveable->coords_b.j += forces.j;
                     }
@@ -348,7 +348,7 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
                         double delta_j = distance_j / distance * moveable->
                             speed*LUNGE_SPEED;
 
-                        bbMilliCoords forces = sumForces(moveables, moveable);
+                        bbMilliCoords forces = sumForces2(moveables, moveable);
 
                         bbMilliCoords avoidables_forces =
                             bbAvoidables_sumForces(moveables, home.ECS.avoidables, moveable);
@@ -396,7 +396,7 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
                     if (distance < moveable->speed)
                     {
                         moveable->coords_a = goalPoint;
-                        bbMilliCoords forces = sumForces(moveables, moveable);
+                        bbMilliCoords forces = sumForces2(moveables, moveable);
                         moveable->coords_a.i += forces.i;
                         moveable->coords_a.j += forces.j;
                     }
@@ -407,7 +407,7 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
                         double delta_j = distance_j / distance * moveable->
                             speed;
 
-                        bbMilliCoords forces = sumForces(moveables, moveable);
+                        bbMilliCoords forces = sumForces2(moveables, moveable);
 
                         bbMilliCoords avoidables_forces =
                             bbAvoidables_sumForces(moveables, home.ECS.avoidables, moveable);
@@ -476,7 +476,7 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
                         double delta_j = distance_j / distance * moveable->
                             speed;
 
-                        bbMilliCoords forces = sumForces(moveables, moveable);
+                        bbMilliCoords forces = sumForces2(moveables, moveable);
 
                         bbMilliCoords avoidables_forces =
                             bbAvoidables_sumForces(moveables, home.ECS.avoidables, moveable);
@@ -513,7 +513,7 @@ bbFlag bbMoveables_updateOnce(bbMoveables* moveables)
                         double delta_j = distance_j / distance * moveable->
                             speed*LUNGE_SPEED;
 
-                        bbMilliCoords forces = sumForces(moveables, moveable);
+                        bbMilliCoords forces = sumForces2(moveables, moveable);
 
                         bbMilliCoords avoidables_forces =
                             bbAvoidables_sumForces(moveables, home.ECS.avoidables, moveable);

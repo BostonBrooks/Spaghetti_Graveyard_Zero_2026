@@ -63,13 +63,14 @@ bbFlag bbIterator_increment(bbIterator* iterator, bbHandle* handle, void** eleme
 {
     bbAssert(iterator->current != NULL, "Iterator has no current element\n");
 
-
-    if (bbSuccess == bbVPool_handleIsEqual(iterator->list->pool,iterator->handle,iterator->list->list.tail))
+    bbFlag flag2 = bbVPool_handleIsEqual(iterator->list->pool,iterator->handle,iterator->list->list.tail);
+    if (bbSuccess == flag2)
     {
         if (handle != NULL) *handle = iterator->list->pool->null;
         if (element != NULL) *element = NULL;
         return bbTail;
     }
+    bbAssert(flag2 == bbHandleError_Index, "Stale tail handle?\n");
 
     bbListElement_Handle* currentList = iterator->current + iterator->list->offset_of;
     bbHandle next_handle = currentList->next;
@@ -88,7 +89,6 @@ bbFlag bbIterator_increment(bbIterator* iterator, bbHandle* handle, void** eleme
     iterator->current = next_element;
     iterator->handle = next_handle;
 
-    bbVPool_printHeader(iterator->list->pool,next_element);
 
     if (handle != NULL) *handle = next_handle;
     if (element != NULL) *element = next_element;
@@ -146,6 +146,7 @@ bbFlag bbIterator_mapL(bbIterator* iterator, bbListFunction* myFunc, void* cl)
             return bbBreak;
         case bbContinue:
             bbFlag flag2 = bbIterator_increment(iterator, &handle, &element);
+            //bbDebug("index = %d\n", handle.system.index);
             if (flag2 != bbSuccess) return flag2;
             break;
         case bbRepeat:

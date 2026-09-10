@@ -45,7 +45,7 @@ bbFlag bbVPool_newThreaded(bbVPool** self, I32 size_of, I32 num)
     pool->lookup = (bbFlag (*)(void* pool, void** address, bbHandle handle))
                     bbThreadedPool_lookup;
     pool->reverse_lookup = bbThreadedPool_reverseLookup;
-    //pool->printHeader = bbThreadedPool_printHeader;
+    //pool->print_header = bbThreadedPool_printHeader;
     pool->handle_is_equal = bbThreadedPool_handleIsEqual;
     pool->handle_is_NULL = bbThreadedPool_handleIsNULL;
     *self = pool;

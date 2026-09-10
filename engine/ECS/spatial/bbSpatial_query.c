@@ -29,19 +29,26 @@ bbFlag bbSpatial_mapRadius(bbSpatial* spatial,
                             bbListFunction* myFunc,
                             void* cl)
 {
+    //TODO why does the commented code not work?
     bbMapCoords left = centre;
-    left.i -= radius_points;
-    left.j -= radius_points;
+    //left.i -= radius_points;
+    //left.j -= radius_points;
 
     bbMapCoords right = centre;
-    right.i += radius_points;
-    right.j += radius_points;
+    //right.i += radius_points;
+    //right.j += radius_points;
 
     bbSquareCoords left_square = bbMapCoords_getSquareCoords(left);
     bbSquareCoords right_square = bbMapCoords_getSquareCoords(right);
 
-    // bbDebug("left.i = %d, left.j = %d, right.i = %d, right.j = %d\n",
-    //     left_square.i, left_square.j, right_square.i, right_square.j);
+    //TODO this was a quick fix
+    left_square.i = left_square.i -1;
+    left_square.j = left_square.j -1;
+    right_square.i = right_square.i +1;
+    right_square.j = right_square.j +1;
+
+     //bbDebug("left.i = %d, left.j = %d, right.i = %d, right.j = %d\n",
+     //    left_square.i, left_square.j, right_square.i, right_square.j);
 
     bbSpatial_queryRadius_cl query;
     query.radius = radius_points;
@@ -57,9 +64,10 @@ bbFlag bbSpatial_mapRadius(bbSpatial* spatial,
             if (index < 0) continue;
             bbSpatialSquare* square = &spatial->squares[index];
             bbIterator iterator = bbIterator_new(&square->list);
+
+            bbDebug("i = %d, j = %d\n", i, j);
             bbFlag flag = bbIterator_mapL(&iterator, bbListFunction_queryRadius, &query);
             //TODO process flag
-            //bbDebug("i = %d, j = %d\n", i, j);
         }
     }
     return bbSuccess;

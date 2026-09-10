@@ -308,8 +308,8 @@ bbFlag bbSystemPool_allocImpl(bbSystemPool* pool, void** address, bbHandle* hand
 
 bbFlag bbSystemPool_Handle_incrementCollision(bbHandle* handle){
 	U16 collision = handle->system.generation;
-	collision++;
-	if(collision == 0) collision++;
+	//collision++;
+	//if(collision == 0) collision++;
 	handle->system.generation = collision;
 	return bbSuccess;
 }
@@ -372,7 +372,8 @@ bbFlag bbSystemPool_lookupHeader(bbSystemPool* pool, void** address, bbHandle ha
 	bbHandle elementHandle = element->self;
 
 	if ( handle.system.generation != elementHandle.system.generation)
-	{
+	{//TODO remove debug code
+		bbAssert(0 == 1, "generation mismatch\n");
 		*address = NULL;
 		return bbHandleError_Generation;
 	}
