@@ -1,4 +1,4 @@
-Number of Sprites:,712,,,,,,,,,,,,
+Number of Sprites:,715,,,,,,,,,,,,
 Label:,Integer Address:,Texture:,Left:,Top:,Width:,Height:,Origin X:,Origin Y:,Scale X:,Scale Y:,Scale By:,Comment:,
 NULL,0,NULL,0,0,128,128,0,0,1,1,None,Exception,
 LAYOUT_480,1,LAYOUT_480,0,0,720,480,0,0,1,1,None,The root of the widget tree,
@@ -712,4 +712,7 @@ CHERRYBLOSSOM,708,CHERRYBLOSSOM,0,0,320,400,157,362,0.8,0.8,None,A cherry blosum
 FOX_L,709,SPRITESHEET,0,0,66,99,26,98,-1,1,None, Mr Fox.
 FOX_R,710,SPRITESHEET,0,0,66,99,26,98,1,1,None, Mr Fox.
 FOX_SMALL,711,SPRITESHEET,0,0,66,99,26,98,0.2,0.2,None, Mr Fox.
+DEVIL_R,712,SPRITESHEET,373,16,87,98,59,93,1,1,None, A thorny devil.
+DEVIL_L,713,SPRITESHEET,373,16,87,98,59,93,-1,1,None, A thorny devil.
+DEVIL_SMALL,714,SPRITESHEET,373,16,87,98,59,93,0.2,0.2,None, A thorny devil.
 Label:,Integer Address:,Texture:,Left:,Top:,Width:,Height:,Origin X:,Origin Y:,Scale X:,Scale Y:,Scale By:,Comment:,

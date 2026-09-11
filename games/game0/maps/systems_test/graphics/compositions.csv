@@ -1,4 +1,4 @@
-Number of Compositions:,11,,,,,,
+Number of Compositions:,12,,,,,,
 ,,,,,,,
 Label:,NULL,Integer Address:,0,num:,1,Comment,Void Composition
 Type:,Key:,Drawfunction:,startTime,Offest X:,Offset Y:,Frame Rate:,
@@ -68,3 +68,10 @@ ANIMATION,FOX,UNIT_STILL_ANGLE,0,0,0,1,
 ANIMATION,FOX,UNIT_STILL_ANGLE,0,0,0,1,
 ANIMATION,FOX,UNIT_STILL_ANGLE,0,0,0,1,
 ANIMATION,FOX,UNIT_STILL_ANGLE,0,0,0,1,
+,,,,,,,
+Label:,FOX,Integer Address:,11,num:,4,Comment,Testing conditional rendering
+Type:,Key:,Drawfunction:,startTime,Offest X:,Offset Y:,Frame Rate:,
+ANIMATION,DEVIL,UNIT_STILL_ANGLE,0,0,0,1,
+ANIMATION,DEVIL,UNIT_STILL_ANGLE,0,0,0,1,
+ANIMATION,DEVIL,UNIT_STILL_ANGLE,0,0,0,1,
+ANIMATION,DEVIL,UNIT_STILL_ANGLE,0,0,0,1,
