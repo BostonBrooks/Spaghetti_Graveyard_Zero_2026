@@ -29,6 +29,8 @@ bbFlag bbCore_initVInstructions(bbCore* core)
     core->instruction_functions[bbInstruction_testClick4-bbInstruction_numTypes] = bbInstruction_testClick4_fn;
     core->instruction_functions[bbI_moveable_setState-bbInstruction_numTypes] = bbI_Moveable_setState_fn;
     core->instruction_functions[bbI_moveable_unsetState-bbInstruction_numTypes] = bbI_Moveable_unsetState_fn;
+    core->instruction_functions[bbI_moveable_setDead-bbInstruction_numTypes] = bbI_Moveable_setDead_fn;
+    core->instruction_functions[bbI_moveable_unsetDead-bbInstruction_numTypes] = bbI_Moveable_unsetDead_fn;
     core->instruction_functions[bbInstruction_entity_deleteEntity-bbInstruction_numTypes] = bbInstruction_entity_deleteEntity_fn;
     core->instruction_functions[bbInstruction_entity_undeleteEntity-bbInstruction_numTypes] = bbInstruction_entity_undeleteEntity_fn;
 

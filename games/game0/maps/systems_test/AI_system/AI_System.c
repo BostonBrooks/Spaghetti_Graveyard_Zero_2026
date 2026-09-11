@@ -66,9 +66,11 @@ bbFlag bbAI_Update_Fireball(bbAI_Component* component)
                 bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_dead);
 
 
+
                 bbHandle AI_handle;
                 bbComponent_getHandle(&home.ECS.AI_system.system,(bbComponent*)component, &AI_handle);
 
+                //TODO set dead
                 bbCI_AI_setRecovering(&home.core.core,
                                        AI_handle,
                                        home.core.core.simulation_time,

@@ -317,9 +317,9 @@ int main(void)
 
         bbCore_react(&home.core.core);
 
-        if (home.core.clock2_handle.map_tick > 300)
+        if (home.core.clock2_handle.map_tick > 180)
         {
-            bbCoreDiscard(&home.core.core, home.core.clock2_handle.map_tick-300);
+            bbCoreDiscard(&home.core.core, home.core.clock2_handle.map_tick-180);
         }
         //bbActions_react(&home.core.core, core_time);
 

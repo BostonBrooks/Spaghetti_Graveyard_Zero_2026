@@ -14,7 +14,8 @@ bbFlag discard_entity_undeleteEntity_fn(bbCore* core, bbInstruction* undo_instru
 
 
     bbHandle moveable_handle;
-    bbHandle_mapComponent(home.ECS.ECS,bbECS_ECS,entity_handle,bbECS_Moveables,&moveable_handle,NULL);
+    bbMoveable* moveable;
+    bbHandle_mapComponent(home.ECS.ECS,bbECS_ECS,entity_handle,bbECS_Moveables,&moveable_handle,(bbComponent**)&moveable);
     bbHandle_deleteComponent((bbSystem*)&home.ECS.moveables, moveable_handle);
 
 
@@ -27,6 +28,19 @@ bbFlag discard_entity_undeleteEntity_fn(bbCore* core, bbInstruction* undo_instru
 
     bbUI_Inbox_DeleteUnit(&home.UI.inbox, entity_handle, moveable_handle);
 
+}
+
+///discards moveable from pool when the instruction to undo setting its state to dead expires
+bbFlag discard_Moveable_unsetDead_fn(bbCore* core, bbInstruction* undo_instruction)
+{
+    bbHandle moveable_handle = undo_instruction->data.moveable_state.handle;
+    bbMoveable* moveable;
+
+    bbHandle_getComponent((bbSystem*)&home.ECS.moveables,(bbComponent**)&moveable,moveable_handle);
+    moveable->type=bbMoveableType_Unused;
+
+    bbDebug("moveable_handle = %d, %d\n", moveable_handle.system.index, moveable->type);
+    return bbSuccess;
 }
 
 bbFlag discard_unupdate_moveables_fn(bbCore* core, bbInstruction* undo_instruction)
@@ -44,5 +58,6 @@ bbFlag bbCore_initDiscard(bbCore* core)
 
     core->discard_functions[bbInstruction_unupdateMoveables-bbInstruction_numTypes] = discard_unupdate_moveables_fn;
     core->discard_functions[bbInstruction_entity_undeleteEntity-bbInstruction_numTypes] =discard_entity_undeleteEntity_fn;
+    core->discard_functions[bbI_moveable_unsetDead-bbInstruction_numTypes] = discard_Moveable_unsetDead_fn;
        return bbSuccess;
 }

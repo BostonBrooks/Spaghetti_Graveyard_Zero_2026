@@ -45,7 +45,7 @@ bbFlag bbCI_Moveable_setDead(bbCore* core,
     bbMoveable* moveable;
     bbHandle_getComponent(&home.ECS.moveables.system,(bbComponent**)&moveable,moveable_handle);
 
-    instruction->type = bbI_moveable_setState;
+    instruction->type = bbI_moveable_setDead;
     instruction->data.moveable_state.handle = moveable_handle;
     instruction->data.moveable_state.goalpoint = moveable->goalpoint;
     instruction->data.moveable_state.type = bbMoveableType_Dead;
@@ -160,6 +160,119 @@ bbFlag bbCI_Moveable_setIdle(bbCore* core,
     return bbSuccess;
 }
 
+bbFlag bbI_Moveable_setDead_fn(bbCore* core, bbInstruction* instruction)
+{
+    if (instruction->source == bbInstructionSource_internal)
+    {
+        bbInstruction* undo_instruction;
+        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        undo_instruction->type = bbI_moveable_unsetDead;
+
+
+        bbMoveables* moveables = (bbMoveables*)core->ECS->systems[bbECS_Moveables];
+        bbMoveable* moveable = &moveables->moveables[instruction->data.moveable_state.handle.bloated.index];
+        undo_instruction->data.moveable_state.type = moveable->type;
+        undo_instruction->data.moveable_state.goalpoint = moveable->goalpoint;
+        undo_instruction->data.moveable_state.goal_moveable = moveable->goal_moveable;
+        undo_instruction->data.moveable_state.handle = instruction->data.moveable_state.handle;
+        undo_instruction->source = instruction->source;
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        undo_instruction->redo_instruction.u64 = 0;
+        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+    }
+    else if (instruction->source == bbInstructionSource_input)
+    {
+        bbInstruction* undo_instruction;
+        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        undo_instruction->type = bbI_moveable_unsetDead;
+
+
+
+        bbMoveables* moveables = (bbMoveables*)core->ECS->systems[bbECS_Moveables];
+        bbMoveable* moveable = &moveables->moveables[instruction->data.moveable_state.handle.bloated.index];
+        undo_instruction->data.moveable_state.type = moveable->type;
+        undo_instruction->data.moveable_state.goalpoint = moveable->goalpoint;
+        undo_instruction->data.moveable_state.goal_moveable = moveable->goal_moveable;
+        undo_instruction->data.moveable_state.handle = instruction->data.moveable_state.handle;
+
+        undo_instruction->source = instruction->source;
+        bbHandle handle;
+        bbVPool_reverseLookup(core->instruction_pool, instruction, &handle);
+        undo_instruction->redo_instruction = handle;
+        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+    }
+    else if (instruction->source == bbInstructionSource_action)
+    {
+        bbInstruction* undo_instruction;
+        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        undo_instruction->type = bbI_moveable_unsetDead;
+
+
+        bbMoveables* moveables = (bbMoveables*)core->ECS->systems[bbECS_Moveables];
+        bbMoveable* moveable = &moveables->moveables[instruction->data.moveable_state.handle.bloated.index];
+        undo_instruction->data.moveable_state.type = moveable->type;
+        undo_instruction->data.moveable_state.goalpoint = moveable->goalpoint;
+        undo_instruction->data.moveable_state.goal_moveable = moveable->goal_moveable;
+        undo_instruction->data.moveable_state.handle = instruction->data.moveable_state.handle;
+
+        undo_instruction->source = instruction->source;
+        undo_instruction->redo_instruction = instruction->redo_instruction;
+        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+    } //else source == no rewind
+
+    bbMoveables* moveables = (bbMoveables*)core->ECS->systems[bbECS_Moveables];
+
+    bbMoveable* moveable = &moveables->moveables[instruction->data.moveable_state.handle.bloated.index];
+
+    moveable->type = instruction->data.moveable_state.type;
+    moveable->goalpoint = instruction->data.moveable_state.goalpoint;
+    moveable->goal_moveable = instruction->data.moveable_state.goal_moveable;
+
+    bbHandle entity_handle;
+
+    bbComponent_mapComponent(home.ECS.ECS, bbECS_Moveables,(bbComponent*)moveable, bbECS_ECS,&entity_handle,NULL);
+
+//
+    return bbSuccess;
+}
+bbFlag bbI_Moveable_unsetState_fn(bbCore* core, bbInstruction* instruction)
+{
+    bbMoveables* moveables = (bbMoveables*)core->ECS->systems[bbECS_Moveables];
+    bbMoveable* moveable = &moveables->moveables[instruction->data.moveable_state.handle.bloated.index];
+    moveable->type = instruction->data.moveable_state.type;
+    moveable->goalpoint = instruction->data.moveable_state.goalpoint;
+    moveable->goal_moveable = instruction->data.moveable_state.goal_moveable;
+
+
+    if (instruction->source == bbInstructionSource_internal)
+    {
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_input)
+    {
+        bbInstruction* redo_instruction;
+        bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction, instruction->redo_instruction);
+        bbList_pushL(&core->do_stack, redo_instruction);
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_action)
+    {
+        bbAction* redo_action;
+
+        bbVPool_lookup(core->action_pool, (void**)&redo_action, instruction->redo_instruction);
+        bbList_sortL(&core->action_queue,(void*)redo_action);
+        bbVPool_free(core->instruction_pool, (void*)instruction);
+
+
+
+
+        return bbSuccess;
+    }
+    bbAssert(0==1, "We should not get here\n");
+}
+
 bbFlag bbI_Moveable_setState_fn(bbCore* core, bbInstruction* instruction)
 {
     if (instruction->source == bbInstructionSource_internal)
@@ -235,7 +348,7 @@ bbFlag bbI_Moveable_setState_fn(bbCore* core, bbInstruction* instruction)
 //
     return bbSuccess;
 }
-bbFlag bbI_Moveable_unsetState_fn(bbCore* core, bbInstruction* instruction)
+bbFlag bbI_Moveable_unsetDead_fn(bbCore* core, bbInstruction* instruction)
 {
     bbMoveables* moveables = (bbMoveables*)core->ECS->systems[bbECS_Moveables];
     bbMoveable* moveable = &moveables->moveables[instruction->data.moveable_state.handle.bloated.index];

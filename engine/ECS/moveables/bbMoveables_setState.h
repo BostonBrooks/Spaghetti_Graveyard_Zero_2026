@@ -24,6 +24,7 @@ bbFlag bbCI_Moveable_setDead(bbCore* core,
                                   bbInstruction_source source,
                                   bbHandle action);
 
+
 bbFlag bbCI_Moveable_setGoalMovable(bbCore* core,
                              bbHandle moveable_handle,
                              bbHandle goal_moveable_handle,
@@ -44,6 +45,9 @@ bbFlag bbCI_Moveable_setIdle(bbCore* core,
 
 bbFlag bbI_Moveable_setState_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbI_Moveable_unsetState_fn(bbCore* core, bbInstruction* instruction);
+
+bbFlag bbI_Moveable_setDead_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbI_Moveable_unsetDead_fn(bbCore* core, bbInstruction* instruction);
 
 
 

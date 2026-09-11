@@ -12,6 +12,8 @@ typedef enum {
     bbInstruction_unsetServerEntity,
     bbI_moveable_setState,
     bbI_moveable_unsetState,
+    bbI_moveable_setDead,
+    bbI_moveable_unsetDead,
     bbInstruction_entity_deleteEntity,
     bbInstruction_entity_undeleteEntity,
     bbInstruction_numECS_Instructions,

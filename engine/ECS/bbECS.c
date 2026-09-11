@@ -668,6 +668,10 @@ bbFlag bbCoreInput_entity_deleteEntity(bbCore* core,
 
 bbFlag bbInstruction_entity_deleteEntity_fn(bbCore* core, bbInstruction* instruction)
 {
+    bbECS_entity* entity;
+    bbHandle entity_handle = instruction->data.three_handles.handle1;
+    bbHandle_getComponent((bbSystem*)home.ECS.ECS, (bbComponent**)&entity, entity_handle);
+
     if (instruction->source == bbInstructionSource_internal)
     {
         bbInstruction* undo_instruction;
@@ -675,6 +679,7 @@ bbFlag bbInstruction_entity_deleteEntity_fn(bbCore* core, bbInstruction* instruc
         undo_instruction->type = bbInstruction_entity_undeleteEntity;
 
         undo_instruction->data.three_handles.handle1 = instruction->data.three_handles.handle1;
+        undo_instruction->data.three_handles.handle2.u64 = entity->state;
 
         undo_instruction->source = instruction->source;
         bbVPool_free(core->instruction_pool, (void*)instruction);
@@ -687,6 +692,7 @@ bbFlag bbInstruction_entity_deleteEntity_fn(bbCore* core, bbInstruction* instruc
         bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
         undo_instruction->type = bbInstruction_entity_undeleteEntity;
         undo_instruction->data.three_handles.handle1 = instruction->data.three_handles.handle1;
+        undo_instruction->data.three_handles.handle2.u64 = entity->state;
 
 
         undo_instruction->source = instruction->source;
@@ -701,16 +707,17 @@ bbFlag bbInstruction_entity_deleteEntity_fn(bbCore* core, bbInstruction* instruc
         bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
         undo_instruction->type = bbInstruction_entity_undeleteEntity;
         undo_instruction->data.three_handles.handle1 = instruction->data.three_handles.handle1;
-
-
+        undo_instruction->data.three_handles.handle2.u64 = entity->state;
         undo_instruction->source = instruction->source;
         undo_instruction->redo_instruction = instruction->redo_instruction;
         bbList_pushL(&core->undo_stack, (void*)undo_instruction);
 
         bbAction* action;
         bbVPool_lookup(core->action_queue.pool, (void**)&action, instruction->redo_instruction);
-        printf("collision = %d ", action->header.collision);
     } //else source == no rewind
+
+
+    entity->state = bbECS_dead;
 
     //set entity state to dead
     //set component states to "dead" using reversible instructions? or do this in the calling function
@@ -720,7 +727,10 @@ bbFlag bbInstruction_entity_deleteEntity_fn(bbCore* core, bbInstruction* instruc
 
 bbFlag bbInstruction_entity_undeleteEntity_fn(bbCore* core, bbInstruction* instruction)
 {
-
+    bbECS_entity* entity;
+    bbHandle entity_handle = instruction->data.three_handles.handle1;
+    bbHandle_getComponent((bbSystem*)home.ECS.ECS, (bbComponent**)&entity, entity_handle);
+    entity->state = instruction->data.three_handles.handle2.u64;
     //restore entity state
 
     if (instruction->source == bbInstructionSource_internal)
