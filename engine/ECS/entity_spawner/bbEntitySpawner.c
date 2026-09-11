@@ -77,6 +77,7 @@ bbFlag bbEntitySpawner_spawnFile(bbEntitySpawner* spawner, char* file_name)
         {
             char* flag = fgets(file_line, 1024, file);
             if (flag == NULL) break;
+            if (file_line[0] == '#') continue;
             I32 i = 0;
             while(1)
             {

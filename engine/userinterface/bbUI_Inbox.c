@@ -528,7 +528,7 @@ bbFlag bbUI_Inbox_DeleteUnit(bbUI_Inbox* inbox, bbHandle entity_handle, bbHandle
     bbThreadedQueue_alloc(&inbox->local_message_queue,(void**)&message);
     message->type = bbUI_Inbox_deleteUnit;
     message->data.entity_handle = entity_handle;
-    message->data.moveable_handle = moveable_handle;
+    //message->data.moveable_handle = moveable_handle;
 
 
     bbThreadedQueue_pushL(&inbox->local_message_queue, (void*)message);
@@ -544,13 +544,13 @@ bbFlag bbUI_Inbox_deleteUnit_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
     bbHandle* unit_handle;
     //bbVPool_lookup(home.viewport_app.entity_units,(void**)&unit_handle,entity_handle);
 
-
     bbHandle unit_handle3;
-    bbFlag flag = bbLookupTable_lookup(home.viewport_app.entity_units2,message->data.handle.handle,&unit_handle3);
-    bbFlag_print(flag);
+    bbFlag flag = bbLookupTable_lookup(home.viewport_app.entity_units2,entity_handle,&unit_handle3);
+
 
     if (flag != bbSuccess)
     {
+        bbFlag_print(flag);
         bbDebug("entity handle table lookup failed when deleting unit\n");
         return bbFail;
     }

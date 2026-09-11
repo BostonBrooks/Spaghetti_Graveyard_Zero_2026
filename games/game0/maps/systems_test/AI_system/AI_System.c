@@ -713,9 +713,9 @@ bbFlag bbAI_Command_Player(bbAI_Component* component,
         if (data.integer == 0)
         {
             //TODO click to spawn
-            // bbCoreInput_testClick3(&home.core.core, data.goal_point,
-            //                        home.core.core.actual_time,
-            //                        bbInstructionSource_internal, no_handle);
+             bbCoreInput_testClick3(&home.core.core, data.goal_point,
+                                    home.core.core.actual_time,
+                                    bbInstructionSource_internal, no_handle);
         }
         else
         {
