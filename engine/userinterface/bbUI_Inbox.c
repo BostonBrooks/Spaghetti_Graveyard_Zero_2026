@@ -638,7 +638,9 @@ bbFlag bbUI_Inbox_NewDrawable(bbUI_Inbox* inbox, I32 type_index, bbMapCoords MC,
     message->data.integer = type_index;
     message->data.coords = MC;
     message->data.entity_handle = entity_handle;
-    message->data.moveable_handle = moveable_handle;
+
+    bbDebug("new drawable type %d\n", type_index);
+    //message->data.moveable_handle = moveable_handle;
 
     bbThreadedQueue_pushL(&inbox->local_message_queue, (void*)message);
     return bbSuccess;
@@ -650,5 +652,5 @@ bbFlag bbUI_Inbox_newDrawable_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
                                      message->data.integer,
                                      message->data.coords,
                                      message->data.entity_handle,
-                                     message->data.moveable_handle);
+                                     no_handle);
 }

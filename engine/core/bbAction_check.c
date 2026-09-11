@@ -1,5 +1,7 @@
 #include "engine/core/bbAction_check.h"
 
+#include "engine/ECS/moveables/bbMoveables.h"
+#include "engine/viewport/bbDrawables.h"
 #include "games/game0/maps/systems_test/entity_spawner/live_spawn.h"
 
 
@@ -95,6 +97,10 @@ bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
             args.speed = 8000;
             args.radius = 65536;
             args.mass = 512;
+            args.state = bbMoveableType_Idle;
+            args.type = 0;
+            args.handle = no_handle;
+            args.goal_handle = no_handle;
             bbCI_live_spawnEntity(core, args, "SKELLY", bbInstructionSource_action, handle);
 
         }

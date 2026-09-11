@@ -65,7 +65,7 @@ bbFlag bbSpatial_mapRadius(bbSpatial* spatial,
             bbSpatialSquare* square = &spatial->squares[index];
             bbIterator iterator = bbIterator_new(&square->list);
 
-            bbDebug("i = %d, j = %d\n", i, j);
+            //bbDebug("i = %d, j = %d\n", i, j);
             bbFlag flag = bbIterator_mapL(&iterator, bbListFunction_queryRadius, &query);
             //TODO process flag
         }

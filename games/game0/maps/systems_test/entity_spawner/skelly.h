@@ -363,7 +363,8 @@ bbFlag bbSF_addGraphics_skelly2(void* spawner,
     bbCoreInput_spawnGraphicsComponent(&home.core.core,
                                     "SKELLY",
                                    args.position,
-                                   state,
+                                   //state,
+                                   bbDrawableState_moving,
                                    handle,
                                    moveable,
                                    source,
@@ -497,16 +498,18 @@ bbFlag bbLSF_liveSpawnSkelly(void* spawner,
                                    source,
                                    no_handle);
 
+
+    bbSF_addGraphics_skelly2(spawner,
+                               entity,
+                               args,
+                               source);
+
     bbSF_addMoveable_skelly(spawner,
                                entity,
                                args,
                                source);
 
 
-    bbSF_addGraphics_skelly2(spawner,
-                               entity,
-                               args,
-                               source);
 
     bbSF_addAI_skelly(spawner,
                       entity,
