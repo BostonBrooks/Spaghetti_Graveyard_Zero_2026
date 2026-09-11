@@ -560,8 +560,7 @@ bbFlag bbUI_Inbox_deleteUnit_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
     //bbVPool_lookup(home.viewport_app.moveable_units,(void**)&unit_handle2,moveable_handle);
 
     bbUnit* unit;
-    bbVPool_lookup(home.viewport_app.units->pool,(void**)&unit, unit_handle3);
-
+    bbVPool_lookup(units->pool,(void**)&unit, unit_handle3);
 
     //bbVPool_free(home.viewport_app.entity_units,unit_handle);
     //bbVPool_free(home.viewport_app.moveable_units,unit_handle2);
