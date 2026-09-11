@@ -135,12 +135,15 @@ bbFlag bbSpatial_setPosition(bbSpatial_Component* component, bbSpatial* spatial,
                               bbMapCoords MC)
 {
 
-    component->map_coords = MC;
+
     bbSquareCoords oldSC = bbMapCoords_getSquareCoords(component->map_coords);
     bbSquareCoords newSC = bbMapCoords_getSquareCoords(MC);
+    component->map_coords = MC;
+    bbAssert(oldSC.i == component->square_coords.i && oldSC.j == component->square_coords.j, "square coords mismatch\n");
 
     if (oldSC.i == newSC.i && oldSC.j == newSC.j) return bbSuccess;
 
+    component->square_coords = newSC;
 
     bbSpatialSquare* newSquare= bbSpatial_getSquare(spatial,newSC.i, newSC.j, spatial->squares_i, spatial->squares_j);
     bbSpatialSquare* oldSquare= bbSpatial_getSquare(spatial,oldSC.i, oldSC.j, spatial->squares_i, spatial->squares_j);
@@ -170,10 +173,15 @@ bbFlag bbCS_spawnSpatialComponent(bbCore* core,
     bbList_alloc2(&spatial->master_list,(void**)&component, &component_handle);
     bbList_pushL(&spatial->master_list,component);
     bbSquareCoords SC = bbMapCoords_getSquareCoords(MC);
+    component->square_coords = SC;
+    component->map_coords = MC;
     bbSpatialSquare* square= bbSpatial_getSquare(spatial,SC.i, SC.j, spatial->squares_i, spatial->squares_j);
 
-    bbList_pushL(&square->list, component);
 
+    component->square_list.prev = square->list.pool->null;
+    component->square_list.next = square->list.pool->null;
+    bbFlag flag = bbList_pushL(&square->list, component);
+    bbAssert(flag == bbSuccess, "could not push to list\n");
 
     component->component.entity_handle = entity;
     bbCS_entity_setComponent(core,

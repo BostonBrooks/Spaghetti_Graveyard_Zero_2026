@@ -34,6 +34,7 @@ typedef struct
     bbListElement_Handle master_list;
     bbListElement_Handle square_list;
     bbMapCoords map_coords;
+    bbSquareCoords square_coords;
     //enum state flags?
 } bbSpatial_Component;
 
