@@ -12,6 +12,7 @@ bbFlag discard_entity_undeleteEntity_fn(bbCore* core, bbInstruction* undo_instru
     bbHandle entity_handle = undo_instruction->data.three_handles.handle1;
 
 
+    bbUI_Inbox_DeleteUnit(&home.UI.inbox, entity_handle, no_handle);
 
     bbHandle moveable_handle;
     bbMoveable* moveable;
@@ -26,7 +27,9 @@ bbFlag discard_entity_undeleteEntity_fn(bbCore* core, bbInstruction* undo_instru
 
     bbHandle_deleteComponent((bbSystem*)&home.ECS.spatial, spatial_handle);
 
-    bbUI_Inbox_DeleteUnit(&home.UI.inbox, entity_handle, moveable_handle);
+    bbHandle_deleteComponent(&home.ECS.ECS->system, entity_handle);
+
+
 
 }
 
@@ -39,7 +42,7 @@ bbFlag discard_Moveable_unsetDead_fn(bbCore* core, bbInstruction* undo_instructi
     bbHandle_getComponent((bbSystem*)&home.ECS.moveables,(bbComponent**)&moveable,moveable_handle);
     moveable->type=bbMoveableType_Unused;
 
-    bbDebug("moveable_handle = %d, %d\n", moveable_handle.system.index, moveable->type);
+    //bbDebug("moveable_handle = %d, %d\n", moveable_handle.system.index, moveable->type);
     return bbSuccess;
 }
 

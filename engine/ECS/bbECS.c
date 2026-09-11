@@ -26,7 +26,18 @@ bool bbECS_entity_hasComponent(bbECS_entity* entity, bbECS_systems system)
     else return false;
 }
 
+///permanently delete ECS entity (without deleting its components)
+bbFlag bbECS_deleteComponent_fn(struct bbSystem* system, bbHandle component_handle)
+{
+    bbECS* ECS = (bbECS*)system;
+    bbECS_entity* entity;
+    bbECS_getComponent_fn(system, (bbComponent**) &entity, component_handle);
 
+    bbList_remove(&ECS->list, entity);
+    bbVPool_free(ECS->system.pool, entity);
+
+    return bbSuccess;
+}
 
 
 bbFlag bbECS_new(bbECS** ECS, I32 num_systems)
@@ -34,11 +45,12 @@ bbFlag bbECS_new(bbECS** ECS, I32 num_systems)
     bbECS* new_ecs = malloc(sizeof(bbECS)+sizeof(bbSystem*)*num_systems);
     new_ecs->systems[bbECS_ECS] = (bbSystem*)new_ecs;
     bbVPool_newSystem(&new_ecs->system.pool, bbECS_ECS
-        , sizeof(bbECS_entity), 1000, 10, "ECS");
+        , sizeof(bbECS_entity), 10, 10, "ECS");
     bbList_init(&new_ecs->list, new_ecs->system.pool, NULL, offsetof(bbECS_entity, list_element_handle),NULL);
 
     new_ecs->system.getComponent = bbECS_getComponent_fn;
     new_ecs->system.getHandle = bbECS_getHandle_fn;
+    new_ecs->system.delete = bbECS_deleteComponent_fn;
     new_ecs->system.ECS = new_ecs;
 
     *ECS = new_ecs;
@@ -587,6 +599,7 @@ bbFlag bbComponent_getHandle(bbSystem* system, bbComponent* component, bbHandle*
 
 bbFlag bbHandle_deleteComponent(struct bbSystem* system, bbHandle component_handle)
 {
+    bbDebug("delete component %s\n",system->pool->pool_name);
     bbHandle_deleteComponent_fn* function = system->delete;
     return function(system, component_handle);
 }
