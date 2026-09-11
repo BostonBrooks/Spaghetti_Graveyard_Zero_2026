@@ -124,7 +124,7 @@ bbMilliCoords sumForces2(bbMoveables* moveables, bbMoveable* moveableA)
 
     bbSpatial_mapRadius((bbSpatial*)moveables->system.ECS->systems[bbECS_Spatial],
                         moveableA->position,
-                        40000, //TODO what is the correct radius?
+                        800000 / MILLS_PER_POINT,
                         sumForces_fn,
                         &data);
 

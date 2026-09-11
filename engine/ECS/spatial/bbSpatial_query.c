@@ -29,26 +29,16 @@ bbFlag bbSpatial_mapRadius(bbSpatial* spatial,
                             bbListFunction* myFunc,
                             void* cl)
 {
-    //TODO why does the commented code not work?
     bbMapCoords left = centre;
-    //left.i -= radius_points;
-    //left.j -= radius_points;
+    left.i -= radius_points;
+    left.j -= radius_points;
 
     bbMapCoords right = centre;
-    //right.i += radius_points;
-    //right.j += radius_points;
+    right.i += radius_points;
+    right.j += radius_points;
 
     bbSquareCoords left_square = bbMapCoords_getSquareCoords(left);
     bbSquareCoords right_square = bbMapCoords_getSquareCoords(right);
-
-    //TODO this was a quick fix
-    left_square.i = left_square.i -1;
-    left_square.j = left_square.j -1;
-    right_square.i = right_square.i +1;
-    right_square.j = right_square.j +1;
-
-     //bbDebug("left.i = %d, left.j = %d, right.i = %d, right.j = %d\n",
-     //    left_square.i, left_square.j, right_square.i, right_square.j);
 
     bbSpatial_queryRadius_cl query;
     query.radius = radius_points;
