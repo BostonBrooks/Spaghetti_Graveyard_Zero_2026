@@ -97,7 +97,7 @@ bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
             args.speed = 8000;
             args.radius = 65536;
             args.mass = 512;
-            args.state = bbMoveableType_Idle;
+            args.state = bbMoveableType_Moving;
             args.type = 0;
             args.handle = no_handle;
             args.goal_handle = no_handle;

@@ -259,6 +259,9 @@ bbFlag bbUI_Inbox_SetEntityState(bbUI_Inbox* inbox, bbHandle entity, I32 state)
     message->type = bbUI_Inbox_setEntityState;
     message->data.handle.handle = entity;
     message->data.integer = state;
+
+    bbAssert(state < 4, "we currently have 4 drawable states\n");
+
     bbThreadedQueue_pushL(&inbox->local_message_queue, (void*)message);
     return bbSuccess;
 }

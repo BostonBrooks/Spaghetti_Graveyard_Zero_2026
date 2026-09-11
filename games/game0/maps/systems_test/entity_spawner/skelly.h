@@ -139,13 +139,13 @@ bbFlag bbSF_addMoveable_skelly2(void* spawner,
     if (args->state == bbMoveableType_Following)
     {
         bbMoveable_setGoalMoveable(&home.ECS.moveables,moveable_handle, args->goal_handle);
-    } else if (args->state == bbMoveableType_Idle)
+    } else //if (args->state == bbMoveableType_Idle)
     {
-        bbCI_Moveable_setIdle(&home.core.core,moveable_handle,source,no_handle);
-    } else
-    {
-        bbNotHere() //Not yet implemented
-    }
+        bbMoveable_setGoalPoint(&home.ECS.moveables,moveable_handle,args->position);
+    }// else
+    //{
+    //    bbNotHere() //Not yet implemented
+    //}
 
     //We dont need to undo this, will be nuked by bbInstruction_unspawnTestMoveable_fn
     //bbHere()
@@ -504,7 +504,7 @@ bbFlag bbLSF_liveSpawnSkelly(void* spawner,
                                args,
                                source);
 
-    bbSF_addMoveable_skelly(spawner,
+    bbSF_addMoveable_skelly2(spawner,
                                entity,
                                args,
                                source);
