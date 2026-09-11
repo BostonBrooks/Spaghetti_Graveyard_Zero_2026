@@ -18,8 +18,8 @@
 bbFlag bbCore_init(bbCore* core)
 {
     bbVPool_newBloated(&core->instruction_pool, sizeof(bbInstruction), 1000, 10, "bbInstruction");
-    bbList_init(&core->do_stack, core->instruction_pool, NULL, offsetof(bbInstruction, list_element),NULL);
-    bbList_init(&core->undo_stack, core->instruction_pool, NULL, offsetof(bbInstruction, list_element),NULL);
+    bbList_init(&core->do_stack, core->instruction_pool, NULL, offsetof(bbInstruction, list_element),NULL,69);
+    bbList_init(&core->undo_stack, core->instruction_pool, NULL, offsetof(bbInstruction, list_element),NULL,70);
 
     bbVPool_newThreaded(&core->local_message_pool, sizeof(bbCoreInboxMessage),1000);
 
@@ -29,8 +29,8 @@ bbFlag bbCore_init(bbCore* core)
                           1000,offsetof(bbCoreInboxMessage, list_element));
 
     bbVPool_newBloated(&core->action_pool,sizeof(bbAction),10,1000, "bbAction");
-    bbList_init(&core->action_queue, core->action_pool, NULL, offsetof(bbAction, header.list_element),bbAction_compare);
-    bbList_init(&core->action_temp_fifo, core->action_pool, NULL, offsetof(bbAction, header.list_element),bbAction_compare);
+    bbList_init(&core->action_queue, core->action_pool, NULL, offsetof(bbAction, header.list_element),bbAction_compare,71);
+    bbList_init(&core->action_temp_fifo, core->action_pool, NULL, offsetof(bbAction, header.list_element),bbAction_compare,72);
 
     core->simulation_time = 0;
  return bbSuccess;

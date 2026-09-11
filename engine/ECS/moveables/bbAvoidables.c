@@ -66,7 +66,7 @@ bbFlag bbAvoidables_new(bbAvoidables** self, I32 squares_i, I32 squares_j)
             square->coords.j = j;
 
             bbList_init(&square->list, avoidables->pool, NULL,offsetof
-            (bbAvoidable, listElement),NULL);
+            (bbAvoidable, listElement),NULL,i*avoidables->size.j + j);
 
         }
     }

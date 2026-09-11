@@ -35,9 +35,9 @@ typedef struct
 
 ///The third element of this function is used to share head/tail with another bbList
 bbFlag bbList_init(bbList* list, bbVPool* pool, void* list_pointer, size_t offset_of,
-I32 (*compare)(void* A, void* B));
+I32 (*compare)(void* A, void* B), I32 list_id);
 bbFlag bbList_new(bbList** list, bbVPool* pool, void* list_pointer, size_t offset_of,
-                   I32 (*compare)(void* A, void* B));
+                   I32 (*compare)(void* A, void* B), I32 list_id);
 
 bbFlag bbList_pushL(bbList* list, void* element);
 bbFlag bbList_pushR(bbList* list, void* element);

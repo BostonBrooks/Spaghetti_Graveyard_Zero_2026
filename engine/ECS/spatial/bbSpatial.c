@@ -56,7 +56,7 @@ bbFlag bbSpatial_init(bbSpatial* system,bbECS* ECS, I32 squares_i, I32 squares_j
 {
     bbVPool_newSystem(&system->system.pool, bbECS_Spatial, sizeof(bbSpatial_Component),10,1000,"SPATIAL");
 
-    bbList_init(&system->master_list,system->system.pool,NULL,offsetof(bbSpatial_Component, master_list),NULL);
+    bbList_init(&system->master_list,system->system.pool,NULL,offsetof(bbSpatial_Component, master_list),NULL,bbECS_Spatial);
 
     system->system.getComponent = bbSpatial_getComponent_fn;
     system->system.getHandle = bbSpatial_getHandle_fn;
@@ -75,7 +75,7 @@ bbFlag bbSpatial_init(bbSpatial* system,bbECS* ECS, I32 squares_i, I32 squares_j
     spatial_square->coords.j = -1;
     spatial_square->coords.k = 0;
     bbList_init(&spatial_square->list,system->system.pool, NULL,offsetof
-        (bbSpatial_Component, square_list), NULL);
+        (bbSpatial_Component, square_list), NULL,-1);
 
     for (I32 i = 0; i < squares_i;i++){
         for (I32 j = 0; j < squares_j; j++){
@@ -86,7 +86,7 @@ bbFlag bbSpatial_init(bbSpatial* system,bbECS* ECS, I32 squares_i, I32 squares_j
             spatial_square->coords.k = 0;
 
             bbList_init(&spatial_square->list,system->system.pool, NULL,offsetof
-                (bbSpatial_Component, square_list), NULL);
+                (bbSpatial_Component, square_list), NULL,i*squares_j + j);
         }
     }
     return bbSuccess;

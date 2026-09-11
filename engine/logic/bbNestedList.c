@@ -16,7 +16,8 @@ bbFlag bbNestedList_init(bbNestedList* nestedList) {
                 bbNestedList_pool,
                 NULL,
                 offsetof(bbNestedListElement, listElement),
-                compare_list);
+                compare_list,
+                80);
 
 
     return bbSuccess;

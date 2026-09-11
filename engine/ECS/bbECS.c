@@ -46,7 +46,7 @@ bbFlag bbECS_new(bbECS** ECS, I32 num_systems)
     new_ecs->systems[bbECS_ECS] = (bbSystem*)new_ecs;
     bbVPool_newSystem(&new_ecs->system.pool, bbECS_ECS
         , sizeof(bbECS_entity), 10, 1000, "ECS");
-    bbList_init(&new_ecs->list, new_ecs->system.pool, NULL, offsetof(bbECS_entity, list_element_handle),NULL);
+    bbList_init(&new_ecs->list, new_ecs->system.pool, NULL, offsetof(bbECS_entity, list_element_handle),NULL,bbECS_ECS);
 
     new_ecs->system.getComponent = bbECS_getComponent_fn;
     new_ecs->system.getHandle = bbECS_getHandle_fn;

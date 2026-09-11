@@ -30,12 +30,14 @@ typedef struct
 {
     bbHandle head;
     bbHandle tail;
+    I32 list_id;
 } bbList_Handle;
 
 typedef struct
 {
     bbHandle prev;
     bbHandle next;
+    I32 list_id;
 } bbListElement_Handle;
 
 static const bbHandle no_handle = {0};

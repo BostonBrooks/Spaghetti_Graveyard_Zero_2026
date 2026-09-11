@@ -28,8 +28,8 @@ bbFlag bbNetworkTime_init(bbNetworkTime* network_time)
 
     network_time->numMathsElements = 0;
     bbVPool_newBloated(&network_time->mathsPool,sizeof(bbNetworkTime_maths), 10,1000, "bbNetworkTime_maths");
-    bbList_init(&network_time->mathsChronological, network_time->mathsPool, NULL,offsetof(bbNetworkTime_maths, chronological),NULL);
-    bbList_init(&network_time->mathsSorted, network_time->mathsPool, NULL,offsetof(bbNetworkTime_maths, sorted),sortByTimeDifference);
+    bbList_init(&network_time->mathsChronological, network_time->mathsPool, NULL,offsetof(bbNetworkTime_maths, chronological),NULL,82);
+    bbList_init(&network_time->mathsSorted, network_time->mathsPool, NULL,offsetof(bbNetworkTime_maths, sorted),sortByTimeDifference,83);
     network_time->timeCalibrated = false;
 
     return bbSuccess;
@@ -172,6 +172,7 @@ bbFlag bbNetworkTime_updateTimeDiff(bbNetworkTime* network_time)
         bbList_alloc(&network_time->mathsChronological,(void**)&maths);
         maths->sorted.prev = network_time->mathsSorted.pool->null;
         maths->sorted.next = network_time->mathsSorted.pool->null;
+        maths->sorted.list_id = 0;
 
         maths->time_difference = difference;
         bbList_pushL(&network_time->mathsChronological, maths);

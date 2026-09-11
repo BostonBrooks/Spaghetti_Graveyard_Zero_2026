@@ -485,6 +485,7 @@ bbFlag bbList_sortL(bbList* list, void* element){
     bbVPool_reverseLookup(list->pool, element, &element_handle);
     bbListElement_Handle* elementList = element + list->offset_of;
 
+	bbAssert(elementList->list_id == 0, "element already in a list")
     bbAssert(isNULL(elementList->prev), "element already in a list\n");
     bbAssert(isNULL(elementList->next), "element already in a list\n");
 
@@ -535,6 +536,7 @@ bbFlag bbList_sortR(bbList* list, void* element) {
     bbVPool_reverseLookup(list->pool, element, &element_handle);
     bbListElement_Handle *element_list = element + list->offset_of;
 
+	bbAssert(element_list->list_id == 0, "element already in a list")
     bbAssert(isNULL(element_list->prev), "element already in a list\n");
     bbAssert(isNULL(element_list->next), "element already in a list\n");
 

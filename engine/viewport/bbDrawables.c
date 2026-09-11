@@ -47,7 +47,7 @@ bbFlag bbDrawables_newImpl(void** self, U32 system, I32 squares_i, I32 squares_j
 
     drawables->pool = pool;
     bbList_init(&drawables->list, pool,NULL,offsetof(bbDrawable, listElement)
-                ,bbDrawable_isCloser);
+                ,bbDrawable_isCloser,85);
 
 
 
@@ -60,7 +60,7 @@ bbFlag bbDrawables_newImpl(void** self, U32 system, I32 squares_i, I32 squares_j
     drawableSquare->coords.k = 0;
 
     bbList_init(&drawableSquare->list, pool, NULL,offsetof
-    (bbDrawable, squareListElement),bbDrawable_isCloser);
+    (bbDrawable, squareListElement),bbDrawable_isCloser,86);
 
     for (I32 i = 0; i < squares_i;i++){
         for (I32 j = 0; j < squares_j; j++){
@@ -71,7 +71,7 @@ bbFlag bbDrawables_newImpl(void** self, U32 system, I32 squares_i, I32 squares_j
             drawableSquare->coords.k = 0;
 
             bbList_init(&drawableSquare->list, pool, NULL,offsetof
-            (bbDrawable, squareListElement),bbDrawable_isCloser);
+            (bbDrawable, squareListElement),bbDrawable_isCloser, 87 + i*squares_j+j);
         }
     }
     *self = drawables;

@@ -19,7 +19,7 @@ bbFlag bbTextbox_new(bbTextbox** textbox, bbTextbox_system* system)
 {
     bbTextbox* text_box = malloc(sizeof(bbTextbox));
     text_box->system = system;
-    bbList_init(&text_box->list,system->pool,NULL,offsetof(bbTextbox_message,list),bbTextbox_sortMessageBy);
+    bbList_init(&text_box->list,system->pool,NULL,offsetof(bbTextbox_message,list),bbTextbox_sortMessageBy,84);
 
     *textbox = text_box;
 

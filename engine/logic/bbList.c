@@ -6,19 +6,19 @@
 #define isNULL(A) (bbSuccess != bbVPool_handleIsNULL(list->pool, A))
 
 bbFlag bbList_new(bbList** list, bbVPool* pool, void* listPtr, size_t offset_of,
-                  I32 (*compare)(void* A, void* B)){
+                  I32 (*compare)(void* A, void* B), I32 list_id){
 
     bbList* List = malloc(sizeof(bbList));
     bbAssert(NULL != list, "malloc failed\n");
 
-    bbFlag flag = bbList_init(List, pool, listPtr, offset_of, compare);
+    bbFlag flag = bbList_init(List, pool, listPtr, offset_of, compare, list_id);
 
     *list = List;
     return flag;
 }
 
 bbFlag bbList_init(bbList* list, bbVPool* pool, void* list_pointer, size_t offset_of,
-                   I32 (*compare)(void* A, void* B)){
+                   I32 (*compare)(void* A, void* B), I32 list_id){
     list->pool = pool;
     //listPtr is used to attach a bbList to an existing list
     if(list_pointer != NULL){
@@ -33,7 +33,7 @@ bbFlag bbList_init(bbList* list, bbVPool* pool, void* list_pointer, size_t offse
     list->prev = list->pool->null;
     list->current = list->pool->null;
     list->next = list->pool->null;
-
+    list->list.list_id = list_id;
     return bbSuccess;
 }
 
@@ -44,6 +44,7 @@ bbFlag bbList_pushL(bbList* list, void* element){
     bbHandle handle_element;
     bbVPool_reverseLookup(list->pool, element, &handle_element);
 
+    bbAssert(list_element->list_id == 0, "element already in a list")
     bbAssert(isNULL(list_element->prev), "already in a list\n");
     bbAssert(isNULL(list_element->next), "already in a list\n");
 
@@ -52,6 +53,7 @@ bbFlag bbList_pushL(bbList* list, void* element){
         bbAssert(isNULL(list->list_pointer->tail), "head/tail mismatch\n");
         list_element->prev = handle_element;
         list_element->next = handle_element;
+        list_element->list_id = list->list.list_id;
         list->list_pointer->head = handle_element;
         list->list_pointer->tail = handle_element;
 
@@ -69,6 +71,7 @@ bbFlag bbList_pushL(bbList* list, void* element){
 
         head_list_element->next = handle_element;
         head_list_element->prev = handle_element;
+        list_element->list_id = list->list.list_id;
         list_element->next = list->list_pointer->head;
         list_element->prev = list->list_pointer->head;
 
@@ -90,6 +93,7 @@ bbFlag bbList_pushL(bbList* list, void* element){
     head_list_element->prev = handle_element;
     list_element->prev = list->list_pointer->tail;
     list_element->next = list->list_pointer->head;
+    list_element->list_id = list->list.list_id;
     list->list_pointer->head = handle_element;
 
     return bbSuccess;
@@ -102,6 +106,7 @@ bbFlag bbList_pushR(bbList* list, void* element){
     bbHandle handle_element;
     bbVPool_reverseLookup(list->pool, element, &handle_element);
 
+    bbAssert(list_element->list_id == 0, "element already in a list")
     bbAssert(isNULL(list_element->prev), "already in a list\n");
     bbAssert(isNULL(list_element->next), "already in a list\n");
 
@@ -174,6 +179,7 @@ bbFlag bbList_popL(bbList* list, void** element){
         list->list_pointer->tail = list->pool->null;
         head_list_element->prev = list->pool->null;
         head_list_element->next = list->pool->null;
+        head_list_element->list_id = 0;
         if (element != NULL){
             *element = head;
         }
@@ -195,6 +201,7 @@ bbFlag bbList_popL(bbList* list, void** element){
 
     head_list_element->prev = list->pool->null;
     head_list_element->next = list->pool->null;
+    head_list_element->list_id = 0;
 
     if (element != NULL){
         *element = head;
@@ -227,12 +234,11 @@ bbFlag bbList_popR(bbList* list, void** element){
         list->list_pointer->tail = list->pool->null;
         tail_list_element->prev = list->pool->null;
         tail_list_element->next = list->pool->null;
+        tail_list_element->list_id = 0;
         if (element != NULL){
             *element = tail;
         }
 
-        tail_list_element->prev = list->pool->null;
-        tail_list_element->next = list->pool->null;
         return bbSuccess;
     }
 
@@ -251,6 +257,7 @@ bbFlag bbList_popR(bbList* list, void** element){
 
     tail_list_element->prev = list->pool->null;
     tail_list_element->next = list->pool->null;
+    tail_list_element->list_id = 0;
 
     if (element != NULL){
         *element = tail;
@@ -320,6 +327,8 @@ bbFlag bbList_insertAfter(bbList* list, void* Node, void* Key){
     bbVPool_reverseLookup(list->pool, Node, &NodeHandle);
     bbListElement_Handle* NodeList = Node + list->offset_of;
 
+    bbAssert(NodeList->list_id == 0, "element already in a list")
+
     bbHandle KeyHandle;
     bbVPool_reverseLookup(list->pool, Key, &KeyHandle);
     bbListElement_Handle* KeyList = Key + list->offset_of;
@@ -330,9 +339,10 @@ bbFlag bbList_insertAfter(bbList* list, void* Node, void* Key){
     bbListElement_Handle* NextList = Next + list->offset_of;
 
     KeyList->next = NodeHandle;
+    NextList->prev = NodeHandle;
     NodeList->prev = KeyHandle;
     NodeList->next = NextHandle;
-    NextList->prev = NodeHandle;
+    NodeList->list_id = list->list.list_id;
 
     if (isEqual(KeyHandle, list->list_pointer->tail)){
         list->list_pointer->tail = NodeHandle;
@@ -350,6 +360,7 @@ bbFlag bbList_insertBefore(bbList* list, void* Node, void* Key){
     bbHandle node_handle;
     bbVPool_reverseLookup(list->pool, Node, &node_handle);
     bbListElement_Handle* node_list = Node + list->offset_of;
+    bbAssert(node_list->list_id == 0, "element already in a list")
 
     bbHandle key_handle;
     bbVPool_reverseLookup(list->pool, Key, &key_handle);
@@ -361,9 +372,10 @@ bbFlag bbList_insertBefore(bbList* list, void* Node, void* Key){
     bbListElement_Handle* prev_list = prev + list->offset_of;
 
     prev_list->next = node_handle;
+    key_list->prev = node_handle;
     node_list->prev = prev_handle;
     node_list->next = key_handle;
-    key_list->prev = node_handle;
+    node_list->list_id = list->list.list_id;
 
     if(isEqual(key_handle, list->list_pointer->head)){
         list->list_pointer->head = node_handle;
@@ -379,7 +391,7 @@ bbFlag bbList_remove(bbList* list, void* element){
     bbVPool_reverseLookup(list->pool, element, &element_handle);
 
     bbAssert(!isNULL(element_list->prev) && !isNULL(element_list->next),"removing list element not in any list\n");
-
+    bbAssert(element_list->list_id == list->list.list_id, "removing element from list it is not a member of");
 
 	//Since it's a circular list, if an element points to itself, it's the only element in the list.
     if (isEqual(element_handle, element_list->next)){
@@ -390,6 +402,7 @@ bbFlag bbList_remove(bbList* list, void* element){
                  "all things being equal\n");
         element_list->next = list->pool->null;
         element_list->prev = list->pool->null;
+        element_list->list_id = 0;
         list->list_pointer->head = list->pool->null;
         list->list_pointer->tail = list->pool->null;
 
@@ -422,6 +435,7 @@ bbFlag bbList_remove(bbList* list, void* element){
 	//An element not in a list points to null
     element_list->next = list->pool->null;
     element_list->prev = list->pool->null;
+    element_list->list_id = 0;
 
 
 //remove an element from a list that's being iterated
@@ -462,6 +476,7 @@ bbFlag bbList_alloc(bbList* list, void** element)
         bbListElement_Handle* element_list = new_element + list->offset_of;
         element_list->next = list->pool->null;
         element_list->prev = list->pool->null;
+        element_list->list_id = 0;
 
 
         *element = new_element;
@@ -483,6 +498,7 @@ bbFlag bbList_alloc2(bbList* list, void** element, bbHandle* handle)
         bbListElement_Handle* element_list = new_element + list->offset_of;
         element_list->next = list->pool->null;
         element_list->prev = list->pool->null;
+        element_list->list_id = 0;
         if (element!= NULL) *element = new_element;
         if (handle!=NULL) *handle = element_handle;
         return bbSuccess;
