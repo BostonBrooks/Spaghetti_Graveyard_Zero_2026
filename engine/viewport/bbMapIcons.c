@@ -9,6 +9,7 @@ bbFlag bbMapIcon_new(bbMapIcon** self, bbMapIcons* mapicons,
     bbDrawable* drawable;
     bbVPool_alloc(pool, (void**)&drawable);
     drawable->coords = MC;
+    drawable->SC = SC;
 
     bbHandle drawfunctionHandle;
 

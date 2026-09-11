@@ -344,6 +344,7 @@ bbFlag bbUI_Inbox_newBanana_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
     bbFlag flag = bbVPool_alloc2(pool, (void**)&unit,&unit_handle);
 
     unit->drawable.coords = MC;
+    unit->drawable.SC = SC;
     bbHandle drawfunctionHandle;
     if (entity_handle.u64 != no_handle.u64)
     {
@@ -566,6 +567,9 @@ bbFlag bbUI_Inbox_deleteUnit_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
     //bbVPool_free(home.viewport_app.moveable_units,unit_handle2);
 
     bbSquareCoords SC = bbMapCoords_getSquareCoords(unit->drawable.coords);
+    
+    bbAssert(SC.i == unit->drawable.SC.i && SC.j == unit->drawable.SC.j, "bad square coords\n");
+
     bbUnitSquare* unitSquare = bbDrawables_getSquare(units,SC.i, SC.j, units->squares_i, units->squares_j);
 
     //bbList_remove(&units->list, unit);

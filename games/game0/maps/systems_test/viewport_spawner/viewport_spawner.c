@@ -35,6 +35,7 @@ bbFlag bbViewportSpawnSkelly(bbViewportApp* viewport_app,
     bbFlag flag = bbVPool_alloc2(pool, (void**)&unit,&unit_handle);
 
     unit->drawable.coords = MC;
+    unit->drawable.SC = SC;
     bbHandle drawfunctionHandle;
     if (entity_handle.u64 != no_handle.u64)
     {
@@ -129,6 +130,7 @@ bbFlag bbViewportSpawnZombie(bbViewportApp* viewport_app,
     bbFlag flag = bbVPool_alloc2(pool, (void**)&unit,&unit_handle);
 
     unit->drawable.coords = MC;
+    unit->drawable.SC = SC;
     bbHandle drawfunctionHandle;
     if (entity_handle.u64 != no_handle.u64)
     {
@@ -224,6 +226,7 @@ bbFlag bbViewportSpawnCow(bbViewportApp* viewport_app,
     bbFlag flag = bbVPool_alloc2(pool, (void**)&unit,&unit_handle);
 
     unit->drawable.coords = MC;
+    unit->drawable.SC = SC;
     bbHandle drawfunctionHandle;
     if (entity_handle.u64 != no_handle.u64)
     {
@@ -319,6 +322,7 @@ bbFlag bbViewportSpawnFox(bbViewportApp* viewport_app,
     bbFlag flag = bbVPool_alloc2(pool, (void**)&unit,&unit_handle);
 
     unit->drawable.coords = MC;
+    unit->drawable.SC = SC;
     bbHandle drawfunctionHandle;
     if (entity_handle.u64 != no_handle.u64)
     {
@@ -413,6 +417,7 @@ bbFlag bbViewportSpawnLizard(bbViewportApp* viewport_app,
     bbFlag flag = bbVPool_alloc2(pool, (void**)&unit,&unit_handle);
 
     unit->drawable.coords = MC;
+    unit->drawable.SC = SC;
     bbHandle drawfunctionHandle;
     if (entity_handle.u64 != no_handle.u64)
     {
@@ -508,6 +513,7 @@ bbFlag bbViewportSpawnDevil(bbViewportApp* viewport_app,
     bbFlag flag = bbVPool_alloc2(pool, (void**)&unit,&unit_handle);
 
     unit->drawable.coords = MC;
+    unit->drawable.SC = SC;
     bbHandle drawfunctionHandle;
     if (entity_handle.u64 != no_handle.u64)
     {
@@ -602,6 +608,7 @@ bbFlag bbViewportSpawnFireball(bbViewportApp* viewport_app,
     bbFlag flag = bbVPool_alloc2(pool, (void**)&unit,&unit_handle);
 
     unit->drawable.coords = MC;
+    unit->drawable.SC = SC;
     bbHandle drawfunctionHandle;
     if (entity_handle.u64 != no_handle.u64)
     {

@@ -66,6 +66,7 @@ bbFlag bbUnit_newBalloon(bbUnit** self, bbMapCoords MC, I32 movable_index, I32 e
 
 
     unit->drawable.coords = MC;
+    unit->drawable.SC = SC;
     bbHandle drawfunctionHandle;
 
     unit->prev_coords = MC;

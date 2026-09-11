@@ -12,6 +12,7 @@ bbFlag bbUnit_newKitty(bbUnit** self, bbMapCoords MC, I32 movable_index, I32 ent
 
 
     unit->drawable.coords = MC;
+    unit->drawable.SC = SC;
     bbHandle drawfunctionHandle;
 
     unit->prev_coords = MC;

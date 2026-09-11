@@ -24,6 +24,7 @@ typedef enum
 typedef struct
 {
     bbMapCoords coords;
+    bbSquareCoords SC;
     float rotation;
     bbDrawableState state;
     bbList_Handle listElement;

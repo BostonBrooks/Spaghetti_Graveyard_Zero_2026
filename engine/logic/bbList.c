@@ -378,6 +378,9 @@ bbFlag bbList_remove(bbList* list, void* element){
     bbListElement_Handle* element_list = element + list->offset_of;
     bbVPool_reverseLookup(list->pool, element, &element_handle);
 
+    bbAssert(!isNULL(element_list->prev) && !isNULL(element_list->next),"removing list element not in any list\n");
+
+
 	//Since it's a circular list, if an element points to itself, it's the only element in the list.
     if (isEqual(element_handle, element_list->next)){
 
@@ -401,12 +404,16 @@ bbFlag bbList_remove(bbList* list, void* element){
 	//The element before points to the element after and the element after points to the element before
     bbHandle prev_handle = element_list->prev;
     void* prev;
-    bbVPool_lookup(list->pool, &prev, prev_handle);
+    bbFlag flag = bbVPool_lookup(list->pool, &prev, prev_handle);
+    if (flag != bbSuccess){bbFlag_print(flag)}
+
+
     bbListElement_Handle* prev_list = prev + list->offset_of;
 
     bbHandle next_handle = element_list->next;
     void* next;
-    bbVPool_lookup(list->pool, &next, next_handle);
+    flag = bbVPool_lookup(list->pool, &next, next_handle);
+    if (flag != bbSuccess){bbFlag_print(flag)}
     bbListElement_Handle* next_list = next + list->offset_of;
 
     next_list->prev = prev_handle;

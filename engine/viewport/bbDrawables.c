@@ -182,7 +182,7 @@ bbFlag bbDrawable_newTree(bbDrawable** self, bbDrawables* drawables,
     bbDrawable* drawable;
     bbVPool_alloc(pool, (void**)&drawable);
     drawable->coords = MC;
-
+    drawable->SC = SC;
     bbHandle drawfunctionHandle;
 
     bbDictionary_lookup(graphics->drawfunctions->dictionary,
@@ -219,7 +219,7 @@ bbFlag bbDrawable_newCat(bbDrawable** self, bbDrawables* drawables,
     bbDrawable* drawable;
     bbVPool_alloc(pool, (void**)&drawable);
     drawable->coords = MC;
-
+    drawable->SC = SC;
     bbHandle drawfunctionHandle;
 
 
@@ -252,7 +252,7 @@ bbFlag bbDrawable_newSkeleton(bbDrawable** self, bbDrawables* drawables,
     bbDrawable* drawable;
     bbVPool_alloc(pool, (void**)&drawable);
     drawable->coords = MC;
-
+    drawable->SC = SC;
     bbHandle drawfunctionHandle;
 
 
@@ -285,6 +285,9 @@ bbFlag bbDrawable_setLocation(bbDrawable* drawable, bbDrawables* drawables,
     bbSquareCoords newSC = bbMapCoords_getSquareCoords(MC);
     bbSquareCoords oldSC = bbMapCoords_getSquareCoords(drawable->coords);
 
+    bbAssert (oldSC.i == drawable->SC.i && oldSC.j == drawable->SC.j, "square coords error\n");
+
+    drawable->SC = newSC;
     bbDrawableSquare* newSquare= bbDrawables_getSquare(drawables,newSC.i, newSC.j, drawables->squares_i, drawables->squares_j);
     bbDrawableSquare* oldSquare= bbDrawables_getSquare(drawables,oldSC.i, oldSC.j, drawables->squares_i, drawables->squares_j);
 
@@ -309,6 +312,7 @@ bbFlag bbDrawable_newSphere(bbDrawable** self, bbDrawables* drawables,
     bbDrawable* drawable;
     bbVPool_alloc(pool, (void**)&drawable);
     drawable->coords = MC;
+    drawable->SC = SC;
 
     bbHandle drawfunctionHandle;
 
@@ -347,6 +351,7 @@ bbFlag bbDrawable_newPoint(bbDrawable** self, bbDrawables* drawables,
     bbDrawable* drawable;
     bbVPool_alloc(pool, (void**)&drawable);
     drawable->coords = MC;
+    drawable->SC = SC;
 
     bbHandle drawfunctionHandle;
 

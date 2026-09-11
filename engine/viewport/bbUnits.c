@@ -18,6 +18,7 @@ bbMapCoords MC, I32 index){
 
 
     unit->drawable.coords = MC;
+    unit->drawable.SC = SC;
     bbHandle drawfunctionHandle;
 
     unit->prev_coords = MC;
@@ -88,6 +89,7 @@ bbFlag bbUnits_consumeBuffer(bbUnits* units, bbVPool* entity_units, bbMoveables_
         bbVPool_lookup(home.viewport_app.units->pool,(void**)&unit,unit_handle2);
         if (unit == NULL) continue;
         drawable = &unit->drawable;
+        if (drawable->state == bbDrawableState_dead) continue;
 
         if (snapshot->time > unit->next_time)
         {
@@ -103,7 +105,7 @@ bbFlag bbUnits_consumeBuffer(bbUnits* units, bbVPool* entity_units, bbMoveables_
             I32 delta_i = unit->next_coords.i - unit->prev_coords.i;
             I32 delta_j = unit->next_coords.j - unit->prev_coords.j;
 
-            if (drawable->state == bbDrawableState_attacking)
+            if (delta_i * delta_i + delta_j * delta_j < POINTS_PER_PIXEL*POINTS_PER_PIXEL*16)
             {
 
                 delta_i = unit->next_goalpoint.i - unit->prev_coords.i;

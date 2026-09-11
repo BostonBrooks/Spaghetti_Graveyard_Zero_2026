@@ -652,16 +652,16 @@ bbFlag bbMoveable_setGoalPoint(bbMoveables* moveables, bbHandle handle, bbMapCoo
     bbMoveable* moveable = &moveables->moveables[handle.bloated.index];
 
 
-        bbDebug("index = %d\n"
-             "handle = %d,%d\n"
-             "entity = %d,%d\n"
-            "old goalpoint = %d,%d\n"
-            "new goalpoint = %d,%d\n",
-            handle.bloated.index,
-            moveable->moveable_handle.bloated.index,moveable->moveable_handle.bloated.collision,
-            moveable->component.entity_handle.bloated.index,moveable->component.entity_handle.bloated.collision,
-            moveable->goalpoint.i, moveable->goalpoint.j,
-            goalpoint.i, goalpoint.j);
+        // bbDebug("index = %d\n"
+        //      "handle = %d,%d\n"
+        //      "entity = %d,%d\n"
+        //     "old goalpoint = %d,%d\n"
+        //     "new goalpoint = %d,%d\n",
+        //     handle.bloated.index,
+        //     moveable->moveable_handle.bloated.index,moveable->moveable_handle.bloated.collision,
+        //     moveable->component.entity_handle.bloated.index,moveable->component.entity_handle.bloated.collision,
+        //     moveable->goalpoint.i, moveable->goalpoint.j,
+        //     goalpoint.i, goalpoint.j);
 
     moveable->goalpoint = goalpoint;
     moveable->type = bbMoveableType_Moving;
