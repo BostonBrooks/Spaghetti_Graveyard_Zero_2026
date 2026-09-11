@@ -163,6 +163,5 @@ bbFlag bbInstruction_entity_deleteEntity_fn(bbCore* core, bbInstruction* instruc
 ///restore entity and all data
 bbFlag bbInstruction_entity_undeleteEntity_fn(bbCore* core, bbInstruction* instruction);
 
-///discard data needed to restore entity
-bbFlag discard_entity_undeleteEntity_fn(bbCore* core, bbInstruction* undo_instruction);
+
 #endif //BB_ECS_H

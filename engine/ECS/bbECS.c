@@ -753,27 +753,3 @@ bbFlag bbInstruction_entity_undeleteEntity_fn(bbCore* core, bbInstruction* instr
 }
 
 
-bbFlag discard_entity_undeleteEntity_fn(bbCore* core, bbInstruction* undo_instruction)
-{
-    //TODO UI_inbox delete unit, free components, free entity
-
-    //TODO move to a different file, outside of ECS code?
-    bbHandle entity_handle = undo_instruction->data.three_handles.handle1;
-
-
-
-    bbHandle moveable_handle;
-    bbHandle_mapComponent(home.ECS.ECS,bbECS_ECS,entity_handle,bbECS_Moveables,&moveable_handle,NULL);
-    bbHandle_deleteComponent((bbSystem*)&home.ECS.moveables, moveable_handle);
-
-
-    bbHandle spatial_handle;
-    bbFlag flag = bbHandle_mapComponent(home.ECS.ECS,bbECS_ECS,entity_handle,bbECS_Spatial,&spatial_handle,NULL);
-
-    bbAssert(flag == bbSuccess, "bad handle lookup\n")
-
-    bbHandle_deleteComponent((bbSystem*)&home.ECS.spatial, spatial_handle);
-
-    bbUI_Inbox_DeleteUnit(&home.UI.inbox, entity_handle, moveable_handle);
-
-}

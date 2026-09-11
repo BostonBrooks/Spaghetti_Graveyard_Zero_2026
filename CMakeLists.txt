@@ -127,6 +127,7 @@ add_executable(ECS_Test  games/game0/maps/ECS_test/ECS_test.c
         engine/logic/bbTree.c
         engine/logic/bbBloatedPool.c
         engine/logic/bbDictionary.c
+        engine/logic/bbSystemPool.c
 
         engine/threadsafe/bbThreadedQueue_search.c
         engine/threadsafe/bbThreadedQueue.c
