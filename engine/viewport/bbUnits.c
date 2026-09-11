@@ -113,7 +113,7 @@ bbFlag bbUnits_consumeBuffer(bbUnits* units, bbVPool* entity_units, bbMoveables_
             }
 
             //TODO this condition is always true
-            if (delta_i * delta_i + delta_j * delta_j > POINTS_PER_PIXEL*POINTS_PER_PIXEL)
+            //if (delta_i * delta_i + delta_j * delta_j > POINTS_PER_PIXEL*POINTS_PER_PIXEL)
             {
                 float rotation = atan2(delta_i, delta_j);
                 drawable->rotation = rotation;
