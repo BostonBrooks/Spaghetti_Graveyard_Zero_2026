@@ -85,7 +85,7 @@ bbFlag bbI_live_spawnEntity_fn(bbCore* core, bbInstruction* instruction)
 
     function(&home.ECS.spawner,
              &undo_handle,
-             instruction->data.sfArgs,
+             &instruction->data.sfArgs,
              bbInstructionSource_internal);
 
     if (undo_instruction != NULL)

@@ -7,13 +7,13 @@
 
 bbFlag bbSF_addGraphics_zombie(void* spawner,
                                bbECS_entity* entity,
-                               bbSpawnFunctionArgs args,
+                               bbSpawnFunctionArgs* args,
                                bbInstruction_source source);
 
 
 bbFlag bbSF_addGraphics_zombie(void* spawner,
                                bbECS_entity* entity,
-                               bbSpawnFunctionArgs args,
+                               bbSpawnFunctionArgs* args,
                                bbInstruction_source source)
 {
     bbAssert(source == bbInstructionSource_norewind, "not implemented");
@@ -32,7 +32,7 @@ bbFlag bbSF_addGraphics_zombie(void* spawner,
 
     bbCoreInput_spawnGraphicsComponent(&home.core.core,
                                     "ZOMBIE",
-                                   args.position,
+                                   args->position,
                                    bbDrawableState_moving,
                                    handle,
                                    moveable,
@@ -44,7 +44,7 @@ bbFlag bbSF_addGraphics_zombie(void* spawner,
 
 bbFlag bbSF_addAI_player(void* spawner,
                                bbECS_entity* entity,
-                               bbSpawnFunctionArgs args,
+                               bbSpawnFunctionArgs* args,
                                bbInstruction_source source)
 {
 

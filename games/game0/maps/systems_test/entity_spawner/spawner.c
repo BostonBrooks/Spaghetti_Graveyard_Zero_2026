@@ -98,7 +98,7 @@ bbFlag bbPF_standard(void* Spawner, char* string)
         bbDictionary_lookup(spawner->spawn_dict, component, &handle);
         spawn_function = spawner->spawn_functions[handle.u64];
 
-        spawn_function(spawner, NULL, args,bbInstructionSource_norewind);
+        spawn_function(spawner, NULL, &args,bbInstructionSource_norewind);
         if (separator == '\0' || separator == '\n') break;
 
 
@@ -112,7 +112,7 @@ bbFlag bbPF_standard(void* Spawner, char* string)
 
 bbFlag bbSF_null(void* spawner,
                                bbECS_entity* entity,
-                               bbSpawnFunctionArgs args,
+                               bbSpawnFunctionArgs* args,
                                bbInstruction_source source)
 {
    /* bbDebug("position = (%d, %d, %d)\n"
@@ -127,7 +127,7 @@ bbFlag bbSF_null(void* spawner,
 
 bbFlag bbSF_addAI_skelly(void* spawner,
                                bbECS_entity* entity,
-                               bbSpawnFunctionArgs args,
+                               bbSpawnFunctionArgs* args,
                                bbInstruction_source source)
 {
 
@@ -155,7 +155,7 @@ bbFlag bbSF_addAI_skelly(void* spawner,
 
 bbFlag bbSF_addAI_fireball(void* spawner,
                                bbECS_entity* entity,
-                               bbSpawnFunctionArgs args,
+                               bbSpawnFunctionArgs* args,
                                bbInstruction_source source)
 {
 
@@ -183,7 +183,7 @@ bbFlag bbSF_addAI_fireball(void* spawner,
 
 bbFlag bbSF_addAI_castfireball(void* spawner,
                                bbECS_entity* entity,
-                               bbSpawnFunctionArgs args,
+                               bbSpawnFunctionArgs* args,
                                bbInstruction_source source)
 {
 
@@ -211,7 +211,7 @@ bbFlag bbSF_addAI_castfireball(void* spawner,
 
 bbFlag bbSF_addAI_cow(void* spawner,
                                bbECS_entity* entity,
-                               bbSpawnFunctionArgs args,
+                               bbSpawnFunctionArgs* args,
                                bbInstruction_source source)
 {
 
@@ -239,7 +239,7 @@ bbFlag bbSF_addAI_cow(void* spawner,
 
 bbFlag bbSF_addAI_null(void* spawner,
                                bbECS_entity* entity,
-                               bbSpawnFunctionArgs args,
+                               bbSpawnFunctionArgs* args,
                                bbInstruction_source source)
 {
 
@@ -268,7 +268,7 @@ bbFlag bbSF_addAI_null(void* spawner,
 
 bbFlag bbSF_setPlayer(void* spawner,
                                bbECS_entity* entity,
-                               bbSpawnFunctionArgs args,
+                               bbSpawnFunctionArgs* args,
                                bbInstruction_source source)
 {//TODO make core synchronous set player handle; May want to store player character somewhere else
     bbHandle handle = entity->component.entity_handle;

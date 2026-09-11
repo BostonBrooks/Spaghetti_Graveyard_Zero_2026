@@ -12,15 +12,15 @@
 bbFlag bbCS_spawnEmptyEntity(bbECS_entity** entity, bbInstruction_source source);
 bbFlag bbSF_addServerEntity_skelly(void* spawner,
                                bbECS_entity* entity,
-                               bbSpawnFunctionArgs args,
+                               bbSpawnFunctionArgs* args,
                                bbInstruction_source source);
 bbFlag bbSF_addMoveable_skelly(void* spawner,
                                bbECS_entity* entity,
-                               bbSpawnFunctionArgs args,
+                               bbSpawnFunctionArgs* args,
                                bbInstruction_source source);
 bbFlag bbSF_addGraphics_skelly(void* spawner,
                                bbECS_entity* entity,
-                               bbSpawnFunctionArgs args,
+                               bbSpawnFunctionArgs* args,
                                bbInstruction_source source);
 
 bbFlag bbCS_spawnEmptyEntity(bbECS_entity** entity, bbInstruction_source source)
@@ -42,7 +42,7 @@ bbFlag bbCS_spawnEmptyEntity(bbECS_entity** entity, bbInstruction_source source)
 
 bbFlag bbSF_addServerEntity_skelly(void* spawner,
                                bbECS_entity* entity,
-                               bbSpawnFunctionArgs args,
+                               bbSpawnFunctionArgs* args,
                                bbInstruction_source source)
 {
     bbAssert(source == bbInstructionSource_norewind, "not implemented");
@@ -53,14 +53,14 @@ bbFlag bbSF_addServerEntity_skelly(void* spawner,
 
     bbCoreSynchronous_setServerEntity(&home.core.core,
                                    handle,
-                                   args.handle,
+                                   args->handle,
                                   bbInstructionSource_norewind,
                                   no_handle);
     return bbSuccess;
 }
 bbFlag bbSF_addMoveable_skelly(void* spawner,
                                bbECS_entity* entity,
-                               bbSpawnFunctionArgs args,
+                               bbSpawnFunctionArgs* args,
                                bbInstruction_source source)
 {
     bbAssert(source == bbInstructionSource_norewind || source == bbInstructionSource_internal, "not implemented");
@@ -71,10 +71,10 @@ bbFlag bbSF_addMoveable_skelly(void* spawner,
     bbCoreSynchronous_spawnTestMoveable(&home.core.core,
                                            handle,
                                            &moveable_handle,
-                                           args.position,
-                                           args.speed,
-                                           args.radius,
-                                           args.mass,
+                                           args->position,
+                                           args->speed,
+                                           args->radius,
+                                           args->mass,
                                            source,
                                            no_handle);
 
@@ -87,7 +87,7 @@ bbFlag bbSF_addMoveable_skelly(void* spawner,
 
 bbFlag bbSF_addMoveable_fireball(void* spawner,
                                bbECS_entity* entity,
-                               bbSpawnFunctionArgs args,
+                               bbSpawnFunctionArgs* args,
                                bbInstruction_source source)
 {
     bbAssert(source == bbInstructionSource_norewind || source == bbInstructionSource_internal, "not implemented");
@@ -98,15 +98,15 @@ bbFlag bbSF_addMoveable_fireball(void* spawner,
     bbCoreSynchronous_spawnTestMoveable(&home.core.core,
                                            handle,
                                            &moveable_handle,
-                                           args.position,
-                                           args.speed,
-                                           args.radius,
-                                           args.mass,
+                                           args->position,
+                                           args->speed,
+                                           args->radius,
+                                           args->mass,
                                            source,
                                            no_handle);
 
     //We dont need to undo this, will be nuked by bbInstruction_unspawnTestMoveable_fn
-    bbCI_Moveable_setMovingThrough(&home.core.core,moveable_handle,args.goalpoint,source,no_handle);
+    bbCI_Moveable_setMovingThrough(&home.core.core,moveable_handle,args->goalpoint,source,no_handle);
 
     //bbHere()
     return bbSuccess;
@@ -114,7 +114,7 @@ bbFlag bbSF_addMoveable_fireball(void* spawner,
 
 bbFlag bbSF_addMoveable_skelly2(void* spawner,
                                bbECS_entity* entity,
-                               bbSpawnFunctionArgs args,
+                               bbSpawnFunctionArgs* args,
                                bbInstruction_source source)
 {
     bbAssert(source == bbInstructionSource_norewind || source == bbInstructionSource_internal, "not implemented");
@@ -127,19 +127,19 @@ bbFlag bbSF_addMoveable_skelly2(void* spawner,
     bbCoreSynchronous_spawnTestMoveable(&home.core.core,
                                            handle,
                                            &moveable_handle,
-                                           args.position,
-                                           args.speed,
-                                           args.radius,
-                                           args.mass,
+                                           args->position,
+                                           args->speed,
+                                           args->radius,
+                                           args->mass,
                                            source,
                                            no_handle);
 
 
 
-    if (args.state == bbMoveableType_Following)
+    if (args->state == bbMoveableType_Following)
     {
-        bbMoveable_setGoalMoveable(&home.ECS.moveables,moveable_handle, args.goal_handle);
-    } else if (args.state == bbMoveableType_Idle)
+        bbMoveable_setGoalMoveable(&home.ECS.moveables,moveable_handle, args->goal_handle);
+    } else if (args->state == bbMoveableType_Idle)
     {
         bbCI_Moveable_setIdle(&home.core.core,moveable_handle,source,no_handle);
     } else
@@ -154,7 +154,7 @@ bbFlag bbSF_addMoveable_skelly2(void* spawner,
 
 bbFlag bbSF_addGraphics_skelly(void* spawner,
                                bbECS_entity* entity,
-                               bbSpawnFunctionArgs args,
+                               bbSpawnFunctionArgs* args,
                                bbInstruction_source source)
 {
 
@@ -173,7 +173,7 @@ bbFlag bbSF_addGraphics_skelly(void* spawner,
 
     bbCoreInput_spawnGraphicsComponent(&home.core.core,
                                     "SKELLY",
-                                   args.position,
+                                   args->position,
                                    bbDrawableState_moving,
                                    handle,
                                    moveable,
@@ -185,7 +185,7 @@ bbFlag bbSF_addGraphics_skelly(void* spawner,
 
 bbFlag bbSF_addGraphics_cow(void* spawner,
                                bbECS_entity* entity,
-                               bbSpawnFunctionArgs args,
+                               bbSpawnFunctionArgs* args,
                                bbInstruction_source source)
 {
 
@@ -204,7 +204,7 @@ bbFlag bbSF_addGraphics_cow(void* spawner,
 
     bbCoreInput_spawnGraphicsComponent(&home.core.core,
                                     "COW",
-                                   args.position,
+                                   args->position,
                                    bbDrawableState_moving,
                                    handle,
                                    moveable,
@@ -216,7 +216,7 @@ bbFlag bbSF_addGraphics_cow(void* spawner,
 
 bbFlag bbSF_addGraphics_fox(void* spawner,
                                bbECS_entity* entity,
-                               bbSpawnFunctionArgs args,
+                               bbSpawnFunctionArgs* args,
                                bbInstruction_source source)
 {
 
@@ -235,7 +235,7 @@ bbFlag bbSF_addGraphics_fox(void* spawner,
 
     bbCoreInput_spawnGraphicsComponent(&home.core.core,
                                     "FOX",
-                                   args.position,
+                                   args->position,
                                    bbDrawableState_moving,
                                    handle,
                                    moveable,
@@ -247,7 +247,7 @@ bbFlag bbSF_addGraphics_fox(void* spawner,
 
 bbFlag bbSF_addGraphics_devil(void* spawner,
                                bbECS_entity* entity,
-                               bbSpawnFunctionArgs args,
+                               bbSpawnFunctionArgs* args,
                                bbInstruction_source source)
 {
 
@@ -266,7 +266,7 @@ bbFlag bbSF_addGraphics_devil(void* spawner,
 
     bbCoreInput_spawnGraphicsComponent(&home.core.core,
                                     "DEVIL",
-                                   args.position,
+                                   args->position,
                                    bbDrawableState_moving,
                                    handle,
                                    moveable,
@@ -278,7 +278,7 @@ bbFlag bbSF_addGraphics_devil(void* spawner,
 
 bbFlag bbSF_addGraphics_lizard(void* spawner,
                                bbECS_entity* entity,
-                               bbSpawnFunctionArgs args,
+                               bbSpawnFunctionArgs* args,
                                bbInstruction_source source)
 {
 
@@ -297,7 +297,7 @@ bbFlag bbSF_addGraphics_lizard(void* spawner,
 
     bbCoreInput_spawnGraphicsComponent(&home.core.core,
                                     "LIZARD",
-                                   args.position,
+                                   args->position,
                                    bbDrawableState_moving,
                                    handle,
                                    moveable,
@@ -309,7 +309,7 @@ bbFlag bbSF_addGraphics_lizard(void* spawner,
 
 bbFlag bbSF_addGraphics_fireball(void* spawner,
                                bbECS_entity* entity,
-                               bbSpawnFunctionArgs args,
+                               bbSpawnFunctionArgs* args,
                                bbInstruction_source source)
 {
 
@@ -328,7 +328,7 @@ bbFlag bbSF_addGraphics_fireball(void* spawner,
 
     bbCoreInput_spawnGraphicsComponent(&home.core.core,
                                     "FIREBALL",
-                                   args.position,
+                                   args->position,
                                    bbDrawableState_moving,
                                    handle,
                                    moveable,
@@ -340,7 +340,7 @@ bbFlag bbSF_addGraphics_fireball(void* spawner,
 
 bbFlag bbSF_addGraphics_skelly2(void* spawner,
                                bbECS_entity* entity,
-                               bbSpawnFunctionArgs args,
+                               bbSpawnFunctionArgs* args,
                                bbInstruction_source source)
 {
 
@@ -352,7 +352,7 @@ bbFlag bbSF_addGraphics_skelly2(void* spawner,
     bbHandle moveable = entity->components[bbECS_Moveables];
 
     I32 state;
-    if (args.state == bbMoveableType_Idle)
+    if (args->state == bbMoveableType_Idle)
     {
         state = bbDrawableState_idle;
     } else
@@ -362,7 +362,7 @@ bbFlag bbSF_addGraphics_skelly2(void* spawner,
 
     bbCoreInput_spawnGraphicsComponent(&home.core.core,
                                     "SKELLY",
-                                   args.position,
+                                   args->position,
                                    //state,
                                    bbDrawableState_moving,
                                    handle,
@@ -408,7 +408,7 @@ bbFlag bbPF_skellyParser(void* Spawner, char* string)
         bbDictionary_lookup(spawner->spawn_dict, component, &handle);
         spawn_function = spawner->spawn_functions[handle.u64];
 
-        spawn_function(spawner, entity, args,bbInstructionSource_norewind);
+        spawn_function(spawner, entity, &args,bbInstructionSource_norewind);
         if (separator == '\0' || separator == '\n') break;
     }
 
@@ -465,7 +465,7 @@ bbFlag bbPF_skelly2Parser(void* Spawner, char* string)
         bbDictionary_lookup(spawner->spawn_dict, component, &handle);
         spawn_function = spawner->spawn_functions[handle.u64];
 
-        spawn_function(spawner, entity, args,bbInstructionSource_norewind);
+        spawn_function(spawner, entity, &args,bbInstructionSource_norewind);
         if (separator == '\0' || separator == '\n') break;
     }
 
@@ -474,17 +474,17 @@ bbFlag bbPF_skelly2Parser(void* Spawner, char* string)
 
 bbFlag bbSF_addAI_skelly(void* spawner,
                                bbECS_entity* entity,
-                               bbSpawnFunctionArgs args,
+                               bbSpawnFunctionArgs* args,
                                bbInstruction_source source);
 
 bbFlag bbSF_addAI_fireball(void* spawner,
                                bbECS_entity* entity,
-                               bbSpawnFunctionArgs args,
+                               bbSpawnFunctionArgs* args,
                                bbInstruction_source source);
 
 bbFlag bbLSF_liveSpawnSkelly(void* spawner,
                                   bbHandle* Entity,
-                                  bbSpawnFunctionArgs args,
+                                  bbSpawnFunctionArgs* args,
                                   bbInstruction_source source)
 {
     bbAssert(source == bbInstructionSource_norewind || source == bbInstructionSource_internal, "not implemented");
@@ -522,7 +522,7 @@ bbFlag bbLSF_liveSpawnSkelly(void* spawner,
 }
 bbFlag bbLSF_liveSpawnFireball(void* spawner,
                                   bbHandle* Entity,
-                                  bbSpawnFunctionArgs args,
+                                  bbSpawnFunctionArgs* args,
                                   bbInstruction_source source)
 {
     bbAssert(source == bbInstructionSource_norewind || source == bbInstructionSource_internal, "not implemented");

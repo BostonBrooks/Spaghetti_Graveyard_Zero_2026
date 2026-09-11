@@ -73,12 +73,12 @@ typedef bbFlag bbParseFunction(void* spawner, char* line);
 ///bbInstructionSource_internal, add rewind instruction.
 typedef bbFlag bbSpawnFunction(void* spawner,
                                bbECS_entity* entity,
-                               bbSpawnFunctionArgs args,
+                               bbSpawnFunctionArgs* args,
                                bbInstruction_source source);
 
 typedef bbFlag bbLiveSpawnFunction(void* spawner,
                                   bbHandle* entity,
-                                  bbSpawnFunctionArgs args,
+                                  bbSpawnFunctionArgs* args,
                                   bbInstruction_source source);
 
 typedef struct
