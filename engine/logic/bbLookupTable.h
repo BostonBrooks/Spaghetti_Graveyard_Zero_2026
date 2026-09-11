@@ -30,7 +30,7 @@ bbFlag bbLookupTable_lookup(bbLookupTable* table,
                          bbHandle index,
                          bbHandle* value);
 
-#define bbLookupTable_remove(self, index)\
-    bbLookupTable_update(self, index, no_handle)
+bbFlag bbLookupTable_remove(bbLookupTable* table,
+                            bbHandle index);
 
 #endif // BB_LOOKUPTABLE_H

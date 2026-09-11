@@ -599,7 +599,7 @@ bbFlag bbComponent_getHandle(bbSystem* system, bbComponent* component, bbHandle*
 
 bbFlag bbHandle_deleteComponent(struct bbSystem* system, bbHandle component_handle)
 {
-    bbDebug("delete component %s\n",system->pool->pool_name);
+    //bbDebug("delete component %s\n",system->pool->pool_name);
     bbHandle_deleteComponent_fn* function = system->delete;
     return function(system, component_handle);
 }

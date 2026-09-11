@@ -547,6 +547,8 @@ bbFlag bbUI_Inbox_deleteUnit_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
     bbHandle unit_handle3;
     bbFlag flag = bbLookupTable_lookup(home.viewport_app.entity_units2,entity_handle,&unit_handle3);
 
+    bbLookupTable_remove(home.viewport_app.entity_units2,
+                            entity_handle);
 
     if (flag != bbSuccess)
     {

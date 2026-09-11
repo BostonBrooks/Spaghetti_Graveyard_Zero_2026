@@ -111,13 +111,42 @@ bbFlag bbLookupTable_lookup(bbLookupTable* table,
 
     bbAssert (element.index.system.system == table->system, "memory corruption?\n");
 
+    //TODO bbHandleError_Generation or bbHandleError_Stale?
     if (element.index.system.generation == 0) return bbHandleError_Generation;
     if (element.value.system.generation == 0) return bbHandleError_NULL;
-
     if (element.index.system.generation != index.system.generation) return bbHandleError_Stale;
 
     *value = element.value;
 
     return bbSuccess;
 
+}
+
+bbFlag bbLookupTable_remove(bbLookupTable* table,
+                            bbHandle index)
+{
+    if (index.system.system != table->system) return bbHandleError_System;
+
+    U32 handle_index = index.system.index;
+    U32 level1_index = handle_index / table->level2;
+
+    bbAssert(level1_index <= table->level1, "out of bounds");
+
+    U32 level2_index = handle_index % table->level2;
+
+
+    bbLookupTable_element* level2 = table->elements[level1_index];
+
+    if (level2 == NULL) return bbNone;
+
+    bbLookupTable_element element = level2[level2_index];
+
+    bbAssert (element.index.system.system == table->system, "memory corruption?\n");
+
+    //TODO return possible errors
+
+    element.index.system.generation = 0;
+    element.value.system.generation = 0;
+
+    return bbSuccess;
 }
