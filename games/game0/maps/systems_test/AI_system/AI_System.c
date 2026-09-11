@@ -629,7 +629,7 @@ bbFlag bbAI_Update_CastFireball(bbAI_Component* component)
                 args.speed = 18000;
                 args.radius = 0;
                 args.mass = 1;
-                bbCI_live_spawnEntity(&home.core.core, args, "FIREBALL", bbInstructionSource_internal, no_handle);
+                bbCI_live_spawnEntity(&home.core.core, args, "FIREBALL_LIVE", bbInstructionSource_internal, no_handle);
             }
 
             break;
@@ -710,9 +710,10 @@ bbFlag bbAI_Command_Player(bbAI_Component* component,
     {
         if (data.integer == 0)
         {
-            bbCoreInput_testClick3(&home.core.core, data.goal_point,
-                                   home.core.core.actual_time,
-                                   bbInstructionSource_internal, no_handle);
+            //TODO click to spawn
+            // bbCoreInput_testClick3(&home.core.core, data.goal_point,
+            //                        home.core.core.actual_time,
+            //                        bbInstructionSource_internal, no_handle);
         }
         else
         {

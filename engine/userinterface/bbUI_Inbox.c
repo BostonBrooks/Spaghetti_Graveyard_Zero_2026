@@ -642,7 +642,7 @@ bbFlag bbUI_Inbox_NewDrawable(bbUI_Inbox* inbox, I32 type_index, bbMapCoords MC,
     message->data.coords = MC;
     message->data.entity_handle = entity_handle;
 
-    bbDebug("new drawable type %d\n", type_index);
+    //bbDebug("new drawable type %d\n", type_index);
     //message->data.moveable_handle = moveable_handle;
 
     bbThreadedQueue_pushL(&inbox->local_message_queue, (void*)message);

@@ -313,8 +313,8 @@ bbFlag bbEntitySpawner_populate(bbEntitySpawner* spawner)
     bbSpawnFunction_add(spawner, bbSF_addAI_castfireball, "CASTFIREBALL_AI");
     bbSpawnFunction_add(spawner, bbSF_setPlayer, "PLAYER");
 
-    bbLiveSpawnFunction_add(spawner,  bbLSF_liveSpawnSkelly, "SKELLY");
-    bbLiveSpawnFunction_add(spawner,  bbLSF_liveSpawnFireball, "FIREBALL");
+    bbLiveSpawnFunction_add(spawner,  bbLSF_liveSpawnSkelly, "SKELLY_LIVE");
+    bbLiveSpawnFunction_add(spawner,  bbLSF_liveSpawnFireball, "FIREBALL_LIVE");
 
     bbHandle handle;
     handle.u64 = bbMoveableType_Following;
