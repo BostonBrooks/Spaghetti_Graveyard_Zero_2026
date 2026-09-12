@@ -27,6 +27,7 @@
 #include "engine/network/bbNetworkApp.h"
 #include "games/game0/maps/systems_test/core/core_inputs.h"
 #include "games/game0/maps/systems_test/AI_system/ai_instructions.h"
+#include "games/game0/maps/systems_test/core/textboxes.h"
 #include "engine/ECS/AI_system/bbAI_System.h"
 #include "engine/test_string/bbTestString.h"
 #include "engine/ECS/bbECS_instructions.h"
@@ -96,7 +97,7 @@ int main(void)
 "By fire, sun and moon, harken now and hear us!\n"
 "Come, Tom Bombadil, for our need is near us!\n");
 
-    bbTextbox_putMessage(home.textbox,message_handle,41);
+    bbTextbox_putMessage(home.textbox,message_handle,0);
     bbTextbox_updateBuffer(home.textbox);
 
     bbPerformance_init(&home.performance);
@@ -277,6 +278,7 @@ int main(void)
 
             bbCoreInput_setTime(&home.core.core,  home.core.core.actual_time, bbInstructionSource_input, no_handle);
             bbCore_react(&home.core.core);
+
         }
         bbCore_checkInbox(&home.core.core);
         bbCore_react(&home.core.core);
@@ -293,6 +295,10 @@ int main(void)
 
         if (home.core.clock2_handle.clock_paused == false)
         {
+            char buffer[MESSAGE_LENGTH];
+            snprintf(buffer, MESSAGE_LENGTH,"time is %llu\n", home.core.core.actual_time);
+            bbCS_setTextbox(&home.core.core, buffer, "DIALOGUE",home.core.core.actual_time, bbInstructionSource_input,no_handle);
+
 
             bbCoreInput_checkActions(&home.core.core,
                 home.core.core.actual_time,

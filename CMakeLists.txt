@@ -181,6 +181,7 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
         games/game0/maps/systems_test/entity_spawner/live_spawn.c
         games/game0/maps/systems_test/core/player_goalpoint.c
         games/game0/maps/systems_test/core/spawn_entity.c
+        games/game0/maps/systems_test/core/textboxes.c
 
         engine/test_string/bbTestString.c
 
@@ -228,6 +229,7 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
 
         engine/interthread/bbClock.c
         engine/textbox/bbTextbox.c
+
 
         engine/userinterface/bbInput.c
         engine/userinterface/bbMouse.c

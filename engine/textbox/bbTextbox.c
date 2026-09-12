@@ -143,6 +143,7 @@ bbFlag bbTextbox_updateBuffer(bbTextbox *textbox)
     {
         flag = bbStr_copyBack(textbox->buffer,&textbox->buffer_start,message->text,messageLength);
         if (flag != bbSuccess) break;
+        if (message->type == bbSetMessage) break;
         flag2 = bbIterator_decrement(&iterator,NULL,(void**)&message);
         if (flag2 != bbSuccess) break;
         messageLength = message->length;

@@ -6,7 +6,7 @@
 #include "engine/ECS/moveables/bbMoveables.h"
 #include "games/game0/maps/systems_test/core/instructions.h"
 ///discard data needed to restore entity
-bbFlag discard_entity_undeleteEntity_fn(bbCore* core, bbInstruction* undo_instruction)
+bbFlag bbCD_entity_undeleteEntity_fn(bbCore* core, bbInstruction* undo_instruction)
 {
 
     bbHandle entity_handle = undo_instruction->data.three_handles.handle1;
@@ -34,7 +34,7 @@ bbFlag discard_entity_undeleteEntity_fn(bbCore* core, bbInstruction* undo_instru
 }
 
 ///discards moveable from pool when the instruction to undo setting its state to dead expires
-bbFlag discard_Moveable_unsetDead_fn(bbCore* core, bbInstruction* undo_instruction)
+bbFlag bbCD_Moveable_unsetDead_fn(bbCore* core, bbInstruction* undo_instruction)
 {
     bbHandle moveable_handle = undo_instruction->data.moveable_state.handle;
     bbMoveable* moveable;
@@ -46,7 +46,7 @@ bbFlag discard_Moveable_unsetDead_fn(bbCore* core, bbInstruction* undo_instructi
     return bbSuccess;
 }
 
-bbFlag discard_unupdate_moveables_fn(bbCore* core, bbInstruction* undo_instruction)
+bbFlag bbCD_unupdate_moveables_fn(bbCore* core, bbInstruction* undo_instruction)
 {
     bbMoveables_snapshot* snapshot;
     bbVPool_lookup(home.ECS.moveables.snapshots, (void**)&snapshot, undo_instruction->snapshot);
@@ -59,8 +59,8 @@ bbFlag bbCore_initDiscard(bbCore* core)
     I32 max_instructions = bbVInstruction_numTypes;
     core->discard_functions = calloc(sizeof(bbInstruction_fn*), max_instructions);
 
-    core->discard_functions[bbInstruction_unupdateMoveables-bbInstruction_numTypes] = discard_unupdate_moveables_fn;
-    core->discard_functions[bbInstruction_entity_undeleteEntity-bbInstruction_numTypes] =discard_entity_undeleteEntity_fn;
-    core->discard_functions[bbI_moveable_unsetDead-bbInstruction_numTypes] = discard_Moveable_unsetDead_fn;
+    core->discard_functions[bbInstruction_unupdateMoveables-bbInstruction_numTypes] = bbCD_unupdate_moveables_fn;
+    core->discard_functions[bbInstruction_entity_undeleteEntity-bbInstruction_numTypes] = bbCD_entity_undeleteEntity_fn;
+    core->discard_functions[bbI_moveable_unsetDead-bbInstruction_numTypes] = bbCD_Moveable_unsetDead_fn;
        return bbSuccess;
 }
