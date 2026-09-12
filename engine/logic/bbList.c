@@ -115,6 +115,7 @@ bbFlag bbList_pushR(bbList* list, void* element){
         bbAssert(isNULL(list->list_pointer->tail), "head/tail mismatch\n");
         list_element->prev = handle_element;
         list_element->next = handle_element;
+        list_element->list_id = list->list.list_id;
         list->list_pointer->head = handle_element;
         list->list_pointer->tail = handle_element;
 
@@ -133,6 +134,7 @@ bbFlag bbList_pushR(bbList* list, void* element){
         head_list_element->prev = handle_element;
         list_element->next = list->list_pointer->head;
         list_element->prev = list->list_pointer->head;
+        list_element->list_id = list->list.list_id;
 
         list->list_pointer->tail = handle_element;
 
@@ -148,6 +150,7 @@ bbFlag bbList_pushR(bbList* list, void* element){
     head_list_element->prev = handle_element;
     list_element->prev = list->list_pointer->tail;
     list_element->next = list->list_pointer->head;
+    list_element->list_id = list->list.list_id;
     list->list_pointer->tail = handle_element;
 
     return bbSuccess;

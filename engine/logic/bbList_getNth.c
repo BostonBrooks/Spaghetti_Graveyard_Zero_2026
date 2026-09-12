@@ -15,6 +15,7 @@ bbFlag bbList_getNth(bbList* list, void** element, I32 N)
     for (I32 i = 0; i < N; i++)
     {
         list_element = nth_element + list->offset_of;
+        bbAssert(list_element->list_id == list->list.list_id, "bad list id detected\n");
         handle = list_element->next;
         bbVPool_lookup(list->pool, (void**)&nth_element,handle);
     }
