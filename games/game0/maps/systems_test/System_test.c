@@ -83,6 +83,21 @@ int main(void)
     home.core.goalpoint.j = 10000;
     home.core.goalpoint.k = 0;
 
+    bbTextbox_systemInit(&home.textbox_system);
+    bbTextbox_new(&home.textbox,&home.textbox_system);
+
+    char* message_text;
+    bbHandle message_handle;
+    bbTextbox_newMessage(home.textbox, &message_handle, &message_text);
+    snprintf(message_text,MESSAGE_LENGTH,
+
+"Ho! Tom Bombadil, Tom Bombadillo!\n"
+"By water, wood and hill, by the reed and willow,\n"
+"By fire, sun and moon, harken now and hear us!\n"
+"Come, Tom Bombadil, for our need is near us!\n");
+
+    bbTextbox_putMessage(home.textbox,message_handle,41);
+    bbTextbox_updateBuffer(home.textbox);
 
     bbPerformance_init(&home.performance);
     bbCore_init(&home.core.core);
@@ -95,7 +110,6 @@ int main(void)
     bbCore_checkInbox(&home.core.core);
 
     bbECS_new(&home.core.core.ECS, bbECS_numSystems);
-
     home.ECS.ECS = home.core.core.ECS;
     bbServerEntities_init(&home.ECS.server_entities,home.core.core.ECS);
     bbGraphicsSystem_init(&home.ECS.graphics_system,home.core.core.ECS);
@@ -392,6 +406,14 @@ void* userinterface_thread(void* arg)
     // bbUI_Inbox_NewDrawable(&home.UI.inbox, zombie_int, MC, no_handle, no_handle);
 
     pthread_barrier_wait(&barrier1);
+
+
+    char message_buffer[MESSAGE_BUFFER_LENGTH];
+
+    bbTextbox_copyBuffer(home.textbox, message_buffer, 6, 36, MESSAGE_BUFFER_LENGTH);
+
+    bbDebug("message_buffer:\n%s\n",message_buffer);
+
 bbHere()
     while (1)
     {

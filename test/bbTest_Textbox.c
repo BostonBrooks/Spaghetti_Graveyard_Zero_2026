@@ -21,14 +21,14 @@ int main(void)
     bbHandle message_handle1;
 
     bbTextbox_newMessage(textbox, &message_handle1, &message_text);
-    sprintf(message_text,"Any way, any day, but you've got it now!\n",message_handle1);
+    snprintf(message_text,MESSAGE_LENGTH,"Any way, any day, but you've got it now!\n",message_handle1);
     bbTextbox_putMessage(textbox,message_handle1,37);
     bbTextbox_updateBuffer(textbox);
     bbDebug("textbox buffer:\n%s\n", &textbox->buffer[textbox->buffer_start]);
 
     bbHandle message_handle2;
     bbTextbox_newMessage(textbox, &message_handle2, &message_text);
-    sprintf(message_text,"Tell me - all of your secrets\n",message_handle2);
+    snprintf(message_text,MESSAGE_LENGTH,"Tell me - all of your secrets\n",message_handle2);
     bbTextbox_putMessage(textbox,message_handle2,38);
     bbTextbox_updateBuffer(textbox);
     bbDebug("textbox buffer:\n%s\n", &textbox->buffer[textbox->buffer_start]);
@@ -45,16 +45,16 @@ int main(void)
     bbHandle message_handle3;
 
     bbTextbox_newMessage(textbox, &message_handle3, &message_text);
-    sprintf(message_text,"There they are standing in a row\n");
+    snprintf(message_text,MESSAGE_LENGTH,"There they are standing in a row\n");
     bbTextbox_putMessage(textbox,message_handle3,40);
 
     bbTextbox_newMessage(textbox, &message_handle3, &message_text);
-    sprintf(message_text,"I've got a lovely bunch of coconuts\n");
+    snprintf(message_text,MESSAGE_LENGTH,"I've got a lovely bunch of coconuts\n");
     bbTextbox_putMessage(textbox,message_handle3,39);
 
 
     bbTextbox_newMessage(textbox, &message_handle3, &message_text);
-    sprintf(message_text,"big ones small ones some as big as your head\n");
+    snprintf(message_text,MESSAGE_LENGTH,"big ones small ones some as big as your head\n");
     bbTextbox_putMessage(textbox,message_handle3,41);
 
 
@@ -69,7 +69,7 @@ int main(void)
 
 
     bbTextbox_newMessage(textbox, &message_handle3, &message_text);
-    sprintf(message_text,"tom bom bombadil, tom bombadillo\n\n\n");
+    snprintf(message_text,MESSAGE_LENGTH,"tom bom bombadil, tom bombadillo\n\n\n");
     bbTextbox_putMessage(textbox,message_handle3,41);
 
     bbTextbox_updatecopyBuffer(textbox,out_buffer,3,12,128);

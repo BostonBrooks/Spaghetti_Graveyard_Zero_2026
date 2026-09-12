@@ -227,6 +227,7 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
         engine/network/bbNetwork.c
 
         engine/interthread/bbClock.c
+        engine/textbox/bbTextbox.c
 
         engine/userinterface/bbInput.c
         engine/userinterface/bbMouse.c

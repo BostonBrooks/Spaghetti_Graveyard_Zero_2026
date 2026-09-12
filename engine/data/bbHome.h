@@ -20,6 +20,7 @@
 #include "../ECS/moveables/bbMoveables.h"
 #include "engine/ECS/moveables/bbAvoidables.h"
 #include "engine/ECS/spatial/bbSpatial.h"
+#include "engine/textbox/bbTextbox.h"
 
 typedef struct
 {
@@ -57,6 +58,8 @@ typedef struct
     //bbSpawner spawner;
     bbECS_data ECS;
     bbPerformance performance;
+    bbTextbox_system textbox_system;
+    bbTextbox* textbox;
 } bbHome;
 
 
