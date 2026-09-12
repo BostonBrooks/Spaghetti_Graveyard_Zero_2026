@@ -80,7 +80,6 @@ bbFlag bbTextbox_setMessage(bbTextbox *textbox, bbHandle message_handle, U64 tim
     message->type = bbSetMessage;
     message->length = strlen(message->text);
     bbList_sortR(&textbox->list,message);
-    bbDebug("message list_id = %d\n", message->list.list_id);
 
     return bbSuccess;
 }
@@ -135,10 +134,15 @@ bbFlag bbTextbox_updateBuffer(bbTextbox *textbox)
     bbFlag flag = bbIterator_setTail(&iterator,NULL,(void**)&message);
     //bbFlag flag = bbList_peakR(&textbox->list,(void**)&message);
     bbFlag flag2 = bbSuccess;
-    while (flag == bbSuccess && flag2 == bbSuccess)
+    I32 messageLength = message->length;
+    while (message->text[messageLength-1] == '\n'){ messageLength--;}
+    while (1)
     {
-        flag = bbStr_copyBack(textbox->buffer,&textbox->buffer_start,message->text,message->length);
+        flag = bbStr_copyBack(textbox->buffer,&textbox->buffer_start,message->text,messageLength);
+        if (flag != bbSuccess) break;
         flag2 = bbIterator_decrement(&iterator,NULL,(void**)&message);
+        if (flag2 != bbSuccess) break;
+        messageLength = message->length;
     }
 
     textbox->buffer[MESSAGE_BUFFER_LENGTH-1] = '\0';
