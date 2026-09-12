@@ -45,21 +45,36 @@ int main(void)
     bbHandle message_handle3;
 
     bbTextbox_newMessage(textbox, &message_handle3, &message_text);
-    sprintf(message_text,"lay them down\n");
+    sprintf(message_text,"There they are standing in a row\n");
     bbTextbox_putMessage(textbox,message_handle3,40);
 
     bbTextbox_newMessage(textbox, &message_handle3, &message_text);
-    sprintf(message_text,"relay them\n");
+    sprintf(message_text,"I've got a lovely bunch of coconuts\n");
     bbTextbox_putMessage(textbox,message_handle3,39);
 
 
     bbTextbox_newMessage(textbox, &message_handle3, &message_text);
-    sprintf(message_text,"out of town!\n\n\n");
+    sprintf(message_text,"big ones small ones some as big as your head\n");
     bbTextbox_putMessage(textbox,message_handle3,41);
 
 
     bbTextbox_updateBuffer(textbox);
     bbDebug("textbox buffer:\n%s\n", &textbox->buffer[textbox->buffer_start]);
+
+    char out_buffer[128];
+
+    bbTextbox_copyBuffer(textbox,out_buffer,3,12,128);
+
+    bbDebug("out_box buffer:\n%s\n", out_buffer);
+
+
+    bbTextbox_newMessage(textbox, &message_handle3, &message_text);
+    sprintf(message_text,"tom bom bombadil, tom bombadillo\n\n\n");
+    bbTextbox_putMessage(textbox,message_handle3,41);
+
+    bbTextbox_updatecopyBuffer(textbox,out_buffer,3,12,128);
+
+    bbDebug("out_box buffer:\n%s\n", out_buffer);
 
     printf("We made it to the end!\n");
     return bbSuccess;

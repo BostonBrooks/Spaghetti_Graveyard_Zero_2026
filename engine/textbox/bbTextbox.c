@@ -149,3 +149,44 @@ bbFlag bbTextbox_updateBuffer(bbTextbox *textbox)
     bbMutexUnlock(&textbox->buffer_mutex);
     return bbSuccess;
 }
+
+///not threadsafe! update buffer needs to be called from the thread that owns the system!
+bbFlag bbTextbox_updatecopyBuffer(bbTextbox *textbox, char* new_buffer, I32 rows, I32 columns, I32 max)
+{
+    bbMutexLock(&textbox->buffer_mutex);
+
+    textbox->buffer_start = MESSAGE_BUFFER_LENGTH-1;
+    bbTextbox_message* message;
+    bbIterator iterator = bbIterator_new(&textbox->list);
+    bbFlag flag = bbIterator_setTail(&iterator,NULL,(void**)&message);
+    //bbFlag flag = bbList_peakR(&textbox->list,(void**)&message);
+    bbFlag flag2 = bbSuccess;
+    I32 messageLength = message->length;
+    while (message->text[messageLength-1] == '\n'){ messageLength--;}
+    while (1)
+    {
+        flag = bbStr_copyBack(textbox->buffer,&textbox->buffer_start,message->text,messageLength);
+        if (flag != bbSuccess) break;
+        flag2 = bbIterator_decrement(&iterator,NULL,(void**)&message);
+        if (flag2 != bbSuccess) break;
+        messageLength = message->length;
+    }
+
+    textbox->buffer[MESSAGE_BUFFER_LENGTH-1] = '\0';
+
+    bbStr_copyBounds(new_buffer,&textbox->buffer[textbox->buffer_start],columns,rows,max);
+
+    bbMutexUnlock(&textbox->buffer_mutex)
+    return bbSuccess;
+}
+
+
+bbFlag bbTextbox_copyBuffer(bbTextbox *textbox, char* new_buffer, I32 rows, I32 columns, I32 max)
+{
+    bbMutexLock(&textbox->buffer_mutex);
+
+    bbStr_copyBounds(new_buffer,&textbox->buffer[textbox->buffer_start],columns,rows,max);
+
+    bbMutexUnlock(&textbox->buffer_mutex)
+    return bbSuccess;
+}

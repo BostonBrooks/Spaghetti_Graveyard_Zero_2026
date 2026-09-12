@@ -55,5 +55,7 @@ bbFlag bbTextbox_putMessage(bbTextbox *textbox, bbHandle message_handle, U64 tim
 bbFlag bbTextbox_hideMessage(bbTextbox *textbox, bbHandle message_handle);
 bbFlag bbTextbox_deleteMessage(bbTextbox *textbox, bbHandle message_handle);
 bbFlag bbTextbox_updateBuffer(bbTextbox *textbox);
+bbFlag bbTextbox_copyBuffer(bbTextbox *textbox, char* new_buffer, I32 rows, I32 columns, I32 max);
+bbFlag bbTextbox_updatecopyBuffer(bbTextbox *textbox, char* new_buffer, I32 rows, I32 columns, I32 max);
 
 #endif //BB_TEXTBOX_H
