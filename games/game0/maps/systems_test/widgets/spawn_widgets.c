@@ -46,5 +46,13 @@ bbFlag bbUIApp_spawnWidgets(bbUIApp* app)
                  "SOCKET_NUMBER",
                  (bbScreenPoints){200*SCREEN_PPP,13*SCREEN_PPP});
 
+
+    bbWidget_constructor(NULL,
+                 &home.UI.widgets,
+                 "WIDGET_TEXTBOX",
+                 "LAYOUT",
+                 "DIALOGUE",
+                 (bbScreenPoints){500*SCREEN_PPP,13*SCREEN_PPP});
+
     return bbSuccess;
 }

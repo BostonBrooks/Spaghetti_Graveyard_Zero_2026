@@ -5,6 +5,7 @@
 #include "games/game0/maps/systems_test/widgets/netpause_button.h"
 #include "games/game0/maps/systems_test/widgets/switch_character_button.h"
 #include "games/game0/maps/systems_test/widgets/server_socket_number.h"
+#include "games/game0/maps/systems_test/widgets/textbox_widget.h"
 
 bbFlag bbWidget_Constructor_Clock(bbWidget** self,
                                   bbWidgets* widgets,
@@ -139,6 +140,11 @@ bbFlag bbWidgetFunctions_populate(bbWidgetFunctions* self)
         WidgetConstructor,
         bbWidget_Constructor_Socket_Number,
         "SOCKET_NUMBER");
+
+    bbWidgetFunctions_add(self,
+        WidgetConstructor,
+        bbWidget_Constructor_Textbox,
+        "WIDGET_TEXTBOX");
 
     return bbSuccess;
 }

@@ -5,6 +5,7 @@
 #define MESSAGE_LENGTH 256
 #define MESSAGE_BUFFER_LENGTH 256
 
+#include "engine/logic/bbDictionary.h"
 #include "engine/logic/bbFlag.h"
 #include "engine/logic/bbHandle.h"
 #include "engine/logic/bbList.h"
@@ -38,11 +39,12 @@ typedef struct
 typedef struct bbTextbox_system
 {
     bbVPool* pool;
+    bbDictionary* dict;
 } bbTextbox_system;
 
 bbFlag bbTextbox_systemInit(bbTextbox_system* system);
 
-bbFlag bbTextbox_new(bbTextbox** textbox, bbTextbox_system* system);
+bbFlag bbTextbox_new(bbTextbox** textbox, bbTextbox_system* system, char* key);
 
 //I32 (*compare)(void* A, void* B);
 I32 bbTextbox_sortMessageBy(void* A, void* B);

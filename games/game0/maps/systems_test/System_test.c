@@ -84,7 +84,7 @@ int main(void)
     home.core.goalpoint.k = 0;
 
     bbTextbox_systemInit(&home.textbox_system);
-    bbTextbox_new(&home.textbox,&home.textbox_system);
+    bbTextbox_new(&home.textbox,&home.textbox_system, "DIALOGUE");
 
     char* message_text;
     bbHandle message_handle;
@@ -407,11 +407,9 @@ void* userinterface_thread(void* arg)
 
     pthread_barrier_wait(&barrier1);
 
-
+//test texbox
     char message_buffer[MESSAGE_BUFFER_LENGTH];
-
     bbTextbox_copyBuffer(home.textbox, message_buffer, 6, 36, MESSAGE_BUFFER_LENGTH);
-
     bbDebug("message_buffer:\n%s\n",message_buffer);
 
 bbHere()

@@ -10,15 +10,15 @@ bbFlag bbTextbox_systemInit(bbTextbox_system* system)
 {
     bbVPool* pool;
     bbVPool_newSystem(&pool, 123,sizeof(bbTextbox_message),10,1000,"TEXTBOXES");
-
     system->pool = pool;
+    bbDictionary_new(&system->dict,37);
 
     return bbSuccess;
 }
 
 
 
-bbFlag bbTextbox_new(bbTextbox** textbox, bbTextbox_system* system)
+bbFlag bbTextbox_new(bbTextbox** textbox, bbTextbox_system* system, char* key)
 {
     bbTextbox* text_box = malloc(sizeof(bbTextbox));
     text_box->system = system;
@@ -27,6 +27,9 @@ bbFlag bbTextbox_new(bbTextbox** textbox, bbTextbox_system* system)
     text_box->buffer_start = MESSAGE_BUFFER_LENGTH-1;
     text_box->buffer[MESSAGE_BUFFER_LENGTH-1] = '\0';
 
+    bbHandle textbox_handle;
+    textbox_handle.ptr = text_box;
+    bbDictionary_add(system->dict,key,textbox_handle);
     *textbox = text_box;
 
     return bbSuccess;
