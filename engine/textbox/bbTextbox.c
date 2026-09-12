@@ -3,6 +3,9 @@
 #include "engine/logic/bbSystemPool.h"
 #include <stddef.h>
 
+#include "engine/logic/bbIterator.h"
+#include "engine/logic/bbString.h"
+
 bbFlag bbTextbox_systemInit(bbTextbox_system* system)
 {
     bbVPool* pool;
@@ -20,6 +23,9 @@ bbFlag bbTextbox_new(bbTextbox** textbox, bbTextbox_system* system)
     bbTextbox* text_box = malloc(sizeof(bbTextbox));
     text_box->system = system;
     bbList_init(&text_box->list,system->pool,NULL,offsetof(bbTextbox_message,list),bbTextbox_sortMessageBy,84);
+    pthread_mutex_init(&text_box->buffer_mutex, NULL);
+    text_box->buffer_start = MESSAGE_BUFFER_LENGTH-1;
+    text_box->buffer[MESSAGE_BUFFER_LENGTH-1] = '\0';
 
     *textbox = text_box;
 
@@ -65,17 +71,32 @@ I32 bbTextbox_sortMessageBy(void* A, void* B)
 }
 
 
-bbFlag bbTextbox_showMessage(bbTextbox *textbox, bbHandle message_handle, U64 timestamp)
+bbFlag bbTextbox_setMessage(bbTextbox *textbox, bbHandle message_handle, U64 timestamp)
 {
     bbTextbox_system* system = textbox->system;
     bbTextbox_message* message;
     bbVPool_lookup(system->pool,(void**)&message,message_handle);
     message->timestamp = timestamp;
+    message->type = bbSetMessage;
+    message->length = strlen(message->text);
     bbList_sortR(&textbox->list,message);
+    bbDebug("message list_id = %d\n", message->list.list_id);
 
     return bbSuccess;
 }
 
+bbFlag bbTextbox_putMessage(bbTextbox *textbox, bbHandle message_handle, U64 timestamp)
+{
+    bbTextbox_system* system = textbox->system;
+    bbTextbox_message* message;
+    bbVPool_lookup(system->pool,(void**)&message,message_handle);
+    message->timestamp = timestamp;
+    message->type = bbPutMessage;
+    message->length = strlen(message->text);
+    bbList_sortR(&textbox->list,message);
+
+    return bbSuccess;
+}
 
 bbFlag bbTextbox_hideMessage(bbTextbox *textbox, bbHandle message_handle)
 {
@@ -95,13 +116,32 @@ bbFlag bbTextbox_deleteMessage(bbTextbox *textbox, bbHandle message_handle)
     bbTextbox_message* message;
     bbVPool_lookup(system->pool,(void**)&message,message_handle);
 
-    //TODO If "is in list" function
-    if (!bbVPool_handleIsNULL(system->pool,message->list.prev))
+    if (message->list.list_id != 0)
     {
         bbList_remove(&textbox->list,message);
     }
 
     bbVPool_free(system->pool,message);
 
+    return bbSuccess;
+}
+
+bbFlag bbTextbox_updateBuffer(bbTextbox *textbox)
+{
+    bbMutexLock(&textbox->buffer_mutex);
+    textbox->buffer_start = MESSAGE_BUFFER_LENGTH-1;
+    bbTextbox_message* message;
+    bbIterator iterator = bbIterator_new(&textbox->list);
+    bbFlag flag = bbIterator_setTail(&iterator,NULL,(void**)&message);
+    //bbFlag flag = bbList_peakR(&textbox->list,(void**)&message);
+    bbFlag flag2 = bbSuccess;
+    while (flag == bbSuccess && flag2 == bbSuccess)
+    {
+        flag = bbStr_copyBack(textbox->buffer,&textbox->buffer_start,message->text,message->length);
+        flag2 = bbIterator_decrement(&iterator,NULL,(void**)&message);
+    }
+
+    textbox->buffer[MESSAGE_BUFFER_LENGTH-1] = '\0';
+    bbMutexUnlock(&textbox->buffer_mutex);
     return bbSuccess;
 }

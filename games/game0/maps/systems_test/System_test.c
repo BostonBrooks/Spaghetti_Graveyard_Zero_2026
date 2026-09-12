@@ -47,7 +47,6 @@ bbHandle null_handle;
 char test_string[KEY_LENGTH];
 
 bbMapCoords testGoalPoint;
-//bool interp_positions;
 
 //typedef bbFlag bbListFunction(bbList* list, void* node, void* cl);
 bbFlag test_func (bbList* list, void* node, void* cl)

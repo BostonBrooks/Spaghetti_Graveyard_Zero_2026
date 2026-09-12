@@ -188,4 +188,24 @@ static bbFlag bbStr_setBounds(char* str, I32 columns, I32 rows, I32 max)
     return bbSuccess;
 }
 
+static bbFlag bbStr_copyBack(char* dest, I32* dest_start, char* src, I32 src_end)
+{
+
+    I32 dest_index = *dest_start-1;
+    if (dest_index == 0) return bbFull;
+    I32 src_index = src_end-1;
+    while (1)
+    {
+        dest[dest_index] = src[src_index];
+
+        if (dest_index == 0 || src_index == 0) break;
+        dest_index--;
+        src_index--;
+    }
+
+    *dest_start = dest_index;
+    if (dest_index == 0) return bbFull;
+    return bbSuccess;
+}
+
 #endif //BB_STRING_H

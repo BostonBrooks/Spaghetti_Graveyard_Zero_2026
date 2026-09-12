@@ -50,6 +50,17 @@ target_compile_definitions(Test_Pool PRIVATE
 target_include_directories(Test_Pool PRIVATE "./")
 
 
+add_executable(Test_Textbox test/bbTest_Textbox.c
+        engine/logic/bbBloatedPool.c
+        engine/textbox/bbTextbox.c
+        engine/logic/bbList.c
+        engine/logic/bbList_sort.c
+        engine/logic/bbSystemPool.c
+        engine/logic/bbIterator.c)
+target_compile_definitions(Test_Textbox PRIVATE
+        DEFINE_TEST_POOL)
+target_include_directories(Test_Textbox PRIVATE "./")
+
 add_executable(Test_Iterator test/bbTest_iterator.c
         engine/logic/bbIterator.c
         engine/logic/bbList.c
