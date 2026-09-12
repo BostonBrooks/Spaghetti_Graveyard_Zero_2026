@@ -4,6 +4,7 @@
 #include "engine/viewport/bbDrawables.h"
 #include "games/game0/maps/systems_test/entity_spawner/live_spawn.h"
 
+#define NO_ROLLBACK
 
 bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
 {
@@ -49,12 +50,13 @@ bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
 
         return bbSuccess;
     }
+#ifndef NO_ROLLBACK
     if (action->header.act_tick < core->simulation_time) //or < the previous time this instruction was called?
     {
         bbCore_rewindUntil(core, action->header.act_tick-1);
         bbCore_react(core);
     }
-
+#endif //NO_ROLLBACK
 
 
 
@@ -87,7 +89,7 @@ bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
             bbCI_setString(core,action->header.key,bbInstructionSource_action,handle);
 
         }
-#ifdef DEFINE_TEST_SYSTEM
+#ifdef DEFINE_TEST_SYSTEM //TODO move from game engine to game code
         else
         if (action->header.type == bbActionType_spawnEntity)
         {
