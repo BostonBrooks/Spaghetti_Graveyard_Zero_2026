@@ -5,6 +5,7 @@
 
 #include "engine/logic/bbIterator.h"
 #include "engine/logic/bbString.h"
+#include "engine/threadsafe/bbThreadedPool.h"
 
 bbFlag bbTextbox_systemInit(bbTextbox_system* system)
 {
@@ -12,7 +13,7 @@ bbFlag bbTextbox_systemInit(bbTextbox_system* system)
     bbVPool_newSystem(&pool, 123,sizeof(bbTextbox_message),10,1000,"TEXTBOXES");
     system->pool = pool;
     bbDictionary_new(&system->dict,37);
-
+    bbVPool_newThreaded(&system->threaded_pool,sizeof(bbTextbox_message),11);
     return bbSuccess;
 }
 

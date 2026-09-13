@@ -30,5 +30,6 @@ bbFlag bbNetworkApp_keyDown(bbNetwork* network, I32 key_code, U64 time, U32 coll
 bbFlag bbNetworkApp_setViewpointOut(bbNetwork* network, bbMapCoords MC, U64 time, U32 collision);
 bbFlag bbNetworkApp_setGoalpointOut(bbNetwork* network, I32 entity, bbMapCoords MC, U64 time, U32 collision);
 
+bbFlag bbNetworkApp_sendText(bbNetwork* network, bbHandle message_handle);
 
 #endif // BBNWETWORKAPP_H
