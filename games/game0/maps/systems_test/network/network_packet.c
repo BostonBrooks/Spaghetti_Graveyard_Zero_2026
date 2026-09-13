@@ -37,7 +37,7 @@ bbFlag bbNetworkPacket_toMessage (sfPacket* packet, bbHandle* message_handle, bb
 bbFlag bbNetworkPacket_fromMessage (sfPacket* packet, bbHandle message_handle)
 {
     bbTextbox_message* msg;
-
+    bbDebug("message handle:\n%llu\n", message_handle.u64);
     bbVPool_lookup(home.textbox_system.threaded_pool,(void**)&msg,message_handle);
 
 
@@ -54,6 +54,7 @@ bbFlag bbNetworkPacket_fromMessage (sfPacket* packet, bbHandle message_handle)
 
 }
 //bbFlag bbNetworkApp_sendMessage(struct bbNetwork* network, bbHandle message_handle, U64 time, U32 collision);
+///take a message from home.textbox->system->pool, put it onto home.textbox->system->threaded_pool and send
 bbFlag bbNetworkApp_sendMessage(void* network, bbHandle message_handle, U64 time, U32 collision) {
 
     bbNetwork* Network = network;
@@ -79,7 +80,7 @@ bbFlag bbNetworkApp_sendMessage(void* network, bbHandle message_handle, U64 time
 
     packet->data.message.message_handle = message_out_handle;
     bbThreadedQueue_pushL(&Network->outbox, (void*)packet);
-
+    bbDebug("message handle:\n%llu\n", message_out_handle.u64);
     return bbSuccess;
 }
 

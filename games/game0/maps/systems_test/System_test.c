@@ -64,7 +64,7 @@ void* userinterface_thread(void* arg);
 int main(void)
 {
     thread = "MAIN";
-    debug_off = true;
+    debug_off = false;
     printf("Hello, World!\n");
 
     pthread_barrier_init(&barrier1, NULL, 2);

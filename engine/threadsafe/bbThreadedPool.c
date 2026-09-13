@@ -144,7 +144,8 @@ bbFlag bbThreadedPool_allocImpl(bbThreadedPool* pool, void** address, bbHandle* 
         pool->available_tail = -1;
 
         memset(element, 0, pool->size_of);
-        *address = element;
+        if (address != NULL) *address = element;
+        if (handlex != NULL) *handlex = handle;
         bbMutexUnlock(&pool->mutex);
         return bbSuccess;
     }
@@ -155,6 +156,10 @@ bbFlag bbThreadedPool_allocImpl(bbThreadedPool* pool, void** address, bbHandle* 
     next_element->prev = -1;
     pool->available_head = element->next;
     memset(element, 0, pool->size_of);
+
+    if (address != NULL) *address = element;
+    if (handlex != NULL) *handlex = handle;
+
     *address = element;
     bbMutexUnlock(&pool->mutex);
     return bbSuccess;
