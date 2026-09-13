@@ -8,8 +8,8 @@ bbFlag bbCS_setTextbox(bbCore* core,bbHandle* handle, char* string, char* key, U
 
     bbTextbox* textbox;
     bbHandle textbox_handle;
-    bbDictionary_lookup(home.textbox_system.dict,key,&textbox_handle);
-    textbox = textbox_handle.ptr;
+    //bbDictionary_lookup(home.textbox_system.dict,key,&textbox_handle);
+    textbox = home.textbox_app.textboxes[bbTextbox_Dialogue];
 
     bbHandle message_handle;
     char* message_text;
@@ -83,8 +83,8 @@ bbFlag bbI_setTextbox_fn(bbCore* core, bbInstruction* instruction) {
 
     bbTextbox* textbox;
     bbHandle textbox_handle;
-    bbDictionary_lookup(home.textbox_system.dict,"DIALOGUE",&textbox_handle);
-    textbox = textbox_handle.ptr;
+    //bbDictionary_lookup(home.textbox_system.dict,"DIALOGUE",&textbox_handle);
+    textbox = home.textbox_app.textboxes[bbTextbox_Dialogue];
 
     bbTextbox_setMessage(textbox,
         instruction->data.three_handles.handle1,
@@ -101,8 +101,8 @@ bbFlag bbI_unsetTextbox_fn(bbCore* core, bbInstruction* instruction) {
 bbFlag bbCI_setTextbox(bbCore* core, char* string, char* key, U64 time, bbInstruction_source source, bbHandle action) {
     bbTextbox* textbox;
     bbHandle textbox_handle;
-    bbDictionary_lookup(home.textbox_system.dict,key,&textbox_handle);
-    textbox = textbox_handle.ptr;
+    //bbDictionary_lookup(home.textbox_system.dict,key,&textbox_handle);
+    textbox = home.textbox_app.textboxes[bbTextbox_Dialogue];
 
     bbHandle message_handle;
     char* message_text;
@@ -137,8 +137,8 @@ bbFlag bbCI_putTextbox(bbCore* core, char* string, char* key, U64 time, bbInstru
 {
     bbTextbox* textbox;
     bbHandle textbox_handle;
-    bbDictionary_lookup(home.textbox_system.dict,key,&textbox_handle);
-    textbox = textbox_handle.ptr;
+    //bbDictionary_lookup(home.textbox_system.dict,key,&textbox_handle);
+    textbox = home.textbox_app.textboxes[bbTextbox_Dialogue];
 
     bbHandle message_handle;
     char* message_text;
@@ -167,8 +167,8 @@ bbFlag bbCS_putTextbox(bbCore* core,bbHandle* handle, char* string, char* key, U
 
     bbTextbox* textbox;
     bbHandle textbox_handle;
-    bbDictionary_lookup(home.textbox_system.dict,key,&textbox_handle);
-    textbox = textbox_handle.ptr;
+    //bbDictionary_lookup(home.textbox_system.dict,key,&textbox_handle);
+    textbox = home.textbox_app.textboxes[bbTextbox_Dialogue];
 
     bbHandle message_handle;
     char* message_text;
@@ -242,8 +242,8 @@ bbFlag bbI_putTextbox_fn(bbCore* core, bbInstruction* instruction) {
 
     bbTextbox* textbox;
     bbHandle textbox_handle;
-    bbDictionary_lookup(home.textbox_system.dict,"DIALOGUE",&textbox_handle);
-    textbox = textbox_handle.ptr;
+    //bbDictionary_lookup(home.textbox_system.dict,"DIALOGUE",&textbox_handle);
+    textbox = home.textbox_app.textboxes[bbTextbox_Dialogue];
 
     bbTextbox_putMessage(textbox,
         instruction->data.three_handles.handle1,

@@ -59,8 +59,6 @@ typedef struct
     //bbSpawner spawner;
     bbECS_data ECS;
     bbPerformance performance;
-    bbTextbox_system textbox_system;
-    bbTextbox* textbox;
     bbTextboxApp textbox_app;
 } bbHome;
 

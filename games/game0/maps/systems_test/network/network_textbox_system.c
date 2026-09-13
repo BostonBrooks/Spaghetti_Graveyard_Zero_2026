@@ -17,7 +17,7 @@ bbFlag bbNetworkPacket_toMessageHandle (sfPacket* packet, bbHandle* message_hand
     bbHandle handle;
     bbTextbox_message* msg;
 
-    bbVPool_alloc2(home.textbox_system.threaded_pool,(void**)&msg,&handle)
+    bbVPool_alloc2(home.textbox_app.textbox_system.threaded_pool,(void**)&msg,&handle)
 
     U64 timestamp_upper = sfPacket_readUint32(packet);
     U64 timestamp_lower = sfPacket_readUint32(packet);
@@ -38,7 +38,7 @@ bbFlag bbNetworkPacket_fromMessageHandle (sfPacket* packet, bbHandle message_han
 {
     bbTextbox_message* msg;
     bbDebug("message handle:\n%llu\n", message_handle.u64);
-    bbVPool_lookup(home.textbox_system.threaded_pool,(void**)&msg,message_handle);
+    bbVPool_lookup(home.textbox_app.textbox_system.threaded_pool,(void**)&msg,message_handle);
 
 
     U64 timestamp_lower = msg->timestamp & 0xFFFFFFFF;
@@ -60,11 +60,11 @@ bbFlag bbNetworkApp_sendMessage(void* network, bbHandle message_handle, U64 time
     bbNetwork* Network = network;
 
     bbTextbox_message* message_in;
-    bbVPool_lookup(home.textbox->system->pool,(void**)&message_in,message_handle);
+    bbVPool_lookup(home.textbox_app.textbox_system.pool,(void**)&message_in,message_handle);
 
     bbTextbox_message* message_out;
     bbHandle message_out_handle;
-    bbVPool_alloc2(home.textbox->system->threaded_pool,(void**)&message_out,&message_out_handle);
+    bbVPool_alloc2(home.textbox_app.textbox_system.threaded_pool,(void**)&message_out,&message_out_handle);
 
     message_out->timestamp = message_in->timestamp;
     message_out->length = message_in->length;
@@ -91,10 +91,10 @@ bbFlag bbNetworkApp_receiveMessage(void* network, void* packet) {
     bbNetworkPacket* Packet = packet;
 
     bbTextbox_message* message_in;
-    bbVPool_lookup(home.textbox->system->threaded_pool,(void**)&message_in,Packet->data.message.message_handle);
+    bbVPool_lookup(home.textbox_app.textbox_system.threaded_pool,(void**)&message_in,Packet->data.message.message_handle);
 
     bbDebug("PACKETTYPE_MESSAGE:\n%s\n", message_in->text);
-    bbVPool_free(home.textbox->system->threaded_pool,message_in);
+    bbVPool_free(home.textbox_app.textbox_system.threaded_pool,message_in);
 
     return bbSuccess;
 }

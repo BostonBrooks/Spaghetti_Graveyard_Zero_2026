@@ -22,9 +22,9 @@ bbFlag bbDF_widgetTextBox(void* Drawable, void* frameDescriptor, void* cl)
     if (extra_data->textbox == NULL)
     {
         bbHandle textbox_handle;
-        bbDictionary_lookup(home.textbox_system.dict, widget->key,
-                            &textbox_handle);
-        extra_data->textbox = textbox_handle.ptr;
+        // bbDictionary_lookup(home.textbox_system.dict, widget->key,
+        //                     &textbox_handle);
+        extra_data->textbox = home.textbox_app.textboxes[bbTextbox_Dialogue];
     }
     bbTextbox_copyBuffer(extra_data->textbox, extra_data->text, 60, 24,
                          MESSAGE_BUFFER_LENGTH);

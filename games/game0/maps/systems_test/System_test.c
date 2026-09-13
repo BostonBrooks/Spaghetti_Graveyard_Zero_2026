@@ -84,14 +84,12 @@ int main(void)
     home.core.goalpoint.j = 10000;
     home.core.goalpoint.k = 0;
 
-    bbTextbox_systemInit(&home.textbox_system);
-    bbTextbox_new(&home.textbox,&home.textbox_system, "DIALOGUE");
 
     bbTextboxApp_init(&home.textbox_app);
 
     char* message_text;
     bbHandle message_handle;
-    bbTextbox_newMessage(home.textbox, &message_handle, &message_text);
+    bbTextbox_newMessage(home.textbox_app.textboxes[bbTextbox_Dialogue], &message_handle, &message_text);
     snprintf(message_text,MESSAGE_LENGTH,
 
 "Ho! Tom Bombadil, Tom Bombadillo!\n"
@@ -99,8 +97,8 @@ int main(void)
 "By fire, sun and moon, harken now and hear us!\n"
 "Come, Tom Bombadil, for our need is near us!\n");
 
-    bbTextbox_putMessage(home.textbox,message_handle,0);
-    bbTextbox_updateBuffer(home.textbox);
+    bbTextbox_putMessage(home.textbox_app.textboxes[bbTextbox_Dialogue],message_handle,0);
+    bbTextbox_updateBuffer(home.textbox_app.textboxes[bbTextbox_Dialogue]);
 
     bbPerformance_init(&home.performance);
     bbCore_init(&home.core.core);
@@ -426,7 +424,7 @@ void* userinterface_thread(void* arg)
 
 //test texbox
     char message_buffer[MESSAGE_BUFFER_LENGTH];
-    bbTextbox_copyBuffer(home.textbox, message_buffer, 6, 36, MESSAGE_BUFFER_LENGTH);
+    bbTextbox_copyBuffer(home.textbox_app.textboxes[bbTextbox_Dialogue], message_buffer, 6, 36, MESSAGE_BUFFER_LENGTH);
     bbDebug("message_buffer:\n%s\n",message_buffer);
 
 bbHere()
