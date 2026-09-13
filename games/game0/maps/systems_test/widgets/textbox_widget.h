@@ -27,9 +27,9 @@ bbFlag bbWidget_Constructor_Textbox(bbWidget** self,
 #else
     extra_data->sf_text = sfText_create();
     sfText_setFont(extra_data->sf_text, graphics->fonts->fonts[0]);
+    sfText_setColor(extra_data->sf_text, sfBlack);
 #endif
 
-    sfText_setColor(extra_data->sf_text, sfBlack);
     sfText_setCharacterSize(extra_data->sf_text,12);
     extra_data->textbox = NULL;
     extra_data->text[0] = '\0';
