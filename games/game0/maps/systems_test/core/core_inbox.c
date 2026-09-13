@@ -7,8 +7,9 @@
 #include "engine/data/bbHome.h"
 #include "games/game0/maps/systems_test/core/spawn_entity.h"
 #include "engine/ECS/moveables/bbMoveables.h"
+#include "engine/logic/bbString.h"
 
-
+bbFlag bbCoreInbox_receiveMessage_fn(bbCore* core, bbCoreInboxMessage* message);
 bbFlag bbCoreInbox_Freeze(bbCore* core)
 {
     bbCoreInboxMessage* message;
@@ -57,7 +58,7 @@ bbFlag bbCoreInbox_setGoalpoint_fn(bbCore* core, bbCoreInboxMessage* message);
 
 bbFlag bbCore_initInboxMessages(bbCore* core)
 {
-    core->inbox_functions = calloc(16,sizeof(bbCoreInbox_fn*));
+    core->inbox_functions = calloc(bbCoreInbox_numVTypes-bbCoreInbox_numTypes,sizeof(bbCoreInbox_fn*));
     core->inbox_functions[bbCoreInbox_testMessage-bbCoreInbox_numTypes] = bbCoreInbox_Test_fn;
     core->inbox_functions[bbCoreInbox_netpauseButton-bbCoreInbox_numTypes] = bbCoreInbox_netpauseButton_fn;
     core->inbox_functions[bbCoreInbox_unfreezeButton-bbCoreInbox_numTypes] = bbCoreInbox_unfreezeButton_fn;
@@ -65,6 +66,7 @@ bbFlag bbCore_initInboxMessages(bbCore* core)
     core->inbox_functions[bbCoreInbox_testClick2-bbCoreInbox_numTypes] = bbCoreInbox_testClick2_fn;
     core->inbox_functions[bbCoreInbox_setGoalpoint-bbCoreInbox_numTypes] = bbCoreInbox_setGoalpoint_fn;
     core->inbox_functions[bbCoreInbox_freeze-bbCoreInbox_numTypes] = bbCoreInbox_Freese_fn;
+    core->inbox_functions[bbCoreInbox_receiveMessage-bbCoreInbox_numTypes] = bbCoreInbox_receiveMessage_fn;
     return bbSuccess;
 }
 
@@ -107,4 +109,39 @@ bbFlag bbCoreInbox_setGoalpoint_fn(bbCore* core, bbCoreInboxMessage* message)
 {
 
     bbMoveable_setGoalPoint(&home.ECS.moveables,message->data.agent_MC.handle1, message->data.agent_MC.coords);
+}
+
+bbFlag bbCoreInbox_ReceiveMessage(bbCore* core,bbNetwork* Network, bbHandle threaded_pool_handle) {
+
+    bbCoreInboxMessage* message;
+    bbThreadedQueue_alloc(&core->local_message_queue, (void** ) &message);
+    message->type = bbCoreInbox_receiveMessage;
+    message->data.three_handles.handle1 = threaded_pool_handle;
+    bbThreadedQueue_pushL(&core->local_message_queue, message);
+
+    return bbSuccess;
+}
+
+bbFlag bbCoreInbox_receiveMessage_fn(bbCore* core, bbCoreInboxMessage* message)
+{
+    bbHandle threaded_pool_handle = message->data.three_handles.handle1;
+    bbDebug("handle = %llu\n", threaded_pool_handle.u64);
+    bbTextbox_message* message_in;
+    bbFlag flag = bbVPool_lookup(home.textbox_app.textbox_system.threaded_pool,(void**)&message_in, threaded_pool_handle);
+
+    bbFlag_print(flag)
+    bbHandle handle;
+    bbTextbox_message* message_out;
+    bbVPool_alloc2(home.textbox_app.textbox_system.pool,(void**)&message_out, &handle);
+
+    message_out->timestamp = message_in->timestamp;
+    message_out->length = message_in->length;
+    message_out->type = message_in->type;
+    bbStr_setStr(message_out->text,message_in->text, MESSAGE_LENGTH);
+
+    bbTextbox_putMessage(home.textbox_app.textboxes[bbTextbox_Dialogue],handle,message_in->timestamp);
+
+    bbVPool_free(home.textbox_app.textbox_system.threaded_pool,(void**)&message_in);
+
+    return bbSuccess;
 }

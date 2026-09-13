@@ -1,6 +1,7 @@
 #ifndef UNFREEZE_BUTTON_CODE_H
 #define UNFREEZE_BUTTON_CODE_H
 #include "engine/core/bbCoreInbox.h"
+#include "engine/network/bbNetwork.h"
 
 typedef enum
 {
@@ -11,6 +12,8 @@ typedef enum
     bbCoreInbox_testClick2,
     bbCoreInbox_setGoalpoint,
     bbCoreInbox_freeze,
+    bbCoreInbox_receiveMessage,
+    bbCoreInbox_numVTypes
 } bbCoreInbox_vType;
 
 
@@ -19,4 +22,7 @@ bbFlag bbCoreInbox_TestMessage(bbCore* core);
 bbFlag bbCoreInbox_SetGoalpoint(bbCore* core, bbHandle entity, bbMapCoords goalpoint);
 
 bbFlag bbCoreInbox_Freeze(bbCore* core);
+
+bbFlag bbCoreInbox_ReceiveMessage(bbCore* core,bbNetwork* Network, bbHandle threaded_pool_handle);
+
 #endif //UNFREEZE_BUTTON_CODE_H

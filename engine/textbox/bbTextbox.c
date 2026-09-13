@@ -12,7 +12,7 @@ bbFlag bbTextbox_systemInit(bbTextbox_system* system)
     bbVPool* pool;
     bbVPool_newSystem(&pool, 123,sizeof(bbTextbox_message),10,1000,"TEXTBOXES");
     system->pool = pool;
-    bbDictionary_new(&system->dict,37);
+    //bbDictionary_new(&system->dict,37);
     bbVPool_newThreaded(&system->threaded_pool,sizeof(bbTextbox_message),1100);
     return bbSuccess;
 }
@@ -30,7 +30,7 @@ bbFlag bbTextbox_new(bbTextbox** textbox, bbTextbox_system* system, char* key)
 
     bbHandle textbox_handle;
     textbox_handle.ptr = text_box;
-    bbDictionary_add(system->dict,key,textbox_handle);
+    //bbDictionary_add(system->dict,key,textbox_handle);
     *textbox = text_box;
 
     return bbSuccess;
@@ -46,8 +46,8 @@ bbFlag bbTextbox_newMessage(bbTextbox *textbox, bbHandle* message_handle, char**
 
     bbList_alloc2(&textbox->list,(void**)&message,&messagehandle);
 
-    *message_handle = messagehandle;
-    *message_text = message->text;
+    if (message_handle != NULL) *message_handle = messagehandle;
+    if (message_text != NULL) *message_text = message->text;
     return bbSuccess;
 }
 

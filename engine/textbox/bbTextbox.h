@@ -39,7 +39,7 @@ typedef struct
 typedef struct bbTextbox_system
 {
     bbVPool* pool;
-    bbDictionary* dict;
+    //bbDictionary* dict;
     bbVPool* threaded_pool;
 } bbTextbox_system;
 

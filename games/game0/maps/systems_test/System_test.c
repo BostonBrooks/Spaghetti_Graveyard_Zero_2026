@@ -64,7 +64,7 @@ void* userinterface_thread(void* arg);
 int main(void)
 {
     thread = "MAIN";
-    debug_off = false;
+    debug_off = true;
     printf("Hello, World!\n");
 
     pthread_barrier_init(&barrier1, NULL, 2);
@@ -297,11 +297,15 @@ int main(void)
         {
             char buffer[MESSAGE_LENGTH];
             bbHandle message_handle2;
-            snprintf(buffer, MESSAGE_LENGTH,"time is %llu\n", home.core.core.actual_time);
-            bbCS_setTextbox(&home.core.core,&message_handle2, buffer, "DIALOGUE",home.core.core.actual_time, bbInstructionSource_input,no_handle);
+            snprintf(buffer, MESSAGE_LENGTH,"time set to server was %llu\n", home.core.core.actual_time);
+            //bbCS_setTextbox(&home.core.core,&message_handle2, buffer, "DIALOGUE",home.core.core.actual_time, bbInstructionSource_input,no_handle);
 
+            char* message;
+            bbTextbox_newMessage(home.textbox_app.textboxes[bbTextbox_Dialogue],&message_handle2,&message);
+            snprintf(message, MESSAGE_LENGTH,"time set to server was %llu\n", home.core.core.actual_time);
             bbNetworkApp_sendMessage(&home.network, message_handle2, home.core.core.actual_time, 193);
 
+            bbTextbox_newMessage(home.textbox_app.textboxes[bbTextbox_Dialogue],&message_handle2,NULL);
             snprintf(buffer, MESSAGE_LENGTH,"time is %llu!\n", home.core.core.actual_time);
             bbCS_putTextbox(&home.core.core,&message_handle2, buffer, "DIALOGUE",home.core.core.actual_time, bbInstructionSource_input,no_handle);
 
@@ -363,7 +367,7 @@ int main(void)
 void* userinterface_thread(void* arg)
 {
     thread = "USER INTERFACE";
-    debug_off = false;
+    debug_off = true;
 
     bbUIApp_init(&home.UI);
 
