@@ -141,6 +141,7 @@ bbFlag bbCoreInbox_receiveMessage_fn(bbCore* core, bbCoreInboxMessage* message)
 
     bbTextbox_putMessage(home.textbox_app.textboxes[bbTextbox_Dialogue],handle,message_in->timestamp);
 
+    //TODO debug hack
     bbVPool_free(home.textbox_app.textbox_system.threaded_pool,(void**)&message_in);
 
     return bbSuccess;
