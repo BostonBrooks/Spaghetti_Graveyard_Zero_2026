@@ -2,7 +2,7 @@
 #include "engine/data/bbHome.h"
 #include "engine/textbox/bbTextbox.h"
 
-bbFlag bbCS_setTextbox(bbCore* core, char* string, char* key, U64 time, bbInstruction_source source, bbHandle action)
+bbFlag bbCS_setTextbox(bbCore* core,bbHandle* handle, char* string, char* key, U64 time, bbInstruction_source source, bbHandle action)
 {
     bbNotImplemented(); //spawn undo instruction
 
@@ -19,6 +19,7 @@ bbFlag bbCS_setTextbox(bbCore* core, char* string, char* key, U64 time, bbInstru
     bbTextbox_setMessage(textbox,message_handle, time);
     bbTextbox_updateBuffer(textbox);
 
+    if (handle!=NULL) *handle = message_handle;
     return bbSuccess;
 }
 

@@ -205,6 +205,15 @@ bbFlag bbNetworkApp_checkInbox(bbNetwork* network)
 
         }
 
+#ifdef DEFINE_TEST_SYSTEM
+        if (packet->type == PACKETTYPE_MESSAGE)
+        {
+            //bbDebug("player character: %d, %d\n",home.ECS.ECS->player_character.bloated.index,home.ECS.ECS->player_character.bloated.index)
+            bbNetworkApp_receiveMessage(network, packet);
+
+
+        }
+#endif
         bbThreadedQueue_free(&network->inbox, (void**)&packet);
     }
     return bbSuccess;
@@ -381,19 +390,3 @@ bbFlag bbNetworkApp_setGoalpointOut(bbNetwork* network, I32 entity, bbMapCoords 
 }
 
 
-bbFlag bbNetworkApp_sendText(bbNetwork* network, bbHandle message_handle) {
-    bbTextbox_message* message_in;
-    bbVPool_lookup(home.textbox->system->pool,(void**)&message_in,message_handle);
-
-    bbTextbox_message* message_out;
-    bbHandle message_out_handle;
-    bbVPool_alloc2(home.textbox->system->threaded_pool,(void**)&message_out,&message_out_handle);
-
-    message_out->timestamp = message_in->timestamp;
-    message_out->length = message_in->length;
-    message_out->type = message_in->type;
-    bbStr_setStr(message_out->text,message_in->text, MESSAGE_LENGTH);
-
-
-    bbNotImplemented() //struct to packet
-}

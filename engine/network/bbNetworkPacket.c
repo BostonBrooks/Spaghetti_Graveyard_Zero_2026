@@ -120,6 +120,14 @@ bbFlag bbNetworkPacket_toStruct (sfPacket* packet, void* Struct)
         struct1->data.test_spawn.handle.bloated.collision = sfPacket_readUint32(packet);
 
         break;
+
+#ifdef DEFINE_TEST_SYSTEM
+        case PACKETTYPE_MESSAGE:
+            struct1->data.message.message_handle;
+
+            bbNetworkPacket_toMessage(packet,&struct1->data.message.message_handle,NULL);
+            break;
+#endif //DEFINE_TEST_SYSTEM
     }
     return bbSuccess;
 }
@@ -244,6 +252,12 @@ bbFlag bbNetworkPacket_fromStruct (sfPacket* packet, void* Struct)
         sfPacket_writeUint32(packet, struct1->data.test_spawn.handle.bloated.collision);
 
         break;
+
+#ifdef DEFINE_TEST_SYSTEM
+        case PACKETTYPE_MESSAGE:
+            bbNetworkPacket_fromMessage(packet,struct1->data.message.message_handle);
+            break;
+#endif //DEFINE_TEST_SYSTEM
     }
 
     return bbSuccess;

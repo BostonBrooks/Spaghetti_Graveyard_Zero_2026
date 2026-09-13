@@ -296,9 +296,11 @@ int main(void)
         if (home.core.clock2_handle.clock_paused == false)
         {
             char buffer[MESSAGE_LENGTH];
+            bbHandle message_handle2;
             snprintf(buffer, MESSAGE_LENGTH,"time is %llu\n", home.core.core.actual_time);
-            bbCS_setTextbox(&home.core.core, buffer, "DIALOGUE",home.core.core.actual_time, bbInstructionSource_input,no_handle);
+            bbCS_setTextbox(&home.core.core,&message_handle2, buffer, "DIALOGUE",home.core.core.actual_time, bbInstructionSource_input,no_handle);
 
+            bbNetworkApp_sendMessage(&home.network, message_handle2, home.core.core.actual_time, 193);
             snprintf(buffer, MESSAGE_LENGTH,"testing 1.2.3.\n", home.core.core.actual_time);
             bbCS_putTextbox(&home.core.core, buffer, "DIALOGUE",home.core.core.actual_time, bbInstructionSource_input,no_handle);
 

@@ -181,6 +181,12 @@ int main(void){
 
                 }
 
+                if (packetStruct.type == PACKETTYPE_MESSAGE)
+                {
+                    bbNotImplemented()
+
+                }
+
 
                 for (int j = 0; j < 8; j++){
                     //send to self
