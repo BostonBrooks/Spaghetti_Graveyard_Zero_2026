@@ -29,6 +29,8 @@ typedef enum
     bbI_live_unspawnEntity,
     bbI_AI_setState,
     bbI_AI_unsetState,
+    bbI_setTextbox,
+    bbI_unsetTextbox,
     bbVInstruction_numTypes
 }bbVInstruction_type;
 

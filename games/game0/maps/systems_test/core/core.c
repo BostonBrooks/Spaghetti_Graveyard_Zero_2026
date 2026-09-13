@@ -5,7 +5,8 @@
 #include "engine/core/bbCore.h"
 #include "engine/core/bbInstruction.h"
 #include "engine/logic/bbFlag.h"
-#include "instructions.h"
+#include "games/game0/maps/systems_test/core/instructions.h"
+#include "games/game0/maps/systems_test/core/textboxes.h"
 #include "AI_system/ai_instructions.h"
 #include "games/game0/maps/systems_test/core/player_goalpoint.h"
 #include "games/game0/maps/systems_test/core/spawn_entity.h"
@@ -53,6 +54,8 @@ bbFlag bbCore_initVInstructions(bbCore* core)
     core->instruction_functions[bbI_live_unspawnEntity-bbInstruction_numTypes] = bbI_live_unspawnEntity_fn;
     core->instruction_functions[bbI_AI_setState-bbInstruction_numTypes] = bbI_AI_setState_fn;
     core->instruction_functions[bbI_AI_unsetState-bbInstruction_numTypes] = bbI_AI_unsetState_fn;
+    core->instruction_functions[bbI_setTextbox-bbInstruction_numTypes] = bbI_setTextbox_fn;
+    core->instruction_functions[bbI_unsetTextbox-bbInstruction_numTypes] = bbI_unsetTextbox_fn;
 
 
 
