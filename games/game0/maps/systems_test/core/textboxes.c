@@ -32,7 +32,7 @@ bbFlag bbI_unsetTextbox_fn(bbCore* core, bbInstruction* instruction) {
     return bbSuccess;
 }
 
-bbFlag bbCI_setTextbox(bbCore* core, char* string, char* key, bbInstruction_source source, bbHandle action) {
+bbFlag bbCI_setTextbox(bbCore* core, char* string, char* key, U64 time, bbInstruction_source source, bbHandle action) {
     bbNotImplemented()
     return bbSuccess;
 }
