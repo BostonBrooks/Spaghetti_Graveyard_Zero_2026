@@ -87,6 +87,8 @@ int main(void)
     bbTextbox_systemInit(&home.textbox_system);
     bbTextbox_new(&home.textbox,&home.textbox_system, "DIALOGUE");
 
+    bbTextboxApp_init(&home.textbox_app);
+
     char* message_text;
     bbHandle message_handle;
     bbTextbox_newMessage(home.textbox, &message_handle, &message_text);
@@ -301,8 +303,13 @@ int main(void)
             bbCS_setTextbox(&home.core.core,&message_handle2, buffer, "DIALOGUE",home.core.core.actual_time, bbInstructionSource_input,no_handle);
 
             bbNetworkApp_sendMessage(&home.network, message_handle2, home.core.core.actual_time, 193);
-            snprintf(buffer, MESSAGE_LENGTH,"testing 1.2.3.\n", home.core.core.actual_time);
-            bbCS_putTextbox(&home.core.core, buffer, "DIALOGUE",home.core.core.actual_time, bbInstructionSource_input,no_handle);
+
+            snprintf(buffer, MESSAGE_LENGTH,"time is %llu!\n", home.core.core.actual_time);
+            bbCS_putTextbox(&home.core.core,&message_handle2, buffer, "DIALOGUE",home.core.core.actual_time, bbInstructionSource_input,no_handle);
+
+            snprintf(buffer, MESSAGE_LENGTH,"time is %llu!!\n", home.core.core.actual_time);
+            bbCI_putTextbox(&home.core.core, buffer, "DIALOGUE",home.core.core.actual_time, bbInstructionSource_input,no_handle);
+            bbCore_react(&home.core.core);
 
             bbCoreInput_checkActions(&home.core.core,
                 home.core.core.actual_time,

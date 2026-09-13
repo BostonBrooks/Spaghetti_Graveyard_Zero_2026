@@ -21,6 +21,7 @@
 #include "engine/ECS/moveables/bbAvoidables.h"
 #include "engine/ECS/spatial/bbSpatial.h"
 #include "engine/textbox/bbTextbox.h"
+#include "engine/textbox/bbTextboxApp.h"
 
 typedef struct
 {
@@ -60,6 +61,7 @@ typedef struct
     bbPerformance performance;
     bbTextbox_system textbox_system;
     bbTextbox* textbox;
+    bbTextboxApp textbox_app;
 } bbHome;
 
 

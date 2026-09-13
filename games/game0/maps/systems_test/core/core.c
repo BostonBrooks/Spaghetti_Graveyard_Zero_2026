@@ -56,6 +56,8 @@ bbFlag bbCore_initVInstructions(bbCore* core)
     core->instruction_functions[bbI_AI_unsetState-bbInstruction_numTypes] = bbI_AI_unsetState_fn;
     core->instruction_functions[bbI_setTextbox-bbInstruction_numTypes] = bbI_setTextbox_fn;
     core->instruction_functions[bbI_unsetTextbox-bbInstruction_numTypes] = bbI_unsetTextbox_fn;
+    core->instruction_functions[bbI_putTextbox-bbInstruction_numTypes] = bbI_putTextbox_fn;
+    core->instruction_functions[bbI_unputTextbox-bbInstruction_numTypes] = bbI_unputTextbox_fn;
 
 
 

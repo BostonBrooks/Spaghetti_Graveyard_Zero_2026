@@ -31,6 +31,8 @@ typedef enum
     bbI_AI_unsetState,
     bbI_setTextbox,
     bbI_unsetTextbox,
+    bbI_putTextbox,
+    bbI_unputTextbox,
     bbVInstruction_numTypes
 }bbVInstruction_type;
 

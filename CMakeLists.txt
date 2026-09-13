@@ -230,6 +230,7 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
 
         engine/interthread/bbClock.c
         engine/textbox/bbTextbox.c
+        engine/textbox/bbTextboxApp.c
 
 
         engine/userinterface/bbInput.c
