@@ -1,7 +1,7 @@
 
 #ifndef NETWORK_MESSAGE
 #define NETWORK_MESSAGE
-#include "games/game0/maps/systems_test/network/network_packet.h"
+#include "games/game0/maps/systems_test/network/network_textbox_system.h"
 #include "engine/logic/bbIntTypes.h"
 #include "engine/logic/bbFlag.h"
 #include "engine/data/bbHome.h"
@@ -12,7 +12,7 @@
 bbFlag bbNetworkApp_sendMessage(void* network, bbHandle message_handle, U64 time, U32 collision);
 bbFlag bbNetworkApp_receiveMessage(void* network, void* packet);
 
-bbFlag bbNetworkPacket_toMessage (sfPacket* packet, bbHandle* message_handle, bbTextbox_message** message)
+bbFlag bbNetworkPacket_toMessageHandle (sfPacket* packet, bbHandle* message_handle, bbTextbox_message** message)
 {
     bbHandle handle;
     bbTextbox_message* msg;
@@ -34,7 +34,7 @@ bbFlag bbNetworkPacket_toMessage (sfPacket* packet, bbHandle* message_handle, bb
 
 
 }
-bbFlag bbNetworkPacket_fromMessage (sfPacket* packet, bbHandle message_handle)
+bbFlag bbNetworkPacket_fromMessageHandle (sfPacket* packet, bbHandle message_handle)
 {
     bbTextbox_message* msg;
     bbDebug("message handle:\n%llu\n", message_handle.u64);

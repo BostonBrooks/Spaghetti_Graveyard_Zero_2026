@@ -125,7 +125,7 @@ bbFlag bbNetworkPacket_toStruct (sfPacket* packet, void* Struct)
         case PACKETTYPE_MESSAGE:
             struct1->data.message.message_handle;
 
-            bbNetworkPacket_toMessage(packet,&struct1->data.message.message_handle,NULL);
+            bbNetworkPacket_toMessageHandle(packet,&struct1->data.message.message_handle,NULL);
             break;
 #endif //DEFINE_TEST_SYSTEM
     }
@@ -255,7 +255,7 @@ bbFlag bbNetworkPacket_fromStruct (sfPacket* packet, void* Struct)
 
 #ifdef DEFINE_TEST_SYSTEM
         case PACKETTYPE_MESSAGE:
-            bbNetworkPacket_fromMessage(packet,struct1->data.message.message_handle);
+            bbNetworkPacket_fromMessageHandle(packet,struct1->data.message.message_handle);
             break;
 #endif //DEFINE_TEST_SYSTEM
     }

@@ -11,7 +11,7 @@
 #include "engine/network/bbNetworkTime_pause.h"
 
 #ifdef DEFINE_TEST_SYSTEM
-#include "games/game0/maps/systems_test/network/network_packet.h"
+#include "games/game0/maps/systems_test/network/network_textbox_system.h"
 #endif //DEFINE_TEST_SYSTEM
 #define PACKETTYPE_STRING            0
 #define PACKETTYPE_TIMESTAMP         1
