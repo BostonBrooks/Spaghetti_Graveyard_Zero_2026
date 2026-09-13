@@ -43,7 +43,8 @@ bbFlag bbCD_unsetTextbox_fn(bbCore* core, bbInstruction* undo_instruction) {
 }
 
 
-bbFlag bbCI_putTextbox(bbCore* core, char* string, char* key, U64 time, bbInstruction_source source, bbHandle action) {
+bbFlag bbCI_putTextbox(bbCore* core, char* string, char* key, U64 time, bbInstruction_source source, bbHandle action)
+{
     bbNotImplemented()
     return bbSuccess;
 }

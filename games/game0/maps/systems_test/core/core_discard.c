@@ -5,7 +5,7 @@
 #include "engine/data/bbHome.h"
 #include "engine/ECS/moveables/bbMoveables.h"
 #include "games/game0/maps/systems_test/core/instructions.h"
-#include "games/game0/maps/systems_test/core/textboxes.c"
+#include "games/game0/maps/systems_test/core/textboxes.h"
 
 ///discard data needed to restore entity
 bbFlag bbCD_entity_undeleteEntity_fn(bbCore* core, bbInstruction* undo_instruction)

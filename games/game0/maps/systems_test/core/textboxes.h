@@ -1,3 +1,5 @@
+#ifndef BB_TEXTBOXES_H
+#define BB_TEXTBOXES_H
 
 bbFlag bbI_setTextbox_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbI_unsetTextbox_fn(bbCore* core, bbInstruction* instruction);
@@ -10,3 +12,5 @@ bbFlag bbCI_putTextbox(bbCore* core, char* string, char* key, U64 time, bbInstru
 bbFlag bbCS_putTextbox(bbCore* core, char* string, char* key, U64 time, bbInstruction_source source, bbHandle action);
 
 bbFlag bbCD_unsetTextbox_fn(bbCore* core, bbInstruction* undo_instruction);
+
+#endif //BB_TEXTBOXES_H

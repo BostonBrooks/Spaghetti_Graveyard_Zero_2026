@@ -299,6 +299,8 @@ int main(void)
             snprintf(buffer, MESSAGE_LENGTH,"time is %llu\n", home.core.core.actual_time);
             bbCS_setTextbox(&home.core.core, buffer, "DIALOGUE",home.core.core.actual_time, bbInstructionSource_input,no_handle);
 
+            snprintf(buffer, MESSAGE_LENGTH,"testing 1.2.3.\n", home.core.core.actual_time);
+            bbCS_putTextbox(&home.core.core, buffer, "DIALOGUE",home.core.core.actual_time, bbInstructionSource_input,no_handle);
 
             bbCoreInput_checkActions(&home.core.core,
                 home.core.core.actual_time,
