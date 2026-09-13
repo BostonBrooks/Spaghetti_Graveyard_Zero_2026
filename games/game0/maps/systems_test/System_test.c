@@ -305,7 +305,7 @@ int main(void)
                 bbInstructionSource_input, no_handle );
             bbCore_react(&home.core.core);
 
-            //have not implemented moveables!
+
             bbCoreInput_updateMoveables(&home.core.core,bbInstructionSource_input, no_handle );
             bbCore_react(&home.core.core);
 

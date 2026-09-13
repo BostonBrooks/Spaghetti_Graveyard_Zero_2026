@@ -109,7 +109,7 @@ bbFlag bbCoreSynchronous_spawnTestMoveable(bbCore* core,
 
 bbFlag bbInstruction_spawnTestMoveable_fn(bbCore* core, bbInstruction* instruction)
 {
-    bbNotHere()
+    bbNotImplemented()
 }
 
 bbFlag bbInstruction_unspawnTestMoveable_fn(bbCore* core, bbInstruction* instruction)

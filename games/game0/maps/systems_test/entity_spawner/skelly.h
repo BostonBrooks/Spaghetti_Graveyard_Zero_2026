@@ -142,10 +142,10 @@ bbFlag bbSF_addMoveable_skelly2(void* spawner,
     } else //if (args->state == bbMoveableType_Idle)
     {
         bbMoveable_setGoalPoint(&home.ECS.moveables,moveable_handle,args->position);
-    }// else
-    //{
-    //    bbNotHere() //Not yet implemented
-    //}
+    } else
+    {
+        bbNotImplemented() //Not yet implemented
+    }
 
     //We dont need to undo this, will be nuked by bbInstruction_unspawnTestMoveable_fn
     //bbHere()

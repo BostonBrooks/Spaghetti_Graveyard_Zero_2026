@@ -248,7 +248,7 @@ bbFlag bbI_spawnAIComponent_fn(bbCore* core, bbInstruction* instruction)
 
 bbFlag bbI_unspawnAIComponent_fn(bbCore* core, bbInstruction* instruction)
 {
-    bbNotHere()
+    bbNotImplemented()
 }
 
 

@@ -268,4 +268,21 @@ pthread_mutex_unlock(mutex);}\
 
 #endif //#ifdef MUTEX_DEBUG
 
+#ifdef NOTINPLEMENTED_ASSERT
+
+#define bbNotImplemented() {\
+printf ("In FILE: %s, FUNCTION: %s, LINE: %d, THREAD: %s, TIME: %lu\n"\
+"BB_NOT_IMPLEMENTED\n",\
+__FILE_NAME__, __func__, __LINE__, thread, test_time);\
+int x = 1/0;\
+}
+#elifdef NOTIMPLEMENTED_NONE
+
+#else
+
+#define bbNotImplemented() {}
+#endif
+
+#define bbNotImplemented() printf ("In FILE: %s, FUNCTION: %s, LINE: %d, THREAD: %s, TIME: %lu\nBB_NOT_IMPLEMENTED\n",\
+__FILE_NAME__, __func__, __LINE__, thread, test_time);
 #endif //BB_TERMINAL_H

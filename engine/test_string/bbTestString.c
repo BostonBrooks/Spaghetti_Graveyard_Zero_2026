@@ -112,7 +112,7 @@ bbFlag bbCI_setString(bbCore* core, char* string, bbInstruction_source source, b
 }
 bbFlag bbCS_setString(bbCore* core, char* string, bbInstruction_source source, bbHandle action)
 {
-    //Post undo instruction
+
 
     if (source == bbInstructionSource_input)
     {

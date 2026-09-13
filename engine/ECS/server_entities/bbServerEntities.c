@@ -97,7 +97,7 @@ bbFlag bbInstruction_setServerEntity_fn(bbCore* core, bbInstruction* instruction
     return bbSuccess;
 }
 bbFlag bbInstruction_unsetServerEntity_fn(bbCore* core, bbInstruction* instruction)
-{bbHere()
+{
 
     bbHandle component_handle = instruction->data.three_handles.handle1;
     bbServerEntity* component;

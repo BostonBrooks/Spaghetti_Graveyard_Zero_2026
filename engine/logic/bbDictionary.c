@@ -123,7 +123,6 @@ bbFlag bbDictionary_lookup(bbDictionary* dict, char* key, bbHandle* value){
     if (index == flag_None) {
         value->u64 = 0;
         bbDebug("key not found: %s\n", key);
-        //bbNotHere()
         return bbNone;
     }
     bbDictionary_entry* entry = bbDictionary_indexLookup(dict, index);
