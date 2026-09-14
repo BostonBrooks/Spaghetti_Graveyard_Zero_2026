@@ -103,7 +103,7 @@ bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
             args.type = 0;
             args.handle = no_handle;
             args.goal_handle = no_handle;
-            bbCI_live_spawnEntity(core, args, "#", bbInstructionSource_action, handle);
+            bbCI_live_spawnEntity(core, args, "SKELLY_LIVE", bbInstructionSource_action, handle);
 
         }
 #endif
