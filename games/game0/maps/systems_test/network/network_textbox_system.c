@@ -2,6 +2,8 @@
 #ifndef NETWORK_MESSAGE
 #define NETWORK_MESSAGE
 #include "games/game0/maps/systems_test/network/network_textbox_system.h"
+
+#include "core/core_inbox.h"
 #include "engine/logic/bbIntTypes.h"
 #include "engine/logic/bbFlag.h"
 #include "engine/data/bbHome.h"
@@ -17,7 +19,7 @@ bbFlag bbNetworkPacket_toMessageHandle (sfPacket* packet, bbHandle* message_hand
     bbHandle handle;
     bbTextbox_message* msg;
 
-    bbVPool_alloc2(home.textbox_system.threaded_pool,(void**)&msg,&handle)
+    bbVPool_alloc2(home.textbox_app.textbox_system.threaded_pool,(void**)&msg,&handle)
 
     U64 timestamp_upper = sfPacket_readUint32(packet);
     U64 timestamp_lower = sfPacket_readUint32(packet);
@@ -26,6 +28,8 @@ bbFlag bbNetworkPacket_toMessageHandle (sfPacket* packet, bbHandle* message_hand
     msg->length = sfPacket_readInt32(packet);
     msg->type = sfPacket_readInt32(packet);
     sfPacket_readString(packet, msg->text);
+
+    bbDebug("message: \n%s\n", msg->text);
 
     if (message_handle != NULL) *message_handle = handle;
     if (message != NULL) *message = msg;
@@ -37,10 +41,11 @@ bbFlag bbNetworkPacket_toMessageHandle (sfPacket* packet, bbHandle* message_hand
 bbFlag bbNetworkPacket_fromMessageHandle (sfPacket* packet, bbHandle message_handle)
 {
     bbTextbox_message* msg;
-    bbDebug("message handle:\n%llu\n", message_handle.u64);
-    bbVPool_lookup(home.textbox_system.threaded_pool,(void**)&msg,message_handle);
+    bbDebug("message handle: %llu\n", message_handle.u64);
+    bbVPool_lookup(home.textbox_app.textbox_system.threaded_pool,(void**)&msg,message_handle);
 
-
+    //TODO debug hack
+    bbStr_setStr(msg->text,"ringadingadillo", MESSAGE_LENGTH);
     U64 timestamp_lower = msg->timestamp & 0xFFFFFFFF;
     U64 timestamp_upper = msg->timestamp / 0x100000000;
 
@@ -50,6 +55,7 @@ bbFlag bbNetworkPacket_fromMessageHandle (sfPacket* packet, bbHandle message_han
     sfPacket_writeInt32(packet,msg->type);
     sfPacket_writeString(packet,msg->text);
 
+    bbDebug("message: \n%s\n", msg->text);
     return bbSuccess;
 
 }
@@ -60,11 +66,13 @@ bbFlag bbNetworkApp_sendMessage(void* network, bbHandle message_handle, U64 time
     bbNetwork* Network = network;
 
     bbTextbox_message* message_in;
-    bbVPool_lookup(home.textbox->system->pool,(void**)&message_in,message_handle);
+    bbVPool_lookup(home.textbox_app.textbox_system.pool,(void**)&message_in,message_handle);
 
-    bbTextbox_message* message_out;
+    bbDebug("message:\n%s\n", message_in->text);
+    bbTextbox_message* message_out = 0;
     bbHandle message_out_handle;
-    bbVPool_alloc2(home.textbox->system->threaded_pool,(void**)&message_out,&message_out_handle);
+    bbVPool_alloc2(home.textbox_app.textbox_system.threaded_pool,(void**)&message_out,&message_out_handle);
+    bbDebug("offset = %lu\n", (U64)message_out-(U64)home.textbox_app.textbox_system.threaded_pool->pool);
 
     message_out->timestamp = message_in->timestamp;
     message_out->length = message_in->length;
@@ -80,7 +88,7 @@ bbFlag bbNetworkApp_sendMessage(void* network, bbHandle message_handle, U64 time
 
     packet->data.message.message_handle = message_out_handle;
     bbThreadedQueue_pushL(&Network->outbox, (void*)packet);
-    bbDebug("message handle:\n%llu\n", message_out_handle.u64);
+    bbDebug("message handle: %llu\n", message_out_handle.u64);
     return bbSuccess;
 }
 
@@ -90,11 +98,13 @@ bbFlag bbNetworkApp_receiveMessage(void* network, void* packet) {
     bbNetwork* Network = network;
     bbNetworkPacket* Packet = packet;
 
-    bbTextbox_message* message_in;
-    bbVPool_lookup(home.textbox->system->threaded_pool,(void**)&message_in,Packet->data.message.message_handle);
+     bbTextbox_message* message_in;
+    bbFlag flag = bbVPool_lookup(home.textbox_app.textbox_system.threaded_pool,(void**)&message_in,Packet->data.message.message_handle);
+    bbFlag_print(flag);
+    bbDebug("handle = %llu\n", Packet->data.message.message_handle.u64);
+    bbDebug("message: \n%s\n", message_in->text);
+    bbCoreInbox_ReceiveMessage(&home.core.core,Network, Packet->data.message.message_handle);
 
-    bbDebug("PACKETTYPE_MESSAGE:\n%s\n", message_in->text);
-    bbVPool_free(home.textbox->system->threaded_pool,message_in);
 
     return bbSuccess;
 }

@@ -9,12 +9,12 @@ if (CSFML3)
     add_definitions(-DBB_CSFML3=1)
 endif (CSFML3)
 
-if(BB_USE_ASAN)
+#if(BB_USE_ASAN)
 if (CMAKE_BUILD_TYPE MATCHES "Debug")
     add_compile_options(-fsanitize=address -fno-omit-frame-pointer -g)
     add_link_options(-fsanitize=address)
 endif()
-endif()
+#endif()
 
 add_executable(Server engine/server/bbServer.c
         engine/network/bbNetworkPacket.c
@@ -235,6 +235,7 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
 
         engine/interthread/bbClock.c
         engine/textbox/bbTextbox.c
+        engine/textbox/bbTextboxApp.c
 
 
         engine/userinterface/bbInput.c

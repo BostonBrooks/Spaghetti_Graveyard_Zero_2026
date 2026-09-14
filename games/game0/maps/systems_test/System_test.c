@@ -84,12 +84,12 @@ int main(void)
     home.core.goalpoint.j = 10000;
     home.core.goalpoint.k = 0;
 
-    bbTextbox_systemInit(&home.textbox_system);
-    bbTextbox_new(&home.textbox,&home.textbox_system, "DIALOGUE");
+
+    bbTextboxApp_init(&home.textbox_app);
 
     char* message_text;
     bbHandle message_handle;
-    bbTextbox_newMessage(home.textbox, &message_handle, &message_text);
+    bbTextbox_newMessage(home.textbox_app.textboxes[bbTextbox_Dialogue], &message_handle, &message_text);
     snprintf(message_text,MESSAGE_LENGTH,
 
 "Ho! Tom Bombadil, Tom Bombadillo!\n"
@@ -97,8 +97,8 @@ int main(void)
 "By fire, sun and moon, harken now and hear us!\n"
 "Come, Tom Bombadil, for our need is near us!\n");
 
-    bbTextbox_putMessage(home.textbox,message_handle,0);
-    bbTextbox_updateBuffer(home.textbox);
+    bbTextbox_putMessage(home.textbox_app.textboxes[bbTextbox_Dialogue],message_handle,0);
+    bbTextbox_updateBuffer(home.textbox_app.textboxes[bbTextbox_Dialogue]);
 
     bbPerformance_init(&home.performance);
     bbCore_init(&home.core.core);
@@ -297,12 +297,22 @@ int main(void)
         {
             char buffer[MESSAGE_LENGTH];
             bbHandle message_handle2;
-            snprintf(buffer, MESSAGE_LENGTH,"time is %llu\n", home.core.core.actual_time);
-            bbCS_setTextbox(&home.core.core,&message_handle2, buffer, "DIALOGUE",home.core.core.actual_time, bbInstructionSource_input,no_handle);
+            snprintf(buffer, MESSAGE_LENGTH,"time set to server was %llu\n", home.core.core.actual_time);
+            //bbCS_setTextbox(&home.core.core,&message_handle2, buffer, "DIALOGUE",home.core.core.actual_time, bbInstructionSource_input,no_handle);
 
-            bbNetworkApp_sendMessage(&home.network, message_handle2, home.core.core.actual_time, 193);
-            snprintf(buffer, MESSAGE_LENGTH,"testing 1.2.3.\n", home.core.core.actual_time);
-            bbCS_putTextbox(&home.core.core, buffer, "DIALOGUE",home.core.core.actual_time, bbInstructionSource_input,no_handle);
+            bbNotImplemented()
+            //char* message;
+            //bbTextbox_newMessage(home.textbox_app.textboxes[bbTextbox_Dialogue],&message_handle2,&message);
+            //snprintf(message, MESSAGE_LENGTH,"time set to server was %llu\n", home.core.core.actual_time);
+            //bbNetworkApp_sendMessage(&home.network, message_handle2, home.core.core.actual_time, 193);
+
+            bbTextbox_newMessage(home.textbox_app.textboxes[bbTextbox_Dialogue],&message_handle2,NULL);
+            snprintf(buffer, MESSAGE_LENGTH,"time is %llu!\n", home.core.core.actual_time);
+            bbCS_putTextbox(&home.core.core,&message_handle2, buffer, "DIALOGUE",home.core.core.actual_time, bbInstructionSource_input,no_handle);
+
+            snprintf(buffer, MESSAGE_LENGTH,"time is %llu!!\n", home.core.core.actual_time);
+            bbCI_putTextbox(&home.core.core, buffer, "DIALOGUE",home.core.core.actual_time, bbInstructionSource_input,no_handle);
+            bbCore_react(&home.core.core);
 
             bbCoreInput_checkActions(&home.core.core,
                 home.core.core.actual_time,
@@ -419,7 +429,7 @@ void* userinterface_thread(void* arg)
 
 //test texbox
     char message_buffer[MESSAGE_BUFFER_LENGTH];
-    bbTextbox_copyBuffer(home.textbox, message_buffer, 6, 36, MESSAGE_BUFFER_LENGTH);
+    bbTextbox_copyBuffer(home.textbox_app.textboxes[bbTextbox_Dialogue], message_buffer, 6, 36, MESSAGE_BUFFER_LENGTH);
     bbDebug("message_buffer:\n%s\n",message_buffer);
 
 bbHere()

@@ -24,6 +24,7 @@ bbFlag bbWidget_Constructor_Textbox(bbWidget** self,
 
 #ifdef BB_CSFML3
     extra_data->sf_text = sfText_create(graphics->fonts->fonts[0]);
+    sfText_setFillColor(extra_data->sf_text, sfBlack);
 #else
     extra_data->sf_text = sfText_create();
     sfText_setFont(extra_data->sf_text, graphics->fonts->fonts[0]);
