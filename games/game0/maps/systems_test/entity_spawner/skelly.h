@@ -487,6 +487,9 @@ bbFlag bbLSF_liveSpawnSkelly(void* spawner,
                                   bbSpawnFunctionArgs* args,
                                   bbInstruction_source source)
 {
+    static I32 count = 0;
+    bbDebug("num skellies = %d\n", ++count)
+
     bbAssert(source == bbInstructionSource_norewind || source == bbInstructionSource_internal, "not implemented");
 
     bbECS_entity* entity;
