@@ -171,7 +171,9 @@ bbFlag bbI_spawnAIComponent2_fn(bbCore* core, bbInstruction* instruction)
     bbList_alloc2(&home.ECS.AI_system.list,(void**)&component, &component_handle);
     component->ftable.update = instruction->data.three_handles.handle2.bloated.index;
     component->ftable.command = instruction->data.three_handles.handle2.bloated.collision;
-    component->state = 0;
+    component->state = bbAIState_Idle;
+
+    component->last_attack = 0;
     component->component.entity_handle = instruction->data.three_handles.handle1;
 
     bbList_pushL(&home.ECS.AI_system.list,component);
@@ -258,6 +260,7 @@ bbFlag bbCS_spawnAIComponent2(bbCore* core,
     component->ftable.update = update;
     component->state = bbAIState_Idle;
     component->component.entity_handle = entity;
+    component->last_attack = 0;
 
     bbList_pushL(&AI_System->list,component);
 

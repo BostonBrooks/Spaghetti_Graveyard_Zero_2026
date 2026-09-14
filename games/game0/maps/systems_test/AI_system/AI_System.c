@@ -310,6 +310,7 @@ bbFlag bbAI_Update_Lunging(bbAI_Component* component)
                              bbECS_ECS, &entity_handle,
                              NULL);
 
+    U64 time = home.core.core.simulation_time;
 
     bbMoveable* moveable;
     bbHandle moveable_handle;
@@ -360,19 +361,23 @@ bbFlag bbAI_Update_Lunging(bbAI_Component* component)
         {
             if (distance<POINTS_PER_TILE * 10)
             {
-                bbCI_Moveable_setGoalLunging(&home.core.core,
-                                 moveable_handle,
-                                 player_handle,
-                                 bbInstructionSource_internal, no_handle);
+                if (time >= component->last_attack + 120)
+                {
+                    component->last_attack = time;
+                    bbCI_Moveable_setGoalLunging(&home.core.core,
+                                     moveable_handle,
+                                     player_handle,
+                                     bbInstructionSource_internal, no_handle);
 
-                bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_moving);
+                    bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_moving);
 
 
-                bbCI_AI_setStriking(&home.core.core,
-                                       AI_handle,
-                                       home.ECS.ECS->player_character,
-                                       home.core.core.simulation_time,
-                                 bbInstructionSource_internal, no_handle);
+                    bbCI_AI_setStriking(&home.core.core,
+                                           AI_handle,
+                                           home.ECS.ECS->player_character,
+                                           home.core.core.simulation_time,
+                                     bbInstructionSource_internal, no_handle);
+                }
             }
 
             if (distance>POINTS_PER_TILE * 25)
@@ -413,6 +418,10 @@ bbFlag bbAI_Update_Lunging(bbAI_Component* component)
 
             if (component->last_state_change < home.core.core.simulation_time - 20)
             {
+
+                bbNotImplemented() // reversible state change
+                component->last_state_change = home.core.core.simulation_time;
+
                 bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_idle);
 
                 bbCI_Moveable_setIdle(&home.core.core,
@@ -434,23 +443,29 @@ bbFlag bbAI_Update_Lunging(bbAI_Component* component)
 
                 if (distance<POINTS_PER_TILE * 10)
                 {
+                    if (time >= component->last_attack + 120)
+                    {
 
-                    bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_moving);
+                        bbNotImplemented() // reversible state change
+                        component->last_state_change = home.core.core.simulation_time;
 
-                    bbCI_Moveable_setGoalLunging(&home.core.core,
-                                     moveable_handle,
-                                     player_handle,
-                                     bbInstructionSource_internal, no_handle);
+                        bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_moving);
+
+                        bbCI_Moveable_setGoalLunging(&home.core.core,
+                                         moveable_handle,
+                                         player_handle,
+                                         bbInstructionSource_internal, no_handle);
 
 
 
 
-                    bbCI_AI_setStriking(&home.core.core,
-                                           AI_handle,
-                                           home.ECS.ECS->player_character,
-                                           home.core.core.simulation_time,
-                                     bbInstructionSource_internal, no_handle);
-                    break;
+                        bbCI_AI_setStriking(&home.core.core,
+                                               AI_handle,
+                                               home.ECS.ECS->player_character,
+                                               home.core.core.simulation_time,
+                                         bbInstructionSource_internal, no_handle);
+                        break;
+                    }
                 }
 
                 bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_moving);

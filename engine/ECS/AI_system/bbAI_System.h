@@ -35,6 +35,7 @@ typedef struct
     bbAI_FunctionTable ftable;
     bbAI_state state;
     U64 last_state_change;
+    U64 last_attack;
     bbMapCoords goalpoint;
     bbHandle target;
 } bbAI_Component;

@@ -8,7 +8,7 @@
 #include "engine/ECS/spatial/bbSpatial_query.h"
 #include "engine/logic/bbBloatedPool.h"
 
-#define LUNGE_SPEED 3.5f
+#define LUNGE_SPEED 8.f
 
 bbFlag bbMoveable_getComponent_fn(struct bbSystem* system, bbComponent** component, bbHandle component_handle);
 bbFlag bbMoveable_getHandle_fn(struct bbSystem* system, bbComponent* component, bbHandle* component_handle);
