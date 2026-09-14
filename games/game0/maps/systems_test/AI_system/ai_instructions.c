@@ -541,7 +541,7 @@ bbFlag bbI_AI_setState_fn(bbCore* core, bbInstruction* instruction)
 
     if (instruction->data.moveable_state.last_attack < U64_MAX)
     {
-        bbNotImplemented() //is this correct?
+        //bbNotImplemented() //is this correct?
         component->last_attack = instruction->data.AI_state.last_attack;
     }
 
@@ -579,7 +579,7 @@ bbFlag bbI_AI_unsetState_fn(bbCore* core, bbInstruction* instruction)
 
     if (instruction->data.moveable_state.last_attack < U64_MAX)
     {
-        bbNotImplemented() //is this correct?
+        //bbNotImplemented() //is this correct?
         component->last_attack = instruction->data.AI_state.last_attack;
     }
 
