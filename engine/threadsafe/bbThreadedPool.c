@@ -122,7 +122,7 @@ bbFlag bbThreadedPool_allocImpl(bbThreadedPool* pool, void** address, bbHandle* 
         //assert available list empty
 
         bbDebug("Threaded Pool Full - size = %d, in use = %d\n", pool->num, pool->in_use);
-
+        bbNotHere()
         pthread_cond_wait(&pool->pool_full_cond, &pool->mutex);
 
     }
