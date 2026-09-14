@@ -151,8 +151,9 @@ bbFlag bbThreadedPool_allocImpl(bbThreadedPool* pool, void** address, bbHandle* 
     }
 
     bbThreadedPool_available* next_element;
-    handle.u64 = element->next;
-    bbThreadedPool_lookup_unchecked(pool, (void*)&next_element, handle);
+    bbHandle handle2;
+    handle2.u64 = element->next;
+    bbThreadedPool_lookup_unchecked(pool, (void*)&next_element, handle2);
     next_element->prev = -1;
     pool->available_head = element->next;
     memset(element, 0, pool->size_of);
