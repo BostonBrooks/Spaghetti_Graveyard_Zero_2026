@@ -363,7 +363,7 @@ bbFlag bbAI_Update_Lunging(bbAI_Component* component)
             {
                 if (time >= component->last_attack + 120)
                 {
-                    component->last_attack = time;
+
                     bbCI_Moveable_setGoalLunging(&home.core.core,
                                      moveable_handle,
                                      player_handle,
@@ -419,8 +419,6 @@ bbFlag bbAI_Update_Lunging(bbAI_Component* component)
             if (component->last_state_change < home.core.core.simulation_time - 20)
             {
 
-                bbNotImplemented() // reversible state change
-                component->last_state_change = home.core.core.simulation_time;
 
                 bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_idle);
 
@@ -446,8 +444,6 @@ bbFlag bbAI_Update_Lunging(bbAI_Component* component)
                     if (time >= component->last_attack + 120)
                     {
 
-                        bbNotImplemented() // reversible state change
-                        component->last_state_change = home.core.core.simulation_time;
 
                         bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_moving);
 

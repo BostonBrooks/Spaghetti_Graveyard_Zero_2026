@@ -100,6 +100,7 @@ typedef struct
     bbHandle AI_handle;
     U32 AI_state;
     U64 last_state_change;
+    U64 last_attack;
     bbHandle target_handle;
     bbMapCoords goalpoint;
 } bbInstructionsData_AI_State;
@@ -168,8 +169,10 @@ typedef struct
 {
     bbHandle handle;
     I32 type;
-    bbMapCoords goalpoint;
     I32 goal_moveable;
+    U64 last_state_change;
+    U64 last_attack;
+    bbMapCoords goalpoint;
 } bbInstructionsData_moveableState;
 
 

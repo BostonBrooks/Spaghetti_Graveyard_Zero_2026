@@ -354,7 +354,7 @@ bbFlag bbCI_AI_setIdle(bbCore* core,
     instruction->data.AI_state.AI_handle = AI_handle;
     instruction->data.AI_state.AI_state = bbAIState_Idle;
     instruction->data.AI_state.last_state_change = current_time;
-
+    instruction->data.AI_state.last_attack = U64_MAX;
     instruction->source = source;
     instruction->redo_instruction = action;
 
@@ -378,6 +378,7 @@ bbFlag bbCI_AI_setApproaching(bbCore* core,
     instruction->data.AI_state.AI_state = bbAIState_Approaching;
     instruction->data.AI_state.last_state_change = current_time;
     instruction->data.AI_state.target_handle = target_handle;
+    instruction->data.AI_state.last_attack = U64_MAX;
 
     instruction->source = source;
     instruction->redo_instruction = action;
@@ -402,6 +403,7 @@ bbFlag bbCI_AI_setStriking(bbCore* core,
     instruction->data.AI_state.AI_state = bbAIState_Striking;
     instruction->data.AI_state.last_state_change = current_time;
     instruction->data.AI_state.target_handle = target_handle;
+    instruction->data.AI_state.last_attack = U64_MAX;
 
     instruction->source = source;
     instruction->redo_instruction = action;
@@ -423,6 +425,7 @@ bbFlag bbCI_AI_setMoving(bbCore* core,
     instruction->data.AI_state.AI_handle = AI_handle;
     instruction->data.AI_state.AI_state = bbAIState_Moving;
     instruction->data.AI_state.last_state_change = current_time;
+    instruction->data.AI_state.last_attack = U64_MAX;
 
     instruction->source = source;
     instruction->redo_instruction = action;
@@ -445,7 +448,7 @@ bbFlag bbCI_AI_setRecovering(bbCore* core,
     instruction->data.AI_state.AI_handle = AI_handle;
     instruction->data.AI_state.AI_state = bbAIState_Recovering;
     instruction->data.AI_state.last_state_change = current_time;
-
+    instruction->data.AI_state.last_attack = current_time;
     instruction->source = source;
     instruction->redo_instruction = action;
 
@@ -482,6 +485,7 @@ bbFlag bbI_AI_setState_fn(bbCore* core, bbInstruction* instruction)
     bbAI_Component* component;
     bbVPool_lookup(home.ECS.AI_system.system.pool, (void**)&component, AI_handle);
 
+
     //bbHandle_getComponent(&home.ECS.AI_system.system,(bbComponent**)&component,AI_handle);
 
     if (instruction->source == bbInstructionSource_internal)
@@ -494,7 +498,6 @@ bbFlag bbI_AI_setState_fn(bbCore* core, bbInstruction* instruction)
         undo_instruction->data.AI_state.AI_state = component->state;
         undo_instruction->data.AI_state.last_state_change = component->last_state_change;
         undo_instruction->data.AI_state.target_handle = component->target;
-
 
         undo_instruction->source = instruction->source;
         bbVPool_free(core->instruction_pool, (void*)instruction);
@@ -534,7 +537,11 @@ bbFlag bbI_AI_setState_fn(bbCore* core, bbInstruction* instruction)
         bbList_pushL(&core->undo_stack, (void*)undo_instruction);
     } //else source == no rewind
 
-
+    if (instruction->data.moveable_state.last_attack < U64_MAX)
+    {
+        bbNotImplemented() //enable rollback
+        component->last_attack = instruction->data.AI_state.last_attack;
+    }
 
     component->last_state_change = instruction->data.AI_state.last_state_change;
     component->state = instruction->data.AI_state.AI_state;
