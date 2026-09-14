@@ -1,9 +1,12 @@
 #include "engine/network/bbNetworkPacket.h"
 
 #include "bbNetwork.h"
+
 #include "engine/logic/bbString.h"
 #include "engine/logic/bbTerminal.h"
 
+//TODO debug
+#include "engine/data/bbHome.h"
 
 extern _Thread_local char* thread;
 
@@ -123,9 +126,17 @@ bbFlag bbNetworkPacket_toStruct (sfPacket* packet, void* Struct)
 
 #ifdef DEFINE_TEST_SYSTEM
         case PACKETTYPE_MESSAGE:
-            struct1->data.message.message_handle;
 
-            bbNetworkPacket_toMessageHandle(packet,&struct1->data.message.message_handle,NULL);
+            bbTextbox_message* message;
+
+            bbNetworkPacket_toMessageHandle(packet,&struct1->data.message.message_handle,&message);
+
+            // bbDebug("handle = %llu\n message = %s\n", struct1->data.message.message_handle.u64, message->text);
+            // bbVPool_lookup(home.textbox_app.textbox_system.threaded_pool,(void**)&message,struct1->data.message.message_handle);
+            // bbDebug("message: %s\n", message->text);
+
+
+
             break;
 #endif //DEFINE_TEST_SYSTEM
     }

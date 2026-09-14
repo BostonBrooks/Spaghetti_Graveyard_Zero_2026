@@ -21,6 +21,7 @@ bbFlag bbThreadedPool_lookup_unchecked(bbThreadedPool* pool, void** address, bbH
 
 bbFlag bbThreadedPool_reverseLookup_unchecked(bbThreadedPool* pool, void* address, bbHandle* handle)
 {
+    //bbDebug("address = %llu, pool = %llu, difference = %llu\n", address, &pool->elements[0], (U64)address - (U64)&pool->elements[0]);
     I32 offset = (U8*)address - (U8*)&pool->elements[0];
     I32 index = offset / pool->size_of;
     bbAssert(index >= 0 && index < pool->num, "index %d out of bounds\n", index);
@@ -170,6 +171,8 @@ bbFlag bbThreadedPool_free(bbThreadedPool* pool, void* address)
 {
     bbMutexLock(&pool->mutex);
     pool->in_use--;
+
+
 
     //pool full, reserve empty
     if (pool->available_head == -1)
