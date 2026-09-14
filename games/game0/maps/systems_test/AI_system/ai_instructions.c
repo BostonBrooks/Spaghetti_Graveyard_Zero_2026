@@ -498,6 +498,7 @@ bbFlag bbI_AI_setState_fn(bbCore* core, bbInstruction* instruction)
         undo_instruction->data.AI_state.AI_state = component->state;
         undo_instruction->data.AI_state.last_state_change = component->last_state_change;
         undo_instruction->data.AI_state.target_handle = component->target;
+        undo_instruction->data.moveable_state.last_attack = component->last_attack;
 
         undo_instruction->source = instruction->source;
         bbVPool_free(core->instruction_pool, (void*)instruction);
@@ -514,6 +515,7 @@ bbFlag bbI_AI_setState_fn(bbCore* core, bbInstruction* instruction)
         undo_instruction->data.AI_state.AI_state = component->state;
         undo_instruction->data.AI_state.last_state_change = component->last_state_change;
         undo_instruction->data.AI_state.target_handle = component->target;
+        undo_instruction->data.moveable_state.last_attack = component->last_attack;
 
         undo_instruction->source = instruction->source;
         bbHandle handle;
@@ -526,7 +528,7 @@ bbFlag bbI_AI_setState_fn(bbCore* core, bbInstruction* instruction)
         bbInstruction* undo_instruction;
         bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
         undo_instruction->type = bbI_AI_unsetState;
-
+        undo_instruction->data.moveable_state.last_attack = component->last_attack;
         undo_instruction->data.AI_state.AI_handle = AI_handle;
         undo_instruction->data.AI_state.AI_state = component->state;
         undo_instruction->data.AI_state.last_state_change = component->last_state_change;
@@ -539,7 +541,7 @@ bbFlag bbI_AI_setState_fn(bbCore* core, bbInstruction* instruction)
 
     if (instruction->data.moveable_state.last_attack < U64_MAX)
     {
-        bbNotImplemented() //enable rollback
+        bbNotImplemented() //is this correct?
         component->last_attack = instruction->data.AI_state.last_attack;
     }
 
@@ -575,6 +577,11 @@ bbFlag bbI_AI_unsetState_fn(bbCore* core, bbInstruction* instruction)
     component->last_state_change = instruction->data.AI_state.last_state_change;
     component->target = instruction->data.AI_state.target_handle;
 
+    if (instruction->data.moveable_state.last_attack < U64_MAX)
+    {
+        bbNotImplemented() //is this correct?
+        component->last_attack = instruction->data.AI_state.last_attack;
+    }
 
 
     if (instruction->source == bbInstructionSource_internal)
