@@ -295,24 +295,12 @@ int main(void)
 
         if (home.core.clock2_handle.clock_paused == false)
         {
-            char buffer[MESSAGE_LENGTH];
+
             bbHandle message_handle2;
-            snprintf(buffer, MESSAGE_LENGTH,"time set to server was %llu\n", home.core.core.actual_time);
-            //bbCS_setTextbox(&home.core.core,&message_handle2, buffer, "DIALOGUE",home.core.core.actual_time, bbInstructionSource_input,no_handle);
-
-            bbNotImplemented()
-            //char* message;
-            //bbTextbox_newMessage(home.textbox_app.textboxes[bbTextbox_Dialogue],&message_handle2,&message);
-            //snprintf(message, MESSAGE_LENGTH,"time set to server was %llu\n", home.core.core.actual_time);
-            //bbNetworkApp_sendMessage(&home.network, message_handle2, home.core.core.actual_time, 193);
-
-            bbTextbox_newMessage(home.textbox_app.textboxes[bbTextbox_Dialogue],&message_handle2,NULL);
-            snprintf(buffer, MESSAGE_LENGTH,"time is %llu!\n", home.core.core.actual_time);
-            bbCS_putTextbox(&home.core.core,&message_handle2, buffer, "DIALOGUE",home.core.core.actual_time, bbInstructionSource_input,no_handle);
-
-            snprintf(buffer, MESSAGE_LENGTH,"time is %llu!!\n", home.core.core.actual_time);
-            bbCI_putTextbox(&home.core.core, buffer, "DIALOGUE",home.core.core.actual_time, bbInstructionSource_input,no_handle);
-            bbCore_react(&home.core.core);
+            char* message;
+            bbTextbox_newMessage(home.textbox_app.textboxes[bbTextbox_Dialogue],&message_handle2,&message);
+            snprintf(message, MESSAGE_LENGTH,"time sent: %llu\n", home.core.core.actual_time);
+            bbNetworkApp_sendMessage(&home.network, message_handle2, home.core.core.actual_time, 193);
 
             bbCoreInput_checkActions(&home.core.core,
                 home.core.core.actual_time,

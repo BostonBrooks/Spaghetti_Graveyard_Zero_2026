@@ -21,6 +21,7 @@ add_executable(Server engine/server/bbServer.c
         engine/threadsafe/bbThreadedPool.c
         engine/threadsafe/bbThreadedQueue.c
         engine/logic/bbBloatedPool.c)
+
 target_compile_definitions(Server PRIVATE
         DEFINE_SERVER)
 target_include_directories(Server  PRIVATE "./")
@@ -56,7 +57,11 @@ add_executable(Test_Textbox test/bbTest_Textbox.c
         engine/logic/bbList.c
         engine/logic/bbList_sort.c
         engine/logic/bbSystemPool.c
-        engine/logic/bbIterator.c)
+        engine/logic/bbIterator.c
+        engine/threadsafe/bbThreadedQueue.c
+        engine/threadsafe/bbThreadedPool.c
+        engine/logic/bbDictionary.c
+)
 target_compile_definitions(Test_Textbox PRIVATE
         DEFINE_TEST_POOL)
 target_include_directories(Test_Textbox PRIVATE "./")

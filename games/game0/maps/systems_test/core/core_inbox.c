@@ -8,6 +8,7 @@
 #include "games/game0/maps/systems_test/core/spawn_entity.h"
 #include "engine/ECS/moveables/bbMoveables.h"
 #include "engine/logic/bbString.h"
+#include "engine/logic/bbSystemPool.h"
 
 bbFlag bbCoreInbox_receiveMessage_fn(bbCore* core, bbCoreInboxMessage* message);
 bbFlag bbCoreInbox_Freeze(bbCore* core)
@@ -125,24 +126,27 @@ bbFlag bbCoreInbox_ReceiveMessage(bbCore* core,bbNetwork* Network, bbHandle thre
 bbFlag bbCoreInbox_receiveMessage_fn(bbCore* core, bbCoreInboxMessage* message)
 {
     bbHandle threaded_pool_handle = message->data.three_handles.handle1;
-    bbDebug("handle = %llu\n", threaded_pool_handle.u64);
+    //bbDebug("threaded pool handle = %llu\n", threaded_pool_handle.u64);
     bbTextbox_message* message_in;
     bbFlag flag = bbVPool_lookup(home.textbox_app.textbox_system.threaded_pool,(void**)&message_in, threaded_pool_handle);
+    //bbFlag_print(flag)
 
-    bbFlag_print(flag)
-    bbHandle handle;
+    bbHandle handle_out;
     bbTextbox_message* message_out;
-    bbVPool_alloc2(home.textbox_app.textbox_system.pool,(void**)&message_out, &handle);
-
+    bbVPool_alloc2(home.textbox_app.textbox_system.pool,(void**)&message_out, &handle_out);
+    //bbDebug("system handle = %llu\n", handle_out.u64);
     message_out->timestamp = message_in->timestamp;
     message_out->length = message_in->length;
     message_out->type = message_in->type;
     bbStr_setStr(message_out->text,message_in->text, MESSAGE_LENGTH);
 
-    bbTextbox_putMessage(home.textbox_app.textboxes[bbTextbox_Dialogue],handle,message_in->timestamp);
+    //bbDebug("message_out->text = %s\n", message_out->text);
+    bbTextbox_putMessage(home.textbox_app.textboxes[bbTextbox_Dialogue],handle_out,100000);
+    bbTextbox_updateBuffer(home.textbox_app.textboxes[bbTextbox_Dialogue]);
 
-    //TODO debug hack
-    bbVPool_free(home.textbox_app.textbox_system.threaded_pool,(void**)&message_in);
-
+    bbThreadedPool* pool = home.textbox_app.textbox_system.threaded_pool->pool;
+    //bbDebug("available = %d\n", pool->num - pool->in_use);
+    bbVPool_free(home.textbox_app.textbox_system.threaded_pool,message_in);
+    //bbDebug("available = %d\n", pool->num - pool->in_use);
     return bbSuccess;
 }

@@ -53,6 +53,7 @@ bbFlag bbThreadedQueue_alloc(bbThreadedQueue* queue, void** element)
     return bbSuccess;
 }
 
+///free the element pointed to and set pointer to NULL
 bbFlag bbThreadedQueue_free(bbThreadedQueue* queue, void** element)
 {
     bbVPool_free(queue->pool, (void*)*element);
