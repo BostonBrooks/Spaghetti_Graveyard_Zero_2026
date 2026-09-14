@@ -21,6 +21,9 @@
 ///create instruction to spawn entity
 bbFlag bbCI_live_spawnEntity(bbCore* core, bbSpawnFunctionArgs args, char* key, bbInstruction_source source, bbHandle action)
 {
+    static I32 count = 0;
+    bbDebug("num skellies = %d\n", ++count);
+
     bbInstruction* instruction;
     bbFlag flag = bbList_alloc(&core->do_stack,(void**)&instruction);
 
