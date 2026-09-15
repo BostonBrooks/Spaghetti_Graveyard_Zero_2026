@@ -42,7 +42,7 @@ typedef struct
     I64 test_int;
     bbClock_handle clock2_handle;
 
-    ///in order to rewind the viewpoint, we mist keep a record of where it was before updating
+    //UNUSED?
     bbMapCoords viewpoint;
     bbMapCoords goalpoint;
 } bbHome_core;

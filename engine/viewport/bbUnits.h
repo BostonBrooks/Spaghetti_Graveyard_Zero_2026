@@ -3,8 +3,9 @@
 #define BB_UNITS_H
 
 #include "bbDrawables.h"
-
-typedef struct
+#include "bbViewportMouse.h"
+#include "engine/viewport/bbViewportMouseFunctions.h"
+typedef struct bbUnit
 {
     //to be draw to the screen
     bbDrawable drawable;
@@ -22,7 +23,7 @@ typedef struct
     U64 next_time;
     bbMapCoords next_goalpoint;
 
-
+    bbUnit_mouse mouse;
 } bbUnit;
 
 #define bbUnits_new(self, squares_i, squares_j)\

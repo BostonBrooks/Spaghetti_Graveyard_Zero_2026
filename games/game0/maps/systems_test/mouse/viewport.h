@@ -14,8 +14,11 @@ bbFlag Viewport_LeftDown (void* Mouse, void* Widgets, void* Widget, void*
     bbMapCoords MC = home.viewport_app.viewport.viewpoint;
     bbMapCoords MC2 = bbViewportCoords_getMapCoords(VC);
 
-
-
+    bbVPMouse_event event;
+    event.position = VC;
+    event.type = bbEvtMouseButtonPressed;
+    event.button = bbMouseLeft;
+    bbVPMouse_Event(&home.viewport_app.mouse, &event);
     //send command to player,
     //player sends request to server,
     //message from server spawns skelly
@@ -33,6 +36,12 @@ bbFlag Viewport_RightDown (void* Mouse, void* Widgets, void* Widget, void*
     bbViewportCoords VC = bbScreenPoints_getViewportPoints(&home.viewport_app.viewport, screen_points);
     bbMapCoords MC = home.viewport_app.viewport.viewpoint;
     bbMapCoords MC2 = bbViewportCoords_getMapCoords(VC);
+
+    bbVPMouse_event event;
+    event.position = VC;
+    event.type = bbEvtMouseButtonPressed;
+    event.button = bbMouseRight;
+    bbVPMouse_Event(&home.viewport_app.mouse, &event);
 
     //send command to player,
     //player sends request to server,

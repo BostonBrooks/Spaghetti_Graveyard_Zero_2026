@@ -363,6 +363,7 @@ void* userinterface_thread(void* arg)
 
     bbViewportApp_init(&home.viewport_app);
 
+    bbVPMouse_Init(&home.viewport_app.mouse,&home.viewport_app,home.viewport_app.units,&home.UI.mouse,&home.UI.graphics);
     bbUIApp_spawnWidgets(&home.UI);
 
 

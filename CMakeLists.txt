@@ -252,6 +252,8 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
         engine/viewport/bbViewport.c
         engine/viewport/bbViewportApp.c
         engine/viewport/bbViewportSpawner.c
+        engine/viewport/bbViewportMouse.c
+        engine/viewport/bbViewportMouseFunctions.c
 
         engine/geometry/bbCoordinates.c
         engine/geometry/bbGroundCoords.c
