@@ -37,6 +37,12 @@ bbFlag bbMouseFunctions_populate(bbMouseFunctions* self)
     bbMouseFunctions_add(self, MouseLeftDown,SwitchCharacterButton_LeftDown,"SWITCH_CHARACTER_BUTTON");
     bbMouseFunctions_add(self, MouseLeftDown,Viewport_LeftDown,"VIEWPORT");
     bbMouseFunctions_add(self, MouseRightDown,Viewport_RightDown,"VIEWPORT");
+    bbMouseFunctions_add(self, MouseLeftUp,Viewport_LeftUp,"VIEWPORT");
+    bbMouseFunctions_add(self, MouseRightUp,Viewport_RightUp,"VIEWPORT");
+    bbMouseFunctions_add(self, MouseLeftDrag,Viewport_LeftDrag,"VIEWPORT");
+    bbMouseFunctions_add(self, MouseRightDrag,Viewport_RightDrag,"VIEWPORT");
+    bbMouseFunctions_add(self, MouseEnter,Viewport_Enter,"VIEWPORT");
+    bbMouseFunctions_add(self, MouseLeave,Viewport_Leave,"VIEWPORT");
 
     return bbSuccess;
 }

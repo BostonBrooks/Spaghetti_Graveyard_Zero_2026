@@ -41,23 +41,26 @@ bbFlag bbVPMouse_Event(bbVPMouse* vpmouse, bbVPMouse_event* event)
     switch (event->type)
     {
     case bbEvtMouseMoved:
-        bbDebug("mouse moved over viewport");
+        bbDebug("mouse moved over viewport\n");
         break;
 
     case bbEvtMouseButtonPressed:
-        bbDebug("mouse clicked viewport");
+        bbDebug("mouse clicked viewport\n");
         break;
 
     case bbEvtMouseButtonReleased:
-        bbDebug("mouse unclicked viewport");
+        bbDebug("mouse unclicked viewport\n");
         break;
 
     case bbEvtMouseEnter:
-        bbDebug("mouse entered viewport");
+        bbDebug("mouse entered viewport\n");
         break;
 
     case bbEvtMouseLeave:
-        bbDebug("mouse left viewport");
+        bbDebug("mouse left viewport\n");
+        break;
+    case bbEvtDrag:
+        bbDebug("mouse drag viewport\n");
         break;
 
     }

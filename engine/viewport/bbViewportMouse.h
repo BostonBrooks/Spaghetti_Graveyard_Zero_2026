@@ -52,6 +52,7 @@ typedef enum{
     bbEvtMouseButtonReleased,
     bbEvtMouseEnter,
     bbEvtMouseLeave,
+    bbEvtDrag,
 }  bbVPMouse_eventType;
 
 typedef enum

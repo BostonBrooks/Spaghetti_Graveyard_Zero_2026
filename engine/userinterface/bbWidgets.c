@@ -288,6 +288,7 @@ bbFlag bbWidget_newViewport(bbWidget** self, bbGraphicsApp* graphics,
     rect.height = 456 * SCREEN_PPP;
 
 
+    //debug note these values appear to be correct
     int funcInt = bbMouseFunctions_getInt(&widgets->mouse->functions,
                                           MouseIsOver,
                                       "VIEWPORT");
@@ -303,13 +304,47 @@ bbFlag bbWidget_newViewport(bbWidget** self, bbGraphicsApp* graphics,
                                       "VIEWPORT");
     widget->mtable.right_down = funcInt;
 
+
+    funcInt = bbMouseFunctions_getInt(&widgets->mouse->functions,
+                                          MouseLeftUp,
+                                      "VIEWPORT");
+    widget->mtable.left_up = funcInt;
+
+
+    funcInt = bbMouseFunctions_getInt(&widgets->mouse->functions,
+                                          MouseRightUp,
+                                      "VIEWPORT");
+    widget->mtable.right_up = funcInt;
+
+
+    funcInt = bbMouseFunctions_getInt(&widgets->mouse->functions,
+                                          MouseLeftDrag,
+                                      "VIEWPORT");
+    widget->mtable.left_drag = funcInt;
+
+
+    funcInt = bbMouseFunctions_getInt(&widgets->mouse->functions,
+                                          MouseRightDrag,
+                                      "VIEWPORT");
+    widget->mtable.right_drag = funcInt;
+
+
+    funcInt = bbMouseFunctions_getInt(&widgets->mouse->functions,
+                                          MouseEnter,
+                                      "VIEWPORT");
+    widget->mtable.enter = funcInt;
+
+
+    funcInt = bbMouseFunctions_getInt(&widgets->mouse->functions,
+                                          MouseLeave,
+                                      "VIEWPORT");
+    widget->mtable.leave = funcInt;
+
+
+
     widget->mtable.mouse_icon = 85;
     widget->mtable.drag_icon = -1;
 
-    widget->mtable.enter = -1;
-    widget->mtable.leave = -1;
-    widget->mtable.left_up = -1;
-    widget->mtable.left_drag = -1;
 
     widget->rect = rect;
 

@@ -6,7 +6,7 @@
 
 bbFlag Viewport_LeftDown (void* Mouse, void* Widgets, void* Widget, void*
                           Graphics)
-{
+{bbHere()
     bbMouse* mouse = (bbMouse*)Mouse;
     bbWidget* widget = (bbWidget*)Widget;
     bbScreenPoints screen_points = mouse->position;
@@ -29,7 +29,7 @@ bbFlag Viewport_LeftDown (void* Mouse, void* Widgets, void* Widget, void*
 
 bbFlag Viewport_RightDown (void* Mouse, void* Widgets, void* Widget, void*
                           Graphics)
-{
+{bbHere()
     bbMouse* mouse = (bbMouse*)Mouse;
     bbWidget* widget = (bbWidget*)Widget;
     bbScreenPoints screen_points = mouse->position;
@@ -49,6 +49,98 @@ bbFlag Viewport_RightDown (void* Mouse, void* Widgets, void* Widget, void*
     bbCoreInbox_TestClick(&home.core.core, MC2,0);
 
     return bbSuccess;
+}
+
+bbFlag Viewport_Enter (void* Mouse, void* widgets, void* widget, void* graphics)
+{bbHere()
+    bbMouse* mouse = (bbMouse*)Mouse;
+    bbScreenPoints screen_points = mouse->position;
+    bbViewportCoords VC = bbScreenPoints_getViewportPoints(&home.viewport_app.viewport, screen_points);
+
+    bbVPMouse_event event;
+    event.position = VC;
+    event.type = bbEvtMouseEnter;
+    event.button = bbMouseRight;
+    bbVPMouse_Event(&home.viewport_app.mouse, &event);
+
+    return bbSuccess;
+}
+bbFlag Viewport_Leave (void* Mouse, void* widgets, void* widget, void* graphics)
+{bbHere()
+    bbMouse* mouse = (bbMouse*)Mouse;
+    bbScreenPoints screen_points = mouse->position;
+    bbViewportCoords VC = bbScreenPoints_getViewportPoints(&home.viewport_app.viewport, screen_points);
+
+    bbVPMouse_event event;
+    event.position = VC;
+    event.type = bbEvtMouseLeave;
+    event.button = bbMouseRight;
+    bbVPMouse_Event(&home.viewport_app.mouse, &event);
+
+    return bbSuccess;
+}
+
+bbFlag Viewport_LeftUp (void* Mouse, void* widgets, void* widget,
+                               void* graphics)
+{bbHere()
+    bbMouse* mouse = (bbMouse*)Mouse;
+    bbScreenPoints screen_points = mouse->position;
+    bbViewportCoords VC = bbScreenPoints_getViewportPoints(&home.viewport_app.viewport, screen_points);
+
+    bbVPMouse_event event;
+    event.position = VC;
+    event.type = bbEvtMouseButtonReleased;
+    event.button = bbMouseLeft;
+    bbVPMouse_Event(&home.viewport_app.mouse, &event);
+
+    return bbSuccess;
+}
+bbFlag Viewport_LeftDrag (void* Mouse, void* widgets, void* widget, void* graphics)
+{bbHere()
+
+    bbMouse* mouse = (bbMouse*)Mouse;
+    bbScreenPoints screen_points = mouse->position;
+    bbViewportCoords VC = bbScreenPoints_getViewportPoints(&home.viewport_app.viewport, screen_points);
+
+    bbVPMouse_event event;
+    event.position = VC;
+    event.type = bbEvtDrag;
+    event.button = bbMouseLeft;
+    bbVPMouse_Event(&home.viewport_app.mouse, &event);
+
+    return bbSuccess;
+}
+
+bbFlag Viewport_RightUp (void* Mouse, void* widgets, void* widget,
+                               void* graphics)
+{bbHere()
+    bbMouse* mouse = (bbMouse*)Mouse;
+    bbScreenPoints screen_points = mouse->position;
+    bbViewportCoords VC = bbScreenPoints_getViewportPoints(&home.viewport_app.viewport, screen_points);
+
+    bbVPMouse_event event;
+    event.position = VC;
+    event.type = bbEvtMouseButtonReleased;
+    event.button = bbMouseRight;
+    bbVPMouse_Event(&home.viewport_app.mouse, &event);
+
+    return bbSuccess;
+}
+bbFlag Viewport_RightDrag (void* Mouse, void* widgets, void* widget,
+                               void* graphics)
+{bbHere()
+    bbMouse* mouse = (bbMouse*)Mouse;
+    bbScreenPoints screen_points = mouse->position;
+    bbViewportCoords VC = bbScreenPoints_getViewportPoints(&home.viewport_app.viewport, screen_points);
+
+    bbVPMouse_event event;
+    event.position = VC;
+    event.type = bbEvtDrag;
+    event.button = bbMouseRight;
+    bbVPMouse_Event(&home.viewport_app.mouse, &event);
+
+    return bbSuccess;
+
 }
 
 bbFlag IsOver_Viewport(bbMouse* mouse, bbWidgets* widgets, bbWidget* widget)
