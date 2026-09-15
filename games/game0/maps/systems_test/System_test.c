@@ -64,7 +64,7 @@ void* userinterface_thread(void* arg);
 int main(void)
 {
     thread = "MAIN";
-    debug_off = false;
+    debug_off = true;
     printf("Hello, World!\n");
 
     pthread_barrier_init(&barrier1, NULL, 2);
@@ -432,6 +432,10 @@ bbHere()
 
         bbMouse_isOver(&home.UI.mouse, &home.UI.widgets);
         bbMouse_Update(&home.UI.mouse, &home.UI.widgets, &home.UI.graphics);
+
+        //TODO ths is just a test
+        bbHandle isover_unit;
+        bbVPMouse_isOver(&home.viewport_app.mouse, &isover_unit);
 
         bbUI_Inbox_check(&home.UI.inbox);
 

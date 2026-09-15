@@ -53,7 +53,7 @@ typedef struct
 
 //TODO what are the arguments for these function types?
 
-typedef bbFlag bbVPMouse_IsOver (void* mouse, void* widgets, void* widget);
+typedef bbFlag bbVPMouse_IsOver (void* mouse, void* units, void* unit);
 typedef bbFlag bbVPMouse_Enter (void* mouse, void* widgets, void* widget, void* graphics);
 typedef bbFlag bbVPMouse_Leave (void* mouse, void* widgets, void* widget, void* graphics);
 typedef bbFlag bbVPMouse_LeftDown (void* mouse, void* widgets, void* widget,

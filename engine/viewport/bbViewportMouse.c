@@ -1,6 +1,7 @@
 #include "engine/viewport/bbViewportMouse.h"
 
 #include "bbViewportApp.h"
+#include "engine/geometry/bbGroundCoords.h"
 
 
 bbFlag bbVPMouse_Init(bbVPMouse* vpmouse, void* viewportApp, bbDrawables* units, bbMouse* mouse, bbGraphicsApp* graphics)
@@ -65,4 +66,88 @@ bbFlag bbVPMouse_Event(bbVPMouse* vpmouse, bbVPMouse_event* event)
 
     }
     return bbSuccess;
+}
+
+bbFlag bbVPMouse_isOver(bbVPMouse* vpmouse, bbHandle* unit_handle)
+{
+    bbViewportApp* viewportApp = (bbViewportApp*)vpmouse->viewportApp;
+    bbViewportCoords viewport_coords = vpmouse->position;
+    bbDrawables* units = viewportApp->units;
+    bbMapCoords MC = bbViewportCoords_getMapCoords(viewport_coords);
+
+    I32 squares_i = units->squares_i;
+    I32 squares_j = units->squares_j;
+
+    bbSquareCoords SC = bbMapCoords_getSquareCoords(MC);
+
+    bbVPMouse_isOver_cl cl;
+    cl.mouse = vpmouse;
+    cl.handle = units->pool->null;
+
+    bbNestedList list;
+    bbNestedList_init(&list);
+
+    I32 i = SC.i;
+    I32 j = SC.j;
+    //bbNotImplemented()
+    // for (I32 i = square_i_min; i < square_i_max; ++i) {
+    //     for (I32 j = square_j_min; j < square_j_max; ++j) {
+    I32 n = i + squares_i * j;
+
+    bbNestedList_attach(&list, &units->squares[n].list);
+
+    //bbNotImplemented() - doesnt work when nested list has one element
+    bbNestedList_attach(&list, &units->squares[n+1].list);
+
+
+    bbNestedList_map(&list, bbVPMouse_isOverFunc, &cl);
+
+    *unit_handle = cl.handle;
+
+    return bbSuccess;
+
+}
+
+///bbVPMouse_isOverFunc is mapped to each unit until one is found under the viewport mouse
+bbFlag bbVPMouse_isOverFunc(void* node, void* cl)
+{
+    bbUnit* unit = (bbUnit*)node;
+    bbVPMouse_isOver_cl* data = cl;
+    bbVPMouse* vpmouse = data->mouse;
+    bbViewportApp* viewportApp = vpmouse->viewportApp;
+    bbViewportCoords mouse_coords = vpmouse->position;
+    bbDrawables* units = viewportApp->units;
+    bbViewportCoords unit_coords;
+
+    bbHandle mouse_table_handle = unit->mouse.mouse_table;
+
+    bbMouseTable* mouse_table;
+
+    bbFlag flag = bbVPool_lookup(vpmouse->functions.mouse_tables,(void**)&mouse_table,mouse_table_handle);
+
+    if (flag != bbSuccess)
+    {
+        bbHere()
+        return bbContinue;
+    }
+
+    I32 func_int = mouse_table->is_over;
+
+    if (func_int == -1)
+    {
+        bbHere()
+        return bbContinue;
+    }
+
+    bbVPMouse_IsOver* function;
+    bbVPMouseFunctions_getFunction(&vpmouse->functions, (void**)&function, VPMouseIsOver, func_int);
+
+    if (function == NULL)
+    {
+        bbHere()
+        return bbContinue;
+    }
+
+    return function(vpmouse, units, node);
+
 }

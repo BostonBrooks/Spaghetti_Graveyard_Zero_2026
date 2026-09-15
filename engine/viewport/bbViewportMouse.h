@@ -43,7 +43,8 @@ typedef struct bbVPMouse
 //TODO bbNotImplemented()
 typedef struct
 {
-    void* widgets;
+    bbVPMouse* mouse;
+    bbHandle handle;
 } bbVPMouse_isOver_cl;
 
 typedef enum{
@@ -107,6 +108,9 @@ bbFlag bbVPMouse_RightUpUnit(bbVPMouse* vpmouse, struct bbUnit* unit);
 bbFlag bbVPMouse_RightDragWidget(bbVPMouse* mouse, struct bbUnit* unit);
 
 ///Function to be called iteratively until a unit is found under the mouse pointer
-bbFlag bbVPMouse_isOverFunc(bbDrawables* units, struct bbUnit* node, void* cl);
+bbFlag bbVPMouse_isOverFunc(void* node, void* cl);
+
+
+
 
 #endif//BB_VPMOUSE_H

@@ -6,7 +6,7 @@
 
 bbFlag Viewport_LeftDown (void* Mouse, void* Widgets, void* Widget, void*
                           Graphics)
-{bbHere()
+{
     bbMouse* mouse = (bbMouse*)Mouse;
     bbWidget* widget = (bbWidget*)Widget;
     bbScreenPoints screen_points = mouse->position;
@@ -29,7 +29,7 @@ bbFlag Viewport_LeftDown (void* Mouse, void* Widgets, void* Widget, void*
 
 bbFlag Viewport_RightDown (void* Mouse, void* Widgets, void* Widget, void*
                           Graphics)
-{bbHere()
+{
     bbMouse* mouse = (bbMouse*)Mouse;
     bbWidget* widget = (bbWidget*)Widget;
     bbScreenPoints screen_points = mouse->position;
@@ -52,7 +52,7 @@ bbFlag Viewport_RightDown (void* Mouse, void* Widgets, void* Widget, void*
 }
 
 bbFlag Viewport_Enter (void* Mouse, void* widgets, void* widget, void* graphics)
-{bbHere()
+{
     bbMouse* mouse = (bbMouse*)Mouse;
     bbScreenPoints screen_points = mouse->position;
     bbViewportCoords VC = bbScreenPoints_getViewportPoints(&home.viewport_app.viewport, screen_points);
@@ -66,7 +66,7 @@ bbFlag Viewport_Enter (void* Mouse, void* widgets, void* widget, void* graphics)
     return bbSuccess;
 }
 bbFlag Viewport_Leave (void* Mouse, void* widgets, void* widget, void* graphics)
-{bbHere()
+{
     bbMouse* mouse = (bbMouse*)Mouse;
     bbScreenPoints screen_points = mouse->position;
     bbViewportCoords VC = bbScreenPoints_getViewportPoints(&home.viewport_app.viewport, screen_points);
@@ -82,7 +82,7 @@ bbFlag Viewport_Leave (void* Mouse, void* widgets, void* widget, void* graphics)
 
 bbFlag Viewport_LeftUp (void* Mouse, void* widgets, void* widget,
                                void* graphics)
-{bbHere()
+{
     bbMouse* mouse = (bbMouse*)Mouse;
     bbScreenPoints screen_points = mouse->position;
     bbViewportCoords VC = bbScreenPoints_getViewportPoints(&home.viewport_app.viewport, screen_points);
@@ -96,7 +96,7 @@ bbFlag Viewport_LeftUp (void* Mouse, void* widgets, void* widget,
     return bbSuccess;
 }
 bbFlag Viewport_LeftDrag (void* Mouse, void* widgets, void* widget, void* graphics)
-{bbHere()
+{
 
     bbMouse* mouse = (bbMouse*)Mouse;
     bbScreenPoints screen_points = mouse->position;
@@ -113,7 +113,7 @@ bbFlag Viewport_LeftDrag (void* Mouse, void* widgets, void* widget, void* graphi
 
 bbFlag Viewport_RightUp (void* Mouse, void* widgets, void* widget,
                                void* graphics)
-{bbHere()
+{
     bbMouse* mouse = (bbMouse*)Mouse;
     bbScreenPoints screen_points = mouse->position;
     bbViewportCoords VC = bbScreenPoints_getViewportPoints(&home.viewport_app.viewport, screen_points);
@@ -128,7 +128,7 @@ bbFlag Viewport_RightUp (void* Mouse, void* widgets, void* widget,
 }
 bbFlag Viewport_RightDrag (void* Mouse, void* widgets, void* widget,
                                void* graphics)
-{bbHere()
+{
     bbMouse* mouse = (bbMouse*)Mouse;
     bbScreenPoints screen_points = mouse->position;
     bbViewportCoords VC = bbScreenPoints_getViewportPoints(&home.viewport_app.viewport, screen_points);
