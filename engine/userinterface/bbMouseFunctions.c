@@ -74,90 +74,90 @@ bbFlag bbMouseFunctions_add(bbMouseFunctions* functions, MouseFunctionType fnTyp
 {
 
 
-    I32 available;
-    bbHandle handle;
-    I32 magic_number = 256;
+    I32 available_entries;
+    bbHandle dict_entry;
+    I32 max_entries = 256;
     switch (fnType)
     {
     case MouseIsOver:
 
-        available = functions->IsOver_available++;
-        bbAssert(available < magic_number, "out of bounds error\n");
-        functions->IsOver[available] = fnPointer;
-        handle.u64 = available;
-        bbDictionary_add(functions->IsOver_dict, key, handle);
+        available_entries = functions->IsOver_available++;
+        bbAssert(available_entries < max_entries, "out of bounds error\n");
+        functions->IsOver[available_entries] = fnPointer;
+        dict_entry.u64 = available_entries;
+        bbDictionary_add(functions->IsOver_dict, key, dict_entry);
         return bbSuccess;
 
     case MouseEnter:
 
-        available = functions->Enter_available++;
-        bbAssert(available < magic_number, "out of bounds error\n");
-        functions->Enter[available] = fnPointer;
-        handle.u64 = available;
-        bbDictionary_add(functions->Enter_dict, key, handle);
+        available_entries = functions->Enter_available++;
+        bbAssert(available_entries < max_entries, "out of bounds error\n");
+        functions->Enter[available_entries] = fnPointer;
+        dict_entry.u64 = available_entries;
+        bbDictionary_add(functions->Enter_dict, key, dict_entry);
         return bbSuccess;
 
     case MouseLeave:
 
-        available = functions->Leave_available++;
-        bbAssert(available < magic_number, "out of bounds error\n");
-        functions->Leave[available] = fnPointer;
-        handle.u64 = available;
-        bbDictionary_add(functions->Leave_dict, key, handle);
+        available_entries = functions->Leave_available++;
+        bbAssert(available_entries < max_entries, "out of bounds error\n");
+        functions->Leave[available_entries] = fnPointer;
+        dict_entry.u64 = available_entries;
+        bbDictionary_add(functions->Leave_dict, key, dict_entry);
         return bbSuccess;
 
         case MouseLeftDown:
 
-            available = functions->LeftDown_available++;
-            bbAssert(available < magic_number, "out of bounds error\n");
-            functions->LeftDown[available] = fnPointer;
-            handle.u64 = available;
-            bbDictionary_add(functions->LeftDown_dict, key, handle);
+            available_entries = functions->LeftDown_available++;
+            bbAssert(available_entries < max_entries, "out of bounds error\n");
+            functions->LeftDown[available_entries] = fnPointer;
+            dict_entry.u64 = available_entries;
+            bbDictionary_add(functions->LeftDown_dict, key, dict_entry);
             return bbSuccess;
 
         case MouseLeftUp:
 
-            available = functions->LeftUp_available++;
-            bbAssert(available < magic_number, "out of bounds error\n");
-            functions->LeftUp[available] = fnPointer;
-            handle.u64 = available;
-            bbDictionary_add(functions->LeftUp_dict, key, handle);
+            available_entries = functions->LeftUp_available++;
+            bbAssert(available_entries < max_entries, "out of bounds error\n");
+            functions->LeftUp[available_entries] = fnPointer;
+            dict_entry.u64 = available_entries;
+            bbDictionary_add(functions->LeftUp_dict, key, dict_entry);
             return bbSuccess;
 
         case MouseLeftDrag:
 
-            available = functions->LeftDrag_available++;
-            bbAssert(available < magic_number, "out of bounds error\n");
-            functions->LeftDrag[available] = fnPointer;
-            handle.u64 = available;
-            bbDictionary_add(functions->LeftDrag_dict, key, handle);
+            available_entries = functions->LeftDrag_available++;
+            bbAssert(available_entries < max_entries, "out of bounds error\n");
+            functions->LeftDrag[available_entries] = fnPointer;
+            dict_entry.u64 = available_entries;
+            bbDictionary_add(functions->LeftDrag_dict, key, dict_entry);
             return bbSuccess;
 
     case MouseRightDown:
 
-        available = functions->RightDown_available++;
-        bbAssert(available < magic_number, "out of bounds error\n");
-        functions->RightDown[available] = fnPointer;
-        handle.u64 = available;
-        bbDictionary_add(functions->RightDown_dict, key, handle);
+        available_entries = functions->RightDown_available++;
+        bbAssert(available_entries < max_entries, "out of bounds error\n");
+        functions->RightDown[available_entries] = fnPointer;
+        dict_entry.u64 = available_entries;
+        bbDictionary_add(functions->RightDown_dict, key, dict_entry);
         return bbSuccess;
 
     case MouseRightUp:
 
-        available = functions->RightUp_available++;
-        bbAssert(available < magic_number, "out of bounds error\n");
-        functions->RightUp[available] = fnPointer;
-        handle.u64 = available;
-        bbDictionary_add(functions->RightUp_dict, key, handle);
+        available_entries = functions->RightUp_available++;
+        bbAssert(available_entries < max_entries, "out of bounds error\n");
+        functions->RightUp[available_entries] = fnPointer;
+        dict_entry.u64 = available_entries;
+        bbDictionary_add(functions->RightUp_dict, key, dict_entry);
         return bbSuccess;
 
     case MouseRightDrag:
 
-        available = functions->RightDrag_available++;
-        bbAssert(available < magic_number, "out of bounds error\n");
-        functions->RightDrag[available] = fnPointer;
-        handle.u64 = available;
-        bbDictionary_add(functions->RightDrag_dict, key, handle);
+        available_entries = functions->RightDrag_available++;
+        bbAssert(available_entries < max_entries, "out of bounds error\n");
+        functions->RightDrag[available_entries] = fnPointer;
+        dict_entry.u64 = available_entries;
+        bbDictionary_add(functions->RightDrag_dict, key, dict_entry);
         return bbSuccess;
 
     default:
@@ -207,6 +207,7 @@ I32 bbMouseFunctions_getInt(bbMouseFunctions* functions,
     return handle.u64;
 }
 
+///Seems to be unused
 bbFlag bbMouseFunctions_getFunction(void** function, bbMouseFunctions* functions,
                                      MouseFunctionType fnType, char* key){
     bbHandle handle;
