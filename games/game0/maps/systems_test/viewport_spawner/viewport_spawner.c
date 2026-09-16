@@ -58,12 +58,20 @@ bbFlag bbViewportSpawnSkelly(bbViewportApp* viewport_app,
     unit->next_goalpoint = MC;
     unit->drawable.state = bbDrawableState_idle;
     unit->entity_handle = entity_handle;
+
+
     //bbDebug("system = %u\n", entity_handle.system.system);
 
     bbVPMouseFunctions_getTableHandle(
         &home.viewport_app.mouse.functions,
         &unit->mouse.mouse_table,
         "NULL TABLE" );
+    unit->mouse.hover = 0;
+    unit->mouse.selected = 0;
+    unit->mouse.rect.top = 4*POINTS_PER_TILE;
+    unit->mouse.rect.left = POINTS_PER_TILE;
+    unit->mouse.rect.height = 4*POINTS_PER_TILE;
+    unit->mouse.rect.width = 2*POINTS_PER_TILE;
 
     bbDictionary_lookup(home.UI.graphics.drawfunctions->dictionary,
                         "COMPOSITION_STATE",
@@ -166,6 +174,12 @@ bbFlag bbViewportSpawnZombie(bbViewportApp* viewport_app,
         &home.viewport_app.mouse.functions,
         &unit->mouse.mouse_table,
         "NULL TABLE" );
+    unit->mouse.hover = 0;
+    unit->mouse.selected = 0;
+    unit->mouse.rect.top = 4*POINTS_PER_TILE;
+    unit->mouse.rect.left = POINTS_PER_TILE;
+    unit->mouse.rect.height = 4*POINTS_PER_TILE;
+    unit->mouse.rect.width = 2*POINTS_PER_TILE;
 
 
     bbDictionary_lookup(home.UI.graphics.drawfunctions->dictionary,
@@ -265,6 +279,16 @@ bbFlag bbViewportSpawnCow(bbViewportApp* viewport_app,
     unit->entity_handle = entity_handle;
     //bbDebug("system = %u\n", entity_handle.system.system);
 
+    bbVPMouseFunctions_getTableHandle(
+        &home.viewport_app.mouse.functions,
+        &unit->mouse.mouse_table,
+        "NULL TABLE" );
+    unit->mouse.hover = 0;
+    unit->mouse.selected = 0;
+    unit->mouse.rect.top = 4*POINTS_PER_TILE;
+    unit->mouse.rect.left = POINTS_PER_TILE;
+    unit->mouse.rect.height = 4*POINTS_PER_TILE;
+    unit->mouse.rect.width = 2*POINTS_PER_TILE;
 
     bbDictionary_lookup(home.UI.graphics.drawfunctions->dictionary,
                         "COMPOSITION_STATE",
@@ -368,6 +392,12 @@ bbFlag bbViewportSpawnFox(bbViewportApp* viewport_app,
         &home.viewport_app.mouse.functions,
         &unit->mouse.mouse_table,
         "NULL TABLE" );
+    unit->mouse.hover = 0;
+    unit->mouse.selected = 0;
+    unit->mouse.rect.top = 4*POINTS_PER_TILE;
+    unit->mouse.rect.left = POINTS_PER_TILE;
+    unit->mouse.rect.height = 4*POINTS_PER_TILE;
+    unit->mouse.rect.width = 2*POINTS_PER_TILE;
 
 
     bbDictionary_lookup(home.UI.graphics.drawfunctions->dictionary,
@@ -471,6 +501,12 @@ bbFlag bbViewportSpawnLizard(bbViewportApp* viewport_app,
         &home.viewport_app.mouse.functions,
         &unit->mouse.mouse_table,
         "NULL TABLE" );
+    unit->mouse.hover = 0;
+    unit->mouse.selected = 0;
+    unit->mouse.rect.top = 4*POINTS_PER_TILE;
+    unit->mouse.rect.left = POINTS_PER_TILE;
+    unit->mouse.rect.height = 4*POINTS_PER_TILE;
+    unit->mouse.rect.width = 2*POINTS_PER_TILE;
 
 
     bbDictionary_lookup(home.UI.graphics.drawfunctions->dictionary,
@@ -575,6 +611,12 @@ bbFlag bbViewportSpawnDevil(bbViewportApp* viewport_app,
         &home.viewport_app.mouse.functions,
         &unit->mouse.mouse_table,
         "NULL TABLE" );
+    unit->mouse.hover = 0;
+    unit->mouse.selected = 0;
+    unit->mouse.rect.top = 4*POINTS_PER_TILE;
+    unit->mouse.rect.left = POINTS_PER_TILE;
+    unit->mouse.rect.height = 4*POINTS_PER_TILE;
+    unit->mouse.rect.width = 2*POINTS_PER_TILE;
 
 
     bbDictionary_lookup(home.UI.graphics.drawfunctions->dictionary,
@@ -673,6 +715,7 @@ bbFlag bbViewportSpawnFireball(bbViewportApp* viewport_app,
     unit->entity_handle = entity_handle;
     //bbDebug("system = %u\n", entity_handle.system.system);
 
+    unit->mouse.mouse_table.u64 = 0;
 
     bbDictionary_lookup(home.UI.graphics.drawfunctions->dictionary,
                         "COMPOSITION_STATE",

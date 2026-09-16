@@ -165,7 +165,7 @@ bbFlag bbVPMouseFunctions_addTable(bbVPMouseFunctions* functions, bbVPMouseTable
     bbVPool_alloc2(functions->mouse_tables, (void**)&new_table,&new_handle);
     *new_table = *table;
     bbDictionary_add(functions->mouse_table_dict, key, new_handle);
-    bbStr_putStr(new_table->key, key, KEY_LENGTH);
+    bbStr_setStr(new_table->key, key, KEY_LENGTH);
     if (table_handle!=NULL) *table_handle = new_handle;
     return bbSuccess;
 }

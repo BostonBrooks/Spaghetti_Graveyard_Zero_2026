@@ -109,7 +109,7 @@ bbFlag bbVPMouse_RightDownUnit(bbVPMouse* vpmouse, struct bbUnit* unit);
 bbFlag bbVPMouse_RightUpUnit(bbVPMouse* vpmouse, struct bbUnit* unit);
 
 ///what happens when you try to drag the unit with the right button?
-bbFlag bbVPMouse_RightDragWidget(bbVPMouse* mouse, struct bbUnit* unit);
+bbFlag bbVPMouse_RightDragUnit(bbVPMouse* mouse, struct bbUnit* unit);
 
 ///Function to be called iteratively until a unit is found under the mouse pointer
 bbFlag bbVPMouse_isOverFunc(void* node, void* cl);

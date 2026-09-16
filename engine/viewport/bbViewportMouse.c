@@ -40,6 +40,7 @@ bbFlag bbVPMouse_Init(bbVPMouse* vpmouse, void* viewportApp, bbDrawables* units,
 
 bbFlag bbVPMouse_Event(bbVPMouse* vpmouse, bbVPMouse_event* event)
 {
+    bbVPMouse_button button;
     switch (event->type)
     {
     case bbEvtMouseMoved:
@@ -48,10 +49,35 @@ bbFlag bbVPMouse_Event(bbVPMouse* vpmouse, bbVPMouse_event* event)
 
     case bbEvtMouseButtonPressed:
         bbDebug("mouse clicked viewport\n");
+        button = event->button;
+        if (button == bbMouseLeft)
+        {
+            vpmouse->left_changed = true;
+            vpmouse->left_down = true;
+            vpmouse->previous_position = vpmouse->position;
+
+        } else if (button == bbMouseRight)
+        {
+            vpmouse->right_changed = true;
+            vpmouse->right_down = true;
+            vpmouse->previous_position = vpmouse->position;
+        }
         break;
 
     case bbEvtMouseButtonReleased:
         bbDebug("mouse unclicked viewport\n");
+        button = event->button;
+        if (button == bbMouseLeft)
+        {
+            vpmouse->left_changed = true;
+            vpmouse->left_down = false;
+            vpmouse->previous_position = vpmouse->position;
+        } else if (button == bbMouseRight)
+        {
+            vpmouse->right_changed = true;
+            vpmouse->right_down = false;
+            vpmouse->previous_position = vpmouse->position;
+        }
         break;
 
     case bbEvtMouseEnter:
@@ -126,7 +152,6 @@ bbFlag bbVPMouse_isOver(bbVPMouse* vpmouse, bbHandle* unit_handle)
     if (n >=0 && n < squares_i * squares_j )
         bbNestedListR_attach(&list, &units->squares[n].list);
 
-    debug_off = false;
 
 
 
@@ -138,7 +163,6 @@ bbFlag bbVPMouse_isOver(bbVPMouse* vpmouse, bbHandle* unit_handle)
 
     //bbDebug("handle = (%u, %u, %u)\n", cl.handle.system.system, cl.handle.system.index, cl.handle.system.generation);
 
-    debug_off = true;
 
     if (unit_handle != NULL)
     {
@@ -147,6 +171,14 @@ bbFlag bbVPMouse_isOver(bbVPMouse* vpmouse, bbHandle* unit_handle)
 
     if (bbSuccess != bbVPool_handleIsEqual(units->pool,vpmouse->is_over, cl.handle))
     {
+        bbUnit* was_over;
+        bbFlag flag2 = bbVPool_lookup(units->pool,(void**)&was_over,vpmouse->was_over);
+        if (flag2 == bbSuccess) was_over->mouse.hover = false;
+        if (cl.unit!=NULL)
+        {
+            bbUnit* is_over = cl.unit;
+            is_over->mouse.hover = true;
+        }
 
         vpmouse->was_over = vpmouse->is_over;
         vpmouse->is_over = cl.handle;
@@ -200,7 +232,10 @@ bbFlag bbVPMouse_isOverFunc(void* node, void* cl)
 
     if (flag == bbContinue) return bbContinue;
 
-    data->handle = unit->entity_handle;
+    bbHandle unit_handle;
+    bbVPool_reverseLookup(units->pool,unit, &unit_handle);
+
+    data->handle = unit_handle;
     data->unit = unit;
 
     return bbBreak;
@@ -217,38 +252,102 @@ bbFlag bbVPMouse_Update(bbVPMouse* mouse, bbGraphicsApp* graphics)
 
     if (unit!=NULL)
     {
+
         bbHandle mouse_table_handle = unit->mouse.mouse_table;
-        bbMouseTable* mouse_table;
+        bbVPMouseTable* mouse_table;
         bbFlag flag = bbVPool_lookup(mouse->functions.mouse_tables,(void**)&mouse_table,mouse_table_handle);
+
+        //bbDebug("mouse_table_key = %s\n", mouse_table->key);
+
         if (flag != bbSuccess)
         {
             widget->mtable.mouse_icon = 85;
+        } else
+        {
+            widget->mtable.mouse_icon = mouse_table->mouse_icon;
         }
-        widget->mtable.mouse_icon = mouse_table->mouse_icon;
     } else
     {
         widget->mtable.mouse_icon = 85;
     }
 
-    if(bbSuccess != bbVPool_handleIsNULL(units->pool, mouse->was_over))
-    {bbHere()
-        //if (bbSuccess != bbVPool_handleIsNULL(units->pool,mouse->was_over))
-        {bbHere()
-            bbUnit* leave_unit;
-            bbVPool_lookup(units->pool,(void**)&leave_unit,mouse->was_over);
 
+    //bbDebug("mouse.isover = %x\n", mouse->is_over.ptr);
+    //bbDebug("mouse.wasover = %x\n", mouse->is_over.ptr);
+    if(bbSuccess == bbVPool_handleIsNULL(units->pool, mouse->was_over))
+    {
+        bbUnit* enter_unit;
+        bbUnit* leave_unit;
+        bbFlag flag, flag2;
+        if (bbSuccess == (flag = bbVPool_lookup(units->pool,(void**)&leave_unit,mouse->was_over)))
+        {
             if (leave_unit != NULL) bbVPMouse_LeaveUnit(mouse, leave_unit);
+            //bbDebug("unit = %p\n", leave_unit);
         }
-        //if (bbSuccess != bbVPool_handleIsNULL(units->pool,mouse->is_over))
-        {bbHere()
-            bbUnit* enter_unit;
-            bbVPool_lookup(units->pool,(void**)&enter_unit,mouse->is_over);
+        if (bbSuccess == (flag2 = bbVPool_lookup(units->pool,(void**)&enter_unit,mouse->is_over)))
+        {//bbHere()
 
             if (enter_unit != NULL) bbVPMouse_EnterUnit(mouse, enter_unit);
+            //bbDebug("unit = %p\n", enter_unit);
         }
 
+
+        //bbFlag_print(flag);
+        //bbFlag_print(flag2);
         mouse->was_over = units->pool->null;
     }
+    bbUnit* unit2;
+    if (mouse->left_down && mouse->left_changed)
+    {
+        bbVPool_lookup(units->pool, (void**)&unit2, mouse->is_over);
+        bbVPMouse_LeftDownUnit(mouse, unit2);
+
+        mouse->selected = mouse->is_over;
+    }
+    else if (!mouse->left_down && mouse->left_changed)
+    {
+        if (bbSuccess != bbVPool_handleIsEqual(units->pool, mouse->selected, units->pool->null))
+        {
+            bbVPool_lookup(units->pool, (void**)&unit2, mouse->selected);
+            bbVPMouse_LeftUpUnit(mouse, unit2);
+        }
+    }
+    else if (mouse->left_down && !mouse->left_changed)
+    {
+        if (bbSuccess != bbVPool_handleIsEqual(units->pool, mouse->selected, units->pool->null))
+        {
+            bbVPool_lookup(units->pool, (void**)&unit2, mouse->selected);
+            bbVPMouse_LeftDragUnit(mouse, unit2);
+        }
+    }
+
+    bbUnit* unit3;
+    if (mouse->right_down && mouse->right_changed)
+    {
+        bbVPool_lookup(units->pool, (void**)&unit3, mouse->is_over);
+        bbVPMouse_RightDownUnit(mouse, unit3);
+
+        mouse->selected = mouse->is_over;
+    }
+    else if (!mouse->right_down && mouse->right_changed)
+    {
+        if (bbSuccess != bbVPool_handleIsEqual(units->pool, mouse->selected, units->pool->null))
+        {
+            bbVPool_lookup(units->pool, (void**)&unit3, mouse->selected);
+            bbVPMouse_RightUpUnit(mouse, unit3);
+        }
+    }
+    else if (mouse->right_down && !mouse->right_changed)
+    {
+        if (bbSuccess != bbVPool_handleIsEqual(units->pool, mouse->selected, units->pool->null))
+        {
+            bbVPool_lookup(units->pool, (void**)&unit3, mouse->selected);
+            bbVPMouse_RightDragUnit(mouse, unit3);
+        }
+    }
+
+    mouse->right_changed = false;
+    mouse->left_changed = false;
 
     return bbSuccess;
 }

@@ -432,12 +432,13 @@ bbHere()
 
         bbInput_poll(&home.UI.input, home.UI.window);
 
+        debug_off = false;
+
         bbMouse_isOver(&home.UI.mouse, &home.UI.widgets);
         bbMouse_Update(&home.UI.mouse, &home.UI.widgets, &home.UI.graphics);
 
         //TODO ths is just a test
         bbHandle isover_unit;
-
 
         bbWidget* vp_widget = home.viewport_app.viewport.widget;
         //if (vp_widget->mtable.hover){
@@ -449,6 +450,7 @@ bbHere()
             bbVPMouse_Update(&home.viewport_app.mouse, &home.UI.graphics);
         //}
 
+        debug_off = true;
         bbUI_Inbox_check(&home.UI.inbox);
 
         bbMoveables_copyBuffer(&home.ECS.moveables, &moveables_snapshot);

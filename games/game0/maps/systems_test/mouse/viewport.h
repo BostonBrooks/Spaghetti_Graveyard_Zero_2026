@@ -58,7 +58,7 @@ bbFlag Viewport_Enter (void* Mouse, void* widgets, void* widget, void* graphics)
     bbViewportCoords VC = bbScreenPoints_getViewportPoints(&home.viewport_app.viewport, screen_points);
     bbWidget* Widget = widget;
     Widget->mtable.hover = 1;
-
+bbHere()
     bbVPMouse_event event;
     event.position = VC;
     event.type = bbEvtMouseEnter;
@@ -74,7 +74,7 @@ bbFlag Viewport_Leave (void* Mouse, void* widgets, void* widget, void* graphics)
     bbViewportCoords VC = bbScreenPoints_getViewportPoints(&home.viewport_app.viewport, screen_points);
     bbWidget* Widget = widget;
     Widget->mtable.hover = 0;
-
+bbHere()
     bbVPMouse_event event;
     event.position = VC;
     event.type = bbEvtMouseLeave;
