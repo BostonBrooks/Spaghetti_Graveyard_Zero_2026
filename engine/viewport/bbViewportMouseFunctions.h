@@ -124,6 +124,6 @@ bbFlag bbVPMouseFunctions_getFunction(bbVPMouseFunctions* functions, void** func
 I32 bbVPMouseFunctions_getInt(bbVPMouseFunctions* functions, bbVPMouseFunctionType fnType, char* key);
 
 
-
+bbFlag bbVPMouse_IsOver_NULL (void* mouse, void* units, void* unit);
 
 #endif //BB_VP_MOUSE_H

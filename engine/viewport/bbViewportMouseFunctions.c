@@ -268,3 +268,8 @@ I32 bbVPMouseFunctions_getInt(bbVPMouseFunctions* functions, bbVPMouseFunctionTy
     return handle.u64;
 }
 
+bbFlag bbVPMouse_IsOver_NULL (void* mouse, void* units, void* unit)
+{
+    bbDebug("This is a NULL function\n");
+    return bbContinue;
+}

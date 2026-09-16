@@ -58,6 +58,10 @@ bbFlag bbViewportSpawnSkelly(bbViewportApp* viewport_app,
     unit->next_goalpoint = MC;
     unit->drawable.state = bbDrawableState_idle;
 
+    bbVPMouseFunctions_getTableHandle(
+        &home.viewport_app.mouse.functions,
+        &unit->mouse.mouse_table,
+        "NULL TABLE" );
 
     bbDictionary_lookup(home.UI.graphics.drawfunctions->dictionary,
                         "COMPOSITION_STATE",
@@ -152,6 +156,12 @@ bbFlag bbViewportSpawnZombie(bbViewportApp* viewport_app,
     unit->next_time = 2;
     unit->next_goalpoint = MC;
     unit->drawable.state = bbDrawableState_moving;
+
+
+    bbVPMouseFunctions_getTableHandle(
+        &home.viewport_app.mouse.functions,
+        &unit->mouse.mouse_table,
+        "NULL TABLE" );
 
 
     bbDictionary_lookup(home.UI.graphics.drawfunctions->dictionary,
@@ -346,6 +356,12 @@ bbFlag bbViewportSpawnFox(bbViewportApp* viewport_app,
     unit->drawable.state = bbDrawableState_moving;
 
 
+    bbVPMouseFunctions_getTableHandle(
+        &home.viewport_app.mouse.functions,
+        &unit->mouse.mouse_table,
+        "NULL TABLE" );
+
+
     bbDictionary_lookup(home.UI.graphics.drawfunctions->dictionary,
                         "COMPOSITION_STATE",
                         &drawfunctionHandle);
@@ -439,6 +455,12 @@ bbFlag bbViewportSpawnLizard(bbViewportApp* viewport_app,
     unit->next_time = 2;
     unit->next_goalpoint = MC;
     unit->drawable.state = bbDrawableState_moving;
+
+
+    bbVPMouseFunctions_getTableHandle(
+        &home.viewport_app.mouse.functions,
+        &unit->mouse.mouse_table,
+        "NULL TABLE" );
 
 
     bbDictionary_lookup(home.UI.graphics.drawfunctions->dictionary,
@@ -535,6 +557,12 @@ bbFlag bbViewportSpawnDevil(bbViewportApp* viewport_app,
     unit->next_time = 2;
     unit->next_goalpoint = MC;
     unit->drawable.state = bbDrawableState_moving;
+
+
+    bbVPMouseFunctions_getTableHandle(
+        &home.viewport_app.mouse.functions,
+        &unit->mouse.mouse_table,
+        "NULL TABLE" );
 
 
     bbDictionary_lookup(home.UI.graphics.drawfunctions->dictionary,

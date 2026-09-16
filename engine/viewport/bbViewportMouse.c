@@ -134,9 +134,9 @@ bbFlag bbVPMouse_isOver(bbVPMouse* vpmouse, bbHandle* unit_handle)
 
 ///bbVPMouse_isOverFunc is mapped to each unit until one is found under the viewport mouse
 bbFlag bbVPMouse_isOverFunc(void* node, void* cl)
-{bbHere()
+{
 
-    printf("test bbVPMouse_isOverFunc\n");
+    //printf("test bbVPMouse_isOverFunc\n");
     bbUnit* unit = (bbUnit*)node;
     bbVPMouse_isOver_cl* data = cl;
     bbVPMouse* vpmouse = data->mouse;
