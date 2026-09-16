@@ -150,3 +150,9 @@ bbFlag bbCoreInbox_receiveMessage_fn(bbCore* core, bbCoreInboxMessage* message)
     //bbDebug("available = %d\n", pool->num - pool->in_use);
     return bbSuccess;
 }
+
+
+bbFlag bbCoreInbox_ClickMonster(bbCore* core, bbHandle entity_handle)
+{
+    bbNotImplemented()
+}

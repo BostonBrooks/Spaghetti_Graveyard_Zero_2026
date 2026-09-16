@@ -65,7 +65,7 @@ bbFlag bbViewportSpawnSkelly(bbViewportApp* viewport_app,
     bbVPMouseFunctions_getTableHandle(
         &home.viewport_app.mouse.functions,
         &unit->mouse.mouse_table,
-        "NULL TABLE" );
+        "MONSTER" );
     unit->mouse.hover = 0;
     unit->mouse.selected = 0;
     unit->mouse.rect.top = 4*POINTS_PER_TILE;
@@ -173,7 +173,7 @@ bbFlag bbViewportSpawnZombie(bbViewportApp* viewport_app,
     bbVPMouseFunctions_getTableHandle(
         &home.viewport_app.mouse.functions,
         &unit->mouse.mouse_table,
-        "NULL TABLE" );
+        "MONSTER" );
     unit->mouse.hover = 0;
     unit->mouse.selected = 0;
     unit->mouse.rect.top = 4*POINTS_PER_TILE;
@@ -282,7 +282,7 @@ bbFlag bbViewportSpawnCow(bbViewportApp* viewport_app,
     bbVPMouseFunctions_getTableHandle(
         &home.viewport_app.mouse.functions,
         &unit->mouse.mouse_table,
-        "NULL TABLE" );
+        "MONSTER" );
     unit->mouse.hover = 0;
     unit->mouse.selected = 0;
     unit->mouse.rect.top = 4*POINTS_PER_TILE;
@@ -391,7 +391,7 @@ bbFlag bbViewportSpawnFox(bbViewportApp* viewport_app,
     bbVPMouseFunctions_getTableHandle(
         &home.viewport_app.mouse.functions,
         &unit->mouse.mouse_table,
-        "NULL TABLE" );
+        "MONSTER" );
     unit->mouse.hover = 0;
     unit->mouse.selected = 0;
     unit->mouse.rect.top = 4*POINTS_PER_TILE;
@@ -500,7 +500,7 @@ bbFlag bbViewportSpawnLizard(bbViewportApp* viewport_app,
     bbVPMouseFunctions_getTableHandle(
         &home.viewport_app.mouse.functions,
         &unit->mouse.mouse_table,
-        "NULL TABLE" );
+        "MONSTER" );
     unit->mouse.hover = 0;
     unit->mouse.selected = 0;
     unit->mouse.rect.top = 4*POINTS_PER_TILE;
@@ -610,7 +610,7 @@ bbFlag bbViewportSpawnDevil(bbViewportApp* viewport_app,
     bbVPMouseFunctions_getTableHandle(
         &home.viewport_app.mouse.functions,
         &unit->mouse.mouse_table,
-        "NULL TABLE" );
+        "MONSTER" );
     unit->mouse.hover = 0;
     unit->mouse.selected = 0;
     unit->mouse.rect.top = 4*POINTS_PER_TILE;

@@ -22,7 +22,7 @@ bbFlag Viewport_LeftDown (void* Mouse, void* Widgets, void* Widget, void*
     //send command to player,
     //player sends request to server,
     //message from server spawns skelly
-    bbCoreInbox_TestClick(&home.core.core, MC2,1);
+    //bbCoreInbox_TestClick(&home.core.core, MC2,1);
 
     return bbSuccess;
 }

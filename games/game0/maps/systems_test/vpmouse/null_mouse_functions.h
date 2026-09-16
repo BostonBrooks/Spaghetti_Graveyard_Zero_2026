@@ -1,3 +1,4 @@
+#include "engine/core/bbCoreInboxInput.h"
 #include "engine/geometry/bbGroundCoords.h"
 #include "engine/logic/bbFlag.h"
 #include "engine/logic/bbTerminal.h"
@@ -38,9 +39,14 @@ bbFlag bbVPMouse_Leave_NULL (void* mouse, void* widgets, void* unit, void* graph
 {
     bbDebug("leaving unit with null enter function\n");
 }
-bbFlag bbVPMouse_LeftDown_NULL (void* mouse, void* widgets, void* unit,
+bbFlag bbVPMouse_LeftDown_NULL (void* Mouse, void* widgets, void* unit,
 void* graphics)
 {
+    bbVPMouse* mouse = (bbVPMouse*)Mouse;
+    bbViewportCoords VC = mouse->position;
+    bbMapCoords MC = home.viewport_app.viewport.viewpoint;
+    bbMapCoords MC2 = bbViewportCoords_getMapCoords(VC);
+    bbCoreInbox_TestClick(&home.core.core, MC2,1);
     bbDebug("clicking unit with null enter function\n");
 }
 bbFlag bbVPMouse_LeftUp_NULL (void* mouse, void* widgets, void* unit,

@@ -25,4 +25,5 @@ bbFlag bbCoreInbox_Freeze(bbCore* core);
 
 bbFlag bbCoreInbox_ReceiveMessage(bbCore* core,bbNetwork* Network, bbHandle threaded_pool_handle);
 
+bbFlag bbCoreInbox_ClickMonster(bbCore* core, bbHandle entity_handle);
 #endif //UNFREEZE_BUTTON_CODE_H

@@ -1,3 +1,4 @@
+#include "bbViewportApp.h"
 #include "bbViewportMouse.h"
 #include "engine/logic/bbVPool.h"
 #include "engine/userinterface/bbMouse.h"
@@ -57,8 +58,17 @@ bbFlag bbVPMouse_LeaveUnit(bbVPMouse* vpmouse, struct bbUnit* unit)
 ///call the unit's left_down function
 bbFlag bbVPMouse_LeftDownUnit(bbVPMouse* vpmouse, struct bbUnit* unit)
 {
-    if (unit == NULL) return bbFail;
-    bbHandle mouse_table_handle = unit->mouse.mouse_table;
+    bbViewportApp* viewport_app = vpmouse->viewportApp;
+    bbHandle mouse_table_handle;
+    if (unit == NULL)
+    {
+        bbVPMouseFunctions_getTableHandle(&viewport_app->mouse.functions,
+             &mouse_table_handle,"NULL TABLE" );
+    } else
+    {
+
+        mouse_table_handle = unit->mouse.mouse_table;
+    }
     bbVPMouseTable* mouse_table;
     bbFlag flag = bbVPool_lookup(vpmouse->functions.mouse_tables,(void**)&mouse_table,mouse_table_handle);
     bbUnits* units = vpmouse->units;

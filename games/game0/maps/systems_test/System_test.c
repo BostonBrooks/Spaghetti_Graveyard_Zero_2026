@@ -296,11 +296,11 @@ int main(void)
         if (home.core.clock2_handle.clock_paused == false)
         {
 
-            bbHandle message_handle2;
-            char* message;
-            bbTextbox_newMessage(home.textbox_app.textboxes[bbTextbox_Dialogue],&message_handle2,&message);
-            snprintf(message, MESSAGE_LENGTH,"time sent: %llu\n", home.core.core.actual_time);
-            bbNetworkApp_sendMessage(&home.network, message_handle2, home.core.core.actual_time, 193);
+            // bbHandle message_handle2;
+            // char* message;
+            // bbTextbox_newMessage(home.textbox_app.textboxes[bbTextbox_Dialogue],&message_handle2,&message);
+            // snprintf(message, MESSAGE_LENGTH,"time sent: %llu\n", home.core.core.actual_time);
+            // bbNetworkApp_sendMessage(&home.network, message_handle2, home.core.core.actual_time, 193);
 
             bbCoreInput_checkActions(&home.core.core,
                 home.core.core.actual_time,
