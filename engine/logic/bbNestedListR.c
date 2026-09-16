@@ -6,7 +6,7 @@
 #include "engine/logic/bbBloatedPool.h"
 
 
-///nested list R is identical to nested list, but everything is sorted in the reverse order
+///nested list R is identical to nested list, but everythign is sorted in the reverse order
 bbFlag bbNestedListR_init(bbNestedList* nestedList) {
     if (bbNestedList_pool == NULL){
         bbVPool_newBloated(&bbNestedList_pool, sizeof(bbNestedListElement), 1000, 10, "bbNestedListElement");
@@ -28,7 +28,7 @@ bbFlag bbNestedListR_init(bbNestedList* nestedList) {
 bbFlag bbNestedListR_attach(bbNestedList* nestedList, bbList* list){
 
 
-    bbFlag flag = bbList_setHead(list, NULL);
+    bbFlag flag = bbList_setTail(list, NULL);
     if(flag == bbNone) return bbNone;
 
 
@@ -39,7 +39,7 @@ bbFlag bbNestedListR_attach(bbNestedList* nestedList, bbList* list){
     nestedListElement->listElement.prev = bbNestedList_pool->null;
     nestedListElement->listElement.next = bbNestedList_pool->null;
 
-    bbList_sortR(&nestedList->list, nestedListElement);
+    bbList_sortL(&nestedList->list, nestedListElement);
 
 
 
@@ -47,12 +47,12 @@ bbFlag bbNestedListR_attach(bbNestedList* nestedList, bbList* list){
 }
 
 
-bbFlag bbNestedListR_getNext(bbNestedList* nestedList, void** element){
+bbFlag bbNestedListR_getPrev(bbNestedList* nestedList, void** element){
 
 
     //bbHere()
     bbNestedListElement* nestedListElement;
-    bbFlag flag = bbList_popL(&nestedList->list, (void**) &nestedListElement);
+    bbFlag flag = bbList_popR(&nestedList->list, (void**) &nestedListElement);
     if(flag != bbSuccess)
     {
         //bbFlag_print(flag);
@@ -67,9 +67,9 @@ bbFlag bbNestedListR_getNext(bbNestedList* nestedList, void** element){
         return flag;
     }
 
-    flag = bbList_increment(nestedListElement->list, NULL);
+    flag = bbList_decrement(nestedListElement->list, NULL);
     if(flag == bbSuccess){
-        flag = bbList_sortL(&nestedList->list, nestedListElement);
+        flag = bbList_sortR(&nestedList->list, nestedListElement);
         //bbFlag_print(flag);
 
     } else {
@@ -86,9 +86,9 @@ bbFlag bbNestedListR_getNext(bbNestedList* nestedList, void** element){
 bbFlag bbNestedListR_map(bbNestedList* list, bbNestedList_mapFunction* fn, void* cl){
     void* element;
 
-    bbList_setHead(&list->list, NULL);
+    bbList_setTail(&list->list, NULL);
     while(1){
-        bbFlag flag = bbNestedList_getNext(list, &element);
+        bbFlag flag = bbNestedListR_getPrev(list, &element);
         if (flag != bbSuccess)
         {
             //bbFlag_print(flag);
@@ -98,25 +98,3 @@ bbFlag bbNestedListR_map(bbNestedList* list, bbNestedList_mapFunction* fn, void*
         //bbFlag_print(flag);
     }
 }
-
-
-I32 compare_list(void* one, void* two){
-
-    bbNestedListElement* nestedListElement1 = one;
-    bbNestedListElement* nestedListElement2 = two;
-
-
-    bbList* list1 = nestedListElement1->list;
-    bbList* list2 = nestedListElement2->list;
-
-    void* element1;
-    void* element2;
-
-    bbList_getCurrent(list1, &element1);
-    bbList_getCurrent(list2, &element2);
-    I32 flag = list1->compare(element1, element2);
-
-    return flag;
-
-}
-

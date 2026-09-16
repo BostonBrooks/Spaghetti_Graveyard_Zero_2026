@@ -214,6 +214,7 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
 
         engine/logic/bbList.c
         engine/logic/bbNestedList.c
+        engine/logic/bbNestedListR.c
         engine/logic/bbList_sort.c
         engine/logic/bbList_map.c
         engine/logic/bbList_iterate.c

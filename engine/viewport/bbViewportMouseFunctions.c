@@ -4,6 +4,7 @@
 #include "engine/logic/bbTerminal.h"
 #include "engine/viewport/bbViewportMouseFunctions.h"
 
+#include "bbUnits.h"
 #include "engine/logic/bbBloatedPool.h"
 #include "engine/logic/bbString.h"
 
@@ -268,8 +269,15 @@ I32 bbVPMouseFunctions_getInt(bbVPMouseFunctions* functions, bbVPMouseFunctionTy
     return handle.u64;
 }
 
-bbFlag bbVPMouse_IsOver_NULL (void* mouse, void* units, void* unit)
+bbFlag bbVPMouse_IsOver_NULL (void* mouse, void* units, void* Unit)
 {
-    bbDebug("This is a NULL function\n");
+
+
+    bbUnit* unit = Unit;
+    I32 closeness = unit->drawable.coords.i - unit->drawable.coords.j;
+
+    bbDebug("the unit's closeness is %d\n", closeness);
+
+
     return bbContinue;
 }

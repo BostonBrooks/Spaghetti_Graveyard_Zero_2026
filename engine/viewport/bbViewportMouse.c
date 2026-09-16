@@ -2,6 +2,7 @@
 
 #include "bbViewportApp.h"
 #include "engine/geometry/bbGroundCoords.h"
+#include "engine/logic/bbNestedListR.h"
 
 
 bbFlag bbVPMouse_Init(bbVPMouse* vpmouse, void* viewportApp, bbDrawables* units, bbMouse* mouse, bbGraphicsApp* graphics)
@@ -88,7 +89,7 @@ bbFlag bbVPMouse_isOver(bbVPMouse* vpmouse, bbHandle* unit_handle)
     cl.handle = units->pool->null;
 
     bbNestedList list;
-    bbNestedList_init(&list);
+    bbNestedListR_init(&list);
 
     I32 i = SC.i;
     I32 j = SC.j;
@@ -97,20 +98,20 @@ bbFlag bbVPMouse_isOver(bbVPMouse* vpmouse, bbHandle* unit_handle)
     //     for (I32 j = square_j_min; j < square_j_max; ++j) {
     I32 n = i + squares_i * j;
     if (n >=0 && n < squares_i * squares_j )
-        bbNestedList_attach(&list, &units->squares[n].list);
+        bbNestedListR_attach(&list, &units->squares[n].list);
 
 
     n = (i+1) + squares_i * j;
     if (n >=0 && n < squares_i * squares_j )
-        bbNestedList_attach(&list, &units->squares[n].list);
+        bbNestedListR_attach(&list, &units->squares[n].list);
 
     n = i + squares_i * (j+1);
     if (n >=0 && n < squares_i * squares_j )
-        bbNestedList_attach(&list, &units->squares[n].list);
+        bbNestedListR_attach(&list, &units->squares[n].list);
 
     n = (i+1) + squares_i * (j+1);
     if (n >=0 && n < squares_i * squares_j )
-        bbNestedList_attach(&list, &units->squares[n].list);
+        bbNestedListR_attach(&list, &units->squares[n].list);
 
     debug_off = false;
 
@@ -120,8 +121,8 @@ bbFlag bbVPMouse_isOver(bbVPMouse* vpmouse, bbHandle* unit_handle)
     //bbNotImplemented() - doesnt work when nested list has one element
     //bbNestedList_attach(&list, &units->squares[n+1].list);
 
-
-    bbNestedList_map(&list, bbVPMouse_isOverFunc, &cl);
+bbHere()
+    bbNestedListR_map(&list, bbVPMouse_isOverFunc, &cl);
 
     debug_off = true;
 

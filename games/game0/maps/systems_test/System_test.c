@@ -462,6 +462,8 @@ bbHere()
         if (vp_widget->mtable.hover){
             bbViewportCoords vpmouseCoords = bbScreenPoints_getViewportPoints(&home.viewport_app.viewport, home.UI.mouse.position);
             home.viewport_app.mouse.position = vpmouseCoords;
+
+            bbHere()
             bbVPMouse_isOver(&home.viewport_app.mouse, &isover_unit);
         }
         bbUI_Inbox_check(&home.UI.inbox);
