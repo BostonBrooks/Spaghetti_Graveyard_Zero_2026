@@ -188,3 +188,29 @@ bbFlag bbMapCoords_withinCircle(bbMapCoords Point, bbMapCoords Centre, I32 radiu
     return bbSuccess;
 
 }
+
+///Is the Point within a rect centred at Centre?
+bbFlag bbMapCoords_withinRect(bbMapCoords Point, bbMapCoords Centre, bbGameWorldRect rect)
+{
+    I32 delta_i = Point.i - Centre.i;
+    I32 delta_j = Point.j - Centre.j;
+    I32 delta_k = Point.k - Centre.k;
+
+    I32 delta_x = delta_i + delta_j;
+    I32 delta_y = delta_k - bbArith_div((delta_i - delta_j), 2);
+
+    I32 top = rect.top;                   //>0
+    I32 bottom = rect.top - rect.height;  //<0
+    I32 left = rect.left;                 //>0
+    I32 right = rect.left - rect.width;   //<0
+
+    //if delta_x, delta_y == 0
+    //then top > delta_y > bottom
+    //and left > delta_x > right
+    //so then we return bbSuccess
+
+    if (top > delta_y && delta_y > bottom && left > delta_x && delta_x > right) return bbSuccess;
+
+    return bbNone;
+
+}
