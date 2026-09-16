@@ -436,10 +436,12 @@ bbHere()
         //TODO ths is just a test
         bbHandle isover_unit;
 
-        bbViewportCoords vpmouseCoords = bbScreenPoints_getViewportPoints(&home.viewport_app.viewport, home.UI.mouse.position);
-        home.viewport_app.mouse.position = vpmouseCoords;
-        bbVPMouse_isOver(&home.viewport_app.mouse, &isover_unit);
-
+        bbWidget* vp_widget = home.viewport_app.viewport.widget;
+        if (vp_widget->mtable.hover){
+            bbViewportCoords vpmouseCoords = bbScreenPoints_getViewportPoints(&home.viewport_app.viewport, home.UI.mouse.position);
+            home.viewport_app.mouse.position = vpmouseCoords;
+            bbVPMouse_isOver(&home.viewport_app.mouse, &isover_unit);
+        }
         bbUI_Inbox_check(&home.UI.inbox);
 
         bbMoveables_copyBuffer(&home.ECS.moveables, &moveables_snapshot);
