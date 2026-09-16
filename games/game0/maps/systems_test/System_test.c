@@ -356,7 +356,7 @@ int main(void)
 void* userinterface_thread(void* arg)
 {
     thread = "USER INTERFACE";
-    debug_off = true;
+    debug_off = false;
 
     bbUIApp_init(&home.UI);
 
@@ -458,7 +458,7 @@ bbHere()
         //TODO ths is just a test
         bbHandle isover_unit;
 
-        debug_off = false;
+        //debug_off = false;
 
         bbWidget* vp_widget = home.viewport_app.viewport.widget;
         if (vp_widget->mtable.hover){
@@ -470,7 +470,7 @@ bbHere()
         }
 
 
-        debug_off = true;
+        //debug_off = true;
         bbUI_Inbox_check(&home.UI.inbox);
 
         bbMoveables_copyBuffer(&home.ECS.moveables, &moveables_snapshot);

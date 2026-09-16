@@ -57,6 +57,8 @@ bbFlag bbViewportSpawnSkelly(bbViewportApp* viewport_app,
     unit->next_time = 2;
     unit->next_goalpoint = MC;
     unit->drawable.state = bbDrawableState_idle;
+    unit->entity_handle = entity_handle;
+    bbDebug("system = %u\n", entity_handle.system.system);
 
     bbVPMouseFunctions_getTableHandle(
         &home.viewport_app.mouse.functions,
@@ -156,6 +158,8 @@ bbFlag bbViewportSpawnZombie(bbViewportApp* viewport_app,
     unit->next_time = 2;
     unit->next_goalpoint = MC;
     unit->drawable.state = bbDrawableState_moving;
+    unit->entity_handle = entity_handle;
+    bbDebug("system = %u\n", entity_handle.system.system);
 
 
     bbVPMouseFunctions_getTableHandle(
@@ -258,6 +262,8 @@ bbFlag bbViewportSpawnCow(bbViewportApp* viewport_app,
     unit->next_time = 2;
     unit->next_goalpoint = MC;
     unit->drawable.state = bbDrawableState_moving;
+    unit->entity_handle = entity_handle;
+    bbDebug("system = %u\n", entity_handle.system.system);
 
 
     bbDictionary_lookup(home.UI.graphics.drawfunctions->dictionary,
@@ -354,6 +360,8 @@ bbFlag bbViewportSpawnFox(bbViewportApp* viewport_app,
     unit->next_time = 2;
     unit->next_goalpoint = MC;
     unit->drawable.state = bbDrawableState_moving;
+    unit->entity_handle = entity_handle;
+    bbDebug("system = %u\n", entity_handle.system.system);
 
 
     bbVPMouseFunctions_getTableHandle(
@@ -455,6 +463,8 @@ bbFlag bbViewportSpawnLizard(bbViewportApp* viewport_app,
     unit->next_time = 2;
     unit->next_goalpoint = MC;
     unit->drawable.state = bbDrawableState_moving;
+    unit->entity_handle = entity_handle;
+    bbDebug("system = %u\n", entity_handle.system.system);
 
 
     bbVPMouseFunctions_getTableHandle(
@@ -557,6 +567,8 @@ bbFlag bbViewportSpawnDevil(bbViewportApp* viewport_app,
     unit->next_time = 2;
     unit->next_goalpoint = MC;
     unit->drawable.state = bbDrawableState_moving;
+    unit->entity_handle = entity_handle;
+    bbDebug("system = %u\n", entity_handle.system.system);
 
 
     bbVPMouseFunctions_getTableHandle(
@@ -658,6 +670,8 @@ bbFlag bbViewportSpawnFireball(bbViewportApp* viewport_app,
     unit->next_time = 2;
     unit->next_goalpoint = MC;
     unit->drawable.state = bbDrawableState_moving;
+    unit->entity_handle = entity_handle;
+    bbDebug("system = %u\n", entity_handle.system.system);
 
 
     bbDictionary_lookup(home.UI.graphics.drawfunctions->dictionary,

@@ -86,7 +86,7 @@ bbFlag bbVPMouse_isOver(bbVPMouse* vpmouse, bbHandle* unit_handle)
 
     bbVPMouse_isOver_cl cl;
     cl.mouse = vpmouse;
-    cl.handle = units->pool->null;
+    cl.handle.u64 = 0;
 
     bbNestedList list;
     bbNestedListR_init(&list);
@@ -122,6 +122,8 @@ bbFlag bbVPMouse_isOver(bbVPMouse* vpmouse, bbHandle* unit_handle)
     //bbNestedList_attach(&list, &units->squares[n+1].list);
 
     bbNestedListR_map(&list, bbVPMouse_isOverFunc, &cl);
+
+    bbDebug("handle = (%u, %u, %u)\n", cl.handle.system.system, cl.handle.system.index, cl.handle.system.generation);
 
     debug_off = true;
 
@@ -173,11 +175,12 @@ bbFlag bbVPMouse_isOverFunc(void* node, void* cl)
 
     flag = function(vpmouse, units, node);
 
-    bbFlag_print(flag)
     if (flag == bbContinue) return bbContinue;
 
     unit->drawable.state = bbDrawableState_idle;
-    bbHere()
+
+    data->handle = unit->entity_handle;
+
     return bbBreak;
 
 }
