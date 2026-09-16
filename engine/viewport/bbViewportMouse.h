@@ -29,6 +29,7 @@ typedef struct bbVPMouse
     bbHandle was_over;
     bbHandle is_over;
     bbHandle selected;
+    void* selected_unit;
     I32 default_mouse_icon;
 
     bbVPMouseFunctions functions;
@@ -45,6 +46,7 @@ typedef struct
 {
     bbVPMouse* mouse;
     bbHandle handle;
+    void* unit;
 } bbVPMouse_isOver_cl;
 
 typedef enum{

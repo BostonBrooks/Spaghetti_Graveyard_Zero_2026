@@ -437,7 +437,7 @@ void* userinterface_thread(void* arg)
     table.left_drag = -1;
     table.right_drag = -1;
     table.drop = -1;
-    table.mouse_icon = -1;
+    table.mouse_icon = 133;
     table.drag_icon = -1;
     table.on_click = -1;
     table.on_unclick = -1;
@@ -458,7 +458,6 @@ bbHere()
         //TODO ths is just a test
         bbHandle isover_unit;
 
-        //debug_off = false;
 
         bbWidget* vp_widget = home.viewport_app.viewport.widget;
         if (vp_widget->mtable.hover){
@@ -467,10 +466,9 @@ bbHere()
 
 
             bbVPMouse_isOver(&home.viewport_app.mouse, &isover_unit);
+            bbVPMouse_Update(&home.viewport_app.mouse, &home.UI.graphics);
         }
 
-
-        //debug_off = true;
         bbUI_Inbox_check(&home.UI.inbox);
 
         bbMoveables_copyBuffer(&home.ECS.moveables, &moveables_snapshot);

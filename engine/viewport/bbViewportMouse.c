@@ -76,6 +76,18 @@ bbFlag bbVPMouse_isOver(bbVPMouse* vpmouse, bbHandle* unit_handle)
     bbDrawables* units = viewportApp->units;
     bbMapCoords MC = bbViewportCoords_getMapCoords(viewport_coords);
 
+    bbWidget* vp_widget = viewportApp->viewport.widget;
+    if (vp_widget->mtable.hover == 0)
+    {
+        if (unit_handle != NULL)
+        {
+            unit_handle->u64 = 0;
+        }
+
+        vpmouse->is_over.u64 = 0;
+        return bbFail;
+    }
+
     MC.i -= POINTS_PER_SQUARE /2;
     MC.j -= POINTS_PER_SQUARE /2;
 
@@ -87,6 +99,7 @@ bbFlag bbVPMouse_isOver(bbVPMouse* vpmouse, bbHandle* unit_handle)
     bbVPMouse_isOver_cl cl;
     cl.mouse = vpmouse;
     cl.handle.u64 = 0;
+    cl.unit = NULL;
 
     bbNestedList list;
     bbNestedListR_init(&list);
@@ -123,13 +136,17 @@ bbFlag bbVPMouse_isOver(bbVPMouse* vpmouse, bbHandle* unit_handle)
 
     bbNestedListR_map(&list, bbVPMouse_isOverFunc, &cl);
 
-    bbDebug("handle = (%u, %u, %u)\n", cl.handle.system.system, cl.handle.system.index, cl.handle.system.generation);
+    //bbDebug("handle = (%u, %u, %u)\n", cl.handle.system.system, cl.handle.system.index, cl.handle.system.generation);
 
     debug_off = true;
 
+    if (unit_handle != NULL)
+    {
+        *unit_handle = cl.handle;
+    }
 
-    *unit_handle = cl.handle;
-
+    vpmouse->is_over = cl.handle;
+    vpmouse->selected_unit = cl.unit;
     return bbSuccess;
 
 }
@@ -177,10 +194,34 @@ bbFlag bbVPMouse_isOverFunc(void* node, void* cl)
 
     if (flag == bbContinue) return bbContinue;
 
-    unit->drawable.state = bbDrawableState_idle;
-
     data->handle = unit->entity_handle;
+    data->unit = unit;
 
     return bbBreak;
 
+}
+
+bbFlag bbVPMouse_Update(bbVPMouse* mouse, bbGraphicsApp* graphics)
+{
+
+    bbViewportApp* viewportApp = mouse->viewportApp;
+    bbWidget* widget = viewportApp->viewport_widget;
+    bbUnit* unit = mouse->selected_unit;
+
+    if (mouse->selected_unit!=NULL)
+    {
+        bbHandle mouse_table_handle = unit->mouse.mouse_table;
+        bbMouseTable* mouse_table;
+        bbFlag flag = bbVPool_lookup(mouse->functions.mouse_tables,(void**)&mouse_table,mouse_table_handle);
+        if (flag != bbSuccess)
+        {
+            widget->mtable.mouse_icon = 85;
+        }
+        widget->mtable.mouse_icon = mouse_table->mouse_icon;
+    } else
+    {
+        widget->mtable.mouse_icon = 85;
+    }
+
+    return bbSuccess;
 }
