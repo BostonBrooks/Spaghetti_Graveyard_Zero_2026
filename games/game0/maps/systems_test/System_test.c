@@ -356,7 +356,7 @@ int main(void)
 void* userinterface_thread(void* arg)
 {
     thread = "USER INTERFACE";
-    debug_off = false;
+    debug_off = true;
 
     bbUIApp_init(&home.UI);
 
@@ -435,6 +435,9 @@ bbHere()
 
         //TODO ths is just a test
         bbHandle isover_unit;
+
+        bbViewportCoords vpmouseCoords = bbScreenPoints_getViewportPoints(&home.viewport_app.viewport, home.UI.mouse.position);
+        home.viewport_app.mouse.position = vpmouseCoords;
         bbVPMouse_isOver(&home.viewport_app.mouse, &isover_unit);
 
         bbUI_Inbox_check(&home.UI.inbox);

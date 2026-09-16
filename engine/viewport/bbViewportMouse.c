@@ -75,6 +75,9 @@ bbFlag bbVPMouse_isOver(bbVPMouse* vpmouse, bbHandle* unit_handle)
     bbDrawables* units = viewportApp->units;
     bbMapCoords MC = bbViewportCoords_getMapCoords(viewport_coords);
 
+    MC.i -= POINTS_PER_SQUARE /2;
+    MC.j -= POINTS_PER_SQUARE /2;
+
     I32 squares_i = units->squares_i;
     I32 squares_j = units->squares_j;
 
@@ -93,14 +96,35 @@ bbFlag bbVPMouse_isOver(bbVPMouse* vpmouse, bbHandle* unit_handle)
     // for (I32 i = square_i_min; i < square_i_max; ++i) {
     //     for (I32 j = square_j_min; j < square_j_max; ++j) {
     I32 n = i + squares_i * j;
+    if (n >=0 && n < squares_i * squares_j )
+        bbNestedList_attach(&list, &units->squares[n].list);
 
-    bbNestedList_attach(&list, &units->squares[n].list);
 
+    n = (i+1) + squares_i * j;
+    if (n >=0 && n < squares_i * squares_j )
+        bbNestedList_attach(&list, &units->squares[n].list);
+
+    n = i + squares_i * (j+1);
+    if (n >=0 && n < squares_i * squares_j )
+        bbNestedList_attach(&list, &units->squares[n].list);
+
+    n = (i+1) + squares_i * (j+1);
+    if (n >=0 && n < squares_i * squares_j )
+        bbNestedList_attach(&list, &units->squares[n].list);
+
+    debug_off = false;
+
+
+
+    //bbDebug("pool name: %s\n",   units->squares[n].list.pool->pool_name);
     //bbNotImplemented() - doesnt work when nested list has one element
-    bbNestedList_attach(&list, &units->squares[n+1].list);
+    //bbNestedList_attach(&list, &units->squares[n+1].list);
 
 
     bbNestedList_map(&list, bbVPMouse_isOverFunc, &cl);
+
+    debug_off = true;
+
 
     *unit_handle = cl.handle;
 
@@ -110,7 +134,9 @@ bbFlag bbVPMouse_isOver(bbVPMouse* vpmouse, bbHandle* unit_handle)
 
 ///bbVPMouse_isOverFunc is mapped to each unit until one is found under the viewport mouse
 bbFlag bbVPMouse_isOverFunc(void* node, void* cl)
-{
+{bbHere()
+
+    printf("test bbVPMouse_isOverFunc\n");
     bbUnit* unit = (bbUnit*)node;
     bbVPMouse_isOver_cl* data = cl;
     bbVPMouse* vpmouse = data->mouse;
@@ -127,7 +153,6 @@ bbFlag bbVPMouse_isOverFunc(void* node, void* cl)
 
     if (flag != bbSuccess)
     {
-        bbHere()
         return bbContinue;
     }
 
@@ -135,7 +160,6 @@ bbFlag bbVPMouse_isOverFunc(void* node, void* cl)
 
     if (func_int == -1)
     {
-        bbHere()
         return bbContinue;
     }
 
@@ -144,7 +168,6 @@ bbFlag bbVPMouse_isOverFunc(void* node, void* cl)
 
     if (function == NULL)
     {
-        bbHere()
         return bbContinue;
     }
 

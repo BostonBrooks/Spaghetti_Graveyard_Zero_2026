@@ -22,8 +22,8 @@ extern thread_local bool debug_off;
 //#define NOTINPLEMENTED_NONE
 
 /// Print current file, function, line and thread
-#define bbHere() printf ("In FILE: %s, FUNCTION: %s, LINE: %d, THREAD: %s, TIME: %lu\n",\
-__FILE_NAME__, __func__, __LINE__, thread, test_time);
+#define bbHere() {if(!debug_off) printf ("In FILE: %s, FUNCTION: %s, LINE: %d, THREAD: %s, TIME: %lu\n",\
+__FILE_NAME__, __func__, __LINE__, thread, test_time);}
 
 #define bbNotHere() {\
 printf ("In FILE: %s, FUNCTION: %s, LINE: %d, THREAD: %s, TIME: %lu\n"\

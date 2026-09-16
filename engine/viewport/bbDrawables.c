@@ -101,6 +101,7 @@ bbFlag bbDrawable_draw(bbDrawable* drawable, drawFuncClosure* cl){
 
         }
     }
+    return bbSuccess;
 }
 
 bbFlag bbDrawables_draw(bbDrawables* drawables, drawFuncClosure* cl,
