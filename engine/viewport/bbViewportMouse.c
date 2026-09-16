@@ -121,7 +121,6 @@ bbFlag bbVPMouse_isOver(bbVPMouse* vpmouse, bbHandle* unit_handle)
     //bbNotImplemented() - doesnt work when nested list has one element
     //bbNestedList_attach(&list, &units->squares[n+1].list);
 
-bbHere()
     bbNestedListR_map(&list, bbVPMouse_isOverFunc, &cl);
 
     debug_off = true;
@@ -172,6 +171,13 @@ bbFlag bbVPMouse_isOverFunc(void* node, void* cl)
         return bbContinue;
     }
 
-    return function(vpmouse, units, node);
+    flag = function(vpmouse, units, node);
+
+    bbFlag_print(flag)
+    if (flag == bbContinue) return bbContinue;
+
+    unit->drawable.state = bbDrawableState_idle;
+    bbHere()
+    return bbBreak;
 
 }

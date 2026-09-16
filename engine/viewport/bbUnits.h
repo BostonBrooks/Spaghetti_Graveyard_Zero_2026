@@ -12,6 +12,7 @@ typedef struct bbUnit
 
     I32 enitity;
     I32 moveable;
+    bbHandle unit_handle;
     float percent_health;
     U64 display_health_until;
     //the following are used for interpolation

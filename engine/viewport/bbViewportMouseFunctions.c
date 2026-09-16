@@ -5,6 +5,8 @@
 #include "engine/viewport/bbViewportMouseFunctions.h"
 
 #include "bbUnits.h"
+#include "bbViewportApp.h"
+#include "engine/geometry/bbGroundCoords.h"
 #include "engine/logic/bbBloatedPool.h"
 #include "engine/logic/bbString.h"
 
@@ -269,15 +271,22 @@ I32 bbVPMouseFunctions_getInt(bbVPMouseFunctions* functions, bbVPMouseFunctionTy
     return handle.u64;
 }
 
-bbFlag bbVPMouse_IsOver_NULL (void* mouse, void* units, void* Unit)
+bbFlag bbVPMouse_IsOver_NULL (void* Mouse, void* units, void* Unit)
 {
 
 
     bbUnit* unit = Unit;
     I32 closeness = unit->drawable.coords.i - unit->drawable.coords.j;
 
-    bbDebug("the unit's closeness is %d\n", closeness);
+    bbVPMouse* mouse = (bbVPMouse*)Mouse;
+    bbViewportApp* app = (bbViewportApp*)mouse->viewportApp;
+    bbMapCoords mouse_coords = bbViewportCoords_getMapCoords_k_fixed(mouse->position,0,&app->viewport);
 
+    bbFlag flag = bbMapCoords_withinCircle(mouse_coords, unit->drawable.coords, POINTS_PER_TILE);
+    //bbDebug("the unit's closeness is %d\n", closeness);
+
+
+    if (flag == bbSuccess) return bbBreak;
 
     return bbContinue;
 }

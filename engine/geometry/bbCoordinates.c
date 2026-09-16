@@ -171,3 +171,20 @@ bbMapCoords bbMapCoords_interpolate(bbMapCoords MC1, bbMapCoords MC2, I64 T0, I6
     return delta;
 
 }
+
+
+bbFlag bbMapCoords_withinCircle(bbMapCoords Point, bbMapCoords Centre, I32 radius)
+{
+    I32 delta_i = Point.i - Centre.i;
+    I32 delta_j = Point.j - Centre.j;
+    I32 delta_k = Point.k - Centre.k;
+
+    I32 delta_x = delta_i + delta_j;
+    I32 delta_y = bbArith_div((delta_i - delta_j), 2) - delta_k;
+
+    if (delta_x*delta_x + delta_y*delta_y > radius*radius) return bbNone;
+
+
+    return bbSuccess;
+
+}

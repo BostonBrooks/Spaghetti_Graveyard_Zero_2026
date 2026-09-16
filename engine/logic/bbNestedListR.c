@@ -95,6 +95,8 @@ bbFlag bbNestedListR_map(bbNestedList* list, bbNestedList_mapFunction* fn, void*
             return flag;
         }
         flag = fn(element, cl);
+
+        if (flag == bbBreak) break;
         //bbFlag_print(flag);
     }
 }

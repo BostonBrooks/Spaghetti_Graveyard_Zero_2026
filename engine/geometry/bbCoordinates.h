@@ -77,6 +77,9 @@ typedef struct {
 
 } bbGameWorldRect;
 
+bbFlag bbMapCoords_withinRect(bbMapCoords Point, bbMapCoords Centre, bbGameWorldRect rect);
+bbFlag bbMapCoords_withinCircle(bbMapCoords Point, bbMapCoords Centre, I32 radius);
+
 bbMilliCoords bbMapCoords_getMilliCoords(bbMapCoords MC);
 
 bbMapCoords bbMilliCoords_getMapCoords(bbMilliCoords MC);
