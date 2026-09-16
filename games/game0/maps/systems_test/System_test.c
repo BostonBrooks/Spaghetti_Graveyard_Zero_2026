@@ -364,8 +364,8 @@ void* userinterface_thread(void* arg)
     bbViewportApp_init(&home.viewport_app);
 
     bbVPMouse_Init(&home.viewport_app.mouse,&home.viewport_app,home.viewport_app.units,&home.UI.mouse,&home.UI.graphics);
-
     bbVPMouseFunctions_populate(&home.viewport_app.mouse.functions);
+
     bbUIApp_spawnWidgets(&home.UI);
 
 
@@ -440,14 +440,14 @@ bbHere()
 
 
         bbWidget* vp_widget = home.viewport_app.viewport.widget;
-        if (vp_widget->mtable.hover){
+        //if (vp_widget->mtable.hover){
             bbViewportCoords vpmouseCoords = bbScreenPoints_getViewportPoints(&home.viewport_app.viewport, home.UI.mouse.position);
             home.viewport_app.mouse.position = vpmouseCoords;
 
 
             bbVPMouse_isOver(&home.viewport_app.mouse, &isover_unit);
             bbVPMouse_Update(&home.viewport_app.mouse, &home.UI.graphics);
-        }
+        //}
 
         bbUI_Inbox_check(&home.UI.inbox);
 

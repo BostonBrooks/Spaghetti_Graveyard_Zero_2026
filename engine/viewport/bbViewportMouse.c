@@ -98,7 +98,7 @@ bbFlag bbVPMouse_isOver(bbVPMouse* vpmouse, bbHandle* unit_handle)
 
     bbVPMouse_isOver_cl cl;
     cl.mouse = vpmouse;
-    cl.handle.u64 = 0;
+    cl.handle = units->pool->null;
     cl.unit = NULL;
 
     bbNestedList list;
@@ -145,7 +145,13 @@ bbFlag bbVPMouse_isOver(bbVPMouse* vpmouse, bbHandle* unit_handle)
         *unit_handle = cl.handle;
     }
 
-    vpmouse->is_over = cl.handle;
+    if (bbSuccess != bbVPool_handleIsEqual(units->pool,vpmouse->is_over, cl.handle))
+    {
+
+        vpmouse->was_over = vpmouse->is_over;
+        vpmouse->is_over = cl.handle;
+
+    }
     vpmouse->selected_unit = cl.unit;
     return bbSuccess;
 
@@ -206,9 +212,10 @@ bbFlag bbVPMouse_Update(bbVPMouse* mouse, bbGraphicsApp* graphics)
 
     bbViewportApp* viewportApp = mouse->viewportApp;
     bbWidget* widget = viewportApp->viewport_widget;
+    bbUnits* units = viewportApp->units;
     bbUnit* unit = mouse->selected_unit;
 
-    if (mouse->selected_unit!=NULL)
+    if (unit!=NULL)
     {
         bbHandle mouse_table_handle = unit->mouse.mouse_table;
         bbMouseTable* mouse_table;
@@ -221,6 +228,26 @@ bbFlag bbVPMouse_Update(bbVPMouse* mouse, bbGraphicsApp* graphics)
     } else
     {
         widget->mtable.mouse_icon = 85;
+    }
+
+    if(bbSuccess != bbVPool_handleIsNULL(units->pool, mouse->was_over))
+    {bbHere()
+        //if (bbSuccess != bbVPool_handleIsNULL(units->pool,mouse->was_over))
+        {bbHere()
+            bbUnit* leave_unit;
+            bbVPool_lookup(units->pool,(void**)&leave_unit,mouse->was_over);
+
+            if (leave_unit != NULL) bbVPMouse_LeaveUnit(mouse, leave_unit);
+        }
+        //if (bbSuccess != bbVPool_handleIsNULL(units->pool,mouse->is_over))
+        {bbHere()
+            bbUnit* enter_unit;
+            bbVPool_lookup(units->pool,(void**)&enter_unit,mouse->is_over);
+
+            if (enter_unit != NULL) bbVPMouse_EnterUnit(mouse, enter_unit);
+        }
+
+        mouse->was_over = units->pool->null;
     }
 
     return bbSuccess;

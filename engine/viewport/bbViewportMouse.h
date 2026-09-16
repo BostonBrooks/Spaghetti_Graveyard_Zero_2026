@@ -29,6 +29,8 @@ typedef struct bbVPMouse
     bbHandle was_over;
     bbHandle is_over;
     bbHandle selected;
+
+    //selected unit is only used to decide what mouse pointer to use
     void* selected_unit;
     I32 default_mouse_icon;
 

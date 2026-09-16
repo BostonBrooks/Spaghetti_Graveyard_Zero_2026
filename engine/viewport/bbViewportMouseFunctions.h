@@ -54,19 +54,19 @@ typedef struct
 //TODO what are the arguments for these function types?
 
 typedef bbFlag bbVPMouse_IsOver (void* mouse, void* units, void* unit);
-typedef bbFlag bbVPMouse_Enter (void* mouse, void* widgets, void* widget, void* graphics);
-typedef bbFlag bbVPMouse_Leave (void* mouse, void* widgets, void* widget, void* graphics);
-typedef bbFlag bbVPMouse_LeftDown (void* mouse, void* widgets, void* widget,
+typedef bbFlag bbVPMouse_Enter (void* mouse, void* widgets, void* unit, void* graphics);
+typedef bbFlag bbVPMouse_Leave (void* mouse, void* widgets, void* unit, void* graphics);
+typedef bbFlag bbVPMouse_LeftDown (void* mouse, void* widgets, void* unit,
                                  void* graphics);
-typedef bbFlag bbVPMouse_LeftUp (void* mouse, void* widgets, void* widget,
+typedef bbFlag bbVPMouse_LeftUp (void* mouse, void* widgets, void* unit,
                                void* graphics);
-typedef bbFlag bbVPMouse_LeftDrag (void* mouse, void* widgets, void* widget,
+typedef bbFlag bbVPMouse_LeftDrag (void* mouse, void* widgets, void* unit,
 void* graphics);
-typedef bbFlag bbVPMouse_RightDown (void* mouse, void* widgets, void* widget,
+typedef bbFlag bbVPMouse_RightDown (void* mouse, void* widgets, void* unit,
                                  void* graphics);
-typedef bbFlag bbVPMouse_RightUp (void* mouse, void* widgets, void* widget,
+typedef bbFlag bbVPMouse_RightUp (void* mouse, void* widgets, void* unit,
                                void* graphics);
-typedef bbFlag bbVPMouse_RightDrag (void* mouse, void* widgets, void* widget,
+typedef bbFlag bbVPMouse_RightDrag (void* mouse, void* widgets, void* unit,
                                void* graphics);
 
 typedef struct

@@ -270,30 +270,3 @@ I32 bbVPMouseFunctions_getInt(bbVPMouseFunctions* functions, bbVPMouseFunctionTy
     bbAssert(flag == bbSuccess, "function not found\n");
     return handle.u64;
 }
-
-bbFlag bbVPMouse_IsOver_NULL (void* Mouse, void* units, void* Unit)
-{
-
-
-    bbUnit* unit = Unit;
-    I32 closeness = unit->drawable.coords.i - unit->drawable.coords.j;
-
-    bbVPMouse* mouse = (bbVPMouse*)Mouse;
-    bbViewportApp* app = (bbViewportApp*)mouse->viewportApp;
-    bbMapCoords mouse_coords = bbViewportCoords_getMapCoords_k_fixed(mouse->position,0,&app->viewport);
-
-    //bbFlag flag = bbMapCoords_withinCircle(mouse_coords, unit->drawable.coords, POINTS_PER_TILE);
-    //bbDebug("the unit's closeness is %d\n", closeness);
-
-    bbGameWorldRect rect;
-
-    rect.top = 4*POINTS_PER_TILE;
-    rect.left = POINTS_PER_TILE;
-    rect.height = 4*POINTS_PER_TILE;
-    rect.width = 2*POINTS_PER_TILE;
-    bbFlag flag  = bbMapCoords_withinRect(mouse_coords, unit->drawable.coords, rect);
-
-    if (flag == bbSuccess) return bbBreak;
-
-    return bbContinue;
-}

@@ -190,6 +190,7 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
         games/game0/maps/systems_test/network/network_textbox_system.c
         games/game0/maps/systems_test/vpmouse/vpmouse.c
 
+
         engine/test_string/bbTestString.c
 
         engine/ECS/bbECS.c
@@ -256,6 +257,7 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
         engine/viewport/bbViewportSpawner.c
         engine/viewport/bbViewportMouse.c
         engine/viewport/bbViewportMouseFunctions.c
+        engine/viewport/bbViewportMouseWrappers.c
 
         engine/geometry/bbCoordinates.c
         engine/geometry/bbGroundCoords.c
