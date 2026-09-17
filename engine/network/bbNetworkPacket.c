@@ -32,24 +32,24 @@ bbFlag bbNetworkPacket_toStruct (sfPacket* packet, void* Struct)
 
     switch (struct1->type)
     {
-        case PACKETTYPE_STRING:
-            sfPacket_readString(packet, struct1->data.str);
+    case PACKETTYPE_STRING:
+        sfPacket_readString(packet, struct1->data.str);
         break;
-        case PACKETTYPE_TIMESTAMP:
-        case PACKETTYPE_REQUESTTIMESTAMP:
+    case PACKETTYPE_TIMESTAMP:
+    case PACKETTYPE_REQUESTTIMESTAMP:
 
-            U64 packetN_lower = sfPacket_readUint32(packet);
-            U64 packetN_upper = sfPacket_readUint32(packet);
-            U64 receive_time_lower = sfPacket_readUint32(packet);
-            U64 receive_time_upper = sfPacket_readUint32(packet);
-            U64 send_time_lower = sfPacket_readUint32(packet);
-            U64 send_time_upper = sfPacket_readUint32(packet);
+        U64 packetN_lower = sfPacket_readUint32(packet);
+        U64 packetN_upper = sfPacket_readUint32(packet);
+        U64 receive_time_lower = sfPacket_readUint32(packet);
+        U64 receive_time_upper = sfPacket_readUint32(packet);
+        U64 send_time_lower = sfPacket_readUint32(packet);
+        U64 send_time_upper = sfPacket_readUint32(packet);
 
 
 
-            struct1->data.timestamp.packetN = packetN_upper * 0x100000000 + packetN_lower;
-            struct1->data.timestamp.receive_time = receive_time_upper * 0x100000000  + receive_time_lower;
-            struct1->data.timestamp.send_time = send_time_upper * 0x100000000 + send_time_lower;
+        struct1->data.timestamp.packetN = packetN_upper * 0x100000000 + packetN_lower;
+        struct1->data.timestamp.receive_time = receive_time_upper * 0x100000000  + receive_time_lower;
+        struct1->data.timestamp.send_time = send_time_upper * 0x100000000 + send_time_lower;
 
         break;
     case PACKETTYPE_SETGOALPOINT:
@@ -60,7 +60,7 @@ bbFlag bbNetworkPacket_toStruct (sfPacket* packet, void* Struct)
         break;
     case PACKETTYPE_UNFREEZEBUTTON:
     case PACKETTYPE_NETCODEBUTTON:
-            sfPacket_readString(packet, struct1->data.str);
+        sfPacket_readString(packet, struct1->data.str);
         break;
     case PACKETTYPE_PAUSE:
 
@@ -72,7 +72,7 @@ bbFlag bbNetworkPacket_toStruct (sfPacket* packet, void* Struct)
 
         struct1->data.pause.reference_server_tick = server_tick_upper * 0x100000000 + server_tick_lower;
         struct1->data.pause.reference_map_tick = map_tick_upper * 0x100000000 + map_tick_lower;
-       struct1->data.pause.is_paused = sfPacket_readBool(packet);
+        struct1->data.pause.is_paused = sfPacket_readBool(packet);
 
         break;
 
@@ -105,7 +105,7 @@ bbFlag bbNetworkPacket_toStruct (sfPacket* packet, void* Struct)
         struct1->data.unit.goalpoint.k = sfPacket_readInt32(packet);
 
 
-       // bbDebug("goal.i = %d, goal.j = %d\n", struct1->data.unit.goalpoint.i, struct1->data.unit.goalpoint.j);
+        // bbDebug("goal.i = %d, goal.j = %d\n", struct1->data.unit.goalpoint.i, struct1->data.unit.goalpoint.j);
 
         struct1->data.unit.entity_index = sfPacket_readInt32(packet);
         struct1->data.unit.movable_index = sfPacket_readInt32(packet);
@@ -125,20 +125,26 @@ bbFlag bbNetworkPacket_toStruct (sfPacket* packet, void* Struct)
         break;
 
 #ifdef DEFINE_TEST_SYSTEM
-        case PACKETTYPE_MESSAGE:
+    case PACKETTYPE_MESSAGE:
 
-            bbTextbox_message* message;
+        bbTextbox_message* message;
 
-            bbNetworkPacket_toMessageHandle(packet,&struct1->data.message.message_handle,&message);
+        bbNetworkPacket_toMessageHandle(packet,&struct1->data.message.message_handle,&message);
 
-            // bbDebug("handle = %llu\n message = %s\n", struct1->data.message.message_handle.u64, message->text);
-            // bbVPool_lookup(home.textbox_app.textbox_system.threaded_pool,(void**)&message,struct1->data.message.message_handle);
-            // bbDebug("message: %s\n", message->text);
+        // bbDebug("handle = %llu\n message = %s\n", struct1->data.message.message_handle.u64, message->text);
+        // bbVPool_lookup(home.textbox_app.textbox_system.threaded_pool,(void**)&message,struct1->data.message.message_handle);
+        // bbDebug("message: %s\n", message->text);
 
 
 
-            break;
+        break;
 #endif //DEFINE_TEST_SYSTEM
+
+    case PACKETTYPE_ACTION:
+    {
+        bbAction_fromPacket(packet, &struct1->data.action);
+        break;
+    }
     }
     return bbSuccess;
 }
@@ -269,6 +275,9 @@ bbFlag bbNetworkPacket_fromStruct (sfPacket* packet, void* Struct)
             bbNetworkPacket_fromMessageHandle(packet,struct1->data.message.message_handle);
             break;
 #endif //DEFINE_TEST_SYSTEM
+
+    case PACKETTYPE_ACTION:
+        bbAction_toPacket(packet, &struct1->data.action);
     }
 
     return bbSuccess;
@@ -289,3 +298,79 @@ bbFlag bbNetwork_sendStr(void* Network, char* str)
 
 
 
+bbFlag bbAction_toPacket(sfPacket* packet, bbAction* action)
+{
+    sfPacket_writeUint32(packet, action->header.type);
+    sfPacket_writeUint32(packet, action->header.status);
+    sfPacket_writeUint32(packet, action->header.player);
+    sfPacket_writeUint32(packet, action->header.collision);
+
+    U64 created_tick_lower = action->header.created_tick & 0xFFFFFFFF;
+    U64 created_tick_upper = action->header.created_tick / 0x100000000;
+
+    sfPacket_writeUint32(packet, created_tick_lower);
+    sfPacket_writeUint32(packet, created_tick_upper);
+
+    U64 act_tick_lower = action->header.act_tick & 0xFFFFFFFF;
+    U64 act_tick_upper = action->header.act_tick / 0x100000000;
+
+    sfPacket_writeUint32(packet, act_tick_lower);
+    sfPacket_writeUint32(packet, act_tick_upper);
+
+    sfPacket_writeString(packet, action->header.key);
+
+    sfPacket_writeInt32(packet, action->integer);
+    sfPacket_writeInt32(packet, action->integer2);
+    sfPacket_writeInt32(packet, action->integer3);
+
+    sfPacket_writeInt32(packet, action->map_coords.i);
+    sfPacket_writeInt32(packet, action->map_coords.j);
+    sfPacket_writeInt32(packet, action->map_coords.k);
+
+    sfPacket_writeInt32(packet, action->goal_coords.i);
+    sfPacket_writeInt32(packet, action->goal_coords.j);
+    sfPacket_writeInt32(packet, action->goal_coords.k);
+
+    sfPacket_writeUint32(packet, action->handle.system.index);
+    sfPacket_writeUint16(packet, action->handle.system.system);
+    sfPacket_writeUint16(packet, action->handle.system.generation);
+
+    return bbSuccess;
+}
+bbFlag bbAction_fromPacket(sfPacket* packet, bbAction* action)
+{
+    action->header.type = sfPacket_readUint32(packet);
+    action->header.status = sfPacket_readUint32(packet);
+    action->header.player = sfPacket_readUint32(packet);
+    action->header.collision = sfPacket_readUint32(packet);
+
+    U64 created_tick_lower = sfPacket_readUint32(packet);
+    U64 created_tick_upper = sfPacket_readUint32(packet);
+
+    action->header.created_tick = created_tick_upper * 0x100000000 + created_tick_lower;
+
+    U64 act_tick_lower 	= sfPacket_readUint32(packet);
+    U64 act_tick_upper = sfPacket_readUint32(packet);
+
+    action->header.act_tick = act_tick_upper * 0x100000000 + act_tick_lower;
+
+    sfPacket_readString(packet, action->header.key);
+
+    action->integer = sfPacket_readInt32(packet);
+    action->integer2 = sfPacket_readInt32(packet);
+    action->integer3 = sfPacket_readInt32(packet);
+
+    action->map_coords.i = sfPacket_readInt32(packet);
+    action->map_coords.j = sfPacket_readInt32(packet);
+    action->map_coords.k = sfPacket_readInt32(packet);
+
+    action->goal_coords.i = sfPacket_readInt32(packet);
+    action->goal_coords.j = sfPacket_readInt32(packet);
+    action->goal_coords.k = sfPacket_readInt32(packet);
+
+    action->handle.system.index = sfPacket_readUint32(packet);
+    action->handle.system.system = sfPacket_readUint16(packet);
+    action->handle.system.generation = sfPacket_readUint16(packet);
+
+    return bbSuccess;
+}

@@ -86,6 +86,7 @@ bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
 
         if (action->header.type == bbActionType_setString)
         {
+
             bbCI_setString(core,action->header.key,bbInstructionSource_action,handle);
 
         }

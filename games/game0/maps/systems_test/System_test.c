@@ -8,6 +8,7 @@
 #include "engine/ECS/server_entities/bbServerEntities.h"
 #include "engine/ECS/moveables/bbMoveables.h"
 #include "../../../../engine/ECS/entity_spawner/bbEntitySpawner.h"
+#include "engine/core/bbAction_request.h"
 #include "engine/data/CSFML.h"
 #include "engine/core/bbCoreDiscard.h"
 #include "engine/core/bbCoreInputs.h"
@@ -35,6 +36,7 @@
 
 #include "engine/ECS/graphics_system/bbGraphicsSystem.h"
 #include "engine/ECS/spatial/bbSpatial_query.h"
+#include "engine/logic/bbString.h"
 #include "moveables/moveables.h"
 
 pthread_barrier_t barrier1;
@@ -64,7 +66,7 @@ void* userinterface_thread(void* arg);
 int main(void)
 {
     thread = "MAIN";
-    debug_off = true;
+    debug_off = false;
     printf("Hello, World!\n");
 
     pthread_barrier_init(&barrier1, NULL, 2);
@@ -311,7 +313,25 @@ int main(void)
             bbCoreInput_updateMoveables(&home.core.core,bbInstructionSource_input, no_handle );
             bbCore_react(&home.core.core);
 
+            bbAction test_action;
 
+            // action->header.type = bbActionType_setString;
+            // action->header.player = player;
+            // action->header.collision = collision;
+            // action->header.created_tick = created_tick;
+            // action->header.act_tick = act_tick;
+            // bbStr_setStr(action->header.key, key, KEY_LENGTH);
+
+
+            test_action.header.type = bbActionType_setString;
+            test_action.header.status = bbAction_Wait;
+            test_action.header.player = 0;
+            test_action.header.collision = collision++;
+            test_action.header.created_tick = home.core.core.actual_time;
+            test_action.header.act_tick = home.core.core.actual_time;
+            bbStr_setStr(test_action.header.key,"SISYPHUS", KEY_LENGTH);
+
+            bbAction_request(&home.core.core, &home.network, &test_action);
 
 
             //bbMovables_update(&home.agents_app.movables);

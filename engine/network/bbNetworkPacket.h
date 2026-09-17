@@ -4,6 +4,7 @@
 #include "engine/data/CSFML.h"
 
 #include "bbNetworkTime.h"
+#include "engine/core/bbAction.h"
 #include "engine/geometry/bbCoordinates.h"
 #include "engine/logic/bbFlag.h"
 #include "engine/logic/bbHandle.h"
@@ -31,6 +32,7 @@
 #define PACKETTYPE_TESTCLICK         15
 #define PACKETTYPE_TESTSPAWN         16
 #define PACKETTYPE_MESSAGE           17
+#define PACKETTYPE_ACTION            18
 
 
 #define bbPacketType_print(flag)\
@@ -118,6 +120,7 @@ typedef union
     I32x2 paddle_and_velocity;
     bbNetworkPacket_testSpawn test_spawn;
     bbNetworkPacket_Message message;
+    bbAction action;
 } bbNetworkPacket_data;
 
 
@@ -143,5 +146,8 @@ bbFlag bbNetwork_sendStr(void* Network, char* str);
 
 
 bbFlag bbNetwork_requestTimestamp(void* Network);
+
+bbFlag bbAction_toPacket(sfPacket* packet, bbAction* action);
+bbFlag bbAction_fromPacket(sfPacket* packet, bbAction* action);
 
 #endif //BB_NETWORK_PACKET_H

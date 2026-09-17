@@ -4,6 +4,7 @@
 #include <string.h>
 
 #include "engine/core/bbAction.h"
+#include "engine/core/bbAction_request.h"
 #include "engine/core/bbCoreInboxInput.h"
 #include "engine/data/bbHome.h"
 #include "games/game0/maps/systems_test/core/spawn_entity.h"
@@ -214,6 +215,12 @@ bbFlag bbNetworkApp_checkInbox(bbNetwork* network)
 
         }
 #endif
+
+        if (packet->type == PACKETTYPE_ACTION)
+        {
+            bbAction_receive(&home.core.core, network, &packet->data.action);
+        }
+
         bbThreadedQueue_free(&network->inbox, (void**)&packet);
     }
     return bbSuccess;
@@ -389,4 +396,18 @@ bbFlag bbNetworkApp_setGoalpointOut(bbNetwork* network, I32 entity, bbMapCoords 
     return bbSuccess;
 }
 
+bbFlag bbNetworkApp_sendAction(bbNetwork* network, bbAction* action)
+{
+    bbNetworkPacket* packet;
+    bbThreadedQueue_alloc(&network->outbox, (void**)&packet);
+    packet->type = PACKETTYPE_ACTION;
+    packet->send_tick = action->header.created_tick;
+    packet->act_tick = action->header.act_tick;
+    packet->player = action->header.player;
+    packet->collision = action->header.collision;
 
+    packet->data.action = *action;
+    bbThreadedQueue_pushL(&network->outbox,packet);
+
+    return bbSuccess;
+}
