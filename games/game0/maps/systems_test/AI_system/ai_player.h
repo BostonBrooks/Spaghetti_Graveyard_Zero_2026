@@ -46,7 +46,46 @@ bbFlag bbAI_Update_Player(bbAI_Component* component)
                     bbInstructionSource_internal, no_handle);
             }
 
+        break;
+        }
 
+    case bbAIState_Approaching:
+        {
+            bbMoveable* moveable;
+            bbHandle moveable_handle;
+            bbComponent_mapComponent(home.ECS.ECS, bbECS_AI, (bbComponent*)component,
+                                     bbECS_Moveables, &moveable_handle,
+                                     (bbComponent**)&moveable);
+
+            I64 delta_i = moveable->goalpoint.i - moveable->position.i;
+            I64 delta_j = moveable->goalpoint.j - moveable->position.j;
+
+            I64 distance_squared = delta_i * delta_i + delta_j * delta_j;
+
+            if (distance_squared<=POINTS_PER_TILE * POINTS_PER_TILE)
+            { bbHere()
+                bbHandle entity_handle;
+
+                bbComponent_mapComponent(home.ECS.ECS, bbECS_AI, (bbComponent*)component,
+                                         bbECS_ECS, &entity_handle,
+                                         (bbComponent**)&moveable);
+
+                bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_attacking);
+                bbHandle AI_handle;
+
+                bbComponent_getHandle(&home.ECS.AI_system.system,(bbComponent*)component,&AI_handle);
+
+                bbCI_AI_setIdle(&home.core.core,
+                             AI_handle,
+                             home.core.core.simulation_time,
+                                 bbInstructionSource_internal, no_handle);
+
+                bbCI_Moveable_setIdle(&home.core.core,
+                    moveable_handle,
+                    bbInstructionSource_internal, no_handle);
+            }
+
+            break;
         }
     }
 }
@@ -89,7 +128,7 @@ bbFlag bbAI_Command_Player(bbAI_Component* component,
                                  NULL);
 
 
-        bbCS_Moveable_setGoalpoint(&home.core.core,
+        bbCI_Moveable_setGoalpoint(&home.core.core,
                                    moveable_handle,
                                    data.goal_point,
                                    bbInstructionSource_internal,
@@ -125,8 +164,9 @@ bbHere()
         bbHandle AI_handle;
         bbComponent_getHandle(&home.ECS.AI_system.system,(bbComponent*)component,&AI_handle);
 
-        bbCI_AI_setMoving(&home.core.core,
+        bbCI_AI_setApproaching(&home.core.core,
              AI_handle,
+             target_handle,
              home.core.core.simulation_time,
                  bbInstructionSource_internal, no_handle);
 
@@ -142,9 +182,9 @@ bbHere()
                                  NULL);
 
 
-        bbCS_Moveable_setGoalpoint(&home.core.core,
+        bbCI_Moveable_setGoalMovable(&home.core.core,
                                    moveable_handle,
-                                   target_moveable->position,
+                                   target_moveable_handle,
                                    bbInstructionSource_internal,
                                    no_handle);
 
