@@ -13,6 +13,7 @@ typedef enum
     bbCoreInbox_setGoalpoint,
     bbCoreInbox_freeze,
     bbCoreInbox_receiveMessage,
+    bbCoreInbox_clickMonster,
     bbCoreInbox_numVTypes
 } bbCoreInbox_vType;
 

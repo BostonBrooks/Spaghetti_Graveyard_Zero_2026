@@ -313,26 +313,21 @@ int main(void)
             bbCoreInput_updateMoveables(&home.core.core,bbInstructionSource_input, no_handle );
             bbCore_react(&home.core.core);
 
-            bbAction test_action;
 
-            // action->header.type = bbActionType_setString;
-            // action->header.player = player;
-            // action->header.collision = collision;
-            // action->header.created_tick = created_tick;
-            // action->header.act_tick = act_tick;
-            // bbStr_setStr(action->header.key, key, KEY_LENGTH);
+            // testing bbAction_request()
+            // bbAction test_action;
+            // test_action.header.type = bbActionType_setString;
+            // test_action.header.status = bbAction_Wait;
+            // test_action.header.player = 0;
+            // test_action.header.collision = collision++;
+            // test_action.header.created_tick = home.core.core.actual_time;
+            // test_action.header.act_tick = home.core.core.actual_time;
+            // bbStr_setStr(test_action.header.key,"SISYPHUS", KEY_LENGTH);
+            //
+            // bbAction_request(&home.core.core, &home.network, &test_action);
 
 
-            test_action.header.type = bbActionType_setString;
-            test_action.header.status = bbAction_Wait;
-            test_action.header.player = 0;
-            test_action.header.collision = collision++;
-            test_action.header.created_tick = home.core.core.actual_time;
-            test_action.header.act_tick = home.core.core.actual_time;
-            bbStr_setStr(test_action.header.key,"SISYPHUS", KEY_LENGTH);
-
-            bbAction_request(&home.core.core, &home.network, &test_action);
-
+            //////////////////////////////
 
             //bbMovables_update(&home.agents_app.movables);
             //bbCoreInput_approachGoalpoint(&home.core.core);
@@ -376,7 +371,7 @@ int main(void)
 void* userinterface_thread(void* arg)
 {
     thread = "USER INTERFACE";
-    debug_off = false;
+    debug_off = true;
 
     bbUIApp_init(&home.UI);
 
@@ -452,7 +447,7 @@ bbHere()
 
         bbInput_poll(&home.UI.input, home.UI.window);
 
-        debug_off = false;
+        //debug_off = false;
 
         bbMouse_isOver(&home.UI.mouse, &home.UI.widgets);
         bbMouse_Update(&home.UI.mouse, &home.UI.widgets, &home.UI.graphics);
@@ -470,7 +465,7 @@ bbHere()
             bbVPMouse_Update(&home.viewport_app.mouse, &home.UI.graphics);
         //}
 
-        debug_off = true;
+        //debug_off = true;
         bbUI_Inbox_check(&home.UI.inbox);
 
         bbMoveables_copyBuffer(&home.ECS.moveables, &moveables_snapshot);

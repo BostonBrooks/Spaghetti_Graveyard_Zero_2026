@@ -9,7 +9,9 @@
 #include "engine/ECS/moveables/bbMoveables.h"
 #include "engine/logic/bbString.h"
 #include "engine/logic/bbSystemPool.h"
+#include "engine/ECS/AI_system/bbAI_System.h"
 
+bbFlag bbCoreInbox_clickMonster_fn(bbCore* core, bbCoreInboxMessage* message);
 bbFlag bbCoreInbox_receiveMessage_fn(bbCore* core, bbCoreInboxMessage* message);
 bbFlag bbCoreInbox_Freeze(bbCore* core)
 {
@@ -68,6 +70,7 @@ bbFlag bbCore_initInboxMessages(bbCore* core)
     core->inbox_functions[bbCoreInbox_setGoalpoint-bbCoreInbox_numTypes] = bbCoreInbox_setGoalpoint_fn;
     core->inbox_functions[bbCoreInbox_freeze-bbCoreInbox_numTypes] = bbCoreInbox_Freese_fn;
     core->inbox_functions[bbCoreInbox_receiveMessage-bbCoreInbox_numTypes] = bbCoreInbox_receiveMessage_fn;
+    core->inbox_functions[bbCoreInbox_clickMonster-bbCoreInbox_numTypes] = bbCoreInbox_clickMonster_fn;
     return bbSuccess;
 }
 
@@ -154,5 +157,28 @@ bbFlag bbCoreInbox_receiveMessage_fn(bbCore* core, bbCoreInboxMessage* message)
 
 bbFlag bbCoreInbox_ClickMonster(bbCore* core, bbHandle entity_handle)
 {
-    bbNotImplemented()
+    bbCoreInboxMessage* message;
+    bbThreadedQueue_alloc(&core->local_message_queue, (void** ) &message);
+    message->type = bbCoreInbox_clickMonster;
+    message->data.three_handles.handle1 = entity_handle;
+    bbThreadedQueue_pushL(&core->local_message_queue, message);
+}
+
+bbFlag bbCoreInbox_clickMonster_fn(bbCore* core, bbCoreInboxMessage* message)
+{
+    bbHandle ai_handle;
+    bbAI_Component* component;
+    //
+    bbHandle_mapComponent(home.ECS.ECS, bbECS_ECS,home.ECS.ECS->player_character,
+        bbECS_AI,&ai_handle,(bbComponent**)&component);
+
+    bbAI_CommandData data;
+    data.handle = message->data.three_handles.handle1;
+
+
+    bbAI_onCommand(component,
+                  (bbAI_System*)home.ECS.ECS->systems[bbECS_AI],
+                  bbAI_clickMonster,
+                  data,
+                  false);
 }
