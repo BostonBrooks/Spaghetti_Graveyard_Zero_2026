@@ -212,7 +212,6 @@ typedef union
     bbInstructionsData_moveableState moveable_state;
     bbInstructionsData_AI_State AI_state;
     bbSpawnFunctionArgs sfArgs;
-    bbAction action; //TODO this is too large, move to pool
 
 } bbInstruction_data;
 

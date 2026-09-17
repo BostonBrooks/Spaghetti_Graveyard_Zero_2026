@@ -55,9 +55,15 @@ bbFlag bbCoreInput_requestAction(bbCore* core,
     bbInstruction* instruction;
     bbList_alloc(&core->do_stack, (void**) &instruction);
 
+    bbAction* allocated;
+    bbHandle allocated_handle;
+    bbVPool_alloc2(home.core.core.action_pool, (void**)&allocated, &allocated_handle);
+
+    *allocated = *new_action;
+
     instruction->type = bbInstruction_requestAction;
     instruction->act_time = time;
-    instruction->data.action = *new_action;
+    instruction->data.three_handles.handle1 = allocated_handle;
     instruction->source = source;
     instruction->redo_instruction = action;
 
@@ -69,9 +75,12 @@ bbFlag bbCoreInput_requestAction(bbCore* core,
 
 bbFlag bbInstruction_requestAction_fn(bbCore* core, bbInstruction* instruction)
 {
-    //TODO core shouldn't access home
-    bbAction_request(core, &home.network, &instruction->data.action);
+    bbAction* action;
+    bbVPool_lookup(home.core.core.action_pool, (void**)&action, instruction->data.three_handles.handle1);
 
+    //TODO core shouldn't access home
+    bbAction_request(core, &home.network, action);
+    bbVPool_free(home.core.core.action_pool, (void*)action);
     bbVPool_free(core->instruction_pool, (void*)instruction);
     return bbSuccess;
 }
