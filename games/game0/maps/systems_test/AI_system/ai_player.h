@@ -63,7 +63,7 @@ bbFlag bbAI_Update_Player(bbAI_Component* component)
             I64 distance_squared = delta_i * delta_i + delta_j * delta_j;
 
             if (distance_squared<=POINTS_PER_TILE * POINTS_PER_TILE)
-            { bbHere()
+            {
                 bbHandle entity_handle;
 
                 bbComponent_mapComponent(home.ECS.ECS, bbECS_AI, (bbComponent*)component,
@@ -140,7 +140,7 @@ bbFlag bbAI_Command_Player(bbAI_Component* component,
 
     if (type == bbAI_targetMonster && is_action)
     {
-bbHere()
+
         bbHandle target_handle = data.handle;
 
 
@@ -195,7 +195,7 @@ bbHere()
 
     //TODO type == bbAI_mapClick for testing purposes
     if (type == bbAI_clickMonster)
-    {bbHere()
+    {
         bbAction action;
 
         action.header.type = bbActionType_setTarget;
