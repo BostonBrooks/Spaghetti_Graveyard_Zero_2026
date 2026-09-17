@@ -1,3 +1,4 @@
+#include "core/actions.h"
 #include "engine/core/bbAction_request.h"
 #include "engine/ECS/AI_system/bbAI_System.h"
 #include "engine/logic/bbString.h"
@@ -98,18 +99,73 @@ bbFlag bbAI_Command_Player(bbAI_Component* component,
 
     }
 
+    if (type == bbAI_targetMonster && is_action)
+    {
+bbHere()
+        bbHandle target_handle = data.handle;
+
+
+        bbHandle target_moveable_handle;
+        bbMoveable* target_moveable;
+        bbHandle_mapComponent(home.ECS.ECS,
+                         bbECS_ECS,
+                         target_handle,
+                         bbECS_Moveables,
+                         &target_moveable_handle,
+                         (bbComponent**)&target_moveable);
+
+
+        bbHandle entity_handle;
+        bbComponent_mapComponent(home.ECS.ECS, bbECS_AI, (bbComponent*)component,
+                                 bbECS_ECS, &entity_handle,
+                                 NULL);
+
+        bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_moving);
+
+        bbHandle AI_handle;
+        bbComponent_getHandle(&home.ECS.AI_system.system,(bbComponent*)component,&AI_handle);
+
+        bbCI_AI_setMoving(&home.core.core,
+             AI_handle,
+             home.core.core.simulation_time,
+                 bbInstructionSource_internal, no_handle);
+
+        //TODO set state AI state moving
+
+        bbHandle moveable_handle;
+
+        bbComponent_mapComponent(home.ECS.ECS,
+                                 bbECS_AI,
+                                 (bbComponent*)component,
+                                 bbECS_Moveables,
+                                 &moveable_handle,
+                                 NULL);
+
+
+        bbCS_Moveable_setGoalpoint(&home.core.core,
+                                   moveable_handle,
+                                   target_moveable->position,
+                                   bbInstructionSource_internal,
+                                   no_handle);
+
+
+
+    }
+
+
     //TODO type == bbAI_mapClick for testing purposes
     if (type == bbAI_clickMonster)
-    {
+    {bbHere()
         bbAction action;
 
-        action.header.type = bbActionType_setString;
+        action.header.type = bbActionType_setTarget;
         action.header.status = bbAction_Wait;
         action.header.player = 0;
         action.header.collision = collision++;
         action.header.created_tick = home.core.core.actual_time;
         action.header.act_tick = home.core.core.actual_time;
         bbStr_setStr(action.header.key,"ACHILLES", KEY_LENGTH);
+        action.handle = data.handle;
 
 
         bbCoreInput_requestAction(&home.core.core,&home.network,&action,home.core.core.actual_time,

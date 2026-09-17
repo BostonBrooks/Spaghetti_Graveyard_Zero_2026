@@ -37,5 +37,6 @@ bbFlag bbCore_initActions(bbCore* core)
 
     core->action_functions[bbActionType_bbHere- bbActionType_numActions] = bbAction_bbHere_fn;
     core->action_functions[bbActionType_setGoalpoint- bbActionType_numActions] = bbAction_setGoalpoint_fn;
+    core->action_functions[bbActionType_setTarget- bbActionType_numActions] = bbAction_setTarget_fn;
     return bbSuccess;
 }

@@ -6,6 +6,7 @@ typedef enum
 
     bbActionType_setGoalpoint = bbActionType_numActions,
     bbActionType_bbHere,
+    bbActionType_setTarget,
     bbActionType_numVActions
 } bbAction_vtype;
 

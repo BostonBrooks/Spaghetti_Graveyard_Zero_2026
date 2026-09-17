@@ -32,3 +32,26 @@ bbFlag bbAction_setGoalpoint_fn(bbCore* core, bbAction* action)
     return bbSuccess;
 }
 
+bbFlag bbAction_setTarget_fn(bbCore* core, bbAction* action)
+{
+    bbAI_Component* component;
+    bbHandle_mapComponent(home.ECS.ECS,bbECS_ECS, home.ECS.ECS->player_character,bbECS_AI, NULL, (bbComponent**) &component);
+
+    bbAI_CommandData data;
+    data.handle = action->handle;
+
+    bbAI_onCommand(component,
+                          (bbAI_System*)home.ECS.ECS->systems[bbECS_AI],
+                          bbAI_targetMonster,
+                          data,
+                          true);
+
+
+    bbHandle action_handle;
+    bbVPool_reverseLookup(core->action_pool,action,&action_handle);
+
+    bbCI_doNothing(core, bbInstructionSource_action, action_handle);
+
+    bbCore_react(core);
+    return bbSuccess;
+}
