@@ -94,7 +94,7 @@ bbFlag bbDF_unitGroup(void* Drawable, void* frameDescriptor, void* cl)
         output_frame.offset.x = input_frame->offset.x + self_frame->offset.x + SP.x;
         output_frame.offset.y = input_frame->offset.y + self_frame->offset.y + SP.y;
         output_frame.framerate = input_frame->framerate * self_frame->framerate;
-        output_frame.start_time = input_frame->start_time + self_frame->start_time;
+        output_frame.start_time = input_frame->start_time + self_frame->start_time - 15*row_N - 21*column_M;
         output_frame.drawfunction = input_frame->drawfunction;
 
         bbDrawFunction *drawFunction =graphics->drawfunctions->functions[output_frame.drawfunction];
