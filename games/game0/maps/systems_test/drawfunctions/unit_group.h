@@ -39,7 +39,7 @@ bbFlag bbDF_unitGroup(void* Drawable, void* frameDescriptor, void* cl)
 
     bbDebug("drawfunction = %d\n", input_frame->drawfunction);
     float theta = drawable->rotation;
-    float spacing = POINTS_PER_TILE*3;
+    float spacing = POINTS_PER_TILE;
 
     unit_position pos[12];
 

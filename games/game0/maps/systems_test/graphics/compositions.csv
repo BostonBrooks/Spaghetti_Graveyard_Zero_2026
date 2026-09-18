@@ -78,5 +78,5 @@ ANIMATION,DEVIL,UNIT_STILL_ANGLE,0,0,0,1,
 ,,,,,,,
 Label:,UNIT_GROUP,Integer Address:,12,num:,1,Comment,draw unit as a group of 12
 Type:,Key:,Drawfunction:,startTime,Offest X:,Offset Y:,Frame Rate:,
-ANIMATION,SKELETON,UNIT_ANIMATION_ANGLE,0,0,0,1,
+ANIMATION,FOX,UNIT_STILL_ANGLE,0,0,0,1,
 ,,,,,,,
