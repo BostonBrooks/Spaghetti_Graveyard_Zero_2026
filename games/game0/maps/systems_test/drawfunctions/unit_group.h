@@ -40,7 +40,7 @@ bbFlag bbDF_unitGroup(void* Drawable, void* frameDescriptor, void* cl)
     bbDebug("drawfunction = %d\n", input_frame->drawfunction);
     float theta = drawable->rotation;
     float spacing = POINTS_PER_TILE;
-
+    I32 num_units = 12;
     unit_position pos[12];
 
     bbMapCoords delta_coords, new_coords;
@@ -49,10 +49,10 @@ bbFlag bbDF_unitGroup(void* Drawable, void* frameDescriptor, void* cl)
     float s_theta = sin(theta);
 
     I32 row_N, column_M;
-    for (I32 i = 0; i < 12; i++)
+    for (I32 i = 0; i < num_units; i++)
     {
-        row_N = i % 3;
-        column_M = i / 3;
+        row_N = i / 4;
+        column_M = i %4;
 
         delta_coords.i = (1.5-column_M)*spacing*c_theta - (-1+row_N)*spacing*s_theta;
         delta_coords.j = -(1.5-column_M)*spacing*s_theta - (-1+row_N)*spacing*c_theta;
@@ -64,14 +64,13 @@ bbFlag bbDF_unitGroup(void* Drawable, void* frameDescriptor, void* cl)
 
     }
 
-    bbBubbleSort((U8*)pos, 12, sizeof(unit_position), compare_closeness);
+    bbBubbleSort((U8*)pos, num_units, sizeof(unit_position), compare_closeness);
 
-    for (I32 i = 0; i < 12; i++)
+    for (I32 i = 0; i < num_units; i++)
     {
         row_N = pos[i].row_N;
         column_M = pos[i].column_M;
 
-        bbDebug("row_N = %d, column_M = %d\n", row_N, column_M);
 
         delta_coords = pos[i].delta_coords;
         delta_coords.k = 0;
@@ -86,8 +85,6 @@ bbFlag bbDF_unitGroup(void* Drawable, void* frameDescriptor, void* cl)
 
         bbScreenPoints SP = bbMapCoords_getScreenPoints_relative(drawable->coords, new_coords);
 
-        bbDebug("SP.x = %d, SP.y = %d\n", SP.x, SP.y);
-
         bbFrame output_frame;
         output_frame.type = input_frame->type;
         output_frame.handle = input_frame->handle;
@@ -99,13 +96,10 @@ bbFlag bbDF_unitGroup(void* Drawable, void* frameDescriptor, void* cl)
 
         bbDrawFunction *drawFunction =graphics->drawfunctions->functions[output_frame.drawfunction];
 
-        bbHere()
 
         drawFunction(drawable, &output_frame, cl);
 
-        bbHere()
 
     }
-bbHere()
     return bbSuccess;
 }
