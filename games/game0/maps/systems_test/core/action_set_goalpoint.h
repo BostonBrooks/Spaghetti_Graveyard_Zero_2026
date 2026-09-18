@@ -37,8 +37,13 @@ bbFlag bbAction_setTarget_fn(bbCore* core, bbAction* action)
     bbAI_Component* component;
     bbHandle_mapComponent(home.ECS.ECS,bbECS_ECS, home.ECS.ECS->player_character,bbECS_AI, NULL, (bbComponent**) &component);
 
+    bbHandle server_handle = action->handle;
+    bbHandle entity_handle;
+
+    bbHandle_mapComponent(home.ECS.ECS,bbECS_ServerEntities,server_handle,bbECS_ECS,&entity_handle,NULL);
+
     bbAI_CommandData data;
-    data.handle = action->handle;
+    data.handle = entity_handle;
 
     bbAI_onCommand(component,
                           (bbAI_System*)home.ECS.ECS->systems[bbECS_AI],

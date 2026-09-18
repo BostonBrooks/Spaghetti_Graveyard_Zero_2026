@@ -1,4 +1,5 @@
 #include "core/actions.h"
+#include "core/send_server_enitity.h"
 #include "engine/core/bbAction_request.h"
 #include "engine/ECS/AI_system/bbAI_System.h"
 #include "engine/logic/bbString.h"
@@ -197,19 +198,7 @@ bbFlag bbAI_Command_Player(bbAI_Component* component,
     if (type == bbAI_clickMonster)
     {
         bbAction action;
-
-        action.header.type = bbActionType_setTarget;
-        action.header.status = bbAction_Wait;
-        action.header.player = 0;
-        action.header.collision = collision++;
-        action.header.created_tick = home.core.core.actual_time;
-        action.header.act_tick = home.core.core.actual_time;
-        bbStr_setStr(action.header.key,"ACHILLES", KEY_LENGTH);
-        action.handle = data.handle;
-
-
-        bbCoreInput_requestAction(&home.core.core,&home.network,&action,home.core.core.actual_time,
-                                    bbInstructionSource_internal, no_handle);
+        bbCoreInbox_TestClick3(&home.core.core, data.handle);
     }
 
     if (type == bbAI_mapClick)

@@ -1,7 +1,7 @@
 #include "engine/core/bbCore.h"
 #include "engine/core/bbCoreInbox.h"
 #include "core_inbox.h"
-
+#include "games/game0/maps/systems_test/core/send_server_enitity.h"
 #include "netpause_button.h"
 #include "unfreeze_button.h"
 #include "engine/data/bbHome.h"
@@ -67,6 +67,7 @@ bbFlag bbCore_initInboxMessages(bbCore* core)
     core->inbox_functions[bbCoreInbox_unfreezeButton-bbCoreInbox_numTypes] = bbCoreInbox_unfreezeButton_fn;
     core->inbox_functions[bbCoreInbox_testClick-bbCoreInbox_numTypes] = bbCoreInbox_testClick_fn;
     core->inbox_functions[bbCoreInbox_testClick2-bbCoreInbox_numTypes] = bbCoreInbox_testClick2_fn;
+    core->inbox_functions[bbCoreInbox_testClick3-bbCoreInbox_numTypes] = bbCoreInbox_testClick3_fn;
     core->inbox_functions[bbCoreInbox_setGoalpoint-bbCoreInbox_numTypes] = bbCoreInbox_setGoalpoint_fn;
     core->inbox_functions[bbCoreInbox_freeze-bbCoreInbox_numTypes] = bbCoreInbox_Freese_fn;
     core->inbox_functions[bbCoreInbox_receiveMessage-bbCoreInbox_numTypes] = bbCoreInbox_receiveMessage_fn;

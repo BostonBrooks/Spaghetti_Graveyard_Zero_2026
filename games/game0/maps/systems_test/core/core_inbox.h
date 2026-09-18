@@ -10,6 +10,7 @@ typedef enum
     bbCoreInbox_unfreezeButton,
     bbCoreInbox_testClick,
     bbCoreInbox_testClick2,
+    bbCoreInbox_testClick3,
     bbCoreInbox_setGoalpoint,
     bbCoreInbox_freeze,
     bbCoreInbox_receiveMessage,
