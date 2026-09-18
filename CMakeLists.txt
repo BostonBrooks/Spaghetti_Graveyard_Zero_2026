@@ -76,6 +76,13 @@ target_compile_definitions(Test_Iterator PRIVATE
 target_include_directories(Test_Iterator PRIVATE "./")
 
 
+add_executable(Test_ArraySort test/bbTest_BubbleSort.c
+        engine/logic/bbBubbleSort.c)
+target_compile_definitions(Test_ArraySort PRIVATE
+        DEFINE_TEST_ARRAYSORT)
+target_include_directories(Test_ArraySort PRIVATE "./")
+
+
 add_executable(Core_Test  games/game0/maps/core_test/core_test.c
         engine/test_string/bbTestString.c
 
