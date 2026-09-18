@@ -235,6 +235,7 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
         engine/logic/bbBloatedPool.c
         engine/logic/bbDictionary.c
         engine/logic/bbIterator.c
+        engine/logic/bbBubbleSort.c
 
         engine/threadsafe/bbThreadedQueue_search.c
         engine/threadsafe/bbThreadedQueue.c

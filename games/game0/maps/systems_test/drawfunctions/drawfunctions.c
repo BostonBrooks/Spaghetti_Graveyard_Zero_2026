@@ -21,6 +21,7 @@
 #include "games/game0/maps/systems_test/drawfunctions/health_bar.h"
 #include "games/game0/maps/systems_test/drawfunctions/performance.h"
 #include "games/game0/maps/systems_test/drawfunctions/widget_textBox.h"
+#include "games/game0/maps/systems_test/drawfunctions/unit_group.h"
 
 #define NUM_DRAWFUNCTIONS 69
 
@@ -161,6 +162,10 @@ bbFlag bbDrawfunctions_new(bbDrawfunctions** drawfunctions){
     functions->functions[23] = bbDF_widgetTextBox;
     handle.u64 = 23;
     bbDictionary_add(functions->dictionary, "WIDGET_TEXTBOX", handle);
+
+    functions->functions[24] = bbDF_unitGroup;
+    handle.u64 = 24;
+    bbDictionary_add(functions->dictionary, "UNIT_GROUP", handle);
 
     *drawfunctions = functions;
     return bbSuccess;

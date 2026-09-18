@@ -553,7 +553,19 @@ bbFlag bbViewportSpawnLizard(bbViewportApp* viewport_app,
     unit->drawable.frames[3].offset.x = 0;
     unit->drawable.frames[3].offset.y = 0;
 
-    for (I32 k = 4; k < FRAMES_PER_DRAWABLE; k++){
+        bbDictionary_lookup(home.UI.graphics.drawfunctions->dictionary,
+             "UNIT_GROUP",
+
+             &drawfunctionHandle);
+
+    unit->drawable.frames[4].drawfunction = drawfunctionHandle.u64;
+    unit->drawable.frames[4].handle.u64 = 12;
+    unit->drawable.frames[4].start_time =  -(rand()%6);
+    unit->drawable.frames[4].framerate = 1;
+    unit->drawable.frames[4].offset.x = 0;
+    unit->drawable.frames[4].offset.y = 0;
+
+    for (I32 k = 5; k < FRAMES_PER_DRAWABLE; k++){
         unit->drawable.frames[k].drawfunction = -1;
     }
 

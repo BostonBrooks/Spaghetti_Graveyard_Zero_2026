@@ -2,9 +2,6 @@
 
 #include <string.h>
 
-thread_local char* thread;
-thread_local bool debug_off;
-U64 test_time = 0;
 
 static bbFlag swap(void* A, void* B, I32 length)
 {

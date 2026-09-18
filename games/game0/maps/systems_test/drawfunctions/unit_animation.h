@@ -92,6 +92,9 @@ bbFlag bbDF_unitAnimationWAngle(void* Drawable, void* frameDescriptor, void* cl)
     sfSprite* sprite = animation->sprites->sprites[spriteInt];
 
     sfVector2f V2F = bbMapCoords_getV2f(drawable->coords, VP);
+
+    V2F.x += frame->offset.x / (float)POINTS_PER_PIXEL;
+    V2F.y += frame->offset.y / (float)POINTS_PER_PIXEL;
     sfSprite_setPosition(sprite,V2F);
 
     sfRenderTexture* renderTexture = VP->main.renderTexture;
