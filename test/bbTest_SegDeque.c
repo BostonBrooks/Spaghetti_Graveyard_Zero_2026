@@ -29,6 +29,30 @@ int main(void)
 
     test_struct* test;
 
+    bbTest_deque macro_deque;
+    bbTest_deque_init(&macro_deque, 12);
+
+    for (I32 i = 0; i < 100; i++)
+    {
+        bbTest_deque_allocFront(&macro_deque, (void**)&test);
+
+        sprintf(test->string, "%d", i);
+
+        bbTest_deque_pushFront(&macro_deque, &test);
+    }
+    test_struct* test2;
+    for (I32 i = 0; i < 1000; i++){
+
+        printf("%d\n", i);
+        bbFlag flag = bbTest_deque_peakFront(&macro_deque, (void**)&test2);
+        bbAssert(flag == bbSuccess, "peak failed first\n");
+
+        printf("macro test: %s\n", test2->string);
+
+        flag = bbTest_deque_popFront(&macro_deque, (void**)&test2);
+        bbAssert(flag == bbSuccess, "pop failed first\n");
+
+    }
 
     for (I32 i = 0; i < 100; i++)
     {
@@ -38,7 +62,7 @@ int main(void)
 
         bbSegmentedDeque_pushFront(&deque, &test);
     }
-    test_struct* test2;
+
     for (I32 i = 0; i < 1000; i++){
 
         printf("%d\n", i);
@@ -55,4 +79,4 @@ int main(void)
     return EXIT_SUCCESS;
 }
 
-
+DECLARE_SQ_BODY(bbTest,sizeof(test_struct),12)
