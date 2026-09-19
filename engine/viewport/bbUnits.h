@@ -19,8 +19,9 @@ typedef struct bbUnit
     bbMapCoords prev_coords;
     U64 prev_time;
     bbMapCoords prev_goalpoint;
-
     bbMapCoords next_coords;
+    float prev_angle;
+    float next_angle;
     U64 next_time;
     bbMapCoords next_goalpoint;
 
