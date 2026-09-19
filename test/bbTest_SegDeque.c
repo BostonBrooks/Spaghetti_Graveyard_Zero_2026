@@ -5,16 +5,19 @@
 
 #include "engine/logic/bbSegmentedDeque.h"
 #include "engine/logic/bbTerminal.h"
-
+#include "engine/logic/bbSQ_Macros.h"
 
 thread_local char* thread;
 thread_local bool debug_off;
 U64 test_time = 0;
 
 
+
 typedef struct {
     char string[32];
 } test_struct;
+
+DECLARE_SQ_HEADER(bbTest,sizeof(test_struct),12)
 
 int main(void)
 {
@@ -36,15 +39,17 @@ int main(void)
         bbSegmentedDeque_pushFront(&deque, &test);
     }
     test_struct* test2;
-    for (I32 i = 0; i < 100; i++){
-        bbHere()
-        bbSegmentedDeque_peakFront(&deque, (void**)&test2);
-        bbHere()
-        printf("pointer = %p\n", test2);
+    for (I32 i = 0; i < 1000; i++){
+
+        printf("%d\n", i);
+        bbFlag flag = bbSegmentedDeque_peakFront(&deque, (void**)&test2);
+        bbAssert(flag == bbSuccess, "peak failed first\n");
+
         printf("test: %s\n", test2->string);
-        bbHere()
-        bbSegmentedDeque_popFront(&deque, (void**)&test2);
-        bbHere()
+
+        flag = bbSegmentedDeque_popFront(&deque, (void**)&test2);
+        bbAssert(flag == bbSuccess, "pop failed first\n");
+
     }
 
     return EXIT_SUCCESS;

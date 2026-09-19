@@ -6,6 +6,7 @@
  * Unlike with the list implementation, The order of operations is important.
  * An alloc must be followed by a push.
  * a pop followed by an alloc overwrites the element returned by the pop.
+ * it may be safe to access elements inside the deque by direct momory pointers
 */
 
 #define BBSEGMENTEDDEQUE_SIZEOF 128
@@ -30,7 +31,6 @@ typedef struct
     I32 end_index;
 
     I32 in_use;
-
 } bbSegmentedDeque;
 
 bbFlag bbSegmentedDeque_init(bbSegmentedDeque* deque, I32 num_segments);
