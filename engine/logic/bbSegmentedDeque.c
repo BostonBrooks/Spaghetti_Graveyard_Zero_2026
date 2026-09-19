@@ -148,24 +148,6 @@ bbFlag bbSegmentedDeque_popFront(bbSegmentedDeque* deque, void** element)
 }
 
 
-bbFlag bbSegmentedDeque_peakBack(bbSegmentedDeque* deque, void** element)
-{
-
-    if (deque->in_use == 0)
-    {
-        return bbNone;
-        *element = NULL;
-    }
-    bbDummyStruct* segment = deque->elements[deque->start_segment];
-
-    bbAssert(segment != NULL, "Segment not found\n");
-
-    if (element != NULL) *element = &segment[deque->start_index];
-
-    return bbSuccess;
-}
-
-
 
 bbFlag bbSegmentedDeque_allocBack(bbSegmentedDeque* deque, void** element)
 {
@@ -236,6 +218,24 @@ bbFlag bbSegmentedDeque_pushBack(bbSegmentedDeque* deque, void* element)
     return bbSuccess;
 
 }
+
+bbFlag bbSegmentedDeque_peakBack(bbSegmentedDeque* deque, void** element)
+{
+
+    if (deque->in_use == 0)
+    {
+        return bbNone;
+        *element = NULL;
+    }
+    bbDummyStruct* segment = deque->elements[deque->start_segment];
+
+    bbAssert(segment != NULL, "Segment not found\n");
+
+    if (element != NULL) *element = &segment[deque->start_index];
+
+    return bbSuccess;
+}
+
 
 bbFlag bbSegmentedDeque_popBack(bbSegmentedDeque* deque, void** element)
 {

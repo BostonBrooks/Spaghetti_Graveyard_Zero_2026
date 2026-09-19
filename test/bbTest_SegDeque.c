@@ -27,7 +27,7 @@ int main(void)
 
     bbSegmentedDeque_init(&deque, 12);
 
-    test_struct* test;
+    test_struct *test, *test2;
 
     bbTest_deque macro_deque;
     bbTest_deque_init(&macro_deque, 12);
@@ -40,7 +40,6 @@ int main(void)
 
         bbTest_deque_pushFront(&macro_deque, &test);
     }
-    test_struct* test2;
     for (I32 i = 0; i < 1000; i++){
 
         printf("%d\n", i);
@@ -56,22 +55,22 @@ int main(void)
 
     for (I32 i = 0; i < 100; i++)
     {
-        bbSegmentedDeque_allocFront(&deque, (void**)&test);
+        bbSegmentedDeque_allocBack(&deque, (void**)&test);
 
         sprintf(test->string, "%d", i);
 
-        bbSegmentedDeque_pushFront(&deque, &test);
+        bbSegmentedDeque_pushBack(&deque, &test);
     }
 
     for (I32 i = 0; i < 1000; i++){
 
         printf("%d\n", i);
-        bbFlag flag = bbSegmentedDeque_peakFront(&deque, (void**)&test2);
+        bbFlag flag = bbSegmentedDeque_peakBack(&deque, (void**)&test2);
         bbAssert(flag == bbSuccess, "peak failed first\n");
 
         printf("test: %s\n", test2->string);
 
-        flag = bbSegmentedDeque_popFront(&deque, (void**)&test2);
+        flag = bbSegmentedDeque_popBack(&deque, (void**)&test2);
         bbAssert(flag == bbSuccess, "pop failed first\n");
 
     }

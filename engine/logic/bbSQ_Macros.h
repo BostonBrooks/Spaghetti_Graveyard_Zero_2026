@@ -140,7 +140,7 @@ bbFlag CONCAT2(BB_CLASS,_deque_popFront)(CONCAT2(BB_CLASS,_deque)* deque, void**
     I32 new_segment = deque->end_segment;\
     if (new_index < 0)\
     {\
-        new_index = BBSEGMENTEDDEQUE_SEGMENT_SIZE - 1;\
+        new_index = BB_SEGMENT_SIZE - 1;\
         new_segment--;      bbNotImplemented()\
         if (new_segment <0)\
         {\
@@ -156,10 +156,102 @@ bbFlag CONCAT2(BB_CLASS,_deque_popFront)(CONCAT2(BB_CLASS,_deque)* deque, void**
     return bbSuccess;\
 }\
 \
+bbFlag CONCAT2(BB_CLASS,_deque_allocBack)(CONCAT2(BB_CLASS,_deque)* deque, void** element)\
+{\
+    I32 new_index = deque->start_index - 1;\
+    I32 new_segment = deque->start_segment;\
+    if (new_index < 0)\
+    {\
+        new_index = BB_SEGMENT_SIZE - 1;\
+        new_segment--;      bbNotImplemented()\
+        if (new_segment <0)\
+        {\
+            new_segment = deque->num_segments - 1;\
+        }\
+    }\
+    bbAssert((new_index != deque->start_index\
+                        || new_segment != deque->start_segment)\
+                        || deque->in_use == 0,"deque full\n");\
+    CONCAT2(BB_CLASS,_dummyStruct)* segment = deque->elements[new_segment];\
+    if (segment == NULL)\
+    {\
+        segment = calloc(BB_SEGMENT_SIZE, CONCAT2(BB_CLASS,_dummyStruct));\
+        deque->elements[new_segment] = segment;\
+    }\
+    *element = &deque->elements[new_segment][new_index];\
+    return bbSuccess;\
+}\
+\
+\
+bbFlag CONCAT2(BB_CLASS,_deque_pushBack)(CONCAT2(BB_CLASS,_deque)* deque, void* UNUSED)\
+{\
+    I32 new_index = deque->start_index - 1;\
+    I32 new_segment = deque->start_segment;\
+    if (new_index < 0)\
+    {\
+        new_index = BB_SEGMENT_SIZE - 1;\
+        new_segment--;      bbNotImplemented()\
+        if (new_segment <0)\
+        {\
+            new_segment = deque->num_segments - 1;\
+        }\
+    }\
+    bbAssert((new_index != deque->start_index\
+                        || new_segment != deque->start_segment)\
+                        || deque->in_use == 0,"deque full\n");\
+    CONCAT2(BB_CLASS,_dummyStruct)* segment = deque->elements[new_segment];\
+    if (segment == NULL)\
+    {\
+        segment = calloc(BB_SEGMENT_SIZE, sizeof(CONCAT2(BB_CLASS,_dummyStruct)));\
+        deque->elements[new_segment] = segment;\
+    }\
+    deque->start_index = new_index;\
+    deque->start_segment = new_segment;\
+    deque->in_use++;\
+    return bbSuccess;\
+}\
+\
+bbFlag CONCAT2(BB_CLASS,_deque_peakBack)(CONCAT2(BB_CLASS,_deque)* deque, void** element)\
+{\
+    if (deque->in_use == 0)\
+    {\
+        return bbNone;\
+        *element = NULL;\
+    }\
+    CONCAT2(BB_CLASS,_dummyStruct)* segment = deque->elements[deque->start_segment];\
+    bbAssert(segment != NULL, "Segment not found\n");\
+    if (element != NULL) *element = &segment[deque->start_index];\
+    return bbSuccess;\
+}\
+\
+\
+bbFlag bbSegmentedDeque_popBack(bbSegmentedDeque* deque, void** element)\
+{\
+    if (deque->in_use == 0)\
+    {\
+        return bbNone;\
+        if (element != NULL) *element = NULL;\
+    }\
+    I32 new_index = deque->start_index + 1;\
+    I32 new_segment = deque->start_segment;\
+    if (new_index >= BB_SEGMENT_SIZE)\
+    {\
+        new_index = 0;\
+        new_segment++;        bbNotImplemented()\
+        if (new_segment >= BB_SEGMENT_SIZE)\
+        {\
+            new_segment = 0;\
+        }\
+    }\
+    deque->start_index = new_index;\
+    deque->start_segment = new_segment;\
+    CONCAT2(BB_CLASS,_dummyStruct)* segment = deque->elements[new_segment];\
+    bbAssert(segment != NULL, "Segment not found\n");\
+    if (element != NULL) *element = &segment[new_index];\
+    deque->in_use--;\
+    return bbSuccess;\
+}\
 
 
-
-
-
-
+*/
 #endif
