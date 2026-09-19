@@ -8,7 +8,7 @@
 #include "engine/ECS/server_entities/bbServerEntities.h"
 #include "engine/ECS/moveables/bbMoveables.h"
 #include "../../../../engine/ECS/entity_spawner/bbEntitySpawner.h"
-#include "engine/core/bbAction_request.h"
+#include "core/bbAction_request.h"
 #include "engine/data/CSFML.h"
 #include "engine/core/bbCoreDiscard.h"
 #include "engine/core/bbCoreInputs.h"

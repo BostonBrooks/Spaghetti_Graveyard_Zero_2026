@@ -31,6 +31,31 @@ bbFlag bbAction_bbHere_fn(bbCore* core, bbAction* action)
     return bbSuccess;
 }
 
+bbFlag bbAction_setGoalpoint(void* Core,
+                            bbMapCoords map_coords,
+                            bbHandle handle,
+                            U32 collision,
+                            U64 created_tick,
+                            U64 act_tick)
+{
+    bbCore* core = (bbCore*)Core;
+
+    bbAction* action;
+    bbFlag flag = bbList_alloc(&core->action_queue,(void**)&action);
+
+    bbAssert(flag == bbSuccess, "action pool full!\n");
+    action->header.type = bbActionType_setGoalpoint;
+    action->header.collision = collision;
+    action->header.created_tick = created_tick;
+    action->header.act_tick = act_tick;
+    action->map_coords = map_coords;
+    action->handle = handle;
+    bbList_sortL(&core->action_queue,(void*)action);
+
+    return bbSuccess;
+}
+
+
 bbFlag bbCore_initActions(bbCore* core)
 {
     core->action_functions = calloc(bbActionType_numVActions - bbActionType_numActions, sizeof(bbAction_fn*));
@@ -40,3 +65,4 @@ bbFlag bbCore_initActions(bbCore* core)
     core->action_functions[bbActionType_setTarget- bbActionType_numActions] = bbAction_setTarget_fn;
     return bbSuccess;
 }
+

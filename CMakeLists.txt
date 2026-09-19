@@ -93,6 +93,7 @@ add_executable(Core_Test  games/game0/maps/core_test/core_test.c
         engine/core/bbCoreInboxInput.c
         engine/core/bbCoreInputs.c
         engine/core/bbInstruction.c
+        engine/core/bbAction_check.c
 
         engine/logic/bbList.c
         engine/logic/bbNestedList.c
@@ -221,7 +222,7 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
         engine/core/bbCoreInputs.c
         engine/core/bbInstruction.c
         engine/core/bbAction_check.c
-        engine/core/bbAction_request.c
+        games/game0/maps/systems_test/core/bbAction_request.c
 
         engine/logic/bbList.c
         engine/logic/bbNestedList.c

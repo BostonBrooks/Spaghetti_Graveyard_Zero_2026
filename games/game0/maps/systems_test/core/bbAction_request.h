@@ -19,6 +19,6 @@ bbFlag bbCoreInput_requestAction(bbCore* core,
 
 bbFlag bbInstruction_requestAction_fn(bbCore* core, bbInstruction* instruction);
 
-
+bbFlag bbInstruction_unrequestAction_fn(bbCore* core, bbInstruction* instruction);
 
 #endif //BB_ACTION_REQUEST_H

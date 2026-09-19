@@ -33,6 +33,8 @@ typedef enum
     bbI_unsetTextbox,
     bbI_putTextbox,
     bbI_unputTextbox,
+    bbInstruction_requestAction,
+    bbInstruction_unrequestAction,
     bbVInstruction_numTypes
 }bbVInstruction_type;
 

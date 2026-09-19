@@ -4,7 +4,7 @@
 #include <string.h>
 
 #include "engine/core/bbAction.h"
-#include "engine/core/bbAction_request.h"
+#include "../../games/game0/maps/systems_test/core/bbAction_request.h"
 #include "engine/core/bbCoreInboxInput.h"
 #include "engine/data/bbHome.h"
 #include "games/game0/maps/systems_test/core/spawn_entity.h"

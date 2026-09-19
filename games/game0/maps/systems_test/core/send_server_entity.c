@@ -1,5 +1,5 @@
 #include "core_inbox.h"
-#include "engine/core/bbAction_request.h"
+#include "bbAction_request.h"
 #include "engine/core/bbCoreInbox.h"
 #include "engine/data/bbHome.h"
 #include "engine/logic/bbString.h"

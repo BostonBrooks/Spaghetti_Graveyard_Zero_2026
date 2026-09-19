@@ -2,6 +2,7 @@
 
 #include <stdlib.h>
 
+#include "bbAction_request.h"
 #include "engine/core/bbCore.h"
 #include "engine/core/bbInstruction.h"
 #include "engine/logic/bbFlag.h"
@@ -58,6 +59,8 @@ bbFlag bbCore_initVInstructions(bbCore* core)
     core->instruction_functions[bbI_unsetTextbox-bbInstruction_numTypes] = bbI_unsetTextbox_fn;
     core->instruction_functions[bbI_putTextbox-bbInstruction_numTypes] = bbI_putTextbox_fn;
     core->instruction_functions[bbI_unputTextbox-bbInstruction_numTypes] = bbI_unputTextbox_fn;
+    core->instruction_functions[bbInstruction_requestAction-bbInstruction_numTypes] = bbInstruction_requestAction_fn;
+    core->instruction_functions[bbInstruction_unrequestAction-bbInstruction_numTypes] = bbInstruction_unrequestAction_fn;
 
 
 
