@@ -34,21 +34,21 @@ int main(void)
 
     for (I32 i = 0; i < 100; i++)
     {
-        bbTest_deque_allocFront(&macro_deque, (void**)&test);
+        bbTest_deque_allocBack(&macro_deque, (void**)&test);
 
         sprintf(test->string, "%d", i);
 
-        bbTest_deque_pushFront(&macro_deque, &test);
+        bbTest_deque_pushBack(&macro_deque, &test);
     }
     for (I32 i = 0; i < 1000; i++){
 
         printf("%d\n", i);
-        bbFlag flag = bbTest_deque_peakFront(&macro_deque, (void**)&test2);
+        bbFlag flag = bbTest_deque_peakBack(&macro_deque, (void**)&test2);
         bbAssert(flag == bbSuccess, "peak failed first\n");
 
         printf("macro test: %s\n", test2->string);
 
-        flag = bbTest_deque_popFront(&macro_deque, (void**)&test2);
+        flag = bbTest_deque_popBack(&macro_deque, (void**)&test2);
         bbAssert(flag == bbSuccess, "pop failed first\n");
 
     }

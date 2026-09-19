@@ -175,7 +175,7 @@ bbFlag CONCAT2(BB_CLASS,_deque_allocBack)(CONCAT2(BB_CLASS,_deque)* deque, void*
     CONCAT2(BB_CLASS,_dummyStruct)* segment = deque->elements[new_segment];\
     if (segment == NULL)\
     {\
-        segment = calloc(BB_SEGMENT_SIZE, CONCAT2(BB_CLASS,_dummyStruct));\
+        segment = calloc(BB_SEGMENT_SIZE, sizeof(CONCAT2(BB_CLASS,_dummyStruct)));\
         deque->elements[new_segment] = segment;\
     }\
     *element = &deque->elements[new_segment][new_index];\
@@ -225,7 +225,7 @@ bbFlag CONCAT2(BB_CLASS,_deque_peakBack)(CONCAT2(BB_CLASS,_deque)* deque, void**
 }\
 \
 \
-bbFlag bbSegmentedDeque_popBack(bbSegmentedDeque* deque, void** element)\
+bbFlag CONCAT2(BB_CLASS,_deque_popBack)(CONCAT2(BB_CLASS,_deque)* deque, void** element)\
 {\
     if (deque->in_use == 0)\
     {\
@@ -252,6 +252,4 @@ bbFlag bbSegmentedDeque_popBack(bbSegmentedDeque* deque, void** element)\
     return bbSuccess;\
 }\
 
-
-*/
 #endif
