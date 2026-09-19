@@ -50,6 +50,12 @@ target_compile_definitions(Test_Pool PRIVATE
         DEFINE_TEST_POOL)
 target_include_directories(Test_Pool PRIVATE "./")
 
+add_executable(Test_Deque engine/logic/bbSegmentedDeque.c
+        test/bbTest_SegDeque.c)
+target_compile_definitions(Test_Deque PRIVATE
+        DEFINE_INTERPOLATE)
+target_include_directories(Test_Deque  PRIVATE "./")
+
 
 add_executable(Test_Textbox test/bbTest_Textbox.c
         engine/logic/bbBloatedPool.c
