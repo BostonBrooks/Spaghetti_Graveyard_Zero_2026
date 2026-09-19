@@ -1,5 +1,6 @@
-#include "bbCore.h"
-#include "bbInstruction.h"
+#include "instructions.h"
+#include "../../../../../engine/core/bbCore.h"
+#include "../../../../../engine/core/bbInstruction.h"
 #include "engine/core/bbAction.h"
 #include "engine/data/bbHome.h"
 #include "engine/network/bbNetwork.h"
@@ -57,7 +58,7 @@ bbFlag bbCoreInput_requestAction(bbCore* core,
 
     bbAction* allocated;
     bbHandle allocated_handle;
-    bbVPool_alloc2(home.core.core.action_pool, (void**)&allocated, &allocated_handle);
+    bbVPool_alloc2(core->action_pool, (void**)&allocated, &allocated_handle);
 
     *allocated = *new_action;
 
@@ -76,11 +77,17 @@ bbFlag bbCoreInput_requestAction(bbCore* core,
 bbFlag bbInstruction_requestAction_fn(bbCore* core, bbInstruction* instruction)
 {
     bbAction* action;
-    bbVPool_lookup(home.core.core.action_pool, (void**)&action, instruction->data.three_handles.handle1);
+    bbVPool_lookup(core->action_pool, (void**)&action, instruction->data.three_handles.handle1);
 
     //TODO core shouldn't access home
     bbAction_request(core, &home.network, action);
-    bbVPool_free(home.core.core.action_pool, (void*)action);
+    bbVPool_free(core->action_pool, (void*)action);
     bbVPool_free(core->instruction_pool, (void*)instruction);
+    return bbSuccess;
+}
+
+bbFlag bbInstruction_unrequestAction_fn(bbCore* core, bbInstruction* instruction)
+{
+    bbNotImplemented()
     return bbSuccess;
 }

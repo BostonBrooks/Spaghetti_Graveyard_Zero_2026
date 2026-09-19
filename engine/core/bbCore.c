@@ -2,7 +2,7 @@
 #include <stddef.h>
 #include "engine/core/bbCore.h"
 
-#include "bbAction_request.h"
+#include "../../games/game0/maps/systems_test/core/action_request.h"
 #include "engine/core/bbCoreInbox.h"
 #include "engine/core/bbInstruction.h"
 #include "engine/core/bbAction.h"
@@ -80,9 +80,7 @@ bbFlag bbCore_react(bbCore* core)
                 bbI_doNothing_fn(core, instruction);
                 break;
 
-            case bbInstruction_requestAction:
-                bbInstruction_requestAction_fn(core, instruction);
-                break;
+
             //case bbI_spawnAIComponent:
                 //TODO virtual function / callback
                 //bbI_spawnAIComponent_fn(core, instruction);

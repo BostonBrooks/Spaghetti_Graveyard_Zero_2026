@@ -7,7 +7,7 @@
 
 #include "engine/logic/bbTerminal.h"
 #include "engine/network/bbNetworkPacket.h"
-#include "engine/core/bbAction_request.h"
+#include "../../games/game0/maps/systems_test/core/action_request.h"
 
 thread_local char* thread;
 thread_local bool debug_off;

@@ -30,8 +30,6 @@ typedef enum
     bbInstruction_unsetTime,
 
 
-    bbInstruction_requestAction,
-    bbInstruction_unrequestAction,
 
     //bbInstruction_netpauseButton,
 

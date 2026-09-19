@@ -683,7 +683,7 @@ bbFlag bbInstruction_entity_deleteEntity_fn(bbCore* core, bbInstruction* instruc
 {
     bbECS_entity* entity;
     bbHandle entity_handle = instruction->data.three_handles.handle1;
-    bbHandle_getComponent((bbSystem*)home.ECS.ECS, (bbComponent**)&entity, entity_handle);
+    bbHandle_getComponent(&core->ECS->system, (bbComponent**)&entity, entity_handle);
 
     if (instruction->source == bbInstructionSource_internal)
     {
@@ -742,7 +742,7 @@ bbFlag bbInstruction_entity_undeleteEntity_fn(bbCore* core, bbInstruction* instr
 {
     bbECS_entity* entity;
     bbHandle entity_handle = instruction->data.three_handles.handle1;
-    bbHandle_getComponent((bbSystem*)home.ECS.ECS, (bbComponent**)&entity, entity_handle);
+    bbHandle_getComponent(&core->ECS->system, (bbComponent**)&entity, entity_handle);
     entity->state = instruction->data.three_handles.handle2.u64;
     //restore entity state
 

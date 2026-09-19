@@ -1,7 +1,6 @@
 #include "engine/core/bbAction.h"
 
 #include "bbCore.h"
-#include "core/actions.h"
 #include "engine/logic/bbString.h"
 
 
@@ -65,26 +64,3 @@ bbFlag bbAction_setViewpoint(void* Core,
     return bbSuccess;
 }
 
-bbFlag bbAction_setGoalpoint(void* Core,
-                            bbMapCoords map_coords,
-                            bbHandle handle,
-                            U32 collision,
-                            U64 created_tick,
-                            U64 act_tick)
-{
-    bbCore* core = (bbCore*)Core;
-
-    bbAction* action;
-    bbFlag flag = bbList_alloc(&core->action_queue,(void**)&action);
-
-    bbAssert(flag == bbSuccess, "action pool full!\n");
-    action->header.type = bbActionType_setGoalpoint;
-    action->header.collision = collision;
-    action->header.created_tick = created_tick;
-    action->header.act_tick = act_tick;
-    action->map_coords = map_coords;
-    action->handle = handle;
-    bbList_sortL(&core->action_queue,(void*)action);
-
-    return bbSuccess;
-}
