@@ -38,7 +38,7 @@ struct bbCore
     bbInstruction_fn** discard_functions;
 
     bbVPool* instruction_pool;
-    bbList do_stack;
+    bbList active_stack;
     bbList undo_stack;
 
 

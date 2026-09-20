@@ -18,7 +18,7 @@ bbFlag bbCoreInput_spawnGraphicsComponent(bbCore* core,
 
 
     bbInstruction* instruction;
-    bbList_alloc(&core->do_stack, (void**)&instruction);
+    bbList_alloc(&core->active_stack, (void**)&instruction);
     instruction->type = bbInstruction_spawnGraphicsComponent;
     instruction->data.agent_MC.type = type_int;
     instruction->data.agent_MC.handle1 = entity;
@@ -28,7 +28,7 @@ bbFlag bbCoreInput_spawnGraphicsComponent(bbCore* core,
 
     instruction->source = source;
     instruction->redo_instruction = action;
-    bbList_pushL(&core->do_stack, instruction);
+    bbList_pushL(&core->active_stack, instruction);
     return bbSuccess;
 }
 
@@ -126,7 +126,7 @@ bbFlag bbInstruction_unspawnGraphicsComponent_fn(bbCore* core, bbInstruction* in
     {
         bbInstruction* redo_instruction;
         bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction, instruction->redo_instruction);
-        bbList_pushL(&core->do_stack, redo_instruction);
+        bbList_pushL(&core->active_stack, redo_instruction);
         bbVPool_free(core->instruction_pool, (void*)instruction);
         return bbSuccess;
     }

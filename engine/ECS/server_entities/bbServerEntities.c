@@ -34,14 +34,14 @@ bbFlag bbCoreInput_setServerEntity(bbCore* core,
                                    bbHandle action)
 {
     bbInstruction* instruction;
-    bbList_alloc(&core->do_stack, (void**) &instruction);
+    bbList_alloc(&core->active_stack, (void**) &instruction);
     instruction->type = bbInstruction_setServerEntity;
     instruction->data.three_handles.handle1 = entity_handle;
     instruction->data.three_handles.handle2 = server_entity_handle;
     instruction->ECS = core->ECS;
     instruction->source = source;
     instruction->redo_instruction = action;
-    bbList_pushL(&core->do_stack, instruction);
+    bbList_pushL(&core->active_stack, instruction);
 }
 
 bbFlag bbInstruction_setServerEntity_fn(bbCore* core, bbInstruction* instruction)
@@ -119,7 +119,7 @@ bbFlag bbInstruction_unsetServerEntity_fn(bbCore* core, bbInstruction* instructi
     {
         bbInstruction* redo_instruction;
         bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction, instruction->redo_instruction);
-        bbList_pushL(&core->do_stack, redo_instruction);
+        bbList_pushL(&core->active_stack, redo_instruction);
         bbVPool_free(core->instruction_pool, (void*)instruction);
         return bbSuccess;
     }
@@ -165,7 +165,7 @@ bbFlag bbCoreSynchronous_setServerEntity(bbCore* core,
         //create input instruction
         bbInstruction* instruction;
         bbHandle instruction_handle;
-        bbFlag flag = bbList_alloc2(&core->do_stack, (void**)&instruction,&instruction_handle);
+        bbFlag flag = bbList_alloc2(&core->active_stack, (void**)&instruction,&instruction_handle);
 
         instruction->source = source;
 

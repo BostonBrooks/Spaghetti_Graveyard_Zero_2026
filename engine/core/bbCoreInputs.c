@@ -18,14 +18,14 @@ bbFlag bbCoreInput_setString(bbCore* core, char* string, bbInstruction_source so
 {
 
     bbInstruction* instruction;
-    bbFlag flag = bbList_alloc(&core->do_stack,(void**)&instruction);
+    bbFlag flag = bbList_alloc(&core->active_stack,(void**)&instruction);
 
     instruction->type = bbInstruction_setString;
     bbStr_setStr(instruction->data.key, string, KEY_LENGTH);
     instruction->source = source;
     instruction->redo_instruction = action;
 
-    bbList_pushL(&core->do_stack, instruction);
+    bbList_pushL(&core->active_stack, instruction);
     return bbSuccess;
 }
 
@@ -33,14 +33,14 @@ bbFlag bbCoreInput_setString(bbCore* core, char* string, bbInstruction_source so
 bbFlag bbCoreInput_checkActions(bbCore* core, U64 time, bbInstruction_source source, bbHandle action)
 {
     bbInstruction* instruction;
-    bbFlag flag = bbList_alloc(&core->do_stack,(void**)&instruction);
+    bbFlag flag = bbList_alloc(&core->active_stack,(void**)&instruction);
 
     instruction->type = bbInstruction_checkActions;
     instruction->source = source;
     instruction->redo_instruction = action;
     instruction->data.u64 = time;
 
-    bbList_pushL(&core->do_stack, instruction);
+    bbList_pushL(&core->active_stack, instruction);
     return bbSuccess;
 }
 
@@ -48,14 +48,14 @@ bbFlag bbCoreInput_checkActions(bbCore* core, U64 time, bbInstruction_source sou
 bbFlag bbCoreInput_setTime(bbCore* core, U64 time, bbInstruction_source source, bbHandle action)
 {
     bbInstruction* instruction;
-    bbFlag flag = bbList_alloc(&core->do_stack,(void**)&instruction);
+    bbFlag flag = bbList_alloc(&core->active_stack,(void**)&instruction);
 
     instruction->type = bbInstruction_setTime;
     instruction->data.u64 = time;
     instruction->source = source;
     instruction->redo_instruction = action;
 
-    bbList_pushL(&core->do_stack, instruction);
+    bbList_pushL(&core->active_stack, instruction);
     return bbSuccess;
 }
 

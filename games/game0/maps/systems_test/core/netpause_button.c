@@ -30,12 +30,12 @@ bbFlag bbCoreInbox_netpauseButton_fn(bbCore* core, bbCoreInboxMessage* message)
 bbFlag bbCoreInput_netpauseButton(bbCore* core, char* string)
 {
         bbInstruction* instruction;
-        bbList_alloc(&core->do_stack, (void**) &instruction);
+        bbList_alloc(&core->active_stack, (void**) &instruction);
 
         instruction->type = bbInstruction_netpauseButton;
         bbStr_setStr(instruction->data.key, string, KEY_LENGTH);
 
-        bbList_pushL(&core->do_stack, instruction);
+        bbList_pushL(&core->active_stack, instruction);
 
         return bbSuccess;
 }

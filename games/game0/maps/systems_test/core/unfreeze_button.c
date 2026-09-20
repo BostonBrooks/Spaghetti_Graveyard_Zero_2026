@@ -28,14 +28,14 @@ bbFlag bbCoreInbox_unfreezeButton_fn(bbCore* core, bbCoreInboxMessage* message)
 bbFlag bbCoreInput_unfreezeButton(bbCore* core, char* string, bbInstruction_source source, bbHandle action)
 {
     bbInstruction* instruction;
-    bbFlag flag = bbList_alloc(&core->do_stack,(void**)&instruction);
+    bbFlag flag = bbList_alloc(&core->active_stack,(void**)&instruction);
 
     instruction->type = bbInstruction_unfreezeButton;
     bbStr_setStr(instruction->data.key, string, KEY_LENGTH);
     instruction->source = source;
     instruction->redo_instruction = action;
 
-    bbList_pushL(&core->do_stack, instruction);
+    bbList_pushL(&core->active_stack, instruction);
     return bbSuccess;
 }
 

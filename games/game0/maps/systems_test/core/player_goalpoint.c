@@ -20,11 +20,11 @@ bbFlag bbCoreInput_testClick4(bbCore* core,
 {
 
     bbInstruction* instruction;
-    bbList_alloc(&core->do_stack, (void**) &instruction);
+    bbList_alloc(&core->active_stack, (void**) &instruction);
     instruction->type = bbInstruction_testClick4;
     instruction->data.map_coords = MC;
     instruction->act_time = time;
-    bbList_pushL(&core->do_stack, instruction);
+    bbList_pushL(&core->active_stack, instruction);
     return bbSuccess;
 }
 

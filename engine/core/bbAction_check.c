@@ -153,7 +153,7 @@ bbFlag bbInstruction_uncheckActions_fn(bbCore* core, bbInstruction* instruction)
         bbInstruction* redo_instruction;
         bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction, instruction->redo_instruction);
 
-        bbList_pushL(&core->do_stack, redo_instruction);
+        bbList_pushL(&core->active_stack, redo_instruction);
 
         bbVPool_free(core->instruction_pool, (void*)instruction);
         return bbSuccess;

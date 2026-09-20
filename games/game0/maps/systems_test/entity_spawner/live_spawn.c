@@ -22,7 +22,7 @@
 bbFlag bbCI_live_spawnEntity(bbCore* core, bbSpawnFunctionArgs args, char* key, bbInstruction_source source, bbHandle action)
 {
     bbInstruction* instruction;
-    bbFlag flag = bbList_alloc(&core->do_stack,(void**)&instruction);
+    bbFlag flag = bbList_alloc(&core->active_stack,(void**)&instruction);
 
     bbHandle spawn_function_handle;
     bbDictionary_lookup(home.ECS.spawner.live_spawn_dict,key,&spawn_function_handle);
@@ -41,7 +41,7 @@ bbFlag bbCI_live_spawnEntity(bbCore* core, bbSpawnFunctionArgs args, char* key, 
     instruction->source = source;
     instruction->redo_instruction = action;
 
-    bbList_pushL(&core->do_stack, instruction);
+    bbList_pushL(&core->active_stack, instruction);
 
     return bbSuccess;
 }
@@ -110,7 +110,7 @@ bbFlag bbI_live_unspawnEntity_fn(bbCore* core, bbInstruction* instruction)
     {
         bbInstruction* redo_instruction;
         bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction, instruction->redo_instruction);
-        bbList_pushL(&core->do_stack, redo_instruction);
+        bbList_pushL(&core->active_stack, redo_instruction);
         bbVPool_free(core->instruction_pool, (void*)instruction);
         return bbSuccess;
     }

@@ -75,7 +75,7 @@ bbFlag bbI_unsetString_fn(bbCore* core, bbInstruction* instruction)
     {
         bbInstruction* redo_instruction;
         bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction, instruction->redo_instruction);
-        bbList_pushL(&core->do_stack, redo_instruction);
+        bbList_pushL(&core->active_stack, redo_instruction);
         bbVPool_free(core->instruction_pool, (void*)instruction);
         return bbSuccess;
     }
@@ -100,14 +100,14 @@ bbFlag bbCI_setString(bbCore* core, char* string, bbInstruction_source source, b
 {
 
     bbInstruction* instruction;
-    bbFlag flag = bbList_alloc(&core->do_stack,(void**)&instruction);
+    bbFlag flag = bbList_alloc(&core->active_stack,(void**)&instruction);
 
     instruction->type = bbI_setString;
     bbStr_setStr(instruction->data.key, string, KEY_LENGTH);
     instruction->source = source;
     instruction->redo_instruction = action;
 
-    bbList_pushL(&core->do_stack, instruction);
+    bbList_pushL(&core->active_stack, instruction);
     return bbSuccess;
 }
 bbFlag bbCS_setString(bbCore* core, char* string, bbInstruction_source source, bbHandle action)
@@ -119,7 +119,7 @@ bbFlag bbCS_setString(bbCore* core, char* string, bbInstruction_source source, b
         //create input instruction
         bbInstruction* instruction;
         bbHandle instruction_handle;
-        bbFlag flag = bbList_alloc2(&core->do_stack,(void**)&instruction, &instruction_handle);
+        bbFlag flag = bbList_alloc2(&core->active_stack,(void**)&instruction, &instruction_handle);
         instruction->source = source;
         //set input instruction data
         instruction->type = bbI_setString;
@@ -224,7 +224,7 @@ bbFlag bbI_undoNothing_fn(bbCore* core, bbInstruction* instruction)
     {
         bbInstruction* redo_instruction;
         bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction, instruction->redo_instruction);
-        bbList_pushL(&core->do_stack, redo_instruction);
+        bbList_pushL(&core->active_stack, redo_instruction);
         bbVPool_free(core->instruction_pool, (void*)instruction);
         return bbSuccess;
     }
@@ -249,13 +249,13 @@ bbFlag bbCI_doNothing(bbCore* core,  bbInstruction_source source, bbHandle actio
 {
 
     bbInstruction* instruction;
-    bbFlag flag = bbList_alloc(&core->do_stack,(void**)&instruction);
+    bbFlag flag = bbList_alloc(&core->active_stack,(void**)&instruction);
 
     instruction->type = bbI_doNothing;
     instruction->source = source;
     instruction->redo_instruction = action;
 
-    bbList_pushL(&core->do_stack, instruction);
+    bbList_pushL(&core->active_stack, instruction);
     return bbSuccess;
 }
 bbFlag bbCS_doNothing(bbCore* core,  bbInstruction_source source, bbHandle action)
@@ -267,7 +267,7 @@ bbFlag bbCS_doNothing(bbCore* core,  bbInstruction_source source, bbHandle actio
         //create input instruction
         bbInstruction* instruction;
         bbHandle instruction_handle;
-        bbFlag flag = bbList_alloc2(&core->do_stack,(void**)&instruction, &instruction_handle);
+        bbFlag flag = bbList_alloc2(&core->active_stack,(void**)&instruction, &instruction_handle);
         instruction->source = source;
         //set input instruction data
         instruction->type = bbI_doNothing;

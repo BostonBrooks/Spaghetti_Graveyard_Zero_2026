@@ -175,12 +175,12 @@ bbFlag bbCI_spawnAIComponent(bbCore* core,
 {
 
     bbInstruction* instruction;
-    bbFlag flag = bbList_alloc(&core->do_stack,(void**)&instruction);
+    bbFlag flag = bbList_alloc(&core->active_stack,(void**)&instruction);
     instruction->type = bbI_spawnAIComponent;
     instruction->data.three_handles.handle1 = entity;
     instruction->source = source;
     instruction->redo_instruction = action;
-    bbList_pushL(&core->do_stack, instruction);
+    bbList_pushL(&core->active_stack, instruction);
     return bbSuccess;
 }
 
@@ -266,7 +266,7 @@ bbFlag bbCS_spawnAIComponent(bbCore* core,
         //create input instruction
         bbInstruction* instruction;
         bbHandle instruction_handle;
-        bbFlag flag = bbList_alloc2(&core->do_stack,(void**)&instruction, &instruction_handle);
+        bbFlag flag = bbList_alloc2(&core->active_stack,(void**)&instruction, &instruction_handle);
 
         //set input instruction data
         instruction->type = bbI_spawnAIComponent;

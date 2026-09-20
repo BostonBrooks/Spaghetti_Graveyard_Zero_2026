@@ -23,13 +23,19 @@ int main(void)
 
     bbCore_init(&core);
 
+    bbHere()
     bbCoreInput_setTime(&core, 1, bbInstructionSource_input, no_handle);
+    bbHere()
     bbCore_react(&core);
+    bbHere()
     test_time = 1;
 
     bbCoreInput_setTime(&core, 2, bbInstructionSource_input, no_handle);
+    bbHere()
     bbCore_react(&core);
+    bbHere()
     test_time = 2;
+    bbHere()
 
     bbCoreInput_setTime(&core, 3, bbInstructionSource_input, no_handle);
     bbCore_react(&core);
@@ -37,8 +43,11 @@ int main(void)
 
 
     bbCS_setString(&core, "bish", bbInstructionSource_input, no_handle);
+    bbHere()
     bbCS_setString(&core, "bash", bbInstructionSource_internal,no_handle);
+    bbHere()
     bbCS_setString(&core, "bosh", bbInstructionSource_norewind, no_handle);
+    bbHere()
 
     char str[KEY_LENGTH];
     U32 collision = 0;

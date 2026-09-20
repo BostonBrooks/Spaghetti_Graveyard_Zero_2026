@@ -54,7 +54,7 @@ bbFlag bbCoreInput_requestAction(bbCore* core,
                                   bbHandle action)
 {
     bbInstruction* instruction;
-    bbList_alloc(&core->do_stack, (void**) &instruction);
+    bbList_alloc(&core->active_stack, (void**) &instruction);
 
     bbAction* allocated;
     bbHandle allocated_handle;
@@ -69,7 +69,7 @@ bbFlag bbCoreInput_requestAction(bbCore* core,
     instruction->redo_instruction = action;
 
 
-    bbList_pushL(&core->do_stack, instruction);
+    bbList_pushL(&core->active_stack, instruction);
 }
 
 

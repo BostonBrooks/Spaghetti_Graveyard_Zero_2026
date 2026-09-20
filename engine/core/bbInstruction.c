@@ -116,9 +116,14 @@ bbFlag bbInstruction_setTime_fn(bbCore* core, bbInstruction* instruction)
 #ifdef DEFINE_TEST_ECS
     bbDebug("+time = %lu\n", core->simulation_time);
 #endif
+
+#ifdef DEFINE_TEST_CORE
+    bbDebug("+time = %lu\n", core->simulation_time);
+#endif
     if (instruction->source == bbInstructionSource_internal)
     {
-        bbVPool_free(core->instruction_pool, (void*)instruction);
+        //No longer passed by pool element
+        //bbVPool_free(core->instruction_pool, (void*)instruction);
         undo_instruction->redo_instruction.u64 = 0;
         bbList_pushL(&core->undo_stack,(void*)undo_instruction);
         return bbSuccess;
@@ -126,7 +131,11 @@ bbFlag bbInstruction_setTime_fn(bbCore* core, bbInstruction* instruction)
     if (instruction->source == bbInstructionSource_input)
     {
         bbHandle handle;
-        bbVPool_reverseLookup(core->instruction_pool, instruction, &handle);
+        //bbVPool_reverseLookup(core->instruction_pool, instruction, &handle);
+        bbInstruction* redo_instruction;
+        bbVPool_alloc2(core->instruction_pool, (void**)&redo_instruction, &handle);
+        *redo_instruction = *instruction;
+
         undo_instruction->redo_instruction = handle;
         bbList_pushL(&core->undo_stack,(void*)undo_instruction);
         return bbSuccess;
@@ -164,7 +173,7 @@ bbFlag bbInstruction_unsetTime_fn(bbCore* core, bbInstruction* instruction)
     {
         bbInstruction* redo_instruction;
         bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction, instruction->redo_instruction);
-        bbList_pushL(&core->do_stack, redo_instruction);
+        bbList_pushL(&core->active_stack, redo_instruction);
         bbVPool_free(core->instruction_pool, (void*)instruction);
         return bbSuccess;
     }

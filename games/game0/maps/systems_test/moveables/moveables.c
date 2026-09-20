@@ -127,7 +127,7 @@ bbFlag bbInstruction_unspawnTestMoveable_fn(bbCore* core, bbInstruction* instruc
     {
         bbInstruction* redo_instruction;
         bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction, instruction->redo_instruction);
-        bbList_pushL(&core->do_stack, redo_instruction);
+        bbList_pushL(&core->active_stack, redo_instruction);
         bbVPool_free(core->instruction_pool, (void*)instruction);
         return bbSuccess;
     }
@@ -148,11 +148,11 @@ bbFlag bbCoreInput_updateMoveables(bbCore* core,
                                   bbInstruction_source source, bbHandle action)
 {
     bbInstruction* instruction;
-    bbList_alloc(&core->do_stack, (void**) &instruction);
+    bbList_alloc(&core->active_stack, (void**) &instruction);
     instruction->type = bbInstruction_updateMoveables;
     instruction->source = source;
     instruction->redo_instruction = action;
-    bbList_pushL(&core->do_stack, instruction);
+    bbList_pushL(&core->active_stack, instruction);
     return bbSuccess;
 }
 
@@ -244,7 +244,7 @@ bbInstruction* instruction)
         bbInstruction* redo_instruction;
         bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction,
                        instruction->redo_instruction);
-        bbList_pushL(&core->do_stack, redo_instruction);
+        bbList_pushL(&core->active_stack, redo_instruction);
         bbVPool_free(core->instruction_pool, (void*)instruction);
         return bbSuccess;
     }

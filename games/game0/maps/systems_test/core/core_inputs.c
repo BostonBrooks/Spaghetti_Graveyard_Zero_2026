@@ -160,12 +160,12 @@ bbFlag bbCoreInput_testClick(bbCore* core, bbMapCoords MC, bbInstruction_source 
     bbHere()
 
     bbInstruction* instruction;
-    bbFlag flag = bbList_alloc(&core->do_stack,(void**)&instruction);
+    bbFlag flag = bbList_alloc(&core->active_stack,(void**)&instruction);
 
     instruction->type = bbInstruction_testClick;
     instruction->data.map_coords = MC;
     instruction->source = source;
     instruction->redo_instruction = action;
-    bbList_pushL(&core->do_stack, instruction);
+    bbList_pushL(&core->active_stack, instruction);
     return bbSuccess;
 }

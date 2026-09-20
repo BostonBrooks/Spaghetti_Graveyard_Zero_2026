@@ -20,7 +20,7 @@ bbFlag bbCS_setTextbox(bbCore* core,bbHandle* handle, char* string, char* key, U
         //create input instruction
         bbInstruction* instruction;
         bbHandle instruction_handle;
-        bbFlag flag = bbList_alloc2(&core->do_stack,(void**)&instruction, &instruction_handle);
+        bbFlag flag = bbList_alloc2(&core->active_stack,(void**)&instruction, &instruction_handle);
         instruction->source = source;
         //set input instruction data
         instruction->type = bbI_setTextbox;
@@ -163,7 +163,7 @@ bbFlag bbI_unsetTextbox_fn(bbCore* core, bbInstruction* instruction) {
     {
         bbInstruction* redo_instruction;
         bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction, instruction->redo_instruction);
-        bbList_pushL(&core->do_stack, redo_instruction);
+        bbList_pushL(&core->active_stack, redo_instruction);
         bbVPool_free(core->instruction_pool, (void*)instruction);
         return bbSuccess;
     }
@@ -198,7 +198,7 @@ bbFlag bbCI_setTextbox(bbCore* core, char* string, char* key, U64 time, bbInstru
 
     bbInstruction* instruction;
     bbHandle instruction_handle;
-    bbFlag flag = bbList_alloc2(&core->do_stack,(void**)&instruction, &instruction_handle);
+    bbFlag flag = bbList_alloc2(&core->active_stack,(void**)&instruction, &instruction_handle);
 
     //set input instruction data
     instruction->type = bbI_setTextbox;
@@ -209,7 +209,7 @@ bbFlag bbCI_setTextbox(bbCore* core, char* string, char* key, U64 time, bbInstru
     instruction->source = source;
     instruction->redo_instruction = action;
 
-    bbList_pushL(&core->do_stack, instruction);
+    bbList_pushL(&core->active_stack, instruction);
     return bbSuccess;
 }
 
@@ -234,7 +234,7 @@ bbFlag bbCI_putTextbox(bbCore* core, char* string, char* key, U64 time, bbInstru
 
     bbInstruction* instruction;
     bbHandle instruction_handle;
-    bbFlag flag = bbList_alloc2(&core->do_stack,(void**)&instruction, &instruction_handle);
+    bbFlag flag = bbList_alloc2(&core->active_stack,(void**)&instruction, &instruction_handle);
 
     //set input instruction data
     instruction->type = bbI_putTextbox;
@@ -245,7 +245,7 @@ bbFlag bbCI_putTextbox(bbCore* core, char* string, char* key, U64 time, bbInstru
     instruction->source = source;
     instruction->redo_instruction = action;
 
-    bbList_pushL(&core->do_stack, instruction);
+    bbList_pushL(&core->active_stack, instruction);
     return bbSuccess;
 }
 bbFlag bbCS_putTextbox(bbCore* core,bbHandle* handle, char* string, char* key, U64 time, bbInstruction_source source, bbHandle action)
@@ -265,7 +265,7 @@ bbFlag bbCS_putTextbox(bbCore* core,bbHandle* handle, char* string, char* key, U
         //create input instruction
         bbInstruction* instruction;
         bbHandle instruction_handle;
-        bbFlag flag = bbList_alloc2(&core->do_stack,(void**)&instruction, &instruction_handle);
+        bbFlag flag = bbList_alloc2(&core->active_stack,(void**)&instruction, &instruction_handle);
         instruction->source = source;
         //set input instruction data
         instruction->type = bbI_putTextbox;
