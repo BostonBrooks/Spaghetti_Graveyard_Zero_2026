@@ -35,9 +35,9 @@ bbFlag bbCore_init(bbCore* core)
     bbList_init(&core->action_queue, core->action_pool, NULL, offsetof(bbAction, header.list_element),bbAction_compare,71);
     bbList_init(&core->action_temp_fifo, core->action_pool, NULL, offsetof(bbAction, header.list_element),bbAction_compare,72);
 
-    bbInstruction_deque_init(&core->active_instructions,128);
-    bbInstruction_deque_init(&core->undo_instructions,128);
-    bbInstruction_deque_init(&core->redo_instructions,128);
+    bbInstruction_deque_init(&core->active_instructions,128, "Active Instructions");
+    bbInstruction_deque_init(&core->undo_instructions,128,"Undo Instructions");
+    bbInstruction_deque_init(&core->redo_instructions,128,"Redo Instructions");
 
     core->simulation_time = 0;
  return bbSuccess;
@@ -279,4 +279,4 @@ bbFlag bbCore_printStack(bbCore* core)
     return bbSuccess;
 }
 
-DECLARE_SQ_BODY(bbInstruction,sizeof(bbInstruction),16)
+DECLARE_SQ_BODY(bbInstruction,sizeof(bbInstruction),10000)

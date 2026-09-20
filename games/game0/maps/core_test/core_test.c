@@ -5,7 +5,7 @@
 #include "engine/logic/bbHandle.h"
 #include "engine/logic/bbTerminal.h"
 #include "engine/test_string/bbTestString.h"
-
+#include <time.h>
 thread_local char* thread;
 thread_local bool debug_off = {0};
 U64 test_time = 0;
@@ -18,8 +18,8 @@ int main(void)
     thread = "MAIN";
     bbDebug("Hello World!\n");
 
+struct timespec
     strcpy(test_string, "Hello World!");
-
 
     bbCore_init(&core);
 
@@ -52,7 +52,7 @@ int main(void)
     char str[KEY_LENGTH];
     U32 collision = 0;
 
-    for (I32 i = 4; i < 100;i++)
+    for (I32 i = 4; i < 1000;i++)
     {
         bbCoreInput_setTime(&core, i, bbInstructionSource_input, no_handle);
         test_time = core.actual_time = i;
