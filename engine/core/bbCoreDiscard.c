@@ -128,7 +128,6 @@ bbFlag bbCoreDiscardSegmented(bbCore* core, U64 time)
             //bbFlag_print(flag2);
 
             //TODO peak_back and pop_back return different elements?
-            bbInstruction_deque_popBack(&core->redo_instructions, &redo_instruction);
 
             //bbDebug("undo instruction = %p, redo instruction = %p\n",
             //                 undo_instruction, redo_instruction2);
@@ -139,6 +138,7 @@ bbFlag bbCoreDiscardSegmented(bbCore* core, U64 time)
             //bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction, undo_instruction->redo_instruction);
 
 
+            bbInstruction_deque_popBack(&core->redo_instructions, &redo_instruction);
         }
 
         if (undo_instruction->type > bbInstruction_numTypes)

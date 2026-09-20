@@ -216,11 +216,22 @@ bbFlag CONCAT2(BB_CLASS,_deque_peakBack)(CONCAT2(BB_CLASS,_deque)* deque, BB_CLA
     if (deque->in_use == 0)\
     {\
         return bbNone;\
-        *element = NULL;\
+        if (element != NULL) *element = NULL;\
     }\
-    BB_CLASS* segment = deque->elements[deque->start_segment];\
+    I32 new_index = deque->start_index + 1;\
+    I32 new_segment = deque->start_segment;\
+    if (new_index >= BB_SEGMENT_SIZE)\
+    {\
+        new_index = 0;\
+        new_segment++;\
+        if (new_segment >= deque->num_segments)\
+        {\
+            new_segment = 0;\
+        }\
+    }\
+    BB_CLASS* segment = deque->elements[new_segment];\
     bbAssert(segment != NULL, "Segment not found\n");\
-    if (element != NULL) *element = (BB_CLASS*)&segment[deque->start_index];\
+    if (element != NULL) *element = (BB_CLASS*)&segment[new_index];\
     return bbSuccess;\
 }\
 \

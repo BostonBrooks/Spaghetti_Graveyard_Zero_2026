@@ -279,4 +279,4 @@ bbFlag bbCore_printStack(bbCore* core)
     return bbSuccess;
 }
 
-DECLARE_SQ_BODY(bbInstruction,sizeof(bbInstruction),128)
+DECLARE_SQ_BODY(bbInstruction,sizeof(bbInstruction),169)
