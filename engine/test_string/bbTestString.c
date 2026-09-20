@@ -187,7 +187,7 @@ bbFlag bbI_doNothing_fn(bbCore* core, bbInstruction* instruction)
         undo_instruction->source = instruction->source;
         allocRedoInstruction(redo_instruction)
          *redo_instruction = *instruction;
-        undo_instruction->redo_instruction = redo_instruction_handle;
+        undo_instruction->redo_instruction = (bbHandle)redo_instruction_handle;
         pushRedoInstruction(redo_instruction)
         pushUndoInstruction(undo_instruction)
     }
@@ -215,9 +215,14 @@ bbFlag bbI_undoNothing_fn(bbCore* core, bbInstruction* instruction)
     }
     if (instruction->source == bbInstructionSource_input)
     {
-        bbInstruction* redo_instruction;
-        bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction, instruction->redo_instruction);
-        bbList_pushL(&core->active_stack, redo_instruction);
+
+        popRedoInstruction(redo_instruction,instruction)
+        allocActiveInstruction(new_instruction)
+        *new_instruction = redo_instruction;
+        pushActiveInstruction(new_instruction)
+        //bbInstruction* redo_instruction;
+        //bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction, instruction->redo_instruction);
+        //bbList_pushL(&core->active_stack, redo_instruction);
         //bbVPool_free(core->instruction_pool, (void*)instruction);
         return bbSuccess;
     }
@@ -236,15 +241,12 @@ bbFlag bbI_undoNothing_fn(bbCore* core, bbInstruction* instruction)
 
 bbFlag bbCI_doNothing(bbCore* core,  bbInstruction_source source, bbHandle action)
 {
-
-    bbInstruction* instruction;
-    bbFlag flag = bbList_alloc(&core->active_stack,(void**)&instruction);
-
+    allocActiveInstruction(instruction)
     instruction->type = bbI_doNothing;
     instruction->source = source;
     instruction->redo_instruction = action;
 
-    bbList_pushL(&core->active_stack, instruction);
+    pushActiveInstruction(instruction)
     return bbSuccess;
 }
 bbFlag bbCS_doNothing(bbCore* core,  bbInstruction_source source, bbHandle action)
@@ -254,43 +256,38 @@ bbFlag bbCS_doNothing(bbCore* core,  bbInstruction_source source, bbHandle actio
     if (source == bbInstructionSource_input)
     {
         //create input instruction
-        bbInstruction* instruction;
-        bbHandle instruction_handle;
-        bbFlag flag = bbList_alloc2(&core->active_stack,(void**)&instruction, &instruction_handle);
-        instruction->source = source;
+        allocRedoInstruction(instruction)instruction->source = source;
         //set input instruction data
         instruction->type = bbI_doNothing;
 
         //create undo instruction
-        bbInstruction* undo_instruction;
-        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        allocUndoInstruction(undo_instruction)
         undo_instruction->source = source;
         undo_instruction->redo_instruction = (bbHandle)instruction_handle;
 
         //set instruction data
         undo_instruction->type = bbI_undoNothing;
-        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+        pushUndoInstruction(undo_instruction)
+        pushRedoInstruction(instruction)
     } else if (source == bbInstructionSource_internal)
     {
         //create undo instruction
-        bbInstruction* undo_instruction;
-        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        allocUndoInstruction(undo_instruction)
         undo_instruction->source = source;
 
         //set instruction data
         undo_instruction->type = bbI_undoNothing;
-        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+        pushUndoInstruction(undo_instruction)
     } else if (source == bbInstructionSource_action)
     {
         //create undo instruction
-        bbInstruction* undo_instruction;
-        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        allocUndoInstruction(undo_instruction)
         undo_instruction->redo_instruction = action;
         undo_instruction->source = source;
 
         //Set instruction data
         undo_instruction->type = bbI_undoNothing;
-        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+        pushUndoInstruction(undo_instruction)
     } else if (source == bbInstructionSource_norewind)
     {
 

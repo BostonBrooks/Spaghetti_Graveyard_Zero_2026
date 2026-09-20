@@ -80,9 +80,7 @@ bbFlag bbCoreSynchronous_spawnEmptyEntity(bbCore* core, bbECS* ECS, bbECS_entity
     if (source == bbInstructionSource_input)
     {
         //create input instruction
-        bbInstruction* instruction;
-        bbHandle instruction_handle;
-        bbFlag flag = bbList_alloc2(&core->active_stack,(void**)&instruction, &instruction_handle);
+        allocRedoInstruction(instruction)
 
         //set input instruction data
         instruction->type = bbI_ECS_spawnEmptyEntity;
@@ -92,22 +90,21 @@ bbFlag bbCoreSynchronous_spawnEmptyEntity(bbCore* core, bbECS* ECS, bbECS_entity
         instruction->redo_instruction = action;
 
         //create undo instruction
-        bbInstruction* undo_instruction;
-        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        allocUndoInstruction(undo_instruction)
         undo_instruction->source = instruction->source;
-        undo_instruction->redo_instruction = instruction_handle;
+        undo_instruction->redo_instruction = (bbHandle)instruction_handle;
 
         //set instruction data
         undo_instruction->type = bbI_ECS_unspawnEmptyEntity;
         undo_instruction->source = source;
         undo_instruction->data.three_handles.handle1 = new_handle;
         undo_instruction->ECS = ECS;
-        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+        pushUndoInstruction(undo_instruction)
+        pushRedoInstruction(instruction)
     } else if (source == bbInstructionSource_internal)
     {
         //create undo instruction
-        bbInstruction* undo_instruction;
-        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        allocUndoInstruction(undo_instruction)
         undo_instruction->source = source;
 
         //set instruction data
@@ -115,12 +112,11 @@ bbFlag bbCoreSynchronous_spawnEmptyEntity(bbCore* core, bbECS* ECS, bbECS_entity
         undo_instruction->source = source;
         undo_instruction->data.three_handles.handle1 = new_handle;
         undo_instruction->ECS = ECS;
-        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+        pushUndoInstruction(undo_instruction)
     } else if (source == bbInstructionSource_action)
     {
         //create undo instruction
-        bbInstruction* undo_instruction;
-        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        allocUndoInstruction(undo_instruction)
         undo_instruction->redo_instruction = action;
         undo_instruction->source = source;
 
@@ -129,7 +125,7 @@ bbFlag bbCoreSynchronous_spawnEmptyEntity(bbCore* core, bbECS* ECS, bbECS_entity
         undo_instruction->source = source;
         undo_instruction->data.three_handles.handle1 = new_handle;
         undo_instruction->ECS = ECS;
-        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+        pushUndoInstruction(undo_instruction)
     } else if (source == bbInstructionSource_norewind)
     {
 
@@ -143,14 +139,13 @@ bbFlag bbCoreSynchronous_spawnEmptyEntity(bbCore* core, bbECS* ECS, bbECS_entity
 
 bbFlag bbCoreInput_spawnEmptyEntity(bbCore* core, bbECS* ECS, char* key, bbInstruction_source source, bbHandle action)
 {
-        bbInstruction* instruction;
-        bbList_alloc(&core->active_stack, (void**) &instruction);
+        allocActiveInstruction(instruction)
         instruction->type = bbI_ECS_spawnEmptyEntity;
         instruction->ECS = ECS;
         bbStr_setStr(instruction->data.key, key, KEY_LENGTH);
         instruction->source = source;
         instruction->redo_instruction = action;
-        bbList_pushL(&core->active_stack, instruction);
+        pushActiveInstruction(instruction)
         return bbSuccess;
 
 }
@@ -175,8 +170,7 @@ bbFlag bbInstruction_spawnEmptyEntity_fn(bbCore* core, bbInstruction* instructio
 
     //bbDebug("entity.key = %s\n", new_entity->key);
 
-        bbInstruction* undo_instruction;
-        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        allocUndoInstruction(undo_instruction)
         undo_instruction->type = bbI_ECS_unspawnEmptyEntity;
         undo_instruction->source = instruction->source;
         undo_instruction->data.three_handles.handle1 = new_handle;
@@ -185,21 +179,22 @@ bbFlag bbInstruction_spawnEmptyEntity_fn(bbCore* core, bbInstruction* instructio
         if (instruction->source == bbInstructionSource_internal)
         {
                 undo_instruction->redo_instruction.u64 = 0;
-                bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+                pushUndoInstruction(undo_instruction)
                 return bbSuccess;
         }
         if (instruction->source == bbInstructionSource_input)
         {
-                bbHandle handle;
-                bbVPool_reverseLookup(core->instruction_pool, instruction, &handle);
-                undo_instruction->redo_instruction = handle;
-                bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+            allocRedoInstruction(redo_instruction)
+            *redo_instruction = *instruction;
+            undo_instruction->redo_instruction = (bbHandle)redo_instruction_handle;
+            pushRedoInstruction(redo_instruction)
+                pushUndoInstruction(undo_instruction)
                 return bbSuccess;
         }
         if (instruction->source == bbInstructionSource_action)
         {
                 undo_instruction->redo_instruction = instruction->redo_instruction;
-                bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+                pushUndoInstruction(undo_instruction)
                 return bbSuccess;
         }
 
@@ -223,10 +218,10 @@ bbFlag bbInstruction_unspawnEmptyEntity_fn(bbCore* core, bbInstruction* instruct
     }
     if (instruction->source == bbInstructionSource_input)
     {
-        bbInstruction* redo_instruction;
-        bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction,
-                       instruction->redo_instruction);
-        bbList_pushL(&core->active_stack, redo_instruction);
+        popRedoInstruction(redo_instruction,instruction)
+        allocActiveInstruction(new_instruction)
+        *new_instruction = redo_instruction;
+        pushActiveInstruction(new_instruction)
         return bbSuccess;
     }
     if (instruction->source == bbInstructionSource_action)
@@ -255,9 +250,7 @@ bbFlag bbCS_entity_setComponent(bbCore* core,
     if (source == bbInstructionSource_input)
     {
         //create input instruction
-        bbInstruction* instruction;
-        bbHandle instruction_handle;
-        bbFlag flag = bbList_alloc2(&core->active_stack, (void**)&instruction,&instruction_handle);
+        allocRedoInstruction(instruction)
 
         instruction->source = source;
 
@@ -270,10 +263,9 @@ bbFlag bbCS_entity_setComponent(bbCore* core,
         //bbStr_setStr(instruction->data.key, string, KEY_LENGTH);
 
         //create undo instruction
-        bbInstruction* undo_instruction;
-        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        allocUndoInstruction(undo_instruction)
         undo_instruction->source = instruction->source;
-        undo_instruction->redo_instruction = instruction_handle;
+        undo_instruction->redo_instruction = (bbHandle)instruction_handle;
 
         //set instruction data
         undo_instruction->type = bbI_ECS_entity_unsetComponent;
@@ -281,13 +273,13 @@ bbFlag bbCS_entity_setComponent(bbCore* core,
         undo_instruction->data.three_handles.handle2 = component;
         undo_instruction->data.three_handles.handle3.u64 = system;
         undo_instruction->ECS = ECS;
-        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+        pushRedoInstruction(instruction)
+        pushUndoInstruction(undo_instruction)
     }
     else if (source == bbInstructionSource_internal)
     {
         //create undo instruction
-        bbInstruction* undo_instruction;
-        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        allocUndoInstruction(undo_instruction)
         undo_instruction->source = source;
 
         //set instruction data
@@ -296,13 +288,12 @@ bbFlag bbCS_entity_setComponent(bbCore* core,
         undo_instruction->data.three_handles.handle2 = component;
         undo_instruction->data.three_handles.handle3.u64 = system;
         undo_instruction->ECS = ECS;
-        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+        pushUndoInstruction(undo_instruction)
     }
     else if (source == bbInstructionSource_action)
     {
         //create undo instruction
-        bbInstruction* undo_instruction;
-        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        allocUndoInstruction(undo_instruction)
         undo_instruction->redo_instruction = action;
         undo_instruction->source = source;
 
@@ -312,7 +303,7 @@ bbFlag bbCS_entity_setComponent(bbCore* core,
         undo_instruction->data.three_handles.handle2 = component;
         undo_instruction->data.three_handles.handle3.u64 = system;
         undo_instruction->ECS = ECS;
-        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+        pushUndoInstruction(undo_instruction)
     }
     else if (source == bbInstructionSource_norewind)
     {
@@ -340,8 +331,7 @@ bbFlag bbCoreInput_entity_setComponent(bbCore* core,bbECS* ECS, bbHandle entity,
     bbHandle component, bbECS_systems system, bbInstruction_source source, bbHandle action)
 {
 
-        bbInstruction* instruction;
-        bbList_alloc(&core->active_stack, (void**) &instruction);
+        allocActiveInstruction(instruction)
         instruction->type = bbI_ECS_entity_setComponent;
         instruction->ECS = ECS;
         instruction->source = source;
@@ -349,7 +339,7 @@ bbFlag bbCoreInput_entity_setComponent(bbCore* core,bbECS* ECS, bbHandle entity,
         instruction->data.three_handles.handle1 = entity;
         instruction->data.three_handles.handle2 = component;
         instruction->data.three_handles.handle3.u64 = system;
-        bbList_pushL(&core->active_stack, instruction);
+        pushActiveInstruction(instruction)
         return bbSuccess;
 
 
@@ -661,13 +651,12 @@ bbFlag bbCoreInput_entity_deleteEntity(bbCore* core,
                                        bbInstruction_source source,
                                        bbHandle action)
 {
-    bbInstruction* instruction;
-    bbList_alloc(&core->active_stack, (void**)&instruction);
+    allocActiveInstruction(instruction)
     instruction->type = bbI_ECS_entity_deleteEntity;
     instruction->source = source;
     instruction->redo_instruction = action;
     instruction->data.three_handles.handle1 = entity;
-    bbList_pushL(&core->active_stack, instruction);
+    pushActiveInstruction(instruction)
     return bbSuccess;
 }
 
@@ -679,8 +668,7 @@ bbFlag bbInstruction_entity_deleteEntity_fn(bbCore* core, bbInstruction* instruc
 
     if (instruction->source == bbInstructionSource_internal)
     {
-        bbInstruction* undo_instruction;
-        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        allocUndoInstruction(undo_instruction)
         undo_instruction->type = bbI_ECS_entity_undeleteEntity;
 
         undo_instruction->data.three_handles.handle1 = instruction->data.three_handles.handle1;
@@ -688,33 +676,31 @@ bbFlag bbInstruction_entity_deleteEntity_fn(bbCore* core, bbInstruction* instruc
 
         undo_instruction->source = instruction->source;
         undo_instruction->redo_instruction.u64 = 0;
-        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+        pushUndoInstruction(undo_instruction)
     }
     else if (instruction->source == bbInstructionSource_input)
     {
-        bbInstruction* undo_instruction;
-        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        allocUndoInstruction(undo_instruction)
         undo_instruction->type = bbI_ECS_entity_undeleteEntity;
         undo_instruction->data.three_handles.handle1 = instruction->data.three_handles.handle1;
         undo_instruction->data.three_handles.handle2.u64 = entity->state;
 
 
-        undo_instruction->source = instruction->source;
-        bbHandle handle;
-        bbVPool_reverseLookup(core->instruction_pool, instruction, &handle);
-        undo_instruction->redo_instruction = handle;
-        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+        allocRedoInstruction(redo_instruction)
+         *redo_instruction = *instruction;
+        undo_instruction->redo_instruction = (bbHandle)redo_instruction_handle;
+        pushRedoInstruction(redo_instruction)
+        pushUndoInstruction(undo_instruction)
     }
     else if (instruction->source == bbInstructionSource_action)
     {
-        bbInstruction* undo_instruction;
-        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        allocUndoInstruction(undo_instruction)
         undo_instruction->type = bbI_ECS_entity_undeleteEntity;
         undo_instruction->data.three_handles.handle1 = instruction->data.three_handles.handle1;
         undo_instruction->data.three_handles.handle2.u64 = entity->state;
         undo_instruction->source = instruction->source;
         undo_instruction->redo_instruction = instruction->redo_instruction;
-        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+        pushUndoInstruction(undo_instruction)
 
         bbAction* action;
         bbVPool_lookup(core->action_queue.pool, (void**)&action, instruction->redo_instruction);
@@ -744,9 +730,10 @@ bbFlag bbInstruction_entity_undeleteEntity_fn(bbCore* core, bbInstruction* instr
     }
     if (instruction->source == bbInstructionSource_input)
     {
-        bbInstruction* redo_instruction;
-        bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction, instruction->redo_instruction);
-        bbList_pushL(&core->active_stack, redo_instruction);
+        popRedoInstruction(redo_instruction,instruction)
+        allocActiveInstruction(new_instruction)
+        *new_instruction = redo_instruction;
+        pushActiveInstruction(new_instruction)
         //bbVPool_free(core->instruction_pool, (void*)instruction);
         return bbSuccess;
     }
