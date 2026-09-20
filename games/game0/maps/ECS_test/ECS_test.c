@@ -59,6 +59,7 @@ int main(void)
     bbServerEntities_init(&server_entities,core.ECS);
     bbCore_initActions(&core);
 
+    //bbVPool_free(core.ECS->system.pool, NULL);
 
     char str[KEY_LENGTH];
     U32 collision = 0;
@@ -192,7 +193,7 @@ int main(void)
     bbCoreInbox_TestMessage(&core);
     bbCore_checkInbox(&core);
 */
-    bbHere()
+    bbDebug("We made it to the end!")
     fflush(stdout);
     exit(EXIT_SUCCESS);
 

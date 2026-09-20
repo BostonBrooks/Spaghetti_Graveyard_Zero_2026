@@ -313,13 +313,39 @@ bbFlag bbSystemPool_Handle_incrementCollision(bbHandle* handle){
 	handle->system.generation = collision;
 	return bbSuccess;
 }
+///Check that the address being freed is within the memory allocated by pool
+bbFlag bbSystemPool_checkAddress(bbSystemPool* pool, void*Address)
+{
+	U8* address = Address;
+	bbSystemPool_Header* header = (bbSystemPool_Header*)address+offsetof(bbSystemPool_Header,user_data);
 
+	for (I32 i = 0; i < pool->level1; i++)
+	{
+		if (pool->elements[i] == NULL) continue;
+
+		U8* start = pool->elements[i];
+		U8* end = &start[pool->level2 * (sizeof(bbSystemPool_Header) + pool->size_of)];
+		U8* start_offset = start+offsetof(bbSystemPool_Header,user_data);
+		U8* end_offset = end+offsetof(bbSystemPool_Header,user_data);
+
+		if (start_offset <= address && address < end_offset)
+		{
+			if (header->in_use == true)return bbSuccess;
+		}
+	}
+
+bbNotHere()
+
+	return bbFail;
+}
 
 bbFlag bbSystemPool_free(bbSystemPool* pool, void* address)
 {
+	bbSystemPool_checkAddress(pool, address);
 	bbSystemPool_Header* header;
 	bbSystemPool_getHeader(&header, address);
 	bbSystemPool_Handle_incrementCollision(&header->self);
+	bbAssert(header->in_use == true, "freeing bad address\n");
 	header->in_use = false;
 	//return element to empty pool
 	if (IS_NULL(pool->available.head) || IS_NULL(pool->available.tail))
