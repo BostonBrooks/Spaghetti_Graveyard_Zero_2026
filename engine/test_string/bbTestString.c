@@ -25,7 +25,7 @@ bbFlag bbI_setString_fn(bbCore* core, bbInstruction* instruction)
         undo_instruction->source = instruction->source;
         allocRedoInstruction(redo_instruction)
         *redo_instruction = *instruction;
-        undo_instruction->redo_instruction = redo_instruction_handle;
+        undo_instruction->redo_instruction = (bbHandle)redo_instruction_handle;
         pushRedoInstruction(redo_instruction)
         pushUndoInstruction(undo_instruction)
     }
@@ -36,7 +36,7 @@ bbFlag bbI_setString_fn(bbCore* core, bbInstruction* instruction)
         undo_instruction->type = bbI_unsetString;
         bbStr_setStr(undo_instruction->data.key, test_string, KEY_LENGTH);
         undo_instruction->source = instruction->source;
-        undo_instruction->redo_instruction = instruction->redo_instruction;
+        undo_instruction->redo_instruction = (bbHandle)instruction->redo_instruction;
         pushUndoInstruction(undo_instruction)
 
         bbAction* action;
@@ -127,7 +127,7 @@ bbFlag bbCS_setString(bbCore* core, char* string, bbInstruction_source source, b
         allocUndoInstruction(undo_instruction)
         undo_instruction->type = bbI_unsetString;
         undo_instruction->source = source;
-        undo_instruction->redo_instruction = instruction_handle;
+        undo_instruction->redo_instruction = (bbHandle)instruction_handle;
 
         //set instruction data
         bbStr_setStr(undo_instruction->data.key, test_string, KEY_LENGTH);
@@ -270,7 +270,7 @@ bbFlag bbCS_doNothing(bbCore* core,  bbInstruction_source source, bbHandle actio
         bbInstruction* undo_instruction;
         bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
         undo_instruction->source = source;
-        undo_instruction->redo_instruction = instruction_handle;
+        undo_instruction->redo_instruction = (bbHandle)instruction_handle;
 
         //set instruction data
         undo_instruction->type = bbI_undoNothing;
