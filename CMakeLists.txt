@@ -10,10 +10,10 @@ if (CSFML3)
 endif (CSFML3)
 
 #if(BB_USE_ASAN)
-if (CMAKE_BUILD_TYPE MATCHES "Debug")
-    add_compile_options(-fsanitize=address -fno-omit-frame-pointer -g)
-    add_link_options(-fsanitize=address)
-endif()
+#if (CMAKE_BUILD_TYPE MATCHES "Debug")
+#    add_compile_options(-fsanitize=address -fno-omit-frame-pointer -g)
+#    add_link_options(-fsanitize=address)
+#endif()
 #endif()
 
 add_executable(Server engine/server/bbServer.c
