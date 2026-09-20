@@ -10,7 +10,7 @@
 bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
 {
 
-bbHere()
+//bbHere()
 
     bbAction* action;
     bbFlag flag;
@@ -26,7 +26,6 @@ bbHere()
             allocUndoInstruction(undo_instruction)
             undo_instruction->type = bbInstruction_uncheckActions;
             undo_instruction->source = instruction->source;
-            bbVPool_free(core->instruction_pool, (void*)instruction);
             undo_instruction->redo_instruction.u64 = 0;
             pushUndoInstruction(undo_instruction)
         }
@@ -55,15 +54,15 @@ bbHere()
     }
 #ifndef NO_ROLLBACK
     if (action->header.act_tick < core->simulation_time) //or < the previous time this instruction was called?
-    {bbHere()
+    {//bbHere()
         bbCore_rewindUntil(core, action->header.act_tick-1);
-        bbHere()
+        //bbHere()
         bbCore_react(core);
-        bbHere()
+        //bbHere()
     }
 #endif //NO_ROLLBACK
 
-bbHere()
+//bbHere()
 
     //Reverse the order of objects in queue
     flag = bbList_popL(&core->action_queue,(void**)&action);
@@ -73,11 +72,11 @@ bbHere()
         flag = bbList_popL(&core->action_queue,(void**)&action);
     }
 
-    bbHere()
+    //bbHere()
     //(if we go too far along in the queue, undo last instruction
     if (flag == bbSuccess) bbList_pushL(&core->action_queue,(void*)action);
 
-    bbHere()
+    //bbHere()
     //take from one lifo and add to another
     flag = bbList_popL(&core->action_temp_fifo,(void**)&action);
     while (flag == bbSuccess)
@@ -124,7 +123,6 @@ bbHere()
         allocUndoInstruction(undo_instruction)
         undo_instruction->type = bbInstruction_uncheckActions;
         undo_instruction->source = instruction->source;
-        bbVPool_free(core->instruction_pool, (void*)instruction);
         undo_instruction->redo_instruction.u64 = 0;
         pushUndoInstruction(undo_instruction)
     }
@@ -148,7 +146,7 @@ bbHere()
         pushUndoInstruction(undo_instruction)
 
     } //else source == no rewind
-bbHere()
+//bbHere()
     return bbSuccess;
 }
 
@@ -156,7 +154,7 @@ bbFlag bbInstruction_uncheckActions_fn(bbCore* core, bbInstruction* instruction)
 {
     if (instruction->source == bbInstructionSource_internal)
     {
-        bbHere()
+        //bbHere()
                 return bbSuccess;
     }
     if (instruction->source == bbInstructionSource_input)
@@ -165,7 +163,7 @@ bbFlag bbInstruction_uncheckActions_fn(bbCore* core, bbInstruction* instruction)
         allocActiveInstruction(new_instruction)
         *new_instruction = redo_instruction;
         pushActiveInstruction(new_instruction)
-bbHere()
+//bbHere()
         return bbSuccess;
     }
     if (instruction->source == bbInstructionSource_action)

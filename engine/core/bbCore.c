@@ -102,9 +102,9 @@ bbFlag bbCore_react(bbCore* core)
                 //break;
 
             case bbInstruction_checkActions:
-                bbHere()
+                //bbHere()
                 bbInstruction_checkActions_fn(core, &instruction);
-                bbHere()
+                //bbHere()
                 break;
             //case bbInstruction_spawnEmptyEntity:
                 //TODO virtual function / callback
@@ -162,12 +162,12 @@ bbFlag bbCore_react(bbCore* core)
 
 
 bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
-{bbHere()
+{//bbHere()
     bbFlag flag;
     bbInstruction* instruction_ptr;
     bbInstruction instruction;
     while (core->simulation_time > time)
-    { bbHere()
+    { //bbHere()
         flag = bbList_popL(&core->undo_stack, (void**)&instruction_ptr);
         bbAssert(instruction_ptr->type != 2, "undo_instruction with forward_instruction type\n")
         if (flag != bbSuccess) return bbSuccess;
@@ -178,18 +178,18 @@ bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
         {
 
             bbInstruction_fn* instruction_fn = core->instruction_functions[instruction.type-bbInstruction_numTypes];
-            bbHere()
+            //bbHere()
             instruction_fn(core, &instruction);
-            bbHere()
+            //bbHere()
 
         } else
         {
             switch (instruction.type)
             {
             case bbInstruction_unsetTime:
-                bbHere()
+                //bbHere()
                 bbInstruction_unsetTime_fn(core, &instruction);
-                bbHere()
+                //bbHere()
                 break;
 
                 ///(6) core "un-reacts" to instruction
@@ -199,15 +199,15 @@ bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
 
             case bbI_unsetString:
             case bbInstruction_unsetString:
-                bbHere()
+                //bbHere()
                 bbI_unsetString_fn(core, &instruction);
-                bbHere()
+                //bbHere()
                 break;
 
             case bbI_undoNothing:
-                bbHere()
+                //bbHere()
                 bbI_undoNothing_fn(core, &instruction);
-                bbHere()
+                //bbHere()
                 break;
 
             // case bbI_unspawnAIComponent:
@@ -216,9 +216,9 @@ bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
             //     break;
 
             case bbInstruction_uncheckActions:
-                bbHere()
+                //bbHere()
                 bbInstruction_uncheckActions_fn(core, &instruction);
-                bbHere()
+                //bbHere()
                 break;
 
 //             case bbInstruction_unspawnEmptyEntity:
@@ -261,7 +261,7 @@ bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
         }
 
     }
-    bbHere()
+    //bbHere()
     return bbSuccess;
 }
 

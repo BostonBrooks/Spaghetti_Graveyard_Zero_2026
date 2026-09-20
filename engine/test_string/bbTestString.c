@@ -53,7 +53,7 @@ bbFlag bbI_setString_fn(bbCore* core, bbInstruction* instruction)
 }
 bbFlag bbI_unsetString_fn(bbCore* core, bbInstruction* instruction)
 {
-bbHere()
+//bbHere()
     if (instruction->source == bbInstructionSource_action)
     {
         bbAction* redo_action;
@@ -68,7 +68,7 @@ bbHere()
 
     if (instruction->source == bbInstructionSource_internal)
     {
-bbHere()
+//bbHere()
         return bbSuccess;
     }
     if (instruction->source == bbInstructionSource_input)
@@ -77,7 +77,7 @@ bbHere()
         allocActiveInstruction(new_instruction)
         *new_instruction = redo_instruction;
         pushActiveInstruction(new_instruction)
-bbHere()
+//bbHere()
         return bbSuccess;
     }
     if (instruction->source == bbInstructionSource_action)
@@ -90,7 +90,7 @@ bbHere()
 
 
 
-        bbHere()
+        //bbHere()
         return bbSuccess;
     }
     bbAssert(0==1, "We should not get here\n");

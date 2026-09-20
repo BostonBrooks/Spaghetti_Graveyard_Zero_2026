@@ -23,19 +23,19 @@ int main(void)
 
     bbCore_init(&core);
 
-    bbHere()
+    //bbHere()
     bbCoreInput_setTime(&core, 1, bbInstructionSource_input, no_handle);
-    bbHere()
+    //bbHere()
     bbCore_react(&core);
-    bbHere()
+    //bbHere()
     test_time = 1;
 
     bbCoreInput_setTime(&core, 2, bbInstructionSource_input, no_handle);
-    bbHere()
+    //bbHere()
     bbCore_react(&core);
-    bbHere()
+    //bbHere()
     test_time = 2;
-    bbHere()
+    //bbHere()
 
     bbCoreInput_setTime(&core, 3, bbInstructionSource_input, no_handle);
     bbCore_react(&core);
@@ -43,23 +43,23 @@ int main(void)
 
 
     bbCS_setString(&core, "bish", bbInstructionSource_input, no_handle);
-    bbHere()
+    //bbHere()
     bbCS_setString(&core, "bash", bbInstructionSource_internal,no_handle);
-    bbHere()
+    //bbHere()
     bbCS_setString(&core, "bosh", bbInstructionSource_norewind, no_handle);
-    bbHere()
+    //bbHere()
 
     char str[KEY_LENGTH];
     U32 collision = 0;
 
-    for (I32 i = 4; i < 10;i++)
+    for (I32 i = 4; i < 100;i++)
     {
         bbCoreInput_setTime(&core, i, bbInstructionSource_input, no_handle);
         test_time = core.actual_time = i;
-        bbHere()
+        //bbHere()
         bbCore_react(&core);
 
-        bbHere()
+        //bbHere()
         sprintf(str, "(%d)", i-3);
 
         bbAction_setString(&core,
@@ -69,12 +69,12 @@ int main(void)
                  i-3,
                  str);
 
-        bbHere()
+        //bbHere()
         bbCoreInput_checkActions(&core,i,bbInstructionSource_input, no_handle);
 
-        bbHere()
+        //bbHere()
         bbCore_react(&core);
-        bbHere()
+        //bbHere()
     }
 bbDebug("We made it to the end!\n");
 }

@@ -118,7 +118,7 @@ bbFlag bbInstruction_setTime_fn(bbCore* core, bbInstruction* instruction)
 #endif
 
 #ifdef DEFINE_TEST_CORE
-    bbDebug("+time = %lu\n", core->simulation_time);
+    //bbDebug("+time = %lu\n", core->simulation_time);
 #endif
     if (instruction->source == bbInstructionSource_internal)
     {
@@ -167,7 +167,7 @@ bbFlag bbInstruction_unsetTime_fn(bbCore* core, bbInstruction* instruction)
 
 
 #ifdef DEFINE_TEST_CORE
-    bbDebug("-time = %lu\n", core->simulation_time);
+    //bbDebug("-time = %lu\n", core->simulation_time);
 #endif
     if (instruction->source == bbInstructionSource_internal)
     {
