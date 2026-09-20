@@ -210,7 +210,7 @@ bbFlag bbI_undoNothing_fn(bbCore* core, bbInstruction* instruction)
 
     if (instruction->source == bbInstructionSource_internal)
     {
-        bbVPool_free(core->instruction_pool, (void*)instruction);
+        //bbVPool_free(core->instruction_pool, (void*)instruction);
         return bbSuccess;
     }
     if (instruction->source == bbInstructionSource_input)
@@ -218,7 +218,7 @@ bbFlag bbI_undoNothing_fn(bbCore* core, bbInstruction* instruction)
         bbInstruction* redo_instruction;
         bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction, instruction->redo_instruction);
         bbList_pushL(&core->active_stack, redo_instruction);
-        bbVPool_free(core->instruction_pool, (void*)instruction);
+        //bbVPool_free(core->instruction_pool, (void*)instruction);
         return bbSuccess;
     }
     if (instruction->source == bbInstructionSource_action)
@@ -227,7 +227,7 @@ bbFlag bbI_undoNothing_fn(bbCore* core, bbInstruction* instruction)
 
         bbVPool_lookup(core->action_pool, (void**)&redo_action, instruction->redo_instruction);
         bbList_sortL(&core->action_queue,(void*)redo_action);
-        bbVPool_free(core->instruction_pool, (void*)instruction);
+        //bbVPool_free(core->instruction_pool, (void*)instruction);
         return bbSuccess;
     }
     bbAssert(0==1, "We should not get here\n");

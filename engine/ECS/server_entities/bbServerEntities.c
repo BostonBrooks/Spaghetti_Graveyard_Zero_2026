@@ -74,7 +74,7 @@ bbFlag bbInstruction_setServerEntity_fn(bbCore* core, bbInstruction* instruction
 
     if (instruction->source == bbInstructionSource_internal)
     {
-        bbVPool_free(core->instruction_pool, (void*)instruction);
+        //bbVPool_free(core->instruction_pool, (void*)instruction);
         undo_instruction->redo_instruction.u64 = 0;
         bbList_pushL(&core->undo_stack, (void*)undo_instruction);
         return bbSuccess;
@@ -112,7 +112,7 @@ bbFlag bbInstruction_unsetServerEntity_fn(bbCore* core, bbInstruction* instructi
 
     if (instruction->source == bbInstructionSource_internal)
     {
-        bbVPool_free(core->instruction_pool, (void*)instruction);
+        //bbVPool_free(core->instruction_pool, (void*)instruction);
         return bbSuccess;
     }
     if (instruction->source == bbInstructionSource_input)
@@ -120,7 +120,7 @@ bbFlag bbInstruction_unsetServerEntity_fn(bbCore* core, bbInstruction* instructi
         bbInstruction* redo_instruction;
         bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction, instruction->redo_instruction);
         bbList_pushL(&core->active_stack, redo_instruction);
-        bbVPool_free(core->instruction_pool, (void*)instruction);
+        //bbVPool_free(core->instruction_pool, (void*)instruction);
         return bbSuccess;
     }
     if (instruction->source == bbInstructionSource_action)
@@ -128,7 +128,7 @@ bbFlag bbInstruction_unsetServerEntity_fn(bbCore* core, bbInstruction* instructi
         bbAction* redo_action;
         bbVPool_lookup(core->action_pool, (void**)&redo_action, instruction->redo_instruction);
         bbList_sortL(&core->action_queue,(void*)redo_action);
-        bbVPool_free(core->instruction_pool, (void*)instruction);
+        //bbVPool_free(core->instruction_pool, (void*)instruction);
         return bbSuccess;
     }
 

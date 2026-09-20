@@ -74,7 +74,7 @@ bbFlag bbInstruction_spawnServerEntity_fn(bbCore* core, bbInstruction* instructi
 bbFlag bbInstruction_unspawnServerEntity_fn(bbCore* core, bbInstruction* instruction){
     if (instruction->source == bbInstructionSource_internal)
     {
-        bbVPool_free(core->instruction_pool, (void*)instruction);
+        //bbVPool_free(core->instruction_pool, (void*)instruction);
         return bbSuccess;
     }
     if (instruction->source == bbInstructionSource_input)
@@ -82,7 +82,7 @@ bbFlag bbInstruction_unspawnServerEntity_fn(bbCore* core, bbInstruction* instruc
         bbInstruction* redo_instruction;
         bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction, instruction->redo_instruction);
         bbList_pushL(&core->active_stack, redo_instruction);
-        bbVPool_free(core->instruction_pool, (void*)instruction);
+        //bbVPool_free(core->instruction_pool, (void*)instruction);
         return bbSuccess;
     }
     if (instruction->source == bbInstructionSource_action)
@@ -91,7 +91,7 @@ bbFlag bbInstruction_unspawnServerEntity_fn(bbCore* core, bbInstruction* instruc
 
         bbVPool_lookup(core->action_pool, (void**)&redo_action, instruction->redo_instruction);
         bbList_sortL(&core->action_queue,(void*)redo_action);
-        bbVPool_free(core->instruction_pool, (void*)instruction);
+        //bbVPool_free(core->instruction_pool, (void*)instruction);
         return bbSuccess;
     }
 }
@@ -205,7 +205,7 @@ bbFlag bbVInstruction_unsetGoalpoint_fn(bbCore* core,
 
     if (instruction->source == bbInstructionSource_internal)
     {
-        bbVPool_free(core->instruction_pool, (void*)instruction);
+        //bbVPool_free(core->instruction_pool, (void*)instruction);
         return bbSuccess;
     }
     if (instruction->source == bbInstructionSource_input)
@@ -214,7 +214,7 @@ bbFlag bbVInstruction_unsetGoalpoint_fn(bbCore* core,
         bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction,
                        instruction->redo_instruction);
         bbList_pushL(&core->active_stack, redo_instruction);
-        bbVPool_free(core->instruction_pool, (void*)instruction);
+        //bbVPool_free(core->instruction_pool, (void*)instruction);
         return bbSuccess;
     }
     if (instruction->source == bbInstructionSource_action)
@@ -224,7 +224,7 @@ bbFlag bbVInstruction_unsetGoalpoint_fn(bbCore* core,
         bbVPool_lookup(core->action_pool, (void**)&redo_action,
                        instruction->redo_instruction);
         bbList_sortL(&core->action_queue, (void*)redo_action);
-        bbVPool_free(core->instruction_pool, (void*)instruction);
+        //bbVPool_free(core->instruction_pool, (void*)instruction);
         return bbSuccess;
     }
     bbNotHere()

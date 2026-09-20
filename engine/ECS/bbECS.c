@@ -552,7 +552,7 @@ bbFlag bbInstruction_unspawnTestEntity_fn(bbCore* core, bbInstruction* instructi
         bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction,
                        instruction->redo_instruction);
         bbList_pushL(&core->do_stack, redo_instruction);
-        bbVPool_free(core->instruction_pool, (void*)instruction);
+        //bbVPool_free(core->instruction_pool, (void*)instruction);
         return bbSuccess;
     }
     if (instruction->source == bbInstructionSource_action)
@@ -739,7 +739,7 @@ bbFlag bbInstruction_entity_undeleteEntity_fn(bbCore* core, bbInstruction* instr
 
     if (instruction->source == bbInstructionSource_internal)
     {
-        bbVPool_free(core->instruction_pool, (void*)instruction);
+        //bbVPool_free(core->instruction_pool, (void*)instruction);
         return bbSuccess;
     }
     if (instruction->source == bbInstructionSource_input)
@@ -747,7 +747,7 @@ bbFlag bbInstruction_entity_undeleteEntity_fn(bbCore* core, bbInstruction* instr
         bbInstruction* redo_instruction;
         bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction, instruction->redo_instruction);
         bbList_pushL(&core->active_stack, redo_instruction);
-        bbVPool_free(core->instruction_pool, (void*)instruction);
+        //bbVPool_free(core->instruction_pool, (void*)instruction);
         return bbSuccess;
     }
     if (instruction->source == bbInstructionSource_action)
@@ -756,7 +756,7 @@ bbFlag bbInstruction_entity_undeleteEntity_fn(bbCore* core, bbInstruction* instr
 
         bbVPool_lookup(core->action_pool, (void**)&redo_action, instruction->redo_instruction);
         bbList_sortL(&core->action_queue,(void*)redo_action);
-        bbVPool_free(core->instruction_pool, (void*)instruction);
+        //bbVPool_free(core->instruction_pool, (void*)instruction);
 
 
 

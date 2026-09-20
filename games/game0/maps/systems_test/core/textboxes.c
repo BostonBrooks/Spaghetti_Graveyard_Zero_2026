@@ -92,7 +92,7 @@ bbFlag bbI_setTextbox_fn(bbCore* core, bbInstruction* instruction) {
         undo_instruction->data.three_handles.handle2.u64 = instruction->data.three_handles.handle2.u64;
 
         undo_instruction->source = instruction->source;
-        bbVPool_free(core->instruction_pool, (void*)instruction);
+        //bbVPool_free(core->instruction_pool, (void*)instruction);
         undo_instruction->redo_instruction.u64 = 0;
         bbList_pushL(&core->undo_stack, (void*)undo_instruction);
     }
@@ -156,7 +156,7 @@ bbFlag bbI_unsetTextbox_fn(bbCore* core, bbInstruction* instruction) {
 
     if (instruction->source == bbInstructionSource_internal)
     {
-        bbVPool_free(core->instruction_pool, (void*)instruction);
+        //bbVPool_free(core->instruction_pool, (void*)instruction);
         return bbSuccess;
     }
     if (instruction->source == bbInstructionSource_input)
@@ -164,7 +164,7 @@ bbFlag bbI_unsetTextbox_fn(bbCore* core, bbInstruction* instruction) {
         bbInstruction* redo_instruction;
         bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction, instruction->redo_instruction);
         bbList_pushL(&core->active_stack, redo_instruction);
-        bbVPool_free(core->instruction_pool, (void*)instruction);
+        //bbVPool_free(core->instruction_pool, (void*)instruction);
         return bbSuccess;
     }
     if (instruction->source == bbInstructionSource_action)
@@ -173,7 +173,7 @@ bbFlag bbI_unsetTextbox_fn(bbCore* core, bbInstruction* instruction) {
 
         bbVPool_lookup(core->action_pool, (void**)&redo_action, instruction->redo_instruction);
         bbList_sortL(&core->action_queue,(void*)redo_action);
-        bbVPool_free(core->instruction_pool, (void*)instruction);
+        //bbVPool_free(core->instruction_pool, (void*)instruction);
 
 
 

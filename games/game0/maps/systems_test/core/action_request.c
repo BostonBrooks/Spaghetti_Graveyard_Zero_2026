@@ -82,7 +82,7 @@ bbFlag bbInstruction_requestAction_fn(bbCore* core, bbInstruction* instruction)
     //TODO core shouldn't access home
     bbAction_request(core, &home.network, action);
     bbVPool_free(core->action_pool, (void*)action);
-    bbVPool_free(core->instruction_pool, (void*)instruction);
+    ////bbVPool_free(core->instruction_pool, (void*)instruction);
     return bbSuccess;
 }
 
