@@ -177,7 +177,6 @@ bbFlag bbI_doNothing_fn(bbCore* core, bbInstruction* instruction)
         allocUndoInstruction(undo_instruction)
         undo_instruction->type = bbI_undoNothing;
         undo_instruction->source = instruction->source;
-        bbVPool_free(core->instruction_pool, (void*)instruction);
         undo_instruction->redo_instruction.u64 = 0;
         pushUndoInstruction(undo_instruction)
     }
@@ -229,10 +228,6 @@ bbFlag bbI_undoNothing_fn(bbCore* core, bbInstruction* instruction)
         bbVPool_lookup(core->action_pool, (void**)&redo_action, instruction->redo_instruction);
         bbList_sortL(&core->action_queue,(void*)redo_action);
         bbVPool_free(core->instruction_pool, (void*)instruction);
-
-
-
-
         return bbSuccess;
     }
     bbAssert(0==1, "We should not get here\n");

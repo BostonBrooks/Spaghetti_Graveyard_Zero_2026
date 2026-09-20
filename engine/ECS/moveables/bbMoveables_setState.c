@@ -176,7 +176,6 @@ bbFlag bbI_Moveable_setDead_fn(bbCore* core, bbInstruction* instruction)
         undo_instruction->data.moveable_state.goal_moveable = moveable->goal_moveable;
         undo_instruction->data.moveable_state.handle = instruction->data.moveable_state.handle;
         undo_instruction->source = instruction->source;
-        bbVPool_free(core->instruction_pool, (void*)instruction);
         undo_instruction->redo_instruction.u64 = 0;
         bbList_pushL(&core->undo_stack, (void*)undo_instruction);
     }
@@ -246,7 +245,6 @@ bbFlag bbI_Moveable_unsetState_fn(bbCore* core, bbInstruction* instruction)
 
     if (instruction->source == bbInstructionSource_internal)
     {
-        bbVPool_free(core->instruction_pool, (void*)instruction);
         return bbSuccess;
     }
     if (instruction->source == bbInstructionSource_input)

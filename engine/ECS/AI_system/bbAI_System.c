@@ -195,7 +195,6 @@ bbFlag bbI_spawnAIComponent_fn(bbCore* core, bbInstruction* instruction)
         undo_instruction->data.three_handles.handle1 = instruction->data.
             three_handles.handle1;
         undo_instruction->source = instruction->source;
-        bbVPool_free(core->instruction_pool, (void*)instruction);
         undo_instruction->redo_instruction.u64 = 0;
         bbList_pushL(&core->undo_stack, (void*)undo_instruction);
     }
