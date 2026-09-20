@@ -97,13 +97,12 @@ bbFlag bbCoreInput_spawnServerEntity(bbCore* core,
                                     bbInstruction_source source,
                                     bbHandle action)
 {
-    bbInstruction* instruction;
-    bbList_alloc(&core->active_stack, (void**) &instruction);
+    allocActiveInstruction(instruction)
     instruction->type = bbInstruction_spawnServerEntity;
     bbStr_setStr(instruction->data.key, key, KEY_LENGTH);
     instruction->source = source;
     instruction->redo_instruction = action;
-    bbList_pushL(&core->active_stack, instruction);
+    pushActiveInstruction(instruction)
     return bbSuccess;
 
 }

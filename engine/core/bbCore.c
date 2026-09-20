@@ -2,6 +2,7 @@
 #include <stddef.h>
 #include "engine/core/bbCore.h"
 
+#include "bbInstruction_operations.h"
 #include "../../games/game0/maps/systems_test/core/action_request.h"
 #include "engine/core/bbCoreInbox.h"
 #include "engine/core/bbInstruction.h"
@@ -15,6 +16,7 @@
 #include "engine/threadsafe/bbThreadedPool.h"
 #include "engine/test_string/bbTestString.h"
 #include "engine/core/bbAction_check.h"
+#include "engine/logic/bbSegmentedDeque.h"
 
 bbFlag bbCore_init(bbCore* core)
 {
@@ -33,30 +35,24 @@ bbFlag bbCore_init(bbCore* core)
     bbList_init(&core->action_queue, core->action_pool, NULL, offsetof(bbAction, header.list_element),bbAction_compare,71);
     bbList_init(&core->action_temp_fifo, core->action_pool, NULL, offsetof(bbAction, header.list_element),bbAction_compare,72);
 
+    bbInstruction_deque_init(&core->active_instructions,128);
+    bbInstruction_deque_init(&core->undo_instructions,128);
+    bbInstruction_deque_init(&core->redo_instructions,128);
+
     core->simulation_time = 0;
  return bbSuccess;
 }
 
 bbFlag bbCore_react(bbCore* core)
 {//printf("+++\n");
-    bbFlag flag;
-    bbInstruction* instruction_ptr;
-
-    bbInstruction instruction;
     while (1)
     {bbHere()
-        flag = bbList_popL(&core->active_stack, (void**)&instruction_ptr);
-        if (flag != bbSuccess)
-        {//bbHere()
-            return bbSuccess;
-        }
 
-        instruction = *instruction_ptr;
-        bbVPool_free(core->instruction_pool,instruction_ptr);
+        fetchInstruction(core)
 
         bbHere()
 //bbHere()
-        if (instruction_ptr->type >= bbInstruction_numTypes)
+        if (instruction.type >= bbInstruction_numTypes)
         {//bbHere()
             bbInstruction_fn* instruction_fn = core->instruction_functions[instruction.type-bbInstruction_numTypes];
 
@@ -166,16 +162,11 @@ bbFlag bbCore_react(bbCore* core)
 
 bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
 {//bbHere()
-    bbFlag flag;
-    bbInstruction* instruction_ptr;
-    bbInstruction instruction;
     while (core->simulation_time > time)
     { //bbHere()
-        flag = bbList_popL(&core->undo_stack, (void**)&instruction_ptr);
-        bbAssert(instruction_ptr->type != 2, "undo_instruction with forward_instruction type\n")
-        if (flag != bbSuccess) return bbSuccess;
-        instruction = *instruction_ptr;
-        bbVPool_free(core->instruction_pool,instruction_ptr);
+
+
+        fetchUndoInstruction(core)
 
         if (instruction.type >= bbInstruction_numTypes)
         {
@@ -287,3 +278,5 @@ bbFlag bbCore_printStack(bbCore* core)
 
     return bbSuccess;
 }
+
+DECLARE_SQ_BODY(bbInstruction,sizeof(bbInstruction),16)

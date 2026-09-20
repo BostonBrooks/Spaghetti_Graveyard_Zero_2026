@@ -15,6 +15,8 @@ bbFlag bbI_setString_fn(bbCore* core, bbInstruction* instruction)
         undo_instruction->source = instruction->source;
         undo_instruction->redo_instruction.u64 = 0;
         pushUndoInstruction(undo_instruction)
+
+
     }
     else if (instruction->source == bbInstructionSource_input)
     {

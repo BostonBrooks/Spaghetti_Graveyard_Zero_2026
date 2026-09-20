@@ -473,7 +473,6 @@ bbFlag bbI_AI_setState_fn(bbCore* core, bbInstruction* instruction)
     if (instruction->source == bbInstructionSource_internal)
     {
         allocUndoInstruction(undo_instruction)
-        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
         undo_instruction->type = bbI_AI_unsetState;
 
         undo_instruction->data.AI_state.AI_handle = AI_handle;

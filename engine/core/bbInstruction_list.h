@@ -35,61 +35,49 @@
     copy instruction to
 */
 
-
 #define allocActiveInstruction(NAME)\
     bbInstruction* NAME;\
-    bbInstruction_deque_allocFront(&core->active_instructions,&NAME);\
     bbHandle NAME##_handle;\
-    NAME##_handle.ptr = NAME;
-
-
+    bbVPool_alloc2(core->instruction_pool, (void**)&NAME, &NAME##_handle);
 #define pushActiveInstruction(NAME)\
-    bbInstruction_deque_pushFront(&core->active_instructions,NAME);
+        bbList_pushL(&core->active_stack, (void*)NAME);
 
 #define allocUndoInstruction(NAME)\
     bbInstruction* NAME;\
-    bbInstruction_deque_allocFront(&core->undo_instructions,&NAME);\
     bbHandle NAME##_handle;\
-    NAME##_handle.ptr = NAME;
-
-
+    bbVPool_alloc2(core->instruction_pool, (void**)&NAME, &NAME##_handle);
 #define pushUndoInstruction(NAME)\
-    bbInstruction_deque_pushFront(&core->undo_instructions,NAME);
+    bbList_pushL(&core->undo_stack, (void*)NAME);
 
 #define allocRedoInstruction(NAME)\
     bbInstruction* NAME;\
-    bbFlag bb_flag = bbInstruction_deque_allocFront(&core->redo_instructions,&NAME);\
-    bbFlag_print(bb_flag)\
     bbHandle NAME##_handle;\
-    NAME##_handle.ptr = NAME;
-
+    bbVPool_alloc2(core->instruction_pool, (void**)&NAME, &NAME##_handle);
 #define pushRedoInstruction(NAME)\
-    bbInstruction_deque_pushFront(&core->redo_instructions,NAME);
+    {}
 
 #define popRedoInstruction(NAME,INSTRUCTION)\
     bbInstruction NAME;\
     bbInstruction* bb_temp;\
-    bbInstruction_deque_peakFront(&core->redo_instructions,&bb_temp);\
-    NAME = *bb_temp; \
-    bbInstruction_deque_popFront(&core->redo_instructions,&bb_temp);\
-//bbAssert(bb_temp == INSTRUCTION.redo_instruction);\
-
+    bbVPool_lookup(core->instruction_pool, (void**)&bb_temp, INSTRUCTION->redo_instruction);\
+    NAME = *bb_temp;\
+    bbVPool_free(core->instruction_pool, bb_temp);
 
 #define fetchInstruction(CORE)\
-    bbInstruction* bb_temp;\
+    bbInstruction* instruction_ptr;\
     bbInstruction instruction;\
-    bbFlag bb_flag = bbInstruction_deque_peakFront(&CORE->redo_instructions,&bb_temp);\
-    if (bb_flag != bbSuccess) return bbSuccess;\
-    instruction = *bb_temp;\
-    bbInstruction_deque_popFront(&CORE->redo_instructions,&bb_temp);\
+    bbFlag flag = bbList_popL(&CORE->active_stack, (void**)&instruction_ptr);\
+    if (flag != bbSuccess) return bbSuccess;\
+    instruction = *instruction_ptr;\
+    bbVPool_free(core->instruction_pool,instruction_ptr);
 
 #define fetchUndoInstruction(CORE)\
-    bbInstruction* bb_temp;\
+    bbInstruction* instruction_ptr;\
     bbInstruction instruction;\
-    bbFlag flag = bbInstruction_deque_peakFront(&CORE->undo_instructions,&bb_temp);\
+    bbFlag flag = bbList_popL(&CORE->undo_stack, (void**)&instruction_ptr);\
     if (flag != bbSuccess) return bbSuccess;\
-    instruction = *bb_temp;\
-    bbInstruction_deque_popFront(&CORE->undo_instructions,&bb_temp);\
+    instruction = *instruction_ptr;\
+    bbVPool_free(core->instruction_pool,instruction_ptr);\
 
 
 #endif // BB_INSTRUCTION_OPERATIONS_H

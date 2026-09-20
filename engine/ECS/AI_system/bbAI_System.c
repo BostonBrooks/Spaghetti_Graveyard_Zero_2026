@@ -201,7 +201,6 @@ bbFlag bbI_spawnAIComponent_fn(bbCore* core, bbInstruction* instruction)
     else if (instruction->source == bbInstructionSource_input)
     {
         allocUndoInstruction(undo_instruction)
-        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
         undo_instruction->type = bbI_unspawnAIComponent;
         undo_instruction->data.three_handles.handle1 = instruction->data.
             three_handles.handle1;
