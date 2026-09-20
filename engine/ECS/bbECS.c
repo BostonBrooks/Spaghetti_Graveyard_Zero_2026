@@ -613,7 +613,7 @@ bbFlag bbComponent_mapComponent(bbECS* ECS,
     bbHandle_getComponent(system1,&component1,component_handle1);
 
     //TODO return bbFail
-    bbAssert(component1 != NULL,"Something returned null\n");
+    bbAssert(component1 != NULL,"Something returned null, you probably clicked a monster with no bbECS_ServerEntities component\n");
 
     if (component_handle!=NULL) *component_handle = component_handle1;
     if (component!=NULL)*component = component1;

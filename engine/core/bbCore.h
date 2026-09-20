@@ -28,7 +28,7 @@ typedef  bbFlag bbInstruction_fn(bbCore* core, bbInstruction* instruction);
 typedef  bbFlag bbCoreInbox_fn(bbCore* core, struct bbCoreInboxMessage* message);
 typedef  bbFlag bbAction_fn(bbCore* core, bbAction* action);
 
-DECLARE_SQ_HEADER(bbInstruction,sizeof(bbInstruction),10000)
+DECLARE_SQ_HEADER(bbInstruction,sizeof(bbInstruction),169)
 
 struct bbCore
 {

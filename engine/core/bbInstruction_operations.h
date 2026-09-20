@@ -35,6 +35,7 @@
     copy instruction to
 */
 
+//#define BB_CORE_LISTS
 #ifndef BB_CORE_LISTS
 
 #define allocActiveInstruction(NAME)\
@@ -141,7 +142,7 @@
     bbVPool_free(core->instruction_pool,instruction_ptr);\
 
  // BB_INSTRUCTION_OPERATIONS_H
-*/
+
 
 #endif//BB_CORE_LISTS
 #endif//BB_INSTRUCTION_OPERATIONS_H

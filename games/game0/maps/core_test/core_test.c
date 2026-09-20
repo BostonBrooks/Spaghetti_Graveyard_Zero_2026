@@ -5,7 +5,10 @@
 #include "engine/logic/bbHandle.h"
 #include "engine/logic/bbTerminal.h"
 #include "engine/test_string/bbTestString.h"
+#include "engine/data/CSFML.h"
 #include <time.h>
+
+#include "engine/core/bbCoreDiscard.h"
 thread_local char* thread;
 thread_local bool debug_off = {0};
 U64 test_time = 0;
@@ -18,7 +21,9 @@ int main(void)
     thread = "MAIN";
     bbDebug("Hello World!\n");
 
-struct timespec
+    sfClock* test_clock = sfClock_create();
+
+
     strcpy(test_string, "Hello World!");
 
     bbCore_init(&core);
@@ -52,7 +57,7 @@ struct timespec
     char str[KEY_LENGTH];
     U32 collision = 0;
 
-    for (I32 i = 4; i < 1000;i++)
+    for (I32 i = 4; i < 100;i++)
     {
         bbCoreInput_setTime(&core, i, bbInstructionSource_input, no_handle);
         test_time = core.actual_time = i;
@@ -75,6 +80,12 @@ struct timespec
         //bbHere()
         bbCore_react(&core);
         //bbHere()
+
+        bbCoreDiscardSegmented(&core, i-6);
     }
+
+    sfTime test_time2 = sfClock_getElapsedTime(test_clock);
+
+    bbDebug("execution time = %f\n", sfTime_asSeconds(test_time2));
 bbDebug("We made it to the end!\n");
 }

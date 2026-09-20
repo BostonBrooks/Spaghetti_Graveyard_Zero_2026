@@ -35,9 +35,9 @@ bbFlag bbCore_init(bbCore* core)
     bbList_init(&core->action_queue, core->action_pool, NULL, offsetof(bbAction, header.list_element),bbAction_compare,71);
     bbList_init(&core->action_temp_fifo, core->action_pool, NULL, offsetof(bbAction, header.list_element),bbAction_compare,72);
 
-    bbInstruction_deque_init(&core->active_instructions,128, "Active Instructions");
-    bbInstruction_deque_init(&core->undo_instructions,128,"Undo Instructions");
-    bbInstruction_deque_init(&core->redo_instructions,128,"Redo Instructions");
+    bbInstruction_deque_init(&core->active_instructions,1024, "Active Instructions");
+    bbInstruction_deque_init(&core->undo_instructions,1024,"Undo Instructions");
+    bbInstruction_deque_init(&core->redo_instructions,1024,"Redo Instructions");
 
     core->simulation_time = 0;
  return bbSuccess;
@@ -46,23 +46,23 @@ bbFlag bbCore_init(bbCore* core)
 bbFlag bbCore_react(bbCore* core)
 {//printf("+++\n");
     while (1)
-    {bbHere()
+    {//bbHere()
 
         fetchInstruction(core)
 
-        bbHere()
-//bbHere()
+        //bbHere()
+
         if (instruction.type >= bbInstruction_numTypes)
         {//bbHere()
             bbInstruction_fn* instruction_fn = core->instruction_functions[instruction.type-bbInstruction_numTypes];
 
-            bbDebug("instruction type = %d\n", instruction.type);
+            //bbDebug("instruction type = %d\n", instruction.type);
             bbAssert(instruction_fn != NULL, "Unknown instruction type %d\n", instruction.type);
 
             instruction_fn(core, &instruction);
         } else
         {
-            bbDebug("instruction type = %d\n", instruction.type);
+            //bbDebug("instruction type = %d\n", instruction.type);
             switch (instruction.type)
             {
 
@@ -279,4 +279,4 @@ bbFlag bbCore_printStack(bbCore* core)
     return bbSuccess;
 }
 
-DECLARE_SQ_BODY(bbInstruction,sizeof(bbInstruction),10000)
+DECLARE_SQ_BODY(bbInstruction,sizeof(bbInstruction),128)

@@ -61,14 +61,14 @@ bbFlag CONCAT2(BB_CLASS,_deque_grow)(CONCAT2(BB_CLASS,_deque)* deque)\
 \
 \
 bbFlag CONCAT2(BB_CLASS,_deque_allocFront)(CONCAT2(BB_CLASS,_deque)* deque, BB_CLASS** element)\
-{bbDebug("deque: %s in use = %d\n",deque->key, deque->in_use);\
+{bbDebug("%s: num elements = %d\n",deque->key, deque->in_use);\
     I32 new_index = deque->end_index + 1;\
     I32 new_segment = deque->end_segment;\
     if (new_index >= BB_SEGMENT_SIZE)\
     {\
         new_index = 0;\
         new_segment++;\
-        if (new_segment >= BB_SEGMENT_SIZE)\
+        if (new_segment >= deque->num_segments)\
         {\
             new_segment = 0;\
         }\
@@ -94,7 +94,7 @@ bbFlag CONCAT2(BB_CLASS,_deque_pushFront)(CONCAT2(BB_CLASS,_deque)* deque, BB_CL
         new_index = 0;\
         new_segment++;\
 \
-        if (new_segment >= BB_SEGMENT_SIZE)\
+        if (new_segment >= deque->num_segments)\
         {\
             new_segment = 0;\
         }\
@@ -238,7 +238,7 @@ bbFlag CONCAT2(BB_CLASS,_deque_popBack)(CONCAT2(BB_CLASS,_deque)* deque, BB_CLAS
     {\
         new_index = 0;\
         new_segment++;\
-        if (new_segment >= BB_SEGMENT_SIZE)\
+        if (new_segment >= deque->num_segments)\
         {\
             new_segment = 0;\
         }\
