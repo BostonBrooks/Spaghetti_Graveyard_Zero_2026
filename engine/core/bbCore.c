@@ -44,39 +44,44 @@ bbFlag bbCore_react(bbCore* core)
 
     bbInstruction instruction;
     while (1)
-    {
+    {//bbHere()
         flag = bbList_popL(&core->active_stack, (void**)&instruction_ptr);
         if (flag != bbSuccess)
-        {//printf("---\n");
+        {//bbHere()
             return bbSuccess;
         }
 
         instruction = *instruction_ptr;
         bbVPool_free(core->instruction_pool,instruction_ptr);
 
-
+//bbHere()
         if (instruction_ptr->type >= bbInstruction_numTypes)
-        {
+        {//bbHere()
             bbInstruction_fn* instruction_fn = core->instruction_functions[instruction.type-bbInstruction_numTypes];
 
             bbAssert(instruction_fn != NULL, "Unknown instruction type %d\n", instruction.type);
 
             instruction_fn(core, &instruction);
         } else
-        {
-            switch (instruction_ptr->type)
+        {//bbHere()
+            switch (instruction.type)
             {
 
                 ///(2) core reacts to instruction
 
             case bbInstruction_setTime:
+                ///bbHere()
                 bbInstruction_setTime_fn(core, &instruction);
+                //bbHere()
                 break;
 
             // case bbInstruction_setString:
             //     bbInstruction_setString_fn(core, instruction);
             //     break;
+
+            case bbInstruction_setString:
             case bbI_setString:
+                //bbHere()
                 bbI_setString_fn(core, &instruction);
                 break;
 
@@ -97,7 +102,9 @@ bbFlag bbCore_react(bbCore* core)
                 //break;
 
             case bbInstruction_checkActions:
+                bbHere()
                 bbInstruction_checkActions_fn(core, &instruction);
+                bbHere()
                 break;
             //case bbInstruction_spawnEmptyEntity:
                 //TODO virtual function / callback
@@ -155,28 +162,34 @@ bbFlag bbCore_react(bbCore* core)
 
 
 bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
-{
+{bbHere()
     bbFlag flag;
     bbInstruction* instruction_ptr;
     bbInstruction instruction;
     while (core->simulation_time > time)
-    {
+    { bbHere()
         flag = bbList_popL(&core->undo_stack, (void**)&instruction_ptr);
+        bbAssert(instruction_ptr->type != 2, "undo_instruction with forward_instruction type\n")
         if (flag != bbSuccess) return bbSuccess;
         instruction = *instruction_ptr;
+        bbVPool_free(core->instruction_pool,instruction_ptr);
 
         if (instruction.type >= bbInstruction_numTypes)
         {
 
             bbInstruction_fn* instruction_fn = core->instruction_functions[instruction.type-bbInstruction_numTypes];
-            instruction_fn(core, instruction_ptr);
+            bbHere()
+            instruction_fn(core, &instruction);
+            bbHere()
 
         } else
         {
             switch (instruction.type)
             {
             case bbInstruction_unsetTime:
+                bbHere()
                 bbInstruction_unsetTime_fn(core, &instruction);
+                bbHere()
                 break;
 
                 ///(6) core "un-reacts" to instruction
@@ -185,11 +198,16 @@ bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
             //     break;
 
             case bbI_unsetString:
+            case bbInstruction_unsetString:
+                bbHere()
                 bbI_unsetString_fn(core, &instruction);
+                bbHere()
                 break;
 
             case bbI_undoNothing:
+                bbHere()
                 bbI_undoNothing_fn(core, &instruction);
+                bbHere()
                 break;
 
             // case bbI_unspawnAIComponent:
@@ -198,7 +216,9 @@ bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
             //     break;
 
             case bbInstruction_uncheckActions:
+                bbHere()
                 bbInstruction_uncheckActions_fn(core, &instruction);
+                bbHere()
                 break;
 
 //             case bbInstruction_unspawnEmptyEntity:
@@ -234,13 +254,14 @@ bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
 //                 //bbInstruction_unspawnGraphicsComponent_fn(core, instruction);
 //                 break;
             default:
-                bbAssert(0==1,"Unknown undo instruction type %d\n", instruction_ptr->type);
+                bbAssert(0==1,"Unknown undo instruction type %d\n", instruction.type);
 
                 //bbVPool_free(core->instruction_pool, (void*)instruction_ptr);
             }
         }
 
     }
+    bbHere()
     return bbSuccess;
 }
 

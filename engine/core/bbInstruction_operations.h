@@ -37,4 +37,38 @@
 
 
 
+#define allocActiveInstruction(NAME)\
+    bbInstruction* NAME;\
+    bbHandle NAME##_handle;\
+    bbVPool_alloc2(core->instruction_pool, (void**)&NAME, &NAME##_handle);\
+
+#define pushActiveInstruction(NAME)\
+        bbList_pushL(&core->active_stack, (void*)NAME);
+
+#define allocUndoInstruction(NAME)\
+    bbInstruction* NAME;\
+    bbHandle NAME##_handle;\
+    bbVPool_alloc2(core->instruction_pool, (void**)&NAME, &NAME##_handle);\
+
+#define pushUndoInstruction(NAME)\
+        bbList_pushL(&core->undo_stack, (void*)NAME);
+
+
+#define allocRedoInstruction(NAME)\
+    bbInstruction* NAME;\
+    bbHandle NAME##_handle;\
+    bbVPool_alloc2(core->instruction_pool, (void**)&NAME, &NAME##_handle);\
+
+#define pushRedoInstruction(NAME)\
+        {}
+
+#define popRedoInstruction(NAME,INSTRUCTION)\
+            bbInstruction NAME;\
+            bbInstruction* bb_temp;\
+            bbVPool_lookup(core->instruction_pool, (void**)&bb_temp, INSTRUCTION->redo_instruction);\
+            NAME = *bb_temp;\
+            bbVPool_free(core->instruction_pool, bb_temp);\
+
+
+
 #endif // BB_INSTRUCTION_OPERATIONS_H

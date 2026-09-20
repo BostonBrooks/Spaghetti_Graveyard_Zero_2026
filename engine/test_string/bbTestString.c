@@ -3,41 +3,41 @@
 #include "engine/core/bbAction.h"
 #include "engine/core/bbInstruction.h"
 #include "engine/logic/bbString.h"
+#include "engine/core/bbInstruction_operations.h"
 
 bbFlag bbI_setString_fn(bbCore* core, bbInstruction* instruction)
 {
     if (instruction->source == bbInstructionSource_internal)
     {
-        bbInstruction* undo_instruction;
-        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        allocUndoInstruction(undo_instruction);
         undo_instruction->type = bbI_unsetString;
         bbStr_setStr(undo_instruction->data.key, test_string, KEY_LENGTH);
         undo_instruction->source = instruction->source;
-        bbVPool_free(core->instruction_pool, (void*)instruction);
         undo_instruction->redo_instruction.u64 = 0;
-        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+        pushUndoInstruction(undo_instruction)
     }
     else if (instruction->source == bbInstructionSource_input)
     {
-        bbInstruction* undo_instruction;
-        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+
+        allocUndoInstruction(undo_instruction);
         undo_instruction->type = bbI_unsetString;
         bbStr_setStr(undo_instruction->data.key, test_string, KEY_LENGTH);
         undo_instruction->source = instruction->source;
-        bbHandle handle;
-        bbVPool_reverseLookup(core->instruction_pool, instruction, &handle);
-        undo_instruction->redo_instruction = handle;
-        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+        allocRedoInstruction(redo_instruction)
+        *redo_instruction = *instruction;
+        undo_instruction->redo_instruction = redo_instruction_handle;
+        pushRedoInstruction(redo_instruction)
+        pushUndoInstruction(undo_instruction)
     }
     else if (instruction->source == bbInstructionSource_action)
     {
-        bbInstruction* undo_instruction;
-        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+
+        allocUndoInstruction(undo_instruction);
         undo_instruction->type = bbI_unsetString;
         bbStr_setStr(undo_instruction->data.key, test_string, KEY_LENGTH);
         undo_instruction->source = instruction->source;
         undo_instruction->redo_instruction = instruction->redo_instruction;
-        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+        pushUndoInstruction(undo_instruction)
 
         bbAction* action;
         bbVPool_lookup(core->action_queue.pool, (void**)&action, instruction->redo_instruction);
@@ -53,7 +53,7 @@ bbFlag bbI_setString_fn(bbCore* core, bbInstruction* instruction)
 }
 bbFlag bbI_unsetString_fn(bbCore* core, bbInstruction* instruction)
 {
-
+bbHere()
     if (instruction->source == bbInstructionSource_action)
     {
         bbAction* redo_action;
@@ -68,15 +68,16 @@ bbFlag bbI_unsetString_fn(bbCore* core, bbInstruction* instruction)
 
     if (instruction->source == bbInstructionSource_internal)
     {
-        bbVPool_free(core->instruction_pool, (void*)instruction);
+bbHere()
         return bbSuccess;
     }
     if (instruction->source == bbInstructionSource_input)
     {
-        bbInstruction* redo_instruction;
-        bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction, instruction->redo_instruction);
-        bbList_pushL(&core->active_stack, redo_instruction);
-        bbVPool_free(core->instruction_pool, (void*)instruction);
+        popRedoInstruction(redo_instruction,instruction)
+        allocActiveInstruction(new_instruction)
+        *new_instruction = redo_instruction;
+        pushActiveInstruction(new_instruction)
+bbHere()
         return bbSuccess;
     }
     if (instruction->source == bbInstructionSource_action)
@@ -85,11 +86,11 @@ bbFlag bbI_unsetString_fn(bbCore* core, bbInstruction* instruction)
 
         bbVPool_lookup(core->action_pool, (void**)&redo_action, instruction->redo_instruction);
         bbList_sortL(&core->action_queue,(void*)redo_action);
-        bbVPool_free(core->instruction_pool, (void*)instruction);
 
 
 
 
+        bbHere()
         return bbSuccess;
     }
     bbAssert(0==1, "We should not get here\n");
@@ -99,15 +100,14 @@ bbFlag bbI_unsetString_fn(bbCore* core, bbInstruction* instruction)
 bbFlag bbCI_setString(bbCore* core, char* string, bbInstruction_source source, bbHandle action)
 {
 
-    bbInstruction* instruction;
-    bbFlag flag = bbList_alloc(&core->active_stack,(void**)&instruction);
+    allocActiveInstruction(instruction)
 
     instruction->type = bbI_setString;
     bbStr_setStr(instruction->data.key, string, KEY_LENGTH);
     instruction->source = source;
     instruction->redo_instruction = action;
 
-    bbList_pushL(&core->active_stack, instruction);
+    pushActiveInstruction(instruction)
     return bbSuccess;
 }
 bbFlag bbCS_setString(bbCore* core, char* string, bbInstruction_source source, bbHandle action)
@@ -117,47 +117,43 @@ bbFlag bbCS_setString(bbCore* core, char* string, bbInstruction_source source, b
     if (source == bbInstructionSource_input)
     {
         //create input instruction
-        bbInstruction* instruction;
-        bbHandle instruction_handle;
-        bbFlag flag = bbList_alloc2(&core->active_stack,(void**)&instruction, &instruction_handle);
+        allocRedoInstruction(instruction)
         instruction->source = source;
         //set input instruction data
         instruction->type = bbI_setString;
         bbStr_setStr(instruction->data.key, string, KEY_LENGTH);
-
+        pushRedoInstruction(instruction)
         //create undo instruction
-        bbInstruction* undo_instruction;
-        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        allocUndoInstruction(undo_instruction)
+        undo_instruction->type = bbI_unsetString;
         undo_instruction->source = source;
         undo_instruction->redo_instruction = instruction_handle;
 
         //set instruction data
-        undo_instruction->type = bbI_unsetString;
         bbStr_setStr(undo_instruction->data.key, test_string, KEY_LENGTH);
-        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+        pushUndoInstruction(undo_instruction)
     } else if (source == bbInstructionSource_internal)
     {
         //create undo instruction
-        bbInstruction* undo_instruction;
-        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+
+        allocUndoInstruction(undo_instruction)
+        undo_instruction->type = bbI_unsetString;
         undo_instruction->source = source;
 
         //set instruction data
-        undo_instruction->type = bbI_unsetString;
         bbStr_setStr(undo_instruction->data.key, test_string, KEY_LENGTH);
-        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+        pushUndoInstruction(undo_instruction)
     } else if (source == bbInstructionSource_action)
     {
         //create undo instruction
-        bbInstruction* undo_instruction;
-        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        allocUndoInstruction(undo_instruction)
+        undo_instruction->type = bbI_unsetString;
         undo_instruction->redo_instruction = action;
         undo_instruction->source = source;
 
         //Set instruction data
-        undo_instruction->type = bbI_unsetString;
         bbStr_setStr(undo_instruction->data.key, test_string, KEY_LENGTH);
-        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+        pushUndoInstruction(undo_instruction)
     } else if (source == bbInstructionSource_norewind)
     {
 
@@ -178,33 +174,31 @@ bbFlag bbI_doNothing_fn(bbCore* core, bbInstruction* instruction)
 {
     if (instruction->source == bbInstructionSource_internal)
     {
-        bbInstruction* undo_instruction;
-        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        allocUndoInstruction(undo_instruction)
         undo_instruction->type = bbI_undoNothing;
         undo_instruction->source = instruction->source;
         bbVPool_free(core->instruction_pool, (void*)instruction);
         undo_instruction->redo_instruction.u64 = 0;
-        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+        pushUndoInstruction(undo_instruction)
     }
     else if (instruction->source == bbInstructionSource_input)
     {
-        bbInstruction* undo_instruction;
-        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        allocUndoInstruction(undo_instruction)
         undo_instruction->type = bbI_undoNothing;
         undo_instruction->source = instruction->source;
-        bbHandle handle;
-        bbVPool_reverseLookup(core->instruction_pool, instruction, &handle);
-        undo_instruction->redo_instruction = handle;
-        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+        allocRedoInstruction(redo_instruction)
+         *redo_instruction = *instruction;
+        undo_instruction->redo_instruction = redo_instruction_handle;
+        pushRedoInstruction(redo_instruction)
+        pushUndoInstruction(undo_instruction)
     }
     else if (instruction->source == bbInstructionSource_action)
     {
-        bbInstruction* undo_instruction;
-        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        allocUndoInstruction(undo_instruction)
         undo_instruction->type = bbI_undoNothing;
         undo_instruction->source = instruction->source;
         undo_instruction->redo_instruction = instruction->redo_instruction;
-        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+        pushUndoInstruction(undo_instruction)
 
     } //else source == no rewind
 

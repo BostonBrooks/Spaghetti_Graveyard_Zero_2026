@@ -56,8 +56,10 @@ int main(void)
     {
         bbCoreInput_setTime(&core, i, bbInstructionSource_input, no_handle);
         test_time = core.actual_time = i;
+        bbHere()
         bbCore_react(&core);
 
+        bbHere()
         sprintf(str, "(%d)", i-3);
 
         bbAction_setString(&core,
@@ -67,8 +69,12 @@ int main(void)
                  i-3,
                  str);
 
+        bbHere()
         bbCoreInput_checkActions(&core,i,bbInstructionSource_input, no_handle);
-        bbCore_react(&core);
-    }
 
+        bbHere()
+        bbCore_react(&core);
+        bbHere()
+    }
+bbDebug("We made it to the end!\n");
 }
