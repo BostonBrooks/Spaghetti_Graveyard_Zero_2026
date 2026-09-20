@@ -44,7 +44,7 @@ bbFlag bbCore_react(bbCore* core)
 
     bbInstruction instruction;
     while (1)
-    {//bbHere()
+    {bbHere()
         flag = bbList_popL(&core->active_stack, (void**)&instruction_ptr);
         if (flag != bbSuccess)
         {//bbHere()
@@ -54,16 +54,19 @@ bbFlag bbCore_react(bbCore* core)
         instruction = *instruction_ptr;
         bbVPool_free(core->instruction_pool,instruction_ptr);
 
+        bbHere()
 //bbHere()
         if (instruction_ptr->type >= bbInstruction_numTypes)
         {//bbHere()
             bbInstruction_fn* instruction_fn = core->instruction_functions[instruction.type-bbInstruction_numTypes];
 
+            bbDebug("instruction type = %d\n", instruction.type);
             bbAssert(instruction_fn != NULL, "Unknown instruction type %d\n", instruction.type);
 
             instruction_fn(core, &instruction);
         } else
-        {//bbHere()
+        {
+            bbDebug("instruction type = %d\n", instruction.type);
             switch (instruction.type)
             {
 

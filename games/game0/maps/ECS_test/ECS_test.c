@@ -102,7 +102,7 @@ int main(void)
 
         bbCoreInput_checkActions(&core,i,bbInstructionSource_input, no_handle);
         bbCore_react(&core);
-    }
+    }*/
 
     bbHandle server_handle;
     server_handle.bloated.index = 193;
@@ -113,7 +113,9 @@ int main(void)
                                     server_handle,
                                     bbInstructionSource_input,
                                     no_handle);
+    bbHere()
     bbCore_react(&core);
+    bbHere()
     //bbCoreSynchronous_spawnEmptyEntity(&core, core.ECS, &entity, "TEST ENTITY", bbInstructionSource_input,no_handle);
 
     bbVPool_lookup(core.ECS->system.pool,(void**)&entity,core.ECS->list.list.head);
@@ -129,9 +131,6 @@ int main(void)
 
 
     bbDebug("Entity.key = %s\n", entity2->key);
-
-    for (I32 i = 10; i < 15;i++)
-*/
 
 
     for (I32 i = 0; i < 5;i++)
