@@ -371,7 +371,7 @@ int main(void)
 void* userinterface_thread(void* arg)
 {
     thread = "USER INTERFACE";
-    debug_off = false;
+    debug_off = true;
 
     bbUIApp_init(&home.UI);
 

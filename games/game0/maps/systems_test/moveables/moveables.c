@@ -1,6 +1,7 @@
 #include "moveables.h"
 #include "core/instructions.h"
 #include "engine/core/bbAction.h"
+#include "engine/core/bbInstruction_operations.h"
 #include "engine/data/bbHome.h"
 
 bbFlag bbCoreSynchronous_spawnTestMoveable(bbCore* core,
@@ -194,10 +195,11 @@ bbFlag bbInstruction_updateMoveables_fn(bbCore* core,
     }
     if (instruction->source == bbInstructionSource_input)
     {
-        bbHandle handle;
-        bbVPool_reverseLookup(core->instruction_pool, instruction, &handle);
-        undo_instruction->redo_instruction = handle;
-        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+        allocRedoInstruction(redo_instruction)
+        *redo_instruction = *instruction;
+        undo_instruction->redo_instruction = (bbHandle)redo_instruction_handle;
+        pushRedoInstruction(redo_instruction)
+        pushUndoInstruction(undo_instruction)
         return bbSuccess;
     }
     if (instruction->source == bbInstructionSource_action)

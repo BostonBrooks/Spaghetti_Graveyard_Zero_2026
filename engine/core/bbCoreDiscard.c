@@ -50,6 +50,8 @@ bbFlag bbCoreDiscard(bbCore* core, U64 time)
 
         if (undo_instruction->source == bbInstructionSource_input)
         {
+            bbDebug("undo instruction = %d\n", undo_instruction->type);
+            fflush(stdout);
             bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction, undo_instruction->redo_instruction);
             bbAssert(undo_instruction->redo_instruction.ptr != NULL, "redo action not found\n");
 

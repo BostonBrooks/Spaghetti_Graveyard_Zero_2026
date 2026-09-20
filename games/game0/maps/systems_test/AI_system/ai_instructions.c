@@ -1,6 +1,7 @@
 
 #include "core/instructions.h"
 #include "engine/core/bbAction.h"
+#include "engine/core/bbInstruction_operations.h"
 #include "engine/data/bbHome.h"
 #include "engine/ECS/AI_system/bbAI_System.h"
 #include "games/game0/maps/ECS_test/virtual_instructions/instructions.h"
@@ -79,33 +80,31 @@ bbFlag bbI_updateAI_fn(bbCore* core, bbInstruction* instruction)
 {
     if (instruction->source == bbInstructionSource_internal)
     {
-        bbInstruction* undo_instruction;
-        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        allocUndoInstruction(undo_instruction)
         undo_instruction->type = bbInstruction_unupdateAI;
         undo_instruction->source = instruction->source;
-        //bbVPool_free(core->instruction_pool, (void*)instruction);
         undo_instruction->redo_instruction.u64 = 0;
-        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+        pushUndoInstruction(undo_instruction)
     }
     else if (instruction->source == bbInstructionSource_input)
     {
-        bbInstruction* undo_instruction;
-        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        allocUndoInstruction(undo_instruction)
         undo_instruction->type = bbInstruction_unupdateAI;
         undo_instruction->source = instruction->source;
-        bbHandle handle;
-        bbVPool_reverseLookup(core->instruction_pool, instruction, &handle);
-        undo_instruction->redo_instruction = handle;
-        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+        allocRedoInstruction(redo_instruction)
+         *redo_instruction = *instruction;
+        undo_instruction->redo_instruction = redo_instruction_handle;
+        pushRedoInstruction(redo_instruction)
+        pushUndoInstruction(undo_instruction)
     }
     else if (instruction->source == bbInstructionSource_action)
     {
-        bbInstruction* undo_instruction;
-        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        allocUndoInstruction(undo_instruction)
         undo_instruction->type = bbInstruction_unupdateAI;
         undo_instruction->source = instruction->source;
         undo_instruction->redo_instruction = instruction->redo_instruction;
-        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+        pushUndoInstruction(undo_instruction)
+
     } //else source == no rewind
 
 
