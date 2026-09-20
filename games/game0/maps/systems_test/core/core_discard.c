@@ -62,8 +62,8 @@ bbFlag bbCore_initDiscard(bbCore* core)
     core->discard_functions = calloc(sizeof(bbInstruction_fn*), max_instructions);
 
     core->discard_functions[bbInstruction_unupdateMoveables-bbInstruction_numTypes] = bbCD_unupdate_moveables_fn;
-    core->discard_functions[bbInstruction_entity_undeleteEntity-bbInstruction_numTypes] = bbCD_entity_undeleteEntity_fn;
-    core->discard_functions[bbI_moveable_unsetDead-bbInstruction_numTypes] = bbCD_Moveable_unsetDead_fn;
+    core->discard_functions[bbI_ECS_entity_undeleteEntity-bbInstruction_numTypes] = bbCD_entity_undeleteEntity_fn;
+    core->discard_functions[bbI_ECS_moveable_unsetDead-bbInstruction_numTypes] = bbCD_Moveable_unsetDead_fn;
     core->discard_functions[bbI_unsetTextbox-bbInstruction_numTypes] = bbCD_unsetTextbox_fn;
     core->discard_functions[bbI_unputTextbox-bbInstruction_numTypes] = bbCD_unputTextbox_fn;
        return bbSuccess;

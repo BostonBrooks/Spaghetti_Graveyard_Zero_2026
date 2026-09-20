@@ -84,7 +84,7 @@ bbFlag bbCoreSynchronous_spawnEmptyEntity(bbCore* core, bbECS* ECS, bbECS_entity
         bbFlag flag = bbList_alloc2(&core->active_stack,(void**)&instruction, &instruction_handle);
 
         //set input instruction data
-        instruction->type = bbInstruction_spawnEmptyEntity;
+        instruction->type = bbI_ECS_spawnEmptyEntity;
         instruction->ECS = ECS;
         bbStr_setStr(instruction->data.key, key, KEY_LENGTH);
         instruction->source = source;
@@ -97,7 +97,7 @@ bbFlag bbCoreSynchronous_spawnEmptyEntity(bbCore* core, bbECS* ECS, bbECS_entity
         undo_instruction->redo_instruction = instruction_handle;
 
         //set instruction data
-        undo_instruction->type = bbInstruction_unspawnEmptyEntity;
+        undo_instruction->type = bbI_ECS_unspawnEmptyEntity;
         undo_instruction->source = source;
         undo_instruction->data.three_handles.handle1 = new_handle;
         undo_instruction->ECS = ECS;
@@ -110,7 +110,7 @@ bbFlag bbCoreSynchronous_spawnEmptyEntity(bbCore* core, bbECS* ECS, bbECS_entity
         undo_instruction->source = source;
 
         //set instruction data
-        undo_instruction->type = bbInstruction_unspawnEmptyEntity;
+        undo_instruction->type = bbI_ECS_unspawnEmptyEntity;
         undo_instruction->source = source;
         undo_instruction->data.three_handles.handle1 = new_handle;
         undo_instruction->ECS = ECS;
@@ -124,7 +124,7 @@ bbFlag bbCoreSynchronous_spawnEmptyEntity(bbCore* core, bbECS* ECS, bbECS_entity
         undo_instruction->source = source;
 
         //Set instruction data
-        undo_instruction->type = bbInstruction_unspawnEmptyEntity;
+        undo_instruction->type = bbI_ECS_unspawnEmptyEntity;
         undo_instruction->source = source;
         undo_instruction->data.three_handles.handle1 = new_handle;
         undo_instruction->ECS = ECS;
@@ -144,7 +144,7 @@ bbFlag bbCoreInput_spawnEmptyEntity(bbCore* core, bbECS* ECS, char* key, bbInstr
 {
         bbInstruction* instruction;
         bbList_alloc(&core->active_stack, (void**) &instruction);
-        instruction->type = bbInstruction_spawnEmptyEntity;
+        instruction->type = bbI_ECS_spawnEmptyEntity;
         instruction->ECS = ECS;
         bbStr_setStr(instruction->data.key, key, KEY_LENGTH);
         instruction->source = source;
@@ -176,7 +176,7 @@ bbFlag bbInstruction_spawnEmptyEntity_fn(bbCore* core, bbInstruction* instructio
 
         bbInstruction* undo_instruction;
         bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
-        undo_instruction->type = bbInstruction_unspawnEmptyEntity;
+        undo_instruction->type = bbI_ECS_unspawnEmptyEntity;
         undo_instruction->source = instruction->source;
         undo_instruction->data.three_handles.handle1 = new_handle;
         undo_instruction->ECS = ECS;
@@ -265,7 +265,7 @@ bbFlag bbCS_entity_setComponent(bbCore* core,
         instruction->source = source;
 
         //set input instruction data
-        instruction->type = bbInstruction_entity_setComponent;
+        instruction->type = bbI_ECS_entity_setComponent;
         instruction->ECS = ECS;
         instruction->data.three_handles.handle1 = entity_handle;
         instruction->data.three_handles.handle2 = component;
@@ -279,7 +279,7 @@ bbFlag bbCS_entity_setComponent(bbCore* core,
         undo_instruction->redo_instruction = instruction_handle;
 
         //set instruction data
-        undo_instruction->type = bbInstruction_entity_unsetComponent;
+        undo_instruction->type = bbI_ECS_entity_unsetComponent;
         undo_instruction->data.three_handles.handle1 = entity_handle;
         undo_instruction->data.three_handles.handle2 = component;
         undo_instruction->data.three_handles.handle3.u64 = system;
@@ -294,7 +294,7 @@ bbFlag bbCS_entity_setComponent(bbCore* core,
         undo_instruction->source = source;
 
         //set instruction data
-        undo_instruction->type = bbInstruction_entity_unsetComponent;
+        undo_instruction->type = bbI_ECS_entity_unsetComponent;
         undo_instruction->data.three_handles.handle1 = entity_handle;
         undo_instruction->data.three_handles.handle2 = component;
         undo_instruction->data.three_handles.handle3.u64 = system;
@@ -310,7 +310,7 @@ bbFlag bbCS_entity_setComponent(bbCore* core,
         undo_instruction->source = source;
 
         //Set instruction data
-        undo_instruction->type = bbInstruction_entity_unsetComponent;
+        undo_instruction->type = bbI_ECS_entity_unsetComponent;
         undo_instruction->data.three_handles.handle1 = entity_handle;
         undo_instruction->data.three_handles.handle2 = component;
         undo_instruction->data.three_handles.handle3.u64 = system;
@@ -345,7 +345,7 @@ bbFlag bbCoreInput_entity_setComponent(bbCore* core,bbECS* ECS, bbHandle entity,
 
         bbInstruction* instruction;
         bbList_alloc(&core->active_stack, (void**) &instruction);
-        instruction->type = bbInstruction_entity_setComponent;
+        instruction->type = bbI_ECS_entity_setComponent;
         instruction->ECS = ECS;
         instruction->source = source;
         instruction->redo_instruction = action;
@@ -382,7 +382,7 @@ bbFlag bbInstruction_entity_setComponent_fn(bbCore* core, bbInstruction* instruc
 
     bbInstruction* undo_instruction;
     bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
-    undo_instruction->type = bbInstruction_entity_unsetComponent;
+    undo_instruction->type = bbI_ECS_entity_unsetComponent;
     undo_instruction->source = instruction->source;
 
     undo_instruction->data.three_handles.handle1 = entity_handle;
@@ -671,7 +671,7 @@ bbFlag bbCoreInput_entity_deleteEntity(bbCore* core,
 {
     bbInstruction* instruction;
     bbList_alloc(&core->active_stack, (void**)&instruction);
-    instruction->type = bbInstruction_entity_deleteEntity;
+    instruction->type = bbI_ECS_entity_deleteEntity;
     instruction->source = source;
     instruction->redo_instruction = action;
     instruction->data.three_handles.handle1 = entity;
@@ -689,7 +689,7 @@ bbFlag bbInstruction_entity_deleteEntity_fn(bbCore* core, bbInstruction* instruc
     {
         bbInstruction* undo_instruction;
         bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
-        undo_instruction->type = bbInstruction_entity_undeleteEntity;
+        undo_instruction->type = bbI_ECS_entity_undeleteEntity;
 
         undo_instruction->data.three_handles.handle1 = instruction->data.three_handles.handle1;
         undo_instruction->data.three_handles.handle2.u64 = entity->state;
@@ -703,7 +703,7 @@ bbFlag bbInstruction_entity_deleteEntity_fn(bbCore* core, bbInstruction* instruc
     {
         bbInstruction* undo_instruction;
         bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
-        undo_instruction->type = bbInstruction_entity_undeleteEntity;
+        undo_instruction->type = bbI_ECS_entity_undeleteEntity;
         undo_instruction->data.three_handles.handle1 = instruction->data.three_handles.handle1;
         undo_instruction->data.three_handles.handle2.u64 = entity->state;
 
@@ -718,7 +718,7 @@ bbFlag bbInstruction_entity_deleteEntity_fn(bbCore* core, bbInstruction* instruc
     {
         bbInstruction* undo_instruction;
         bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
-        undo_instruction->type = bbInstruction_entity_undeleteEntity;
+        undo_instruction->type = bbI_ECS_entity_undeleteEntity;
         undo_instruction->data.three_handles.handle1 = instruction->data.three_handles.handle1;
         undo_instruction->data.three_handles.handle2.u64 = entity->state;
         undo_instruction->source = instruction->source;

@@ -19,7 +19,7 @@ bbFlag bbCI_Moveable_setGoalpoint(bbCore* core,
     bbInstruction* instruction;
     bbFlag flag = bbList_alloc(&core->active_stack,(void**)&instruction);
 
-    instruction->type = bbI_moveable_setState;
+    instruction->type = bbI_ECS_moveable_setState;
 
     instruction->data.moveable_state.handle = moveable_handle;
     instruction->data.moveable_state.type = bbMoveableType_Moving;
@@ -45,7 +45,7 @@ bbFlag bbCI_Moveable_setDead(bbCore* core,
     bbMoveable* moveable;
     bbHandle_getComponent(&home.ECS.moveables.system,(bbComponent**)&moveable,moveable_handle);
 
-    instruction->type = bbI_moveable_setDead;
+    instruction->type = bbI_ECS_moveable_setDead;
     instruction->data.moveable_state.handle = moveable_handle;
     instruction->data.moveable_state.goalpoint = moveable->goalpoint;
     instruction->data.moveable_state.type = bbMoveableType_Dead;
@@ -70,7 +70,7 @@ bbFlag bbCI_Moveable_setMovingThrough(bbCore* core,
     bbInstruction* instruction;
     bbFlag flag = bbList_alloc(&core->active_stack,(void**)&instruction);
 
-    instruction->type = bbI_moveable_setState;
+    instruction->type = bbI_ECS_moveable_setState;
 
     instruction->data.moveable_state.handle = moveable_handle;
     instruction->data.moveable_state.type = bbMoveableType_MovingThrough;
@@ -94,7 +94,7 @@ bbFlag bbCI_Moveable_setGoalMovable(bbCore* core,
     bbInstruction* instruction;
     bbFlag flag = bbList_alloc(&core->active_stack,(void**)&instruction);
 
-    instruction->type = bbI_moveable_setState;
+    instruction->type = bbI_ECS_moveable_setState;
 
     instruction->data.moveable_state.handle = moveable_handle;
     instruction->data.moveable_state.type = bbMoveableType_Following;
@@ -119,7 +119,7 @@ bbFlag bbCI_Moveable_setGoalLunging(bbCore* core,
     bbInstruction* instruction;
     bbFlag flag = bbList_alloc(&core->active_stack,(void**)&instruction);
 
-    instruction->type = bbI_moveable_setState;
+    instruction->type = bbI_ECS_moveable_setState;
 
     instruction->data.moveable_state.handle = moveable_handle;
     instruction->data.moveable_state.type = bbMoveableType_Lunging;
@@ -146,7 +146,7 @@ bbFlag bbCI_Moveable_setIdle(bbCore* core,
     bbMoveable* moveable;
     bbHandle_getComponent(&home.ECS.moveables.system,(bbComponent**)&moveable,moveable_handle);
 
-    instruction->type = bbI_moveable_setState;
+    instruction->type = bbI_ECS_moveable_setState;
     instruction->data.moveable_state.handle = moveable_handle;
     instruction->data.moveable_state.goalpoint = moveable->goalpoint;
     instruction->data.moveable_state.type = bbMoveableType_Idle;
@@ -166,7 +166,7 @@ bbFlag bbI_Moveable_setDead_fn(bbCore* core, bbInstruction* instruction)
     {
         bbInstruction* undo_instruction;
         bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
-        undo_instruction->type = bbI_moveable_unsetDead;
+        undo_instruction->type = bbI_ECS_moveable_unsetDead;
 
 
         bbMoveables* moveables = (bbMoveables*)core->ECS->systems[bbECS_Moveables];
@@ -184,7 +184,7 @@ bbFlag bbI_Moveable_setDead_fn(bbCore* core, bbInstruction* instruction)
     {
         bbInstruction* undo_instruction;
         bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
-        undo_instruction->type = bbI_moveable_unsetDead;
+        undo_instruction->type = bbI_ECS_moveable_unsetDead;
 
 
 
@@ -205,7 +205,7 @@ bbFlag bbI_Moveable_setDead_fn(bbCore* core, bbInstruction* instruction)
     {
         bbInstruction* undo_instruction;
         bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
-        undo_instruction->type = bbI_moveable_unsetDead;
+        undo_instruction->type = bbI_ECS_moveable_unsetDead;
 
 
         bbMoveables* moveables = (bbMoveables*)core->ECS->systems[bbECS_Moveables];
@@ -279,7 +279,7 @@ bbFlag bbI_Moveable_setState_fn(bbCore* core, bbInstruction* instruction)
     {
         bbInstruction* undo_instruction;
         bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
-        undo_instruction->type = bbI_moveable_unsetState;
+        undo_instruction->type = bbI_ECS_moveable_unsetState;
 
 
         bbMoveables* moveables = (bbMoveables*)core->ECS->systems[bbECS_Moveables];
@@ -297,7 +297,7 @@ bbFlag bbI_Moveable_setState_fn(bbCore* core, bbInstruction* instruction)
     {
         bbInstruction* undo_instruction;
         bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
-        undo_instruction->type = bbI_moveable_unsetState;
+        undo_instruction->type = bbI_ECS_moveable_unsetState;
 
 
 
@@ -318,7 +318,7 @@ bbFlag bbI_Moveable_setState_fn(bbCore* core, bbInstruction* instruction)
     {
         bbInstruction* undo_instruction;
         bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
-        undo_instruction->type = bbI_moveable_unsetState;
+        undo_instruction->type = bbI_ECS_moveable_unsetState;
 
 
         bbMoveables* moveables = (bbMoveables*)core->ECS->systems[bbECS_Moveables];
@@ -402,7 +402,7 @@ bbFlag bbCS_Moveable_setGoalpoint(bbCore* core,
         bbFlag flag = bbList_alloc2(&core->active_stack,(void**)&instruction, &instruction_handle);
 
         //set input instruction data
-        instruction->type = bbI_moveable_setState;
+        instruction->type = bbI_ECS_moveable_setState;
         //bbStr_setStr(instruction->data.key, string, KEY_LENGTH);
 
         //create undo instruction
@@ -412,7 +412,7 @@ bbFlag bbCS_Moveable_setGoalpoint(bbCore* core,
         undo_instruction->redo_instruction = instruction_handle;
 
         //set instruction data
-        undo_instruction->type = bbI_moveable_unsetState;
+        undo_instruction->type = bbI_ECS_moveable_unsetState;
         //bbStr_setStr(undo_instruction->data.key, test_string, KEY_LENGTH);
         bbList_pushL(&core->undo_stack,(void*)undo_instruction);
     } else if (source == bbInstructionSource_internal)
@@ -423,7 +423,7 @@ bbFlag bbCS_Moveable_setGoalpoint(bbCore* core,
         undo_instruction->source = source;
 
         //set instruction data
-        undo_instruction->type = bbI_moveable_unsetState;
+        undo_instruction->type = bbI_ECS_moveable_unsetState;
         //bbStr_setStr(undo_instruction->data.key, test_string, KEY_LENGTH);
         bbList_pushL(&core->undo_stack,(void*)undo_instruction);
     } else if (source == bbInstructionSource_action)
@@ -436,7 +436,7 @@ bbFlag bbCS_Moveable_setGoalpoint(bbCore* core,
 
         //bbDebug("action = %d, %d\n", action.bloated.index, action.bloated.collision);
         //Set instruction data
-        undo_instruction->type = bbI_moveable_unsetState;
+        undo_instruction->type = bbI_ECS_moveable_unsetState;
         //bbStr_setStr(undo_instruction->data.key, test_string, KEY_LENGTH);
         bbList_pushL(&core->undo_stack,(void*)undo_instruction);
     } else if (source == bbInstructionSource_norewind)

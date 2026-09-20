@@ -21,20 +21,20 @@ bbFlag bbCore_initVInstructions(bbCore* core)
 {
     I32 max_instructions = bbVInstruction_numTypes - bbInstruction_numTypes;//Careful no tomake this too small;
     core->instruction_functions = calloc( max_instructions, sizeof(bbInstruction_fn*));
-    core->instruction_functions[bbInstruction_spawnEmptyEntity-bbInstruction_numTypes] = bbInstruction_spawnEmptyEntity_fn;
-    core->instruction_functions[bbInstruction_unspawnEmptyEntity-bbInstruction_numTypes] = bbInstruction_unspawnEmptyEntity_fn;
-    core->instruction_functions[bbInstruction_entity_setComponent-bbInstruction_numTypes] = bbInstruction_entity_setComponent_fn;
-    core->instruction_functions[bbInstruction_entity_unsetComponent-bbInstruction_numTypes] = bbInstruction_entity_unsetComponent_fn;
-    core->instruction_functions[bbInstruction_setServerEntity-bbInstruction_numTypes] = bbInstruction_setServerEntity_fn;
-    core->instruction_functions[bbInstruction_unsetServerEntity-bbInstruction_numTypes] = bbInstruction_unsetServerEntity_fn;
+    core->instruction_functions[bbI_ECS_spawnEmptyEntity-bbInstruction_numTypes] = bbInstruction_spawnEmptyEntity_fn;
+    core->instruction_functions[bbI_ECS_unspawnEmptyEntity-bbInstruction_numTypes] = bbInstruction_unspawnEmptyEntity_fn;
+    core->instruction_functions[bbI_ECS_entity_setComponent-bbInstruction_numTypes] = bbInstruction_entity_setComponent_fn;
+    core->instruction_functions[bbI_ECS_entity_unsetComponent-bbInstruction_numTypes] = bbInstruction_entity_unsetComponent_fn;
+    core->instruction_functions[bbI_ECS_setServerEntity-bbInstruction_numTypes] = bbInstruction_setServerEntity_fn;
+    core->instruction_functions[bbI_ECS_unsetServerEntity-bbInstruction_numTypes] = bbInstruction_unsetServerEntity_fn;
     core->instruction_functions[bbInstruction_testClick3-bbInstruction_numTypes] = bbInstruction_testClick3_fn;
     core->instruction_functions[bbInstruction_testClick4-bbInstruction_numTypes] = bbInstruction_testClick4_fn;
-    core->instruction_functions[bbI_moveable_setState-bbInstruction_numTypes] = bbI_Moveable_setState_fn;
-    core->instruction_functions[bbI_moveable_unsetState-bbInstruction_numTypes] = bbI_Moveable_unsetState_fn;
-    core->instruction_functions[bbI_moveable_setDead-bbInstruction_numTypes] = bbI_Moveable_setDead_fn;
-    core->instruction_functions[bbI_moveable_unsetDead-bbInstruction_numTypes] = bbI_Moveable_unsetDead_fn;
-    core->instruction_functions[bbInstruction_entity_deleteEntity-bbInstruction_numTypes] = bbInstruction_entity_deleteEntity_fn;
-    core->instruction_functions[bbInstruction_entity_undeleteEntity-bbInstruction_numTypes] = bbInstruction_entity_undeleteEntity_fn;
+    core->instruction_functions[bbI_ECS_moveable_setState-bbInstruction_numTypes] = bbI_Moveable_setState_fn;
+    core->instruction_functions[bbI_ECS_moveable_unsetState-bbInstruction_numTypes] = bbI_Moveable_unsetState_fn;
+    core->instruction_functions[bbI_ECS_moveable_setDead-bbInstruction_numTypes] = bbI_Moveable_setDead_fn;
+    core->instruction_functions[bbI_ECS_moveable_unsetDead-bbInstruction_numTypes] = bbI_Moveable_unsetDead_fn;
+    core->instruction_functions[bbI_ECS_entity_deleteEntity-bbInstruction_numTypes] = bbInstruction_entity_deleteEntity_fn;
+    core->instruction_functions[bbI_ECS_entity_undeleteEntity-bbInstruction_numTypes] = bbInstruction_entity_undeleteEntity_fn;
 
     core->instruction_functions[bbInstruction_spawnServerEntity-bbInstruction_numTypes] = bbInstruction_spawnServerEntity_fn;
     core->instruction_functions[bbInstruction_unspawnServerEntity-bbInstruction_numTypes] = bbInstruction_unspawnServerEntity_fn;

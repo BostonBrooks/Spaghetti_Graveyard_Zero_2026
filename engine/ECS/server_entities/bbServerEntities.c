@@ -35,7 +35,7 @@ bbFlag bbCoreInput_setServerEntity(bbCore* core,
 {
     bbInstruction* instruction;
     bbList_alloc(&core->active_stack, (void**) &instruction);
-    instruction->type = bbInstruction_setServerEntity;
+    instruction->type = bbI_ECS_setServerEntity;
     instruction->data.three_handles.handle1 = entity_handle;
     instruction->data.three_handles.handle2 = server_entity_handle;
     instruction->ECS = core->ECS;
@@ -68,7 +68,7 @@ bbFlag bbInstruction_setServerEntity_fn(bbCore* core, bbInstruction* instruction
 
     bbInstruction* undo_instruction;
     bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
-    undo_instruction->type = bbInstruction_unsetServerEntity;
+    undo_instruction->type = bbI_ECS_unsetServerEntity;
     undo_instruction->data.three_handles.handle1 = component_handle;
     undo_instruction->source = instruction->source;
 
@@ -170,7 +170,7 @@ bbFlag bbCoreSynchronous_setServerEntity(bbCore* core,
         instruction->source = source;
 
         //set input instruction data
-        instruction->type = bbInstruction_setServerEntity;
+        instruction->type = bbI_ECS_setServerEntity;
         //bbStr_setStr(instruction->data.key, string, KEY_LENGTH);
 
         //create undo instruction
@@ -180,7 +180,7 @@ bbFlag bbCoreSynchronous_setServerEntity(bbCore* core,
         undo_instruction->redo_instruction = instruction_handle;
 
         //set instruction data
-        undo_instruction->type = bbInstruction_unsetServerEntity;
+        undo_instruction->type = bbI_ECS_unsetServerEntity;
         undo_instruction->data.three_handles.handle1 = server_entity_handle;
         undo_instruction->source = instruction->source;
         //undo_instruction->ECS = ECS;
@@ -194,7 +194,7 @@ bbFlag bbCoreSynchronous_setServerEntity(bbCore* core,
         undo_instruction->source = source;
 
         //set instruction data
-        undo_instruction->type = bbInstruction_unsetServerEntity;
+        undo_instruction->type = bbI_ECS_unsetServerEntity;
         undo_instruction->data.three_handles.handle1 = server_entity_handle;
         undo_instruction->source = source;
         //undo_instruction->ECS = ECS;
@@ -209,7 +209,7 @@ bbFlag bbCoreSynchronous_setServerEntity(bbCore* core,
         undo_instruction->source = source;
 
         //Set instruction data
-        undo_instruction->type = bbInstruction_unsetServerEntity;
+        undo_instruction->type = bbI_ECS_unsetServerEntity;
         undo_instruction->data.three_handles.handle1 = server_entity_handle;
         undo_instruction->source = source;
         //undo_instruction->ECS = ECS;
