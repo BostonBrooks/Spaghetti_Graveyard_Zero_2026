@@ -1,5 +1,6 @@
 
 #include "instructions.h"
+#include "engine/core/bbInstruction_operations.h"
 #include "engine/data/bbHome.h"
 #include "engine/textbox/bbTextbox.h"
 
@@ -18,9 +19,8 @@ bbFlag bbCS_setTextbox(bbCore* core,bbHandle* handle, char* string, char* key, U
     if (source == bbInstructionSource_input)
     {
         //create input instruction
-        bbInstruction* instruction;
-        bbHandle instruction_handle;
-        bbFlag flag = bbList_alloc2(&core->active_stack,(void**)&instruction, &instruction_handle);
+
+        allocRedoInstruction(instruction)
         instruction->source = source;
         //set input instruction data
         instruction->type = bbI_setTextbox;
@@ -28,8 +28,7 @@ bbFlag bbCS_setTextbox(bbCore* core,bbHandle* handle, char* string, char* key, U
         instruction->data.three_handles.handle2.u64 = time;
 
         //create undo instruction
-        bbInstruction* undo_instruction;
-        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        allocUndoInstruction(undo_instruction)
         undo_instruction->source = source;
         undo_instruction->redo_instruction = instruction_handle;
 
@@ -37,12 +36,12 @@ bbFlag bbCS_setTextbox(bbCore* core,bbHandle* handle, char* string, char* key, U
         undo_instruction->type = bbI_unsetTextbox;
         undo_instruction->data.three_handles.handle1 = message_handle;
         undo_instruction->data.three_handles.handle2.u64 = time;
-        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+        pushUndoInstruction(undo_instruction)
+        pushRedoInstruction(instruction)
     } else if (source == bbInstructionSource_internal)
     {
         //create undo instruction
-        bbInstruction* undo_instruction;
-        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        allocUndoInstruction(undo_instruction)
         undo_instruction->source = source;
 
         //set instruction data
@@ -50,12 +49,11 @@ bbFlag bbCS_setTextbox(bbCore* core,bbHandle* handle, char* string, char* key, U
         undo_instruction->data.three_handles.handle1 = message_handle;
         undo_instruction->data.three_handles.handle2.u64 = time;
 
-        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+        pushUndoInstruction(undo_instruction)
     } else if (source == bbInstructionSource_action)
     {
         //create undo instruction
-        bbInstruction* undo_instruction;
-        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        allocUndoInstruction(undo_instruction)
         undo_instruction->redo_instruction = action;
         undo_instruction->source = source;
 
@@ -64,7 +62,7 @@ bbFlag bbCS_setTextbox(bbCore* core,bbHandle* handle, char* string, char* key, U
         undo_instruction->data.three_handles.handle1 = message_handle;
         undo_instruction->data.three_handles.handle2.u64 = time;
 
-        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+        pushUndoInstruction(undo_instruction)
     } else if (source == bbInstructionSource_norewind)
     {
 
@@ -83,8 +81,7 @@ bbFlag bbI_setTextbox_fn(bbCore* core, bbInstruction* instruction) {
 
     if (instruction->source == bbInstructionSource_internal)
     {
-        bbInstruction* undo_instruction;
-        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        allocUndoInstruction(undo_instruction)
         undo_instruction->type = bbI_unsetTextbox;
         //bbStr_setStr(undo_instruction->data.key, test_string, KEY_LENGTH);
 
@@ -94,28 +91,27 @@ bbFlag bbI_setTextbox_fn(bbCore* core, bbInstruction* instruction) {
         undo_instruction->source = instruction->source;
         //bbVPool_free(core->instruction_pool, (void*)instruction);
         undo_instruction->redo_instruction.u64 = 0;
-        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+        pushUndoInstruction(undo_instruction)
     }
     else if (instruction->source == bbInstructionSource_input)
     {
-        bbInstruction* undo_instruction;
-        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        allocUndoInstruction(undo_instruction)
         undo_instruction->type = bbI_unsetTextbox;
         //bbStr_setStr(undo_instruction->data.key, test_string, KEY_LENGTH);
 
         undo_instruction->data.three_handles.handle1 = instruction->data.three_handles.handle1;
         undo_instruction->data.three_handles.handle2.u64 = instruction->data.three_handles.handle2.u64;
-
         undo_instruction->source = instruction->source;
-        bbHandle handle;
-        bbVPool_reverseLookup(core->instruction_pool, instruction, &handle);
-        undo_instruction->redo_instruction = handle;
-        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+
+        allocRedoInstruction(redo_instruction)
+         *redo_instruction = *instruction;
+        undo_instruction->redo_instruction = (bbHandle)redo_instruction_handle;
+        pushRedoInstruction(redo_instruction)
+        pushUndoInstruction(undo_instruction)
     }
     else if (instruction->source == bbInstructionSource_action)
     {
-        bbInstruction* undo_instruction;
-        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        allocUndoInstruction(undo_instruction)
         undo_instruction->type = bbI_unsetTextbox;
         //bbStr_setStr(undo_instruction->data.key, test_string, KEY_LENGTH);
 
@@ -125,7 +121,7 @@ bbFlag bbI_setTextbox_fn(bbCore* core, bbInstruction* instruction) {
 
         undo_instruction->source = instruction->source;
         undo_instruction->redo_instruction = instruction->redo_instruction;
-        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+        pushUndoInstruction(undo_instruction)
 
         bbAction* action;
         bbVPool_lookup(core->action_queue.pool, (void**)&action, instruction->redo_instruction);
@@ -161,10 +157,10 @@ bbFlag bbI_unsetTextbox_fn(bbCore* core, bbInstruction* instruction) {
     }
     if (instruction->source == bbInstructionSource_input)
     {
-        bbInstruction* redo_instruction;
-        bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction, instruction->redo_instruction);
-        bbList_pushL(&core->active_stack, redo_instruction);
-        //bbVPool_free(core->instruction_pool, (void*)instruction);
+        popRedoInstruction(redo_instruction,instruction)
+        allocActiveInstruction(new_instruction)
+        *new_instruction = redo_instruction;
+        pushActiveInstruction(new_instruction)
         return bbSuccess;
     }
     if (instruction->source == bbInstructionSource_action)
@@ -196,9 +192,8 @@ bbFlag bbCI_setTextbox(bbCore* core, char* string, char* key, U64 time, bbInstru
 
     snprintf(message_text,MESSAGE_LENGTH,"%s",string);
 
-    bbInstruction* instruction;
-    bbHandle instruction_handle;
-    bbFlag flag = bbList_alloc2(&core->active_stack,(void**)&instruction, &instruction_handle);
+
+    allocActiveInstruction(instruction)
 
     //set input instruction data
     instruction->type = bbI_setTextbox;
@@ -209,7 +204,7 @@ bbFlag bbCI_setTextbox(bbCore* core, char* string, char* key, U64 time, bbInstru
     instruction->source = source;
     instruction->redo_instruction = action;
 
-    bbList_pushL(&core->active_stack, instruction);
+    pushActiveInstruction(instruction)
     return bbSuccess;
 }
 
@@ -232,9 +227,7 @@ bbFlag bbCI_putTextbox(bbCore* core, char* string, char* key, U64 time, bbInstru
 
     snprintf(message_text,MESSAGE_LENGTH,"%s",string);
 
-    bbInstruction* instruction;
-    bbHandle instruction_handle;
-    bbFlag flag = bbList_alloc2(&core->active_stack,(void**)&instruction, &instruction_handle);
+    allocActiveInstruction(instruction)
 
     //set input instruction data
     instruction->type = bbI_putTextbox;
@@ -245,7 +238,7 @@ bbFlag bbCI_putTextbox(bbCore* core, char* string, char* key, U64 time, bbInstru
     instruction->source = source;
     instruction->redo_instruction = action;
 
-    bbList_pushL(&core->active_stack, instruction);
+    pushActiveInstruction(instruction)
     return bbSuccess;
 }
 bbFlag bbCS_putTextbox(bbCore* core,bbHandle* handle, char* string, char* key, U64 time, bbInstruction_source source, bbHandle action)
@@ -263,9 +256,8 @@ bbFlag bbCS_putTextbox(bbCore* core,bbHandle* handle, char* string, char* key, U
     if (source == bbInstructionSource_input)
     {
         //create input instruction
-        bbInstruction* instruction;
-        bbHandle instruction_handle;
-        bbFlag flag = bbList_alloc2(&core->active_stack,(void**)&instruction, &instruction_handle);
+
+        allocRedoInstruction(instruction)
         instruction->source = source;
         //set input instruction data
         instruction->type = bbI_putTextbox;
@@ -273,8 +265,7 @@ bbFlag bbCS_putTextbox(bbCore* core,bbHandle* handle, char* string, char* key, U
         instruction->data.three_handles.handle2.u64 = time;
 
         //create undo instruction
-        bbInstruction* undo_instruction;
-        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        allocUndoInstruction(undo_instruction)
         undo_instruction->source = source;
         undo_instruction->redo_instruction = instruction_handle;
 
@@ -282,12 +273,12 @@ bbFlag bbCS_putTextbox(bbCore* core,bbHandle* handle, char* string, char* key, U
         undo_instruction->type = bbI_unputTextbox;
         undo_instruction->data.three_handles.handle1 = message_handle;
         undo_instruction->data.three_handles.handle2.u64 = time;
-        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+        pushUndoInstruction(undo_instruction)
+        pushRedoInstruction(instruction)
     } else if (source == bbInstructionSource_internal)
     {
         //create undo instruction
-        bbInstruction* undo_instruction;
-        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        allocUndoInstruction(undo_instruction)
         undo_instruction->source = source;
 
         //set instruction data
@@ -295,12 +286,11 @@ bbFlag bbCS_putTextbox(bbCore* core,bbHandle* handle, char* string, char* key, U
         undo_instruction->data.three_handles.handle1 = message_handle;
         undo_instruction->data.three_handles.handle2.u64 = time;
 
-        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+        pushUndoInstruction(undo_instruction)
     } else if (source == bbInstructionSource_action)
     {
         //create undo instruction
-        bbInstruction* undo_instruction;
-        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        allocUndoInstruction(undo_instruction)
         undo_instruction->redo_instruction = action;
         undo_instruction->source = source;
 
@@ -309,7 +299,7 @@ bbFlag bbCS_putTextbox(bbCore* core,bbHandle* handle, char* string, char* key, U
         undo_instruction->data.three_handles.handle1 = message_handle;
         undo_instruction->data.three_handles.handle2.u64 = time;
 
-        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+        pushUndoInstruction(undo_instruction)
     } else if (source == bbInstructionSource_norewind)
     {
 

@@ -15,7 +15,7 @@ bbFlag bbCoreDiscard(bbCore* core, U64 time)
 
     while (1)
     {
-        flag = bbList_peakR(&core->undo_stack, (void**)&undo_instruction);
+        flag = bbList_peakR(&core->undo__stack, (void**)&undo_instruction);
 
 
         if (flag != bbSuccess) return bbSuccess;
@@ -30,7 +30,7 @@ bbFlag bbCoreDiscard(bbCore* core, U64 time)
         }
 
 
-        flag = bbList_popR(&core->undo_stack, (void**)&undo_instruction);
+        flag = bbList_popR(&core->undo__stack, (void**)&undo_instruction);
 
 
 

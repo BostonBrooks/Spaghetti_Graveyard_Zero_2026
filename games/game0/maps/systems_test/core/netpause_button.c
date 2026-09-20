@@ -1,6 +1,7 @@
 #include "core_inbox.h"
 #include "netpause_button.h"
 #include "instructions.h"
+#include "engine/core/bbInstruction_operations.h"
 #include "engine/data/bbHome.h"
 #include "engine/logic/bbString.h"
 #include "engine/network/bbNetworkApp.h"
@@ -15,27 +16,25 @@ bbFlag bbCoreInbox_NetpauseButton(bbCore* core, char* key)
 
         bbThreadedQueue_pushL(&core->local_message_queue, message);
         return bbSuccess;
-
 }
 
 // enum bbCoreInbox_netpauseButton in core_inbox.h
 
 bbFlag bbCoreInbox_netpauseButton_fn(bbCore* core, bbCoreInboxMessage* message)
 {
-        bbCoreInput_netpauseButton(core,message->data.key);
+        bbCoreInput_netpauseButton(core, message->data.key);
 
         return bbSuccess;
 }
 
 bbFlag bbCoreInput_netpauseButton(bbCore* core, char* string)
 {
-        bbInstruction* instruction;
-        bbList_alloc(&core->active_stack, (void**) &instruction);
+        allocActiveInstruction(instruction)
 
         instruction->type = bbInstruction_netpauseButton;
         bbStr_setStr(instruction->data.key, string, KEY_LENGTH);
 
-        bbList_pushL(&core->active_stack, instruction);
+        pushActiveInstruction(instruction)
 
         return bbSuccess;
 }

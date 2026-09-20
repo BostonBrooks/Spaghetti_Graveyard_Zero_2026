@@ -79,10 +79,10 @@ bbFlag bbInstruction_unspawnServerEntity_fn(bbCore* core, bbInstruction* instruc
     }
     if (instruction->source == bbInstructionSource_input)
     {
-        bbInstruction* redo_instruction;
-        bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction, instruction->redo_instruction);
-        bbList_pushL(&core->active_stack, redo_instruction);
-        //bbVPool_free(core->instruction_pool, (void*)instruction);
+        popRedoInstruction(redo_instruction,instruction)
+        allocActiveInstruction(new_instruction)
+        *new_instruction = redo_instruction;
+        pushActiveInstruction(new_instruction)
         return bbSuccess;
     }
     if (instruction->source == bbInstructionSource_action)
@@ -102,13 +102,12 @@ bbFlag bbCoreInput_spawnServerEntity(bbCore* core,
                                     bbInstruction_source source,
                                     bbHandle action)
 {
-    bbInstruction* instruction;
-    bbList_alloc(&core->active_stack, (void**) &instruction);
+    allocActiveInstruction(instruction)
     instruction->type = bbInstruction_spawnServerEntity;
     bbStr_setStr(instruction->data.key, key, KEY_LENGTH);
     instruction->source = source;
     instruction->redo_instruction = action;
-    bbList_pushL(&core->active_stack, instruction);
+    pushActiveInstruction(instruction)
     return bbSuccess;
 
 }
@@ -210,10 +209,10 @@ bbFlag bbVInstruction_unsetGoalpoint_fn(bbCore* core,
     }
     if (instruction->source == bbInstructionSource_input)
     {
-        bbInstruction* redo_instruction;
-        bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction,
-                       instruction->redo_instruction);
-        bbList_pushL(&core->active_stack, redo_instruction);
+        popRedoInstruction(redo_instruction,instruction)
+        allocActiveInstruction(new_instruction)
+        *new_instruction = redo_instruction;
+        pushActiveInstruction(new_instruction)
         //bbVPool_free(core->instruction_pool, (void*)instruction);
         return bbSuccess;
     }

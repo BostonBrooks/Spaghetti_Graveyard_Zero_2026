@@ -2,6 +2,7 @@
 #include "../../../../../engine/core/bbCore.h"
 #include "../../../../../engine/core/bbInstruction.h"
 #include "engine/core/bbAction.h"
+#include "engine/core/bbInstruction_operations.h"
 #include "engine/data/bbHome.h"
 #include "engine/network/bbNetwork.h"
 #include "engine/network/bbNetworkApp.h"
@@ -53,8 +54,7 @@ bbFlag bbCoreInput_requestAction(bbCore* core,
                                   bbInstruction_source source,
                                   bbHandle action)
 {
-    bbInstruction* instruction;
-    bbList_alloc(&core->active_stack, (void**) &instruction);
+    allocActiveInstruction(instruction)
 
     bbAction* allocated;
     bbHandle allocated_handle;
@@ -69,7 +69,7 @@ bbFlag bbCoreInput_requestAction(bbCore* core,
     instruction->redo_instruction = action;
 
 
-    bbList_pushL(&core->active_stack, instruction);
+    pushActiveInstruction(instruction)
 }
 
 
