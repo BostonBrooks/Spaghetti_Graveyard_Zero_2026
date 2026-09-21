@@ -227,6 +227,8 @@ bbFlag bbI_undoNothing_fn(bbCore* core, bbInstruction* instruction)
         popRedoInstruction(redo_instruction,instruction)
         allocActiveInstruction(new_instruction)
         *new_instruction = redo_instruction;
+        bbCore_checkMap(&core->map, &redo_instruction, instruction);
+
         pushActiveInstruction(new_instruction)
         //bbInstruction* redo_instruction;
         //bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction, instruction->redo_instruction);

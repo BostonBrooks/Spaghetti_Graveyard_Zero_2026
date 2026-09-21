@@ -221,6 +221,8 @@ bbFlag bbInstruction_unspawnEmptyEntity_fn(bbCore* core, bbInstruction* instruct
         popRedoInstruction(redo_instruction,instruction)
         allocActiveInstruction(new_instruction)
         *new_instruction = redo_instruction;
+        bbCore_checkMap(&core->map, &redo_instruction, instruction);
+
         pushActiveInstruction(new_instruction)
         return bbSuccess;
     }
@@ -427,6 +429,8 @@ bbFlag bbInstruction_entity_unsetComponent_fn(bbCore* core, bbInstruction* instr
         popRedoInstruction(redo_instruction,instruction)
         allocActiveInstruction(new_instruction)
         *new_instruction = redo_instruction;
+        bbCore_checkMap(&core->map, &redo_instruction, instruction);
+
         pushActiveInstruction(new_instruction)
         return bbSuccess;
     }
@@ -734,6 +738,8 @@ bbFlag bbInstruction_entity_undeleteEntity_fn(bbCore* core, bbInstruction* instr
         popRedoInstruction(redo_instruction,instruction)
         allocActiveInstruction(new_instruction)
         *new_instruction = redo_instruction;
+        bbCore_checkMap(&core->map, &redo_instruction, instruction);
+
         pushActiveInstruction(new_instruction)
         //bbVPool_free(core->instruction_pool, (void*)instruction);
         return bbSuccess;

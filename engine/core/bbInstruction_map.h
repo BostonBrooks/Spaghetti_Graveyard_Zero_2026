@@ -14,6 +14,7 @@ typedef struct {
 
 bbFlag bbCore_initMap(bbInstructionMap* map);
 
+///Check if the forward instruction matches the corresponding rollback instruction
 bbFlag bbCore_checkMap(bbInstructionMap* map, void* forward, void* rollback);
 
 #endif

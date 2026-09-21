@@ -76,6 +76,8 @@ bbFlag bbInstruction_unspawnServerEntity_fn(bbCore* core, bbInstruction* instruc
         popRedoInstruction(redo_instruction,instruction)
         allocActiveInstruction(new_instruction)
         *new_instruction = redo_instruction;
+        bbCore_checkMap(&core->map, &redo_instruction, instruction);
+
         pushActiveInstruction(new_instruction)
         return bbSuccess;
     }

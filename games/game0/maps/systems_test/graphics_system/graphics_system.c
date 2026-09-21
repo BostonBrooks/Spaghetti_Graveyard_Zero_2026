@@ -126,6 +126,8 @@ bbFlag bbInstruction_unspawnGraphicsComponent_fn(bbCore* core, bbInstruction* in
         popRedoInstruction(redo_instruction,instruction)
         allocActiveInstruction(new_instruction)
         *new_instruction = redo_instruction;
+        bbCore_checkMap(&core->map, &redo_instruction, instruction);
+
         pushActiveInstruction(new_instruction)
         return bbSuccess;
     }
