@@ -15,6 +15,7 @@ typedef enum
     bbECS_Graphics,
     bbECS_ServerEntities,
     bbECS_Spatial,
+    bbECS_Players,
     bbECS_numSystems
 } bbECS_systems;
 

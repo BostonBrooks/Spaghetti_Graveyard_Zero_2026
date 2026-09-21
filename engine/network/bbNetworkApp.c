@@ -178,6 +178,7 @@ bbFlag bbNetworkApp_checkInbox(bbNetwork* network)
         {
             //bbDebug("Set socket number %d\n", packet->data.integer);
             network->server_socket_number = packet->data.integer;
+
         }
 
         if (packet->type == PACKETTYPE_TESTSPAWN)
