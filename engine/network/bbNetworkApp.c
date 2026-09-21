@@ -404,7 +404,7 @@ bbFlag bbNetworkApp_sendAction(bbNetwork* network, bbAction* action)
     packet->type = PACKETTYPE_ACTION;
     packet->send_tick = action->header.created_tick;
     packet->act_tick = action->header.act_tick;
-    packet->player = action->header.player;
+    packet->player = action->header.sender;
     packet->collision = action->header.collision;
 
     packet->data.action = *action;

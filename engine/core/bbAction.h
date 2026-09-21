@@ -30,7 +30,7 @@ typedef struct
 {
     bbAction_type type;
     bbAction_status status;
-    U32 player;
+    U32 sender;
     U32 collision;
     U64 created_tick;
     U64 act_tick;

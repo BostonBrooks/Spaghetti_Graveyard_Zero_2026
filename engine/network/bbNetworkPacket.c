@@ -302,7 +302,7 @@ bbFlag bbAction_toPacket(sfPacket* packet, bbAction* action)
 {
     sfPacket_writeUint32(packet, action->header.type);
     sfPacket_writeUint32(packet, action->header.status);
-    sfPacket_writeUint32(packet, action->header.player);
+    sfPacket_writeUint32(packet, action->header.sender);
     sfPacket_writeUint32(packet, action->header.collision);
 
     U64 created_tick_lower = action->header.created_tick & 0xFFFFFFFF;
@@ -341,7 +341,7 @@ bbFlag bbAction_fromPacket(sfPacket* packet, bbAction* action)
 {
     action->header.type = sfPacket_readUint32(packet);
     action->header.status = sfPacket_readUint32(packet);
-    action->header.player = sfPacket_readUint32(packet);
+    action->header.sender = sfPacket_readUint32(packet);
     action->header.collision = sfPacket_readUint32(packet);
 
     U64 created_tick_lower = sfPacket_readUint32(packet);

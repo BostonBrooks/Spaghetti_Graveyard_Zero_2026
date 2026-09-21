@@ -34,7 +34,7 @@ bbFlag bbCoreInbox_testClick3_fn(bbCore* core, bbCoreInboxMessage* message)
 
     action.header.type = bbActionType_setTarget;
     action.header.status = bbAction_Wait;
-    action.header.player = 0;
+    action.header.sender = 0;
     action.header.collision = collision++;
     action.header.created_tick = home.core.core.actual_time;
     action.header.act_tick = home.core.core.actual_time;

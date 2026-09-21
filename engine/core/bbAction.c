@@ -16,7 +16,7 @@ bbFlag bbAction_setString(void* Core,
     bbAction* action;
     bbList_alloc(&core->action_queue,(void**)&action);
     action->header.type = bbActionType_setString;
-    action->header.player = player;
+    action->header.sender = player;
     action->header.collision = collision;
     action->header.created_tick = created_tick;
     action->header.act_tick = act_tick;
@@ -35,8 +35,8 @@ I32 bbAction_compare (void* A, void* B)
     if (a->act_tick > b->act_tick) return 0;
     if (a->collision < b->collision) return 1;
     if (a->collision > b->collision) return 0;
-    if (a->player < b->player) return 1;
-    if (a->player > b->player) return 0;
+    if (a->sender < b->sender) return 1;
+    if (a->sender > b->sender) return 0;
 
     bbNotHere()
 
