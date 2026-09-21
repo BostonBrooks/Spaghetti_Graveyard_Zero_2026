@@ -41,8 +41,12 @@ bbFlag bbCoreInbox_testClick_fn(bbCore* core, bbCoreInboxMessage* message)
 
     bbHandle ai_handle;
     bbAI_Component* component;
+
+
+    bbPlayers* players = &home.ECS.players;
+    bbHandle player_character = players->players[players->this_player].selected_entities[0];
     //
-    bbHandle_mapComponent(home.ECS.ECS, bbECS_ECS,home.ECS.ECS->player_character,
+    bbHandle_mapComponent(home.ECS.ECS, bbECS_ECS,player_character,
         bbECS_AI,&ai_handle,(bbComponent**)&component);
     //
     bbAI_CommandData data;
@@ -58,7 +62,7 @@ bbFlag bbCoreInbox_testClick_fn(bbCore* core, bbCoreInboxMessage* message)
     return bbSuccess;
 }
 bbFlag bbCoreInbox_setGoalpoint_fn(bbCore* core, bbCoreInboxMessage* message);
-
+bbFlag bbCoreInbox_clickPlayer_fn(bbCore* core, bbCoreInboxMessage* message);
 bbFlag bbCore_initInboxMessages(bbCore* core)
 {
     core->inbox_functions = calloc(bbCoreInbox_numVTypes-bbCoreInbox_numTypes,sizeof(bbCoreInbox_fn*));
@@ -71,6 +75,7 @@ bbFlag bbCore_initInboxMessages(bbCore* core)
     core->inbox_functions[bbCoreInbox_setGoalpoint-bbCoreInbox_numTypes] = bbCoreInbox_setGoalpoint_fn;
     core->inbox_functions[bbCoreInbox_freeze-bbCoreInbox_numTypes] = bbCoreInbox_Freese_fn;
     core->inbox_functions[bbCoreInbox_receiveMessage-bbCoreInbox_numTypes] = bbCoreInbox_receiveMessage_fn;
+    core->inbox_functions[bbCoreInbox_clickPlayer-bbCoreInbox_numTypes] = bbCoreInbox_clickPlayer_fn;
     core->inbox_functions[bbCoreInbox_clickMonster-bbCoreInbox_numTypes] = bbCoreInbox_clickMonster_fn;
     return bbSuccess;
 }
@@ -170,7 +175,9 @@ bbFlag bbCoreInbox_clickMonster_fn(bbCore* core, bbCoreInboxMessage* message)
     bbHandle ai_handle;
     bbAI_Component* component;
     //
-    bbHandle_mapComponent(home.ECS.ECS, bbECS_ECS,home.ECS.ECS->player_character,
+    bbPlayers* players = &home.ECS.players;
+    bbHandle player_character = players->players[players->this_player].selected_entities[0];
+    bbHandle_mapComponent(home.ECS.ECS, bbECS_ECS,player_character,
         bbECS_AI,&ai_handle,(bbComponent**)&component);
 
     bbAI_CommandData data;
@@ -182,4 +189,32 @@ bbFlag bbCoreInbox_clickMonster_fn(bbCore* core, bbCoreInboxMessage* message)
                   bbAI_clickMonster,
                   data,
                   false);
+}
+
+
+bbFlag bbCoreInbox_ClickPlayer(bbCore* core, bbHandle entity_handle)
+{
+    bbCoreInboxMessage* message;
+    bbThreadedQueue_alloc(&core->local_message_queue, (void** ) &message);
+    message->type = bbCoreInbox_clickPlayer;
+    message->data.three_handles.handle1 = entity_handle;
+    bbThreadedQueue_pushL(&core->local_message_queue, message);
+}
+
+bbFlag bbCoreInbox_clickPlayer_fn(bbCore* core, bbCoreInboxMessage* message)
+{
+    bbHandle server_handle;
+    bbAI_Component* component;
+
+    bbHandle_mapComponent(home.ECS.ECS, bbECS_ECS,message->data.three_handles.handle1,
+        bbECS_ServerEntities,&server_handle,(bbComponent**)&component);
+
+    bbAction_setPlayerEntity(&home.core.core,
+                       home.ECS.players.this_player,
+                       7,
+                       home.core.core.actual_time,
+                       home.core.core.actual_time,
+                       home.ECS.players.this_player,
+                       server_handle);
+
 }

@@ -35,7 +35,11 @@ bbFlag bbAction_setGoalpoint_fn(bbCore* core, bbAction* action)
 bbFlag bbAction_setTarget_fn(bbCore* core, bbAction* action)
 {
     bbAI_Component* component;
-    bbHandle_mapComponent(home.ECS.ECS,bbECS_ECS, home.ECS.ECS->player_character,bbECS_AI, NULL, (bbComponent**) &component);
+
+    bbPlayers* players = &home.ECS.players;
+    bbHandle player_character = players->players[players->this_player].selected_entities[0];
+
+    bbHandle_mapComponent(home.ECS.ECS,bbECS_ECS, player_character,bbECS_AI, NULL, (bbComponent**) &component);
 
     bbHandle server_handle = action->handle;
     bbHandle entity_handle;

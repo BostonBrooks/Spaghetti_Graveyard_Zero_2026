@@ -46,9 +46,12 @@ bbFlag bbAI_Update_Fireball(bbAI_Component* component)
                 bbComponent_getHandle(&home.ECS.AI_system.system,(bbComponent*)component, &AI_handle);
 
 
+                bbPlayers* players = &home.ECS.players;
+                bbHandle player_character = players->players[players->this_player].selected_entities[0];
+
                 bbCI_AI_setStriking(&home.core.core,
                                        AI_handle,
-                                       home.ECS.ECS->player_character,
+                                       player_character,
                                        home.core.core.simulation_time,
                                  bbInstructionSource_internal, no_handle);
             }
@@ -101,8 +104,12 @@ bbFlag bbAI_Update_Chase(bbAI_Component* component)
     bbMoveable* player_moveable;
     bbHandle player_handle;
 
+
+    bbPlayers* players = &home.ECS.players;
+    bbHandle player_character = players->players[players->this_player].selected_entities[0];
+
     bbHandle_mapComponent(home.ECS.ECS, bbECS_ECS,
-                          home.ECS.ECS->player_character, bbECS_Moveables,
+                          player_character, bbECS_Moveables,
                           &player_handle, (bbComponent**)&player_moveable);
 
     if (moveable_handle.bloated.index == player_handle.bloated.index)
@@ -179,8 +186,11 @@ bbFlag bbAI_Update_Striking(bbAI_Component* component)
     bbMoveable* player_moveable;
     bbHandle player_handle;
 
+    bbPlayers* players = &home.ECS.players;
+    bbHandle player_character = players->players[players->this_player].selected_entities[0];
+
     bbHandle_mapComponent(home.ECS.ECS, bbECS_ECS,
-                          home.ECS.ECS->player_character, bbECS_Moveables,
+                          player_character, bbECS_Moveables,
                           &player_handle, (bbComponent**)&player_moveable);
 
 
@@ -207,9 +217,11 @@ bbFlag bbAI_Update_Striking(bbAI_Component* component)
                              bbInstructionSource_internal, no_handle);
 
 
+        bbPlayers* players = &home.ECS.players;
+        bbHandle player_character = players->players[players->this_player].selected_entities[0];
             bbCI_AI_setApproaching(&home.core.core,
                                    AI_handle,
-                                   home.ECS.ECS->player_character,
+                                   player_character,
                                    home.core.core.simulation_time,
                              bbInstructionSource_internal, no_handle);
 
@@ -228,10 +240,12 @@ bbFlag bbAI_Update_Striking(bbAI_Component* component)
 
 
 
+                bbPlayers* players = &home.ECS.players;
+                bbHandle player_character = players->players[players->this_player].selected_entities[0];
 
                 bbCI_AI_setStriking(&home.core.core,
                                        AI_handle,
-                                       home.ECS.ECS->player_character,
+                                       player_character,
                                        home.core.core.simulation_time,
                                  bbInstructionSource_internal, no_handle);
             }
@@ -283,9 +297,11 @@ bbFlag bbAI_Update_Striking(bbAI_Component* component)
                                  player_handle,
                                  bbInstructionSource_internal, no_handle);
 
+                bbPlayers* players = &home.ECS.players;
+                bbHandle player_character = players->players[players->this_player].selected_entities[0];
                 bbCI_AI_setApproaching(&home.core.core,
                                        AI_handle,
-                                       home.ECS.ECS->player_character,
+                                       player_character,
                                        home.core.core.simulation_time,
                                  bbInstructionSource_internal, no_handle);
             }
@@ -322,8 +338,10 @@ bbFlag bbAI_Update_Lunging(bbAI_Component* component)
     bbMoveable* player_moveable;
     bbHandle player_handle;
 
+    bbPlayers* players = &home.ECS.players;
+    bbHandle player_character = players->players[players->this_player].selected_entities[0];
     bbHandle_mapComponent(home.ECS.ECS, bbECS_ECS,
-                          home.ECS.ECS->player_character, bbECS_Moveables,
+                          player_character, bbECS_Moveables,
                           &player_handle, (bbComponent**)&player_moveable);
 
 
@@ -350,9 +368,11 @@ bbFlag bbAI_Update_Lunging(bbAI_Component* component)
                              bbInstructionSource_internal, no_handle);
 
 
+        bbPlayers* players = &home.ECS.players;
+        bbHandle player_character = players->players[players->this_player].selected_entities[0];
             bbCI_AI_setApproaching(&home.core.core,
                                    AI_handle,
-                                   home.ECS.ECS->player_character,
+                                   player_character,
                                    home.core.core.simulation_time,
                              bbInstructionSource_internal, no_handle);
             break;
@@ -372,9 +392,11 @@ bbFlag bbAI_Update_Lunging(bbAI_Component* component)
                     bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_moving);
 
 
+                    bbPlayers* players = &home.ECS.players;
+                    bbHandle player_character = players->players[players->this_player].selected_entities[0];
                     bbCI_AI_setStriking(&home.core.core,
                                            AI_handle,
-                                           home.ECS.ECS->player_character,
+                                           player_character,
                                            home.core.core.simulation_time,
                                      bbInstructionSource_internal, no_handle);
                 }
@@ -455,9 +477,11 @@ bbFlag bbAI_Update_Lunging(bbAI_Component* component)
 
 
 
+                        bbPlayers* players = &home.ECS.players;
+                        bbHandle player_character = players->players[players->this_player].selected_entities[0];
                         bbCI_AI_setStriking(&home.core.core,
                                                AI_handle,
-                                               home.ECS.ECS->player_character,
+                                               player_character,
                                                home.core.core.simulation_time,
                                          bbInstructionSource_internal, no_handle);
                         break;
@@ -470,9 +494,11 @@ bbFlag bbAI_Update_Lunging(bbAI_Component* component)
                                  player_handle,
                                  bbInstructionSource_internal, no_handle);
 
+                bbPlayers* players = &home.ECS.players;
+                bbHandle player_character = players->players[players->this_player].selected_entities[0];
                 bbCI_AI_setApproaching(&home.core.core,
                                        AI_handle,
-                                       home.ECS.ECS->player_character,
+                                       player_character,
                                        home.core.core.simulation_time,
                                  bbInstructionSource_internal, no_handle);
             }
@@ -510,8 +536,10 @@ bbFlag bbAI_Update_CastFireball(bbAI_Component* component)
     bbMoveable* player_moveable;
     bbHandle player_handle;
 
+    bbPlayers* players = &home.ECS.players;
+    bbHandle player_character = players->players[players->this_player].selected_entities[0];
     bbHandle_mapComponent(home.ECS.ECS, bbECS_ECS,
-                          home.ECS.ECS->player_character, bbECS_Moveables,
+                          player_character, bbECS_Moveables,
                           &player_handle, (bbComponent**)&player_moveable);
 
 
@@ -538,9 +566,10 @@ bbFlag bbAI_Update_CastFireball(bbAI_Component* component)
                              bbInstructionSource_internal, no_handle);
 
 
+        bbPlayers* players = &home.ECS.players;
+        bbHandle player_character = players->players[players->this_player].selected_entities[0];
             bbCI_AI_setApproaching(&home.core.core,
-                                   AI_handle,
-                                   home.ECS.ECS->player_character,
+                                   AI_handle,player_character,
                                    home.core.core.simulation_time,
                              bbInstructionSource_internal, no_handle);
 
@@ -562,9 +591,11 @@ bbFlag bbAI_Update_CastFireball(bbAI_Component* component)
 
 
 
+                bbPlayers* players = &home.ECS.players;
+                bbHandle player_character = players->players[players->this_player].selected_entities[0];
                 bbCI_AI_setStriking(&home.core.core,
                                        AI_handle,
-                                       home.ECS.ECS->player_character,
+                                       player_character,
                                        home.core.core.simulation_time,
                                  bbInstructionSource_internal, no_handle);
 
@@ -612,9 +643,11 @@ bbFlag bbAI_Update_CastFireball(bbAI_Component* component)
                                  player_handle,
                                  bbInstructionSource_internal, no_handle);
 
+                bbPlayers* players = &home.ECS.players;
+                bbHandle player_character = players->players[players->this_player].selected_entities[0];
                 bbCI_AI_setApproaching(&home.core.core,
                                        AI_handle,
-                                       home.ECS.ECS->player_character,
+                                       player_character,
                                        home.core.core.simulation_time,
                                  bbInstructionSource_internal, no_handle);
             }

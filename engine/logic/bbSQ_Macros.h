@@ -61,7 +61,7 @@ bbFlag CONCAT2(BB_CLASS,_deque_grow)(CONCAT2(BB_CLASS,_deque)* deque)\
 \
 \
 bbFlag CONCAT2(BB_CLASS,_deque_allocFront)(CONCAT2(BB_CLASS,_deque)* deque, BB_CLASS** element)\
-{bbDebug("%s: num elements = %d\n",deque->key, deque->in_use);\
+{/*bbDebug("%s: num elements = %d\n",deque->key, deque->in_use);*/\
     I32 new_index = deque->end_index + 1;\
     I32 new_segment = deque->end_segment;\
     if (new_index >= BB_SEGMENT_SIZE)\

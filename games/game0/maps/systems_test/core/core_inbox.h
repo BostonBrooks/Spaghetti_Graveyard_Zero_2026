@@ -15,6 +15,8 @@ typedef enum
     bbCoreInbox_freeze,
     bbCoreInbox_receiveMessage,
     bbCoreInbox_clickMonster,
+    bbCoreInbox_clickPlayer,
+    bbCoreInbox_setPlayerEntity,
     bbCoreInbox_numVTypes
 } bbCoreInbox_vType;
 

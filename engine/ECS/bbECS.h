@@ -70,7 +70,7 @@ typedef struct bbECS
 {
     bbSystem system;
     bbList list;
-    bbHandle player_character;
+    //bbHandle player_character;
     bbSystem* systems[];
 
 } bbECS;

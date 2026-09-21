@@ -173,7 +173,7 @@ bbFlag bbViewportSpawnZombie(bbViewportApp* viewport_app,
     bbVPMouseFunctions_getTableHandle(
         &home.viewport_app.mouse.functions,
         &unit->mouse.mouse_table,
-        "MONSTER" );
+        "PLAYER" );
     unit->mouse.hover = 0;
     unit->mouse.selected = 0;
     unit->mouse.rect.top = 4*POINTS_PER_TILE;

@@ -199,9 +199,11 @@ bbFlag bbNetworkApp_checkInbox(bbNetwork* network)
 
             //bbDebug("player character: %d, %d\n",home.ECS.ECS->player_character.bloated.index,home.ECS.ECS->player_character.bloated.index)
 
+            bbPlayers* players = &home.ECS.players;
+            bbHandle player_character = players->players[players->this_player].selected_entities[0];
             bbAction_setGoalpoint(&home.core.core,
                                         packet->data.map_coords,
-                                        home.ECS.ECS->player_character,
+                                        player_character,
                                         packet->collision,
                                         0,
                                         packet->act_tick);

@@ -23,6 +23,18 @@ typedef struct {
 } bbPlayers;
 
 
-bbFlag bbPlayers_init(bbPlayers* players, bbECS* ECS);
+bbFlag bbPlayers_init(bbPlayers* system, bbECS* ECS);
+
+bbFlag bbAction_setPlayerEntity(void* Core,
+                       U32 sender,
+                       U32 collision,
+                       U64 created_tick,
+                       U64 act_tick,
+                       U32 player,
+                       bbHandle server_handle);
+
+
+//bbFlag bbCoreInbox_SetPlayerEntity(bbCore* core, U32 player, bbHandle server_handle);
+//bbFlag bbCoreInbox_setPlayerEntity_fn(bbCore* core, bbCoreInboxMessage* message);
 
 #endif //BB_PLAYERS

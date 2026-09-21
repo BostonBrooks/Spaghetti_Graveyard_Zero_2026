@@ -299,7 +299,7 @@ bbFlag bbSF_setPlayer(void* spawner,
 {//TODO make core synchronous set player handle; May want to store player character somewhere else
     bbHandle handle = entity->component.entity_handle;
 
-    home.ECS.ECS->player_character = handle;
+    //home.ECS.ECS->player_character = handle;
 
 
     bbUI_Inbox_SetViewpoint(&home.UI.inbox, handle);
