@@ -121,13 +121,22 @@ bbMilliCoords sumForces2(bbMoveables* moveables, bbMoveable* moveableA)
     data.total.j = 0;
     data.total.k = 0;
 
+    bbSpatialFilters filters
+        = bbSpatialFilters_new(
+            moveableA->position,
+            800000 / MILLS_PER_POINT
+            ,sumForces_fn,
+            &data);
+
+    bbSpatial_mapRadiusFilter((bbSpatial*)moveables->system.ECS->systems[bbECS_Spatial],&filters);
+    /*
 
     bbSpatial_mapRadius((bbSpatial*)moveables->system.ECS->systems[bbECS_Spatial],
                         moveableA->position,
                         800000 / MILLS_PER_POINT,
                         sumForces_fn,
                         &data);
-
+*/
     return data.total;
 
 }
