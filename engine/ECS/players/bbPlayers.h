@@ -3,6 +3,8 @@
 
 #define num_selected_entities 32
 #define num_players 32
+#include "engine/ECS/bbECS.h"
+
 typedef struct {
     bbComponent component;
     I32 player;
@@ -16,7 +18,7 @@ typedef struct {
     bbSystem system;
     I32 this_player;
 
-    bbPlayer players[num_players]
+    bbPlayer players[num_players];
 
 } bbPlayers;
 

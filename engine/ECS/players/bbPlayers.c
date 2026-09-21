@@ -6,8 +6,13 @@
 
 bbFlag bbPlayers_init(bbPlayers* players, bbECS* ECS){
 
+    players->this_player = -1;
 
-
+    for (I32 i = 0; i < num_players; i++) {
+        for (I32 j = 0; j < num_selected_entities; j++) {
+            players->players[i].selected_entities[j] = players->system.pool->null;
+        }
+    }
 
     players->system.getComponent = NULL;
     players->system.getHandle = NULL;
