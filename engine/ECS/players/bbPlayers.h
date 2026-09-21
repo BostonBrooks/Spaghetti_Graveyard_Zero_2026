@@ -1,7 +1,7 @@
 #ifndef BB_PLAYERS
 #define BB_PLAYERS
 
-#define num_selected_entities 32
+#define MAX_SELECTED_ENTITIES 32
 #define num_players 32
 #include "engine/ECS/bbECS.h"
 
@@ -11,7 +11,7 @@ typedef struct {
 } bbPlayerComponent;
 
 typedef struct {
-    bbHandle selected_entities[num_selected_entities];
+    bbHandle selected_entities[MAX_SELECTED_ENTITIES];
 } bbPlayer;
 
 typedef struct {
