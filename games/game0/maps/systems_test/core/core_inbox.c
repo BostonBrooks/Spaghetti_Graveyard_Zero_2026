@@ -46,9 +46,12 @@ bbFlag bbCoreInbox_testClick_fn(bbCore* core, bbCoreInboxMessage* message)
     bbPlayers* players = &home.ECS.players;
     bbHandle player_character = players->players[players->this_player].selected_entities[0];
     //
-    bbHandle_mapComponent(home.ECS.ECS, bbECS_ECS,player_character,
+    if (player_character.u64 == 0) return bbNone;
+
+    bbFlag flag = bbHandle_mapComponent(home.ECS.ECS, bbECS_ECS,player_character,
         bbECS_AI,&ai_handle,(bbComponent**)&component);
     //
+    if (flag!= bbSuccess) return bbNone;
     bbAI_CommandData data;
     data.goal_point = message->data.map_click.coords;
     data.integer = message->data.map_click.button;
@@ -177,9 +180,11 @@ bbFlag bbCoreInbox_clickMonster_fn(bbCore* core, bbCoreInboxMessage* message)
     //
     bbPlayers* players = &home.ECS.players;
     bbHandle player_character = players->players[players->this_player].selected_entities[0];
-    bbHandle_mapComponent(home.ECS.ECS, bbECS_ECS,player_character,
+
+    bbFlag flag = bbHandle_mapComponent(home.ECS.ECS, bbECS_ECS,player_character,
         bbECS_AI,&ai_handle,(bbComponent**)&component);
 
+    if (flag != bbSuccess) return flag;
     bbAI_CommandData data;
     data.handle = message->data.three_handles.handle1;
 

@@ -20,7 +20,7 @@ bbFlag bbPlayers_getHandle_fn(struct bbSystem* system, bbComponent* component, b
 bbFlag bbPlayers_init(bbPlayers* system, bbECS* ECS){
 
     bbVPool_newSystem(&system->system.pool,bbECS_Players,sizeof(bbPlayer),10,100,"PLAYER COMPONENTS");
-    system->this_player = -1;
+    system->this_player =0;
 
     for (I32 i = 0; i < num_players; i++) {
         for (I32 j = 0; j < num_selected_entities; j++) {
@@ -48,7 +48,7 @@ bbFlag bbAction_setPlayerEntity(void* Core,
     bbNotImplemented() //request action from server
 
 
-    bbDebug("You clicked server handle %d", server_handle.system.index);
+    bbDebug("You clicked server handle %d\n", server_handle.system.index);
     bbCore* core = (bbCore*)Core;
     bbECS* ECS = core->ECS;
     bbPlayers* players = (bbPlayers*)ECS->systems[bbECS_Players];
@@ -61,10 +61,11 @@ bbFlag bbAction_setPlayerEntity(void* Core,
 
     players->players[player].selected_entities[0] = entity_handle;
 
+    bbDebug("entity_handle = %d\n", entity_handle.system.index);
 
 
     for (I32 i = 1; i < num_selected_entities; i++) {
-        players->players[player].selected_entities[0] = ECS->system.pool->null;
+        players->players[player].selected_entities[i] = ECS->system.pool->null;
     }
 
     return bbSuccess;
@@ -89,7 +90,7 @@ bbFlag bbCoreInbox_setPlayerEntity_fn(bbCore* core, bbCoreInboxMessage* message)
                        0,
                        0,
                        0,
-                       message->data.three_handles.handle1.u64, //player index
+                       0,//message->data.three_handles.handle1.u64, //player index
                        message->data.three_handles.handle2); //server handle
     return bbSuccess;
 }

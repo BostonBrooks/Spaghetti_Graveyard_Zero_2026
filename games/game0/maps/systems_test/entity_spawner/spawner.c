@@ -301,7 +301,6 @@ bbFlag bbSF_setPlayer(void* spawner,
 
     //home.ECS.ECS->player_character = handle;
 
-
     bbUI_Inbox_SetViewpoint(&home.UI.inbox, handle);
 
     return bbSuccess;

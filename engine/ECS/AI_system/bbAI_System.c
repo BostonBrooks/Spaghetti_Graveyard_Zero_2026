@@ -158,6 +158,7 @@ bbFlag bbAI_onCommand(bbAI_Component* component,
                           bbAI_CommandData data,
                           bool is_action)
 {
+    if (component == NULL) return bbNone;
     I32 function_index = component->ftable.command;
     if (function_index < 0)
     {

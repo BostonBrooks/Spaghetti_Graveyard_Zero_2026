@@ -48,9 +48,6 @@ bbFlag bbCoreInbox_ClickPlayer(bbCore* core, bbHandle entity_handle);
 bbFlag bbVPMouse_LeftDown_Player (void* Mouse, void* widgets, void* Unit,
 void* graphics)
 {
-    bbVPMouse* mouse = (bbVPMouse*)Mouse;
-    bbViewportCoords VC = mouse->position;
-    bbMapCoords MC2 = bbViewportCoords_getMapCoords(VC);
     bbUnit* unit = Unit;
 
     bbCoreInbox_ClickPlayer(&home.core.core, unit->entity_handle);
