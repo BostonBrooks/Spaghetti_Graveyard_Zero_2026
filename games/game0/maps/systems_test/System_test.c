@@ -355,8 +355,8 @@ int main(void)
 
         if (home.core.clock2_handle.map_tick > 180)
         {
-            bbCoreDiscard(&home.core.core, home.core.clock2_handle.map_tick-180);
-            bbCoreDiscardSegmented(&home.core.core, home.core.clock2_handle.map_tick-180);
+            //bbCoreDiscard(&home.core.core, home.core.clock2_handle.map_tick-180);
+            //bbCoreDiscardSegmented(&home.core.core, home.core.clock2_handle.map_tick-180);
         }
         //bbActions_react(&home.core.core, core_time);
 
