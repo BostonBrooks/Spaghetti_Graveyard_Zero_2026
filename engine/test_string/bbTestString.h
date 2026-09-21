@@ -29,7 +29,7 @@ bbFlag bbCI_doNothing(bbCore* core, bbInstruction_source source, bbHandle action
 bbFlag bbCS_doNothing(bbCore* core, bbInstruction_source source, bbHandle action);
 
 bbFlag bbA_setString(void* Core,
-                            U32 player,
+                            U32 sender,
                             U32 collision,
                             U64 created_tick,
                             U64 act_tick,

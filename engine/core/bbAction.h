@@ -55,7 +55,7 @@ I32 bbAction_compare (void* A, void* B);
 
 ///Create action to be executed at a given time
 bbFlag bbAction_setString(void* Core,
-                            U32 player,
+                            U32 sender,
                             U32 collision,
                             U64 created_tick,
                             U64 act_tick,
@@ -66,7 +66,7 @@ bbFlag bbAction_setString(void* Core,
 bbFlag bbAction_update(void* core);
 
 bbFlag bbAction_loop(void* Core,
-                            U32 player,
+                            U32 sender,
                             U32 collision,
                             U64 created_tick,
                             U64 act_tick,

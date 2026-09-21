@@ -19,6 +19,7 @@
 #include "engine/spawner/bbSpawner.h"
 #include "../ECS/moveables/bbMoveables.h"
 #include "engine/ECS/moveables/bbAvoidables.h"
+#include "engine/ECS/players/bbPlayers.h"
 #include "engine/ECS/spatial/bbSpatial.h"
 #include "engine/textbox/bbTextbox.h"
 #include "engine/textbox/bbTextboxApp.h"
@@ -33,6 +34,7 @@ typedef struct
     bbAI_System AI_system;
     bbSpatial spatial;
     bbAvoidables* avoidables;
+    bbPlayers players;
 } bbECS_data;
 
 typedef struct

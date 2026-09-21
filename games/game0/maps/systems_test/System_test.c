@@ -123,6 +123,7 @@ int main(void)
     bbAI_System_init(&home.ECS.AI_system,home.core.core.ECS);
     bbAI_Functions_init(&home.ECS.AI_system.functions);
     bbAI_Functions_populate(&home.ECS.AI_system.functions);
+    bbPlayers_init(&home.ECS.players,home.core.core.ECS);
 
     bbHandle server_handle;
     server_handle.bloated.index = 193;

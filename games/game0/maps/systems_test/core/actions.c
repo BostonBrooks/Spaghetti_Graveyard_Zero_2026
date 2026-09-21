@@ -6,7 +6,7 @@
 #include "games/game0/maps/systems_test/core/action_set_goalpoint.h"
 
 bbFlag bbAction_bbHere(void* Core,
-                       U32 player,
+                       U32 sender,
                        U32 collision,
                        U64 created_tick,
                        U64 act_tick)
