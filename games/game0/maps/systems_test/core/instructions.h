@@ -3,6 +3,9 @@
 #include "engine/core/bbInstruction.h"
 #include "engine/ECS/bbECS_instructions.h"
 
+//TODO create two tables
+//Map undo instruction -> forward instruction
+//Map forward instruction -> undo instruction
 
 typedef enum
 {

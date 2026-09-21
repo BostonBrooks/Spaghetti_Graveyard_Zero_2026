@@ -220,6 +220,7 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
         engine/ECS/spatial/bbSpatial.c
         engine/ECS/spatial/bbSpatial_query.c
         engine/ECS/players/bbPlayers.c
+        engine/ECS/teams/bbTeams.c
 
         engine/core/bbAction.c
         engine/core/bbCore.c

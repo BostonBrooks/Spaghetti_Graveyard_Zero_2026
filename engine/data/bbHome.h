@@ -21,6 +21,7 @@
 #include "engine/ECS/moveables/bbAvoidables.h"
 #include "engine/ECS/players/bbPlayers.h"
 #include "engine/ECS/spatial/bbSpatial.h"
+#include "engine/ECS/teams/bbTeams.h"
 #include "engine/textbox/bbTextbox.h"
 #include "engine/textbox/bbTextboxApp.h"
 
@@ -35,6 +36,7 @@ typedef struct
     bbSpatial spatial;
     bbAvoidables* avoidables;
     bbPlayers players;
+    bbTeams teams;
 } bbECS_data;
 
 typedef struct

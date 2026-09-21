@@ -36,6 +36,7 @@
 
 #include "engine/ECS/graphics_system/bbGraphicsSystem.h"
 #include "engine/ECS/spatial/bbSpatial_query.h"
+#include "engine/ECS/teams/bbTeams.h"
 #include "engine/logic/bbString.h"
 #include "moveables/moveables.h"
 
@@ -124,6 +125,7 @@ int main(void)
     bbAI_Functions_init(&home.ECS.AI_system.functions);
     bbAI_Functions_populate(&home.ECS.AI_system.functions);
     bbPlayers_init(&home.ECS.players,home.core.core.ECS);
+    bbTeams_init(&home.ECS.teams,home.core.core.ECS);
 
     bbHandle server_handle;
     server_handle.bloated.index = 193;
