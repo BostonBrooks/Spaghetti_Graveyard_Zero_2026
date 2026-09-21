@@ -6,6 +6,8 @@
 #include "engine/geometry/bbCoordinates.h"
 #include "engine/logic/bbHandle.h"
 
+typedef struct bbCore bbCore;
+
 typedef enum
 {
     bbInstruction_setString,

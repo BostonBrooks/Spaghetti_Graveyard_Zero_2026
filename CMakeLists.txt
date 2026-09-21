@@ -204,6 +204,7 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
         games/game0/maps/systems_test/network/network_textbox_system.c
         games/game0/maps/systems_test/vpmouse/vpmouse.c
         games/game0/maps/systems_test/core/send_server_entity.c
+        games/game0/maps/systems_test/core/bbInstruction_map.c
 
 
         engine/test_string/bbTestString.c

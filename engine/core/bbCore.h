@@ -14,6 +14,7 @@
 #define BB_CORE_H
 
 #include "bbAction.h"
+#include "bbInstruction_map.h"
 #include "engine/logic/bbIntTypes.h"
 #include "engine/logic/bbList.h"
 #include "engine/logic/bbVPool.h"
@@ -47,6 +48,7 @@ struct bbCore
     bbInstruction_deque undo_instructions;
     bbInstruction_deque redo_instructions;
 
+    bbInstructionMap map;
 
 
     bbVPool* local_message_pool;

@@ -78,6 +78,7 @@ bbFlag bbI_unsetString_fn(bbCore* core, bbInstruction* instruction)
         popRedoInstruction(redo_instruction,instruction)
         allocActiveInstruction(new_instruction)
         *new_instruction = redo_instruction;
+        bbCore_checkMap(&core->map, &redo_instruction, instruction);
         pushActiveInstruction(new_instruction)
 //bbHere()
         return bbSuccess;

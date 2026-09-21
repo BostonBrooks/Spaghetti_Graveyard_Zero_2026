@@ -109,6 +109,7 @@ int main(void)
     bbCore_initInboxMessages(&home.core.core);
     bbCore_initActions(&home.core.core);
     bbCore_initDiscard(&home.core.core);
+    bbCore_initMap(&home.core.core.map);
 
     bbCoreInbox_TestMessage(&home.core.core);
     bbCore_checkInbox(&home.core.core);
