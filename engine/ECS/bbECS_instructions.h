@@ -19,6 +19,8 @@ typedef enum {
     bbI_ECS_entity_undeleteEntity,
     bbI_ECS_spatial_spawn,
     bbI_ECS_spatial_unspawn,
+    bbI_setPlayerEntity,
+    bbI_unsetPlayerEntity,
     bbI_ECS_numECS_Instructions,
 } bbECS_Instruction_type;
 

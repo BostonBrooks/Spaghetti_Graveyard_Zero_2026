@@ -2,6 +2,7 @@
 
 #include "bbInstruction_operations.h"
 #include "engine/ECS/moveables/bbMoveables.h"
+#include "engine/ECS/players/bbPlayers.h"
 #include "engine/viewport/bbDrawables.h"
 #include "games/game0/maps/systems_test/entity_spawner/live_spawn.h"
 
@@ -113,6 +114,12 @@ bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
             args.goal_handle = no_handle;
             bbCI_live_spawnEntity(core, args, "SKELLY_LIVE", bbInstructionSource_action, handle);
 
+        }
+        if (action->header.type == bbActionType_spawnEntity)
+        {
+            I32 player_index = instruction->data.three_handles.handle1.u64;
+            bbHandle entity_handle = instruction->data.three_handles.handle2;
+            bbCI_setPlayerEntity(core, player_index, entity_handle, bbInstructionSource_action, handle);
         }
 #endif
         flag = bbList_popL(&core->action_temp_fifo,(void**)&action);

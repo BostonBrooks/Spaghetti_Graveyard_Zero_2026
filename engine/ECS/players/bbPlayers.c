@@ -1,10 +1,14 @@
 #include "engine/ECS/players/bbPlayers.h"
 
+#include "core/actions.h"
+#include "core/action_request.h"
 #include "core/core_inbox.h"
 #include "engine/core/bbCore.h"
 #include "engine/core/bbCoreInbox.h"
+#include "engine/core/bbInstruction_operations.h"
 #include "engine/data/bbHome.h"
 #include "engine/ECS/bbECS.h"
+#include "engine/ECS/bbECS_instructions.h"
 #include "engine/logic/bbSystemPool.h"
 #include "engine/logic/bbTerminal.h"
 
@@ -47,9 +51,22 @@ bbFlag bbAction_setPlayerEntity(void* Core,
                        bbHandle server_handle) {
     bbNotImplemented() //request action from server
 
+    bbCore* core = (bbCore*)Core;
+
+    bbAction action;
+    action.header.type = bbActionType_setPlayerEntity;
+    action.header.status = bbAction_Wait;
+    action.header.sender = sender;
+    action.header.collision = collision;
+    action.header.created_tick = created_tick;
+    action.header.act_tick = act_tick;
+    action.integer = player;
+    action.handle = server_handle;
+
+    bbAction_request(core,&home.network,&action);
 
     bbDebug("You clicked server handle %d\n", server_handle.system.index);
-    bbCore* core = (bbCore*)Core;
+
     bbECS* ECS = core->ECS;
     bbPlayers* players = (bbPlayers*)ECS->systems[bbECS_Players];
 
@@ -90,7 +107,116 @@ bbFlag bbCoreInbox_setPlayerEntity_fn(bbCore* core, bbCoreInboxMessage* message)
                        0,
                        0,
                        0,
-                       0,//message->data.three_handles.handle1.u64, //player index
+                       message->data.three_handles.handle1.u64, //player index
                        message->data.three_handles.handle2); //server handle
     return bbSuccess;
+}
+
+bbFlag bbCI_setPlayerEntity(bbCore* core, I32 player_index, bbHandle entity_handle,  bbInstruction_source source, bbHandle action)
+{
+    allocActiveInstruction(instruction)
+    instruction->type = bbI_setPlayerEntity;
+    instruction->source = source;
+    instruction->redo_instruction = action;
+    instruction->data.three_handles.handle1.u64 = player_index;
+    instruction->data.three_handles.handle2 = entity_handle;
+
+    pushActiveInstruction(instruction)
+    return bbSuccess;
+}
+
+bbFlag bbI_setPlayerEntity_fn(bbCore* core, bbInstruction* instruction)
+{
+
+    I32  player_index = instruction->data.three_handles.handle1.u64;
+    bbHandle  entity_handle = instruction->data.three_handles.handle2;
+
+    bbPlayers* players = (bbPlayers*)core->ECS->systems[bbECS_Players];
+    bbPlayer player = players->players[player_index];
+
+
+
+    if (instruction->source == bbInstructionSource_internal)
+    {
+        allocUndoInstruction(undo_instruction)
+        undo_instruction->type = bbI_unsetPlayerEntity;
+        undo_instruction->data.three_handles.handle1.u64 = player_index;
+        undo_instruction->data.three_handles.handle2 = player.selected_entities[0];
+
+        undo_instruction->source = instruction->source;
+        undo_instruction->redo_instruction.u64 = 0;
+        pushUndoInstruction(undo_instruction)
+    }
+    else if (instruction->source == bbInstructionSource_input)
+    {
+        allocUndoInstruction(undo_instruction)
+        undo_instruction->type = bbI_unsetPlayerEntity;
+        undo_instruction->data.three_handles.handle1.u64 = player_index;
+        undo_instruction->data.three_handles.handle2 = player.selected_entities[0];
+        undo_instruction->source = instruction->source;
+        allocRedoInstruction(redo_instruction)
+         *redo_instruction = *instruction;
+        undo_instruction->redo_instruction = (bbHandle)redo_instruction_handle;
+        pushRedoInstruction(redo_instruction)
+        pushUndoInstruction(undo_instruction)
+
+        // bbHandle handle;
+        // bbVPool_reverseLookup(core->instruction_pool, instruction, &handle);
+        // undo_instruction->redo_instruction = handle;
+        // bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+    }
+    else if (instruction->source == bbInstructionSource_action)
+    {
+        allocUndoInstruction(undo_instruction)
+        undo_instruction->type = bbI_unsetPlayerEntity;
+        undo_instruction->data.three_handles.handle1.u64 = player_index;
+        undo_instruction->data.three_handles.handle2 = player.selected_entities[0];
+        undo_instruction->source = instruction->source;
+        undo_instruction->redo_instruction = instruction->redo_instruction;
+        pushUndoInstruction(undo_instruction)
+
+    } //else source == no rewind
+
+    player.selected_entities[0] = entity_handle;
+
+    return bbSuccess;
+}
+bbFlag bbI_unsetPlayerEntity_fn(bbCore* core, bbInstruction* instruction)
+{
+    I32  player_index = instruction->data.three_handles.handle1.u64;
+    bbHandle  entity_handle = instruction->data.three_handles.handle2;
+
+    bbPlayers* players = (bbPlayers*)core->ECS->systems[bbECS_Players];
+    bbPlayer player = players->players[player_index];
+    player.selected_entities[0] = entity_handle;
+
+    if (instruction->source == bbInstructionSource_internal)
+    {
+        //bbVPool_free(core->instruction_pool, (void*)instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_input)
+    {
+
+        popRedoInstruction(redo_instruction,instruction)
+        allocActiveInstruction(new_instruction)
+        *new_instruction = redo_instruction;
+        pushActiveInstruction(new_instruction)
+        //bbInstruction* redo_instruction;
+        //bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction, instruction->redo_instruction);
+        //bbList_pushL(&core->active_stack, redo_instruction);
+        //bbVPool_free(core->instruction_pool, (void*)instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_action)
+    {
+        bbAction* redo_action;
+
+        bbVPool_lookup(core->action_pool, (void**)&redo_action, instruction->redo_instruction);
+        bbList_sortL(&core->action_queue,(void*)redo_action);
+        //bbVPool_free(core->instruction_pool, (void*)instruction);
+        return bbSuccess;
+    }
+    bbAssert(0==1, "We should not get here\n");
+
 }

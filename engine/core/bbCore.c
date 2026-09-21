@@ -248,6 +248,9 @@ bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
 //                 //bbInstruction_unspawnGraphicsComponent_fn(core, instruction);
 //                 break;
             default:
+                    bbInstruction* redo_instruction = instruction.redo_instruction.ptr;
+                    bbDebug("redo instruction type = %d\n", redo_instruction->type);
+                    bbDebug("instruction source = %d\n",instruction.source);
                 bbAssert(0==1,"Unknown undo instruction type %d\n", instruction.type);
 
                 //bbVPool_free(core->instruction_pool, (void*)instruction_ptr);

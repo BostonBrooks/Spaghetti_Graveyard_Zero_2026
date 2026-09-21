@@ -36,5 +36,7 @@ bbFlag bbAction_setPlayerEntity(void* Core,
 
 //bbFlag bbCoreInbox_SetPlayerEntity(bbCore* core, U32 player, bbHandle server_handle);
 //bbFlag bbCoreInbox_setPlayerEntity_fn(bbCore* core, bbCoreInboxMessage* message);
-
+bbFlag bbCI_setPlayerEntity(bbCore* core, I32 player_index, bbHandle entity_handle,  bbInstruction_source source, bbHandle action);
+bbFlag bbI_unsetPlayerEntity_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbI_setPlayerEntity_fn(bbCore* core, bbInstruction* instruction);
 #endif //BB_PLAYERS
