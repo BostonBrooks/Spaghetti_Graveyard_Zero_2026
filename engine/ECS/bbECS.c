@@ -635,6 +635,7 @@ bbFlag bbHandle_mapComponent(bbECS* ECS,
     bbSystem* system1 = ECS->systems[system];
     bbHandle_getComponent(system1,&component1,from_handle);
 
+    if (component1 == NULL) return bbNone;
     return bbComponent_mapComponent(ECS,
                              system,
                              component1,
