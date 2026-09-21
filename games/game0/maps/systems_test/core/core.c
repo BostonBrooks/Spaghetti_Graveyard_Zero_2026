@@ -13,6 +13,7 @@
 #include "games/game0/maps/systems_test/core/spawn_entity.h"
 #include "engine/ECS/graphics_system/bbGraphicsSystem.h"
 #include "engine/ECS/moveables/bbMoveables_setState.h"
+#include "engine/ECS/players/bbPlayers.h"
 #include "engine/ECS/server_entities/bbServerEntities.h"
 #include "entity_spawner/live_spawn.h"
 #include "moveables/moveables.h"
@@ -61,6 +62,8 @@ bbFlag bbCore_initVInstructions(bbCore* core)
     core->instruction_functions[bbI_unputTextbox-bbInstruction_numTypes] = bbI_unputTextbox_fn;
     core->instruction_functions[bbInstruction_requestAction-bbInstruction_numTypes] = bbInstruction_requestAction_fn;
     core->instruction_functions[bbInstruction_unrequestAction-bbInstruction_numTypes] = bbInstruction_unrequestAction_fn;
+    core->instruction_functions[bbI_setPlayerEntity-bbInstruction_numTypes] = bbI_setPlayerEntity_fn;
+    core->instruction_functions[bbI_unsetPlayerEntity-bbInstruction_numTypes] = bbI_unsetPlayerEntity_fn;
 
 
 

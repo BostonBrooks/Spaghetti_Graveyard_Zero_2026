@@ -39,4 +39,5 @@ bbFlag bbAction_setPlayerEntity(void* Core,
 bbFlag bbCI_setPlayerEntity(bbCore* core, I32 player_index, bbHandle entity_handle,  bbInstruction_source source, bbHandle action);
 bbFlag bbI_unsetPlayerEntity_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbI_setPlayerEntity_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbAction_setPlayerEntity_fn(bbCore* core, bbAction* action);
 #endif //BB_PLAYERS
