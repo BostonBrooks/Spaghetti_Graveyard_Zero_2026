@@ -199,7 +199,10 @@ bbFlag bbCI_spawnSpatialComponent(bbCore* core,
                              bbHandle entity,
                              bbMapCoords MC,
                              bbInstruction_source source,
-                             bbHandle action);
+                             bbHandle action)
+{
+    bbNotImplemented()
+}
 
 bbFlag bbI_spawnSpatialComponent_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbI_unspawnSpatialComponent_fn(bbCore* core, bbInstruction* instruction);

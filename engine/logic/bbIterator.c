@@ -153,7 +153,7 @@ bbFlag bbIterator_mapL(bbIterator* iterator, bbListFunction* myFunc, void* cl)
             bbHere();
             break;
         default:
-            bbHere();
+            bbNotHere();
         }
     }
 }

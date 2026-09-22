@@ -134,7 +134,7 @@ bbFlag bbCore_initMap(bbInstructionMap* map)
 
 
 bbFlag bbCore_checkMap(bbInstructionMap* map, void* forward, void* rollback) {
-bbHere()
+
 
     bbInstruction* forward_i = (bbInstruction*) forward;
     bbInstruction* rollback_i = (bbInstruction*) rollback;

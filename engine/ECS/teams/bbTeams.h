@@ -31,5 +31,32 @@ bbFlag bbCI_spawnTeamComponent(bbCore* core,
 bbFlag bbI_spawnTeamComponent_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbI_unspawnTeamComponent_fn(bbCore* core, bbInstruction* instruction);
 
+bbFlag bbCI_spawnTeamComponent(bbCore* core,
+                             bbHandle entity_handle,
+                             I32 team,
+                             bbInstruction_source source,
+                             bbHandle action);
+
+bbFlag bbCS_spawnTeamComponent(bbCore* core,
+                             bbHandle entity_handle,
+                             bbTeam** this,
+                             I32 team_number,
+                             bbInstruction_source source,
+                             bbHandle action);
+
+typedef struct
+{
+    bbECS* ECS;
+    bbHandle attacker_entity;
+} bbFilter_canAttack_cl;
+
+///typedef bbFlag bbFilterFunction(bbList* list, void* node, void* cl);
+bbFlag bbFilter_canAttack_fn(bbList* list, void* node, void* cl);
+
+///typedef bbFlag bbListFunction(bbList* list, void* node, void* cl);
+bbFlag bbListFunction_findNearest_fn(bbList* list, void* node, void* cl);
+
+bbFlag bbTeams_findNearestTarget(bbCore* core, bbECS* ECS, bbHandle attacker , bbHandle* target, U32 max_distance);
+
 
 #endif //BB_TEAMS_H

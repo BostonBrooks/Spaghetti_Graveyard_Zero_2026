@@ -306,6 +306,48 @@ bbFlag bbSF_setPlayer(void* spawner,
     return bbSuccess;
 }
 
+bbFlag bbSF_setTeamPlayer(void* spawner,
+                               bbECS_entity* entity,
+                               bbSpawnFunctionArgs* args,
+                               bbInstruction_source source)
+{//TODO make core synchronous set player handle; May want to store player character somewhere else
+    bbHandle entity_handle = entity->component.entity_handle;
+
+    //home.ECS.ECS->player_character = handle;
+
+    //bbUI_Inbox_SetViewpoint(&home.UI.inbox, handle);
+
+    bbCS_spawnTeamComponent(&home.core.core,
+                         entity_handle,
+                         NULL,
+                         bbTeam_player,
+                      source,
+                      no_handle);
+
+    return bbSuccess;
+}
+
+
+bbFlag bbSF_setTeamMonster(void* spawner,
+                               bbECS_entity* entity,
+                               bbSpawnFunctionArgs* args,
+                               bbInstruction_source source)
+{//TODO make core synchronous set player handle; May want to store player character somewhere else
+    bbHandle entity_handle = entity->component.entity_handle;
+
+    //home.ECS.ECS->player_character = handle;
+
+    //bbUI_Inbox_SetViewpoint(&home.UI.inbox, handle);
+
+    bbCS_spawnTeamComponent(&home.core.core,
+                         entity_handle,
+                         NULL,
+                         bbTeam_monster,
+                      source,
+                      no_handle);
+
+    return bbSuccess;
+}
 
 
 bbFlag bbEntitySpawner_populate(bbEntitySpawner* spawner)
@@ -338,6 +380,8 @@ bbFlag bbEntitySpawner_populate(bbEntitySpawner* spawner)
     bbSpawnFunction_add(spawner, bbSF_addAI_castfireball, "CASTFIREBALL_AI");
     bbSpawnFunction_add(spawner, bbSF_setPlayer, "PLAYER");
     bbSpawnFunction_add(spawner, bbSF_addServerEntity, "SERVER_ENTITY");
+    bbSpawnFunction_add(spawner, bbSF_setTeamPlayer, "TEAM_PLAYER");
+    bbSpawnFunction_add(spawner, bbSF_setTeamMonster, "TEAM_MONSTER");
 
 
 

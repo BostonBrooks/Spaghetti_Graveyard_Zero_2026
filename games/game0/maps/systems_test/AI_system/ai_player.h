@@ -69,7 +69,7 @@ bbFlag bbAI_Update_Player(bbAI_Component* component)
 
                 bbComponent_mapComponent(home.ECS.ECS, bbECS_AI, (bbComponent*)component,
                                          bbECS_ECS, &entity_handle,
-                                         (bbComponent**)&moveable);
+                                         NULL);
 
                 bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_attacking);
                 bbHandle AI_handle;

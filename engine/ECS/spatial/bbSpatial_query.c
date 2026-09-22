@@ -73,13 +73,14 @@ bbFlag bbListFunction_queryRadiusFilter(bbList* list, void* node, void* cl)
     I64 radius = query->radius;
     if (delta_i * delta_i + delta_j * delta_j > radius * radius) return bbContinue;
 
-    for (I32 i = 0; i <= MAX_FILTER_FUNCTIONS; i++) {
+    for (I32 i = 0; i < MAX_FILTER_FUNCTIONS; i++) {
 
         bbFilterFunction* function = query->filters[i];
         if (function == NULL) continue;
         bbFlag flag = function(list, node, query->cls[i]);
         if (flag == bbContinue) return bbContinue;
-        if (flag != bbContinue) bbFlag_print(flag);
+        if (flag == bbSuccess) continue;
+        bbFlag_print(flag);
     }
 
     bbFilterFunction* function = query->function;
