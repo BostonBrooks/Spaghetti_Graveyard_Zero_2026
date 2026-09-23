@@ -57,7 +57,7 @@ bbFlag bbCS_spawnTeamComponent(bbCore* core,
 
     bbCS_entity_setComponent(core,
                      ECS,
-                     component->component.entity_handle,
+                     entity_handle,
                      component_handle,
                      bbECS_Teams,
                      bbInstructionSource_internal,
