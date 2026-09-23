@@ -335,20 +335,30 @@ bbFlag bbAI_Update_Lunging(bbAI_Component* component)
                              (bbComponent**)&moveable);
 
 
-    bbMoveable* player_moveable;
-    bbHandle player_handle;
+    bbMoveable* target_moveable;
+    bbHandle target_moveable_handle;
 
     bbPlayers* players = &home.ECS.players;
-    bbHandle player_character = players->players[players->this_player].selected_entities[0];
+    bbHandle target_entity;
+    bbTeams_findNearestTarget(&home.core.core, home.ECS.ECS, entity_handle , &target_entity, POINTS_PER_TILE * 100);
+
+    if (target_entity.u64 == home.ECS.ECS->system.pool->null.u64) return bbSuccess;
+
+
     bbHandle_mapComponent(home.ECS.ECS, bbECS_ECS,
-                          player_character, bbECS_Moveables,
-                          &player_handle, (bbComponent**)&player_moveable);
+                          target_entity, bbECS_Moveables,
+                          &target_moveable_handle, (bbComponent**)&target_moveable);
 
-
-    I64 delta_i = (player_moveable->position.i - moveable->position.i);
-    I64 delta_j = (player_moveable->position.j - moveable->position.j);
+    I64 delta_i = (target_moveable->position.i - moveable->position.i);
+    I64 delta_j = (target_moveable->position.j - moveable->position.j);
     I64 distance = bbArith64_sqrt2(delta_i * delta_i + delta_j * delta_j);
 
+    bbDebug("distance = %ld\n", distance/POINTS_PER_TILE);
+
+    bbDebug("Attacker: index = %d, system = %d, generation = %d\n"
+             "Target: index = %d, system = %d, generation = %d\n",
+             entity_handle.system.index, entity_handle.system.system, entity_handle.system.generation,
+             target_entity.system.index, target_entity.system.system, target_entity.system.generation);
 
     //bbAIState_Idle,
     //bbAIState_Approaching,
@@ -364,15 +374,13 @@ bbFlag bbAI_Update_Lunging(bbAI_Component* component)
             bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_moving);
 
             bbCI_Moveable_setGoalMovable(&home.core.core, moveable_handle,
-                             player_handle,
+                             target_moveable_handle,
                              bbInstructionSource_internal, no_handle);
 
 
-        bbPlayers* players = &home.ECS.players;
-        bbHandle player_character = players->players[players->this_player].selected_entities[0];
             bbCI_AI_setApproaching(&home.core.core,
                                    AI_handle,
-                                   player_character,
+                                   target_entity,
                                    home.core.core.simulation_time,
                              bbInstructionSource_internal, no_handle);
             break;
@@ -386,17 +394,15 @@ bbFlag bbAI_Update_Lunging(bbAI_Component* component)
 
                     bbCI_Moveable_setGoalLunging(&home.core.core,
                                      moveable_handle,
-                                     player_handle,
+                                     target_moveable_handle,
                                      bbInstructionSource_internal, no_handle);
 
                     bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_moving);
 
 
-                    bbPlayers* players = &home.ECS.players;
-                    bbHandle player_character = players->players[players->this_player].selected_entities[0];
                     bbCI_AI_setStriking(&home.core.core,
                                            AI_handle,
-                                           player_character,
+                                           target_entity,
                                            home.core.core.simulation_time,
                                      bbInstructionSource_internal, no_handle);
                 }
@@ -471,17 +477,14 @@ bbFlag bbAI_Update_Lunging(bbAI_Component* component)
 
                         bbCI_Moveable_setGoalLunging(&home.core.core,
                                          moveable_handle,
-                                         player_handle,
+                                         target_moveable_handle,
                                          bbInstructionSource_internal, no_handle);
 
 
 
-
-                        bbPlayers* players = &home.ECS.players;
-                        bbHandle player_character = players->players[players->this_player].selected_entities[0];
                         bbCI_AI_setStriking(&home.core.core,
                                                AI_handle,
-                                               player_character,
+                                               target_entity,
                                                home.core.core.simulation_time,
                                          bbInstructionSource_internal, no_handle);
                         break;
@@ -491,14 +494,12 @@ bbFlag bbAI_Update_Lunging(bbAI_Component* component)
                 bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_moving);
 
                 bbCI_Moveable_setGoalMovable(&home.core.core, moveable_handle,
-                                 player_handle,
+                                 target_moveable_handle,
                                  bbInstructionSource_internal, no_handle);
 
-                bbPlayers* players = &home.ECS.players;
-                bbHandle player_character = players->players[players->this_player].selected_entities[0];
                 bbCI_AI_setApproaching(&home.core.core,
                                        AI_handle,
-                                       player_character,
+                                       target_entity,
                                        home.core.core.simulation_time,
                                  bbInstructionSource_internal, no_handle);
             }

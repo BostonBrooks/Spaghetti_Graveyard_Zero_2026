@@ -85,10 +85,12 @@ bbFlag bbFilter_canAttack_fn(bbList* list, void* node, void* cl)
     bbTeam *target;
     bbComponent_mapComponent(filter_cl->ECS, bbECS_Spatial,(bbComponent*)component,bbECS_Teams,NULL,(bbComponent**)&target);
 
-
     if (target == NULL) return bbContinue;
 
-    if (attacker->team != target->team) return(bbSuccess);
+    if (attacker->team != target->team) {
+        bbHere()
+        return(bbSuccess);
+    }
 
     return bbContinue;
 
@@ -213,6 +215,6 @@ bbFlag bbTeams_findNearestTarget(bbCore* core, bbECS* ECS, bbHandle attacker_ent
 
     bbSpatial_mapRadiusFilter((bbSpatial*)ECS->systems[bbECS_Spatial],&filters_cl);
 
-    *target_entity = ECS->system.pool->null;
+    *target_entity = nearest_cl.attacker_entity;
     return bbSuccess;
 }
