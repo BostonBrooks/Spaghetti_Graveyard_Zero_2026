@@ -46,6 +46,7 @@
 
 
 #define pushActiveInstruction(NAME)\
+    /*bbDebug("instruction type = %d\n", NAME->type)*/\
     bbInstruction_deque_pushFront(&core->active_instructions,NAME);
 
 #define allocUndoInstruction(NAME)\
