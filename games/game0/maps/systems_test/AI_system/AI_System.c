@@ -340,10 +340,12 @@ bbFlag bbAI_Update_Lunging(bbAI_Component* component)
 
     bbPlayers* players = &home.ECS.players;
     bbHandle target_entity;
-    bbTeams_findNearestTarget(&home.core.core, home.ECS.ECS, entity_handle , &target_entity, POINTS_PER_TILE * 100);
+    bbTeams_findNearestTarget(&home.core.core, home.ECS.ECS, entity_handle , &target_entity, POINTS_PER_TILE * 1000);
 
-    if (target_entity.u64 == home.ECS.ECS->system.pool->null.u64) return bbSuccess;
-
+    if (target_entity.u64 == home.ECS.ECS->system.pool->null.u64) {
+        bbHere()
+        return bbSuccess;
+    }
 
     bbHandle_mapComponent(home.ECS.ECS, bbECS_ECS,
                           target_entity, bbECS_Moveables,
@@ -354,6 +356,8 @@ bbFlag bbAI_Update_Lunging(bbAI_Component* component)
     I64 distance = bbArith64_sqrt2(delta_i * delta_i + delta_j * delta_j);
 
     bbDebug("distance = %ld\n", distance/POINTS_PER_TILE);
+
+    bbTeam *attacker_team;
 
     bbDebug("Attacker: index = %d, system = %d, generation = %d\n"
              "Target: index = %d, system = %d, generation = %d\n",

@@ -215,6 +215,6 @@ bbFlag bbTeams_findNearestTarget(bbCore* core, bbECS* ECS, bbHandle attacker_ent
 
     bbSpatial_mapRadiusFilter((bbSpatial*)ECS->systems[bbECS_Spatial],&filters_cl);
 
-    *target_entity = nearest_cl.attacker_entity;
+    *target_entity = nearest_cl.nearest_entity;
     return bbSuccess;
 }
