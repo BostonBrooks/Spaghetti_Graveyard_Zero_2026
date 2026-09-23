@@ -134,7 +134,7 @@ bbSpatialFilters bbSpatialFilters_new(bbMapCoords centre,
     spatial_filters.function = function;
     spatial_filters.cl = cl;
 
-    for (I32 i = 0; i <= MAX_FILTER_FUNCTIONS; i++) {
+    for (I32 i = 0; i < MAX_FILTER_FUNCTIONS; i++) {
         spatial_filters.filters[i] = NULL;
         spatial_filters.cls[i] = NULL;
     }
