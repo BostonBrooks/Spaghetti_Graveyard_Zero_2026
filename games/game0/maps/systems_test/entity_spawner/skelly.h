@@ -421,11 +421,12 @@ bbFlag bbPF_skelly2Parser(void* Spawner, char* string)
     bbEntitySpawner* spawner = (bbEntitySpawner*)Spawner;
     char key[KEY_LENGTH];
     char state[KEY_LENGTH];
+    char name[KEY_LENGTH];
     bbSpawnFunctionArgs args;
     I32 num_chars;
     char spawn_functions[256];
-    sscanf(string, "%[^','],%[^','],%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%n",
-        key,state,
+    sscanf(string, "%[^','],%[^','],%[^','],%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%n",
+        key,name,state,
         &args.position.i,&args.position.j,&args.position.k,
         &args.goalpoint.i,&args.goalpoint.j,&args.goalpoint.k,
         &args.handle.bloated.index,&args.handle.bloated.collision,
@@ -447,7 +448,7 @@ bbFlag bbPF_skelly2Parser(void* Spawner, char* string)
     args.state = state_handle.u64;
 
     bbECS_entity* entity;
-    bbCS_spawnEmptyEntity(&entity,"bbNotImplemented()", bbInstructionSource_norewind);
+    bbCS_spawnEmptyEntity(&entity,name, bbInstructionSource_norewind);
 
     char component[KEY_LENGTH];
     I32 component_length;
