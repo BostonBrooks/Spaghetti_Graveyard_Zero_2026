@@ -347,16 +347,33 @@ bbFlag bbAI_Update_Lunging(bbAI_Component* component)
         return bbSuccess;
     }
 
-    bbHandle_mapComponent(home.ECS.ECS, bbECS_ECS,
+    bbFlag flag = bbHandle_mapComponent(home.ECS.ECS, bbECS_ECS,
                           target_entity, bbECS_Moveables,
                           &target_moveable_handle, (bbComponent**)&target_moveable);
+    if (flag != bbSuccess) return bbSuccess;
 
     I64 delta_i = (target_moveable->position.i - moveable->position.i);
     I64 delta_j = (target_moveable->position.j - moveable->position.j);
     I64 distance = bbArith64_sqrt2(delta_i * delta_i + delta_j * delta_j);
+    bbDebug("distance = %ld\n", distance);
 
-    bbDebug("distance = %ld\n", distance/POINTS_PER_TILE);
+    bbSpatial_Component* target_spatial;
 
+    bbHandle_mapComponent(home.ECS.ECS, bbECS_ECS,
+                          target_entity, bbECS_Spatial,
+                          NULL, (bbComponent**)&target_spatial);
+    bbSpatial_Component* attacker_spatial;
+
+    bbHandle_mapComponent(home.ECS.ECS, bbECS_ECS,
+                          entity_handle, bbECS_Spatial,
+                          NULL, (bbComponent**)&attacker_spatial);
+
+    delta_i = (target_spatial->map_coords.i - attacker_spatial->map_coords.i);
+    delta_j = (target_spatial->map_coords.j - attacker_spatial->map_coords.j);
+    distance = bbArith64_sqrt2(delta_i * delta_i + delta_j * delta_j);
+    bbDebug("distance = %ld\n", distance);
+
+    target_entity = players->players[players->this_player].selected_entities[0];
     bbTeam *attacker_team;
 
     bbDebug("Attacker: index = %d, system = %d, generation = %d\n"
