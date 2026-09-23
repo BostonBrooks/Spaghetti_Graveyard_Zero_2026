@@ -187,11 +187,13 @@ bbFlag bbAI_Update_Striking(bbAI_Component* component)
 
     bbMoveable* player_moveable;
     bbHandle player_moveable_handle;
-    bbHandle player_character;
     bbPlayers* players = &home.ECS.players;
-    bbFlag flag = bbTeams_findNearestTarget(&home.core.core, home.ECS.ECS, entity_handle , &player_character, POINTS_PER_TILE * 100);
+    bbHandle player_character = players->players[players->this_player].selected_entities[0];
+
+    bbFlag flag = bbTeams_findNearestTarget(&home.core.core, home.ECS.ECS, entity_handle , &player_character, POINTS_PER_TILE * 10000);
 
     bbFlag_print(flag)
+
 
     if (flag != bbSuccess) {
         bbHere()
@@ -352,9 +354,34 @@ bbFlag bbAI_Update_Lunging(bbAI_Component* component)
 
     bbMoveable* player_moveable;
     bbHandle player_handle;
-
     bbPlayers* players = &home.ECS.players;
     bbHandle player_character = players->players[players->this_player].selected_entities[0];
+
+    debug_off = false;
+    bbFlag flag = bbTeams_findNearestTarget(&home.core.core, home.ECS.ECS, entity_handle , &player_character, POINTS_PER_TILE * 10000);
+
+    bbFlag_print(flag)
+    bbAssert(player_character.system.system == bbECS_ECS, "bad system type\n");
+
+
+
+
+    if (flag != bbSuccess) {
+        bbHere()
+        player_character = players->players[players->this_player].selected_entities[0];
+    }
+
+    bbDebug("attacker index = %d, target index = %d\n", entity_handle.system.index, player_character.system.index);
+    bbDebug("attacker system = %d, target system = %d\n", entity_handle.system.system, player_character.system.system);
+
+    bbTeam *target;
+    bbHandle_mapComponent(home.ECS.ECS, bbECS_ECS,player_character,bbECS_Teams,NULL,(bbComponent**)&target);
+
+    bbTeam *attacker;
+    bbHandle_mapComponent(home.ECS.ECS, bbECS_ECS,entity_handle,bbECS_Teams,NULL,(bbComponent**)&attacker);
+
+    bbDebug("attacker team = %d, target team = %d\n", attacker->team, target->team);
+    debug_off = true;
     bbHandle_mapComponent(home.ECS.ECS, bbECS_ECS,
                           player_character, bbECS_Moveables,
                           &player_handle, (bbComponent**)&player_moveable);
@@ -364,6 +391,10 @@ bbFlag bbAI_Update_Lunging(bbAI_Component* component)
     I64 delta_j = (player_moveable->position.j - moveable->position.j);
     I64 distance = bbArith64_sqrt2(delta_i * delta_i + delta_j * delta_j);
 
+    debug_off = false;
+
+    bbDebug("distance = %ld\n", distance);
+    debug_off = true;
 
     //bbAIState_Idle,
     //bbAIState_Approaching,
@@ -384,7 +415,7 @@ bbFlag bbAI_Update_Lunging(bbAI_Component* component)
 
 
         bbPlayers* players = &home.ECS.players;
-        bbHandle player_character = players->players[players->this_player].selected_entities[0];
+        //bbHandle player_character = players->players[players->this_player].selected_entities[0];
             bbCI_AI_setApproaching(&home.core.core,
                                    AI_handle,
                                    player_character,
@@ -408,7 +439,7 @@ bbFlag bbAI_Update_Lunging(bbAI_Component* component)
 
 
                     bbPlayers* players = &home.ECS.players;
-                    bbHandle player_character = players->players[players->this_player].selected_entities[0];
+                    //bbHandle player_character = players->players[players->this_player].selected_entities[0];
                     bbCI_AI_setStriking(&home.core.core,
                                            AI_handle,
                                            player_character,
@@ -493,7 +524,7 @@ bbFlag bbAI_Update_Lunging(bbAI_Component* component)
 
 
                         bbPlayers* players = &home.ECS.players;
-                        bbHandle player_character = players->players[players->this_player].selected_entities[0];
+                        //bbHandle player_character = players->players[players->this_player].selected_entities[0];
                         bbCI_AI_setStriking(&home.core.core,
                                                AI_handle,
                                                player_character,
@@ -510,7 +541,7 @@ bbFlag bbAI_Update_Lunging(bbAI_Component* component)
                                  bbInstructionSource_internal, no_handle);
 
                 bbPlayers* players = &home.ECS.players;
-                bbHandle player_character = players->players[players->this_player].selected_entities[0];
+                //bbHandle player_character = players->players[players->this_player].selected_entities[0];
                 bbCI_AI_setApproaching(&home.core.core,
                                        AI_handle,
                                        player_character,

@@ -9,7 +9,7 @@
 #include "moveables/moveables.h"
 
 ///Core synchronous spawn empty entity
-bbFlag bbCS_spawnEmptyEntity(bbECS_entity** entity, bbInstruction_source source);
+bbFlag bbCS_spawnEmptyEntity(bbECS_entity** entity, char* key, bbInstruction_source source);
 bbFlag bbSF_addServerEntity_skelly(void* spawner,
                                bbECS_entity* entity,
                                bbSpawnFunctionArgs* args,
@@ -23,14 +23,14 @@ bbFlag bbSF_addGraphics_skelly(void* spawner,
                                bbSpawnFunctionArgs* args,
                                bbInstruction_source source);
 
-bbFlag bbCS_spawnEmptyEntity(bbECS_entity** entity, bbInstruction_source source)
+bbFlag bbCS_spawnEmptyEntity(bbECS_entity** entity, char* key, bbInstruction_source source)
 {
     bbAssert(source == bbInstructionSource_norewind, "not implemented");
     //bbHere()
     bbCoreSynchronous_spawnEmptyEntity(&home.core.core,
                                        home.ECS.ECS,
                                        entity,
-                                       "SKELLY",
+                                       key,
                                        source,
                                        no_handle);
 
@@ -390,7 +390,7 @@ bbFlag bbPF_skellyParser(void* Spawner, char* string)
         &args.handle.bloated.collision,&num_chars);
 
     bbECS_entity* entity;
-    bbCS_spawnEmptyEntity(&entity, bbInstructionSource_norewind);
+    bbCS_spawnEmptyEntity(&entity,key, bbInstructionSource_norewind);
 
     char component[KEY_LENGTH];
     I32 component_length;
@@ -447,7 +447,7 @@ bbFlag bbPF_skelly2Parser(void* Spawner, char* string)
     args.state = state_handle.u64;
 
     bbECS_entity* entity;
-    bbCS_spawnEmptyEntity(&entity, bbInstructionSource_norewind);
+    bbCS_spawnEmptyEntity(&entity,"bbNotImplemented()", bbInstructionSource_norewind);
 
     char component[KEY_LENGTH];
     I32 component_length;

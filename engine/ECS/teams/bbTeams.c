@@ -45,6 +45,9 @@ bbFlag bbCS_spawnTeamComponent(bbCore* core,
                              bbInstruction_source source,
                              bbHandle action)
 {
+
+    bbNotImplemented() //Spawn undo instruction
+
     bbECS* ECS = core->ECS;
     bbTeams* teams = (bbTeams*)ECS->systems[bbECS_Teams];
     bbTeam* component;
@@ -79,20 +82,36 @@ bbFlag bbFilter_canAttack_fn(bbList* list, void* node, void* cl)
     bbFlag flag;
     bbTeam *attacker;
     flag = bbHandle_mapComponent(filter_cl->ECS, bbECS_ECS,filter_cl->attacker_entity,bbECS_Teams,NULL,(bbComponent**)&attacker);
-    if (flag == bbNone) return bbContinue;
-    if (attacker == NULL) return bbContinue;
+    if (flag == bbNone) {
+        //bbHere()
+        return bbContinue;
+    }
+    if (attacker == NULL) {
+        //bbHere()
+        return bbContinue;
+    }
 
     bbTeam *target;
     flag = bbComponent_mapComponent(filter_cl->ECS, bbECS_Spatial,(bbComponent*)component,bbECS_Teams,NULL,(bbComponent**)&target);
-    if (flag == bbNone) return bbContinue;
-    if (target == NULL) return bbContinue;
+    if (flag == bbNone) {
+        //bbHere()
+        return bbContinue;
+    }
+    if (target == NULL) {
+        //bbHere()
+        return bbContinue;
+    }
 
+    bbDebug("attacker team = %d, target team = %d\n",attacker->team, target->team);
     if (attacker->team != target->team) {
         bbHere()
         return(bbSuccess);
     }
 
-    return bbContinue;
+    {
+        bbHere()
+        return bbContinue;
+    }
 
 }
 typedef struct
@@ -109,7 +128,7 @@ bbFlag bbListFunction_findNearest_fn(bbList* list, void* node, void* cl)
     bbFilter_findNearest_cl* filter_cl = cl;
     bbSpatial_Component* component = node;
 
-    if (bbVPool_handleIsNULL(filter_cl->ECS->systems[bbECS_ECS]->pool,filter_cl->nearest_entity)){
+    if (bbHandleError_NULL == bbVPool_handleIsNULL(filter_cl->ECS->systems[bbECS_ECS]->pool,filter_cl->nearest_entity)){
          filter_cl->nearest_entity = component->component.entity_handle;
         return bbContinue;
     }
@@ -136,11 +155,8 @@ bbFlag bbListFunction_findNearest_fn(bbList* list, void* node, void* cl)
         filter_cl->nearest_distance = new_distance;
 
         bbDebug("new distance = %ld\n", new_distance);
-        bbHandle target_entity;
 
-        bbComponent_mapComponent(filter_cl->ECS,bbECS_Spatial,(bbComponent*)component,bbECS_Teams,NULL,(bbComponent**)&target_entity);
-
-        filter_cl->nearest_entity = target_entity;
+        filter_cl->nearest_entity = component->component.entity_handle;
     }
 
     if (dist_squared == nearest_distance*nearest_distance){bbNotImplemented()}
@@ -217,6 +233,7 @@ bbFlag bbTeams_findNearestTarget(bbCore* core, bbECS* ECS, bbHandle attacker_ent
 
     if (nearest_cl.nearest_entity.u64 == ECS->system.pool->null.u64) return bbFail;
     if (nearest_cl.nearest_distance == max_distance+193) return bbFail;
+    if (nearest_cl.nearest_entity.system.system != bbECS_ECS){bbHere() return bbFail;}
     *target_entity = nearest_cl.nearest_entity;
     return bbSuccess;
 }
