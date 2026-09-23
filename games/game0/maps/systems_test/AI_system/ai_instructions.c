@@ -51,9 +51,8 @@ bbFlag bbCS_updateAI(bbCore* core, bbInstruction_source source, bbHandle action)
 
     }
 
-
-
     bbAI_System_update((bbAI_System*) core->ECS->systems[bbECS_AI]);
+    return bbSuccess;
 }
 
 

@@ -191,7 +191,12 @@ int main(void)
 
     bbEntitySpawner_spawnFile(&home.ECS.spawner, "maps/systems_test/entity_spawner/spawner.csv");
 
-
+//Test teams
+    bbHandle player_entity = home.ECS.players.players[home.ECS.players.this_player].selected_entities[0];
+    bbTeam* team;
+    bbHandle_mapComponent(home.ECS.ECS,bbECS_ECS,player_entity,bbECS_Teams,NULL,(bbComponent**)&team);
+    bbDebug("player team = %d\n", team->team);
+//End test teams
     //bbMoveable* test_moveable = &home.ECS.moveables.moveables[0];
 
     //bbECS_entity* test_entity;

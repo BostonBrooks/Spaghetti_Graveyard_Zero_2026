@@ -76,15 +76,15 @@ bbFlag bbFilter_canAttack_fn(bbList* list, void* node, void* cl)
 
     bbFilter_canAttack_cl* filter_cl = cl;
     bbSpatial_Component* component = node;
-
+    bbFlag flag;
     bbTeam *attacker;
-    bbHandle_mapComponent(filter_cl->ECS, bbECS_ECS,filter_cl->attacker_entity,bbECS_Teams,NULL,(bbComponent**)&attacker);
-
+    flag = bbHandle_mapComponent(filter_cl->ECS, bbECS_ECS,filter_cl->attacker_entity,bbECS_Teams,NULL,(bbComponent**)&attacker);
+    if (flag == bbNone) return bbContinue;
     if (attacker == NULL) return bbContinue;
 
     bbTeam *target;
-    bbComponent_mapComponent(filter_cl->ECS, bbECS_Spatial,(bbComponent*)component,bbECS_Teams,NULL,(bbComponent**)&target);
-
+    flag = bbComponent_mapComponent(filter_cl->ECS, bbECS_Spatial,(bbComponent*)component,bbECS_Teams,NULL,(bbComponent**)&target);
+    if (flag == bbNone) return bbContinue;
     if (target == NULL) return bbContinue;
 
     if (attacker->team != target->team) {
@@ -215,6 +215,8 @@ bbFlag bbTeams_findNearestTarget(bbCore* core, bbECS* ECS, bbHandle attacker_ent
 
     bbSpatial_mapRadiusFilter((bbSpatial*)ECS->systems[bbECS_Spatial],&filters_cl);
 
+    if (nearest_cl.nearest_entity.u64 == ECS->system.pool->null.u64) return bbFail;
+    if (nearest_cl.nearest_distance == max_distance+193) return bbFail;
     *target_entity = nearest_cl.nearest_entity;
     return bbSuccess;
 }
