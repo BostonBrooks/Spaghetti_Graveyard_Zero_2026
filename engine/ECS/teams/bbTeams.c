@@ -102,14 +102,14 @@ bbFlag bbFilter_canAttack_fn(bbList* list, void* node, void* cl)
         return bbContinue;
     }
 
-    bbDebug("attacker team = %d, target team = %d\n",attacker->team, target->team);
+    //bbDebug("attacker team = %d, target team = %d\n",attacker->team, target->team);
     if (attacker->team != target->team) {
-        bbHere()
+        //bbHere()
         return(bbSuccess);
     }
 
     {
-        bbHere()
+        //bbHere()
         return bbContinue;
     }
 
