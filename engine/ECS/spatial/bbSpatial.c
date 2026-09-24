@@ -165,7 +165,7 @@ bbFlag bbCS_spawnSpatialComponent(bbCore* core,
                              bbHandle action)
 {
 
-    bbNotImplemented()//Spawn undo instruction
+   // bbNotImplemented()//Spawn undo instruction
 
     bbSpatial_Component* component;
     bbHandle component_handle;

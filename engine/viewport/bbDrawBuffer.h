@@ -2,6 +2,7 @@
 #define BBDRAWBUFFER_H
 #include "engine/logic/bbDictionary.h"
 #include "engine/logic/bbList.h"
+#include "engine/geometry/bbCoordinates.h"
 
 //typedef bbFlag bbListFunction(bbList* list, void* node, void* cl);
 typedef bbFlag bbDrawBuffer_drawFunc(void* node, void* cl);
@@ -36,10 +37,6 @@ typedef struct {
     bbDictionary* dictionary;
     bbDrawBuffer_drawFunc* functions[NUM_DRAWBUFFER_FUNCS];
 } bbDrawBufferFunctions;
-
-I32 num;
-bbDictionary* dictionary;
-bbDrawBuffer_drawFunc* functions[NUM_DRAWBUFFER_FUNCS];
 
 
 bbFlag bbDrawBufferFunctions_new(bbDrawBufferFunctions** draw_buffer);

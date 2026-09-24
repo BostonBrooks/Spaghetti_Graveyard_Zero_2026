@@ -27,7 +27,7 @@ bbFlag bbDrawBuffer_new(bbDrawBuffer** draw_buffer) {
     bbDrawBuffer* buffer = calloc(1, sizeof(bbDrawBuffer));
     bbVPool_newSystem(&buffer->pool, bbSystem_RenderBuffer,sizeof(bbDrawBufferObject),10,1000,"DRAWBUFFER" );
     bbList_init(&buffer->list,buffer->pool, NULL,offsetof(bbDrawBufferObject,list_element),bbDrawBufferObject_isCloser,bbSystem_RenderBuffer);
-
+    *draw_buffer = buffer;
     return bbSuccess;
 }
 bbFlag bbDrawBufferFunctions_new(bbDrawBufferFunctions** draw_buffer) {
@@ -39,6 +39,7 @@ bbFlag bbDrawBufferFunctions_new(bbDrawBufferFunctions** draw_buffer) {
 }
 bbFlag bbDrawBufferFunctions_addFunction(bbDrawBufferFunctions* buffer,char* key,bbDrawBuffer_drawFunc* function)
 {
+    function(NULL,NULL);
     I32 available = buffer->num++;
     buffer->functions[available] = function;
     bbHandle function_handle;
@@ -48,25 +49,36 @@ bbFlag bbDrawBufferFunctions_addFunction(bbDrawBufferFunctions* buffer,char* key
     return bbSuccess;
 }
 //typedef bbFlag bbListFunction(bbList* list, void* node, void* cl);
-bbFlag bbDrawBuffer_draw_fn(bbList* list, void* node, void* cl)
+bbFlag bbDrawBuffer_draw_fn(void* node, void* cl)
 {
     bbDrawBufferObject* object = node;
     drawBufferClosure* closure = (drawBufferClosure*)cl;
     bbGraphicsApp* graphics = closure->graphics;
 
-    bbDrawBuffer_drawFunc *draw_function =
-                   graphics->drawBufferFunctions->functions[object->draw_function];
+    //
+    // bbDrawBuffer_drawFunc *draw_function =
+    //                graphics->drawBufferFunctions->functions[object->draw_function];
 
+
+    bbDrawBuffer_drawFunc *draw_function =
+                   graphics->drawBufferFunctions->functions[0];
+
+    if(draw_function == NULL){return bbNone;}
     return draw_function(node,cl);
 
 }
 
-bbFlag bbDrawBuffer_draw(bbDrawBuffer* buffer, drawBufferClosure* closure) {
+bbFlag bbDrawBuffer_draw(bbDrawBuffer* buffer, drawBufferClosure* closure)
+{
+    bbDrawBufferObject* object;
+    bbFlag flag =  bbList_popL(&buffer->list,(void**)&object);
 
-
-    bbList_mapL(&buffer->list,bbDrawBuffer_draw_fn,closure);
+    while(flag == bbSuccess) {
+        bbDrawBuffer_draw_fn(object,closure);
+        bbVPool_free(buffer->pool,object);
+        flag = bbList_popL(&buffer->list,(void**)&object);
+    }
     buffer->collision = 0;
-
     return bbSuccess;
 }
 

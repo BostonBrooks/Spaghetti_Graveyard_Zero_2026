@@ -205,6 +205,7 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
         games/game0/maps/systems_test/vpmouse/vpmouse.c
         games/game0/maps/systems_test/core/send_server_entity.c
         games/game0/maps/systems_test/core/bbInstruction_map.c
+        games/game0/maps/systems_test/drawbuffer/drawbuffer.c
 
 
         engine/test_string/bbTestString.c
@@ -279,6 +280,7 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
         engine/viewport/bbViewportMouseFunctions.c
         engine/viewport/bbViewportMouseWrappers.c
         engine/viewport/bbRenderUnits.c
+        engine/viewport/bbDrawBuffer.c
 
         engine/geometry/bbCoordinates.c
         engine/geometry/bbGroundCoords.c

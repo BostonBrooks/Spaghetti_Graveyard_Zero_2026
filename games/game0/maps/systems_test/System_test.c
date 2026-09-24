@@ -67,7 +67,7 @@ void* userinterface_thread(void* arg);
 int main(void)
 {
     thread = "MAIN";
-    debug_off = false;
+    debug_off = true;
     printf("Hello, World!\n");
 
     pthread_barrier_init(&barrier1, NULL, 2);
@@ -381,7 +381,7 @@ int main(void)
 void* userinterface_thread(void* arg)
 {
     thread = "USER INTERFACE";
-    debug_off = true;
+    debug_off = false;
 
     bbUIApp_init(&home.UI);
 
@@ -451,6 +451,17 @@ void* userinterface_thread(void* arg)
 bbHere()
     while (1)
     {
+        /*bbDrawBufferObject* draw_buffer_object;
+        bbDrawBufferObject_new(home.viewport_app.drawbuffer,&draw_buffer_object) ;
+
+        bbHandle draw_function_handle;
+        bbFlag flag = bbDictionary_lookup(home.UI.graphics.drawBufferFunctions->dictionary,"DRAWBUFFER_HERE",&draw_function_handle);
+        draw_buffer_object->draw_function = draw_function_handle.u64;
+        bbFlag_print(flag)
+        bbDebug("draw_function_handle:\n%d\n",draw_buffer_object->draw_function);
+
+        bbDrawBufferObject_draw(home.viewport_app.drawbuffer,draw_buffer_object);*/
+
 
         counter++;
         bbPerformance_newFrame(&home.performance);
