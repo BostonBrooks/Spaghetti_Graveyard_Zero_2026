@@ -210,8 +210,8 @@ bbFlag bbTeams_findNearestTarget(bbCore* core, bbECS* ECS, bbHandle attacker_ent
     //
     // }bbSpatialFilters;
 
-    bbMoveable * attacker_moveable;
-    bbHandle_mapComponent(ECS,bbECS_ECS,attacker_entity,bbECS_Graphics,NULL,(bbComponent**)&attacker_moveable);
+    bbSpatial_Component* attacker_spatial;
+    bbHandle_mapComponent(ECS,bbECS_ECS,attacker_entity,bbECS_Spatial,NULL,(bbComponent**)&attacker_spatial);
 
 
     bbSpatialFilters filters_cl;
