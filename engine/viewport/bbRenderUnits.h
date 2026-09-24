@@ -15,7 +15,7 @@ typedef enum
 
 typedef struct
 {
-    bbDrawable drawable;
+    bbMinimalDrawable md;
     I32 index;
     bbRenderUnit_movementType movement_type;
     bbDrawable* owner;
@@ -58,4 +58,9 @@ bbFlag bbRenderUnitGroup_delete(bbRenderUnits* render_units,
 ///Take a drawable and render it's render units
 bbFlag bbDrawFunction_renderUnits(void* drawable, void* frameDescriptor, void* cl);
 
+
+bbFlag bbRenderUnitGroup_spawn_foxes(bbRenderUnitGroup** Group,
+                                     bbRenderUnits* render_units,
+                                     bbDrawable* drawable,
+                                     bbGraphicsApp* graphics);
 #endif // BB_BBRENDERUNITS

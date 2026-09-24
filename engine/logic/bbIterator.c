@@ -2,7 +2,7 @@
 #include "engine/logic/bbList.h"
 #include "engine/logic/bbFlag.h"
 
-
+//typedef bbFlag bbListFunction(bbList* list, void* node, void* cl);
 bbIterator bbIterator_new(bbList* list)
 {
     bbIterator iterator;

@@ -103,3 +103,25 @@ bbFlag bbDF_unitGroup(void* Drawable, void* frameDescriptor, void* cl)
     }
     return bbSuccess;
 }
+
+bbFlag bbDF_unitGroup2(void* Drawable, void* frameDescriptor, void* cl)
+{
+    bbDrawable* drawable = Drawable;
+    bbFrame* self_frame = frameDescriptor;
+    drawFuncClosure* foo = cl;
+    bbGraphicsApp* graphics = foo->graphics;
+    bbViewport* VP = foo->target;
+
+    for (I32 i = 0; i < UNITS_PER_GROUP; i++)
+    {
+        bbMinimalDrawable* minimal_drawable = &drawable->group->units[i].md;
+
+        for (I32 j = 0; j < FRAMES_PER_DRAWABLE; j++)
+        {
+            bbFrame* frame = &minimal_drawable->frames[j];
+            if (frame->drawfunction < 0) continue;
+            bbDrawFunction *drawFunction =graphics->drawfunctions->functions[frame->drawfunction];
+            drawFunction(minimal_drawable, frame, cl);
+        }
+    }
+}

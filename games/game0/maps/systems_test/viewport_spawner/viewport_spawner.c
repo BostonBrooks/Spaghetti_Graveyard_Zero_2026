@@ -226,10 +226,29 @@ bbFlag bbViewportSpawnZombie(bbViewportApp* viewport_app,
     unit->drawable.md.frames[3].offset.x = 0;
     unit->drawable.md.frames[3].offset.y = 0;
 
-    for (I32 k = 4; k < FRAMES_PER_DRAWABLE; k++){
+    bbDictionary_lookup(home.UI.graphics.drawfunctions->dictionary,
+             "UNIT_GROUP2",
+             &drawfunctionHandle);
+
+    unit->drawable.md.frames[4].drawfunction = drawfunctionHandle.u64;
+    unit->drawable.md.frames[4].handle.u64 = 626;
+    unit->drawable.md.frames[4].start_time =  -(rand()%6);
+    unit->drawable.md.frames[4].framerate = 1;
+    unit->drawable.md.frames[4].offset.x = 0;
+    unit->drawable.md.frames[4].offset.y = 0;
+
+
+
+    for (I32 k = 5; k < FRAMES_PER_DRAWABLE; k++){
         unit->drawable.md.frames[k].drawfunction = -1;
     }
 
+
+    bbRenderUnitGroup* group;
+    bbRenderUnitGroup_spawn_foxes(&group,
+                                  home.viewport_app.renderUnits,
+                                  &unit->drawable,
+                                  graphics);
 
         bbList_sortL(&unitSquare->list, unit);
 

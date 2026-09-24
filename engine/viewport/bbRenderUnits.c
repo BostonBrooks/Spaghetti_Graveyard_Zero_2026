@@ -1,5 +1,6 @@
 #include "engine/viewport/bbRenderUnits.h"
 
+#include "engine/logic/bbIterator.h"
 #include "engine/logic/bbSystemPool.h"
 
 #define MAX_SPAWN_FUNCS 193
@@ -51,7 +52,7 @@ bbFlag bbRenderUnitGroup_spawn(bbRenderUnits* render_units,
 bbFlag bbRenderUnitGroup_delete(bbRenderUnits* render_units,
                                       bbRenderUnitGroup* group)
 {
-    bbDrawable* drawable = &group->units[0].drawable;
+    bbDrawable* drawable = group->units[0].owner;
     drawable->group = NULL;
 
     bbList_remove(&render_units->list, drawable);
@@ -61,8 +62,6 @@ bbFlag bbRenderUnitGroup_delete(bbRenderUnits* render_units,
 
 }
 
-bbFlag bbUnit_newSkeleton(bbUnit** self,bbUnits* units, bbGraphicsApp* graphics,
-bbMapCoords MC, I32 index);
 
 bbFlag bbRenderUnitGroup_spawn_foxes(bbRenderUnitGroup** Group,
                                      bbRenderUnits* render_units,
@@ -74,38 +73,59 @@ bbFlag bbRenderUnitGroup_spawn_foxes(bbRenderUnitGroup** Group,
     drawable->group = group;
 
     bbHandle drawfunctionHandle;
-    bbDrawable fox_drawable;
-    fox_drawable.md.coords = drawable->md.coords;
-    fox_drawable.md.state = bbDrawableState_idle;
+    bbMinimalDrawable fox_drawable;
+    fox_drawable.coords = drawable->md.coords;
+    fox_drawable.state = bbDrawableState_idle;
 
 
     for (I32 k = 0; k < FRAMES_PER_DRAWABLE; k++){
-        fox_drawable.md.frames[k].drawfunction = -1;
+        fox_drawable.frames[k].drawfunction = -1;
     }
     bbDictionary_lookup(graphics->drawfunctions->dictionary,
-                    "UNIT_ANIMATION_ANGLE",
+                    "DRAWABLE_SPRITE",
                     &drawfunctionHandle);
 
-    fox_drawable.md.frames[0].drawfunction = drawfunctionHandle.u64;
-    fox_drawable.md.frames[0].handle.u64 = 21;
-    fox_drawable.md.frames[0].start_time=  -(rand()%60);
-    fox_drawable.md.frames[0].framerate = 1;
-    fox_drawable.md.frames[0].offset.x = 0;
-    fox_drawable.md.frames[0].offset.y = 0;
+    fox_drawable.frames[0].drawfunction = drawfunctionHandle.u64;
+    fox_drawable.frames[0].handle.u64 = 8;
+    fox_drawable.frames[0].start_time=  0;
+    fox_drawable.frames[0].framerate = 1;
+    fox_drawable.frames[0].offset.x = 0;
+    fox_drawable.frames[0].offset.y = 0;
 
     for (I32 i = 0; i < UNITS_PER_GROUP; i++ )
     {
         group->units[i].owner = drawable;
         group->units[i].index = i;
         group->units[i].movement_type = bbRU_movementType_rigid;
-        group->units->drawable = fox_drawable;
-        fox_drawable.md.coords.i += i * POINTS_PER_TILE;
+        group->units[i].md = fox_drawable;
+        group->units[i].md.coords.i += i * POINTS_PER_TILE;
 
 
     }
 
     bbList_pushL(&render_units->list, group);
 
+    *Group = group;
     return bbSuccess;
 
+}
+
+
+
+bbFlag bbRenderUnits_updateMovement(bbRenderUnits* render_units)
+{
+    bbRenderUnitGroup* group;
+    bbFlag flag = bbList_setHead(&render_units->list,(void**)&group);
+    while (flag == bbSuccess)
+    {
+        bbDrawable* drawable = group->units[0].owner;
+        for (I32 i = 0; i < UNITS_PER_GROUP; i++)
+        {
+            bbRenderUnit* unit = &group->units[i];
+            unit->md.coords = drawable->md.coords;
+            unit->md.coords.i += i * POINTS_PER_TILE*4;
+
+        }
+        flag = bbList_increment(&render_units->list,(void**)&group);
+    }
 }

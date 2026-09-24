@@ -480,7 +480,7 @@ bbHere()
 
         bbMoveables_copyBuffer(&home.ECS.moveables, &moveables_snapshot);
         bbUnits_consumeBuffer(home.viewport_app.units, NULL, &moveables_snapshot);
-
+        bbRenderUnits_updateMovement(home.viewport_app.renderUnits);
         bbUIApp_draw(&home.UI);
 
 

@@ -167,6 +167,11 @@ bbFlag bbDrawfunctions_new(bbDrawfunctions** drawfunctions){
     handle.u64 = 24;
     bbDictionary_add(functions->dictionary, "UNIT_GROUP", handle);
 
+    functions->functions[25] = bbDF_unitGroup2;
+    handle.u64 = 25;
+    bbDictionary_add(functions->dictionary, "UNIT_GROUP2", handle);
+
+
     *drawfunctions = functions;
     return bbSuccess;
 }
