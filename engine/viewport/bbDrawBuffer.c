@@ -25,7 +25,7 @@ I32 bbDrawBufferObject_isCloser(void* one, void* two){
 
 bbFlag bbDrawBuffer_new(bbDrawBuffer** draw_buffer) {
     bbDrawBuffer* buffer = calloc(1, sizeof(bbDrawBuffer));
-    bbVPool_newSystem(&buffer->pool, bbSystem_RenderBuffer,sizeof(bbDrawBufferObject),10,1000,"DRAWBUFFER" );
+    bbVPool_newSystem(&buffer->pool, bbSystem_RenderBuffer,sizeof(bbDrawBufferObject),100,1000,"DRAWBUFFER" );
     bbList_init(&buffer->list,buffer->pool, NULL,offsetof(bbDrawBufferObject,list_element),bbDrawBufferObject_isCloser,bbSystem_RenderBuffer);
     *draw_buffer = buffer;
     return bbSuccess;
@@ -39,7 +39,7 @@ bbFlag bbDrawBufferFunctions_new(bbDrawBufferFunctions** draw_buffer) {
 }
 bbFlag bbDrawBufferFunctions_addFunction(bbDrawBufferFunctions* buffer,char* key,bbDrawBuffer_drawFunc* function)
 {
-    function(NULL,NULL);
+    //function(NULL,NULL);
     I32 available = buffer->num++;
     buffer->functions[available] = function;
     bbHandle function_handle;
@@ -61,9 +61,9 @@ bbFlag bbDrawBuffer_draw_fn(void* node, void* cl)
 
 
     bbDrawBuffer_drawFunc *draw_function =
-                   graphics->drawBufferFunctions->functions[0];
+                   graphics->drawBufferFunctions->functions[object->draw_function];
 
-    if(draw_function == NULL){return bbNone;}
+    if(draw_function == NULL){bbHere();return bbNone;}
     return draw_function(node,cl);
 
 }
@@ -72,12 +72,16 @@ bbFlag bbDrawBuffer_draw(bbDrawBuffer* buffer, drawBufferClosure* closure)
 {
     bbDrawBufferObject* object;
     bbFlag flag =  bbList_popL(&buffer->list,(void**)&object);
-
+bbHere()
     while(flag == bbSuccess) {
+        bbHere()
         bbDrawBuffer_draw_fn(object,closure);
-        bbVPool_free(buffer->pool,object);
+
+        //TODO pool free crashes
+        //bbVPool_free(buffer->pool,object);
         flag = bbList_popL(&buffer->list,(void**)&object);
     }
+    bbDebug("number of draw buffers objects fer frame: %i",buffer->collision);
     buffer->collision = 0;
     return bbSuccess;
 }

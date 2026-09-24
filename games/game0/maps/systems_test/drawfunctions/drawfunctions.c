@@ -22,6 +22,7 @@
 #include "games/game0/maps/systems_test/drawfunctions/performance.h"
 #include "games/game0/maps/systems_test/drawfunctions/widget_textBox.h"
 #include "games/game0/maps/systems_test/drawfunctions/unit_group.h"
+#include "games/game0/maps/systems_test/drawfunctions/drawbuffer_sprite.h"
 
 #define NUM_DRAWFUNCTIONS 69
 
@@ -171,6 +172,10 @@ bbFlag bbDrawfunctions_new(bbDrawfunctions** drawfunctions){
     handle.u64 = 25;
     bbDictionary_add(functions->dictionary, "UNIT_GROUP2", handle);
 
+
+    functions->functions[26] = bbDF_drawBufferSprite;
+    handle.u64 = 26;
+    bbDictionary_add(functions->dictionary, "DRAWBUFFER_SPRITE", handle);
 
     *drawfunctions = functions;
     return bbSuccess;
