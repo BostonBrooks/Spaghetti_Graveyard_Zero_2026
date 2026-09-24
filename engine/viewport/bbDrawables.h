@@ -11,7 +11,10 @@
 #include "engine/graphics/bbGraphicsApp.h"
 #include "engine/logic/bbNestedList.h"
 
+
 #define FRAMES_PER_DRAWABLE 8
+
+
 
 typedef enum
 {
@@ -21,7 +24,10 @@ typedef enum
     bbDrawableState_dead = 3,
 } bbDrawableState;
 
-typedef struct
+///Notify the drawable that it has entered or left the area around the viewpoint
+typedef bbFlag bbDrawable_notifyVisible_fn(struct bbDrawables* drawables, struct bbDrawable* drawable);
+
+typedef struct bbMinimalDrawable
 {
     bbMapCoords coords;
     bbSquareCoords SC;
@@ -30,6 +36,29 @@ typedef struct
     bbList_Handle listElement;
     bbList_Handle squareListElement;
     bbFrame frames[FRAMES_PER_DRAWABLE];
+} bbMinimalDrawable;
+
+
+typedef struct bbDrawable
+{
+
+    bbMapCoords coords;
+    bbSquareCoords SC;
+    float rotation;
+    bbDrawableState state;
+    bbList_Handle listElement;
+    bbList_Handle squareListElement;
+    bbFrame frames[FRAMES_PER_DRAWABLE];
+
+
+    ///Render unit data
+    ///But RenderUnit is derived from bbDrawable and so
+    struct bbRenderUnitGroup* group;
+    I32 on_enter;
+    I32 on_leave;
+    I32 on_square_enter;
+    I32 on_square_leave;
+    I32 render_unit_spawn;
 } bbDrawable;
 
 typedef struct
@@ -38,7 +67,7 @@ typedef struct
     bbList list;
 } bbDrawableSquare;
 
-typedef struct
+typedef struct bbDrawables
 {
 
     bbVPool* pool;
@@ -49,12 +78,21 @@ typedef struct
     //We cant extend bbDrawables because it ends in a flexible array member,
     //so we use a pointer to extra data
     void* extra_data;
+    struct bbRenderUnits* render_units;
+
+    I32 notifyVisible_num;
+    bbDictionary* notifyVisible_dict;
+    bbDrawable_notifyVisible_fn** notifyVisible_fns;
+
 
     I32 squares_i;
     I32 squares_j;
 
     bbDrawableSquare lost;
     bbDrawableSquare squares[];
+
+
+
 } bbDrawables;
 
 bbFlag bbDrawables_newImpl(void** self, U32 system, I32 squares_i, I32 squares_j, I32 sizeOf);
@@ -87,6 +125,19 @@ bbFlag bbDrawable_newFire(bbDrawable** self, bbDrawables* drawables,
                          bbGraphicsApp* graphics, bbMapCoords MC);
 bbFlag bbDrawable_setLocation(bbDrawable* self, bbDrawables* drawables,
                               bbMapCoords MC);
+
+
+///Notify the drawable that it has entered the area around the viewpoint
+bbFlag bbDrawable_enterVisible(bbDrawables* drawables, bbDrawable* drawable);
+///Notify the drawable that it has left the area around the viewpoint
+bbFlag bbDrawable_leaveVisible(bbDrawables* drawables, bbDrawable* drawable);
+///Notify the drawable that the square it is in has left the area around the viewpoint
+bbFlag bbDrawable_squareEnterVisible(bbDrawables* drawables, bbDrawable* drawable);
+///Notify the drawable that the square it is in has left the area around the viewpoint
+bbFlag bbDrawable_squareLeaveVisible(bbDrawables* drawables, bbDrawable* drawable);
+
+bbFlag bbDrawables_populateFunctions(bbDrawables* drawables);
+bbFlag bbDrawables_addFunction(bbDrawables* drawables, bbDrawable_notifyVisible_fn* function);
 
 bbFlag bbDrawable_newSkeleton(bbDrawable** self, bbDrawables* drawables,
                           bbGraphicsApp* graphics, bbMapCoords MC);

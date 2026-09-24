@@ -11,13 +11,14 @@
 #include "engine/logic/bbLookupTable.h"
 #include "engine/userinterface/bbWidgets.h"
 #include "engine/viewport/bbViewportSpawner.h"
-
+#include "engine/viewport/bbRenderUnits.h"
 
 typedef struct bbViewportApp
 {
     bbDrawables* drawables;
     bbMapIcons* mapIcons;
     bbUnits* units;
+    bbRenderUnits renderUnits;
     bbViewport viewport;
     bbWidget* viewport_widget;
 

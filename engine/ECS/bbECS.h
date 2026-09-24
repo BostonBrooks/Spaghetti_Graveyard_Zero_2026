@@ -24,7 +24,8 @@ typedef enum
 {
     bbSystem_Drawables = bbECS_numSystems,
     bbSystem_Units,
-    bbSystem_MapIcons
+    bbSystem_MapIcons,
+    bbSystem_RenderUnits,
 } bbSystems;
 
 

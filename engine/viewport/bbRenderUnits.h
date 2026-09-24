@@ -1,0 +1,61 @@
+#ifndef BB_BBRENDERUNITS
+#define BB_BBRENDERUNITS
+
+#include "bbUnits.h"
+#include "bbViewportApp.h"
+
+///Render units are like ordinary units except they only exist when they're on screen
+// They are able to move around like a bbMoveable component
+#define UNITS_PER_GROUP 12
+
+typedef enum
+{
+    bbRU_movementType_rigid,
+} bbRenderUnit_movementType;
+
+typedef struct
+{
+    bbDrawable drawable;
+    I32 index;
+    bbRenderUnit_movementType movement_type;
+    bbDrawable* owner;
+} bbRenderUnit;
+
+typedef struct bbRenderUnitGroup
+{
+    bbRenderUnit units[UNITS_PER_GROUP];
+    bbListElement_Handle list_element;
+} bbRenderUnitGroup;
+
+typedef bbFlag bbRenderUnitGroup_spawn_fn(struct bbRenderUnits* render_units, bbDrawable* drawable);
+
+typedef struct bbRenderUnits
+{
+    bbVPool* pool;
+    bbList list;
+
+    I32 spawnFunction_num;
+    bbDictionary* spawnFunction_dict;
+    bbRenderUnitGroup_spawn_fn** spawnFunctions;
+
+
+} bbRenderUnits;
+
+bbFlag bbRenderUnits_init(bbRenderUnits* render_units);
+
+///calculate positions based on positions of drawable and other units.
+bbFlag bbRenderUnits_updateMovement(bbRenderUnits* render_units);
+bbFlag bbRenderUnits_populateFunctions (bbRenderUnits* render_units);
+bbFlag bbRenderUnits_addSpawnFunction(bbRenderUnits* render_units,
+                                      bbRenderUnitGroup_spawn_fn* spawn_function,
+                                      char* key);
+bbFlag bbRenderUnitGroup_spawn(bbRenderUnits* render_units,
+                                      I32 spawn_function_index,
+                                      bbDrawable* drawable);
+bbFlag bbRenderUnitGroup_delete(bbRenderUnits* render_units,
+                                      bbRenderUnitGroup* group);
+
+///Take a drawable and render it's render units
+bbFlag bbDrawFunction_renderUnits(void* drawable, void* frameDescriptor, void* cl);
+
+#endif // BB_BBRENDERUNITS
