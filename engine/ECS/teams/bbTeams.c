@@ -330,7 +330,7 @@ bbFlag bbListFunction_findNearest_fn(bbList* list, void* node, void* cl)
         return bbContinue;
         //bbDebug("new nearest index = %d\n",component->component.entity_handle.system.index)
     }
-    if (dist_squared < nearest_distance*nearest_distance)return bbContinue;
+    if (dist_squared > nearest_distance*nearest_distance)return bbContinue;
 
     if (delta_i < 0)
     {
@@ -438,6 +438,8 @@ bbFlag bbTeams_findNearestTarget(bbCore* core, bbECS* ECS, bbHandle attacker_ent
         //bbHere()
         return bbFail;
     }
+
+    //bbDebug("distance = %d, max_distance = %d\n",nearest_cl.nearest_distance,max_distance);
     *target_entity = nearest_cl.nearest_entity;
     return bbSuccess;
 }
