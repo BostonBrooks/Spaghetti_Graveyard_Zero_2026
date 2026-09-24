@@ -75,7 +75,7 @@ bbFlag bbCS_spawnTeamComponent(bbCore* core,
 ///Return bbSuccess if the filter passes. return bbContinue to continue to the next node.
 bbFlag bbFilter_canAttack_fn(bbList* list, void* node, void* cl)
 {
-
+bbHere()
 
     bbFilter_canAttack_cl* filter_cl = cl;
     bbSpatial_Component* component = node;
@@ -83,33 +83,34 @@ bbFlag bbFilter_canAttack_fn(bbList* list, void* node, void* cl)
     bbTeam *attacker;
     flag = bbHandle_mapComponent(filter_cl->ECS, bbECS_ECS,filter_cl->attacker_entity,bbECS_Teams,NULL,(bbComponent**)&attacker);
     if (flag == bbNone) {
-        //bbHere()
+        bbHere()
         return bbContinue;
     }
     if (attacker == NULL) {
-        //bbHere()
+        bbHere()
         return bbContinue;
     }
 
     bbTeam *target;
     flag = bbComponent_mapComponent(filter_cl->ECS, bbECS_Spatial,(bbComponent*)component,bbECS_Teams,NULL,(bbComponent**)&target);
     if (flag == bbNone) {
-        //bbHere()
+        bbHere()
         return bbContinue;
     }
     if (target == NULL) {
-        //bbHere()
+        bbFlag_print(flag)
+        bbHere()
         return bbContinue;
     }
 
     //bbDebug("attacker team = %d, target team = %d\n",attacker->team, target->team);
     if (attacker->team != target->team) {
-        //bbHere()
+        bbDebug("WE FOUND ONE!\n")
         return(bbSuccess);
     }
 
     {
-        //bbHere()
+        bbHere()
         return bbContinue;
     }
 
@@ -128,8 +129,35 @@ bbFlag bbListFunction_findNearest_fn(bbList* list, void* node, void* cl)
     bbFilter_findNearest_cl* filter_cl = cl;
     bbSpatial_Component* component = node;
 
+    bbHere()
+
     if (bbHandleError_NULL == bbVPool_handleIsNULL(filter_cl->ECS->systems[bbECS_ECS]->pool,filter_cl->nearest_entity)){
          filter_cl->nearest_entity = component->component.entity_handle;
+
+        bbDebug("index = %d, system = %d, generation = %d\n",
+            component->component.entity_handle.system.index,
+            component->component.entity_handle.system.system,
+            component->component.entity_handle.system.generation);
+
+        bbMapCoords target_coords = component->map_coords;
+        bbSpatial_Component* attacker_spatial;
+
+        bbHandle_mapComponent(filter_cl->ECS,
+                              bbECS_ECS,
+                              filter_cl->attacker_entity,
+                              bbECS_Spatial,
+                              NULL,
+                              (bbComponent**)&attacker_spatial);
+
+        bbMapCoords attacker_coords = attacker_spatial->map_coords;
+
+        I64 delta_i = attacker_coords.i - target_coords.j;
+        I64 delta_j = attacker_coords.j - target_coords.j;
+        I64 dist_squared = delta_i * delta_i + delta_j * delta_j;
+        I64 nearest_distance = filter_cl->nearest_distance;
+
+        filter_cl->nearest_distance = bbArith64_sqrt2(dist_squared);
+
         return bbContinue;
     }
     bbMapCoords target_coords = component->map_coords;
@@ -149,14 +177,17 @@ bbFlag bbListFunction_findNearest_fn(bbList* list, void* node, void* cl)
     I64 dist_squared = delta_i * delta_i + delta_j * delta_j;
     I64 nearest_distance = filter_cl->nearest_distance;
 
-    if (dist_squared < nearest_distance*nearest_distance)
-    {
-        I64 new_distance = bbArith64_sqrt2(dist_squared);
-        filter_cl->nearest_distance = new_distance;
-
+    I64 new_distance = bbArith64_sqrt2(dist_squared);
         bbDebug("new distance = %ld\n", new_distance);
 
+    if (dist_squared < nearest_distance*nearest_distance)
+    {
+        filter_cl->nearest_distance = new_distance;
+
+
         filter_cl->nearest_entity = component->component.entity_handle;
+
+        bbDebug("new nearest index = %d\n",component->component.entity_handle.system.index)
     }
 
     if (dist_squared == nearest_distance*nearest_distance){bbNotImplemented()}
@@ -215,8 +246,11 @@ bbFlag bbTeams_findNearestTarget(bbCore* core, bbECS* ECS, bbHandle attacker_ent
 
 
     bbSpatialFilters filters_cl;
-    filters_cl.coords = attacker_moveable->position;
+    filters_cl.coords = attacker_spatial->map_coords;
+
+
     filters_cl.radius = max_distance;
+
     filters_cl.function = bbListFunction_findNearest_fn;
     filters_cl.cl = &nearest_cl;
 
@@ -229,10 +263,13 @@ bbFlag bbTeams_findNearestTarget(bbCore* core, bbECS* ECS, bbHandle attacker_ent
     filters_cl.filters[0] = bbFilter_canAttack_fn;
     filters_cl.cls[0] = &can_attack_cl;
 
+    bbDebug("radius = %llu\n",filters_cl.radius);
     bbSpatial_mapRadiusFilter((bbSpatial*)ECS->systems[bbECS_Spatial],&filters_cl);
 
-    if (nearest_cl.nearest_entity.u64 == ECS->system.pool->null.u64) return bbFail;
-    if (nearest_cl.nearest_distance == max_distance+193) return bbFail;
+    bbDebug("nearest distance = %u\n", nearest_cl.nearest_distance);
+
+    if (nearest_cl.nearest_entity.u64 == ECS->system.pool->null.u64){bbHere() return bbFail;}
+    if (nearest_cl.nearest_distance == max_distance+193){bbHere() return bbFail;}
     if (nearest_cl.nearest_entity.system.system != bbECS_ECS){bbHere() return bbFail;}
     *target_entity = nearest_cl.nearest_entity;
     return bbSuccess;

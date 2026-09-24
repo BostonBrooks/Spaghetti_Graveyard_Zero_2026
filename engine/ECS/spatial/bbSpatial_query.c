@@ -65,21 +65,27 @@ bbFlag bbSpatial_mapRadius(bbSpatial* spatial,
 }
 
 bbFlag bbListFunction_queryRadiusFilter(bbList* list, void* node, void* cl)
-{
+{//bbHere()
     bbSpatialFilters* query = cl;
     bbSpatial_Component* component = node;
     I64 delta_i = component->map_coords.i - query->coords.i;
     I64 delta_j = component->map_coords.j - query->coords.j;
     I64 radius = query->radius;
-    if (delta_i * delta_i + delta_j * delta_j > radius * radius) return bbContinue;
+     //   bbDebug("distance = %llu, radius = %llu\n", bbArith64_sqrt2(delta_i * delta_i + delta_j * delta_j),radius)
+    if (delta_i * delta_i + delta_j * delta_j > radius * radius) {
 
+        return bbContinue;
+    }
     for (I32 i = 0; i < MAX_FILTER_FUNCTIONS; i++) {
 
         bbFilterFunction* function = query->filters[i];
-        if (function == NULL) continue;
+        if (function == NULL) {
+            //bbHere()
+            continue;
+        }
         bbFlag flag = function(list, node, query->cls[i]);
-        if (flag == bbContinue) return bbContinue;
-        if (flag == bbSuccess) continue;
+        if (flag == bbContinue) {bbHere() return bbContinue;}
+        if (flag == bbSuccess)  {bbHere() continue;}
         bbFlag_print(flag);
     }
 
@@ -92,6 +98,7 @@ bbFlag bbListFunction_queryRadiusFilter(bbList* list, void* node, void* cl)
 bbFlag bbSpatial_mapRadiusFilter(bbSpatial* spatial,
                             bbSpatialFilters* query)
 {
+    bbDebug("radius = %llu\n", query->radius);
     bbMapCoords left = query->coords;
     left.i -= query->radius;
     left.j -= query->radius;
@@ -99,6 +106,7 @@ bbFlag bbSpatial_mapRadiusFilter(bbSpatial* spatial,
     bbMapCoords right = query->coords;
     right.i += query->radius;
     right.j += query->radius;
+
 
     bbSquareCoords left_square = bbMapCoords_getSquareCoords(left);
     bbSquareCoords right_square = bbMapCoords_getSquareCoords(right);
@@ -110,10 +118,13 @@ bbFlag bbSpatial_mapRadiusFilter(bbSpatial* spatial,
         for (I32 j = left_square.j; j <= right_square.j; j++)
         {
             I32 index = bbSpatial_getSquareIndex(i, j, spatial->squares_i, spatial->squares_j);
+
+            bbDebug("square i = %d, square_j = %d, index = %d, radius = %d\n", i, j, index, query->radius);
             if (index < 0) continue;
             bbSpatialSquare* square = &spatial->squares[index];
             bbIterator iterator = bbIterator_new(&square->list);
 
+            //bbDebug("radius = %llu\n", query->radius);
             //bbDebug("i = %d, j = %d\n", i, j);
             bbFlag flag = bbIterator_mapL(&iterator, bbListFunction_queryRadiusFilter, query);
             //TODO process flag

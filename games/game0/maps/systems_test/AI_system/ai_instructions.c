@@ -531,8 +531,10 @@ bbFlag bbI_AI_setState_fn(bbCore* core, bbInstruction* instruction)
     switch (component->state)
     {
     case bbAIState_Idle:
+        component->target = core->ECS->system.pool->null;
         break;
     case bbAIState_Moving:
+        component->target = core->ECS->system.pool->null;
         break;
     case bbAIState_Approaching:
         component->target = instruction->data.AI_state.target_handle;
@@ -541,6 +543,7 @@ bbFlag bbI_AI_setState_fn(bbCore* core, bbInstruction* instruction)
         component->target = instruction->data.AI_state.target_handle;
         break;
     case bbAIState_Recovering:
+        component->target = core->ECS->system.pool->null;
         break;
     }
 
