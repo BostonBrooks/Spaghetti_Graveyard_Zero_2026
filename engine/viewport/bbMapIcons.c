@@ -17,11 +17,11 @@ bbFlag bbMapIcon_new(bbMapIcon** self, bbMapIcons* mapicons,
                         "MAPICON_TEST",
                         &drawfunctionHandle);
 
-    drawable->md.frames[0].drawfunction = drawfunctionHandle.u64;
-    drawable->md.frames[0].handle.u64 = 141;
+    drawable->md.frames[0].draw_function = drawfunctionHandle.u64;
+    drawable->md.frames[0].asset_handle.u64 = 141;
 
     for (I32 k = 1; k < FRAMES_PER_DRAWABLE; k++){
-        drawable->md.frames[k].drawfunction = -1;
+        drawable->md.frames[k].draw_function = -1;
     }
 
     bbList_sortL(&drawableSquare->list, drawable);

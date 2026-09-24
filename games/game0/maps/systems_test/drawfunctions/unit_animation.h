@@ -72,7 +72,7 @@ bbFlag bbDF_unitAnimationWAngle(void* Drawable, void* frameDescriptor, void* cl)
     bbGraphicsApp* graphics = foo->graphics;
     bbViewport* VP = foo->target;
 
-    I32 animationInt = frame->handle.u64;
+    I32 animationInt = frame->asset_handle.u64;
     bbAnimation* animation = graphics->animations->animations[animationInt];
 
 //TODO may vary
@@ -115,7 +115,7 @@ bbFlag bbDF_unitStillWAngle(void* Drawable, void* frameDescriptor, void* cl){
     bbGraphicsApp* graphics = foo->graphics;
     bbViewport* VP = foo->target;
 
-    I32 animationInt = frame->handle.u64;
+    I32 animationInt = frame->asset_handle.u64;
     bbAnimation* animation = graphics->animations->animations[animationInt];
 
     //TODO may vary

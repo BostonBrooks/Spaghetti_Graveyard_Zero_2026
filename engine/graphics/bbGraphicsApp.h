@@ -5,6 +5,7 @@
 #include "engine/graphics/bbAnimations.h"
 #include "engine/graphics/bbCompositions.h"
 #include "engine/graphics/bbDrawfunctions.h"
+#include "engine/viewport/bbDrawBuffer.h"
 
 #ifndef BB_GRAPHICS_H
 #define BB_GRAPHICS_H
@@ -17,6 +18,7 @@ typedef struct bbGraphicsApp {
 	bbAnimations* animations;
 	bbCompositions* compositions;
 	bbFonts* fonts;
+	bbDrawBufferFunctions* drawBufferFunctions;
 } bbGraphicsApp;
 
 bbFlag bbGraphicsApp_init(bbGraphicsApp* app);

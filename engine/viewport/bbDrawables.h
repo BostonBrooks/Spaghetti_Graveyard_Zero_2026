@@ -72,12 +72,6 @@ typedef struct bbDrawables
     //We cant extend bbDrawables because it ends in a flexible array member,
     //so we use a pointer to extra data
     void* extra_data;
-    struct bbRenderUnits* render_units;
-
-    I32 notifyVisible_num;
-    bbDictionary* notifyVisible_dict;
-    bbDrawable_notifyVisible_fn** notifyVisible_fns;
-
 
     I32 squares_i;
     I32 squares_j;

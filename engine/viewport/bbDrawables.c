@@ -91,11 +91,11 @@ bbFlag bbDrawable_draw(bbDrawable* drawable, drawFuncClosure* cl){
 
         bbGraphicsApp* graphics = cl->graphics;
 /// the 8 in the next line refers to the number of draw functions in bbDrawfunctions
-        if (frame->drawfunction >= 0 && frame->drawfunction <
+        if (frame->draw_function >= 0 && frame->draw_function <
         graphics->drawfunctions->num) {
 
             bbDrawFunction *drawFunction =
-                    graphics->drawfunctions->functions[frame->drawfunction];
+                    graphics->drawfunctions->functions[frame->draw_function];
             if (drawFunction == NULL) continue;
             drawFunction(drawable, frame, cl);
 
@@ -191,8 +191,8 @@ bbFlag bbDrawable_newTree(bbDrawable** self, bbDrawables* drawables,
                     "COMPOSITION",
                     &drawfunctionHandle);
 
-    drawable->md.frames[0].drawfunction = drawfunctionHandle.u64;
-    drawable->md.frames[0].handle.u64 = 4;
+    drawable->md.frames[0].draw_function = drawfunctionHandle.u64;
+    drawable->md.frames[0].asset_handle.u64 = 4;
     drawable->md.frames[0].start_time =  -(rand()%6);
     drawable->md.frames[0].framerate = 1;
     drawable->md.frames[0].offset.x = 0;
@@ -200,7 +200,7 @@ bbFlag bbDrawable_newTree(bbDrawable** self, bbDrawables* drawables,
 
 
     for (I32 k = 1; k < FRAMES_PER_DRAWABLE; k++){
-        drawable->md.frames[k].drawfunction = -1;
+        drawable->md.frames[k].draw_function = -1;
     }
 
     bbList_sortL(&drawableSquare->list, drawable);
@@ -230,13 +230,13 @@ bbFlag bbDrawable_newCat(bbDrawable** self, bbDrawables* drawables,
                         "EYE_CANDY",
                         &drawfunctionHandle);
 
-    drawable->md.frames[0].drawfunction = drawfunctionHandle.u64;
-    drawable->md.frames[0].handle.u64 = 7;
+    drawable->md.frames[0].draw_function = drawfunctionHandle.u64;
+    drawable->md.frames[0].asset_handle.u64 = 7;
     drawable->md.frames[0].start_time =  -(rand()%6);
     drawable->md.frames[0].framerate = 1;
 
     for (I32 k = 1; k < FRAMES_PER_DRAWABLE; k++){
-        drawable->md.frames[k].drawfunction = -1;
+        drawable->md.frames[k].draw_function = -1;
     }
 
     bbList_sortL(&drawableSquare->list, drawable);
@@ -263,13 +263,13 @@ bbFlag bbDrawable_newSkeleton(bbDrawable** self, bbDrawables* drawables,
                         "DRAWABLE_ANIMATION",
                         &drawfunctionHandle);
 
-    drawable->md.frames[0].drawfunction = drawfunctionHandle.u64;
-    drawable->md.frames[0].handle.u64 = 9;
+    drawable->md.frames[0].draw_function = drawfunctionHandle.u64;
+    drawable->md.frames[0].asset_handle.u64 = 9;
     drawable->md.frames[0].start_time =  -(rand()%6);
     drawable->md.frames[0].framerate = 1;
 
     for (I32 k = 1; k < FRAMES_PER_DRAWABLE; k++){
-        drawable->md.frames[k].drawfunction = -1;
+        drawable->md.frames[k].draw_function = -1;
     }
 
     bbList_sortL(&drawableSquare->list, drawable);
@@ -324,18 +324,18 @@ bbFlag bbDrawable_newSphere(bbDrawable** self, bbDrawables* drawables,
                         "DRAWABLE_SPRITE",
                         &drawfunctionHandle);
 
-    drawable->md.frames[0].drawfunction = drawfunctionHandle.u64;
-    drawable->md.frames[0].handle.u64 = 615;
+    drawable->md.frames[0].draw_function = drawfunctionHandle.u64;
+    drawable->md.frames[0].asset_handle.u64 = 615;
 
     bbDictionary_lookup(graphics->drawfunctions->dictionary,
                     "DRAWABLE_SHADOW",
                     &drawfunctionHandle);
 
-    drawable->md.frames[1].drawfunction = drawfunctionHandle.u64;
-    drawable->md.frames[1].handle.u64 = 612;
+    drawable->md.frames[1].draw_function = drawfunctionHandle.u64;
+    drawable->md.frames[1].asset_handle.u64 = 612;
 
     for (I32 k = 2; k < FRAMES_PER_DRAWABLE; k++){
-        drawable->md.frames[k].drawfunction = -1;
+        drawable->md.frames[k].draw_function = -1;
     }
 
     bbList_sortL(&drawableSquare->list, drawable);
@@ -363,18 +363,18 @@ bbFlag bbDrawable_newPoint(bbDrawable** self, bbDrawables* drawables,
                         "DRAWABLE_SPRITE",
                         &drawfunctionHandle);
 
-    drawable->md.frames[0].drawfunction = drawfunctionHandle.u64;
-    drawable->md.frames[0].handle.u64 = 154;
+    drawable->md.frames[0].draw_function = drawfunctionHandle.u64;
+    drawable->md.frames[0].asset_handle.u64 = 154;
 
     bbDictionary_lookup(graphics->drawfunctions->dictionary,
                     "DRAWABLE_SHADOW",
                     &drawfunctionHandle);
 
-    drawable->md.frames[1].drawfunction = drawfunctionHandle.u64;
-    drawable->md.frames[1].handle.u64 = 623;
+    drawable->md.frames[1].draw_function = drawfunctionHandle.u64;
+    drawable->md.frames[1].asset_handle.u64 = 623;
 
     for (I32 k = 2; k < FRAMES_PER_DRAWABLE; k++){
-        drawable->md.frames[k].drawfunction = -1;
+        drawable->md.frames[k].draw_function = -1;
     }
 
     bbList_sortL(&drawableSquare->list, drawable);

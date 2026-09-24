@@ -33,8 +33,8 @@ bbMapCoords MC, I32 index){
                         "UNIT_ANIMATION_ANGLE",
                         &drawfunctionHandle);
 
-    unit->drawable.md.frames[0].drawfunction = drawfunctionHandle.u64;
-    unit->drawable.md.frames[0].handle.u64 = 9;
+    unit->drawable.md.frames[0].draw_function = drawfunctionHandle.u64;
+    unit->drawable.md.frames[0].asset_handle.u64 = 9;
     unit->drawable.md.frames[0].start_time=  -(rand()%60);
     unit->drawable.md.frames[0].framerate = 1;
     unit->drawable.md.frames[0].offset.x = 0;
@@ -44,15 +44,15 @@ bbMapCoords MC, I32 index){
                     "DRAWABLE_SHADOW",
                     &drawfunctionHandle);
 
-    unit->drawable.md.frames[1].drawfunction = drawfunctionHandle.u64;
-    unit->drawable.md.frames[1].handle.u64 = 612;
+    unit->drawable.md.frames[1].draw_function = drawfunctionHandle.u64;
+    unit->drawable.md.frames[1].asset_handle.u64 = 612;
     unit->drawable.md.frames[1].start_time =  -(rand()%6);
     unit->drawable.md.frames[1].framerate = 1;
     unit->drawable.md.frames[1].offset.x = 0;
     unit->drawable.md.frames[1].offset.y = 0;
 
     for (I32 k = 2; k < FRAMES_PER_DRAWABLE; k++){
-        unit->drawable.md.frames[k].drawfunction = -1;
+        unit->drawable.md.frames[k].draw_function = -1;
     }
 
     //home.agents_app.entities.movable_units[index] = unit_handle;

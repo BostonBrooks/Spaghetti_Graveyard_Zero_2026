@@ -33,11 +33,11 @@ bbFlag bbDF_unitGroup(void* Drawable, void* frameDescriptor, void* cl)
     bbGraphicsApp* graphics = foo->graphics;
     bbViewport* VP = foo->target;
 
-    bbComposition* composition = graphics->compositions->compositions[self_frame->handle.u64];
+    bbComposition* composition = graphics->compositions->compositions[self_frame->asset_handle.u64];
     bbFrame* input_frame = &composition->frame[0];
-    bbAssert(input_frame->drawfunction >= 0, "bad draw function\n");
+    bbAssert(input_frame->draw_function >= 0, "bad draw function\n");
 
-    bbDebug("drawfunction = %d\n", input_frame->drawfunction);
+    bbDebug("drawfunction = %d\n", input_frame->draw_function);
     float theta = drawable->md.rotation;
     float spacing = POINTS_PER_TILE;
     I32 num_units = 12;
@@ -87,14 +87,14 @@ bbFlag bbDF_unitGroup(void* Drawable, void* frameDescriptor, void* cl)
 
         bbFrame output_frame;
         output_frame.type = input_frame->type;
-        output_frame.handle = input_frame->handle;
+        output_frame.asset_handle = input_frame->asset_handle;
         output_frame.offset.x = input_frame->offset.x + self_frame->offset.x + SP.x;
         output_frame.offset.y = input_frame->offset.y + self_frame->offset.y + SP.y;
         output_frame.framerate = input_frame->framerate * self_frame->framerate;
         output_frame.start_time = input_frame->start_time + self_frame->start_time;
-        output_frame.drawfunction = input_frame->drawfunction;
+        output_frame.draw_function = input_frame->draw_function;
 
-        bbDrawFunction *drawFunction =graphics->drawfunctions->functions[output_frame.drawfunction];
+        bbDrawFunction *drawFunction =graphics->drawfunctions->functions[output_frame.draw_function];
 
 
         drawFunction(drawable, &output_frame, cl);
@@ -119,8 +119,8 @@ bbFlag bbDF_unitGroup2(void* Drawable, void* frameDescriptor, void* cl)
         for (I32 j = 0; j < FRAMES_PER_DRAWABLE; j++)
         {
             bbFrame* frame = &minimal_drawable->frames[j];
-            if (frame->drawfunction < 0) continue;
-            bbDrawFunction *drawFunction =graphics->drawfunctions->functions[frame->drawfunction];
+            if (frame->draw_function < 0) continue;
+            bbDrawFunction *drawFunction =graphics->drawfunctions->functions[frame->draw_function];
             drawFunction(minimal_drawable, frame, cl);
         }
     }

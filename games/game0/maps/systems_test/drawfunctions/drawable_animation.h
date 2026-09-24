@@ -18,7 +18,7 @@ bbFlag bbDF_drawableAnimation(void* Drawable, void* frameDescriptor, void* cl){
     bbGraphicsApp* graphics = foo->graphics;
     bbViewport* VP = foo->target;
 
-    I32 animationInt = frame->handle.u64;
+    I32 animationInt = frame->asset_handle.u64;
     bbAnimation* animation = graphics->animations->animations[animationInt];
 
     //TODO - angle doesnt have to be hard-wired
@@ -63,7 +63,7 @@ bbFlag bbDF_drawableAnimationWAngle(void* Drawable, void* frameDescriptor, void*
     bbGraphicsApp* graphics = foo->graphics;
     bbViewport* VP = foo->target;
 
-    I32 animationInt = frame->handle.u64;
+    I32 animationInt = frame->asset_handle.u64;
     bbAnimation* animation = graphics->animations->animations[animationInt];
 
 //TODO may vary
@@ -107,7 +107,7 @@ bbFlag bbDF_drawableAnimationOnce(void* Drawable, void* frameDescriptor, void* c
     bbGraphicsApp* graphics = foo->graphics;
     bbViewport* VP = foo->target;
 
-    I32 animationInt = frame->handle.u64;
+    I32 animationInt = frame->asset_handle.u64;
     bbAnimation* animation = graphics->animations->animations[animationInt];
 
     //TODO may vary

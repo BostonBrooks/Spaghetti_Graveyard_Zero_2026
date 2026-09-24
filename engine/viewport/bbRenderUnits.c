@@ -1,5 +1,7 @@
 #include "engine/viewport/bbRenderUnits.h"
 
+#include "engine/data/bbHome.h"
+#include "engine/groundsurface/bbGroundSurface.h"
 #include "engine/logic/bbIterator.h"
 #include "engine/logic/bbSystemPool.h"
 
@@ -79,14 +81,14 @@ bbFlag bbRenderUnitGroup_spawn_foxes(bbRenderUnitGroup** Group,
 
 
     for (I32 k = 0; k < FRAMES_PER_DRAWABLE; k++){
-        fox_drawable.frames[k].drawfunction = -1;
+        fox_drawable.frames[k].draw_function = -1;
     }
     bbDictionary_lookup(graphics->drawfunctions->dictionary,
-                    "DRAWABLE_SPRITE",
+                    "UNIT_STILL_ANGLE",
                     &drawfunctionHandle);
 
-    fox_drawable.frames[0].drawfunction = drawfunctionHandle.u64;
-    fox_drawable.frames[0].handle.u64 = 8;
+    fox_drawable.frames[0].draw_function = drawfunctionHandle.u64;
+    fox_drawable.frames[0].asset_handle.u64 = 21;
     fox_drawable.frames[0].start_time=  0;
     fox_drawable.frames[0].framerate = 1;
     fox_drawable.frames[0].offset.x = 0;
@@ -119,11 +121,30 @@ bbFlag bbRenderUnits_updateMovement(bbRenderUnits* render_units)
     while (flag == bbSuccess)
     {
         bbDrawable* drawable = group->units[0].owner;
+        float theta = drawable->md.rotation;
+        float spacing = POINTS_PER_TILE;
+        I32 num_units = 12;
+
+        bbMapCoords delta_coords, new_coords;
+
+        float c_theta = cos(theta);
+        float s_theta = sin(theta);
+
         for (I32 i = 0; i < UNITS_PER_GROUP; i++)
         {
+            I32 row_N = i / 4;
+            I32 column_M = i %4;
+
+            delta_coords.i = (1.5-column_M)*spacing*c_theta - (-1+row_N)*spacing*s_theta;
+            delta_coords.j = -(1.5-column_M)*spacing*s_theta - (-1+row_N)*spacing*c_theta;
+            delta_coords.k = 0;
+
             bbRenderUnit* unit = &group->units[i];
             unit->md.coords = drawable->md.coords;
-            unit->md.coords.i += i * POINTS_PER_TILE*4;
+            unit->md.coords.i += delta_coords.i;
+            unit->md.coords.j += delta_coords.j;
+            unit->md.coords.k = bbMapCoords_getElevation(&home.ground_surface, unit->md.coords);
+            unit->md.rotation = drawable->md.rotation;
 
         }
         flag = bbList_increment(&render_units->list,(void**)&group);

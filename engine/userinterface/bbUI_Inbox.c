@@ -372,8 +372,8 @@ bbFlag bbUI_Inbox_newBanana_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
                         "COMPOSITION_STATE",
                         &drawfunctionHandle);
 
-    unit->drawable.md.frames[0].drawfunction = drawfunctionHandle.u64;
-    unit->drawable.md.frames[0].handle.u64 = 5;
+    unit->drawable.md.frames[0].draw_function = drawfunctionHandle.u64;
+    unit->drawable.md.frames[0].asset_handle.u64 = 5;
     unit->drawable.md.frames[0].start_time= 0;
     unit->drawable.md.frames[0].framerate = 1;
     unit->drawable.md.frames[0].offset.x = 0;
@@ -383,8 +383,8 @@ bbFlag bbUI_Inbox_newBanana_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
                     "DRAWABLE_SHADOW",
                     &drawfunctionHandle);
 
-    unit->drawable.md.frames[1].drawfunction = drawfunctionHandle.u64;
-    unit->drawable.md.frames[1].handle.u64 = 612;
+    unit->drawable.md.frames[1].draw_function = drawfunctionHandle.u64;
+    unit->drawable.md.frames[1].asset_handle.u64 = 612;
     unit->drawable.md.frames[1].start_time =  -(rand()%6);
     unit->drawable.md.frames[1].framerate = 1;
     unit->drawable.md.frames[1].offset.x = 0;
@@ -394,8 +394,8 @@ bbFlag bbUI_Inbox_newBanana_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
              "MAPICON_TEST",
              &drawfunctionHandle);
 
-    unit->drawable.md.frames[2].drawfunction = drawfunctionHandle.u64;
-    unit->drawable.md.frames[2].handle.u64 = 626;
+    unit->drawable.md.frames[2].draw_function = drawfunctionHandle.u64;
+    unit->drawable.md.frames[2].asset_handle.u64 = 626;
     unit->drawable.md.frames[2].start_time =  -(rand()%6);
     unit->drawable.md.frames[2].framerate = 1;
     unit->drawable.md.frames[2].offset.x = 0;
@@ -405,15 +405,15 @@ bbFlag bbUI_Inbox_newBanana_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
              "HEALTH_POINTS",
              &drawfunctionHandle);
 
-    unit->drawable.md.frames[3].drawfunction = drawfunctionHandle.u64;
-    unit->drawable.md.frames[3].handle.u64 = 626;
+    unit->drawable.md.frames[3].draw_function = drawfunctionHandle.u64;
+    unit->drawable.md.frames[3].asset_handle.u64 = 626;
     unit->drawable.md.frames[3].start_time =  -(rand()%6);
     unit->drawable.md.frames[3].framerate = 1;
     unit->drawable.md.frames[3].offset.x = 0;
     unit->drawable.md.frames[3].offset.y = 0;
 
     for (I32 k = 4; k < FRAMES_PER_DRAWABLE; k++){
-        unit->drawable.md.frames[k].drawfunction = -1;
+        unit->drawable.md.frames[k].draw_function = -1;
     }
 
 

@@ -31,10 +31,10 @@ bbFlag bbWidget_Constructor_Clock(bbWidget** self,
                      "WIDGET_CORETIME_ANIMATION",
                      &drawfunctionHandle);
 
-    widget->frames[0].drawfunction = drawfunctionHandle.u64;
+    widget->frames[0].draw_function = drawfunctionHandle.u64;
 
     bbDictionary_lookup(graphics->animations->dictionary,
-                        "REDCLOCK", &widget->frames[0].handle);
+                        "REDCLOCK", &widget->frames[0].asset_handle);
 
     //bbDebug("LAYOUT_480 = %d\n", widget->frames[0].handle.u64);
     widget->frames[0].offset.x = 0;
@@ -44,10 +44,10 @@ bbFlag bbWidget_Constructor_Clock(bbWidget** self,
                  "WIDGET_GRAPHICSTIME_ANIMATION",
                  &drawfunctionHandle);
 
-    widget->frames[1].drawfunction = drawfunctionHandle.u64;
+    widget->frames[1].draw_function = drawfunctionHandle.u64;
 
     bbDictionary_lookup(graphics->animations->dictionary,
-                        "CLOCK", &widget->frames[1].handle);
+                        "CLOCK", &widget->frames[1].asset_handle);
 
     //bbDebug("LAYOUT_480 = %d\n", widget->frames[0].handle.u64);
     widget->frames[1].offset.x = 0;
@@ -57,10 +57,10 @@ bbFlag bbWidget_Constructor_Clock(bbWidget** self,
              "WIDGET_SERVERTIME_ANIMATION",
              &drawfunctionHandle);
 
-    widget->frames[2].drawfunction = drawfunctionHandle.u64;
+    widget->frames[2].draw_function = drawfunctionHandle.u64;
 
     bbDictionary_lookup(graphics->animations->dictionary,
-                        "BLUECLOCK", &widget->frames[2].handle);
+                        "BLUECLOCK", &widget->frames[2].asset_handle);
 
     //bbDebug("LAYOUT_480 = %d\n", widget->frames[0].handle.u64);
     widget->frames[2].offset.x = 0;
@@ -101,7 +101,7 @@ bbFlag bbWidget_Constructor_Performance(bbWidget** self,
                      "PERFORMANCE",
                      &drawfunctionHandle);
 
-    widget->frames[0].drawfunction = drawfunctionHandle.u64;
+    widget->frames[0].draw_function = drawfunctionHandle.u64;
 
     widget->frames[0].offset.x = 0;
     widget->frames[0].offset.y = 0;

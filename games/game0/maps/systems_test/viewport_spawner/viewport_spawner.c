@@ -77,8 +77,8 @@ bbFlag bbViewportSpawnSkelly(bbViewportApp* viewport_app,
                         "COMPOSITION_STATE",
                         &drawfunctionHandle);
 
-    unit->drawable.md.frames[0].drawfunction = drawfunctionHandle.u64;
-    unit->drawable.md.frames[0].handle.u64 = 5;
+    unit->drawable.md.frames[0].draw_function = drawfunctionHandle.u64;
+    unit->drawable.md.frames[0].asset_handle.u64 = 5;
     unit->drawable.md.frames[0].start_time= 0;
     unit->drawable.md.frames[0].framerate = 1;
     unit->drawable.md.frames[0].offset.x = 0;
@@ -88,8 +88,8 @@ bbFlag bbViewportSpawnSkelly(bbViewportApp* viewport_app,
                     "DRAWABLE_SHADOW",
                     &drawfunctionHandle);
 
-    unit->drawable.md.frames[1].drawfunction = drawfunctionHandle.u64;
-    unit->drawable.md.frames[1].handle.u64 = 612;
+    unit->drawable.md.frames[1].draw_function = drawfunctionHandle.u64;
+    unit->drawable.md.frames[1].asset_handle.u64 = 612;
     unit->drawable.md.frames[1].start_time =  -(rand()%6);
     unit->drawable.md.frames[1].framerate = 1;
     unit->drawable.md.frames[1].offset.x = 0;
@@ -99,8 +99,8 @@ bbFlag bbViewportSpawnSkelly(bbViewportApp* viewport_app,
              "MAPICON_TEST",
              &drawfunctionHandle);
 
-    unit->drawable.md.frames[2].drawfunction = drawfunctionHandle.u64;
-    unit->drawable.md.frames[2].handle.u64 = 626;
+    unit->drawable.md.frames[2].draw_function = drawfunctionHandle.u64;
+    unit->drawable.md.frames[2].asset_handle.u64 = 626;
     unit->drawable.md.frames[2].start_time =  -(rand()%6);
     unit->drawable.md.frames[2].framerate = 1;
     unit->drawable.md.frames[2].offset.x = 0;
@@ -110,15 +110,15 @@ bbFlag bbViewportSpawnSkelly(bbViewportApp* viewport_app,
              "HEALTH_POINTS",
              &drawfunctionHandle);
 
-    unit->drawable.md.frames[3].drawfunction = drawfunctionHandle.u64;
-    unit->drawable.md.frames[3].handle.u64 = 626;
+    unit->drawable.md.frames[3].draw_function = drawfunctionHandle.u64;
+    unit->drawable.md.frames[3].asset_handle.u64 = 626;
     unit->drawable.md.frames[3].start_time =  -(rand()%6);
     unit->drawable.md.frames[3].framerate = 1;
     unit->drawable.md.frames[3].offset.x = 0;
     unit->drawable.md.frames[3].offset.y = 0;
 
     for (I32 k = 4; k < FRAMES_PER_DRAWABLE; k++){
-        unit->drawable.md.frames[k].drawfunction = -1;
+        unit->drawable.md.frames[k].draw_function = -1;
     }
 
 
@@ -186,8 +186,8 @@ bbFlag bbViewportSpawnZombie(bbViewportApp* viewport_app,
                         "COMPOSITION_STATE",
                         &drawfunctionHandle);
 
-    unit->drawable.md.frames[0].drawfunction = drawfunctionHandle.u64;
-    unit->drawable.md.frames[0].handle.u64 = 6;
+    unit->drawable.md.frames[0].draw_function = drawfunctionHandle.u64;
+    unit->drawable.md.frames[0].asset_handle.u64 = 6;
     unit->drawable.md.frames[0].start_time= 0;
     unit->drawable.md.frames[0].framerate = 1;
     unit->drawable.md.frames[0].offset.x = 0;
@@ -197,8 +197,8 @@ bbFlag bbViewportSpawnZombie(bbViewportApp* viewport_app,
                     "DRAWABLE_SHADOW",
                     &drawfunctionHandle);
 
-    unit->drawable.md.frames[1].drawfunction = drawfunctionHandle.u64;
-    unit->drawable.md.frames[1].handle.u64 = 612;
+    unit->drawable.md.frames[1].draw_function = drawfunctionHandle.u64;
+    unit->drawable.md.frames[1].asset_handle.u64 = 612;
     unit->drawable.md.frames[1].start_time =  -(rand()%6);
     unit->drawable.md.frames[1].framerate = 1;
     unit->drawable.md.frames[1].offset.x = 0;
@@ -208,8 +208,8 @@ bbFlag bbViewportSpawnZombie(bbViewportApp* viewport_app,
              "MAPICON_TEST",
              &drawfunctionHandle);
 
-    unit->drawable.md.frames[2].drawfunction = drawfunctionHandle.u64;
-    unit->drawable.md.frames[2].handle.u64 = 626;
+    unit->drawable.md.frames[2].draw_function = drawfunctionHandle.u64;
+    unit->drawable.md.frames[2].asset_handle.u64 = 626;
     unit->drawable.md.frames[2].start_time =  -(rand()%6);
     unit->drawable.md.frames[2].framerate = 1;
     unit->drawable.md.frames[2].offset.x = 0;
@@ -219,38 +219,21 @@ bbFlag bbViewportSpawnZombie(bbViewportApp* viewport_app,
              "HEALTH_POINTS",
              &drawfunctionHandle);
 
-    unit->drawable.md.frames[3].drawfunction = drawfunctionHandle.u64;
-    unit->drawable.md.frames[3].handle.u64 = 626;
+    unit->drawable.md.frames[3].draw_function = drawfunctionHandle.u64;
+    unit->drawable.md.frames[3].asset_handle.u64 = 626;
     unit->drawable.md.frames[3].start_time =  -(rand()%6);
     unit->drawable.md.frames[3].framerate = 1;
     unit->drawable.md.frames[3].offset.x = 0;
     unit->drawable.md.frames[3].offset.y = 0;
 
-    bbDictionary_lookup(home.UI.graphics.drawfunctions->dictionary,
-             "UNIT_GROUP2",
-             &drawfunctionHandle);
-
-    unit->drawable.md.frames[4].drawfunction = drawfunctionHandle.u64;
-    unit->drawable.md.frames[4].handle.u64 = 626;
-    unit->drawable.md.frames[4].start_time =  -(rand()%6);
-    unit->drawable.md.frames[4].framerate = 1;
-    unit->drawable.md.frames[4].offset.x = 0;
-    unit->drawable.md.frames[4].offset.y = 0;
 
 
 
-    for (I32 k = 5; k < FRAMES_PER_DRAWABLE; k++){
-        unit->drawable.md.frames[k].drawfunction = -1;
+    for (I32 k = 4; k < FRAMES_PER_DRAWABLE; k++){
+        unit->drawable.md.frames[k].draw_function = -1;
     }
 
-
-    bbRenderUnitGroup* group;
-    bbRenderUnitGroup_spawn_foxes(&group,
-                                  home.viewport_app.renderUnits,
-                                  &unit->drawable,
-                                  graphics);
-
-        bbList_sortL(&unitSquare->list, unit);
+    bbList_sortL(&unitSquare->list, unit);
 
     return bbSuccess;
 }
@@ -313,8 +296,8 @@ bbFlag bbViewportSpawnCow(bbViewportApp* viewport_app,
                         "COMPOSITION_STATE",
                         &drawfunctionHandle);
 
-    unit->drawable.md.frames[0].drawfunction = drawfunctionHandle.u64;
-    unit->drawable.md.frames[0].handle.u64 = 7;
+    unit->drawable.md.frames[0].draw_function = drawfunctionHandle.u64;
+    unit->drawable.md.frames[0].asset_handle.u64 = 7;
     unit->drawable.md.frames[0].start_time= 0;
     unit->drawable.md.frames[0].framerate = 1;
     unit->drawable.md.frames[0].offset.x = 0;
@@ -324,8 +307,8 @@ bbFlag bbViewportSpawnCow(bbViewportApp* viewport_app,
                     "DRAWABLE_SHADOW",
                     &drawfunctionHandle);
 
-    unit->drawable.md.frames[1].drawfunction = drawfunctionHandle.u64;
-    unit->drawable.md.frames[1].handle.u64 = 612;
+    unit->drawable.md.frames[1].draw_function = drawfunctionHandle.u64;
+    unit->drawable.md.frames[1].asset_handle.u64 = 612;
     unit->drawable.md.frames[1].start_time =  -(rand()%6);
     unit->drawable.md.frames[1].framerate = 1;
     unit->drawable.md.frames[1].offset.x = 0;
@@ -335,8 +318,8 @@ bbFlag bbViewportSpawnCow(bbViewportApp* viewport_app,
              "MAPICON_TEST",
              &drawfunctionHandle);
 
-    unit->drawable.md.frames[2].drawfunction = drawfunctionHandle.u64;
-    unit->drawable.md.frames[2].handle.u64 = 704;
+    unit->drawable.md.frames[2].draw_function = drawfunctionHandle.u64;
+    unit->drawable.md.frames[2].asset_handle.u64 = 704;
     unit->drawable.md.frames[2].start_time =  -(rand()%6);
     unit->drawable.md.frames[2].framerate = 1;
     unit->drawable.md.frames[2].offset.x = 0;
@@ -346,15 +329,15 @@ bbFlag bbViewportSpawnCow(bbViewportApp* viewport_app,
              "HEALTH_POINTS",
              &drawfunctionHandle);
 
-    unit->drawable.md.frames[3].drawfunction = drawfunctionHandle.u64;
-    unit->drawable.md.frames[3].handle.u64 = 626;
+    unit->drawable.md.frames[3].draw_function = drawfunctionHandle.u64;
+    unit->drawable.md.frames[3].asset_handle.u64 = 626;
     unit->drawable.md.frames[3].start_time =  -(rand()%6);
     unit->drawable.md.frames[3].framerate = 1;
     unit->drawable.md.frames[3].offset.x = 0;
     unit->drawable.md.frames[3].offset.y = 0;
 
     for (I32 k = 4; k < FRAMES_PER_DRAWABLE; k++){
-        unit->drawable.md.frames[k].drawfunction = -1;
+        unit->drawable.md.frames[k].draw_function = -1;
     }
 
 
@@ -420,12 +403,12 @@ bbFlag bbViewportSpawnFox(bbViewportApp* viewport_app,
 
 
     bbDictionary_lookup(home.UI.graphics.drawfunctions->dictionary,
-         "UNIT_GROUP",
+         "UNIT_GROUP2",
 
          &drawfunctionHandle);
 
-    unit->drawable.md.frames[0].drawfunction = drawfunctionHandle.u64;
-    unit->drawable.md.frames[0].handle.u64 = 12;
+    unit->drawable.md.frames[0].draw_function = drawfunctionHandle.u64;
+    unit->drawable.md.frames[0].asset_handle.u64 = 12;
     unit->drawable.md.frames[0].start_time =  -(rand()%6);
     unit->drawable.md.frames[0].framerate = 1;
     unit->drawable.md.frames[0].offset.x = 0;
@@ -435,8 +418,8 @@ bbFlag bbViewportSpawnFox(bbViewportApp* viewport_app,
                     "DRAWABLE_SHADOW",
                     &drawfunctionHandle);
 
-    unit->drawable.md.frames[1].drawfunction = drawfunctionHandle.u64;
-    unit->drawable.md.frames[1].handle.u64 = 612;
+    unit->drawable.md.frames[1].draw_function = drawfunctionHandle.u64;
+    unit->drawable.md.frames[1].asset_handle.u64 = 612;
     unit->drawable.md.frames[1].start_time =  -(rand()%6);
     unit->drawable.md.frames[1].framerate = 1;
     unit->drawable.md.frames[1].offset.x = 0;
@@ -446,8 +429,8 @@ bbFlag bbViewportSpawnFox(bbViewportApp* viewport_app,
              "MAPICON_TEST",
              &drawfunctionHandle);
 
-    unit->drawable.md.frames[2].drawfunction = drawfunctionHandle.u64;
-    unit->drawable.md.frames[2].handle.u64 = 711;
+    unit->drawable.md.frames[2].draw_function = drawfunctionHandle.u64;
+    unit->drawable.md.frames[2].asset_handle.u64 = 711;
     unit->drawable.md.frames[2].start_time =  -(rand()%6);
     unit->drawable.md.frames[2].framerate = 1;
     unit->drawable.md.frames[2].offset.x = 0;
@@ -457,17 +440,24 @@ bbFlag bbViewportSpawnFox(bbViewportApp* viewport_app,
              "HEALTH_POINTS",
              &drawfunctionHandle);
 
-    unit->drawable.md.frames[3].drawfunction = drawfunctionHandle.u64;
-    unit->drawable.md.frames[3].handle.u64 = 626;
+    unit->drawable.md.frames[3].draw_function = drawfunctionHandle.u64;
+    unit->drawable.md.frames[3].asset_handle.u64 = 626;
     unit->drawable.md.frames[3].start_time =  -(rand()%6);
     unit->drawable.md.frames[3].framerate = 1;
     unit->drawable.md.frames[3].offset.x = 0;
     unit->drawable.md.frames[3].offset.y = 0;
 
     for (I32 k = 4; k < FRAMES_PER_DRAWABLE; k++){
-        unit->drawable.md.frames[k].drawfunction = -1;
+        unit->drawable.md.frames[k].draw_function = -1;
     }
 
+
+
+    bbRenderUnitGroup* group;
+    bbRenderUnitGroup_spawn_foxes(&group,
+                                  home.viewport_app.renderUnits,
+                                  &unit->drawable,
+                                  graphics);
 
         bbList_sortL(&unitSquare->list, unit);
 
@@ -533,8 +523,8 @@ bbFlag bbViewportSpawnLizard(bbViewportApp* viewport_app,
                         "COMPOSITION_STATE",
                         &drawfunctionHandle);
 
-    unit->drawable.md.frames[0].drawfunction = drawfunctionHandle.u64;
-    unit->drawable.md.frames[0].handle.u64 = 9;
+    unit->drawable.md.frames[0].draw_function = drawfunctionHandle.u64;
+    unit->drawable.md.frames[0].asset_handle.u64 = 9;
     unit->drawable.md.frames[0].start_time= 0;
     unit->drawable.md.frames[0].framerate = 1;
     unit->drawable.md.frames[0].offset.x = 0;
@@ -544,8 +534,8 @@ bbFlag bbViewportSpawnLizard(bbViewportApp* viewport_app,
                     "DRAWABLE_SHADOW",
                     &drawfunctionHandle);
 
-    unit->drawable.md.frames[1].drawfunction = drawfunctionHandle.u64;
-    unit->drawable.md.frames[1].handle.u64 = 612;
+    unit->drawable.md.frames[1].draw_function = drawfunctionHandle.u64;
+    unit->drawable.md.frames[1].asset_handle.u64 = 612;
     unit->drawable.md.frames[1].start_time =  -(rand()%6);
     unit->drawable.md.frames[1].framerate = 1;
     unit->drawable.md.frames[1].offset.x = 0;
@@ -555,8 +545,8 @@ bbFlag bbViewportSpawnLizard(bbViewportApp* viewport_app,
              "MAPICON_TEST",
              &drawfunctionHandle);
 
-    unit->drawable.md.frames[2].drawfunction = drawfunctionHandle.u64;
-    unit->drawable.md.frames[2].handle.u64 = 707;
+    unit->drawable.md.frames[2].draw_function = drawfunctionHandle.u64;
+    unit->drawable.md.frames[2].asset_handle.u64 = 707;
     unit->drawable.md.frames[2].start_time =  -(rand()%6);
     unit->drawable.md.frames[2].framerate = 1;
     unit->drawable.md.frames[2].offset.x = 0;
@@ -566,8 +556,8 @@ bbFlag bbViewportSpawnLizard(bbViewportApp* viewport_app,
              "HEALTH_POINTS",
              &drawfunctionHandle);
 
-    unit->drawable.md.frames[3].drawfunction = drawfunctionHandle.u64;
-    unit->drawable.md.frames[3].handle.u64 = 626;
+    unit->drawable.md.frames[3].draw_function = drawfunctionHandle.u64;
+    unit->drawable.md.frames[3].asset_handle.u64 = 626;
     unit->drawable.md.frames[3].start_time =  -(rand()%6);
     unit->drawable.md.frames[3].framerate = 1;
     unit->drawable.md.frames[3].offset.x = 0;
@@ -576,7 +566,7 @@ bbFlag bbViewportSpawnLizard(bbViewportApp* viewport_app,
 
 
     for (I32 k = 4; k < FRAMES_PER_DRAWABLE; k++){
-        unit->drawable.md.frames[k].drawfunction = -1;
+        unit->drawable.md.frames[k].draw_function = -1;
     }
 
 
@@ -645,8 +635,8 @@ bbFlag bbViewportSpawnDevil(bbViewportApp* viewport_app,
                         "COMPOSITION_STATE",
                         &drawfunctionHandle);
 
-    unit->drawable.md.frames[0].drawfunction = drawfunctionHandle.u64;
-    unit->drawable.md.frames[0].handle.u64 = 11;
+    unit->drawable.md.frames[0].draw_function = drawfunctionHandle.u64;
+    unit->drawable.md.frames[0].asset_handle.u64 = 11;
     unit->drawable.md.frames[0].start_time= 0;
     unit->drawable.md.frames[0].framerate = 1;
     unit->drawable.md.frames[0].offset.x = 0;
@@ -656,8 +646,8 @@ bbFlag bbViewportSpawnDevil(bbViewportApp* viewport_app,
                     "DRAWABLE_SHADOW",
                     &drawfunctionHandle);
 
-    unit->drawable.md.frames[1].drawfunction = drawfunctionHandle.u64;
-    unit->drawable.md.frames[1].handle.u64 = 612;
+    unit->drawable.md.frames[1].draw_function = drawfunctionHandle.u64;
+    unit->drawable.md.frames[1].asset_handle.u64 = 612;
     unit->drawable.md.frames[1].start_time =  -(rand()%6);
     unit->drawable.md.frames[1].framerate = 1;
     unit->drawable.md.frames[1].offset.x = 0;
@@ -667,8 +657,8 @@ bbFlag bbViewportSpawnDevil(bbViewportApp* viewport_app,
              "MAPICON_TEST",
              &drawfunctionHandle);
 
-    unit->drawable.md.frames[2].drawfunction = drawfunctionHandle.u64;
-    unit->drawable.md.frames[2].handle.u64 = 714;
+    unit->drawable.md.frames[2].draw_function = drawfunctionHandle.u64;
+    unit->drawable.md.frames[2].asset_handle.u64 = 714;
     unit->drawable.md.frames[2].start_time =  -(rand()%6);
     unit->drawable.md.frames[2].framerate = 1;
     unit->drawable.md.frames[2].offset.x = 0;
@@ -678,15 +668,15 @@ bbFlag bbViewportSpawnDevil(bbViewportApp* viewport_app,
              "HEALTH_POINTS",
              &drawfunctionHandle);
 
-    unit->drawable.md.frames[3].drawfunction = drawfunctionHandle.u64;
-    unit->drawable.md.frames[3].handle.u64 = 626;
+    unit->drawable.md.frames[3].draw_function = drawfunctionHandle.u64;
+    unit->drawable.md.frames[3].asset_handle.u64 = 626;
     unit->drawable.md.frames[3].start_time =  -(rand()%6);
     unit->drawable.md.frames[3].framerate = 1;
     unit->drawable.md.frames[3].offset.x = 0;
     unit->drawable.md.frames[3].offset.y = 0;
 
     for (I32 k = 4; k < FRAMES_PER_DRAWABLE; k++){
-        unit->drawable.md.frames[k].drawfunction = -1;
+        unit->drawable.md.frames[k].draw_function = -1;
     }
 
 
@@ -743,8 +733,8 @@ bbFlag bbViewportSpawnFireball(bbViewportApp* viewport_app,
                         "COMPOSITION_STATE",
                         &drawfunctionHandle);
 
-    unit->drawable.md.frames[0].drawfunction = drawfunctionHandle.u64;
-    unit->drawable.md.frames[0].handle.u64 = 8;
+    unit->drawable.md.frames[0].draw_function = drawfunctionHandle.u64;
+    unit->drawable.md.frames[0].asset_handle.u64 = 8;
     unit->drawable.md.frames[0].start_time= 0;
     unit->drawable.md.frames[0].framerate = 1;
     unit->drawable.md.frames[0].offset.x = 0;
@@ -754,8 +744,8 @@ bbFlag bbViewportSpawnFireball(bbViewportApp* viewport_app,
                     "DRAWABLE_SHADOW",
                     &drawfunctionHandle);
 
-    unit->drawable.md.frames[1].drawfunction = -1; //drawfunctionHandle.u64;
-    unit->drawable.md.frames[1].handle.u64 = 612;
+    unit->drawable.md.frames[1].draw_function = -1; //drawfunctionHandle.u64;
+    unit->drawable.md.frames[1].asset_handle.u64 = 612;
     unit->drawable.md.frames[1].start_time =  -(rand()%6);
     unit->drawable.md.frames[1].framerate = 1;
     unit->drawable.md.frames[1].offset.x = 0;
@@ -765,8 +755,8 @@ bbFlag bbViewportSpawnFireball(bbViewportApp* viewport_app,
              "MAPICON_TEST",
              &drawfunctionHandle);
 
-    unit->drawable.md.frames[2].drawfunction = -1;//drawfunctionHandle.u64;
-    unit->drawable.md.frames[2].handle.u64 = 704;
+    unit->drawable.md.frames[2].draw_function = -1;//drawfunctionHandle.u64;
+    unit->drawable.md.frames[2].asset_handle.u64 = 704;
     unit->drawable.md.frames[2].start_time =  -(rand()%6);
     unit->drawable.md.frames[2].framerate = 1;
     unit->drawable.md.frames[2].offset.x = 0;
@@ -776,15 +766,15 @@ bbFlag bbViewportSpawnFireball(bbViewportApp* viewport_app,
              "HEALTH_POINTS",
              &drawfunctionHandle);
 
-    unit->drawable.md.frames[3].drawfunction = -1;// drawfunctionHandle.u64;
-    unit->drawable.md.frames[3].handle.u64 = 626;
+    unit->drawable.md.frames[3].draw_function = -1;// drawfunctionHandle.u64;
+    unit->drawable.md.frames[3].asset_handle.u64 = 626;
     unit->drawable.md.frames[3].start_time =  -(rand()%6);
     unit->drawable.md.frames[3].framerate = 1;
     unit->drawable.md.frames[3].offset.x = 0;
     unit->drawable.md.frames[3].offset.y = 0;
 
     for (I32 k = 4; k < FRAMES_PER_DRAWABLE; k++){
-        unit->drawable.md.frames[k].drawfunction = -1;
+        unit->drawable.md.frames[k].draw_function = -1;
     }
 
 

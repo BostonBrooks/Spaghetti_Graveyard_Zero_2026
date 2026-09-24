@@ -17,22 +17,22 @@ bbFlag bbList_mapL(bbList* list, bbListFunction* myFunc, void* cl){
         return bbSuccess;
     }
 
-    bbHandle hande_element = list->list_pointer->head;
+    bbHandle handle_element = list->list_pointer->head;
     void* element;
     bbListElement_Handle* list_element;
     bbFlag flag;
 
     while(1){
-        bbVPool_lookup(list->pool, &element, hande_element);
+        bbVPool_lookup(list->pool, &element, handle_element);
         list_element = element + list->offset_of;
         flag = myFunc(list, element, cl);
         switch (flag){
         case bbBreak:
             return bbBreak;
         case bbContinue:
-            if(isEqual(hande_element, list->list_pointer->tail))
+            if(isEqual(handle_element, list->list_pointer->tail))
                 return bbSuccess;
-            hande_element = list_element->next;
+            handle_element = list_element->next;
             break;
         case bbRepeat:
             bbHere();

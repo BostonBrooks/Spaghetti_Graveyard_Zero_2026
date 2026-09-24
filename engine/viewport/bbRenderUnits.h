@@ -38,6 +38,11 @@ typedef struct bbRenderUnits
     bbDictionary* spawnFunction_dict;
     bbRenderUnitGroup_spawn_fn** spawnFunctions;
 
+    ///notify drawables and units if they go on or off screen
+    I32 notifyVisible_num;
+    bbDictionary* notifyVisible_dict;
+    bbDrawable_notifyVisible_fn** notifyVisible_fns;
+
 
 } bbRenderUnits;
 

@@ -12,6 +12,7 @@
 #include "engine/userinterface/bbWidgets.h"
 #include "engine/viewport/bbViewportSpawner.h"
 #include "engine/viewport/bbRenderUnits.h"
+#include "engine/viewport/bbDrawBuffer.h"
 
 typedef struct bbViewportApp
 {
@@ -19,6 +20,7 @@ typedef struct bbViewportApp
     bbMapIcons* mapIcons;
     bbUnits* units;
     struct bbRenderUnits* renderUnits;
+    bbDrawBuffer* drawbuffer;
     bbViewport viewport;
     bbWidget* viewport_widget;
 

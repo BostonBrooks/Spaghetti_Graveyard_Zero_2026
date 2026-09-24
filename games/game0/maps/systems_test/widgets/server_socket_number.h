@@ -30,7 +30,7 @@ bbFlag bbWidget_Constructor_Socket_Number(bbWidget** self,
                  "SOCKET_NUMBER",
                  &drawfunctionHandle);
 
-    widget->frames[0].drawfunction = drawfunctionHandle.u64;
+    widget->frames[0].draw_function = drawfunctionHandle.u64;
     widget->frames[0].offset.x = 3*SCREEN_PPP;
     widget->frames[0].offset.y = 3*SCREEN_PPP;
 

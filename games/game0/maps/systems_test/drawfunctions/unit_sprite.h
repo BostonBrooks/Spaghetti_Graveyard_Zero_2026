@@ -19,7 +19,7 @@ bbFlag bbDF_unitSprite(void* Drawable, void* frameDescriptor, void* cl){
     bbViewport* VP = foo->target;
 
 
-    I32 spriteInt = frame->handle.u64;
+    I32 spriteInt = frame->asset_handle.u64;
     sfSprite* sprite = graphics->sprites->sprites[spriteInt];
 
     sfRenderTexture* renderTexture = VP->main.renderTexture;

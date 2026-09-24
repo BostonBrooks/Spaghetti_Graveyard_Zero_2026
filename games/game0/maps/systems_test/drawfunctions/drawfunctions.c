@@ -31,7 +31,7 @@ bbFlag bbDF_widgetSprite(void* drawable, void* frame_descriptor, void* cl){
     drawFuncClosure* closure = cl;
     bbGraphicsApp* graphics = closure->graphics;
 
-    I32 spriteInt = frame->handle.u64;
+    I32 spriteInt = frame->asset_handle.u64;
     sfSprite* sprite = graphics->sprites->sprites[spriteInt];
 
 
