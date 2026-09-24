@@ -297,6 +297,13 @@ bbFlag bbDrawable_setLocation(bbDrawable* drawable, bbDrawables* drawables,
     //be sorted back into the list. In future we could write a function to
     //move the element up or down in the list
 
+    if (newSquare == oldSquare)
+    {
+        drawable->md.coords = MC;
+        bbList_reposition(&oldSquare->list, drawable);
+        return bbSuccess;
+    }
+
     bbList_remove(&oldSquare->list, drawable);
     drawable->md.coords = MC;
     bbList_sortL(&newSquare->list, drawable);

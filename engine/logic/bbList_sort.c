@@ -572,6 +572,107 @@ bbFlag bbList_sortR(bbList* list, void* element) {
     }
 }
 
+
+//bbFlag bbList_insertAfter(bbList* list, void* Node, void* Key);
+//bbFlag bbList_insertBefore(bbList* list, void* Node, void* Key);
+//This could probably be made shorter
+bbFlag bbList_reposition(bbList* list, void* element)
+{
+	bbHandle element_handle;
+	bbVPool_reverseLookup(list->pool, element, &element_handle);
+	bbListElement_Handle *element_list = element + list->offset_of;
+
+	bbHandle prev_handle = element_list->prev;
+	void *prev;
+	bbVPool_lookup(list->pool, &prev, prev_handle);
+	bbListElement_Handle *prev_list = prev + list->offset_of;
+
+
+
+
+	bbHandle next_handle = element_list->next;
+	void *next;
+	bbVPool_lookup(list->pool, &next, next_handle);
+	bbListElement_Handle *next_list = next + list->offset_of;
+
+	bbList_remove(list, element);
+
+	if (prev == NULL)
+	{
+		//were at the head of the list
+		bbList_sortL(list, element);
+
+	}
+	if (next == NULL)
+	{
+		//were at the tail of the list
+		bbList_sortR(list, element);
+
+	}
+
+	if (!list->compare(element, next))
+	{
+		while(1) {
+
+			bbFlag flag = bbVPool_lookup(list->pool, &next, next_handle);
+
+			next_list = next + list->offset_of;
+
+			bbVPool* pool = list->pool;
+
+			//bbVPool_elementInBounds(pool, element);
+
+			if (next == NULL)
+			{
+				bbList_pushR(list, element);
+				return bbSuccess;
+			}
+
+			//bbVPool_elementInBounds(pool, next);
+			if (list->compare(element, next)) {
+				bbList_insertBefore(list, element, next);
+				return bbSuccess;
+			}
+			if (isEqual(next_handle,list->list_pointer->tail)) {
+				bbList_pushR(list, element);
+				return bbSuccess;
+			}
+			next_handle = next_list->next;
+
+		}
+	}//next < element
+	if (list->compare(element, prev))
+	{
+		while(1) {
+			bbVPool_lookup(list->pool, &prev, prev_handle);
+			prev_list = prev + list->offset_of;
+
+			if (prev == NULL)
+			{
+				bbList_pushL(list, element);
+				return bbSuccess;
+			}
+
+			if (!list->compare(element, prev)) {
+				bbList_insertAfter(list, element, prev);
+				return bbSuccess;
+			}
+			if (isEqual(prev_handle,list->list_pointer->head)) {
+				bbList_pushL(list, element);
+				return bbSuccess;
+			}
+			prev_handle = prev_list->prev;
+		}
+	}
+	bbList_insertAfter(list, element, prev);
+	return bbSuccess;
+
+	bbAssert(element_list->list_id == list->list.list_id, "element already in a list")
+
+
+
+}
+
 bbFlag bbList_sortElement(bbList* list, void* element){
     bbHandle element_handle;
     bbVPool_reverseLookup(list->pool, element, &element_handle);
