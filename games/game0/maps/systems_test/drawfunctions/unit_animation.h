@@ -148,3 +148,77 @@ bbFlag bbDF_unitStillWAngle(void* Drawable, void* frameDescriptor, void* cl){
 
 
 }
+///draw function: unit animation with angle, drawn to drawbuffer
+bbFlag bbDF_unitDrawBuffer(void* Drawable, void* frameDescriptor, void* cl){
+    bbDrawable* drawable = Drawable;
+    bbFrame* frame = frameDescriptor;
+    drawFuncClosure* foo = cl;
+    bbGraphicsApp* graphics = foo->graphics;
+    bbViewport* VP = foo->target;
+
+    I32 animationInt = frame->asset_handle.u64;
+    bbAnimation* animation = graphics->animations->animations[animationInt];
+
+    //TODO may vary
+    I32 numAngles = animation->angles;
+    I32 angle = getAngleXD(drawable->md.rotation, numAngles);
+
+    I32 frames = animation->frames;
+
+    I32 frameInt = (I64)((double)(foo->map_time - frame->start_time)
+            *(double)animation->framerate*(double)frame->framerate) % frames;
+
+    I32 spriteInt = animation->Sprites[angle*frames+frameInt].u64;
+
+    bbDrawBufferObject* draw_buffer_object;
+    bbDrawBufferObject_new(home.viewport_app.drawbuffer,&draw_buffer_object) ;
+    bbHandle draw_function_handle;
+    bbFlag flag = bbDictionary_lookup(home.UI.graphics.drawBufferFunctions->dictionary,"DRAWBUFFER_UNITSPRITE",&draw_function_handle);
+    draw_buffer_object->draw_function = draw_function_handle.u64;
+    draw_buffer_object->MC = drawable->md.coords;
+    draw_buffer_object->asset_handle.u64 = spriteInt;
+
+    bbDrawBufferObject_draw(home.viewport_app.drawbuffer,draw_buffer_object);
+
+    return bbSuccess;
+
+
+}
+
+
+bbFlag bbDF_unitStillDrawBuffer(void* Drawable, void* frameDescriptor, void* cl){
+    bbDrawable* drawable = Drawable;
+    bbFrame* frame = frameDescriptor;
+    drawFuncClosure* foo = cl;
+    bbGraphicsApp* graphics = foo->graphics;
+    bbViewport* VP = foo->target;
+
+    I32 animationInt = frame->asset_handle.u64;
+    bbAnimation* animation = graphics->animations->animations[animationInt];
+
+    //TODO may vary
+    I32 numAngles = animation->angles;
+    I32 angle = getAngleXD(drawable->md.rotation, numAngles);
+
+    I32 frames = animation->frames;
+
+    I32 frameInt = 0;
+
+    I32 spriteInt = animation->Sprites[angle*frames+frameInt].u64;
+
+
+    bbDrawBufferObject* draw_buffer_object;
+    bbDrawBufferObject_new(home.viewport_app.drawbuffer,&draw_buffer_object) ;
+    bbHandle draw_function_handle;
+    bbFlag flag = bbDictionary_lookup(home.UI.graphics.drawBufferFunctions->dictionary,"DRAWBUFFER_UNITSPRITE",&draw_function_handle);
+    draw_buffer_object->draw_function = draw_function_handle.u64;
+    draw_buffer_object->MC = drawable->md.coords;
+    draw_buffer_object->asset_handle.u64 = spriteInt;
+
+    bbDrawBufferObject_draw(home.viewport_app.drawbuffer,draw_buffer_object);
+
+
+    return bbSuccess;
+
+
+}

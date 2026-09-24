@@ -32,7 +32,7 @@ bbFlag bbSystemPool_getHeader(bbSystemPool_Header** header, void* address){
 	*header = address - offset;
 	return bbSuccess;
 }
-
+bbFlag bbSystemPool_checkAddress(bbSystemPool* pool, void*Address);
 bbFlag bbVPool_newSystem(bbVPool** Pool,
 		U16 system,
 		I32 size_of,
@@ -84,6 +84,7 @@ level2, char* key){
     pool->size_of = size;
     pool->level1 = level1;
     pool->level2 = level2;
+	pool->num_allocated = 0;
     pool->available.head = pool->null;
     pool->available.tail = pool->null;
     for(I32 i = 0; i < level1; i++){
@@ -244,7 +245,7 @@ bbFlag bbSystemPool_expandHandle(bbSystemPool* pool, bbHandle handle){
 
 bbFlag bbSystemPool_allocImpl(bbSystemPool* pool, void** address, bbHandle* handle, char* file, I32 line)
 {
-
+	pool->num_allocated++;
 	//If no elements available
 	if (IS_NULL(pool->available.head) || IS_NULL(pool->available.tail))
 	{
@@ -274,6 +275,9 @@ bbFlag bbSystemPool_allocImpl(bbSystemPool* pool, void** address, bbHandle* hand
 
 		if (address != NULL) *address = &element->user_data;
 		if (handle != NULL) *handle = element_handle;
+
+
+		//bbSystemPool_checkAddress(pool,&element->user_data);
 		return bbSuccess;
 	}
 
@@ -303,6 +307,9 @@ bbFlag bbSystemPool_allocImpl(bbSystemPool* pool, void** address, bbHandle* hand
 	if (address != NULL) *address = &head_header->user_data;
 	if (handle != NULL) *handle = head_handle;
 
+
+	//bbSystemPool_checkAddress(pool,&head_header->user_data);
+
 	return bbSuccess;
 }
 
@@ -314,10 +321,11 @@ bbFlag bbSystemPool_Handle_incrementCollision(bbHandle* handle){
 	return bbSuccess;
 }
 ///Check that the address being freed is within the memory allocated by pool
+///TODO always segfaults
 bbFlag bbSystemPool_checkAddress(bbSystemPool* pool, void*Address)
 {
 	U8* address = Address;
-	bbSystemPool_Header* header = (bbSystemPool_Header*)address+offsetof(bbSystemPool_Header,user_data);
+	bbSystemPool_Header* header = (bbSystemPool_Header*)address-offsetof(bbSystemPool_Header,user_data);
 
 	for (I32 i = 0; i < pool->level1; i++)
 	{
@@ -329,7 +337,7 @@ bbFlag bbSystemPool_checkAddress(bbSystemPool* pool, void*Address)
 		U8* end_offset = end+offsetof(bbSystemPool_Header,user_data);
 
 		if (start_offset <= address && address < end_offset)
-		{
+		{bbHere()
 			if (header->in_use == true)return bbSuccess;
 		}
 	}
@@ -341,7 +349,8 @@ bbNotHere()
 
 bbFlag bbSystemPool_free(bbSystemPool* pool, void* address)
 {
-	bbSystemPool_checkAddress(pool, address);
+	pool->num_allocated--;
+	//bbSystemPool_checkAddress(pool, address);
 	bbSystemPool_Header* header;
 	bbSystemPool_getHeader(&header, address);
 	bbSystemPool_Handle_incrementCollision(&header->self);

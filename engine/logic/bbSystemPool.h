@@ -16,6 +16,7 @@ typedef struct
     U32 level1;
     U32 level2;
     U32 size_of;
+    U32 num_allocated;
     bbList_Handle available;
     void* elements[];
 } bbSystemPool;

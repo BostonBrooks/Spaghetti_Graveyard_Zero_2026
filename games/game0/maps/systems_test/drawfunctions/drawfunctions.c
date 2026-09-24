@@ -177,6 +177,25 @@ bbFlag bbDrawfunctions_new(bbDrawfunctions** drawfunctions){
     handle.u64 = 26;
     bbDictionary_add(functions->dictionary, "DRAWBUFFER_SPRITE", handle);
 
+
+    functions->functions[27] = bbDF_drawBufferUnitSprite;
+    handle.u64 = 27;
+    bbDictionary_add(functions->dictionary, "DRAWBUFFER_UNITSPRITE", handle);
+
+    functions->functions[27] = bbDF_unitDrawBuffer;
+    handle.u64 = 27;
+    bbDictionary_add(functions->dictionary, "UNIT_DRAWBUFFER", handle);
+
+    functions->functions[28] = bbDF_unitStillDrawBuffer;
+    handle.u64 = 28;
+    bbDictionary_add(functions->dictionary, "UNIT_STILL_DRAWBUFFER", handle);
+
+
+    functions->functions[29] = bbDF_DrawbufferAnimation;
+    handle.u64 = 29;
+    bbDictionary_add(functions->dictionary, "DRAWBUFFER_ANIMATION", handle);
+
+
     *drawfunctions = functions;
     return bbSuccess;
 }
