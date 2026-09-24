@@ -99,6 +99,6 @@ bbFlag bbDrawBufferObject_new(bbDrawBuffer* draw_buffer,bbDrawBufferObject** dra
 
 bbFlag bbDrawBufferObject_draw(bbDrawBuffer* draw_buffer,bbDrawBufferObject* draw_buffer_object)
 {
-    bbList_sortL(&draw_buffer->list,draw_buffer_object);
+    bbList_sortR(&draw_buffer->list,draw_buffer_object);
     return bbSuccess;
 }
