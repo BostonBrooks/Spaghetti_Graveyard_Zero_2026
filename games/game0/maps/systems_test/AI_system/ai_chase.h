@@ -3,7 +3,7 @@
 
 ///Follow the nearest enemy
 bbFlag bbAI_Update_Chase2(bbAI_Component* component) {
-    debug_off = true;
+   // debug_off = true;
     bbMoveable* moveable;
     bbHandle moveable_handle;
     bbComponent_mapComponent(home.ECS.ECS, bbECS_AI, (bbComponent*)component,
@@ -31,7 +31,7 @@ bbFlag bbAI_Update_Chase2(bbAI_Component* component) {
 
     if (bbSuccess != bbVPool_handleIsNULL(home.ECS.ECS->system.pool,target_entity_handle)) {
 
-        bbHere()
+        //bbHere()
         return bbSuccess;
         //debug_off = true;
     }
@@ -46,12 +46,12 @@ bbFlag bbAI_Update_Chase2(bbAI_Component* component) {
         + (moveable->position.j - target_moveable->position.j)
         * (moveable->position.j - target_moveable->position.j);
 
-    debug_off = false;
+    //debug_off = false;
 
-    U64 distance = bbArith64_sqrt2(distance_squared);
-    bbDebug("distance: %llu\n", distance);
+   // U64 distance = bbArith64_sqrt2(distance_squared);
+    //bbDebug("distance: %llu\n", distance);
 
-    debug_off = true;
+    //debug_off = true;
 
     if (bbSuccess != bbVPool_handleIsEqual(home.ECS.ECS->system.pool,component->target,target_entity_handle ))
     {
