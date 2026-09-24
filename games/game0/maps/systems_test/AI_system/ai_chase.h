@@ -1,5 +1,7 @@
 #include "engine/logic/bbIntTypes.h"
 
+
+///Follow the nearest enemy
 bbFlag bbAI_Update_Chase2(bbAI_Component* component) {
     debug_off = true;
     bbMoveable* moveable;
@@ -51,5 +53,25 @@ bbFlag bbAI_Update_Chase2(bbAI_Component* component) {
 
     debug_off = true;
 
+    if (bbSuccess != bbVPool_handleIsEqual(home.ECS.ECS->system.pool,component->target,target_entity_handle ))
+    {
+        bbUI_Inbox_SetEntityState(&home.UI.inbox, attacker_entity_handle, bbDrawableState_moving);
+
+
+        bbHandle goal_moveable_handle;
+        bbHandle_mapComponent(home.ECS.ECS,bbECS_ECS,target_entity_handle,bbECS_Moveables,&goal_moveable_handle,NULL);
+
+        bbCI_Moveable_setGoalMovable(&home.core.core, moveable_handle,
+                         goal_moveable_handle,
+                         bbInstructionSource_internal, no_handle);
+
+        bbHandle AI_handle;
+        bbComponent_getHandle(home.ECS.ECS->systems[bbECS_AI],(bbComponent*)component,&AI_handle);
+
+        bbCI_AI_setApproaching(&home.core.core,
+                       AI_handle,target_entity_handle,
+                       home.core.core.simulation_time,
+                 bbInstructionSource_internal, no_handle);
+    }
     return bbSuccess;
 }
