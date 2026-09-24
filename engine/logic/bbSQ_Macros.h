@@ -73,6 +73,8 @@ bbFlag CONCAT2(BB_CLASS,_deque_allocFront)(CONCAT2(BB_CLASS,_deque)* deque, BB_C
             new_segment = 0;\
         }\
     }\
+    \
+bbAssert(deque->in_use < BBSEGMENTEDDEQUE_SEGMENT_SIZE * deque->num_segments,"deque full\n")\
     bbAssert((new_index != deque->start_index\
                         || new_segment != deque->start_segment)\
                         || deque->in_use == 0,"deque full\n");\

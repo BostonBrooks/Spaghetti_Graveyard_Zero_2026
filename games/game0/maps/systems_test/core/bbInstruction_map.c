@@ -128,6 +128,9 @@ bbFlag bbCore_initMap(bbInstructionMap* map)
     map->forward[bbInstruction_unrequestAction] = bbInstruction_requestAction;
     map->rollback[bbInstruction_requestAction] = bbInstruction_unrequestAction;
 
+    map->forward[bbI_unspawnTeamComponent] = bbI_spawnTeamComponent;
+    map->rollback[bbI_spawnTeamComponent] = bbI_unspawnTeamComponent;
+
 
 }
 

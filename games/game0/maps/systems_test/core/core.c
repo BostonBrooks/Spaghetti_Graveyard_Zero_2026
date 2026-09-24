@@ -15,6 +15,7 @@
 #include "engine/ECS/moveables/bbMoveables_setState.h"
 #include "engine/ECS/players/bbPlayers.h"
 #include "engine/ECS/server_entities/bbServerEntities.h"
+#include "engine/ECS/teams/bbTeams.h"
 #include "entity_spawner/live_spawn.h"
 #include "moveables/moveables.h"
 
@@ -36,6 +37,8 @@ bbFlag bbCore_initVInstructions(bbCore* core)
     core->instruction_functions[bbI_ECS_moveable_unsetDead-bbInstruction_numTypes] = bbI_Moveable_unsetDead_fn;
     core->instruction_functions[bbI_ECS_entity_deleteEntity-bbInstruction_numTypes] = bbInstruction_entity_deleteEntity_fn;
     core->instruction_functions[bbI_ECS_entity_undeleteEntity-bbInstruction_numTypes] = bbInstruction_entity_undeleteEntity_fn;
+    core->instruction_functions[bbI_spawnTeamComponent-bbInstruction_numTypes] = bbI_spawnTeamComponent_fn;
+    core->instruction_functions[bbI_unspawnTeamComponent-bbInstruction_numTypes] = bbI_unspawnTeamComponent_fn;
 
     core->instruction_functions[bbInstruction_spawnServerEntity-bbInstruction_numTypes] = bbInstruction_spawnServerEntity_fn;
     core->instruction_functions[bbInstruction_unspawnServerEntity-bbInstruction_numTypes] = bbInstruction_unspawnServerEntity_fn;

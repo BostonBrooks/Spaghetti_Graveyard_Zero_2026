@@ -316,7 +316,7 @@ bbFlag bbSF_setTeamPlayer(void* spawner,
     //home.ECS.ECS->player_character = handle;
 
     //bbUI_Inbox_SetViewpoint(&home.UI.inbox, handle);
-
+/*
     bbCS_spawnTeamComponent(&home.core.core,
                          entity_handle,
                          NULL,
@@ -327,6 +327,12 @@ bbFlag bbSF_setTeamPlayer(void* spawner,
     bbTeam* team;
     bbHandle_mapComponent(home.ECS.ECS,bbECS_ECS,entity_handle,bbECS_Teams,NULL,(bbComponent**)&team);
     bbDebug("player team = %d\n", team->team);
+*/
+    bbCI_spawnTeamComponent(&home.core.core,
+                             entity_handle,
+                             bbTeam_player,
+                             source,
+                             no_handle);
 
     return bbSuccess;
 }

@@ -23,6 +23,8 @@ typedef enum {
     bbI_unsetPlayerEntity,
     bbI_setTeam,
     bbI_unsetTeam,
+    bbI_spawnTeamComponent,
+    bbI_unspawnTeamComponent,
     bbI_ECS_numECS_Instructions,
 } bbECS_Instruction_type;
 
