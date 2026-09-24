@@ -6,7 +6,7 @@
 #include "engine/viewport/bbDrawables.h"
 #include "games/game0/maps/systems_test/entity_spawner/live_spawn.h"
 
-#define NO_ROLLBACK
+//#define NO_ROLLBACK
 
 bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
 {
