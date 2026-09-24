@@ -249,13 +249,13 @@ bbFlag bbSF_addAI_chase(void* spawner,
 
     bbAI_Component* this;
 
-
+    I32 update_int = bbAI_Functions_getInt(&home.ECS.AI_system.functions, AI_Update, "UPDATE_CHASE");
 
 
     bbCS_spawnAIComponent2(&home.core.core,
                           home.core.core.ECS,
                           handle,
-                          6,0,
+                          update_int,0,
                           &this,
                           source,
                           no_handle);

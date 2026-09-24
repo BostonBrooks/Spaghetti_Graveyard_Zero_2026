@@ -275,8 +275,9 @@ bbFlag bbListFunction_findNearest_fn(bbList* list, void* node, void* cl)
     //bbHere()
 
     if (bbHandleError_NULL == bbVPool_handleIsNULL(filter_cl->ECS->systems[bbECS_ECS]->pool,filter_cl->nearest_entity)){
-         filter_cl->nearest_entity = component->component.entity_handle;
 
+
+        bbHandle tartget_enity_handle = component->component.entity_handle;
         // bbDebug("index = %d, system = %d, generation = %d\n",
         //     component->component.entity_handle.system.index,
         //     component->component.entity_handle.system.system,
@@ -287,7 +288,7 @@ bbFlag bbListFunction_findNearest_fn(bbList* list, void* node, void* cl)
 
         bbHandle_mapComponent(filter_cl->ECS,
                               bbECS_ECS,
-                              filter_cl->attacker_entity,
+                              tartget_enity_handle,
                               bbECS_Spatial,
                               NULL,
                               (bbComponent**)&attacker_spatial);
@@ -299,9 +300,36 @@ bbFlag bbListFunction_findNearest_fn(bbList* list, void* node, void* cl)
         I64 dist_squared = delta_i * delta_i + delta_j * delta_j;
         I64 nearest_distance = filter_cl->nearest_distance;
 
-        filter_cl->nearest_distance = bbArith64_sqrt2(dist_squared);
+        if (dist_squared < nearest_distance*nearest_distance)
+        {
+            I64 new_distance = bbArith64_sqrt2(dist_squared);
+            filter_cl->nearest_distance = new_distance;
+            filter_cl->nearest_entity = component->component.entity_handle;
+            return bbContinue;
+            //bbDebug("new nearest index = %d\n",component->component.entity_handle.system.index)
+        }
+        if (dist_squared > nearest_distance*nearest_distance)return bbContinue;
 
-        return bbContinue;
+        if (delta_i < 0)
+        {
+            I64 new_distance = bbArith64_sqrt2(dist_squared);
+            filter_cl->nearest_distance = new_distance;
+            filter_cl->nearest_entity = component->component.entity_handle;
+            return bbContinue;
+        }
+        if (delta_i > 0) return bbContinue;
+
+        if (delta_j < 0)
+        {
+            I64 new_distance = bbArith64_sqrt2(dist_squared);
+            filter_cl->nearest_distance = new_distance;
+            filter_cl->nearest_entity = component->component.entity_handle;
+            return bbContinue;
+        }
+        if (delta_j > 0) return bbContinue;
+
+
+        bbNotHere()
     }
     bbMapCoords target_coords = component->map_coords;
     bbSpatial_Component* attacker_spatial;

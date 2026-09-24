@@ -17,7 +17,7 @@ extern U64 test_time;
 extern thread_local bool debug_off;
 
 //#ifdef DEFINE_TEST_SYSTEM
-//#define NOTIMPLEMENTED_ASSERT
+#define NOTIMPLEMENTED_ASSERT
 //#endif
 //#define NOTINPLEMENTED_NONE
 
