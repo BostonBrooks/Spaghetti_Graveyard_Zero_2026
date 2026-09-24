@@ -42,13 +42,7 @@ typedef struct bbMinimalDrawable
 typedef struct bbDrawable
 {
 
-    bbMapCoords coords;
-    bbSquareCoords SC;
-    float rotation;
-    bbDrawableState state;
-    bbList_Handle listElement;
-    bbList_Handle squareListElement;
-    bbFrame frames[FRAMES_PER_DRAWABLE];
+    bbMinimalDrawable md;
 
 
     ///Render unit data

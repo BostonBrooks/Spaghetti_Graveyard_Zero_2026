@@ -24,7 +24,7 @@ bbFlag bbDF_unitSprite(void* Drawable, void* frameDescriptor, void* cl){
 
     sfRenderTexture* renderTexture = VP->main.renderTexture;
 
-    sfVector2f V2F = bbMapCoords_getV2f(drawable->coords, VP);
+    sfVector2f V2F = bbMapCoords_getV2f(drawable->md.coords, VP);
 
     sfSprite_setPosition(sprite,V2F);
 

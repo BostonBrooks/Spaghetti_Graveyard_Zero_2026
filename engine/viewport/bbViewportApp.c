@@ -33,7 +33,7 @@ bbFlag bbViewportApp_updateViewpoint(bbViewportApp* app)
     bbVPool_lookup(home.viewport_app.units->pool,(void**)&unit,unit_handle2);
     if (unit == NULL) return bbFail;
 
-    app->viewport.viewpoint = unit->drawable.coords;
+    app->viewport.viewpoint = unit->drawable.md.coords;
 
     return bbSuccess;
 

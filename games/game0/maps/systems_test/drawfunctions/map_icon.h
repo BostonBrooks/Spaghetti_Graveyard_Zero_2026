@@ -15,7 +15,7 @@ bbFlag bbDF_mapiconTest(void* drawable, void* frameDescriptor, void* cl){
 
     sfRenderTexture* renderTexture = VP->mapicon.renderTexture;
 
-    sfVector2f V2F = bbMapCoords_getV2f_mapicon(mapicon->coords, VP);
+    sfVector2f V2F = bbMapCoords_getV2f_mapicon(mapicon->md.coords, VP);
 
 
 

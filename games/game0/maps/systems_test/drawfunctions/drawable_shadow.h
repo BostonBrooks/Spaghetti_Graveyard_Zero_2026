@@ -23,7 +23,7 @@ bbFlag bbDF_drawableShadow(void* Drawable, void* frameDescriptor, void* cl)
     I32 spriteInt = frame->handle.u64;
     sfSprite* sprite = graphics->sprites->sprites[spriteInt];
 
-    bbMapCoords MC = drawable->coords;
+    bbMapCoords MC = drawable->md.coords;
 
     bbMapCoords MC_offset;
 

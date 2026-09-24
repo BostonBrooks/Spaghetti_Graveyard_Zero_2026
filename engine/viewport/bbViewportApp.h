@@ -18,7 +18,7 @@ typedef struct bbViewportApp
     bbDrawables* drawables;
     bbMapIcons* mapIcons;
     bbUnits* units;
-    bbRenderUnits renderUnits;
+    struct bbRenderUnits* renderUnits;
     bbViewport viewport;
     bbWidget* viewport_widget;
 

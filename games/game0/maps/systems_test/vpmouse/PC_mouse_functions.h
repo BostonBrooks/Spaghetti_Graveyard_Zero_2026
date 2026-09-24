@@ -11,7 +11,7 @@ bbFlag bbVPMouse_IsOver_Player (void* Mouse, void* units, void* Unit)
 
 
     bbUnit* unit = Unit;
-    I32 closeness = unit->drawable.coords.i - unit->drawable.coords.j;
+    I32 closeness = unit->drawable.md.coords.i - unit->drawable.md.coords.j;
 
     bbVPMouse* mouse = (bbVPMouse*)Mouse;
     bbViewportApp* app = (bbViewportApp*)mouse->viewportApp;
@@ -26,7 +26,7 @@ bbFlag bbVPMouse_IsOver_Player (void* Mouse, void* units, void* Unit)
     rect.left = POINTS_PER_TILE;
     rect.height = 4*POINTS_PER_TILE;
     rect.width = 2*POINTS_PER_TILE;
-    bbFlag flag  = bbMapCoords_withinRect(mouse_coords, unit->drawable.coords, rect);
+    bbFlag flag  = bbMapCoords_withinRect(mouse_coords, unit->drawable.md.coords, rect);
 
     if (flag == bbSuccess) return bbBreak;
 

@@ -53,7 +53,7 @@ bbFlag bbDF_healthPointsTest(void* drawable, void* frameDescriptor, void* cl){
 
         sfRenderTexture* renderTexture = VP->mapicon.renderTexture;
 
-        V2F = bbMapCoords_getV2f(mapicon->coords, VP);
+        V2F = bbMapCoords_getV2f(mapicon->md.coords, VP);
 
 
 

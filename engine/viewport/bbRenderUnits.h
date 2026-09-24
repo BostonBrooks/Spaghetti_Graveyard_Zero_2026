@@ -41,7 +41,7 @@ typedef struct bbRenderUnits
 
 } bbRenderUnits;
 
-bbFlag bbRenderUnits_init(bbRenderUnits* render_units);
+bbFlag bbRenderUnits_new(bbRenderUnits** render_units);
 
 ///calculate positions based on positions of drawable and other units.
 bbFlag bbRenderUnits_updateMovement(bbRenderUnits* render_units);

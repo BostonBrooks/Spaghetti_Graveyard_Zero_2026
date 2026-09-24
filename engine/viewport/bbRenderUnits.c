@@ -4,8 +4,9 @@
 
 #define MAX_SPAWN_FUNCS 193
 
-bbFlag bbRenderUnits_init(bbRenderUnits* render_units)
+bbFlag bbRenderUnits_new(bbRenderUnits** this)
 {
+    bbRenderUnits* render_units = calloc(1, sizeof(bbRenderUnits));
     bbVPool_newSystem(&render_units->pool,
                       bbSystem_RenderUnits,
                       sizeof(bbRenderUnitGroup),
@@ -21,6 +22,7 @@ bbFlag bbRenderUnits_init(bbRenderUnits* render_units)
 
     render_units->spawnFunctions = calloc(MAX_SPAWN_FUNCS, sizeof (bbRenderUnitGroup_spawn_fn*));
 
+    *this = render_units;
 
     return bbSuccess;
 }
@@ -73,23 +75,23 @@ bbFlag bbRenderUnitGroup_spawn_foxes(bbRenderUnitGroup** Group,
 
     bbHandle drawfunctionHandle;
     bbDrawable fox_drawable;
-    fox_drawable.coords = drawable->coords;
-    fox_drawable.state = bbDrawableState_idle;
+    fox_drawable.md.coords = drawable->md.coords;
+    fox_drawable.md.state = bbDrawableState_idle;
 
 
     for (I32 k = 0; k < FRAMES_PER_DRAWABLE; k++){
-        fox_drawable.frames[k].drawfunction = -1;
+        fox_drawable.md.frames[k].drawfunction = -1;
     }
     bbDictionary_lookup(graphics->drawfunctions->dictionary,
                     "UNIT_ANIMATION_ANGLE",
                     &drawfunctionHandle);
 
-    fox_drawable.frames[0].drawfunction = drawfunctionHandle.u64;
-    fox_drawable.frames[0].handle.u64 = 21;
-    fox_drawable.frames[0].start_time=  -(rand()%60);
-    fox_drawable.frames[0].framerate = 1;
-    fox_drawable.frames[0].offset.x = 0;
-    fox_drawable.frames[0].offset.y = 0;
+    fox_drawable.md.frames[0].drawfunction = drawfunctionHandle.u64;
+    fox_drawable.md.frames[0].handle.u64 = 21;
+    fox_drawable.md.frames[0].start_time=  -(rand()%60);
+    fox_drawable.md.frames[0].framerate = 1;
+    fox_drawable.md.frames[0].offset.x = 0;
+    fox_drawable.md.frames[0].offset.y = 0;
 
     for (I32 i = 0; i < UNITS_PER_GROUP; i++ )
     {
@@ -97,7 +99,7 @@ bbFlag bbRenderUnitGroup_spawn_foxes(bbRenderUnitGroup** Group,
         group->units[i].index = i;
         group->units[i].movement_type = bbRU_movementType_rigid;
         group->units->drawable = fox_drawable;
-        fox_drawable.coords.i += i * POINTS_PER_TILE;
+        fox_drawable.md.coords.i += i * POINTS_PER_TILE;
 
 
     }

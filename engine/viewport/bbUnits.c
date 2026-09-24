@@ -17,8 +17,8 @@ bbMapCoords MC, I32 index){
     bbFlag flag = bbVPool_alloc2(pool, (void**)&unit,&unit_handle);
 
 
-    unit->drawable.coords = MC;
-    unit->drawable.SC = SC;
+    unit->drawable.md.coords = MC;
+    unit->drawable.md.SC = SC;
     bbHandle drawfunctionHandle;
 
     unit->prev_coords = MC;
@@ -33,26 +33,26 @@ bbMapCoords MC, I32 index){
                         "UNIT_ANIMATION_ANGLE",
                         &drawfunctionHandle);
 
-    unit->drawable.frames[0].drawfunction = drawfunctionHandle.u64;
-    unit->drawable.frames[0].handle.u64 = 9;
-    unit->drawable.frames[0].start_time=  -(rand()%60);
-    unit->drawable.frames[0].framerate = 1;
-    unit->drawable.frames[0].offset.x = 0;
-    unit->drawable.frames[0].offset.y = 0;
+    unit->drawable.md.frames[0].drawfunction = drawfunctionHandle.u64;
+    unit->drawable.md.frames[0].handle.u64 = 9;
+    unit->drawable.md.frames[0].start_time=  -(rand()%60);
+    unit->drawable.md.frames[0].framerate = 1;
+    unit->drawable.md.frames[0].offset.x = 0;
+    unit->drawable.md.frames[0].offset.y = 0;
 
     bbDictionary_lookup(graphics->drawfunctions->dictionary,
                     "DRAWABLE_SHADOW",
                     &drawfunctionHandle);
 
-    unit->drawable.frames[1].drawfunction = drawfunctionHandle.u64;
-    unit->drawable.frames[1].handle.u64 = 612;
-    unit->drawable.frames[1].start_time =  -(rand()%6);
-    unit->drawable.frames[1].framerate = 1;
-    unit->drawable.frames[1].offset.x = 0;
-    unit->drawable.frames[1].offset.y = 0;
+    unit->drawable.md.frames[1].drawfunction = drawfunctionHandle.u64;
+    unit->drawable.md.frames[1].handle.u64 = 612;
+    unit->drawable.md.frames[1].start_time =  -(rand()%6);
+    unit->drawable.md.frames[1].framerate = 1;
+    unit->drawable.md.frames[1].offset.x = 0;
+    unit->drawable.md.frames[1].offset.y = 0;
 
     for (I32 k = 2; k < FRAMES_PER_DRAWABLE; k++){
-        unit->drawable.frames[k].drawfunction = -1;
+        unit->drawable.md.frames[k].drawfunction = -1;
     }
 
     //home.agents_app.entities.movable_units[index] = unit_handle;
@@ -95,7 +95,7 @@ bbFlag bbUnits_consumeBuffer(bbUnits* units, bbVPool* entity_units, bbMoveables_
         bbVPool_lookup(home.viewport_app.units->pool,(void**)&unit,unit_handle2);
         if (unit == NULL) continue;
         drawable = &unit->drawable;
-        if (drawable->state == bbDrawableState_dead) continue;
+        if (drawable->md.state == bbDrawableState_dead) continue;
 
         if (snapshot->time > unit->next_time)
         {
@@ -123,7 +123,7 @@ bbFlag bbUnits_consumeBuffer(bbUnits* units, bbVPool* entity_units, bbMoveables_
             {
                 float rotation = atan2(delta_i, delta_j);
                 unit->next_angle = rotation;
-                drawable->rotation = rotation;
+                drawable->md.rotation = rotation;
             }
         }
         bbMapCoords position;

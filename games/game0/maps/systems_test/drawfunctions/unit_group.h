@@ -38,7 +38,7 @@ bbFlag bbDF_unitGroup(void* Drawable, void* frameDescriptor, void* cl)
     bbAssert(input_frame->drawfunction >= 0, "bad draw function\n");
 
     bbDebug("drawfunction = %d\n", input_frame->drawfunction);
-    float theta = drawable->rotation;
+    float theta = drawable->md.rotation;
     float spacing = POINTS_PER_TILE;
     I32 num_units = 12;
     unit_position pos[12];
@@ -75,15 +75,15 @@ bbFlag bbDF_unitGroup(void* Drawable, void* frameDescriptor, void* cl)
         delta_coords = pos[i].delta_coords;
         delta_coords.k = 0;
 
-        new_coords.i = drawable->coords.i + delta_coords.i;
-        new_coords.j = drawable->coords.j + delta_coords.j;
+        new_coords.i = drawable->md.coords.i + delta_coords.i;
+        new_coords.j = drawable->md.coords.j + delta_coords.j;
         new_coords.k = 0;
 
         new_coords.k = bbMapCoords_getElevation(&home.ground_surface, new_coords);
 
-        delta_coords.k = new_coords.k - drawable->coords.k;
+        delta_coords.k = new_coords.k - drawable->md.coords.k;
 
-        bbScreenPoints SP = bbMapCoords_getScreenPoints_relative(drawable->coords, new_coords);
+        bbScreenPoints SP = bbMapCoords_getScreenPoints_relative(drawable->md.coords, new_coords);
 
         bbFrame output_frame;
         output_frame.type = input_frame->type;

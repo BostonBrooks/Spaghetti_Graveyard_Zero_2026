@@ -35,7 +35,7 @@ bbFlag bbDF_drawableAnimation(void* Drawable, void* frameDescriptor, void* cl){
     sfSprite* sprite = animation->sprites->sprites[spriteInt];
     sfRenderTexture* renderTexture = VP->main.renderTexture;
 
-    sfVector2f V2F = bbMapCoords_getV2f(drawable->coords, VP);
+    sfVector2f V2F = bbMapCoords_getV2f(drawable->md.coords, VP);
 
     sfSprite_setPosition(sprite,V2F);
 
@@ -68,7 +68,7 @@ bbFlag bbDF_drawableAnimationWAngle(void* Drawable, void* frameDescriptor, void*
 
 //TODO may vary
     I32 numAngles = animation->angles;
-    I32 angle = getAngle(drawable->rotation, numAngles);
+    I32 angle = getAngle(drawable->md.rotation, numAngles);
 
     I32 frames = animation->frames;
 
@@ -88,7 +88,7 @@ bbFlag bbDF_drawableAnimationWAngle(void* Drawable, void* frameDescriptor, void*
     sfSprite* sprite = animation->sprites->sprites[spriteInt];
     sfRenderTexture* renderTexture = VP->main.renderTexture;
 
-    sfVector2f V2F = bbMapCoords_getV2f(drawable->coords, VP);
+    sfVector2f V2F = bbMapCoords_getV2f(drawable->md.coords, VP);
 
     sfSprite_setPosition(sprite,V2F);
 
@@ -112,7 +112,7 @@ bbFlag bbDF_drawableAnimationOnce(void* Drawable, void* frameDescriptor, void* c
 
     //TODO may vary
     I32 numAngles = animation->angles;
-    I32 angle = getAngle(drawable->rotation, numAngles);
+    I32 angle = getAngle(drawable->md.rotation, numAngles);
 
     I32 frames = animation->frames;
 
@@ -134,7 +134,7 @@ bbFlag bbDF_drawableAnimationOnce(void* Drawable, void* frameDescriptor, void* c
     sfSprite* sprite = animation->sprites->sprites[spriteInt];
     sfRenderTexture* renderTexture = VP->main.renderTexture;
 
-    sfVector2f V2F = bbMapCoords_getV2f(drawable->coords, VP);
+    sfVector2f V2F = bbMapCoords_getV2f(drawable->md.coords, VP);
 
     sfSprite_setPosition(sprite,V2F);
 

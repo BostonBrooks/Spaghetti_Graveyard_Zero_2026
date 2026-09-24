@@ -54,7 +54,7 @@ bbFlag bbDF_compositionState(void* drawable, void* frameDescriptor, void* cl){
     bbDrawable* Drawable = drawable;
     //bbDebug("composition->num_frames = %d\n", composition->num_frames);
     //for (int i = 0; i < composition->num_frames; i++){
-    I32 i = Drawable->state;
+    I32 i = Drawable->md.state;
         input_frame = &composition->frame[i];
 
         output_frame.type = input_frame->type;

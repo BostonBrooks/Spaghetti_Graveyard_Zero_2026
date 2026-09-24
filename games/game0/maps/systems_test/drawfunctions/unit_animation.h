@@ -77,7 +77,7 @@ bbFlag bbDF_unitAnimationWAngle(void* Drawable, void* frameDescriptor, void* cl)
 
 //TODO may vary
     I32 numAngles = animation->angles;
-    I32 angle = getAngleXD(drawable->rotation, numAngles);
+    I32 angle = getAngleXD(drawable->md.rotation, numAngles);
 
     I32 frames = animation->frames;
 
@@ -91,7 +91,7 @@ bbFlag bbDF_unitAnimationWAngle(void* Drawable, void* frameDescriptor, void* cl)
     bbAssert(spriteInt >= 0, "Array index out of bounds");
     sfSprite* sprite = animation->sprites->sprites[spriteInt];
 
-    sfVector2f V2F = bbMapCoords_getV2f(drawable->coords, VP);
+    sfVector2f V2F = bbMapCoords_getV2f(drawable->md.coords, VP);
 
     V2F.x += frame->offset.x / (float)POINTS_PER_PIXEL;
     V2F.y += frame->offset.y / (float)POINTS_PER_PIXEL;
@@ -120,7 +120,7 @@ bbFlag bbDF_unitStillWAngle(void* Drawable, void* frameDescriptor, void* cl){
 
     //TODO may vary
     I32 numAngles = animation->angles;
-    I32 angle = getAngleXD(drawable->rotation, numAngles);
+    I32 angle = getAngleXD(drawable->md.rotation, numAngles);
 
     I32 frames = animation->frames;
 
@@ -132,7 +132,7 @@ bbFlag bbDF_unitStillWAngle(void* Drawable, void* frameDescriptor, void* cl){
     bbAssert(spriteInt >= 0, "Array index out of bounds");
     sfSprite* sprite = animation->sprites->sprites[spriteInt];
 
-    sfVector2f V2F = bbMapCoords_getV2f(drawable->coords, VP);
+    sfVector2f V2F = bbMapCoords_getV2f(drawable->md.coords, VP);
 
     V2F.x += frame->offset.x / (float)POINTS_PER_PIXEL;
     V2F.y += frame->offset.y / (float)POINTS_PER_PIXEL;
