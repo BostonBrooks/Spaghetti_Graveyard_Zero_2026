@@ -76,7 +76,7 @@ bbFlag bbDrawBuffer_draw(bbDrawBuffer* buffer, drawBufferClosure* closure)
         bbVPool_free(buffer->pool,object);
         flag = bbList_popL(&buffer->list,(void**)&object);
     }
-    bbDebug("number of draw buffers objects fer frame: %i\n",buffer->collision);
+    //bbDebug("number of draw buffers objects fer frame: %i\n",buffer->collision);
     buffer->collision = 0;
     return bbSuccess;
 }
@@ -86,12 +86,7 @@ bbFlag bbDrawBufferObject_new(bbDrawBuffer* draw_buffer,bbDrawBufferObject** dra
     bbList_alloc2(&draw_buffer->list,(void**)&object,NULL);
     object->collision = draw_buffer->collision++;
     *draw_buffer_object = object;
-
-
-
     bbSystemPool* pool = draw_buffer->pool->pool;
-
-    bbDebug ("pool allocated = %d\n", pool->num_allocated);
 
     return bbSuccess;
 

@@ -451,16 +451,16 @@ void* userinterface_thread(void* arg)
 bbHere()
     while (1)
     {
-        bbDrawBufferObject* draw_buffer_object;
-        bbDrawBufferObject_new(home.viewport_app.drawbuffer,&draw_buffer_object) ;
-
-        bbHandle draw_function_handle;
-        bbFlag flag = bbDictionary_lookup(home.UI.graphics.drawBufferFunctions->dictionary,"DRAWBUFFER_HERE",&draw_function_handle);
-        draw_buffer_object->draw_function = draw_function_handle.u64;
-        bbFlag_print(flag)
-        bbDebug("draw_function_handle:\n%d\n",draw_buffer_object->draw_function);
-
-        bbDrawBufferObject_draw(home.viewport_app.drawbuffer,draw_buffer_object);
+        // bbDrawBufferObject* draw_buffer_object;
+        // bbDrawBufferObject_new(home.viewport_app.drawbuffer,&draw_buffer_object) ;
+        //
+        // bbHandle draw_function_handle;
+        // bbFlag flag = bbDictionary_lookup(home.UI.graphics.drawBufferFunctions->dictionary,"DRAWBUFFER_HERE",&draw_function_handle);
+        // draw_buffer_object->draw_function = draw_function_handle.u64;
+        // bbFlag_print(flag)
+        // bbDebug("draw_function_handle:\n%d\n",draw_buffer_object->draw_function);
+        //
+        // bbDrawBufferObject_draw(home.viewport_app.drawbuffer,draw_buffer_object);
 
 
         counter++;
