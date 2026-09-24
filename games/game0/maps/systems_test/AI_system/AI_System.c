@@ -5,7 +5,7 @@
 #include "entity_spawner/live_spawn.h"
 #include "games/game0/maps/systems_test/core/player_goalpoint.h"
 #include "games/game0/maps/systems_test/AI_system/ai_player.h"
-
+#include "games/game0/maps/systems_test/AI_system/ai_chase.h"
 
 
 bbFlag bbAI_Update_Fireball(bbAI_Component* component)
@@ -677,6 +677,7 @@ bbFlag bbAI_Functions_populate(bbAI_Functions* self)
     bbAI_Functions_add(self, AI_Update, bbAI_Update_Player, "UPDATE_PLAYER");
     bbAI_Functions_add(self, AI_Update, bbAI_Update_Fireball, "UPDATE_FIREBALL");
     bbAI_Functions_add(self, AI_Update, bbAI_Update_CastFireball, "UPDATE_CASTFIREBALL");
+    bbAI_Functions_add(self, AI_Update, bbAI_Update_Chase2, "UPDATE_CHASE");
     bbAI_Functions_add(self, AI_Command, bbAI_Command_NULL, "COMMAND_NULL");
     bbAI_Functions_add(self, AI_Command, bbAI_Command_Player, "COMMAND_PLAYER");
     return bbSuccess;

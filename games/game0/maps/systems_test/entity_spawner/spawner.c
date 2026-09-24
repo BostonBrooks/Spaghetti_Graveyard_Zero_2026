@@ -235,7 +235,7 @@ bbFlag bbSF_addAI_castfireball(void* spawner,
     return bbSuccess;
 }
 
-bbFlag bbSF_addAI_cow(void* spawner,
+bbFlag bbSF_addAI_chase(void* spawner,
                                bbECS_entity* entity,
                                bbSpawnFunctionArgs* args,
                                bbInstruction_source source)
@@ -255,7 +255,7 @@ bbFlag bbSF_addAI_cow(void* spawner,
     bbCS_spawnAIComponent2(&home.core.core,
                           home.core.core.ECS,
                           handle,
-                          2,0,
+                          6,0,
                           &this,
                           source,
                           no_handle);
@@ -377,7 +377,7 @@ bbFlag bbEntitySpawner_populate(bbEntitySpawner* spawner)
     bbSpawnFunction_add(spawner, bbSF_addGraphics_lizard, "LIZARD_GRAPHICS");
     bbSpawnFunction_add(spawner, bbSF_addGraphics_fireball, "FIREBALL_GRAPHICS");
     bbSpawnFunction_add(spawner, bbSF_addAI_skelly, "SKELLY_AI");
-    bbSpawnFunction_add(spawner, bbSF_addAI_cow, "COW_AI");
+    bbSpawnFunction_add(spawner, bbSF_addAI_chase, "CHASE_AI");
     bbSpawnFunction_add(spawner, bbSF_addAI_player, "PLAYER_AI");
     bbSpawnFunction_add(spawner, bbSF_addAI_null, "NULL_AI");
     bbSpawnFunction_add(spawner, bbSF_addAI_fireball, "FIREBALL_AI");
