@@ -277,7 +277,7 @@ bbFlag bbListFunction_findNearest_fn(bbList* list, void* node, void* cl)
     if (bbHandleError_NULL == bbVPool_handleIsNULL(filter_cl->ECS->systems[bbECS_ECS]->pool,filter_cl->nearest_entity)){
 
 
-        bbHandle tartget_entity_handle = component->component.entity_handle;
+        bbHandle target_entity_handle = component->component.entity_handle;
         // bbDebug("index = %d, system = %d, generation = %d\n",
         //     component->component.entity_handle.system.index,
         //     component->component.entity_handle.system.system,
@@ -288,7 +288,7 @@ bbFlag bbListFunction_findNearest_fn(bbList* list, void* node, void* cl)
 
         bbHandle_mapComponent(filter_cl->ECS,
                               bbECS_ECS,
-                              tartget_entity_handle,
+                              target_entity_handle,
                               bbECS_Spatial,
                               NULL,
                               (bbComponent**)&attacker_spatial);
@@ -301,7 +301,7 @@ bbFlag bbListFunction_findNearest_fn(bbList* list, void* node, void* cl)
         I64 nearest_distance = filter_cl->nearest_distance;
 
         filter_cl->nearest_distance = bbArith64_sqrt2(dist_squared);
-        filter_cl->nearest_entity = tartget_entity_handle;
+        filter_cl->nearest_entity = target_entity_handle;
         return bbContinue;
     }
     bbMapCoords target_coords = component->map_coords;
