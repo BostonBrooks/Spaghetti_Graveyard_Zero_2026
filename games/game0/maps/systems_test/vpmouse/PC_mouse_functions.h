@@ -50,7 +50,8 @@ void* graphics)
 {
     bbUnit* unit = Unit;
 
-    bbCoreInbox_ClickPlayer(&home.core.core, unit->entity_handle);
+
+    bbCoreInbox_SetPlayerEntity(&home.core.core, 0, unit->entity_handle);
 
 
     bbDebug("clicking player character\n");

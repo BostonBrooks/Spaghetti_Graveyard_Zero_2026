@@ -44,30 +44,36 @@ bbFlag bbPlayers_init(bbPlayers* system, bbECS* ECS){
     return bbSuccess;
 }
 
-bbFlag bbCoreInbox_SetPlayerEntity(bbCore* core, U32 player, bbHandle server_handle) {
+bbFlag bbCoreInbox_SetPlayerEntity(bbCore* core, U32 player, bbHandle entity_handle) {
 
     bbCoreInboxMessage* message;
     bbThreadedQueue_alloc(&core->local_message_queue, (void** ) &message);
     message->type = bbCoreInbox_setPlayerEntity;
     message->data.three_handles.handle1.u64 = player;
-    message->data.three_handles.handle2 = server_handle;
+    message->data.three_handles.handle2 = entity_handle;
     bbThreadedQueue_pushL(&core->local_message_queue, message);
 
     return bbSuccess;
 }
 
 bbFlag bbCoreInbox_setPlayerEntity_fn(bbCore* core, bbCoreInboxMessage* message) {
-    bbAction_setPlayerEntity(core,
+
+    bbHandle entity_handle = message->data.three_handles.handle2;
+    bbHandle server_handle;
+    bbFlag flag = bbHandle_mapComponent(core->ECS,bbECS_ECS,entity_handle,bbECS_ServerEntities,&entity_handle,NULL);
+    bbFlag_print(flag)
+
+    bbActionRequest_setPlayerEntity(core,
                        home.network.server_socket_number,
                        collision++,
                        core->actual_time,
                        core->actual_time,
                        message->data.three_handles.handle1.u64, //player index
-                       message->data.three_handles.handle2); //server handle
+                       server_handle); //server handle
     return bbSuccess;
 }
 
-bbFlag bbAction_setPlayerEntity(void* Core,
+bbFlag bbActionRequest_setPlayerEntity(void* Core,
                        U32 sender,
                        U32 collision,
                        U64 created_tick,
@@ -101,13 +107,14 @@ bbFlag bbAction_setPlayerEntity_fn(bbCore* core, bbAction* action)
     bbHandle entity_handle;
     bbECS_entity* entity;
 
-    bbHandle_mapComponent(core->ECS,
+    bbFlag flag = bbHandle_mapComponent(core->ECS,
         bbECS_ServerEntities,
         server_handle,
         bbECS_ECS,
         &entity_handle,
         (bbComponent**)&entity);
 
+    bbFlag_print(flag)
     bbDebug("player %d clicked %s\n",player_index,entity->key);
 
 

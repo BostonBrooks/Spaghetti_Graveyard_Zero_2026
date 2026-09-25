@@ -26,13 +26,13 @@ typedef struct {
 bbFlag bbPlayers_init(bbPlayers* system, bbECS* ECS);
 
 ///On clicking player character, request change of player character from code
-bbFlag bbCoreInbox_SetPlayerEntity(bbCore* core, U32 player, bbHandle server_handle);
+bbFlag bbCoreInbox_SetPlayerEntity(bbCore* core, U32 player, bbHandle entity_handle);
 
 ///Core responds to mouse click
 bbFlag bbCoreInbox_setPlayerEntity_fn(bbCore* core, bbCoreInboxMessage* message);
 
 ///Request player character change from server
-bbFlag bbAction_setPlayerEntity(void* Core,
+bbFlag bbActionRequest_setPlayerEntity(void* Core,
                        U32 sender,
                        U32 collision,
                        U64 created_tick,

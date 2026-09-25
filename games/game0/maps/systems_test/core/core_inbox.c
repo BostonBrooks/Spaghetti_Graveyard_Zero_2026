@@ -80,6 +80,7 @@ bbFlag bbCore_initInboxMessages(bbCore* core)
     core->inbox_functions[bbCoreInbox_receiveMessage-bbCoreInbox_numTypes] = bbCoreInbox_receiveMessage_fn;
     core->inbox_functions[bbCoreInbox_clickPlayer-bbCoreInbox_numTypes] = bbCoreInbox_clickPlayer_fn;
     core->inbox_functions[bbCoreInbox_clickMonster-bbCoreInbox_numTypes] = bbCoreInbox_clickMonster_fn;
+   core->inbox_functions[bbCoreInbox_setPlayerEntity-bbCoreInbox_numTypes] = bbCoreInbox_setPlayerEntity_fn;
     return bbSuccess;
 }
 
@@ -214,7 +215,7 @@ bbFlag bbCoreInbox_clickPlayer_fn(bbCore* core, bbCoreInboxMessage* message)
     bbHandle_mapComponent(home.ECS.ECS, bbECS_ECS,message->data.three_handles.handle1,
         bbECS_ServerEntities,&server_handle,(bbComponent**)&component);
 
-    bbAction_setPlayerEntity(&home.core.core,
+    bbActionRequest_setPlayerEntity(&home.core.core,
                        home.ECS.players.this_player,
                        7,
                        home.core.core.actual_time,
