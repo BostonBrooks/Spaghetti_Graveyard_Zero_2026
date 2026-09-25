@@ -38,6 +38,7 @@ typedef enum
     bbI_unputTextbox,
     bbInstruction_requestAction,
     bbInstruction_unrequestAction,
+    bbI_AI_sendGoalpoint,
     bbVInstruction_numTypes
 }bbVInstruction_type;
 

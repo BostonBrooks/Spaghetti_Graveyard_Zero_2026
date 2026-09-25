@@ -9,6 +9,7 @@
 #include "games/game0/maps/systems_test/core/instructions.h"
 #include "games/game0/maps/systems_test/core/textboxes.h"
 #include "AI_system/ai_instructions.h"
+#include "AI_system/player_send_goalpoint.h"
 #include "games/game0/maps/systems_test/core/player_goalpoint.h"
 #include "games/game0/maps/systems_test/core/spawn_entity.h"
 #include "engine/ECS/graphics_system/bbGraphicsSystem.h"
@@ -67,6 +68,7 @@ bbFlag bbCore_initVInstructions(bbCore* core)
     core->instruction_functions[bbInstruction_unrequestAction-bbInstruction_numTypes] = bbInstruction_unrequestAction_fn;
     core->instruction_functions[bbI_setPlayerEntity-bbInstruction_numTypes] = bbI_setPlayerEntity_fn;
     core->instruction_functions[bbI_unsetPlayerEntity-bbInstruction_numTypes] = bbI_unsetPlayerEntity_fn;
+    core->instruction_functions[bbI_AI_sendGoalpoint-bbInstruction_numTypes] = bbInstruction_sendAIGoalpoint_fn;
 
 
 

@@ -12,6 +12,8 @@
 #include "engine/logic/bbSystemPool.h"
 #include "engine/logic/bbTerminal.h"
 
+extern U32 collision;
+
 bbFlag bbPlayers_getComponent_fn(struct bbSystem* system, bbComponent** component, bbHandle component_handle)
 {
     return bbVPool_lookup(system->pool, (void**)component, component_handle);
@@ -42,29 +44,36 @@ bbFlag bbPlayers_init(bbPlayers* system, bbECS* ECS){
     return bbSuccess;
 }
 
-bbFlag bbCoreInbox_SetPlayerEntity(bbCore* core, U32 player, bbHandle server_handle) {
+bbFlag bbCoreInbox_SetPlayerEntity(bbCore* core, U32 player, bbHandle entity_handle) {
 
     bbCoreInboxMessage* message;
     bbThreadedQueue_alloc(&core->local_message_queue, (void** ) &message);
-    message->type = bbCoreInbox_setPlayerEntity; //TODO I dont want to  #include "core/core_inbox.h"
-    message->data.three_handles.handle1.u64 = home.ECS.players.this_player;
-    message->data.three_handles.handle2 = server_handle;
+    message->type = bbCoreInbox_setPlayerEntity;
+    message->data.three_handles.handle1.u64 = player;
+    message->data.three_handles.handle2 = entity_handle;
     bbThreadedQueue_pushL(&core->local_message_queue, message);
 
     return bbSuccess;
 }
+
 bbFlag bbCoreInbox_setPlayerEntity_fn(bbCore* core, bbCoreInboxMessage* message) {
-    bbAction_setPlayerEntity(core,
+
+    bbHandle entity_handle = message->data.three_handles.handle2;
+    bbHandle server_handle;
+    bbFlag flag = bbHandle_mapComponent(core->ECS,bbECS_ECS,entity_handle,bbECS_ServerEntities,&entity_handle,NULL);
+    bbFlag_print(flag)
+
+    bbActionRequest_setPlayerEntity(core,
                        home.network.server_socket_number,
-                       0,
+                       collision++,
                        core->actual_time,
                        core->actual_time,
                        message->data.three_handles.handle1.u64, //player index
-                       message->data.three_handles.handle2); //server handle
+                       server_handle); //server handle
     return bbSuccess;
 }
 
-bbFlag bbAction_setPlayerEntity(void* Core,
+bbFlag bbActionRequest_setPlayerEntity(void* Core,
                        U32 sender,
                        U32 collision,
                        U64 created_tick,
@@ -89,23 +98,36 @@ bbFlag bbAction_setPlayerEntity(void* Core,
     return bbSuccess;
 
 }
+
 bbFlag bbAction_setPlayerEntity_fn(bbCore* core, bbAction* action)
 {bbHere()
 
     I32 player_index = action->integer;
     bbHandle server_handle = action->handle;
     bbHandle entity_handle;
+    bbECS_entity* entity;
+
+    bbFlag flag = bbHandle_mapComponent(core->ECS,
+        bbECS_ServerEntities,
+        server_handle,
+        bbECS_ECS,
+        &entity_handle,
+        (bbComponent**)&entity);
+
+    bbFlag_print(flag)
+    bbDebug("player %d clicked %s\n",player_index,entity->key);
 
 
-    bbHandle_mapComponent(core->ECS, bbECS_ServerEntities, server_handle,bbECS_ECS,&entity_handle,NULL);
     bbHandle action_handle;
     bbVPool_reverseLookup(core->action_pool,action,&action_handle);
 
-    bbCI_setPlayerEntity(core, player_index,entity_handle,bbInstructionSource_action,action_handle);
+    bbCI_setPlayerEntity(core,
+                         player_index,
+                         entity_handle,
+                         bbInstructionSource_action,
+                         action_handle);
     return bbSuccess;
 }
-
-
 
 bbFlag bbCI_setPlayerEntity(bbCore* core, I32 player_index, bbHandle entity_handle,  bbInstruction_source source, bbHandle action)
 {
@@ -115,27 +137,19 @@ bbFlag bbCI_setPlayerEntity(bbCore* core, I32 player_index, bbHandle entity_hand
     instruction->redo_instruction = action;
     instruction->data.three_handles.handle1.u64 = player_index;
     instruction->data.three_handles.handle2 = entity_handle;
-
-    bbDebug("player = %d\n", player_index)
-
     pushActiveInstruction(instruction)
+
     return bbSuccess;
 }
 
-bbFlag bbI_setPlayerEntity_fn(bbCore* core, bbInstruction* instruction)
-{
-bbHere()
+///Modify player entity
+bbFlag bbI_setPlayerEntity_fn(bbCore* core, bbInstruction* instruction) {
+
     I32  player_index = instruction->data.three_handles.handle1.u64;
     bbHandle  entity_handle = instruction->data.three_handles.handle2;
 
-    bbDebug("player = %d\n", player_index)
-    bbPlayers* players = (bbPlayers*)core->ECS->systems[bbECS_Players];
+    bbPlayers* players = (bbPlayers*) core->ECS->systems[bbECS_Players];
     bbPlayer player = players->players[player_index];
-
-    if (home.ECS.players.this_player == player_index)
-    {
-        bbUI_Inbox_SetViewpoint(&home.UI.inbox, entity_handle);
-    }
 
     if (instruction->source == bbInstructionSource_internal)
     {
@@ -160,11 +174,6 @@ bbHere()
         undo_instruction->redo_instruction = (bbHandle)redo_instruction_handle;
         pushRedoInstruction(redo_instruction)
         pushUndoInstruction(undo_instruction)
-
-        // bbHandle handle;
-        // bbVPool_reverseLookup(core->instruction_pool, instruction, &handle);
-        // undo_instruction->redo_instruction = handle;
-        // bbList_pushL(&core->undo_stack, (void*)undo_instruction);
     }
     else if (instruction->source == bbInstructionSource_action)
     {
@@ -176,35 +185,36 @@ bbHere()
         undo_instruction->redo_instruction = instruction->redo_instruction;
         pushUndoInstruction(undo_instruction)
 
-    } //else source == no rewind
+    }
 
-    bbDebug("player index = %d, entity_handle = %d, system = %d\n",
-        player_index,entity_handle.system.index,entity_handle.system.system);
 
     player.selected_entities[0] = entity_handle;
 
-    bbUI_Inbox_SetViewpoint(&home.UI.inbox, entity_handle);
     for (I32 i = 1; i < MAX_SELECTED_ENTITIES; i++) {
         player.selected_entities[i] = core->ECS->system.pool->null;
+    }
+    if (home.ECS.players.this_player == player_index)
+    {
+        bbUI_Inbox_SetViewpoint(&home.UI.inbox, entity_handle);
     }
 
     return bbSuccess;
 }
-bbFlag bbI_unsetPlayerEntity_fn(bbCore* core, bbInstruction* instruction)
-{
+
+///Rollback modification
+bbFlag bbI_unsetPlayerEntity_fn(bbCore* core, bbInstruction* instruction) {
     I32  player_index = instruction->data.three_handles.handle1.u64;
     bbHandle  entity_handle = instruction->data.three_handles.handle2;
 
     bbPlayers* players = (bbPlayers*)core->ECS->systems[bbECS_Players];
     bbPlayer player = players->players[player_index];
     player.selected_entities[0] = entity_handle;
-
-
-    bbUI_Inbox_SetViewpoint(&home.UI.inbox, entity_handle);
-    bbDebug("player index = %d, entity_handle = %d\n", player_index,entity_handle.system.index);
-
     for (I32 i = 1; i < MAX_SELECTED_ENTITIES; i++) {
         player.selected_entities[i] = core->ECS->system.pool->null;
+    }
+    if (home.ECS.players.this_player == player_index)
+    {
+        bbUI_Inbox_SetViewpoint(&home.UI.inbox, entity_handle);
     }
 
     if (instruction->source == bbInstructionSource_internal)
@@ -237,5 +247,4 @@ bbFlag bbI_unsetPlayerEntity_fn(bbCore* core, bbInstruction* instruction)
         return bbSuccess;
     }
     bbAssert(0==1, "We should not get here\n");
-
 }

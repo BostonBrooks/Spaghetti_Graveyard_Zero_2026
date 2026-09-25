@@ -1,3 +1,4 @@
+#include "player_send_goalpoint.h"
 #include "core/actions.h"
 #include "core/send_server_enitity.h"
 #include "../core/action_request.h"
@@ -212,10 +213,19 @@ bbFlag bbAI_Command_Player(bbAI_Component* component,
                                     bbInstructionSource_internal, no_handle);
         }
         else
-        {
-            bbCoreInput_testClick4(&home.core.core, data.goal_point,
-                                   home.core.core.actual_time,
-                                   bbInstructionSource_internal, no_handle);
+        {bbHere()
+            // bbCoreInput_testClick4(&home.core.core, data.goal_point,
+            //                        home.core.core.actual_time,
+            //                        bbInstructionSource_internal, no_handle);
+            bbHandle entity_handle;
+            bbComponent_mapComponent(home.ECS.ECS, bbECS_AI, (bbComponent*)component,
+                                     bbECS_ECS, &entity_handle,
+                                     NULL);
+            bbCoreInput_sendAIGoalpoint(&home.core.core,
+                                 entity_handle,
+                                 data.goal_point,
+                                 home.core.core.actual_time,
+                                    bbInstructionSource_internal, no_handle);
         }
     }
     return bbSuccess;
