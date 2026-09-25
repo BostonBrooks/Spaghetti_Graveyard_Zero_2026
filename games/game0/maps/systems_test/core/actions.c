@@ -3,6 +3,7 @@
 #include "games/game0/maps/systems_test/core/actions.h"
 
 
+#include "AI_system/player_send_goalpoint.h"
 #include "games/game0/maps/systems_test/core/action_set_goalpoint.h"
 
 bbFlag bbAction_bbHere(void* Core,
@@ -64,6 +65,9 @@ bbFlag bbCore_initActions(bbCore* core)
     core->action_functions[bbActionType_setGoalpoint- bbActionType_numActions] = bbAction_setGoalpoint_fn;
     core->action_functions[bbActionType_setTarget- bbActionType_numActions] = bbAction_setTarget_fn;
     core->action_functions[bbActionType_setPlayerEntity- bbActionType_numActions] =  bbAction_setPlayerEntity_fn;
+    core->action_functions[bbActionType_sendAIGoalpoint- bbActionType_numActions] =  bbAction_setAIGoalpoint_fn;
+
+
 
     return bbSuccess;
 }

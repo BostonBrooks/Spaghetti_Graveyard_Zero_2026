@@ -8,6 +8,7 @@ typedef enum
     bbActionType_bbHere,
     bbActionType_setTarget,
     bbActionType_setPlayerEntity,
+    bbActionType_sendAIGoalpoint,
     bbActionType_numVActions
 } bbAction_vtype;
 

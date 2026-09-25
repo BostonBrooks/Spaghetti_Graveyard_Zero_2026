@@ -2,6 +2,8 @@
 #include "bbCoreInbox.h"
 #include "bbInstruction.h"
 #include "bbInstruction_operations.h"
+#include "core/instructions.h"
+#include "engine/network/bbNetwork.h"
 
 #ifdef DEFINE_PONG
 #include "core/instructions.h"
@@ -96,3 +98,4 @@ bbFlag bbCoreInput_setTime(bbCore* core, U64 time, bbInstruction_source source, 
 //     bbList_pushL(&core->do_stack, instruction);
 //     return bbSuccess;
 // }
+

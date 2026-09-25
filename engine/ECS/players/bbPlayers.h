@@ -25,6 +25,13 @@ typedef struct {
 
 bbFlag bbPlayers_init(bbPlayers* system, bbECS* ECS);
 
+///On clicking player character, request change of player character from code
+bbFlag bbCoreInbox_SetPlayerEntity(bbCore* core, U32 player, bbHandle server_handle);
+
+///Core responds to mouse click
+bbFlag bbCoreInbox_setPlayerEntity_fn(bbCore* core, bbCoreInboxMessage* message);
+
+///Request player character change from server
 bbFlag bbAction_setPlayerEntity(void* Core,
                        U32 sender,
                        U32 collision,
@@ -33,11 +40,15 @@ bbFlag bbAction_setPlayerEntity(void* Core,
                        U32 player,
                        bbHandle server_handle);
 
-
-//bbFlag bbCoreInbox_SetPlayerEntity(bbCore* core, U32 player, bbHandle server_handle);
-//bbFlag bbCoreInbox_setPlayerEntity_fn(bbCore* core, bbCoreInboxMessage* message);
-bbFlag bbCI_setPlayerEntity(bbCore* core, I32 player_index, bbHandle entity_handle,  bbInstruction_source source, bbHandle action);
-bbFlag bbI_unsetPlayerEntity_fn(bbCore* core, bbInstruction* instruction);
-bbFlag bbI_setPlayerEntity_fn(bbCore* core, bbInstruction* instruction);
+///Server responds, switch player character
 bbFlag bbAction_setPlayerEntity_fn(bbCore* core, bbAction* action);
+
+///Notify core of character change
+bbFlag bbCI_setPlayerEntity(bbCore* core, I32 player_index, bbHandle entity_handle,  bbInstruction_source source, bbHandle action);
+
+///Modify player entity
+bbFlag bbI_setPlayerEntity_fn(bbCore* core, bbInstruction* instruction);
+
+///Rollback modification
+bbFlag bbI_unsetPlayerEntity_fn(bbCore* core, bbInstruction* instruction);
 #endif //BB_PLAYERS

@@ -206,7 +206,7 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
         games/game0/maps/systems_test/core/send_server_entity.c
         games/game0/maps/systems_test/core/bbInstruction_map.c
         games/game0/maps/systems_test/drawbuffer/drawbuffer.c
-
+        games/game0/maps/systems_test/AI_system/player_send_goalpoint.c
 
         engine/test_string/bbTestString.c
 

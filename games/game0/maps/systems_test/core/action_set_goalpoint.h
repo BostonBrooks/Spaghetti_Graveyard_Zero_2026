@@ -28,7 +28,6 @@ bbFlag bbAction_setGoalpoint_fn(bbCore* core, bbAction* action)
 
     bbCI_doNothing(core, bbInstructionSource_action, action_handle);
 
-    bbCore_react(core);
     return bbSuccess;
 }
 
