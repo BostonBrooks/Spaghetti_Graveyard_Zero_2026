@@ -1,5 +1,6 @@
 #include "engine/ECS/spatial/bbSpatial_query.h"
 #include "engine/ECS/spatial/bbSpatial.h"
+#include "engine/ECS/teams/bbTeams.h"
 #include "engine/logic/bbIterator.h"
 
 //typedef bbFlag bbListFunction(bbList* list, void* node, void* cl);
@@ -156,4 +157,186 @@ bbSpatialFilters bbSpatialFilters_new(bbMapCoords centre,
         spatial_filters.cls[i] = NULL;
     }
     return spatial_filters;
+}
+
+typedef struct
+{
+    bbECS* ECS;
+    bbHandle nearest_entity;
+    bbHandle attacker_entity;
+    U32 nearest_distance;
+} bbFilter_findNearest_cl;
+
+///Find the nearest target
+bbFlag bbListFunction_findNearest_fn(bbList* list, void* node, void* cl)
+{
+    bbFilter_findNearest_cl* filter_cl = cl;
+    bbSpatial_Component* component = node;
+
+    bbHandle target_entity_handle = component->component.entity_handle;
+    bbMapCoords target_coords = component->map_coords;
+    bbHandle attacker_entity_handle = filter_cl->attacker_entity;
+    bbHandle attacker_spatial_handle;
+    bbSpatial_Component* attacker_spatial;
+    bbHandle_mapComponent(filter_cl->ECS,
+        bbECS_ECS,
+        attacker_entity_handle,
+        bbECS_Spatial,
+        &attacker_spatial_handle,
+        (bbComponent**)&attacker_spatial);
+
+    I64 delta_i = target_coords.i - attacker_spatial->map_coords.i;
+    I64 delta_j = target_coords.j - attacker_spatial->map_coords.j;
+    I64 dist_squared = delta_i * delta_i + delta_j * delta_j;
+    I64 distance = bbArith64_sqrt2(dist_squared);
+
+    if (bbHandleError_NULL == bbVPool_handleIsNULL(filter_cl->ECS->systems[bbECS_ECS]->pool,filter_cl->nearest_entity))
+    {
+
+
+        filter_cl->nearest_distance = distance;
+        filter_cl->nearest_entity = target_entity_handle;
+        return bbContinue;
+    }
+
+    if (distance < filter_cl->nearest_distance)
+    {
+        filter_cl->nearest_distance = distance;
+        filter_cl->nearest_entity = target_entity_handle;
+        return bbContinue;
+    }
+
+    if (distance > filter_cl->nearest_distance) return bbContinue;
+
+    if (delta_i < 0)
+    {
+        filter_cl->nearest_distance = distance;
+        filter_cl->nearest_entity = target_entity_handle;
+        return bbContinue;
+    }
+
+    if (delta_i > 0) return bbContinue;
+
+    if (delta_j < 0)
+    {
+        filter_cl->nearest_distance = distance;
+        filter_cl->nearest_entity = target_entity_handle;
+        return bbContinue;
+    }
+
+    if (delta_j > 0) return bbContinue;
+
+    bbNotHere()
+    return bbContinue;
+}
+
+typedef struct
+{
+    bbECS* ECS;
+    bbHandle attacker_entity;
+} bbFilter_canAttack_cl;
+
+
+bbFlag bbFilter_canAttack_fn(bbList* list, void* node, void* cl)
+{
+    bbFilter_canAttack_cl* filter_cl = cl;
+    bbSpatial_Component* component = node;
+    bbHandle target_entity_handle = component->component.entity_handle;
+    bbHandle attacker_entity_handle = filter_cl->attacker_entity;
+    bbFlag flag;
+    bbTeam* attacker_team;
+    flag = bbHandle_mapComponent(filter_cl->ECS,
+                                 bbECS_ECS,
+                                 attacker_entity_handle,
+                                 bbECS_Teams,
+                                 NULL,
+                                 (bbComponent**)&attacker_team);
+    if (flag == bbNone) {
+        //bbHere()
+        return bbContinue;
+    }
+    if (attacker_team == NULL) {
+        //bbHere()
+        return bbContinue;
+    }
+    bbTeam* target_team;
+    flag = bbHandle_mapComponent(filter_cl->ECS,
+                                 bbECS_ECS,
+                                 target_entity_handle,
+                                 bbECS_Teams,
+                                 NULL,
+                                 (bbComponent**)&target_team);
+    if (flag == bbNone) {
+        //bbHere()
+        return bbContinue;
+    }
+    if (target_team == NULL) {
+        //bbHere()
+        return bbContinue;
+    }
+
+    if (attacker_team->team != target_team->team) {
+        return(bbSuccess);
+    }
+
+    return bbContinue;
+}
+
+bbFlag bbSpatial_findNearestTarget(bbCore* core,
+                                   bbECS* ECS,
+                                   bbHandle attacker_entity,
+                                   bbHandle* target_entity,
+                                   U32 max_distance)
+{
+    bbFilter_findNearest_cl nearest_cl;
+
+    nearest_cl.ECS = ECS;
+    nearest_cl.nearest_entity = *target_entity;
+    nearest_cl.attacker_entity = attacker_entity;
+    nearest_cl.nearest_distance = max_distance+193;
+
+    bbFilter_canAttack_cl can_attack_cl;
+    can_attack_cl.attacker_entity = attacker_entity;
+    can_attack_cl.ECS = ECS;
+
+    bbSpatial_Component* attacker_spatial;
+    bbHandle_mapComponent(ECS,
+                   bbECS_ECS,
+                   attacker_entity,
+                   bbECS_Spatial,
+                   NULL,
+                   (bbComponent**)&attacker_spatial);
+
+    bbSpatialFilters filters_cl;
+
+
+    for (I32 i=0; i<MAX_FILTER_FUNCTIONS; i++)
+    {
+        filters_cl.filters[i] = NULL;
+        filters_cl.cls[i] = NULL;
+    }
+    filters_cl.filters[0] = bbFilter_canAttack_fn;
+    filters_cl.cls[0] = &can_attack_cl;
+
+    filters_cl.coords = attacker_spatial->map_coords;
+    filters_cl.radius = max_distance;
+    filters_cl.function = bbListFunction_findNearest_fn;
+    filters_cl.cl = &nearest_cl;
+
+    bbSpatial_mapRadiusFilter((bbSpatial*)ECS->systems[bbECS_Spatial],&filters_cl);
+
+    bbHandle nearest_entity_handle = nearest_cl.nearest_entity;
+    I64 nearest_distance = nearest_cl.nearest_distance;
+
+    if (bbSuccess != bbVPool_handleIsNULL(ECS->system.pool,nearest_entity_handle))
+    {
+        return bbFail;
+    }
+    if (nearest_distance == max_distance+193)
+    {
+        return bbFail;
+    }
+
+    *target_entity = nearest_entity_handle;
+    return bbSuccess;
 }

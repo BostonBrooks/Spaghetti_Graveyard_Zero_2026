@@ -44,19 +44,5 @@ bbFlag bbCS_spawnTeamComponent(bbCore* core,
                              bbInstruction_source source,
                              bbHandle action);
 
-typedef struct
-{
-    bbECS* ECS;
-    bbHandle attacker_entity;
-} bbFilter_canAttack_cl;
-
-///typedef bbFlag bbFilterFunction(bbList* list, void* node, void* cl);
-bbFlag bbFilter_canAttack_fn(bbList* list, void* node, void* cl);
-
-///typedef bbFlag bbListFunction(bbList* list, void* node, void* cl);
-bbFlag bbListFunction_findNearest_fn(bbList* list, void* node, void* cl);
-
-bbFlag bbTeams_findNearestTarget(bbCore* core, bbECS* ECS, bbHandle attacker , bbHandle* target, U32 max_distance);
-
 
 #endif //BB_TEAMS_H

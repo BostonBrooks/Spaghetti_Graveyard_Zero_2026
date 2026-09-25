@@ -1,3 +1,4 @@
+#include "engine/ECS/spatial/bbSpatial_query.h"
 #include "engine/logic/bbIntTypes.h"
 
 
@@ -26,7 +27,7 @@ bbFlag bbAI_Update_Chase2(bbAI_Component* component) {
     bbPlayers* players = &home.ECS.players;
     bbHandle target_entity_handle = home.ECS.ECS->system.pool->null;
     //debug_off = false;
-    bbFlag flag = bbTeams_findNearestTarget(&home.core.core, home.ECS.ECS, attacker_entity_handle , &target_entity_handle, POINTS_PER_SQUARE);
+    bbFlag flag = bbSpatial_findNearestTarget(&home.core.core, home.ECS.ECS, attacker_entity_handle , &target_entity_handle, POINTS_PER_SQUARE);
 
 
     if (bbSuccess != bbVPool_handleIsNULL(home.ECS.ECS->system.pool,target_entity_handle)) {

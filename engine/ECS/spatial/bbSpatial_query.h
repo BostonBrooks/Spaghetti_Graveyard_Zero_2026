@@ -1,10 +1,6 @@
 #include "engine/ECS/spatial/bbSpatial.h"
 #include "engine/logic/bbList.h"
-bbFlag bbSpatial_mapRadius(bbSpatial* spatial,
-                            bbMapCoords centre,
-                            U64 radius_points,
-                            bbListFunction* myFunc,
-                            void* cl);
+
 
 typedef bbListFunction bbFilterFunction;
 
@@ -22,6 +18,13 @@ typedef struct
 
 }bbSpatialFilters;
 
+
+bbFlag bbSpatial_mapRadius(bbSpatial* spatial,
+                            bbMapCoords centre,
+                            U64 radius_points,
+                            bbListFunction* myFunc,
+                            void* cl);
+
 bbSpatialFilters bbSpatialFilters_new(bbMapCoords centre,
                                       U32 radius,
                                       bbListFunction*
@@ -33,3 +36,7 @@ bbFlag bbSpatial_mapRadiusFilter(bbSpatial* spatial,
 
 
 
+bbFlag bbFilter_canAttack_fn(bbList* list, void* node, void* cl);
+bbFlag bbListFunction_findNearest_fn(bbList* list, void* node, void* cl);
+
+bbFlag bbSpatial_findNearestTarget(bbCore* core, bbECS* ECS, bbHandle attacker_entity , bbHandle* target_entity, U32 max_distance);

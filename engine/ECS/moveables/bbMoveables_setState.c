@@ -331,11 +331,6 @@ bbFlag bbI_Moveable_setState_fn(bbCore* core, bbInstruction* instruction)
     moveable->goalpoint = instruction->data.moveable_state.goalpoint;
     moveable->goal_moveable = instruction->data.moveable_state.goal_moveable;
 
-    bbHandle entity_handle;
-
-    bbComponent_mapComponent(home.ECS.ECS, bbECS_Moveables,(bbComponent*)moveable, bbECS_ECS,&entity_handle,NULL);
-
-//
     return bbSuccess;
 }
 bbFlag bbI_Moveable_unsetDead_fn(bbCore* core, bbInstruction* instruction)
