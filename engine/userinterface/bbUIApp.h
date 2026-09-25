@@ -19,6 +19,7 @@ typedef struct
     sfSprite* SplashSprite;
     bbMouse mouse;
     bbInput input;
+    bbInputModes input_modes;
 
 } bbUIApp;
 

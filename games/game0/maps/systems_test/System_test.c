@@ -384,7 +384,7 @@ void* userinterface_thread(void* arg)
     debug_off = true;
 
     bbUIApp_init(&home.UI);
-
+    bbInputModes_init(&home.UI.input_modes);
 
     bbViewportApp_init(&home.viewport_app);
 
@@ -448,6 +448,9 @@ void* userinterface_thread(void* arg)
     bbTextbox_copyBuffer(home.textbox_app.textboxes[bbTextbox_Dialogue], message_buffer, 6, 36, MESSAGE_BUFFER_LENGTH);
     bbDebug("message_buffer:\n%s\n",message_buffer);
 
+
+    bbInputModes_populate(&home.UI.input_modes);
+    bbInputModes_set(&home.UI.input_modes, "TEST_INPUT_MODE");
 bbHere()
     while (1)
     {

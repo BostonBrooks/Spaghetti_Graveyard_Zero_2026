@@ -9,4 +9,6 @@ bbFlag bbCoreInbox_UnfreezeButton(bbCore* core, char* string);
 
 bbFlag bbCoreInbox_TestClick(bbCore* core, bbMapCoords MC, I32 button);
 
+
+bbFlag bbCoreInbox_keyPress(bbCore* core, char key);
 #endif //BB_LOCAL_MESSAGE_INPUTS_H

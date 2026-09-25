@@ -8,13 +8,17 @@
 #include "engine/graphics/bbGraphicsApp.h"
 #include "engine/userinterface/bbMouse.h"
 #include "engine/userinterface/bbWidgets.h"
+#include "engine/userinterface/bbInputMode.h"
 
 typedef struct {
     bbMouse* mouse;
     bbWidgets* widgets;
 
+    //TODO: delete these
     char keymap_lowercase[sfKeyCount];
     char keymap_uppercase[sfKeyCount];
+
+    bbInputMode* inputMode;
 } bbInput;
 
 bbFlag bbInput_init(bbInput* input, sfRenderWindow* window, bbMouse* mouse, bbWidgets* widgets);

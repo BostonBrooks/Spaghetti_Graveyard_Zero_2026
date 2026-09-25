@@ -27,3 +27,9 @@ bbFlag bbCoreInbox_UnfreezeButton(bbCore* core, char* string)
 
 */
 
+
+bbFlag bbCoreInbox_keyPress(bbCore* core, char key)
+{
+    bbDebug("Key press %c\n", key);
+    bbNotImplemented()
+}
