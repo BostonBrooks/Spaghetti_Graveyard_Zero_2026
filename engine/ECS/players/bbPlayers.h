@@ -2,7 +2,7 @@
 #define BB_PLAYERS
 
 #define MAX_SELECTED_ENTITIES 32
-#define num_players 32
+#define NUM_PLAYERS 32
 #include "engine/ECS/bbECS.h"
 
 typedef struct {
@@ -18,7 +18,7 @@ typedef struct {
     bbSystem system;
     I32 this_player;
 
-    bbPlayer players[num_players];
+    bbPlayer players[NUM_PLAYERS];
 
 } bbPlayers;
 

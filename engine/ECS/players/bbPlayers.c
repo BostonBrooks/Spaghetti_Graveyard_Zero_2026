@@ -24,9 +24,9 @@ bbFlag bbPlayers_getHandle_fn(struct bbSystem* system, bbComponent* component, b
 bbFlag bbPlayers_init(bbPlayers* system, bbECS* ECS){
 
     bbVPool_newSystem(&system->system.pool,bbECS_Players,sizeof(bbPlayer),10,100,"PLAYER COMPONENTS");
-    system->this_player =0;
+    system->this_player = 0;
 
-    for (I32 i = 0; i < num_players; i++) {
+    for (I32 i = 0; i < NUM_PLAYERS; i++) {
         for (I32 j = 0; j < MAX_SELECTED_ENTITIES; j++) {
             system->players[i].selected_entities[j] = system->system.pool->null;
         }
@@ -39,6 +39,28 @@ bbFlag bbPlayers_init(bbPlayers* system, bbECS* ECS){
 
     ECS->systems[bbECS_Players] = (bbSystem* )system;
 
+    return bbSuccess;
+}
+
+bbFlag bbCoreInbox_SetPlayerEntity(bbCore* core, U32 player, bbHandle server_handle) {
+
+    bbCoreInboxMessage* message;
+    bbThreadedQueue_alloc(&core->local_message_queue, (void** ) &message);
+    message->type = bbCoreInbox_setPlayerEntity; //TODO I dont want to  #include "core/core_inbox.h"
+    message->data.three_handles.handle1.u64 = home.ECS.players.this_player;
+    message->data.three_handles.handle2 = server_handle;
+    bbThreadedQueue_pushL(&core->local_message_queue, message);
+
+    return bbSuccess;
+}
+bbFlag bbCoreInbox_setPlayerEntity_fn(bbCore* core, bbCoreInboxMessage* message) {
+    bbAction_setPlayerEntity(core,
+                       home.network.server_socket_number,
+                       0,
+                       core->actual_time,
+                       core->actual_time,
+                       message->data.three_handles.handle1.u64, //player index
+                       message->data.three_handles.handle2); //server handle
     return bbSuccess;
 }
 
@@ -62,28 +84,7 @@ bbFlag bbAction_setPlayerEntity(void* Core,
     action.integer = player;
     action.handle = server_handle;
 
-    bbDebug("player = %d\n", player)
     bbAction_request(core,&home.network,&action);
-
-    bbDebug("You clicked server handle %d\n", server_handle.system.index);
-
-    bbECS* ECS = core->ECS;
-    bbPlayers* players = (bbPlayers*)ECS->systems[bbECS_Players];
-
-    bbHandle entity_handle;
-
-    bbHandle_mapComponent(ECS, bbECS_ServerEntities, server_handle,bbECS_ECS,&entity_handle,NULL);
-
-    bbUI_Inbox_SetViewpoint(&home.UI.inbox, entity_handle);
-
-    players->players[player].selected_entities[0] = entity_handle;
-
-    bbDebug("entity_handle = %d\n", entity_handle.system.index);
-
-
-    for (I32 i = 1; i < MAX_SELECTED_ENTITIES; i++) {
-        players->players[player].selected_entities[i] = ECS->system.pool->null;
-    }
 
     return bbSuccess;
 
@@ -93,42 +94,18 @@ bbFlag bbAction_setPlayerEntity_fn(bbCore* core, bbAction* action)
 
     I32 player_index = action->integer;
     bbHandle server_handle = action->handle;
-
-    bbDebug("player = %d\n", player_index)
     bbHandle entity_handle;
 
 
-    bbHandle_mapComponent(core->ECS, bbECS_ServerEntities, server_handle,bbECS_ECS,&entity_handle,NULL);bbHandle action_handle;
+    bbHandle_mapComponent(core->ECS, bbECS_ServerEntities, server_handle,bbECS_ECS,&entity_handle,NULL);
+    bbHandle action_handle;
     bbVPool_reverseLookup(core->action_pool,action,&action_handle);
 
     bbCI_setPlayerEntity(core, player_index,entity_handle,bbInstructionSource_action,action_handle);
     return bbSuccess;
 }
 
-bbFlag bbCoreInbox_SetPlayerEntity(bbCore* core, U32 player, bbHandle server_handle) {
 
-    bbCoreInboxMessage* message;
-    bbThreadedQueue_alloc(&core->local_message_queue, (void** ) &message);
-    message->type = bbCoreInbox_setPlayerEntity; //TODO I dont want to  #include "core/core_inbox.h"
-    message->data.three_handles.handle1.u64 = player;
-
-
-    bbDebug("player = %d\n", player)
-    message->data.three_handles.handle2 = server_handle;
-    bbThreadedQueue_pushL(&core->local_message_queue, message);
-
-    return bbSuccess;
-}
-bbFlag bbCoreInbox_setPlayerEntity_fn(bbCore* core, bbCoreInboxMessage* message) {
-    bbAction_setPlayerEntity(core,
-                       0,
-                       0,
-                       0,
-                       0,
-                       message->data.three_handles.handle1.u64, //player index
-                       message->data.three_handles.handle2); //server handle
-    return bbSuccess;
-}
 
 bbFlag bbCI_setPlayerEntity(bbCore* core, I32 player_index, bbHandle entity_handle,  bbInstruction_source source, bbHandle action)
 {
@@ -155,7 +132,10 @@ bbHere()
     bbPlayers* players = (bbPlayers*)core->ECS->systems[bbECS_Players];
     bbPlayer player = players->players[player_index];
 
-
+    if (home.ECS.players.this_player == player_index)
+    {
+        bbUI_Inbox_SetViewpoint(&home.UI.inbox, entity_handle);
+    }
 
     if (instruction->source == bbInstructionSource_internal)
     {

@@ -56,6 +56,20 @@ bbFlag bbAI_Update_Chase2(bbAI_Component* component) {
 
     if (bbSuccess != bbVPool_handleIsEqual(home.ECS.ECS->system.pool,component->target,target_entity_handle ))
     {
+
+        bbECS_entity* target_entity;
+        bbHandle_getComponent(&home.ECS.ECS->system,(bbComponent**)&target_entity,target_entity_handle);
+
+        char* message_text;
+        bbHandle message_handle;
+        bbTextbox_newMessage(home.textbox_app.textboxes[bbTextbox_Dialogue], &message_handle, &message_text);
+        snprintf(message_text,MESSAGE_LENGTH,"AI %s, new tartget %s, time = %lu\n",
+                attacker_entity->key,target_entity->key, home.core.core.actual_time);
+
+        bbTextbox_putMessage(home.textbox_app.textboxes[bbTextbox_Dialogue],message_handle,0);
+        bbTextbox_updateBuffer(home.textbox_app.textboxes[bbTextbox_Dialogue]);
+
+
         bbUI_Inbox_SetEntityState(&home.UI.inbox, attacker_entity_handle, bbDrawableState_moving);
 
 

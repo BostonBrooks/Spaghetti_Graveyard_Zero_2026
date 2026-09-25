@@ -300,7 +300,10 @@ bbFlag bbSF_setPlayer(void* spawner,
     bbHandle handle = entity->component.entity_handle;
 
     //home.ECS.ECS->player_character = handle;
-    home.ECS.players.players[home.ECS.players.this_player].selected_entities[0] = entity->component.entity_handle;
+    for (I32 i = 0; i < NUM_PLAYERS; i++)
+    {
+        home.ECS.players.players[i].selected_entities[0] = entity->component.entity_handle;
+    }
     bbUI_Inbox_SetViewpoint(&home.UI.inbox, handle);
 
     return bbSuccess;

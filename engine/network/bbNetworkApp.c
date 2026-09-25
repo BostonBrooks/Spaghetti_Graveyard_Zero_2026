@@ -178,9 +178,8 @@ bbFlag bbNetworkApp_checkInbox(bbNetwork* network)
         {
             //bbDebug("Set socket number %d\n", packet->data.integer);
             network->server_socket_number = packet->data.integer;
-
             //TODO this is a hack:
-            home.ECS.players.this_player = packet->data.integer %num_players;
+            home.ECS.players.this_player = packet->data.integer %NUM_PLAYERS;
         }
 
         if (packet->type == PACKETTYPE_TESTSPAWN)
