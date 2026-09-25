@@ -35,6 +35,7 @@ typedef struct
     bbAI_FunctionTable ftable;
     bbAI_state state;
     U64 last_state_change;
+    U64 last_attack;
     bbMapCoords goalpoint;
     bbHandle target;
 } bbAI_Component;
@@ -47,8 +48,10 @@ typedef enum
 
 typedef enum
 {
-    bbAI_setGoalPoint,
-    bbAI_mapClick,
+    bbAI_mapClick,        //output to server
+    bbAI_setGoalPoint,    //update from server
+    bbAI_clickMonster,    //output to server
+    bbAI_targetMonster,   //update from server
     bbAI_damageAgent,
     bbAI_killAgent
 } bbAI_CommandType;
@@ -58,6 +61,7 @@ typedef struct
     bbMoveable_type type;
     bbMapCoords goal_point;
     I32 integer;
+    bbHandle handle;
 } bbAI_CommandData;
 
 typedef bbFlag bbAI_Update(bbAI_Component* component);

@@ -30,8 +30,8 @@ I32 bbDrawable_isCloser(void* one, void* two){
     bbDrawable* iconOne = one;
     bbDrawable* iconTwo = two;
 
-    I32 foo = iconTwo->coords.i - iconOne->coords.i
-              -iconTwo->coords.j + iconOne->coords.j;
+    I32 foo = iconTwo->md.coords.i - iconOne->md.coords.i
+              -iconTwo->md.coords.j + iconOne->md.coords.j;
 
     return (foo > 0);
 }
@@ -46,7 +46,7 @@ bbFlag bbDrawables_newImpl(void** self, U32 system, I32 squares_i, I32 squares_j
     bbVPool_newSystem(&pool, system, sizeOf, 1000, 10,"bbDrawable_Impl");
 
     drawables->pool = pool;
-    bbList_init(&drawables->list, pool,NULL,offsetof(bbDrawable, listElement)
+    bbList_init(&drawables->list, pool,NULL,offsetof(bbDrawable, md.listElement)
                 ,bbDrawable_isCloser,85);
 
 
@@ -60,7 +60,7 @@ bbFlag bbDrawables_newImpl(void** self, U32 system, I32 squares_i, I32 squares_j
     drawableSquare->coords.k = 0;
 
     bbList_init(&drawableSquare->list, pool, NULL,offsetof
-    (bbDrawable, squareListElement),bbDrawable_isCloser,86);
+    (bbDrawable, md.squareListElement),bbDrawable_isCloser,86);
 
     for (I32 i = 0; i < squares_i;i++){
         for (I32 j = 0; j < squares_j; j++){
@@ -71,7 +71,7 @@ bbFlag bbDrawables_newImpl(void** self, U32 system, I32 squares_i, I32 squares_j
             drawableSquare->coords.k = 0;
 
             bbList_init(&drawableSquare->list, pool, NULL,offsetof
-            (bbDrawable, squareListElement),bbDrawable_isCloser, 87 + i*squares_j+j);
+            (bbDrawable, md.squareListElement),bbDrawable_isCloser, 87 + i*squares_j+j);
         }
     }
     *self = drawables;
@@ -87,20 +87,21 @@ bbFlag bbDrawable_drawFunc(void* node, void* cl){
 
 bbFlag bbDrawable_draw(bbDrawable* drawable, drawFuncClosure* cl){
     for (I32 i = 0; i < FRAMES_PER_DRAWABLE; i++){
-        bbFrame* frame = &drawable->frames[i];
+        bbFrame* frame = &drawable->md.frames[i];
 
         bbGraphicsApp* graphics = cl->graphics;
 /// the 8 in the next line refers to the number of draw functions in bbDrawfunctions
-        if (frame->drawfunction >= 0 && frame->drawfunction <
+        if (frame->draw_function >= 0 && frame->draw_function <
         graphics->drawfunctions->num) {
 
             bbDrawFunction *drawFunction =
-                    graphics->drawfunctions->functions[frame->drawfunction];
+                    graphics->drawfunctions->functions[frame->draw_function];
             if (drawFunction == NULL) continue;
             drawFunction(drawable, frame, cl);
 
         }
     }
+    return bbSuccess;
 }
 
 bbFlag bbDrawables_draw(bbDrawables* drawables, drawFuncClosure* cl,
@@ -149,6 +150,7 @@ bbFlag bbDrawablesPlus_draw(drawFuncClosure* cl,
         for (I32 j = square_j_min; j < square_j_max; ++j) {
             I32 n = i + squares_i * j;
 
+            //Note: what if squares_i differs between units and drawables?
             bbNestedList_attach(&list, &drawables->squares[n].list);
             bbNestedList_attach(&list, &units->squares[n].list);
         }
@@ -181,24 +183,24 @@ bbFlag bbDrawable_newTree(bbDrawable** self, bbDrawables* drawables,
 
     bbDrawable* drawable;
     bbVPool_alloc(pool, (void**)&drawable);
-    drawable->coords = MC;
-    drawable->SC = SC;
+    drawable->md.coords = MC;
+    drawable->md.SC = SC;
     bbHandle drawfunctionHandle;
 
     bbDictionary_lookup(graphics->drawfunctions->dictionary,
                     "COMPOSITION",
                     &drawfunctionHandle);
 
-    drawable->frames[0].drawfunction = drawfunctionHandle.u64;
-    drawable->frames[0].handle.u64 = 4;
-    drawable->frames[0].start_time =  -(rand()%6);
-    drawable->frames[0].framerate = 1;
-    drawable->frames[0].offset.x = 0;
-    drawable->frames[0].offset.y = 0;
+    drawable->md.frames[0].draw_function = drawfunctionHandle.u64;
+    drawable->md.frames[0].asset_handle.u64 = 4;
+    drawable->md.frames[0].start_time =  -(rand()%6);
+    drawable->md.frames[0].framerate = 1;
+    drawable->md.frames[0].offset.x = 0;
+    drawable->md.frames[0].offset.y = 0;
 
 
     for (I32 k = 1; k < FRAMES_PER_DRAWABLE; k++){
-        drawable->frames[k].drawfunction = -1;
+        drawable->md.frames[k].draw_function = -1;
     }
 
     bbList_sortL(&drawableSquare->list, drawable);
@@ -218,8 +220,8 @@ bbFlag bbDrawable_newCat(bbDrawable** self, bbDrawables* drawables,
 
     bbDrawable* drawable;
     bbVPool_alloc(pool, (void**)&drawable);
-    drawable->coords = MC;
-    drawable->SC = SC;
+    drawable->md.coords = MC;
+    drawable->md.SC = SC;
     bbHandle drawfunctionHandle;
 
 
@@ -228,13 +230,13 @@ bbFlag bbDrawable_newCat(bbDrawable** self, bbDrawables* drawables,
                         "EYE_CANDY",
                         &drawfunctionHandle);
 
-    drawable->frames[0].drawfunction = drawfunctionHandle.u64;
-    drawable->frames[0].handle.u64 = 7;
-    drawable->frames[0].start_time =  -(rand()%6);
-    drawable->frames[0].framerate = 1;
+    drawable->md.frames[0].draw_function = drawfunctionHandle.u64;
+    drawable->md.frames[0].asset_handle.u64 = 7;
+    drawable->md.frames[0].start_time =  -(rand()%6);
+    drawable->md.frames[0].framerate = 1;
 
     for (I32 k = 1; k < FRAMES_PER_DRAWABLE; k++){
-        drawable->frames[k].drawfunction = -1;
+        drawable->md.frames[k].draw_function = -1;
     }
 
     bbList_sortL(&drawableSquare->list, drawable);
@@ -251,8 +253,8 @@ bbFlag bbDrawable_newSkeleton(bbDrawable** self, bbDrawables* drawables,
 
     bbDrawable* drawable;
     bbVPool_alloc(pool, (void**)&drawable);
-    drawable->coords = MC;
-    drawable->SC = SC;
+    drawable->md.coords = MC;
+    drawable->md.SC = SC;
     bbHandle drawfunctionHandle;
 
 
@@ -261,13 +263,13 @@ bbFlag bbDrawable_newSkeleton(bbDrawable** self, bbDrawables* drawables,
                         "DRAWABLE_ANIMATION",
                         &drawfunctionHandle);
 
-    drawable->frames[0].drawfunction = drawfunctionHandle.u64;
-    drawable->frames[0].handle.u64 = 9;
-    drawable->frames[0].start_time =  -(rand()%6);
-    drawable->frames[0].framerate = 1;
+    drawable->md.frames[0].draw_function = drawfunctionHandle.u64;
+    drawable->md.frames[0].asset_handle.u64 = 9;
+    drawable->md.frames[0].start_time =  -(rand()%6);
+    drawable->md.frames[0].framerate = 1;
 
     for (I32 k = 1; k < FRAMES_PER_DRAWABLE; k++){
-        drawable->frames[k].drawfunction = -1;
+        drawable->md.frames[k].draw_function = -1;
     }
 
     bbList_sortL(&drawableSquare->list, drawable);
@@ -283,11 +285,11 @@ bbFlag bbDrawable_newSkeleton(bbDrawable** self, bbDrawables* drawables,
 bbFlag bbDrawable_setLocation(bbDrawable* drawable, bbDrawables* drawables,
                               bbMapCoords MC){
     bbSquareCoords newSC = bbMapCoords_getSquareCoords(MC);
-    bbSquareCoords oldSC = bbMapCoords_getSquareCoords(drawable->coords);
+    bbSquareCoords oldSC = bbMapCoords_getSquareCoords(drawable->md.coords);
 
-    bbAssert (oldSC.i == drawable->SC.i && oldSC.j == drawable->SC.j, "square coords error\n");
+    bbAssert (oldSC.i == drawable->md.SC.i && oldSC.j == drawable->md.SC.j, "square coords error\n");
 
-    drawable->SC = newSC;
+    drawable->md.SC = newSC;
     bbDrawableSquare* newSquare= bbDrawables_getSquare(drawables,newSC.i, newSC.j, drawables->squares_i, drawables->squares_j);
     bbDrawableSquare* oldSquare= bbDrawables_getSquare(drawables,oldSC.i, oldSC.j, drawables->squares_i, drawables->squares_j);
 
@@ -295,8 +297,15 @@ bbFlag bbDrawable_setLocation(bbDrawable* drawable, bbDrawables* drawables,
     //be sorted back into the list. In future we could write a function to
     //move the element up or down in the list
 
+    if (newSquare == oldSquare)
+    {
+        drawable->md.coords = MC;
+        bbList_reposition(&oldSquare->list, drawable);
+        return bbSuccess;
+    }
+
     bbList_remove(&oldSquare->list, drawable);
-    drawable->coords = MC;
+    drawable->md.coords = MC;
     bbList_sortL(&newSquare->list, drawable);
 
     return bbSuccess;
@@ -311,8 +320,8 @@ bbFlag bbDrawable_newSphere(bbDrawable** self, bbDrawables* drawables,
 
     bbDrawable* drawable;
     bbVPool_alloc(pool, (void**)&drawable);
-    drawable->coords = MC;
-    drawable->SC = SC;
+    drawable->md.coords = MC;
+    drawable->md.SC = SC;
 
     bbHandle drawfunctionHandle;
 
@@ -322,18 +331,18 @@ bbFlag bbDrawable_newSphere(bbDrawable** self, bbDrawables* drawables,
                         "DRAWABLE_SPRITE",
                         &drawfunctionHandle);
 
-    drawable->frames[0].drawfunction = drawfunctionHandle.u64;
-    drawable->frames[0].handle.u64 = 615;
+    drawable->md.frames[0].draw_function = drawfunctionHandle.u64;
+    drawable->md.frames[0].asset_handle.u64 = 615;
 
     bbDictionary_lookup(graphics->drawfunctions->dictionary,
                     "DRAWABLE_SHADOW",
                     &drawfunctionHandle);
 
-    drawable->frames[1].drawfunction = drawfunctionHandle.u64;
-    drawable->frames[1].handle.u64 = 612;
+    drawable->md.frames[1].draw_function = drawfunctionHandle.u64;
+    drawable->md.frames[1].asset_handle.u64 = 612;
 
     for (I32 k = 2; k < FRAMES_PER_DRAWABLE; k++){
-        drawable->frames[k].drawfunction = -1;
+        drawable->md.frames[k].draw_function = -1;
     }
 
     bbList_sortL(&drawableSquare->list, drawable);
@@ -350,8 +359,8 @@ bbFlag bbDrawable_newPoint(bbDrawable** self, bbDrawables* drawables,
 
     bbDrawable* drawable;
     bbVPool_alloc(pool, (void**)&drawable);
-    drawable->coords = MC;
-    drawable->SC = SC;
+    drawable->md.coords = MC;
+    drawable->md.SC = SC;
 
     bbHandle drawfunctionHandle;
 
@@ -361,18 +370,18 @@ bbFlag bbDrawable_newPoint(bbDrawable** self, bbDrawables* drawables,
                         "DRAWABLE_SPRITE",
                         &drawfunctionHandle);
 
-    drawable->frames[0].drawfunction = drawfunctionHandle.u64;
-    drawable->frames[0].handle.u64 = 154;
+    drawable->md.frames[0].draw_function = drawfunctionHandle.u64;
+    drawable->md.frames[0].asset_handle.u64 = 154;
 
     bbDictionary_lookup(graphics->drawfunctions->dictionary,
                     "DRAWABLE_SHADOW",
                     &drawfunctionHandle);
 
-    drawable->frames[1].drawfunction = drawfunctionHandle.u64;
-    drawable->frames[1].handle.u64 = 623;
+    drawable->md.frames[1].draw_function = drawfunctionHandle.u64;
+    drawable->md.frames[1].asset_handle.u64 = 623;
 
     for (I32 k = 2; k < FRAMES_PER_DRAWABLE; k++){
-        drawable->frames[k].drawfunction = -1;
+        drawable->md.frames[k].draw_function = -1;
     }
 
     bbList_sortL(&drawableSquare->list, drawable);

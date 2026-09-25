@@ -21,7 +21,7 @@ bbFlag bbDF_eyeCandyTest(void* drawable, void* frameDescriptor, void* cl){
 
     sfRenderTexture* renderTexture = VP->main.renderTexture;
 
-    sfVector2f V2F = bbMapCoords_getV2f(mapicon->coords, VP);
+    sfVector2f V2F = bbMapCoords_getV2f(mapicon->md.coords, VP);
 
 
 

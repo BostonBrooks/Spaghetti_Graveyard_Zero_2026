@@ -5,7 +5,7 @@ bbFlag bbDF_mapiconTest(void* drawable, void* frameDescriptor, void* cl){
     bbFrame* frame_descriptor = frameDescriptor;
 
 
-    I32 spriteInt = frame_descriptor->handle.u64;
+    I32 spriteInt = frame_descriptor->asset_handle.u64;
 
     bbGraphicsApp* graphics = foo->graphics;
     sfSprite* sprite = graphics->sprites->sprites[spriteInt];
@@ -15,7 +15,7 @@ bbFlag bbDF_mapiconTest(void* drawable, void* frameDescriptor, void* cl){
 
     sfRenderTexture* renderTexture = VP->mapicon.renderTexture;
 
-    sfVector2f V2F = bbMapCoords_getV2f_mapicon(mapicon->coords, VP);
+    sfVector2f V2F = bbMapCoords_getV2f_mapicon(mapicon->md.coords, VP);
 
 
 

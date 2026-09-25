@@ -1,6 +1,7 @@
 #include "moveables.h"
 #include "core/instructions.h"
 #include "engine/core/bbAction.h"
+#include "engine/core/bbInstruction_operations.h"
 #include "engine/data/bbHome.h"
 
 bbFlag bbCoreSynchronous_spawnTestMoveable(bbCore* core,
@@ -87,8 +88,7 @@ bbFlag bbCoreSynchronous_spawnTestMoveable(bbCore* core,
 
     if (source == bbInstructionSource_norewind) return  bbSuccess;
 
-    bbInstruction* undo_instruction;
-    bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+    allocUndoInstruction(undo_instruction)
     undo_instruction->type = bbInstruction_unspawnTestMoveable;
     undo_instruction->source = source;
     undo_instruction->data.three_handles.handle1 = moveable_handle1;
@@ -96,7 +96,7 @@ bbFlag bbCoreSynchronous_spawnTestMoveable(bbCore* core,
     {
         //bbVPool_free(core->instruction_pool, (void*)instruction);
         undo_instruction->redo_instruction.u64 = 0;
-        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+        pushUndoInstruction(undo_instruction)
         return bbSuccess;
     }
     //if (source == bbInstructionSource_input)?
@@ -109,7 +109,7 @@ bbFlag bbCoreSynchronous_spawnTestMoveable(bbCore* core,
 
 bbFlag bbInstruction_spawnTestMoveable_fn(bbCore* core, bbInstruction* instruction)
 {
-    bbNotHere()
+    bbNotImplemented()
 }
 
 bbFlag bbInstruction_unspawnTestMoveable_fn(bbCore* core, bbInstruction* instruction)
@@ -120,15 +120,17 @@ bbFlag bbInstruction_unspawnTestMoveable_fn(bbCore* core, bbInstruction* instruc
 
     if (instruction->source == bbInstructionSource_internal)
     {
-        bbVPool_free(core->instruction_pool, (void*)instruction);
+        //bbVPool_free(core->instruction_pool, (void*)instruction);
         return bbSuccess;
     }
     if (instruction->source == bbInstructionSource_input)
     {
-        bbInstruction* redo_instruction;
-        bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction, instruction->redo_instruction);
-        bbList_pushL(&core->do_stack, redo_instruction);
-        bbVPool_free(core->instruction_pool, (void*)instruction);
+        popRedoInstruction(redo_instruction,instruction)
+        allocActiveInstruction(new_instruction)
+        *new_instruction = redo_instruction;
+        bbCore_checkMap(&core->map, &redo_instruction, instruction);
+
+        pushActiveInstruction(new_instruction)
         return bbSuccess;
     }
     if (instruction->source == bbInstructionSource_action)
@@ -137,7 +139,7 @@ bbFlag bbInstruction_unspawnTestMoveable_fn(bbCore* core, bbInstruction* instruc
         bbAction* redo_action;
         bbVPool_lookup(core->action_pool, (void**)&redo_action, instruction->redo_instruction);
         bbList_sortL(&core->action_queue,(void*)redo_action);
-        bbVPool_free(core->instruction_pool, (void*)instruction);
+        //bbVPool_free(core->instruction_pool, (void*)instruction);
         return bbSuccess;
     }
 
@@ -147,20 +149,18 @@ bbFlag bbInstruction_unspawnTestMoveable_fn(bbCore* core, bbInstruction* instruc
 bbFlag bbCoreInput_updateMoveables(bbCore* core,
                                   bbInstruction_source source, bbHandle action)
 {
-    bbInstruction* instruction;
-    bbList_alloc(&core->do_stack, (void**) &instruction);
+    allocActiveInstruction(instruction)
     instruction->type = bbInstruction_updateMoveables;
     instruction->source = source;
     instruction->redo_instruction = action;
-    bbList_pushL(&core->do_stack, instruction);
+    pushActiveInstruction(instruction)
     return bbSuccess;
 }
 
 bbFlag bbInstruction_updateMoveables_fn(bbCore* core,
                                         bbInstruction* instruction)
 {
-    bbInstruction* undo_instruction;
-    bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+    allocUndoInstruction(undo_instruction)
     undo_instruction->type = bbInstruction_unupdateMoveables;
     undo_instruction->source = instruction->source;
 
@@ -187,23 +187,24 @@ bbFlag bbInstruction_updateMoveables_fn(bbCore* core,
 
     if (instruction->source == bbInstructionSource_internal)
     {
-        bbVPool_free(core->instruction_pool, (void*)instruction);
+        //bbVPool_free(core->instruction_pool, (void*)instruction);
         undo_instruction->redo_instruction.u64 = 0;
-        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+        pushUndoInstruction(undo_instruction)
         return bbSuccess;
     }
     if (instruction->source == bbInstructionSource_input)
     {
-        bbHandle handle;
-        bbVPool_reverseLookup(core->instruction_pool, instruction, &handle);
-        undo_instruction->redo_instruction = handle;
-        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+        allocRedoInstruction(redo_instruction)
+        *redo_instruction = *instruction;
+        undo_instruction->redo_instruction = (bbHandle)redo_instruction_handle;
+        pushRedoInstruction(redo_instruction)
+        pushUndoInstruction(undo_instruction)
         return bbSuccess;
     }
     if (instruction->source == bbInstructionSource_action)
     {
         undo_instruction->redo_instruction = instruction->redo_instruction;
-        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+        pushUndoInstruction(undo_instruction)
         return bbSuccess;
     }
     bbNotHere()
@@ -236,16 +237,19 @@ bbInstruction* instruction)
 
     if (instruction->source == bbInstructionSource_internal)
     {
-        bbVPool_free(core->instruction_pool, (void*)instruction);
+        //bbVPool_free(core->instruction_pool, (void*)instruction);
         return bbSuccess;
     }
     if (instruction->source == bbInstructionSource_input)
     {
-        bbInstruction* redo_instruction;
-        bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction,
-                       instruction->redo_instruction);
-        bbList_pushL(&core->do_stack, redo_instruction);
-        bbVPool_free(core->instruction_pool, (void*)instruction);
+
+        popRedoInstruction(redo_instruction,instruction)
+        allocActiveInstruction(new_instruction)
+        *new_instruction = redo_instruction;
+        bbCore_checkMap(&core->map, &redo_instruction, instruction);
+
+        pushActiveInstruction(new_instruction)
+        //bbVPool_free(core->instruction_pool, (void*)instruction);
         return bbSuccess;
     }
     if (instruction->source == bbInstructionSource_action)
@@ -255,7 +259,7 @@ bbInstruction* instruction)
         bbVPool_lookup(core->action_pool, (void**)&redo_action,
                        instruction->redo_instruction);
         bbList_sortL(&core->action_queue, (void*)redo_action);
-        bbVPool_free(core->instruction_pool, (void*)instruction);
+        //bbVPool_free(core->instruction_pool, (void*)instruction);
         return bbSuccess;
     }
 

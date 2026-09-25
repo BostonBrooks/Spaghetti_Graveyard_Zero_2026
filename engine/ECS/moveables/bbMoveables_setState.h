@@ -13,16 +13,16 @@ bbFlag bbCI_Moveable_setGoalpoint(bbCore* core,
                              bbHandle action);
 
 bbFlag bbCI_Moveable_setMovingThrough(bbCore* core,
-                                  bbHandle moveable_handle,
-                                  bbMapCoords goalpoint,
-                                  bbInstruction_source source,
-                                  bbHandle action);
+                             bbHandle moveable_handle,
+                             bbMapCoords goalpoint,
+                             bbInstruction_source source,
+                             bbHandle action);
 
 
 bbFlag bbCI_Moveable_setDead(bbCore* core,
-                                  bbHandle moveable_handle,
-                                  bbInstruction_source source,
-                                  bbHandle action);
+                             bbHandle moveable_handle,
+                             bbInstruction_source source,
+                             bbHandle action);
 
 
 bbFlag bbCI_Moveable_setGoalMovable(bbCore* core,

@@ -164,7 +164,8 @@ bbFlag bbCS_spawnSpatialComponent(bbCore* core,
                              bbInstruction_source source,
                              bbHandle action)
 {
-    //Spawn undo instruction
+
+   // bbNotImplemented()//Spawn undo instruction
 
     bbSpatial_Component* component;
     bbHandle component_handle;
@@ -199,10 +200,17 @@ bbFlag bbCI_spawnSpatialComponent(bbCore* core,
                              bbHandle entity,
                              bbMapCoords MC,
                              bbInstruction_source source,
-                             bbHandle action);
+                             bbHandle action)
+{
+    bbNotImplemented()
+}
 
-bbFlag bbI_spawnSpatialComponent_fn(bbCore* core, bbInstruction* instruction);
-bbFlag bbI_unspawnSpatialComponent_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbI_spawnSpatialComponent_fn(bbCore* core, bbInstruction* instruction) {
+    bbNotImplemented()
+}
+bbFlag bbI_unspawnSpatialComponent_fn(bbCore* core, bbInstruction* instruction) {
+    bbNotImplemented()
+}
 
 
 bbFlag bbSpatial_getComponent_fn(struct bbSystem* system, bbComponent** component, bbHandle component_handle);

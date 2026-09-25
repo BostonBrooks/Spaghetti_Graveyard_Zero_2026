@@ -8,6 +8,7 @@
 #include "engine/ECS/server_entities/bbServerEntities.h"
 #include "engine/ECS/moveables/bbMoveables.h"
 #include "../../../../engine/ECS/entity_spawner/bbEntitySpawner.h"
+#include "core/action_request.h"
 #include "engine/data/CSFML.h"
 #include "engine/core/bbCoreDiscard.h"
 #include "engine/core/bbCoreInputs.h"
@@ -35,6 +36,8 @@
 
 #include "engine/ECS/graphics_system/bbGraphicsSystem.h"
 #include "engine/ECS/spatial/bbSpatial_query.h"
+#include "engine/ECS/teams/bbTeams.h"
+#include "engine/logic/bbString.h"
 #include "moveables/moveables.h"
 
 pthread_barrier_t barrier1;
@@ -64,7 +67,7 @@ void* userinterface_thread(void* arg);
 int main(void)
 {
     thread = "MAIN";
-    debug_off = true;
+    debug_off = false;
     printf("Hello, World!\n");
 
     pthread_barrier_init(&barrier1, NULL, 2);
@@ -84,12 +87,12 @@ int main(void)
     home.core.goalpoint.j = 10000;
     home.core.goalpoint.k = 0;
 
-    bbTextbox_systemInit(&home.textbox_system);
-    bbTextbox_new(&home.textbox,&home.textbox_system, "DIALOGUE");
+
+    bbTextboxApp_init(&home.textbox_app);
 
     char* message_text;
     bbHandle message_handle;
-    bbTextbox_newMessage(home.textbox, &message_handle, &message_text);
+    bbTextbox_newMessage(home.textbox_app.textboxes[bbTextbox_Dialogue], &message_handle, &message_text);
     snprintf(message_text,MESSAGE_LENGTH,
 
 "Ho! Tom Bombadil, Tom Bombadillo!\n"
@@ -97,8 +100,8 @@ int main(void)
 "By fire, sun and moon, harken now and hear us!\n"
 "Come, Tom Bombadil, for our need is near us!\n");
 
-    bbTextbox_putMessage(home.textbox,message_handle,0);
-    bbTextbox_updateBuffer(home.textbox);
+    bbTextbox_putMessage(home.textbox_app.textboxes[bbTextbox_Dialogue],message_handle,0);
+    bbTextbox_updateBuffer(home.textbox_app.textboxes[bbTextbox_Dialogue]);
 
     bbPerformance_init(&home.performance);
     bbCore_init(&home.core.core);
@@ -106,6 +109,7 @@ int main(void)
     bbCore_initInboxMessages(&home.core.core);
     bbCore_initActions(&home.core.core);
     bbCore_initDiscard(&home.core.core);
+    bbCore_initMap(&home.core.core.map);
 
     bbCoreInbox_TestMessage(&home.core.core);
     bbCore_checkInbox(&home.core.core);
@@ -121,6 +125,8 @@ int main(void)
     bbAI_System_init(&home.ECS.AI_system,home.core.core.ECS);
     bbAI_Functions_init(&home.ECS.AI_system.functions);
     bbAI_Functions_populate(&home.ECS.AI_system.functions);
+    bbPlayers_init(&home.ECS.players,home.core.core.ECS);
+    bbTeams_init(&home.ECS.teams,home.core.core.ECS);
 
     bbHandle server_handle;
     server_handle.bloated.index = 193;
@@ -185,7 +191,12 @@ int main(void)
 
     bbEntitySpawner_spawnFile(&home.ECS.spawner, "maps/systems_test/entity_spawner/spawner.csv");
 
-
+//Test teams
+    bbHandle player_entity = home.ECS.players.players[home.ECS.players.this_player].selected_entities[0];
+    bbTeam* team;
+    bbHandle_mapComponent(home.ECS.ECS,bbECS_ECS,player_entity,bbECS_Teams,NULL,(bbComponent**)&team);
+    bbDebug("player team = %d\n", team->team);
+//End test teams
     //bbMoveable* test_moveable = &home.ECS.moveables.moveables[0];
 
     //bbECS_entity* test_entity;
@@ -295,22 +306,37 @@ int main(void)
 
         if (home.core.clock2_handle.clock_paused == false)
         {
-            char buffer[MESSAGE_LENGTH];
-            snprintf(buffer, MESSAGE_LENGTH,"time is %llu\n", home.core.core.actual_time);
-            bbCS_setTextbox(&home.core.core, buffer, "DIALOGUE",home.core.core.actual_time, bbInstructionSource_input,no_handle);
 
+            // bbHandle message_handle2;
+            // char* message;
+            // bbTextbox_newMessage(home.textbox_app.textboxes[bbTextbox_Dialogue],&message_handle2,&message);
+            // snprintf(message, MESSAGE_LENGTH,"time sent: %llu\n", home.core.core.actual_time);
+            // bbNetworkApp_sendMessage(&home.network, message_handle2, home.core.core.actual_time, 193);
 
             bbCoreInput_checkActions(&home.core.core,
                 home.core.core.actual_time,
                 bbInstructionSource_input, no_handle );
             bbCore_react(&home.core.core);
 
-            //have not implemented moveables!
+
             bbCoreInput_updateMoveables(&home.core.core,bbInstructionSource_input, no_handle );
             bbCore_react(&home.core.core);
 
 
+            // testing bbAction_request()
+            // bbAction test_action;
+            // test_action.header.type = bbActionType_setString;
+            // test_action.header.status = bbAction_Wait;
+            // test_action.header.player = 0;
+            // test_action.header.collision = collision++;
+            // test_action.header.created_tick = home.core.core.actual_time;
+            // test_action.header.act_tick = home.core.core.actual_time;
+            // bbStr_setStr(test_action.header.key,"SISYPHUS", KEY_LENGTH);
+            //
+            // bbAction_request(&home.core.core, &home.network, &test_action);
 
+
+            //////////////////////////////
 
             //bbMovables_update(&home.agents_app.movables);
             //bbCoreInput_approachGoalpoint(&home.core.core);
@@ -338,7 +364,8 @@ int main(void)
 
         if (home.core.clock2_handle.map_tick > 180)
         {
-            bbCoreDiscard(&home.core.core, home.core.clock2_handle.map_tick-180);
+            //bbCoreDiscard(&home.core.core, home.core.clock2_handle.map_tick-180);
+            //bbCoreDiscardSegmented(&home.core.core, home.core.clock2_handle.map_tick-180);
         }
         //bbActions_react(&home.core.core, core_time);
 
@@ -354,12 +381,15 @@ int main(void)
 void* userinterface_thread(void* arg)
 {
     thread = "USER INTERFACE";
-    debug_off = false;
+    debug_off = true;
 
     bbUIApp_init(&home.UI);
 
 
     bbViewportApp_init(&home.viewport_app);
+
+    bbVPMouse_Init(&home.viewport_app.mouse,&home.viewport_app,home.viewport_app.units,&home.UI.mouse,&home.UI.graphics);
+    bbVPMouseFunctions_populate(&home.viewport_app.mouse.functions);
 
     bbUIApp_spawnWidgets(&home.UI);
 
@@ -415,26 +445,53 @@ void* userinterface_thread(void* arg)
 
 //test texbox
     char message_buffer[MESSAGE_BUFFER_LENGTH];
-    bbTextbox_copyBuffer(home.textbox, message_buffer, 6, 36, MESSAGE_BUFFER_LENGTH);
+    bbTextbox_copyBuffer(home.textbox_app.textboxes[bbTextbox_Dialogue], message_buffer, 6, 36, MESSAGE_BUFFER_LENGTH);
     bbDebug("message_buffer:\n%s\n",message_buffer);
 
 bbHere()
     while (1)
     {
+        // bbDrawBufferObject* draw_buffer_object;
+        // bbDrawBufferObject_new(home.viewport_app.drawbuffer,&draw_buffer_object) ;
+        //
+        // bbHandle draw_function_handle;
+        // bbFlag flag = bbDictionary_lookup(home.UI.graphics.drawBufferFunctions->dictionary,"DRAWBUFFER_HERE",&draw_function_handle);
+        // draw_buffer_object->draw_function = draw_function_handle.u64;
+        // bbFlag_print(flag)
+        // bbDebug("draw_function_handle:\n%d\n",draw_buffer_object->draw_function);
+        //
+        // bbDrawBufferObject_draw(home.viewport_app.drawbuffer,draw_buffer_object);
+
 
         counter++;
         bbPerformance_newFrame(&home.performance);
 
         bbInput_poll(&home.UI.input, home.UI.window);
 
+        //debug_off = false;
+
         bbMouse_isOver(&home.UI.mouse, &home.UI.widgets);
         bbMouse_Update(&home.UI.mouse, &home.UI.widgets, &home.UI.graphics);
 
+        //TODO ths is just a test
+        bbHandle isover_unit;
+
+        bbWidget* vp_widget = home.viewport_app.viewport.widget;
+        //if (vp_widget->mtable.hover){
+            bbViewportCoords vpmouseCoords = bbScreenPoints_getViewportPoints(&home.viewport_app.viewport, home.UI.mouse.position);
+            home.viewport_app.mouse.position = vpmouseCoords;
+
+
+            bbVPMouse_isOver(&home.viewport_app.mouse, &isover_unit);
+            bbVPMouse_Update(&home.viewport_app.mouse, &home.UI.graphics);
+        //}
+
+        //debug_off = true;
         bbUI_Inbox_check(&home.UI.inbox);
 
         bbMoveables_copyBuffer(&home.ECS.moveables, &moveables_snapshot);
         bbUnits_consumeBuffer(home.viewport_app.units, NULL, &moveables_snapshot);
-
+        bbRenderUnits_updateMovement(home.viewport_app.renderUnits);
         bbUIApp_draw(&home.UI);
 
 

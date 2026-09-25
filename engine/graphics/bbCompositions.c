@@ -72,24 +72,24 @@ I32 bbCompositions_new(bbCompositions** self,
 				//look up asset in sprites
 				bbDictionary_lookup(sprites->dictionary, asset, &handle);
 				bbSprites_lookupInt(sprites, &sprite_int,  asset);
-				composition->frame[j].handle.u64 = sprite_int;
+				composition->frame[j].asset_handle.u64 = sprite_int;
 				composition->frame[j].type = Sprite;
 
 			} else if (strcmp(type, "ANIMATION") == 0) {
 				//look up asset in animations
 				bbDictionary_lookup(animations->dictionary, asset, &handle);
-				composition->frame[j].handle.u64 = bbAnimations_lookupInt(animations, asset);
+				composition->frame[j].asset_handle.u64 = bbAnimations_lookupInt(animations, asset);
 				composition->frame[j].type = Animation;
 
 			} else if (strcmp(type, "COMPOSITION") == 0) {
-				composition->frame[j].handle.u64 = bbCompositions_lookupInt(compositions, asset);
-				composition->frame[j].handle = handle;
+				composition->frame[j].asset_handle.u64 = bbCompositions_lookupInt(compositions, asset);
+				composition->frame[j].asset_handle = handle;
 				composition->frame[j].type = Composition;
 			} else {
 				bbAssert(0 == 1, "bad type in compositions.csv\n");
 			}
 			bbDictionary_lookup(drawfunctions->dictionary, drawfunction, &handle2);
-			composition->frame[j].drawfunction = handle2.u64;
+			composition->frame[j].draw_function = handle2.u64;
 			composition->frame[j].start_time = start_time;
 			composition->frame[j].offset.x = offsetX;
 			composition->frame[j].offset.y = offsetY;

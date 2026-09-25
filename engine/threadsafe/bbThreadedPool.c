@@ -21,6 +21,7 @@ bbFlag bbThreadedPool_lookup_unchecked(bbThreadedPool* pool, void** address, bbH
 
 bbFlag bbThreadedPool_reverseLookup_unchecked(bbThreadedPool* pool, void* address, bbHandle* handle)
 {
+    //bbDebug("address = %llu, pool = %llu, difference = %llu\n", address, &pool->elements[0], (U64)address - (U64)&pool->elements[0]);
     I32 offset = (U8*)address - (U8*)&pool->elements[0];
     I32 index = offset / pool->size_of;
     bbAssert(index >= 0 && index < pool->num, "index %d out of bounds\n", index);
@@ -121,7 +122,7 @@ bbFlag bbThreadedPool_allocImpl(bbThreadedPool* pool, void** address, bbHandle* 
         //assert available list empty
 
         bbDebug("Threaded Pool Full - size = %d, in use = %d\n", pool->num, pool->in_use);
-
+        bbNotHere()
         pthread_cond_wait(&pool->pool_full_cond, &pool->mutex);
 
     }
@@ -144,17 +145,23 @@ bbFlag bbThreadedPool_allocImpl(bbThreadedPool* pool, void** address, bbHandle* 
         pool->available_tail = -1;
 
         memset(element, 0, pool->size_of);
-        *address = element;
+        if (address != NULL) *address = element;
+        if (handlex != NULL) *handlex = handle;
         bbMutexUnlock(&pool->mutex);
         return bbSuccess;
     }
 
     bbThreadedPool_available* next_element;
-    handle.u64 = element->next;
-    bbThreadedPool_lookup_unchecked(pool, (void*)&next_element, handle);
+    bbHandle handle2;
+    handle2.u64 = element->next;
+    bbThreadedPool_lookup_unchecked(pool, (void*)&next_element, handle2);
     next_element->prev = -1;
     pool->available_head = element->next;
     memset(element, 0, pool->size_of);
+
+    if (address != NULL) *address = element;
+    if (handlex != NULL) *handlex = handle;
+
     *address = element;
     bbMutexUnlock(&pool->mutex);
     return bbSuccess;
@@ -164,6 +171,8 @@ bbFlag bbThreadedPool_free(bbThreadedPool* pool, void* address)
 {
     bbMutexLock(&pool->mutex);
     pool->in_use--;
+
+
 
     //pool full, reserve empty
     if (pool->available_head == -1)

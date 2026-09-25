@@ -19,8 +19,11 @@
 #include "engine/spawner/bbSpawner.h"
 #include "../ECS/moveables/bbMoveables.h"
 #include "engine/ECS/moveables/bbAvoidables.h"
+#include "engine/ECS/players/bbPlayers.h"
 #include "engine/ECS/spatial/bbSpatial.h"
+#include "engine/ECS/teams/bbTeams.h"
 #include "engine/textbox/bbTextbox.h"
+#include "engine/textbox/bbTextboxApp.h"
 
 typedef struct
 {
@@ -32,6 +35,8 @@ typedef struct
     bbAI_System AI_system;
     bbSpatial spatial;
     bbAvoidables* avoidables;
+    bbPlayers players;
+    bbTeams teams;
 } bbECS_data;
 
 typedef struct
@@ -41,7 +46,7 @@ typedef struct
     I64 test_int;
     bbClock_handle clock2_handle;
 
-    ///in order to rewind the viewpoint, we mist keep a record of where it was before updating
+    //UNUSED?
     bbMapCoords viewpoint;
     bbMapCoords goalpoint;
 } bbHome_core;
@@ -58,8 +63,7 @@ typedef struct
     //bbSpawner spawner;
     bbECS_data ECS;
     bbPerformance performance;
-    bbTextbox_system textbox_system;
-    bbTextbox* textbox;
+    bbTextboxApp textbox_app;
 } bbHome;
 
 

@@ -48,6 +48,9 @@ bbFlag bbList_popR(bbList* list, void** element);
 bbFlag bbList_sortL(bbList* list, void* element);
 bbFlag bbList_sortR(bbList* list, void* element);
 
+///keep the element in the same list, but move up or down to keep the list sorted
+bbFlag bbList_reposition(bbList* list, void* element);
+
 bbFlag bbList_peakL(bbList* list, void** element);
 bbFlag bbList_peakR(bbList* list, void** element);
 

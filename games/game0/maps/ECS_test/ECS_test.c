@@ -44,12 +44,12 @@ int main(void)
     bbCore_initInboxMessages(&core);
 
     core.instruction_functions = calloc(sizeof(bbInstruction_fn*), 16);
-    core.instruction_functions[bbInstruction_spawnEmptyEntity-bbInstruction_numTypes] = bbInstruction_spawnEmptyEntity_fn;
-    core.instruction_functions[bbInstruction_unspawnEmptyEntity-bbInstruction_numTypes] = bbInstruction_unspawnEmptyEntity_fn;
-    core.instruction_functions[bbInstruction_entity_setComponent-bbInstruction_numTypes] = bbInstruction_entity_setComponent_fn;
-    core.instruction_functions[bbInstruction_entity_unsetComponent-bbInstruction_numTypes] = bbInstruction_entity_unsetComponent_fn;
-    core.instruction_functions[bbInstruction_setServerEntity-bbInstruction_numTypes] = bbInstruction_setServerEntity_fn;
-    core.instruction_functions[bbInstruction_unsetServerEntity-bbInstruction_numTypes] = bbInstruction_unsetServerEntity_fn;
+    core.instruction_functions[bbI_ECS_spawnEmptyEntity-bbInstruction_numTypes] = bbInstruction_spawnEmptyEntity_fn;
+    core.instruction_functions[bbI_ECS_unspawnEmptyEntity-bbInstruction_numTypes] = bbInstruction_unspawnEmptyEntity_fn;
+    core.instruction_functions[bbI_ECS_entity_setComponent-bbInstruction_numTypes] = bbInstruction_entity_setComponent_fn;
+    core.instruction_functions[bbI_ECS_entity_unsetComponent-bbInstruction_numTypes] = bbInstruction_entity_unsetComponent_fn;
+    core.instruction_functions[bbI_ECS_setServerEntity-bbInstruction_numTypes] = bbInstruction_setServerEntity_fn;
+    core.instruction_functions[bbI_ECS_unsetServerEntity-bbInstruction_numTypes] = bbInstruction_unsetServerEntity_fn;
 
     core.instruction_functions[bbInstruction_spawnServerEntity-bbInstruction_numTypes] = bbInstruction_spawnServerEntity_fn;
     core.instruction_functions[bbInstruction_unspawnServerEntity-bbInstruction_numTypes] = bbInstruction_unspawnServerEntity_fn;
@@ -59,6 +59,7 @@ int main(void)
     bbServerEntities_init(&server_entities,core.ECS);
     bbCore_initActions(&core);
 
+    //bbVPool_free(core.ECS->system.pool, NULL);
 
     char str[KEY_LENGTH];
     U32 collision = 0;
@@ -101,7 +102,7 @@ int main(void)
 
         bbCoreInput_checkActions(&core,i,bbInstructionSource_input, no_handle);
         bbCore_react(&core);
-    }
+    }*/
 
     bbHandle server_handle;
     server_handle.bloated.index = 193;
@@ -112,7 +113,9 @@ int main(void)
                                     server_handle,
                                     bbInstructionSource_input,
                                     no_handle);
+    bbHere()
     bbCore_react(&core);
+    bbHere()
     //bbCoreSynchronous_spawnEmptyEntity(&core, core.ECS, &entity, "TEST ENTITY", bbInstructionSource_input,no_handle);
 
     bbVPool_lookup(core.ECS->system.pool,(void**)&entity,core.ECS->list.list.head);
@@ -128,9 +131,6 @@ int main(void)
 
 
     bbDebug("Entity.key = %s\n", entity2->key);
-
-    for (I32 i = 10; i < 15;i++)
-*/
 
 
     for (I32 i = 0; i < 5;i++)
@@ -192,7 +192,7 @@ int main(void)
     bbCoreInbox_TestMessage(&core);
     bbCore_checkInbox(&core);
 */
-    bbHere()
+    bbDebug("We made it to the end!")
     fflush(stdout);
     exit(EXIT_SUCCESS);
 

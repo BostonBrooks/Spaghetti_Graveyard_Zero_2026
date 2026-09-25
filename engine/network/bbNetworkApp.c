@@ -4,6 +4,7 @@
 #include <string.h>
 
 #include "engine/core/bbAction.h"
+#include "../../games/game0/maps/systems_test/core/action_request.h"
 #include "engine/core/bbCoreInboxInput.h"
 #include "engine/data/bbHome.h"
 #include "games/game0/maps/systems_test/core/spawn_entity.h"
@@ -177,6 +178,8 @@ bbFlag bbNetworkApp_checkInbox(bbNetwork* network)
         {
             //bbDebug("Set socket number %d\n", packet->data.integer);
             network->server_socket_number = packet->data.integer;
+            //TODO this is a hack:
+            home.ECS.players.this_player = packet->data.integer %NUM_PLAYERS;
         }
 
         if (packet->type == PACKETTYPE_TESTSPAWN)
@@ -195,14 +198,31 @@ bbFlag bbNetworkApp_checkInbox(bbNetwork* network)
 
             //bbDebug("player character: %d, %d\n",home.ECS.ECS->player_character.bloated.index,home.ECS.ECS->player_character.bloated.index)
 
+            bbPlayers* players = &home.ECS.players;
+            bbHandle player_character = players->players[players->this_player].selected_entities[0];
             bbAction_setGoalpoint(&home.core.core,
                                         packet->data.map_coords,
-                                        home.ECS.ECS->player_character,
+                                        player_character,
                                         packet->collision,
                                         0,
                                         packet->act_tick);
 
 
+        }
+
+#ifdef DEFINE_TEST_SYSTEM
+        if (packet->type == PACKETTYPE_MESSAGE)
+        {
+            //bbDebug("player character: %d, %d\n",home.ECS.ECS->player_character.bloated.index,home.ECS.ECS->player_character.bloated.index)
+            bbNetworkApp_receiveMessage(network, packet);
+
+
+        }
+#endif
+
+        if (packet->type == PACKETTYPE_ACTION)
+        {
+            bbAction_receive(&home.core.core, network, &packet->data.action);
         }
 
         bbThreadedQueue_free(&network->inbox, (void**)&packet);
@@ -375,6 +395,22 @@ bbFlag bbNetworkApp_setGoalpointOut(bbNetwork* network, I32 entity, bbMapCoords 
     packet->data.map_coords = MC;
     packet->collision = collision;
     packet->player = entity;
+    bbThreadedQueue_pushL(&network->outbox,packet);
+
+    return bbSuccess;
+}
+
+bbFlag bbNetworkApp_sendAction(bbNetwork* network, bbAction* action)
+{
+    bbNetworkPacket* packet;
+    bbThreadedQueue_alloc(&network->outbox, (void**)&packet);
+    packet->type = PACKETTYPE_ACTION;
+    packet->send_tick = action->header.created_tick;
+    packet->act_tick = action->header.act_tick;
+    packet->player = action->header.sender;
+    packet->collision = action->header.collision;
+
+    packet->data.action = *action;
     bbThreadedQueue_pushL(&network->outbox,packet);
 
     return bbSuccess;

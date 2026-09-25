@@ -15,6 +15,8 @@ typedef enum
     bbECS_Graphics,
     bbECS_ServerEntities,
     bbECS_Spatial,
+    bbECS_Players,
+    bbECS_Teams,
     bbECS_numSystems
 } bbECS_systems;
 
@@ -22,7 +24,9 @@ typedef enum
 {
     bbSystem_Drawables = bbECS_numSystems,
     bbSystem_Units,
-    bbSystem_MapIcons
+    bbSystem_MapIcons,
+    bbSystem_RenderUnits,
+    bbSystem_RenderBuffer,
 } bbSystems;
 
 
@@ -69,7 +73,7 @@ typedef struct bbECS
 {
     bbSystem system;
     bbList list;
-    bbHandle player_character;
+    //bbHandle player_character;
     bbSystem* systems[];
 
 } bbECS;

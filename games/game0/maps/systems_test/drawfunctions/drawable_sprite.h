@@ -19,12 +19,12 @@ bbFlag bbDF_drawableSprite(void* Drawable, void* frameDescriptor, void* cl){
     bbViewport* VP = foo->target;
 
 
-    I32 spriteInt = frame->handle.u64;
+    I32 spriteInt = frame->asset_handle.u64;
     sfSprite* sprite = graphics->sprites->sprites[spriteInt];
 
     sfRenderTexture* renderTexture = VP->main.renderTexture;
 
-    sfVector2f V2F = bbMapCoords_getV2f(drawable->coords, VP);
+    sfVector2f V2F = bbMapCoords_getV2f(drawable->md.coords, VP);
 
     sfSprite_setPosition(sprite,V2F);
 

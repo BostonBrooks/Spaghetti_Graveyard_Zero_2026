@@ -9,7 +9,7 @@
 #include "moveables/moveables.h"
 
 ///Core synchronous spawn empty entity
-bbFlag bbCS_spawnEmptyEntity(bbECS_entity** entity, bbInstruction_source source);
+bbFlag bbCS_spawnEmptyEntity(bbECS_entity** entity, char* key, bbInstruction_source source);
 bbFlag bbSF_addServerEntity_skelly(void* spawner,
                                bbECS_entity* entity,
                                bbSpawnFunctionArgs* args,
@@ -23,14 +23,14 @@ bbFlag bbSF_addGraphics_skelly(void* spawner,
                                bbSpawnFunctionArgs* args,
                                bbInstruction_source source);
 
-bbFlag bbCS_spawnEmptyEntity(bbECS_entity** entity, bbInstruction_source source)
+bbFlag bbCS_spawnEmptyEntity(bbECS_entity** entity, char* key, bbInstruction_source source)
 {
     bbAssert(source == bbInstructionSource_norewind, "not implemented");
     //bbHere()
     bbCoreSynchronous_spawnEmptyEntity(&home.core.core,
                                        home.ECS.ECS,
                                        entity,
-                                       "SKELLY",
+                                       key,
                                        source,
                                        no_handle);
 
@@ -139,13 +139,13 @@ bbFlag bbSF_addMoveable_skelly2(void* spawner,
     if (args->state == bbMoveableType_Following)
     {
         bbMoveable_setGoalMoveable(&home.ECS.moveables,moveable_handle, args->goal_handle);
-    } else //if (args->state == bbMoveableType_Idle)
+    } else if (args->state == bbMoveableType_Idle)
     {
         bbMoveable_setGoalPoint(&home.ECS.moveables,moveable_handle,args->position);
-    }// else
-    //{
-    //    bbNotHere() //Not yet implemented
-    //}
+    } else
+    {
+        bbNotImplemented() //Not yet implemented
+    }
 
     //We dont need to undo this, will be nuked by bbInstruction_unspawnTestMoveable_fn
     //bbHere()
@@ -390,7 +390,7 @@ bbFlag bbPF_skellyParser(void* Spawner, char* string)
         &args.handle.bloated.collision,&num_chars);
 
     bbECS_entity* entity;
-    bbCS_spawnEmptyEntity(&entity, bbInstructionSource_norewind);
+    bbCS_spawnEmptyEntity(&entity,key, bbInstructionSource_norewind);
 
     char component[KEY_LENGTH];
     I32 component_length;
@@ -421,11 +421,12 @@ bbFlag bbPF_skelly2Parser(void* Spawner, char* string)
     bbEntitySpawner* spawner = (bbEntitySpawner*)Spawner;
     char key[KEY_LENGTH];
     char state[KEY_LENGTH];
+    char name[KEY_LENGTH];
     bbSpawnFunctionArgs args;
     I32 num_chars;
     char spawn_functions[256];
-    sscanf(string, "%[^','],%[^','],%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%n",
-        key,state,
+    sscanf(string, "%[^','],%[^','],%[^','],%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%n",
+        key,name,state,
         &args.position.i,&args.position.j,&args.position.k,
         &args.goalpoint.i,&args.goalpoint.j,&args.goalpoint.k,
         &args.handle.bloated.index,&args.handle.bloated.collision,
@@ -447,7 +448,7 @@ bbFlag bbPF_skelly2Parser(void* Spawner, char* string)
     args.state = state_handle.u64;
 
     bbECS_entity* entity;
-    bbCS_spawnEmptyEntity(&entity, bbInstructionSource_norewind);
+    bbCS_spawnEmptyEntity(&entity,name, bbInstructionSource_norewind);
 
     char component[KEY_LENGTH];
     I32 component_length;
@@ -487,6 +488,9 @@ bbFlag bbLSF_liveSpawnSkelly(void* spawner,
                                   bbSpawnFunctionArgs* args,
                                   bbInstruction_source source)
 {
+    static I32 count = 0;
+    bbDebug("num skellies = %d\n", ++count)
+
     bbAssert(source == bbInstructionSource_norewind || source == bbInstructionSource_internal, "not implemented");
 
     bbECS_entity* entity;

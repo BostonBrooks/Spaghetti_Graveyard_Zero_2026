@@ -9,18 +9,19 @@ if (CSFML3)
     add_definitions(-DBB_CSFML3=1)
 endif (CSFML3)
 
-if(BB_USE_ASAN)
-if (CMAKE_BUILD_TYPE MATCHES "Debug")
-    add_compile_options(-fsanitize=address -fno-omit-frame-pointer -g)
-    add_link_options(-fsanitize=address)
-endif()
-endif()
+#if(BB_USE_ASAN)
+#if (CMAKE_BUILD_TYPE MATCHES "Debug")
+#    add_compile_options(-fsanitize=address -fno-omit-frame-pointer -g)
+#    add_link_options(-fsanitize=address)
+#endif()
+#endif()
 
 add_executable(Server engine/server/bbServer.c
         engine/network/bbNetworkPacket.c
         engine/threadsafe/bbThreadedPool.c
         engine/threadsafe/bbThreadedQueue.c
         engine/logic/bbBloatedPool.c)
+
 target_compile_definitions(Server PRIVATE
         DEFINE_SERVER)
 target_include_directories(Server  PRIVATE "./")
@@ -49,6 +50,12 @@ target_compile_definitions(Test_Pool PRIVATE
         DEFINE_TEST_POOL)
 target_include_directories(Test_Pool PRIVATE "./")
 
+add_executable(Test_Deque engine/logic/bbSegmentedDeque.c
+        test/bbTest_SegDeque.c)
+target_compile_definitions(Test_Deque PRIVATE
+        DEFINE_INTERPOLATE)
+target_include_directories(Test_Deque  PRIVATE "./")
+
 
 add_executable(Test_Textbox test/bbTest_Textbox.c
         engine/logic/bbBloatedPool.c
@@ -56,7 +63,11 @@ add_executable(Test_Textbox test/bbTest_Textbox.c
         engine/logic/bbList.c
         engine/logic/bbList_sort.c
         engine/logic/bbSystemPool.c
-        engine/logic/bbIterator.c)
+        engine/logic/bbIterator.c
+        engine/threadsafe/bbThreadedQueue.c
+        engine/threadsafe/bbThreadedPool.c
+        engine/logic/bbDictionary.c
+)
 target_compile_definitions(Test_Textbox PRIVATE
         DEFINE_TEST_POOL)
 target_include_directories(Test_Textbox PRIVATE "./")
@@ -71,6 +82,13 @@ target_compile_definitions(Test_Iterator PRIVATE
 target_include_directories(Test_Iterator PRIVATE "./")
 
 
+add_executable(Test_ArraySort test/bbTest_BubbleSort.c
+        engine/logic/bbBubbleSort.c)
+target_compile_definitions(Test_ArraySort PRIVATE
+        DEFINE_TEST_ARRAYSORT)
+target_include_directories(Test_ArraySort PRIVATE "./")
+
+
 add_executable(Core_Test  games/game0/maps/core_test/core_test.c
         engine/test_string/bbTestString.c
 
@@ -81,6 +99,7 @@ add_executable(Core_Test  games/game0/maps/core_test/core_test.c
         engine/core/bbCoreInboxInput.c
         engine/core/bbCoreInputs.c
         engine/core/bbInstruction.c
+        engine/core/bbAction_check.c
 
         engine/logic/bbList.c
         engine/logic/bbNestedList.c
@@ -182,6 +201,12 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
         games/game0/maps/systems_test/core/player_goalpoint.c
         games/game0/maps/systems_test/core/spawn_entity.c
         games/game0/maps/systems_test/core/textboxes.c
+        games/game0/maps/systems_test/network/network_textbox_system.c
+        games/game0/maps/systems_test/vpmouse/vpmouse.c
+        games/game0/maps/systems_test/core/send_server_entity.c
+        games/game0/maps/systems_test/core/bbInstruction_map.c
+        games/game0/maps/systems_test/drawbuffer/drawbuffer.c
+
 
         engine/test_string/bbTestString.c
 
@@ -196,6 +221,8 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
         engine/ECS/moveables/bbMoveables_setState.c
         engine/ECS/spatial/bbSpatial.c
         engine/ECS/spatial/bbSpatial_query.c
+        engine/ECS/players/bbPlayers.c
+        engine/ECS/teams/bbTeams.c
 
         engine/core/bbAction.c
         engine/core/bbCore.c
@@ -205,9 +232,11 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
         engine/core/bbCoreInputs.c
         engine/core/bbInstruction.c
         engine/core/bbAction_check.c
+        games/game0/maps/systems_test/core/action_request.c
 
         engine/logic/bbList.c
         engine/logic/bbNestedList.c
+        engine/logic/bbNestedListR.c
         engine/logic/bbList_sort.c
         engine/logic/bbList_map.c
         engine/logic/bbList_iterate.c
@@ -217,6 +246,7 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
         engine/logic/bbBloatedPool.c
         engine/logic/bbDictionary.c
         engine/logic/bbIterator.c
+        engine/logic/bbBubbleSort.c
 
         engine/threadsafe/bbThreadedQueue_search.c
         engine/threadsafe/bbThreadedQueue.c
@@ -229,6 +259,7 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
 
         engine/interthread/bbClock.c
         engine/textbox/bbTextbox.c
+        engine/textbox/bbTextboxApp.c
 
 
         engine/userinterface/bbInput.c
@@ -245,6 +276,11 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
         engine/viewport/bbViewport.c
         engine/viewport/bbViewportApp.c
         engine/viewport/bbViewportSpawner.c
+        engine/viewport/bbViewportMouse.c
+        engine/viewport/bbViewportMouseFunctions.c
+        engine/viewport/bbViewportMouseWrappers.c
+        engine/viewport/bbRenderUnits.c
+        engine/viewport/bbDrawBuffer.c
 
         engine/geometry/bbCoordinates.c
         engine/geometry/bbGroundCoords.c

@@ -24,12 +24,13 @@ bbFlag bbWidget_Constructor_Textbox(bbWidget** self,
 
 #ifdef BB_CSFML3
     extra_data->sf_text = sfText_create(graphics->fonts->fonts[0]);
+    sfText_setFillColor(extra_data->sf_text, sfBlack);
 #else
     extra_data->sf_text = sfText_create();
     sfText_setFont(extra_data->sf_text, graphics->fonts->fonts[0]);
+    sfText_setColor(extra_data->sf_text, sfBlack);
 #endif
 
-    sfText_setColor(extra_data->sf_text, sfBlack);
     sfText_setCharacterSize(extra_data->sf_text,12);
     extra_data->textbox = NULL;
     extra_data->text[0] = '\0';
@@ -49,7 +50,7 @@ bbFlag bbWidget_Constructor_Textbox(bbWidget** self,
                  "WIDGET_TEXTBOX",
                  &drawfunctionHandle);
 
-    widget->frames[0].drawfunction = drawfunctionHandle.u64;
+    widget->frames[0].draw_function = drawfunctionHandle.u64;
     widget->frames[0].offset.x = 3*SCREEN_PPP;
     widget->frames[0].offset.y = 3*SCREEN_PPP;
 

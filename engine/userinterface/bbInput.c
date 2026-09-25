@@ -159,6 +159,7 @@ bbFlag bbInput_poll(bbInput* input, sfRenderWindow* window){
                 exit(EXIT_SUCCESS);
             }
 
+
         case sfEvtMouseMoved:
         case sfEvtMouseButtonPressed:
         case sfEvtMouseButtonReleased:{
@@ -262,7 +263,8 @@ bbFlag bbInput_poll(bbInput* input, sfRenderWindow* window){
         case sfEvtTextEntered:
             break;
         default:{
-            bbDebug("input not recognised\n");
+            //TODO removed debug
+            //bbDebug("input not recognised\n");
         }
 
         }

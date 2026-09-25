@@ -21,6 +21,8 @@
 #include "games/game0/maps/systems_test/drawfunctions/health_bar.h"
 #include "games/game0/maps/systems_test/drawfunctions/performance.h"
 #include "games/game0/maps/systems_test/drawfunctions/widget_textBox.h"
+#include "games/game0/maps/systems_test/drawfunctions/unit_group.h"
+#include "games/game0/maps/systems_test/drawfunctions/drawbuffer_sprite.h"
 
 #define NUM_DRAWFUNCTIONS 69
 
@@ -30,7 +32,7 @@ bbFlag bbDF_widgetSprite(void* drawable, void* frame_descriptor, void* cl){
     drawFuncClosure* closure = cl;
     bbGraphicsApp* graphics = closure->graphics;
 
-    I32 spriteInt = frame->handle.u64;
+    I32 spriteInt = frame->asset_handle.u64;
     sfSprite* sprite = graphics->sprites->sprites[spriteInt];
 
 
@@ -161,6 +163,38 @@ bbFlag bbDrawfunctions_new(bbDrawfunctions** drawfunctions){
     functions->functions[23] = bbDF_widgetTextBox;
     handle.u64 = 23;
     bbDictionary_add(functions->dictionary, "WIDGET_TEXTBOX", handle);
+
+    functions->functions[24] = bbDF_unitGroup;
+    handle.u64 = 24;
+    bbDictionary_add(functions->dictionary, "UNIT_GROUP", handle);
+
+    functions->functions[25] = bbDF_unitGroup2;
+    handle.u64 = 25;
+    bbDictionary_add(functions->dictionary, "UNIT_GROUP2", handle);
+
+
+    functions->functions[26] = bbDF_drawBufferSprite;
+    handle.u64 = 26;
+    bbDictionary_add(functions->dictionary, "DRAWBUFFER_SPRITE", handle);
+
+
+    functions->functions[27] = bbDF_drawBufferUnitSprite;
+    handle.u64 = 27;
+    bbDictionary_add(functions->dictionary, "DRAWBUFFER_UNITSPRITE", handle);
+
+    functions->functions[27] = bbDF_unitDrawBuffer;
+    handle.u64 = 27;
+    bbDictionary_add(functions->dictionary, "UNIT_DRAWBUFFER", handle);
+
+    functions->functions[28] = bbDF_unitStillDrawBuffer;
+    handle.u64 = 28;
+    bbDictionary_add(functions->dictionary, "UNIT_STILL_DRAWBUFFER", handle);
+
+
+    functions->functions[29] = bbDF_DrawbufferAnimation;
+    handle.u64 = 29;
+    bbDictionary_add(functions->dictionary, "DRAWBUFFER_ANIMATION", handle);
+
 
     *drawfunctions = functions;
     return bbSuccess;

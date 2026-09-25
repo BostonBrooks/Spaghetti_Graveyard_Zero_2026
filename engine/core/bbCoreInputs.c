@@ -1,6 +1,7 @@
 #include "bbCore.h"
 #include "bbCoreInbox.h"
 #include "bbInstruction.h"
+#include "bbInstruction_operations.h"
 
 #ifdef DEFINE_PONG
 #include "core/instructions.h"
@@ -17,45 +18,38 @@
 bbFlag bbCoreInput_setString(bbCore* core, char* string, bbInstruction_source source, bbHandle action)
 {
 
-    bbInstruction* instruction;
-    bbFlag flag = bbList_alloc(&core->do_stack,(void**)&instruction);
-
+    allocActiveInstruction(instruction)
     instruction->type = bbInstruction_setString;
     bbStr_setStr(instruction->data.key, string, KEY_LENGTH);
     instruction->source = source;
     instruction->redo_instruction = action;
-
-    bbList_pushL(&core->do_stack, instruction);
+    pushActiveInstruction(instruction)
     return bbSuccess;
 }
 
 
 bbFlag bbCoreInput_checkActions(bbCore* core, U64 time, bbInstruction_source source, bbHandle action)
 {
-    bbInstruction* instruction;
-    bbFlag flag = bbList_alloc(&core->do_stack,(void**)&instruction);
-
+    allocActiveInstruction(instruction)
     instruction->type = bbInstruction_checkActions;
     instruction->source = source;
     instruction->redo_instruction = action;
     instruction->data.u64 = time;
-
-    bbList_pushL(&core->do_stack, instruction);
+    pushActiveInstruction(instruction)
     return bbSuccess;
 }
 
 
 bbFlag bbCoreInput_setTime(bbCore* core, U64 time, bbInstruction_source source, bbHandle action)
 {
-    bbInstruction* instruction;
-    bbFlag flag = bbList_alloc(&core->do_stack,(void**)&instruction);
+    allocActiveInstruction(instruction)
 
     instruction->type = bbInstruction_setTime;
     instruction->data.u64 = time;
     instruction->source = source;
     instruction->redo_instruction = action;
 
-    bbList_pushL(&core->do_stack, instruction);
+    pushActiveInstruction(instruction)
     return bbSuccess;
 }
 

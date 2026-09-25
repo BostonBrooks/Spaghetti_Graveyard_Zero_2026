@@ -6,7 +6,7 @@ bbFlag bbDF_widgetGraphicsTimeAnimation(void* drawable, void* frameDescriptor, v
     drawFuncClosure* closure = cl;
     bbGraphicsApp* graphics = closure->graphics;
 
-    bbAnimation* animation = graphics->animations->animations[frame_descriptor->handle.u64];
+    bbAnimation* animation = graphics->animations->animations[frame_descriptor->asset_handle.u64];
 
     I32 angle = 0;
     I32 frames = animation->frames;
@@ -40,7 +40,7 @@ bbFlag bbDF_widgetCoreTimeAnimation(void* drawable, void* frameDescriptor, void*
     drawFuncClosure* closure = cl;
     bbGraphicsApp* graphics = closure->graphics;
 
-    bbAnimation* animation = graphics->animations->animations[frame_descriptor->handle.u64];
+    bbAnimation* animation = graphics->animations->animations[frame_descriptor->asset_handle.u64];
 
     I32 angle = 0;
     I32 frames = animation->frames;
@@ -74,7 +74,7 @@ bbFlag bbDF_widgetServerTimeAnimation(void* drawable, void* frameDescriptor, voi
     drawFuncClosure* closure = cl;
     bbGraphicsApp* graphics = closure->graphics;
 
-    bbAnimation* animation = graphics->animations->animations[frame_descriptor->handle.u64];
+    bbAnimation* animation = graphics->animations->animations[frame_descriptor->asset_handle.u64];
 
     I32 angle = 0;
     I32 frames = animation->frames;

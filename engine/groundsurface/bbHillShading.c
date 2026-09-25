@@ -4,6 +4,7 @@
 
 
 char vertShader[] = "\n\
+    #version 130\n\
     \
 	uniform vec2 offset;\
     void main()\
@@ -22,6 +23,7 @@ char vertShader[] = "\n\
 // {trunc(gl_FragCoord.x), trunc(gl_FragCoord.y)} are the desired coordinates
 // where the origin is in the bottom right
 char hillShader[] = "\
+    #version 130\n\
     #define PIXELS_PER_TILE       16\n\
 	#define TILES_PER_SQUARE      32\n\
 	#define HEIGHTMAP_PADDING     16\n\
@@ -93,6 +95,7 @@ char hillShader[] = "\
     }";
 
 char elevationShader[] = "\
+    #version 130\n\
     #define PIXELS_PER_TILE       16\n\
 	#define TILES_PER_SQUARE      32\n\
 		#define HEIGHTMAP_PADDING     16\n\

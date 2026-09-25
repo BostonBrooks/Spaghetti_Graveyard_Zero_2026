@@ -8,6 +8,7 @@
 #ifndef BB_VIEWPORT_H
 #define BB_VIEWPORT_H
 
+#include "bbViewportMouse.h"
 #include "engine/data/CSFML.h"
 #include "engine/logic/bbFlag.h"
 #include "engine/geometry/bbCoordinates.h"
@@ -29,6 +30,7 @@ typedef struct {
 
     sfRenderStates renderStates;
 	sfShader* shader;
+	void* mouse;
 
     bbMapCoords viewpoint;
     int height;

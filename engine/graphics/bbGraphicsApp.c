@@ -26,5 +26,9 @@ bbFlag bbGraphicsApp_init(bbGraphicsApp* app)
 
     bbFonts_new(&app->fonts, fonts_path);
 
+    bbDrawBufferFunctions_new(&app->drawBufferFunctions);
+
+    bbDrawBufferFunctions_populate(app->drawBufferFunctions);
+
         return bbSuccess;
 }

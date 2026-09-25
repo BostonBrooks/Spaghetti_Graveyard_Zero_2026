@@ -57,15 +57,19 @@ bbFlag bbSF_addAI_player(void* spawner,
     bbAI_Component* this;
 
 
+    I32 update_int = bbAI_Functions_getInt(&home.ECS.AI_system.functions, AI_Update, "UPDATE_PLAYER");
+    I32 command_int = bbAI_Functions_getInt(&home.ECS.AI_system.functions, AI_Command, "COMMAND_PLAYER");
 
 
     bbCS_spawnAIComponent2(&home.core.core,
                           home.core.core.ECS,
                           handle,
-                          3,1,
+                          update_int,command_int,
                           &this,
                           source,
                           no_handle);
+
+
 
     return bbSuccess;
 }

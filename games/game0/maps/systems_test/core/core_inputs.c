@@ -2,6 +2,7 @@
 
 #include "games/game0/maps/systems_test/core/instructions.h"
 //#include "engine/entities/bbAgents.h"
+#include "engine/core/bbInstruction_operations.h"
 #include "engine/logic/bbList.h"
 
 /*
@@ -159,13 +160,12 @@ bbFlag bbCoreInput_testClick(bbCore* core, bbMapCoords MC, bbInstruction_source 
 {
     bbHere()
 
-    bbInstruction* instruction;
-    bbFlag flag = bbList_alloc(&core->do_stack,(void**)&instruction);
+    allocActiveInstruction(instruction)
 
     instruction->type = bbInstruction_testClick;
     instruction->data.map_coords = MC;
     instruction->source = source;
     instruction->redo_instruction = action;
-    bbList_pushL(&core->do_stack, instruction);
+    pushActiveInstruction(instruction)
     return bbSuccess;
 }

@@ -2,6 +2,8 @@
 #include <stddef.h>
 #include "engine/core/bbCore.h"
 
+#include "bbInstruction_operations.h"
+#include "../../games/game0/maps/systems_test/core/action_request.h"
 #include "engine/core/bbCoreInbox.h"
 #include "engine/core/bbInstruction.h"
 #include "engine/core/bbAction.h"
@@ -14,11 +16,12 @@
 #include "engine/threadsafe/bbThreadedPool.h"
 #include "engine/test_string/bbTestString.h"
 #include "engine/core/bbAction_check.h"
+#include "engine/logic/bbSegmentedDeque.h"
 
 bbFlag bbCore_init(bbCore* core)
 {
     bbVPool_newBloated(&core->instruction_pool, sizeof(bbInstruction), 1000, 10, "bbInstruction");
-    bbList_init(&core->do_stack, core->instruction_pool, NULL, offsetof(bbInstruction, list_element),NULL,69);
+    bbList_init(&core->active_stack, core->instruction_pool, NULL, offsetof(bbInstruction, list_element),NULL,69);
     bbList_init(&core->undo_stack, core->instruction_pool, NULL, offsetof(bbInstruction, list_element),NULL,70);
 
     bbVPool_newThreaded(&core->local_message_pool, sizeof(bbCoreInboxMessage),1000);
@@ -32,52 +35,60 @@ bbFlag bbCore_init(bbCore* core)
     bbList_init(&core->action_queue, core->action_pool, NULL, offsetof(bbAction, header.list_element),bbAction_compare,71);
     bbList_init(&core->action_temp_fifo, core->action_pool, NULL, offsetof(bbAction, header.list_element),bbAction_compare,72);
 
+    bbInstruction_deque_init(&core->active_instructions,1024, "Active Instructions");
+    bbInstruction_deque_init(&core->undo_instructions,1024,"Undo Instructions");
+    bbInstruction_deque_init(&core->redo_instructions,1024,"Redo Instructions");
+
     core->simulation_time = 0;
  return bbSuccess;
 }
 
 bbFlag bbCore_react(bbCore* core)
 {//printf("+++\n");
-    bbFlag flag;
-    bbInstruction* instruction;
-
     while (1)
-    {
-        flag = bbList_popL(&core->do_stack, (void**)&instruction);
-        if (flag != bbSuccess)
-        {//printf("---\n");
-            return bbSuccess;
-        }
+    {//bbHere()
 
-        if (instruction->type >= bbInstruction_numTypes)
-        {
-            bbInstruction_fn* instruction_fn = core->instruction_functions[instruction->type-bbInstruction_numTypes];
+        fetchInstruction(core)
 
-            bbAssert(instruction_fn != NULL, "Unknown instruction type %d\n", instruction->type);
+        //bbHere()
 
-            instruction_fn(core, instruction);
+        if (instruction.type >= bbInstruction_numTypes)
+        {//bbHere()
+            bbInstruction_fn* instruction_fn = core->instruction_functions[instruction.type-bbInstruction_numTypes];
+
+            //bbDebug("instruction type = %d\n", instruction.type);
+            bbAssert(instruction_fn != NULL, "Unknown instruction type %d\n", instruction.type);
+
+            instruction_fn(core, &instruction);
         } else
         {
-            switch (instruction->type)
+            //bbDebug("instruction type = %d\n", instruction.type);
+            switch (instruction.type)
             {
 
                 ///(2) core reacts to instruction
 
             case bbInstruction_setTime:
-                bbInstruction_setTime_fn(core, instruction);
+                ///bbHere()
+                bbInstruction_setTime_fn(core, &instruction);
+                //bbHere()
                 break;
 
             // case bbInstruction_setString:
             //     bbInstruction_setString_fn(core, instruction);
             //     break;
+
+            case bbInstruction_setString:
             case bbI_setString:
-                bbI_setString_fn(core, instruction);
+                //bbHere()
+                bbI_setString_fn(core, &instruction);
                 break;
 
 
             case bbI_doNothing:
-                bbI_doNothing_fn(core, instruction);
+                bbI_doNothing_fn(core, &instruction);
                 break;
+
 
             //case bbI_spawnAIComponent:
                 //TODO virtual function / callback
@@ -90,7 +101,9 @@ bbFlag bbCore_react(bbCore* core)
                 //break;
 
             case bbInstruction_checkActions:
-                bbInstruction_checkActions_fn(core, instruction);
+                //bbHere()
+                bbInstruction_checkActions_fn(core, &instruction);
+                //bbHere()
                 break;
             //case bbInstruction_spawnEmptyEntity:
                 //TODO virtual function / callback
@@ -138,7 +151,7 @@ bbFlag bbCore_react(bbCore* core)
                 //bbInstruction_spawnTestMoveable_fn(core, instruction);
                 //break;
             default:
-                bbAssert(0==1,"Unknown instruction type %d\n", instruction->type);
+                bbAssert(0==1,"Unknown instruction type %d\n", &instruction.type);
             }
         }
     }
@@ -148,27 +161,29 @@ bbFlag bbCore_react(bbCore* core)
 
 
 bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
-{
-    bbFlag flag;
-    bbInstruction* instruction;
-
+{//bbHere()
     while (core->simulation_time > time)
-    {
-        flag = bbList_popL(&core->undo_stack, (void**)&instruction);
-        if (flag != bbSuccess) return bbSuccess;
+    { //bbHere()
 
-        if (instruction->type >= bbInstruction_numTypes)
+
+        fetchUndoInstruction(core)
+
+        if (instruction.type >= bbInstruction_numTypes)
         {
 
-            bbInstruction_fn* instruction_fn = core->instruction_functions[instruction->type-bbInstruction_numTypes];
-            instruction_fn(core, instruction);
+            bbInstruction_fn* instruction_fn = core->instruction_functions[instruction.type-bbInstruction_numTypes];
+            //bbHere()
+            instruction_fn(core, &instruction);
+            //bbHere()
 
         } else
         {
-            switch (instruction->type)
+            switch (instruction.type)
             {
             case bbInstruction_unsetTime:
-                bbInstruction_unsetTime_fn(core, instruction);
+                //bbHere()
+                bbInstruction_unsetTime_fn(core, &instruction);
+                //bbHere()
                 break;
 
                 ///(6) core "un-reacts" to instruction
@@ -177,11 +192,16 @@ bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
             //     break;
 
             case bbI_unsetString:
-                bbI_unsetString_fn(core, instruction);
+            case bbInstruction_unsetString:
+                //bbHere()
+                bbI_unsetString_fn(core, &instruction);
+                //bbHere()
                 break;
 
             case bbI_undoNothing:
-                bbI_undoNothing_fn(core, instruction);
+                //bbHere()
+                bbI_undoNothing_fn(core, &instruction);
+                //bbHere()
                 break;
 
             // case bbI_unspawnAIComponent:
@@ -190,7 +210,9 @@ bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
             //     break;
 
             case bbInstruction_uncheckActions:
-                bbInstruction_uncheckActions_fn(core, instruction);
+                //bbHere()
+                bbInstruction_uncheckActions_fn(core, &instruction);
+                //bbHere()
                 break;
 
 //             case bbInstruction_unspawnEmptyEntity:
@@ -226,13 +248,17 @@ bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
 //                 //bbInstruction_unspawnGraphicsComponent_fn(core, instruction);
 //                 break;
             default:
-                bbAssert(0==1,"Unknown undo instruction type %d\n", instruction->type);
+                    bbInstruction* redo_instruction = instruction.redo_instruction.ptr;
 
-                bbVPool_free(core->instruction_pool, (void*)instruction);
+                bbDebug(0==1,"Unknown undo instruction type %d\n"
+                    "redo instruction type %d\n instruction source %d\n", instruction.type,redo_instruction->type, instruction.source);
+
+                //bbVPool_free(core->instruction_pool, (void*)instruction_ptr);
             }
         }
 
     }
+    //bbHere()
     return bbSuccess;
 }
 
@@ -247,7 +273,7 @@ bbFlag bbPrintStack_fn(bbList* list, void* node, void* cl)
 bbFlag bbCore_printStack(bbCore* core)
 {
     printf("Do Stack:\n");
-    bbList_mapL(&core->do_stack, bbPrintStack_fn, NULL);
+    bbList_mapL(&core->active_stack, bbPrintStack_fn, NULL);
 
 
     printf("Undo Stack:\n");
@@ -255,3 +281,5 @@ bbFlag bbCore_printStack(bbCore* core)
 
     return bbSuccess;
 }
+
+DECLARE_SQ_BODY(bbInstruction,sizeof(bbInstruction),169)

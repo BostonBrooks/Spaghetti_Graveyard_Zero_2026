@@ -3,26 +3,29 @@
 #define BB_UNITS_H
 
 #include "bbDrawables.h"
-
-typedef struct
+#include "bbViewportMouse.h"
+#include "engine/viewport/bbViewportMouseFunctions.h"
+typedef struct bbUnit
 {
     //to be draw to the screen
     bbDrawable drawable;
 
     I32 enitity;
     I32 moveable;
+    bbHandle entity_handle;
     float percent_health;
     U64 display_health_until;
     //the following are used for interpolation
     bbMapCoords prev_coords;
     U64 prev_time;
     bbMapCoords prev_goalpoint;
-
     bbMapCoords next_coords;
+    float prev_angle;
+    float next_angle;
     U64 next_time;
     bbMapCoords next_goalpoint;
 
-
+    bbUnit_mouse mouse;
 } bbUnit;
 
 #define bbUnits_new(self, squares_i, squares_j)\

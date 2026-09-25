@@ -12,18 +12,30 @@ typedef enum
     bbActionType_setString,
     bbActionType_setViewpoint,
     bbActionType_spawnEntity,
+    bbActionType_Test,
     bbActionType_numActions
 } bbAction_type;
 
+typedef enum
+{
+    bbAction_Speculative,
+    bbAction_Wait,
+    bbAction_Accept,
+    bbAction_Modify,
+    bbAction_Deny,
+    bbAction_numStatus,
+} bbAction_status;
 ///Action header used to figure out what order to enact actions
 typedef struct
 {
-    bbListElement_Handle list_element;
-    U32 player;
-    U32 collision;
     bbAction_type type;
+    bbAction_status status;
+    U32 sender;
+    U32 collision;
     U64 created_tick;
     U64 act_tick;
+
+    bbListElement_Handle list_element;
     char key[KEY_LENGTH];
 } bbAction_header;
 
@@ -43,7 +55,7 @@ I32 bbAction_compare (void* A, void* B);
 
 ///Create action to be executed at a given time
 bbFlag bbAction_setString(void* Core,
-                            U32 player,
+                            U32 sender,
                             U32 collision,
                             U64 created_tick,
                             U64 act_tick,
@@ -54,7 +66,7 @@ bbFlag bbAction_setString(void* Core,
 bbFlag bbAction_update(void* core);
 
 bbFlag bbAction_loop(void* Core,
-                            U32 player,
+                            U32 sender,
                             U32 collision,
                             U64 created_tick,
                             U64 act_tick,

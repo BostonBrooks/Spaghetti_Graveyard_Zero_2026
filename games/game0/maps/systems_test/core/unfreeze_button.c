@@ -5,6 +5,7 @@
 
 #include "core_inbox.h"
 #include "instructions.h"
+#include "engine/core/bbInstruction_operations.h"
 #include "engine/data/bbHome.h"
 #include "engine/userinterface/bbUI_Inbox.h"
 
@@ -27,15 +28,14 @@ bbFlag bbCoreInbox_unfreezeButton_fn(bbCore* core, bbCoreInboxMessage* message)
 
 bbFlag bbCoreInput_unfreezeButton(bbCore* core, char* string, bbInstruction_source source, bbHandle action)
 {
-    bbInstruction* instruction;
-    bbFlag flag = bbList_alloc(&core->do_stack,(void**)&instruction);
+    allocActiveInstruction(instruction)
 
     instruction->type = bbInstruction_unfreezeButton;
     bbStr_setStr(instruction->data.key, string, KEY_LENGTH);
     instruction->source = source;
     instruction->redo_instruction = action;
 
-    bbList_pushL(&core->do_stack, instruction);
+    pushActiveInstruction(instruction)
     return bbSuccess;
 }
 

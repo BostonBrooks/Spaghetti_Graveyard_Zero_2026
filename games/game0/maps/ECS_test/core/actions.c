@@ -4,7 +4,7 @@
 
 
 bbFlag bbAction_bbHere(void* Core,
-                       U32 player,
+                       U32 sender,
                        U32 collision,
                        U64 created_tick,
                        U64 act_tick)
@@ -14,7 +14,7 @@ bbFlag bbAction_bbHere(void* Core,
     bbAction* action;
     bbList_alloc(&core->action_queue, (void**)&action);
     action->header.type = bbActionType_bbHere;
-    action->header.player = player;
+    action->header.sender = sender;
     action->header.collision = collision;
     action->header.created_tick = created_tick;
     action->header.act_tick = act_tick;

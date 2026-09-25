@@ -16,15 +16,20 @@ extern U64 test_time;
 
 extern thread_local bool debug_off;
 
+//#ifdef DEFINE_TEST_SYSTEM
+#define NOTIMPLEMENTED_ASSERT
+//#endif
+//#define NOTINPLEMENTED_NONE
+
 /// Print current file, function, line and thread
-#define bbHere() printf ("In FILE: %s, FUNCTION: %s, LINE: %d, THREAD: %s, TIME: %lu\n",\
-__FILE_NAME__, __func__, __LINE__, thread, test_time);
+#define bbHere() {if(!debug_off) printf ("In FILE: %s, FUNCTION: %s, LINE: %d, THREAD: %s, TIME: %lu\n",\
+__FILE_NAME__, __func__, __LINE__, thread, test_time);}
 
 #define bbNotHere() {\
 printf ("In FILE: %s, FUNCTION: %s, LINE: %d, THREAD: %s, TIME: %lu\n"\
 "BB_NOT_HERE\n",\
 __FILE_NAME__, __func__, __LINE__, thread, test_time);\
-int x = 1/0;\
+int _x = 1/0;\
 }
 
 /// Print warning and exit, but preserve the stack for gdb
@@ -267,5 +272,24 @@ pthread_mutex_lock(mutex);}\
 pthread_mutex_unlock(mutex);}\
 
 #endif //#ifdef MUTEX_DEBUG
+
+#ifdef NOTIMPLEMENTED_ASSERT
+
+#define bbNotImplemented() \
+printf ("In FILE: %s, FUNCTION: %s, LINE: %d, THREAD: %s, TIME: %lu\n"\
+"BB_NOT_IMPLEMENTED :P\n",\
+__FILE_NAME__, __func__, __LINE__, thread, test_time);\
+int _x = 1/0;
+
+ #elifdef NOTIMPLEMENTED_NONE
+
+#define bbNotImplemented() {}
+
+ #else
+#define bbNotImplemented() printf ("In FILE: %s, FUNCTION: %s, LINE: %d, THREAD: %s, TIME: %lu\nBB_NOT_IMPLEMENTED\n",\
+__FILE_NAME__, __func__, __LINE__, thread, test_time);
+
+#endif
+
 
 #endif //BB_TERMINAL_H

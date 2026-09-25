@@ -36,11 +36,11 @@ typedef struct {
 	//handle is usually an integer address of the sprite/animation
     //TODO do we need this or let drawfunction decide?
 	bbType type;
-	bbHandle handle;
+	bbHandle asset_handle;
 	//I32 angle - angle supplied in radians by drawable/widget
 	//I32 frame - calculated based on framerate (times framerate of animation)
 	//            and startTime
-	I32 drawfunction;
+	I32 draw_function;
 	U32 start_time;
 	bbScreenPoints offset;
 	//multiply by the framerate of the animation

@@ -4,6 +4,7 @@
 
 #include "core/core_inputs.h"
 #include "core/instructions.h"
+#include "engine/core/bbInstruction_operations.h"
 #include "engine/data/bbHome.h"
 #include "engine/logic/bbBloatedPool.h"
 #include "engine/logic/bbPrime.h"
@@ -157,6 +158,7 @@ bbFlag bbAI_onCommand(bbAI_Component* component,
                           bbAI_CommandData data,
                           bool is_action)
 {
+    if (component == NULL) return bbNone;
     I32 function_index = component->ftable.command;
     if (function_index < 0)
     {
@@ -174,13 +176,12 @@ bbFlag bbCI_spawnAIComponent(bbCore* core,
                              bbHandle action)
 {
 
-    bbInstruction* instruction;
-    bbFlag flag = bbList_alloc(&core->do_stack,(void**)&instruction);
+    allocActiveInstruction(instruction)
     instruction->type = bbI_spawnAIComponent;
     instruction->data.three_handles.handle1 = entity;
     instruction->source = source;
     instruction->redo_instruction = action;
-    bbList_pushL(&core->do_stack, instruction);
+    pushActiveInstruction(instruction)
     return bbSuccess;
 }
 
@@ -189,39 +190,37 @@ bbFlag bbI_spawnAIComponent_fn(bbCore* core, bbInstruction* instruction)
 {
     if (instruction->source == bbInstructionSource_internal)
     {
-        bbInstruction* undo_instruction;
-        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+
+        allocUndoInstruction(undo_instruction)
         undo_instruction->type = bbI_unspawnAIComponent;
         undo_instruction->data.three_handles.handle1 = instruction->data.
             three_handles.handle1;
         undo_instruction->source = instruction->source;
-        bbVPool_free(core->instruction_pool, (void*)instruction);
         undo_instruction->redo_instruction.u64 = 0;
-        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+        pushUndoInstruction(undo_instruction)
     }
     else if (instruction->source == bbInstructionSource_input)
     {
-        bbInstruction* undo_instruction;
-        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        allocUndoInstruction(undo_instruction)
         undo_instruction->type = bbI_unspawnAIComponent;
         undo_instruction->data.three_handles.handle1 = instruction->data.
             three_handles.handle1;
         undo_instruction->source = instruction->source;
-        bbHandle handle;
-        bbVPool_reverseLookup(core->instruction_pool, instruction, &handle);
-        undo_instruction->redo_instruction = handle;
-        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+        allocRedoInstruction(redo_instruction)
+         *redo_instruction = *instruction;
+        undo_instruction->redo_instruction = redo_instruction_handle;
+        pushRedoInstruction(redo_instruction)
+        pushUndoInstruction(undo_instruction)
     }
     else if (instruction->source == bbInstructionSource_action)
     {
-        bbInstruction* undo_instruction;
-        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        allocUndoInstruction(undo_instruction)
         undo_instruction->type = bbI_unspawnAIComponent;
         undo_instruction->data.three_handles.handle1 = instruction->data.
             three_handles.handle1;
         undo_instruction->source = instruction->source;
         undo_instruction->redo_instruction = instruction->redo_instruction;
-        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+        pushUndoInstruction(undo_instruction)
     } //else source == no rewind
 
 
@@ -248,7 +247,7 @@ bbFlag bbI_spawnAIComponent_fn(bbCore* core, bbInstruction* instruction)
 
 bbFlag bbI_unspawnAIComponent_fn(bbCore* core, bbInstruction* instruction)
 {
-    bbNotHere()
+    bbNotImplemented()
 }
 
 
@@ -264,9 +263,7 @@ bbFlag bbCS_spawnAIComponent(bbCore* core,
     if (source == bbInstructionSource_input)
     {
         //create input instruction
-        bbInstruction* instruction;
-        bbHandle instruction_handle;
-        bbFlag flag = bbList_alloc2(&core->do_stack,(void**)&instruction, &instruction_handle);
+        allocRedoInstruction(instruction)
 
         //set input instruction data
         instruction->type = bbI_spawnAIComponent;
@@ -276,38 +273,36 @@ bbFlag bbCS_spawnAIComponent(bbCore* core,
         //bbStr_setStr(instruction->data.key, string, KEY_LENGTH);
 
         //create undo instruction
-        bbInstruction* undo_instruction;
-        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        allocUndoInstruction(undo_instruction)
         undo_instruction->source = instruction->source;
-        undo_instruction->redo_instruction = instruction_handle;
+        undo_instruction->redo_instruction = (bbHandle)instruction_handle;
 
         //set instruction data
         undo_instruction->type = bbI_unspawnAIComponent;
         undo_instruction->data.three_handles.handle1 = entity;
-        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+        pushRedoInstruction(instruction)
+        pushUndoInstruction(undo_instruction)
     } else if (source == bbInstructionSource_internal)
     {
         //create undo instruction
-        bbInstruction* undo_instruction;
-        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        allocUndoInstruction(undo_instruction)
         undo_instruction->source = source;
         undo_instruction->redo_instruction.u64 = 0;
         //set instruction data
         undo_instruction->type = bbI_unspawnAIComponent;
         undo_instruction->data.three_handles.handle1 = entity;
-        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+        pushUndoInstruction(undo_instruction)
     } else if (source == bbInstructionSource_action)
     {
         //create undo instruction
-        bbInstruction* undo_instruction;
-        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        allocUndoInstruction(undo_instruction)
         undo_instruction->redo_instruction = action;
         undo_instruction->source = source;
 
         //Set instruction data
         undo_instruction->type = bbI_unspawnAIComponent;
         undo_instruction->data.three_handles.handle1 = entity;
-        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+        pushUndoInstruction(undo_instruction)
     } else if (source == bbInstructionSource_norewind)
     {
 

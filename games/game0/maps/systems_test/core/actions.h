@@ -6,11 +6,13 @@ typedef enum
 
     bbActionType_setGoalpoint = bbActionType_numActions,
     bbActionType_bbHere,
+    bbActionType_setTarget,
+    bbActionType_setPlayerEntity,
     bbActionType_numVActions
 } bbAction_vtype;
 
 bbFlag bbAction_bbHere(void* Core,
-                       U32 player,
+                       U32 sender,
                        U32 collision,
                        U64 created_tick,
                        U64 act_tick);

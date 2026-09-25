@@ -17,8 +17,8 @@ bbMapCoords MC, I32 index){
     bbFlag flag = bbVPool_alloc2(pool, (void**)&unit,&unit_handle);
 
 
-    unit->drawable.coords = MC;
-    unit->drawable.SC = SC;
+    unit->drawable.md.coords = MC;
+    unit->drawable.md.SC = SC;
     bbHandle drawfunctionHandle;
 
     unit->prev_coords = MC;
@@ -33,26 +33,26 @@ bbMapCoords MC, I32 index){
                         "UNIT_ANIMATION_ANGLE",
                         &drawfunctionHandle);
 
-    unit->drawable.frames[0].drawfunction = drawfunctionHandle.u64;
-    unit->drawable.frames[0].handle.u64 = 9;
-    unit->drawable.frames[0].start_time=  -(rand()%60);
-    unit->drawable.frames[0].framerate = 1;
-    unit->drawable.frames[0].offset.x = 0;
-    unit->drawable.frames[0].offset.y = 0;
+    unit->drawable.md.frames[0].draw_function = drawfunctionHandle.u64;
+    unit->drawable.md.frames[0].asset_handle.u64 = 9;
+    unit->drawable.md.frames[0].start_time=  -(rand()%60);
+    unit->drawable.md.frames[0].framerate = 1;
+    unit->drawable.md.frames[0].offset.x = 0;
+    unit->drawable.md.frames[0].offset.y = 0;
 
     bbDictionary_lookup(graphics->drawfunctions->dictionary,
                     "DRAWABLE_SHADOW",
                     &drawfunctionHandle);
 
-    unit->drawable.frames[1].drawfunction = drawfunctionHandle.u64;
-    unit->drawable.frames[1].handle.u64 = 612;
-    unit->drawable.frames[1].start_time =  -(rand()%6);
-    unit->drawable.frames[1].framerate = 1;
-    unit->drawable.frames[1].offset.x = 0;
-    unit->drawable.frames[1].offset.y = 0;
+    unit->drawable.md.frames[1].draw_function = drawfunctionHandle.u64;
+    unit->drawable.md.frames[1].asset_handle.u64 = 612;
+    unit->drawable.md.frames[1].start_time =  -(rand()%6);
+    unit->drawable.md.frames[1].framerate = 1;
+    unit->drawable.md.frames[1].offset.x = 0;
+    unit->drawable.md.frames[1].offset.y = 0;
 
     for (I32 k = 2; k < FRAMES_PER_DRAWABLE; k++){
-        unit->drawable.frames[k].drawfunction = -1;
+        unit->drawable.md.frames[k].draw_function = -1;
     }
 
     //home.agents_app.entities.movable_units[index] = unit_handle;
@@ -61,6 +61,12 @@ bbMapCoords MC, I32 index){
     return bbSuccess;
 }
 
+static float angular_interpolate(float prev_angle, float next_angle, U64 prev_time, U64 current_time, U64 next_time) {
+
+    float t = (float)(current_time - prev_time) / (float)(next_time - prev_time);
+    float delta = fmodf(next_angle-prev_angle + M_PI,2.0f*M_PI)-M_PI;
+    return prev_angle+t*delta;
+}
 
 
 bbFlag bbUnits_consumeBuffer(bbUnits* units, bbVPool* entity_units, bbMoveables_snapshot* snapshot)
@@ -89,14 +95,14 @@ bbFlag bbUnits_consumeBuffer(bbUnits* units, bbVPool* entity_units, bbMoveables_
         bbVPool_lookup(home.viewport_app.units->pool,(void**)&unit,unit_handle2);
         if (unit == NULL) continue;
         drawable = &unit->drawable;
-        if (drawable->state == bbDrawableState_dead) continue;
+        if (drawable->md.state == bbDrawableState_dead) continue;
 
         if (snapshot->time > unit->next_time)
         {
             unit->prev_coords = unit->next_coords;
             unit->prev_goalpoint = unit->next_goalpoint;
             unit->prev_time = unit->next_time;
-
+            unit->prev_angle = unit->next_angle;
             unit->next_coords = snapshot->moveables[i].position;
             unit->next_goalpoint = snapshot->moveables[i].goalpoint;
             unit->next_time = snapshot->time;
@@ -116,7 +122,8 @@ bbFlag bbUnits_consumeBuffer(bbUnits* units, bbVPool* entity_units, bbMoveables_
             //if (delta_i * delta_i + delta_j * delta_j > POINTS_PER_PIXEL*POINTS_PER_PIXEL)
             {
                 float rotation = atan2(delta_i, delta_j);
-                drawable->rotation = rotation;
+                unit->next_angle = rotation;
+                drawable->md.rotation = rotation;
             }
         }
         bbMapCoords position;
@@ -125,10 +132,10 @@ bbFlag bbUnits_consumeBuffer(bbUnits* units, bbVPool* entity_units, bbMoveables_
             position
                = bbMapCoords_interpolate(unit->prev_coords, unit->next_coords, unit->prev_time,
                    map_time, unit->next_time);
-        //}else{
-        //    position = unit->next_coords;
-        //}
-        //If the drawable is out of bounds, it will be put in a separate bin
+
+        //drawable->rotation = angular_interpolate(unit->prev_angle,unit->next_angle,
+        //                                         unit->prev_time, map_time, unit->next_time);
+
         bbDrawable_setLocation(drawable, units,position);
 
 

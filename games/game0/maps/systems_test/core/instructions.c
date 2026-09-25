@@ -6,6 +6,7 @@
 #include "engine/core/bbCoreInputs.h"
 #include "engine/logic/bbFlag.h"
 #include "engine/core/bbInstruction.h"
+#include "engine/core/bbInstruction_operations.h"
 #include "engine/data/bbHome.h"
 #include "engine/logic/bbString.h"
 #include "engine/network/bbNetworkApp.h"
@@ -15,40 +16,36 @@ extern U32 collision;
 
 
 bbFlag bbInstruction_spawnServerEntity_fn(bbCore* core, bbInstruction* instruction)
-{
+{bbHere()
     if (instruction->source == bbInstructionSource_internal)
     {
-        bbInstruction* undo_instruction;
-        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        allocUndoInstruction(undo_instruction)
         undo_instruction->type = bbInstruction_unspawnServerEntity;
         undo_instruction->source = instruction->source;
-        bbVPool_free(core->instruction_pool, (void*)instruction);
         undo_instruction->redo_instruction.u64 = 0;
-        bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+        pushUndoInstruction(undo_instruction)
+    }
+    else if (instruction->source == bbInstructionSource_input)
+    {
+        allocUndoInstruction(undo_instruction)
+        undo_instruction->type = bbInstruction_unspawnServerEntity;
+        undo_instruction->source = instruction->source;
+        allocRedoInstruction(redo_instruction)
+         *redo_instruction = *instruction;
+        undo_instruction->redo_instruction = redo_instruction_handle;
+        pushRedoInstruction(redo_instruction)
+        pushUndoInstruction(undo_instruction)
+    }
+    else if (instruction->source == bbInstructionSource_action)
+    {
+        allocUndoInstruction(undo_instruction)
+        undo_instruction->type = bbInstruction_unspawnServerEntity;
+        undo_instruction->source = instruction->source;
+        undo_instruction->redo_instruction = instruction->redo_instruction;
+        pushUndoInstruction(undo_instruction)
 
-    } else
-        if (instruction->source == bbInstructionSource_input)
-        {
-            bbInstruction* undo_instruction;
-            bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
-            undo_instruction->type = bbInstruction_unspawnServerEntity;
-            undo_instruction->source = instruction->source;
-            bbHandle handle;
-            bbVPool_reverseLookup(core->instruction_pool, instruction, &handle);
-            undo_instruction->redo_instruction = handle;
-            bbList_pushL(&core->undo_stack,(void*)undo_instruction);
+    } //else source == no rewind
 
-        } else
-            if (instruction->source == bbInstructionSource_action)
-            {
-                bbInstruction* undo_instruction;
-                bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
-                undo_instruction->type = bbInstruction_unspawnServerEntity;
-                undo_instruction->source = instruction->source;
-                undo_instruction->redo_instruction = instruction->redo_instruction;
-                bbList_pushL(&core->undo_stack,(void*)undo_instruction);
-
-            } //else source == no rewind
     bbHere()
     bbECS_entity* entity;
     bbCoreSynchronous_spawnEmptyEntity(core,
@@ -77,15 +74,17 @@ bbFlag bbInstruction_spawnServerEntity_fn(bbCore* core, bbInstruction* instructi
 bbFlag bbInstruction_unspawnServerEntity_fn(bbCore* core, bbInstruction* instruction){
     if (instruction->source == bbInstructionSource_internal)
     {
-        bbVPool_free(core->instruction_pool, (void*)instruction);
+        //bbVPool_free(core->instruction_pool, (void*)instruction);
         return bbSuccess;
     }
     if (instruction->source == bbInstructionSource_input)
     {
-        bbInstruction* redo_instruction;
-        bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction, instruction->redo_instruction);
-        bbList_pushL(&core->do_stack, redo_instruction);
-        bbVPool_free(core->instruction_pool, (void*)instruction);
+        popRedoInstruction(redo_instruction,instruction)
+        allocActiveInstruction(new_instruction)
+        *new_instruction = redo_instruction;
+        bbCore_checkMap(&core->map, &redo_instruction, instruction);
+
+        pushActiveInstruction(new_instruction)
         return bbSuccess;
     }
     if (instruction->source == bbInstructionSource_action)
@@ -94,7 +93,7 @@ bbFlag bbInstruction_unspawnServerEntity_fn(bbCore* core, bbInstruction* instruc
 
         bbVPool_lookup(core->action_pool, (void**)&redo_action, instruction->redo_instruction);
         bbList_sortL(&core->action_queue,(void*)redo_action);
-        bbVPool_free(core->instruction_pool, (void*)instruction);
+        //bbVPool_free(core->instruction_pool, (void*)instruction);
         return bbSuccess;
     }
 }
@@ -105,13 +104,12 @@ bbFlag bbCoreInput_spawnServerEntity(bbCore* core,
                                     bbInstruction_source source,
                                     bbHandle action)
 {
-    bbInstruction* instruction;
-    bbList_alloc(&core->do_stack, (void**) &instruction);
+    allocActiveInstruction(instruction)
     instruction->type = bbInstruction_spawnServerEntity;
     bbStr_setStr(instruction->data.key, key, KEY_LENGTH);
     instruction->source = source;
     instruction->redo_instruction = action;
-    bbList_pushL(&core->do_stack, instruction);
+    pushActiveInstruction(instruction)
     return bbSuccess;
 
 }
@@ -208,16 +206,18 @@ bbFlag bbVInstruction_unsetGoalpoint_fn(bbCore* core,
 
     if (instruction->source == bbInstructionSource_internal)
     {
-        bbVPool_free(core->instruction_pool, (void*)instruction);
+        //bbVPool_free(core->instruction_pool, (void*)instruction);
         return bbSuccess;
     }
     if (instruction->source == bbInstructionSource_input)
     {
-        bbInstruction* redo_instruction;
-        bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction,
-                       instruction->redo_instruction);
-        bbList_pushL(&core->do_stack, redo_instruction);
-        bbVPool_free(core->instruction_pool, (void*)instruction);
+        popRedoInstruction(redo_instruction,instruction)
+        allocActiveInstruction(new_instruction)
+        *new_instruction = redo_instruction;
+        bbCore_checkMap(&core->map, &redo_instruction, instruction);
+
+        pushActiveInstruction(new_instruction)
+        //bbVPool_free(core->instruction_pool, (void*)instruction);
         return bbSuccess;
     }
     if (instruction->source == bbInstructionSource_action)
@@ -227,7 +227,7 @@ bbFlag bbVInstruction_unsetGoalpoint_fn(bbCore* core,
         bbVPool_lookup(core->action_pool, (void**)&redo_action,
                        instruction->redo_instruction);
         bbList_sortL(&core->action_queue, (void*)redo_action);
-        bbVPool_free(core->instruction_pool, (void*)instruction);
+        //bbVPool_free(core->instruction_pool, (void*)instruction);
         return bbSuccess;
     }
     bbNotHere()

@@ -35,10 +35,10 @@ bbFlag bbWidget_draw(bbWidget* widget, drawFuncClosure* cl){
         bbFrame* frame = &widget->frames[i];
 
         bbGraphicsApp* graphics = cl->graphics;
-        if (frame->drawfunction >= 0 && frame->drawfunction < graphics->drawfunctions->num) {
+        if (frame->draw_function >= 0 && frame->draw_function < graphics->drawfunctions->num) {
 
             bbDrawFunction *drawFunction =
-                    graphics->drawfunctions->functions[frame->drawfunction];
+                    graphics->drawfunctions->functions[frame->draw_function];
             if (drawFunction == NULL) return bbContinue;
             drawFunction(widget, frame, cl);
 
@@ -96,8 +96,8 @@ bbFlag bbWidget_newEmpty(bbWidget** self, bbWidgets* widgets, bbWidget* parent, 
     widget->ftable.unhide = -1;
 
     for (I32 i = 0; i < FRAMES_PER_WIDGET; i++) {
-        widget->frames[i].drawfunction = -1;
-        widget->frames[i].handle.u64 = 0;
+        widget->frames[i].draw_function = -1;
+        widget->frames[i].asset_handle.u64 = 0;
         widget->frames[i].start_time = 0;
         widget->frames[i].offset.x = 0;
         widget->frames[i].offset.y = 0;
@@ -199,10 +199,10 @@ bbFlag bbWidget_newLayout(bbWidget** self,
                      "WIDGET_SPRITE",
                      &drawfunctionHandle);
 
-    widget->frames[0].drawfunction = drawfunctionHandle.u64;
+    widget->frames[0].draw_function = drawfunctionHandle.u64;
 
     bbDictionary_lookup(graphics->sprites->dictionary,
-                        "LAYOUT_480", &widget->frames[0].handle);
+                        "LAYOUT_480", &widget->frames[0].asset_handle);
 
     //bbDebug("LAYOUT_480 = %d\n", widget->frames[0].handle.u64);
     widget->frames[0].offset.x = 0;
@@ -246,10 +246,10 @@ bbFlag bbWidget_newLayoutPong(bbWidget** self,
                      "WIDGET_SPRITE",
                      &drawfunctionHandle);
 
-    widget->frames[0].drawfunction = drawfunctionHandle.u64;
+    widget->frames[0].draw_function = drawfunctionHandle.u64;
 
     bbDictionary_lookup(graphics->sprites->dictionary,
-                        "PONGLAYOUT", &widget->frames[0].handle);
+                        "PONGLAYOUT", &widget->frames[0].asset_handle);
 
     //bbDebug("LAYOUT_480 = %d\n", widget->frames[0].handle.u64);
     widget->frames[0].offset.x = 0;
@@ -288,6 +288,7 @@ bbFlag bbWidget_newViewport(bbWidget** self, bbGraphicsApp* graphics,
     rect.height = 456 * SCREEN_PPP;
 
 
+    //debug note these values appear to be correct
     int funcInt = bbMouseFunctions_getInt(&widgets->mouse->functions,
                                           MouseIsOver,
                                       "VIEWPORT");
@@ -303,13 +304,47 @@ bbFlag bbWidget_newViewport(bbWidget** self, bbGraphicsApp* graphics,
                                       "VIEWPORT");
     widget->mtable.right_down = funcInt;
 
+
+    funcInt = bbMouseFunctions_getInt(&widgets->mouse->functions,
+                                          MouseLeftUp,
+                                      "VIEWPORT");
+    widget->mtable.left_up = funcInt;
+
+
+    funcInt = bbMouseFunctions_getInt(&widgets->mouse->functions,
+                                          MouseRightUp,
+                                      "VIEWPORT");
+    widget->mtable.right_up = funcInt;
+
+
+    funcInt = bbMouseFunctions_getInt(&widgets->mouse->functions,
+                                          MouseLeftDrag,
+                                      "VIEWPORT");
+    widget->mtable.left_drag = funcInt;
+
+
+    funcInt = bbMouseFunctions_getInt(&widgets->mouse->functions,
+                                          MouseRightDrag,
+                                      "VIEWPORT");
+    widget->mtable.right_drag = funcInt;
+
+
+    funcInt = bbMouseFunctions_getInt(&widgets->mouse->functions,
+                                          MouseEnter,
+                                      "VIEWPORT");
+    widget->mtable.enter = funcInt;
+
+
+    funcInt = bbMouseFunctions_getInt(&widgets->mouse->functions,
+                                          MouseLeave,
+                                      "VIEWPORT");
+    widget->mtable.leave = funcInt;
+
+
+
     widget->mtable.mouse_icon = 85;
     widget->mtable.drag_icon = -1;
 
-    widget->mtable.enter = -1;
-    widget->mtable.leave = -1;
-    widget->mtable.left_up = -1;
-    widget->mtable.left_drag = -1;
 
     widget->rect = rect;
 
@@ -318,10 +353,10 @@ bbFlag bbWidget_newViewport(bbWidget** self, bbGraphicsApp* graphics,
     bbDictionary_lookup(graphics->drawfunctions->dictionary, "WIDGET_VIEWPORT",
                         &drawfunctionHandle);
 
-    widget->frames[0].drawfunction = drawfunctionHandle.u64;
+    widget->frames[0].draw_function = drawfunctionHandle.u64;
 
     for (I32 i = 1; i < FRAMES_PER_WIDGET; i++) {
-        widget->frames[i].drawfunction = -1;
+        widget->frames[i].draw_function = -1;
     }
 
     bbHandle handle;

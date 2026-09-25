@@ -128,8 +128,8 @@ bbFlag bbPF_zombieGraphics(char* string)
     bbUnit* unit;
     bbUnit_newSkelly(&unit,home.viewport_app.units, &home.UI.graphics, MC, index);
 
-    unit->drawable.frames[0].handle.u64 = 6;
-    unit->drawable.frames[2].handle.u64 = 614;
+    unit->drawable.md.frames[0].handle.u64 = 6;
+    unit->drawable.md.frames[2].handle.u64 = 614;
 
     bbHandle unit_handle;
     bbVPool_reverseLookup(home.viewport_app.units->pool,unit,&unit_handle);
@@ -155,7 +155,7 @@ bbFlag bbPF_zombieGraphics(char* string)
 
     bbUnit* unit;
     bbUnit_newSkeleton(&unit,home.viewport_app.units, &home.UI.graphics, MC, index);
-    unit->drawable.frames[0].handle.u64 = 10;
+    unit->drawable.md.frames[0].handle.u64 = 10;
 
 
 
@@ -167,12 +167,12 @@ bbFlag bbPF_zombieGraphics(char* string)
 
 
 
-    unit->drawable.frames[2].drawfunction = drawfunctionHandle.u64;
-    unit->drawable.frames[2].handle.u64 = 614;
-    unit->drawable.frames[2].start_time =  -(rand()%6);
-    unit->drawable.frames[2].framerate = 1;
-    unit->drawable.frames[2].offset.x = 0;
-    unit->drawable.frames[2].offset.y = 0;
+    unit->drawable.md.frames[2].drawfunction = drawfunctionHandle.u64;
+    unit->drawable.md.frames[2].handle.u64 = 614;
+    unit->drawable.md.frames[2].start_time =  -(rand()%6);
+    unit->drawable.md.frames[2].framerate = 1;
+    unit->drawable.md.frames[2].offset.x = 0;
+    unit->drawable.md.frames[2].offset.y = 0;
 
 
     bbHandle unit_handle;

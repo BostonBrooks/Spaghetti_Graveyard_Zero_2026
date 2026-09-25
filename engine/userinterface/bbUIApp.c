@@ -102,7 +102,15 @@ bbFlag bbUIApp_draw(bbUIApp* app)
 
     bbDrawablesPlus_draw( &cl, i_min, j_min, i_max, j_max);
     //bbAvoidables_draw(home.private.viewportApp.avoidables, &cl, 0, 0, 12, 12);
-    bbGroundSurface_drawVisible(&home.ground_surface, &home.viewport_app.viewport);
+
+    drawBufferClosure closure;
+    closure.target = &home.viewport_app.viewport;
+    closure.graphics = &home.UI.graphics;
+    closure.GUI_time = 0;
+    closure.map_time= 0;
+    bbDrawBuffer_draw(home.viewport_app.drawbuffer, &closure);
+
+bbGroundSurface_drawVisible(&home.ground_surface, &home.viewport_app.viewport);
     //bbGroundSurface_draw(&home.ground_surface, &home.viewport_app.viewport, 0, 0);
 
 

@@ -6,6 +6,7 @@
 #include "engine/data/bbHome.h"
 #include "core/instructions.h"
 #include "core/core_inbox.h"
+#include "engine/core/bbInstruction_operations.h"
 #include "entity_spawner/live_spawn.h"
 
 extern U32 collision;
@@ -38,12 +39,11 @@ bbFlag bbCoreInput_testClick3(bbCore* core,
                                   bbHandle action)
 {
 
-    bbInstruction* instruction;
-    bbList_alloc(&core->do_stack, (void**) &instruction);
+    allocActiveInstruction(instruction)
     instruction->type = bbInstruction_testClick3;
     instruction->data.map_coords = MC;
     instruction->act_time = time;
-    bbList_pushL(&core->do_stack, instruction);
+    pushActiveInstruction(instruction)
     return bbSuccess;
 }
 

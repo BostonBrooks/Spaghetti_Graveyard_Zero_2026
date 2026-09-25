@@ -4,12 +4,16 @@
 #include "engine/data/CSFML.h"
 
 #include "bbNetworkTime.h"
+#include "engine/core/bbAction.h"
 #include "engine/geometry/bbCoordinates.h"
 #include "engine/logic/bbFlag.h"
 #include "engine/logic/bbHandle.h"
 #include "engine/network/bbNetworkTime.h"
 #include "engine/network/bbNetworkTime_pause.h"
 
+#ifdef DEFINE_TEST_SYSTEM
+#include "games/game0/maps/systems_test/network/network_textbox_system.h"
+#endif //DEFINE_TEST_SYSTEM
 #define PACKETTYPE_STRING            0
 #define PACKETTYPE_TIMESTAMP         1
 #define PACKETTYPE_REQUESTTIMESTAMP  2
@@ -27,6 +31,8 @@
 #define PACKETTYPE_SETSOCKETNUMBER   14
 #define PACKETTYPE_TESTCLICK         15
 #define PACKETTYPE_TESTSPAWN         16
+#define PACKETTYPE_MESSAGE           17
+#define PACKETTYPE_ACTION            18
 
 
 #define bbPacketType_print(flag)\
@@ -75,6 +81,9 @@ break;\
 case PACKETTYPE_TESTSPAWN:\
 bbDebug ("Packet Type: PACKETTYPE_TESTSPAWN\n");\
 break;\
+case PACKETTYPE_MESSAGE:\
+bbDebug ("Packet Type: PACKETTYPE_MESSAGE\n");\
+break;\
 \
 }\
 }\
@@ -94,6 +103,12 @@ typedef struct
     bbHandle handle;
 } bbNetworkPacket_testSpawn;
 
+
+typedef struct
+{
+    bbHandle message_handle;
+} bbNetworkPacket_Message;
+
 typedef union
 {
     I32 integer;
@@ -104,11 +119,13 @@ typedef union
     bbNetworkPacket_unit unit;
     I32x2 paddle_and_velocity;
     bbNetworkPacket_testSpawn test_spawn;
+    bbNetworkPacket_Message message;
+    bbAction action;
 } bbNetworkPacket_data;
 
 
 
-typedef struct
+typedef struct bbNetworkPacket
 {
     bbListElement_Handle list_element;
     I32 type;
@@ -129,5 +146,8 @@ bbFlag bbNetwork_sendStr(void* Network, char* str);
 
 
 bbFlag bbNetwork_requestTimestamp(void* Network);
+
+bbFlag bbAction_toPacket(sfPacket* packet, bbAction* action);
+bbFlag bbAction_fromPacket(sfPacket* packet, bbAction* action);
 
 #endif //BB_NETWORK_PACKET_H

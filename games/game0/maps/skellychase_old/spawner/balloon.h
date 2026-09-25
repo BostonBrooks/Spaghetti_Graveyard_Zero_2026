@@ -81,26 +81,26 @@ bbFlag bbUnit_newBalloon(bbUnit** self, bbMapCoords MC, I32 movable_index, I32 e
                         "UNIT_SPRITE",
                         &drawfunctionHandle);
 
-    unit->drawable.frames[0].drawfunction = drawfunctionHandle.u64;
-    unit->drawable.frames[0].handle.u64 = 689 + rand()%11;
-    unit->drawable.frames[0].start_time=  0;
-    unit->drawable.frames[0].framerate = 1;
-    unit->drawable.frames[0].offset.x = 0;
-    unit->drawable.frames[0].offset.y = 0;
+    unit->drawable.md.frames[0].drawfunction = drawfunctionHandle.u64;
+    unit->drawable.md.frames[0].handle.u64 = 689 + rand()%11;
+    unit->drawable.md.frames[0].start_time=  0;
+    unit->drawable.md.frames[0].framerate = 1;
+    unit->drawable.md.frames[0].offset.x = 0;
+    unit->drawable.md.frames[0].offset.y = 0;
 
     bbDictionary_lookup(home.UI.graphics.drawfunctions->dictionary,
                     "DRAWABLE_SHADOW",
                     &drawfunctionHandle);
 
-    unit->drawable.frames[1].drawfunction = drawfunctionHandle.u64;
-    unit->drawable.frames[1].handle.u64 = 612;
-    unit->drawable.frames[1].start_time =  -(rand()%6);
-    unit->drawable.frames[1].framerate = 1;
-    unit->drawable.frames[1].offset.x = 0;
-    unit->drawable.frames[1].offset.y = 0;
+    unit->drawable.md.frames[1].drawfunction = drawfunctionHandle.u64;
+    unit->drawable.md.frames[1].handle.u64 = 612;
+    unit->drawable.md.frames[1].start_time =  -(rand()%6);
+    unit->drawable.md.frames[1].framerate = 1;
+    unit->drawable.md.frames[1].offset.x = 0;
+    unit->drawable.md.frames[1].offset.y = 0;
 
     for (I32 k = 2; k < FRAMES_PER_DRAWABLE; k++){
-        unit->drawable.frames[k].drawfunction = -1;
+        unit->drawable.md.frames[k].drawfunction = -1;
     }
 
     //home.agents_app.entities.movable_units[movable_index] = unit_handle;

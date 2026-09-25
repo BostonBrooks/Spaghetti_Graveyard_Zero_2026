@@ -153,6 +153,32 @@ bbFlag bbSF_addAI_skelly(void* spawner,
     return bbSuccess;
 }
 
+bbFlag bbSF_addServerEntity(void* spawner,
+                               bbECS_entity* entity,
+                               bbSpawnFunctionArgs* args,
+                               bbInstruction_source source)
+{
+
+    bbAssert(source == bbInstructionSource_norewind || source == bbInstructionSource_internal, "not implemented");
+
+
+    bbHandle handle;
+    bbVPool_reverseLookup(home.ECS.ECS->system.pool, entity, &handle);
+
+    bbAI_Component* this;
+
+
+
+    bbCoreInput_setServerEntity(&home.core.core,
+                                       handle,
+                                       args->handle,
+                                       source,
+                                 no_handle);
+
+    return bbSuccess;
+}
+
+
 bbFlag bbSF_addAI_fireball(void* spawner,
                                bbECS_entity* entity,
                                bbSpawnFunctionArgs* args,
@@ -209,7 +235,7 @@ bbFlag bbSF_addAI_castfireball(void* spawner,
     return bbSuccess;
 }
 
-bbFlag bbSF_addAI_cow(void* spawner,
+bbFlag bbSF_addAI_chase(void* spawner,
                                bbECS_entity* entity,
                                bbSpawnFunctionArgs* args,
                                bbInstruction_source source)
@@ -223,13 +249,13 @@ bbFlag bbSF_addAI_cow(void* spawner,
 
     bbAI_Component* this;
 
-
+    I32 update_int = bbAI_Functions_getInt(&home.ECS.AI_system.functions, AI_Update, "UPDATE_CHASE");
 
 
     bbCS_spawnAIComponent2(&home.core.core,
                           home.core.core.ECS,
                           handle,
-                          2,0,
+                          update_int,0,
                           &this,
                           source,
                           no_handle);
@@ -273,14 +299,68 @@ bbFlag bbSF_setPlayer(void* spawner,
 {//TODO make core synchronous set player handle; May want to store player character somewhere else
     bbHandle handle = entity->component.entity_handle;
 
-    home.ECS.ECS->player_character = handle;
-
-
+    //home.ECS.ECS->player_character = handle;
+    for (I32 i = 0; i < NUM_PLAYERS; i++)
+    {
+        home.ECS.players.players[i].selected_entities[0] = entity->component.entity_handle;
+    }
     bbUI_Inbox_SetViewpoint(&home.UI.inbox, handle);
 
     return bbSuccess;
 }
 
+bbFlag bbSF_setTeamPlayer(void* spawner,
+                               bbECS_entity* entity,
+                               bbSpawnFunctionArgs* args,
+                               bbInstruction_source source)
+{//TODO make core synchronous set player handle; May want to store player character somewhere else
+    bbHandle entity_handle = entity->component.entity_handle;
+
+    //home.ECS.ECS->player_character = handle;
+
+    //bbUI_Inbox_SetViewpoint(&home.UI.inbox, handle);
+/*
+    bbCS_spawnTeamComponent(&home.core.core,
+                         entity_handle,
+                         NULL,
+                         bbTeam_player,
+                      source,
+                      no_handle);
+
+    bbTeam* team;
+    bbHandle_mapComponent(home.ECS.ECS,bbECS_ECS,entity_handle,bbECS_Teams,NULL,(bbComponent**)&team);
+    bbDebug("player team = %d\n", team->team);
+*/
+    bbCI_spawnTeamComponent(&home.core.core,
+                             entity_handle,
+                             bbTeam_player,
+                             source,
+                             no_handle);
+
+    return bbSuccess;
+}
+
+
+bbFlag bbSF_setTeamMonster(void* spawner,
+                               bbECS_entity* entity,
+                               bbSpawnFunctionArgs* args,
+                               bbInstruction_source source)
+{//TODO make core synchronous set player handle; May want to store player character somewhere else
+    bbHandle entity_handle = entity->component.entity_handle;
+
+    //home.ECS.ECS->player_character = handle;
+
+    //bbUI_Inbox_SetViewpoint(&home.UI.inbox, handle);
+
+    bbCS_spawnTeamComponent(&home.core.core,
+                         entity_handle,
+                         NULL,
+                         bbTeam_monster,
+                      source,
+                      no_handle);
+
+    return bbSuccess;
+}
 
 
 bbFlag bbEntitySpawner_populate(bbEntitySpawner* spawner)
@@ -306,12 +386,18 @@ bbFlag bbEntitySpawner_populate(bbEntitySpawner* spawner)
     bbSpawnFunction_add(spawner, bbSF_addGraphics_lizard, "LIZARD_GRAPHICS");
     bbSpawnFunction_add(spawner, bbSF_addGraphics_fireball, "FIREBALL_GRAPHICS");
     bbSpawnFunction_add(spawner, bbSF_addAI_skelly, "SKELLY_AI");
-    bbSpawnFunction_add(spawner, bbSF_addAI_cow, "COW_AI");
+    bbSpawnFunction_add(spawner, bbSF_addAI_chase, "CHASE_AI");
     bbSpawnFunction_add(spawner, bbSF_addAI_player, "PLAYER_AI");
     bbSpawnFunction_add(spawner, bbSF_addAI_null, "NULL_AI");
     bbSpawnFunction_add(spawner, bbSF_addAI_fireball, "FIREBALL_AI");
     bbSpawnFunction_add(spawner, bbSF_addAI_castfireball, "CASTFIREBALL_AI");
-    bbSpawnFunction_add(spawner, bbSF_setPlayer, "PLAYER");
+    bbSpawnFunction_add(spawner, bbSF_setPlayer, "SET_PLAYER");
+    bbSpawnFunction_add(spawner, bbSF_addServerEntity, "SERVER_ENTITY");
+    bbSpawnFunction_add(spawner, bbSF_setTeamPlayer, "TEAM_PLAYER");
+    bbSpawnFunction_add(spawner, bbSF_setTeamMonster, "TEAM_MONSTER");
+
+
+
 
     bbLiveSpawnFunction_add(spawner,  bbLSF_liveSpawnSkelly, "SKELLY_LIVE");
     bbLiveSpawnFunction_add(spawner,  bbLSF_liveSpawnFireball, "FIREBALL_LIVE");

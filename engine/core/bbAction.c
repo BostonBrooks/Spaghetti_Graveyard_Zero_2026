@@ -1,13 +1,12 @@
 #include "engine/core/bbAction.h"
 
 #include "bbCore.h"
-#include "core/actions.h"
 #include "engine/logic/bbString.h"
 
 
 //create a bbAction
 bbFlag bbAction_setString(void* Core,
-                         U32 player,
+                         U32 sender,
                          U32 collision,
                          U64 created_tick,
                          U64 act_tick,
@@ -17,7 +16,7 @@ bbFlag bbAction_setString(void* Core,
     bbAction* action;
     bbList_alloc(&core->action_queue,(void**)&action);
     action->header.type = bbActionType_setString;
-    action->header.player = player;
+    action->header.sender = sender;
     action->header.collision = collision;
     action->header.created_tick = created_tick;
     action->header.act_tick = act_tick;
@@ -36,8 +35,8 @@ I32 bbAction_compare (void* A, void* B)
     if (a->act_tick > b->act_tick) return 0;
     if (a->collision < b->collision) return 1;
     if (a->collision > b->collision) return 0;
-    if (a->player < b->player) return 1;
-    if (a->player > b->player) return 0;
+    if (a->sender < b->sender) return 1;
+    if (a->sender > b->sender) return 0;
 
     bbNotHere()
 
@@ -65,26 +64,3 @@ bbFlag bbAction_setViewpoint(void* Core,
     return bbSuccess;
 }
 
-bbFlag bbAction_setGoalpoint(void* Core,
-                            bbMapCoords map_coords,
-                            bbHandle handle,
-                            U32 collision,
-                            U64 created_tick,
-                            U64 act_tick)
-{
-    bbCore* core = (bbCore*)Core;
-
-    bbAction* action;
-    bbFlag flag = bbList_alloc(&core->action_queue,(void**)&action);
-
-    bbAssert(flag == bbSuccess, "action pool full!\n");
-    action->header.type = bbActionType_setGoalpoint;
-    action->header.collision = collision;
-    action->header.created_tick = created_tick;
-    action->header.act_tick = act_tick;
-    action->map_coords = map_coords;
-    action->handle = handle;
-    bbList_sortL(&core->action_queue,(void*)action);
-
-    return bbSuccess;
-}

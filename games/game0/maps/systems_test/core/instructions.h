@@ -3,10 +3,13 @@
 #include "engine/core/bbInstruction.h"
 #include "engine/ECS/bbECS_instructions.h"
 
+//TODO create two tables
+//Map undo instruction -> forward instruction
+//Map forward instruction -> undo instruction
 
 typedef enum
 {
-    bbInstruction_testClick3 = bbInstruction_numECS_Instructions,
+    bbInstruction_testClick3 = bbI_ECS_numECS_Instructions,
     bbInstruction_testClick4,
     bbInstruction_spawnGraphicsComponent,
     bbInstruction_unspawnGraphicsComponent,
@@ -29,6 +32,12 @@ typedef enum
     bbI_live_unspawnEntity,
     bbI_AI_setState,
     bbI_AI_unsetState,
+    bbI_setTextbox,
+    bbI_unsetTextbox,
+    bbI_putTextbox,
+    bbI_unputTextbox,
+    bbInstruction_requestAction,
+    bbInstruction_unrequestAction,
     bbVInstruction_numTypes
 }bbVInstruction_type;
 

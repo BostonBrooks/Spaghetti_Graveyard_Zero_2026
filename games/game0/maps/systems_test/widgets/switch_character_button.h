@@ -37,10 +37,10 @@ bbFlag bbWidget_Constructor_SwitchCharacterButton(bbWidget** self,
                      "BUTTON_STATE",
                      &drawfunctionHandle);
 
-    widget->frames[0].drawfunction = drawfunctionHandle.u64;
+    widget->frames[0].draw_function = drawfunctionHandle.u64;
 
     bbDictionary_lookup(graphics->compositions->dictionary,
-                        "BUTTON", &widget->frames[0].handle);
+                        "BUTTON", &widget->frames[0].asset_handle);
 
     //bbDebug("LAYOUT_480 = %d\n", widget->frames[0].handle.u64);
     widget->frames[0].offset.x = 0;
@@ -48,7 +48,7 @@ bbFlag bbWidget_Constructor_SwitchCharacterButton(bbWidget** self,
 
     bbDictionary_lookup(graphics->drawfunctions->dictionary, "WIDGET_TEXT",
                 &drawfunctionHandle);
-    widget->frames[1].drawfunction = drawfunctionHandle.u64;
+    widget->frames[1].draw_function = drawfunctionHandle.u64;
     widget->frames[1].offset.x = 3*SCREEN_PPP;
     widget->frames[1].offset.y = 3*SCREEN_PPP;
 

@@ -7,6 +7,7 @@
 #include "games/game0/maps/systems_test/entity_spawner/live_spawn.h"
 
 #include "core/instructions.h"
+#include "engine/core/bbInstruction_operations.h"
 #include "engine/data/bbHome.h"
 
 
@@ -21,8 +22,8 @@
 ///create instruction to spawn entity
 bbFlag bbCI_live_spawnEntity(bbCore* core, bbSpawnFunctionArgs args, char* key, bbInstruction_source source, bbHandle action)
 {
-    bbInstruction* instruction;
-    bbFlag flag = bbList_alloc(&core->do_stack,(void**)&instruction);
+
+    allocActiveInstruction(instruction)
 
     bbHandle spawn_function_handle;
     bbDictionary_lookup(home.ECS.spawner.live_spawn_dict,key,&spawn_function_handle);
@@ -41,7 +42,7 @@ bbFlag bbCI_live_spawnEntity(bbCore* core, bbSpawnFunctionArgs args, char* key, 
     instruction->source = source;
     instruction->redo_instruction = action;
 
-    bbList_pushL(&core->do_stack, instruction);
+    pushActiveInstruction(instruction)
 
     return bbSuccess;
 }
@@ -49,49 +50,50 @@ bbFlag bbCI_live_spawnEntity(bbCore* core, bbSpawnFunctionArgs args, char* key, 
 ///create undo instruction then spawn entity from function
 bbFlag bbI_live_spawnEntity_fn(bbCore* core, bbInstruction* instruction)
 {
-        bbInstruction* undo_instruction = NULL;
+    bbHandle undo_handle;
+    bbLiveSpawnFunction* function = home.ECS.spawner.live_spawn_functions[instruction->data.sfArgs.type];
+
     if (instruction->source == bbInstructionSource_internal)
     {
-        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        allocUndoInstruction(undo_instruction)
         undo_instruction->type = bbI_live_unspawnEntity;
         undo_instruction->source = instruction->source;
-        bbVPool_free(core->instruction_pool, (void*)instruction);
+        //bbVPool_free(core->instruction_pool, (void*)instruction);
         undo_instruction->redo_instruction.u64 = 0;
-        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+        undo_instruction->data.sfArgs.handle = undo_handle;
+        pushUndoInstruction(undo_instruction)
     }
     else if (instruction->source == bbInstructionSource_input)
     {
-        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        allocUndoInstruction(undo_instruction)
         undo_instruction->type = bbI_live_unspawnEntity;
         undo_instruction->source = instruction->source;
-        bbHandle handle;
-        bbVPool_reverseLookup(core->instruction_pool, instruction, &handle);
-        undo_instruction->redo_instruction = handle;
-        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+        undo_instruction->data.sfArgs.handle = undo_handle;
+        allocRedoInstruction(redo_instruction)
+         *redo_instruction = *instruction;
+        undo_instruction->redo_instruction = (bbHandle)redo_instruction_handle;
+        pushRedoInstruction(redo_instruction)
+        pushUndoInstruction(undo_instruction)
     }
     else if (instruction->source == bbInstructionSource_action)
     {
-        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        allocUndoInstruction(undo_instruction)
         undo_instruction->type = bbI_live_unspawnEntity;
         undo_instruction->source = instruction->source;
+        undo_instruction->data.sfArgs.handle = undo_handle;
         undo_instruction->redo_instruction = instruction->redo_instruction;
-        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+        pushUndoInstruction(undo_instruction)
 
 
     } //else source == no rewind
 
-    bbHandle undo_handle;
-    bbLiveSpawnFunction* function = home.ECS.spawner.live_spawn_functions[instruction->data.sfArgs.type];
 
     function(&home.ECS.spawner,
              &undo_handle,
              &instruction->data.sfArgs,
              bbInstructionSource_internal);
 
-    if (undo_instruction != NULL)
-    {
-        undo_instruction->data.sfArgs.handle = undo_handle;
-    }
+
     return bbSuccess;
 }
 
@@ -103,15 +105,18 @@ bbFlag bbI_live_unspawnEntity_fn(bbCore* core, bbInstruction* instruction)
 
     if (instruction->source == bbInstructionSource_internal)
     {
-        bbVPool_free(core->instruction_pool, (void*)instruction);
+        //bbVPool_free(core->instruction_pool, (void*)instruction);
         return bbSuccess;
     }
     if (instruction->source == bbInstructionSource_input)
     {
-        bbInstruction* redo_instruction;
-        bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction, instruction->redo_instruction);
-        bbList_pushL(&core->do_stack, redo_instruction);
-        bbVPool_free(core->instruction_pool, (void*)instruction);
+
+        popRedoInstruction(redo_instruction,instruction)
+        allocActiveInstruction(new_instruction)
+        *new_instruction = redo_instruction;
+        bbCore_checkMap(&core->map, &redo_instruction, instruction);
+
+        pushActiveInstruction(new_instruction)
         return bbSuccess;
     }
     if (instruction->source == bbInstructionSource_action)
@@ -120,7 +125,7 @@ bbFlag bbI_live_unspawnEntity_fn(bbCore* core, bbInstruction* instruction)
 
         bbVPool_lookup(core->action_pool, (void**)&redo_action, instruction->redo_instruction);
         bbList_sortL(&core->action_queue,(void*)redo_action);
-        bbVPool_free(core->instruction_pool, (void*)instruction);
+        //bbVPool_free(core->instruction_pool, (void*)instruction);
 
 
 

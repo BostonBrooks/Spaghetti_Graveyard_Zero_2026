@@ -5,6 +5,8 @@
 #include "engine/data/bbHome.h"
 #include "engine/ECS/moveables/bbMoveables.h"
 #include "games/game0/maps/systems_test/core/instructions.h"
+#include "games/game0/maps/systems_test/core/textboxes.h"
+
 ///discard data needed to restore entity
 bbFlag bbCD_entity_undeleteEntity_fn(bbCore* core, bbInstruction* undo_instruction)
 {
@@ -60,7 +62,9 @@ bbFlag bbCore_initDiscard(bbCore* core)
     core->discard_functions = calloc(sizeof(bbInstruction_fn*), max_instructions);
 
     core->discard_functions[bbInstruction_unupdateMoveables-bbInstruction_numTypes] = bbCD_unupdate_moveables_fn;
-    core->discard_functions[bbInstruction_entity_undeleteEntity-bbInstruction_numTypes] = bbCD_entity_undeleteEntity_fn;
-    core->discard_functions[bbI_moveable_unsetDead-bbInstruction_numTypes] = bbCD_Moveable_unsetDead_fn;
+    core->discard_functions[bbI_ECS_entity_undeleteEntity-bbInstruction_numTypes] = bbCD_entity_undeleteEntity_fn;
+    core->discard_functions[bbI_ECS_moveable_unsetDead-bbInstruction_numTypes] = bbCD_Moveable_unsetDead_fn;
+    core->discard_functions[bbI_unsetTextbox-bbInstruction_numTypes] = bbCD_unsetTextbox_fn;
+    core->discard_functions[bbI_unputTextbox-bbInstruction_numTypes] = bbCD_unputTextbox_fn;
        return bbSuccess;
 }

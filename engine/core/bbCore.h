@@ -14,10 +14,12 @@
 #define BB_CORE_H
 
 #include "bbAction.h"
+#include "bbInstruction_map.h"
 #include "engine/logic/bbIntTypes.h"
 #include "engine/logic/bbList.h"
 #include "engine/logic/bbVPool.h"
 #include "engine/threadsafe/bbThreadedQueue.h"
+#include "engine/logic/bbSQ_Macros.h"
 
 typedef struct bbCore bbCore;
 typedef struct bbInstruction bbInstruction;
@@ -27,6 +29,7 @@ typedef  bbFlag bbInstruction_fn(bbCore* core, bbInstruction* instruction);
 typedef  bbFlag bbCoreInbox_fn(bbCore* core, struct bbCoreInboxMessage* message);
 typedef  bbFlag bbAction_fn(bbCore* core, bbAction* action);
 
+DECLARE_SQ_HEADER(bbInstruction,sizeof(bbInstruction),169)
 
 struct bbCore
 {
@@ -38,8 +41,14 @@ struct bbCore
     bbInstruction_fn** discard_functions;
 
     bbVPool* instruction_pool;
-    bbList do_stack;
+    bbList active_stack;
     bbList undo_stack;
+
+    bbInstruction_deque active_instructions;
+    bbInstruction_deque undo_instructions;
+    bbInstruction_deque redo_instructions;
+
+    bbInstructionMap map;
 
 
     bbVPool* local_message_pool;

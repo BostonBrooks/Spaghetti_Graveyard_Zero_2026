@@ -237,15 +237,15 @@ bbFlag bbUI_Inbox_setUnitState_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message
     bbFlag flag = bbVPool_lookup(home.viewport_app.units->pool, (void**)&unit, message->data.handle.handle);
     if (flag == bbSuccess)
     {
-        unit->drawable.state = message->data.integer;
-        unit->drawable.frames[0].start_time = home.UI.clock2_handle.map_tick;
-        unit->drawable.frames[1].start_time = home.UI.clock2_handle.map_tick;
-        unit->drawable.frames[2].start_time = home.UI.clock2_handle.map_tick;
-        unit->drawable.frames[3].start_time = home.UI.clock2_handle.map_tick;
-        unit->drawable.frames[4].start_time = home.UI.clock2_handle.map_tick;
-        unit->drawable.frames[5].start_time = home.UI.clock2_handle.map_tick;
-        unit->drawable.frames[6].start_time = home.UI.clock2_handle.map_tick;
-        unit->drawable.frames[7].start_time = home.UI.clock2_handle.map_tick;
+        unit->drawable.md.state = message->data.integer;
+        unit->drawable.md.frames[0].start_time = home.UI.clock2_handle.map_tick;
+        unit->drawable.md.frames[1].start_time = home.UI.clock2_handle.map_tick;
+        unit->drawable.md.frames[2].start_time = home.UI.clock2_handle.map_tick;
+        unit->drawable.md.frames[3].start_time = home.UI.clock2_handle.map_tick;
+        unit->drawable.md.frames[4].start_time = home.UI.clock2_handle.map_tick;
+        unit->drawable.md.frames[5].start_time = home.UI.clock2_handle.map_tick;
+        unit->drawable.md.frames[6].start_time = home.UI.clock2_handle.map_tick;
+        unit->drawable.md.frames[7].start_time = home.UI.clock2_handle.map_tick;
     }
     else {bbHere()}
     return bbSuccess;
@@ -285,15 +285,15 @@ bbFlag bbUI_Inbox_setEntityState_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* messa
     flag = bbVPool_lookup(home.viewport_app.units->pool, (void**)&unit, unit_handle2);
     if (flag != bbSuccess) bbNotHere()
 
-        unit->drawable.state = message->data.integer;
-        unit->drawable.frames[0].start_time = home.UI.clock2_handle.map_tick;
-        unit->drawable.frames[1].start_time = home.UI.clock2_handle.map_tick;
-        unit->drawable.frames[2].start_time = home.UI.clock2_handle.map_tick;
-        unit->drawable.frames[3].start_time = home.UI.clock2_handle.map_tick;
-        unit->drawable.frames[4].start_time = home.UI.clock2_handle.map_tick;
-        unit->drawable.frames[5].start_time = home.UI.clock2_handle.map_tick;
-        unit->drawable.frames[6].start_time = home.UI.clock2_handle.map_tick;
-        unit->drawable.frames[7].start_time = home.UI.clock2_handle.map_tick;
+        unit->drawable.md.state = message->data.integer;
+        unit->drawable.md.frames[0].start_time = home.UI.clock2_handle.map_tick;
+        unit->drawable.md.frames[1].start_time = home.UI.clock2_handle.map_tick;
+        unit->drawable.md.frames[2].start_time = home.UI.clock2_handle.map_tick;
+        unit->drawable.md.frames[3].start_time = home.UI.clock2_handle.map_tick;
+        unit->drawable.md.frames[4].start_time = home.UI.clock2_handle.map_tick;
+        unit->drawable.md.frames[5].start_time = home.UI.clock2_handle.map_tick;
+        unit->drawable.md.frames[6].start_time = home.UI.clock2_handle.map_tick;
+        unit->drawable.md.frames[7].start_time = home.UI.clock2_handle.map_tick;
 
 
     return bbSuccess;
@@ -343,8 +343,8 @@ bbFlag bbUI_Inbox_newBanana_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
     bbHandle unit_handle;
     bbFlag flag = bbVPool_alloc2(pool, (void**)&unit,&unit_handle);
 
-    unit->drawable.coords = MC;
-    unit->drawable.SC = SC;
+    unit->drawable.md.coords = MC;
+    unit->drawable.md.SC = SC;
     bbHandle drawfunctionHandle;
     if (entity_handle.u64 != no_handle.u64)
     {
@@ -365,55 +365,55 @@ bbFlag bbUI_Inbox_newBanana_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
     unit->next_coords = MC;
     unit->next_time = 2;
     unit->next_goalpoint = MC;
-    unit->drawable.state = bbDrawableState_moving;
+    unit->drawable.md.state = bbDrawableState_moving;
 
 
     bbDictionary_lookup(home.UI.graphics.drawfunctions->dictionary,
                         "COMPOSITION_STATE",
                         &drawfunctionHandle);
 
-    unit->drawable.frames[0].drawfunction = drawfunctionHandle.u64;
-    unit->drawable.frames[0].handle.u64 = 5;
-    unit->drawable.frames[0].start_time= 0;
-    unit->drawable.frames[0].framerate = 1;
-    unit->drawable.frames[0].offset.x = 0;
-    unit->drawable.frames[0].offset.y = 0;
+    unit->drawable.md.frames[0].draw_function = drawfunctionHandle.u64;
+    unit->drawable.md.frames[0].asset_handle.u64 = 5;
+    unit->drawable.md.frames[0].start_time= 0;
+    unit->drawable.md.frames[0].framerate = 1;
+    unit->drawable.md.frames[0].offset.x = 0;
+    unit->drawable.md.frames[0].offset.y = 0;
 
     bbDictionary_lookup(home.UI.graphics.drawfunctions->dictionary,
                     "DRAWABLE_SHADOW",
                     &drawfunctionHandle);
 
-    unit->drawable.frames[1].drawfunction = drawfunctionHandle.u64;
-    unit->drawable.frames[1].handle.u64 = 612;
-    unit->drawable.frames[1].start_time =  -(rand()%6);
-    unit->drawable.frames[1].framerate = 1;
-    unit->drawable.frames[1].offset.x = 0;
-    unit->drawable.frames[1].offset.y = 0;
+    unit->drawable.md.frames[1].draw_function = drawfunctionHandle.u64;
+    unit->drawable.md.frames[1].asset_handle.u64 = 612;
+    unit->drawable.md.frames[1].start_time =  -(rand()%6);
+    unit->drawable.md.frames[1].framerate = 1;
+    unit->drawable.md.frames[1].offset.x = 0;
+    unit->drawable.md.frames[1].offset.y = 0;
 
     bbDictionary_lookup(home.UI.graphics.drawfunctions->dictionary,
              "MAPICON_TEST",
              &drawfunctionHandle);
 
-    unit->drawable.frames[2].drawfunction = drawfunctionHandle.u64;
-    unit->drawable.frames[2].handle.u64 = 626;
-    unit->drawable.frames[2].start_time =  -(rand()%6);
-    unit->drawable.frames[2].framerate = 1;
-    unit->drawable.frames[2].offset.x = 0;
-    unit->drawable.frames[2].offset.y = 0;
+    unit->drawable.md.frames[2].draw_function = drawfunctionHandle.u64;
+    unit->drawable.md.frames[2].asset_handle.u64 = 626;
+    unit->drawable.md.frames[2].start_time =  -(rand()%6);
+    unit->drawable.md.frames[2].framerate = 1;
+    unit->drawable.md.frames[2].offset.x = 0;
+    unit->drawable.md.frames[2].offset.y = 0;
 
     bbDictionary_lookup(home.UI.graphics.drawfunctions->dictionary,
              "HEALTH_POINTS",
              &drawfunctionHandle);
 
-    unit->drawable.frames[3].drawfunction = drawfunctionHandle.u64;
-    unit->drawable.frames[3].handle.u64 = 626;
-    unit->drawable.frames[3].start_time =  -(rand()%6);
-    unit->drawable.frames[3].framerate = 1;
-    unit->drawable.frames[3].offset.x = 0;
-    unit->drawable.frames[3].offset.y = 0;
+    unit->drawable.md.frames[3].draw_function = drawfunctionHandle.u64;
+    unit->drawable.md.frames[3].asset_handle.u64 = 626;
+    unit->drawable.md.frames[3].start_time =  -(rand()%6);
+    unit->drawable.md.frames[3].framerate = 1;
+    unit->drawable.md.frames[3].offset.x = 0;
+    unit->drawable.md.frames[3].offset.y = 0;
 
     for (I32 k = 4; k < FRAMES_PER_DRAWABLE; k++){
-        unit->drawable.frames[k].drawfunction = -1;
+        unit->drawable.md.frames[k].draw_function = -1;
     }
 
 
@@ -566,9 +566,9 @@ bbFlag bbUI_Inbox_deleteUnit_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
     //bbVPool_free(home.viewport_app.entity_units,unit_handle);
     //bbVPool_free(home.viewport_app.moveable_units,unit_handle2);
 
-    bbSquareCoords SC = bbMapCoords_getSquareCoords(unit->drawable.coords);
+    bbSquareCoords SC = bbMapCoords_getSquareCoords(unit->drawable.md.coords);
     
-    bbAssert(SC.i == unit->drawable.SC.i && SC.j == unit->drawable.SC.j, "bad square coords\n");
+    bbAssert(SC.i == unit->drawable.md.SC.i && SC.j == unit->drawable.md.SC.j, "bad square coords\n");
 
     bbUnitSquare* unitSquare = bbDrawables_getSquare(units,SC.i, SC.j, units->squares_i, units->squares_j);
 

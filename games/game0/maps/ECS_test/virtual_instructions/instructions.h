@@ -7,7 +7,7 @@
 
 typedef enum
 {
-    bbInstruction_spawnServerEntity = bbInstruction_numECS_Instructions,
+    bbInstruction_spawnServerEntity = bbI_ECS_numECS_Instructions,
     bbInstruction_unspawnServerEntity
 } bbMap_instruction_type;
 

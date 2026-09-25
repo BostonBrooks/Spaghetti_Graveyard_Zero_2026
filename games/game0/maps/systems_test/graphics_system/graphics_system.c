@@ -1,4 +1,5 @@
 #include "core/instructions.h"
+#include "engine/core/bbInstruction_operations.h"
 #include "engine/data/bbHome.h"
 #include "engine/logic/bbFlag.h"
 #include "engine/logic/bbList.h"
@@ -17,8 +18,8 @@ bbFlag bbCoreInput_spawnGraphicsComponent(bbCore* core,
                                 type);
 
 
-    bbInstruction* instruction;
-    bbList_alloc(&core->do_stack, (void**)&instruction);
+
+    allocActiveInstruction(instruction)
     instruction->type = bbInstruction_spawnGraphicsComponent;
     instruction->data.agent_MC.type = type_int;
     instruction->data.agent_MC.handle1 = entity;
@@ -28,7 +29,7 @@ bbFlag bbCoreInput_spawnGraphicsComponent(bbCore* core,
 
     instruction->source = source;
     instruction->redo_instruction = action;
-    bbList_pushL(&core->do_stack, instruction);
+    pushActiveInstruction(instruction)
     return bbSuccess;
 }
 
@@ -49,37 +50,35 @@ bbFlag bbInstruction_spawnGraphicsComponent_fn(bbCore* core, bbInstruction* inst
 
     if (instruction->source == bbInstructionSource_internal)
     {
-        bbInstruction* undo_instruction;
-        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        allocUndoInstruction(undo_instruction);
         undo_instruction->type = bbInstruction_unspawnGraphicsComponent;
         undo_instruction->data.agent_MC.handle1 = instruction->data.agent_MC.handle1;
         undo_instruction->data.agent_MC.handle2 = instruction->data.agent_MC.handle2;
         undo_instruction->data.agent_MC.type = instruction->data.agent_MC.type;
 
         undo_instruction->source = instruction->source;
-        bbVPool_free(core->instruction_pool, (void*)instruction);
+        //bbVPool_free(core->instruction_pool, (void*)instruction);
         undo_instruction->redo_instruction.u64 = 0;
-        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+        pushUndoInstruction(undo_instruction)
     }
     else if (instruction->source == bbInstructionSource_input)
     {
-        bbInstruction* undo_instruction;
-        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        allocUndoInstruction(undo_instruction);
         undo_instruction->type = bbInstruction_unspawnGraphicsComponent;
         undo_instruction->data.agent_MC.handle1 = instruction->data.agent_MC.handle1;
         undo_instruction->data.agent_MC.handle2 = instruction->data.agent_MC.handle2;
         undo_instruction->data.agent_MC.type = instruction->data.agent_MC.type;
 
         undo_instruction->source = instruction->source;
-        bbHandle handle;
-        bbVPool_reverseLookup(core->instruction_pool, instruction, &handle);
-        undo_instruction->redo_instruction = handle;
-        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+        allocRedoInstruction(redo_instruction)
+        *redo_instruction = *instruction;
+        undo_instruction->redo_instruction = (bbHandle)redo_instruction_handle;
+        pushRedoInstruction(redo_instruction)
+        pushUndoInstruction(undo_instruction)
     }
     else if (instruction->source == bbInstructionSource_action)
     {
-        bbInstruction* undo_instruction;
-        bbVPool_alloc(core->instruction_pool, (void**)&undo_instruction);
+        allocUndoInstruction(undo_instruction);
         undo_instruction->type = bbInstruction_unspawnGraphicsComponent;
         undo_instruction->data.agent_MC.handle1 = instruction->data.agent_MC.handle1;
         undo_instruction->data.agent_MC.handle2 = instruction->data.agent_MC.handle2;
@@ -87,7 +86,7 @@ bbFlag bbInstruction_spawnGraphicsComponent_fn(bbCore* core, bbInstruction* inst
 
         undo_instruction->source = instruction->source;
         undo_instruction->redo_instruction = instruction->redo_instruction;
-        bbList_pushL(&core->undo_stack, (void*)undo_instruction);
+        pushUndoInstruction(undo_instruction)
     }
 
     bbGraphicsSystem* graphics = (bbGraphicsSystem*)core->ECS->systems[bbECS_Graphics];
@@ -119,15 +118,17 @@ bbFlag bbInstruction_unspawnGraphicsComponent_fn(bbCore* core, bbInstruction* in
 
     if (instruction->source == bbInstructionSource_internal)
     {
-        bbVPool_free(core->instruction_pool, (void*)instruction);
+        //bbVPool_free(core->instruction_pool, (void*)instruction);
         return bbSuccess;
     }
     if (instruction->source == bbInstructionSource_input)
     {
-        bbInstruction* redo_instruction;
-        bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction, instruction->redo_instruction);
-        bbList_pushL(&core->do_stack, redo_instruction);
-        bbVPool_free(core->instruction_pool, (void*)instruction);
+        popRedoInstruction(redo_instruction,instruction)
+        allocActiveInstruction(new_instruction)
+        *new_instruction = redo_instruction;
+        bbCore_checkMap(&core->map, &redo_instruction, instruction);
+
+        pushActiveInstruction(new_instruction)
         return bbSuccess;
     }
     if (instruction->source == bbInstructionSource_action)
@@ -136,7 +137,7 @@ bbFlag bbInstruction_unspawnGraphicsComponent_fn(bbCore* core, bbInstruction* in
 
         bbVPool_lookup(core->action_pool, (void**)&redo_action, instruction->redo_instruction);
         bbList_sortL(&core->action_queue,(void*)redo_action);
-        bbVPool_free(core->instruction_pool, (void*)instruction);
+        //bbVPool_free(core->instruction_pool, (void*)instruction);
     }
 
 }

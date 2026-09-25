@@ -68,6 +68,17 @@ typedef struct {
 
 } bbScreenPointsRect;
 
+typedef struct {
+
+    I32 top;
+    I32 left;
+    I32 height;
+    I32 width;
+
+} bbGameWorldRect;
+
+bbFlag bbMapCoords_withinRect(bbMapCoords Point, bbMapCoords Centre, bbGameWorldRect rect);
+bbFlag bbMapCoords_withinCircle(bbMapCoords Point, bbMapCoords Centre, I32 radius);
 
 bbMilliCoords bbMapCoords_getMilliCoords(bbMapCoords MC);
 

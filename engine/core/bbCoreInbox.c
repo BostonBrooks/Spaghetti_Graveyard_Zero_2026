@@ -48,6 +48,7 @@ bbFlag bbCore_checkInbox(bbCore* core)
                 bbDebug("Unknown local message type\n");
             }
         }
+        bbThreadedQueue_free(&core->local_message_queue,(void**)&message);
     }
 }
 
