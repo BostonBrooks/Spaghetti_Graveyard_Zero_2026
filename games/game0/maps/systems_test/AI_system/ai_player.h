@@ -218,9 +218,13 @@ bbFlag bbAI_Command_Player(bbAI_Component* component,
             //                        home.core.core.actual_time,
             //                        bbInstructionSource_internal, no_handle);
             bbHandle entity_handle;
+            bbECS_entity* entity;
             bbComponent_mapComponent(home.ECS.ECS, bbECS_AI, (bbComponent*)component,
                                      bbECS_ECS, &entity_handle,
-                                     NULL);
+                                     (bbComponent**)&entity);
+
+            bbDebug("send ai %s goalpoint\n", entity->key);
+
             bbCoreInput_sendAIGoalpoint(&home.core.core,
                                  entity_handle,
                                  data.goal_point,
