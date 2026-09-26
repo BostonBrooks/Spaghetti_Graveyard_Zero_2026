@@ -37,6 +37,31 @@ bbFlag bbCoreInbox_clickUnit_fn(bbCore* core, struct bbCoreInboxMessage* message
 {
     bbNotImplemented()
 
+    bbHandle entity_handle = message->data.three_handles.handle1;
+    bbTeam* team;;
+    bbHandle_mapComponent(home.ECS.ECS,bbECS_ECS,entity_handle,bbECS_Teams,NULL,(bbComponent**)&team);
+
+    if (team!=NULL) {
+        if (team->team == bbTeam_player) {
+
+            bbHandle server_handle;
+            bbServerEntity* server_entity;
+            bbHandle_mapComponent(home.ECS.ECS,bbECS_ECS,entity_handle,bbECS_ServerEntities,&server_handle,(bbComponent**)&server_entity);
+
+            if (server_entity!=NULL) {
+                bbActionRequest_setPlayerEntity(&home.core.core,
+                                               home.ECS.players.this_player,
+                                               7,//TODO define global collision for action requests
+                                               home.core.core.actual_time,
+                                               home.core.core.actual_time,
+                                               home.ECS.players.this_player,
+                                               server_handle);
+            }
+        } else {
+
+        }
+    }
+
     bbDebug("clicked entity index %d, control keys:\n %064" PRIb64 "\n",
         message->data.three_handles.handle1.system.index,
         message->data.three_handles.handle2.u64);

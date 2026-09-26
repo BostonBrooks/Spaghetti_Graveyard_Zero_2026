@@ -79,6 +79,16 @@ bbFlag bbAction_setAIGoalpoint_fn(bbCore* core, bbAction* action) {
 
     bbCI_doNothing(core, bbInstructionSource_action, action_handle);
 
+    bbECS_entity* entity;
+    bbHandle_mapComponent(home.ECS.ECS,
+    bbECS_ServerEntities,
+    server_handle,
+    bbECS_ECS,
+    NULL,
+    (bbComponent**) &entity);
+
+    bbDebug("commanded %s to set goalpoint\n", entity->key);
+
     return bbSuccess;
 
 }

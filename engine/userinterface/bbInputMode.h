@@ -4,8 +4,7 @@
 ///use keys as control keys
 ///key combinations?
 
-#include <CSFML/Window/Event.h>
-#include <CSFML/Window/Keyboard.h>
+#include "engine/data/CSFML.h"
 
 #include "bbWidgets.h"
 #include "engine/logic/bbFlag.h"
