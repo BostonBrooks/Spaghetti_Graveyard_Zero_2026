@@ -188,7 +188,7 @@ bbFlag bbClickEntity_print(bbInputMode* input_mode, bbHandle entity_handle)
 }
 bbFlag bbClickMapCoords_print(bbInputMode* input_mode, bbMapCoords map_coords)
 {
-    bbCoreInbox_ClicMap(&home.core.core, map_coords, input_mode->control_keys);
+    bbCoreInbox_ClickMap(&home.core.core, map_coords, input_mode->control_keys);
     bbDebug("clicked map coords i = %d, j = %d, k = %d\n",
         map_coords.i, map_coords.j, map_coords.k);
     return bbSuccess;

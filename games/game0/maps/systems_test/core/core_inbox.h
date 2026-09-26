@@ -36,7 +36,7 @@ bbFlag bbCoreInbox_ClickMonster(bbCore* core, bbHandle entity_handle);
 
 
 bbFlag bbCoreInbox_ClickUnit(bbCore* core, bbHandle entity_handle, U64 control_keys);
-bbFlag bbCoreInbox_ClicMap(bbCore* core, bbMapCoords, U64 control_keys);
+bbFlag bbCoreInbox_ClickMap(bbCore* core, bbMapCoords, U64 control_keys);
 bbFlag bbCoreInbox_KeyPress(bbCore* core, U64 key, U64 control_keys);
 
 bbFlag bbCoreInbox_clickUnit_fn(bbCore* core, struct bbCoreInboxMessage* message);

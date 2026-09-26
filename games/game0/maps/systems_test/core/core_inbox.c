@@ -42,11 +42,11 @@ bbFlag bbCoreInbox_clickUnit_fn(bbCore* core, struct bbCoreInboxMessage* message
         message->data.three_handles.handle2.u64);
 }
 
-bbFlag bbCoreInbox_ClicMap(bbCore* core, bbMapCoords coords, U64 control_keys)
+bbFlag bbCoreInbox_ClickMap(bbCore* core, bbMapCoords coords, U64 control_keys)
 {
     bbCoreInboxMessage* message;
     bbThreadedQueue_alloc(&core->local_message_queue, (void** ) &message);
-    message->type = bbCoreInbox_clickUnit;
+    message->type = bbCoreInbox_clickMap;
     message->data.agent_MC.coords = coords;
     message->data.agent_MC.handle1.u64 = control_keys;
     bbThreadedQueue_pushL(&core->local_message_queue, message);
