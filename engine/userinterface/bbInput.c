@@ -168,7 +168,7 @@ bbFlag bbInput_poll(bbInput* input, sfRenderWindow* window){
         }
 
         case sfEvtKeyPressed:{
-
+            bbInputModes_event(&home.UI.input_modes, &event);
             bbWidgets* widgets = input->widgets;
 
                 ///find whatever textbox is selected

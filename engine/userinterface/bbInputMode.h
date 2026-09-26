@@ -7,6 +7,7 @@
 #include <CSFML/Window/Event.h>
 #include <CSFML/Window/Keyboard.h>
 
+#include "bbWidgets.h"
 #include "engine/logic/bbFlag.h"
 #include "engine/logic/bbHandle.h"
 #include "engine/logic/bbIntTypes.h"

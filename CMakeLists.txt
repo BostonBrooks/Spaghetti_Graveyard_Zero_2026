@@ -207,6 +207,7 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
         games/game0/maps/systems_test/core/bbInstruction_map.c
         games/game0/maps/systems_test/drawbuffer/drawbuffer.c
         games/game0/maps/systems_test/AI_system/player_send_goalpoint.c
+        games/game0/maps/systems_test/input/input_modes.c
 
         engine/test_string/bbTestString.c
 
@@ -269,6 +270,7 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
         engine/userinterface/bbUIApp.c
         engine/userinterface/bbWidgetFunctions.c
         engine/userinterface/bbWidgets.c
+        engine/userinterface/bbInputMode.c
 
         engine/viewport/bbDrawables.c
         engine/viewport/bbMapIcons.c

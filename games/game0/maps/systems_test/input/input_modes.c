@@ -10,6 +10,7 @@ bbFlag bbInputModes_populate(bbInputModes* input_modes)
 {
     bbInputMode* input_mode = calloc(1, sizeof(bbInputMode));
 
+
     for (I32 i = 0; i < sfKeyCount; i++)
     {
         input_mode->key_actions[i].lowercase = '@';
@@ -85,7 +86,8 @@ bbFlag bbKeyAction_null (struct bbInputMode* input_mode, sfEvent * event, struct
             bbWidget* widget = input_mode->widget;
             bbWidgets* widgets = &home.UI.widgets;
             char key = (event->key.shift == sfTrue) ? action->uppercase : action->lowercase;
-            bbDebug("%c", key);
+            printf("%c", key);
+            fflush(stdout);
             break;
         }
     }
