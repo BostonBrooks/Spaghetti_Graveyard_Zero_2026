@@ -26,6 +26,7 @@ bbFlag bbInputModes_populate(bbInputModes* input_modes)
         input_mode->key_actions[i].lowercase = '@';
         input_mode->key_actions[i].uppercase = '#';
         input_mode->key_actions[i].control_key = 0;
+        input_mode->key_actions[i].event_code = 0;
         input_mode->key_actions[i].function = bbKeyAction_null;
     }
     
@@ -83,7 +84,7 @@ bbFlag bbInputModes_populate(bbInputModes* input_modes)
     input_mode->key_actions[sfKeyY].uppercase = 'Y';
     input_mode->key_actions[sfKeyZ].uppercase = 'Z';
 
-    input_mode->key_actions[sfKeyEnter].control_key = 0;
+    input_mode->key_actions[sfKeyEnter].event_code = 0;
     input_mode->key_actions[sfKeyEnter].function = bbKeyAction_event;
 
     input_mode->key_actions[sfKeyNumpad0].control_key = 0;

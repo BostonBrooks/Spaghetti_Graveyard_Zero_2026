@@ -28,6 +28,7 @@ typedef struct bbKeyAction
     char lowercase;
     char uppercase;
     U8 control_key;
+    U8 event_code;
     bbKeyAction_fn* function;
 } bbKeyAction;
 
