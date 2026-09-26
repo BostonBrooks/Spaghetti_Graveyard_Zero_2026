@@ -7,7 +7,7 @@
 #include "games/game0/maps/systems_test/core/instructions.h"
 #endif
 
-bbFlag bbCoreDiscard(bbCore* core, U64 time)
+bbFlag bbCoreDiscard(bbCore* core, bbTime time)
 {
     bbInstruction *undo_instruction, *redo_instruction;
     bbAction* action;
@@ -73,7 +73,7 @@ bbFlag bbCoreDiscard(bbCore* core, U64 time)
     return bbSuccess;
 }
 
-bbFlag bbCoreDiscardSegmented(bbCore* core, U64 time)
+bbFlag bbCoreDiscardSegmented(bbCore* core, bbTime time)
 {
     bbInstruction *undo_instruction, *redo_instruction;
     bbAction* action;

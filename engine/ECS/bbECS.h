@@ -50,7 +50,7 @@ typedef struct
     char key[KEY_LENGTH];
     bbListElement_Handle list_element_handle;
     bbECS_states state;
-    U64 has_component;
+    bbTime has_component;
     bbHandle components[bbECS_numSystems];
 } bbECS_entity;
 

@@ -44,8 +44,8 @@ typedef struct
 
 typedef struct
 {
-    U64 old_time;
-    U64 time;
+    bbTime old_time;
+    bbTime time;
     bbMoveable_snapshot moveables[NUM_MOVEABLES];
 } bbMoveables_snapshot;
 
@@ -87,8 +87,8 @@ typedef struct
     bbMoveables_snapshot* buffer_front;
     bbMoveables_snapshot* buffer_back;
 
-    U64 old_time;
-    U64 time;
+    bbTime old_time;
+    bbTime time;
 
     bool buffer_fresh;
 

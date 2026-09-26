@@ -52,7 +52,7 @@ typedef struct
 {
     sfClock* localClock;
     U64 packets_sent;
-    U64 network_tick_time;
+    bbTime network_tick_time;
 
     bbThreadedQueue pending;
     bbThreadedQueue completed;
@@ -74,10 +74,10 @@ bbFlag bbNetworkTime_init(bbNetworkTime* network_time);
 bbFlag bbNetworkTime_get(bbNetworkTime* network_time, I64* time);
 
 // get the number of ticks/frames since the server started
-bbFlag bbNetworkTime_getInt(bbNetworkTime* network_time, U64* tick);
+bbFlag bbNetworkTime_getInt(bbNetworkTime* network_time, bbTime* tick);
 
 // wait until the start of tick N
-bbFlag bbNetworkTime_waitInt(bbNetworkTime* network_time, U64 tick);
+bbFlag bbNetworkTime_waitInt(bbNetworkTime* network_time, bbTime tick);
 
 //create timestamp immediately before sending packet
 bbFlag bbNetworkTimeStamp_request(void* network, bbNetworkTime* network_time, bbNetwork_timestamp* timestamp);

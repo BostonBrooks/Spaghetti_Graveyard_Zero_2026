@@ -69,8 +69,8 @@ bbFlag bbCoreInbox_setPlayerEntity_fn(bbCore* core, bbCoreInboxMessage* message)
 bbFlag bbActionRequest_setPlayerEntity(void* Core,
                        U32 sender,
                        U32 collision,
-                       U64 created_tick,
-                       U64 act_tick,
+                       bbTime created_tick,
+                       bbTime act_tick,
                        U32 player,
                        bbHandle server_handle);
 

@@ -34,7 +34,7 @@ bbFlag bbCoreInbox_testClick2_fn(bbCore* core, bbCoreInboxMessage* message)
 
 bbFlag bbCoreInput_testClick3(bbCore* core,
                                   bbMapCoords MC,
-                                  U64 time,
+                                  bbTime time,
                                   bbInstruction_source source,
                                   bbHandle action)
 {
@@ -57,7 +57,7 @@ bbFlag bbInstruction_testClick3_fn(bbCore* core, bbInstruction* instruction)
     return bbSuccess;
 }
 
-bbFlag bbNetworkApp_setClick3(bbNetwork* Network, bbMapCoords MC, U64 time, U32 collision)
+bbFlag bbNetworkApp_setClick3(bbNetwork* Network, bbMapCoords MC, bbTime time, U32 collision)
 {
     bbNetwork* network = (bbNetwork*)Network;
     bbNetworkPacket* packet;
@@ -78,7 +78,7 @@ bbFlag bbAction_spawnEntity(void* Core,
                             bbMapCoords map_coords,
                             bbHandle server_entity,
                             U32 collision,
-                            U64 act_tick)
+                            bbTime act_tick)
 {
     bbCore* core = (bbCore*)Core;
 

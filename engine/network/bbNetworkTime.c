@@ -235,7 +235,7 @@ bbFlag bbNetworkTime_get(bbNetworkTime* network_time, I64* time)
     return bbSuccess;
 }
 
-bbFlag bbNetworkTime_waitInt(bbNetworkTime* network_time, U64 tick)
+bbFlag bbNetworkTime_waitInt(bbNetworkTime* network_time, bbTime tick)
 {
     I64 current_time;
     bbNetworkTime_get(network_time,&current_time);

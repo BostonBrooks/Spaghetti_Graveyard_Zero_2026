@@ -13,7 +13,7 @@ typedef enum
 bbFlag bbAction_bbHere(void* Core,
                        U32 sender,
                        U32 collision,
-                       U64 created_tick,
-                       U64 act_tick);
+                       bbTime created_tick,
+                       bbTime act_tick);
 
 #endif //ACTIONS_H

@@ -30,7 +30,7 @@ bbFlag bbCoreInput_setString(bbCore* core, char* string, bbInstruction_source so
 }
 
 
-bbFlag bbCoreInput_checkActions(bbCore* core, U64 time, bbInstruction_source source, bbHandle action)
+bbFlag bbCoreInput_checkActions(bbCore* core, bbTime time, bbInstruction_source source, bbHandle action)
 {
     allocActiveInstruction(instruction)
     instruction->type = bbInstruction_checkActions;
@@ -42,7 +42,7 @@ bbFlag bbCoreInput_checkActions(bbCore* core, U64 time, bbInstruction_source sou
 }
 
 
-bbFlag bbCoreInput_setTime(bbCore* core, U64 time, bbInstruction_source source, bbHandle action)
+bbFlag bbCoreInput_setTime(bbCore* core, bbTime time, bbInstruction_source source, bbHandle action)
 {
     allocActiveInstruction(instruction)
 

@@ -326,7 +326,7 @@ bbFlag bbAI_Update_Lunging(bbAI_Component* component)
                              bbECS_ECS, &entity_handle,
                              NULL);
 
-    U64 time = home.core.core.simulation_time;
+    bbTime time = home.core.core.simulation_time;
 
     bbMoveable* moveable;
     bbHandle moveable_handle;

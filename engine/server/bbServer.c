@@ -11,7 +11,7 @@
 
 thread_local char* thread;
 thread_local bool debug_off;
-U64 test_time = 0;
+bbTime test_time = 0;
 
 typedef struct
 {
@@ -22,8 +22,8 @@ typedef struct
 int main(void){
 
     //Use the tick values at the time the server was paused or unpaused as a reference
-    U64 reference_server_tick = 0;
-    U64 reference_map_tick = 0;
+    bbTime reference_server_tick = 0;
+    bbTime reference_map_tick = 0;
     bool is_paused = true;
 
     bbVPool* pool;
@@ -150,7 +150,7 @@ int main(void){
                 {
                     packetStruct.type = PACKETTYPE_TIMESTAMP;
 
-                    U64 time = sfTime_asMicroseconds(sfClock_getElapsedTime(clock));
+                    bbTime time = sfTime_asMicroseconds(sfClock_getElapsedTime(clock));
                     packetStruct.data.timestamp.receive_time = time;
                     packetStruct.data.timestamp.send_time = time;
 

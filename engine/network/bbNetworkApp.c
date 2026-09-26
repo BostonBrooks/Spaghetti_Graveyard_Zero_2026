@@ -303,7 +303,7 @@ bbFlag bbNetworkApp_netpauseButton(bbNetwork* network, char* key){
 
 
 
-bbFlag bbNetworkApp_netcodeButton(bbNetwork* network, char* key, U64 time){
+bbFlag bbNetworkApp_netcodeButton(bbNetwork* network, char* key, bbTime time){
     bbNetworkPacket* packet;
     bbThreadedQueue_alloc(&network->outbox, (void**)&packet);
     packet->type = PACKETTYPE_NETCODEBUTTON;
@@ -314,7 +314,7 @@ bbFlag bbNetworkApp_netcodeButton(bbNetwork* network, char* key, U64 time){
     return bbSuccess;
 }
 
-bbFlag bbNetworkApp_keyUp(bbNetwork* network, I32 key_code, U64 time, U32 collision){
+bbFlag bbNetworkApp_keyUp(bbNetwork* network, I32 key_code, bbTime time, U32 collision){
     bbNetworkPacket* packet;
     bbThreadedQueue_alloc(&network->outbox, (void**)&packet);
     packet->type = PACKETTYPE_KEYUP;
@@ -325,7 +325,7 @@ bbFlag bbNetworkApp_keyUp(bbNetwork* network, I32 key_code, U64 time, U32 collis
 
     return bbSuccess;
 }
-bbFlag bbNetworkApp_keyDown(bbNetwork* network, I32 key_code, U64 time, U32 collision){
+bbFlag bbNetworkApp_keyDown(bbNetwork* network, I32 key_code, bbTime time, U32 collision){
     bbNetworkPacket* packet;
     bbThreadedQueue_alloc(&network->outbox, (void**)&packet);
     packet->type = PACKETTYPE_KEYDOWN;
@@ -338,7 +338,7 @@ bbFlag bbNetworkApp_keyDown(bbNetwork* network, I32 key_code, U64 time, U32 coll
 }
 
 
-bbFlag bbNetworkApp_setViewpointOut(bbNetwork* network, bbMapCoords MC, U64 time, U32 collision)
+bbFlag bbNetworkApp_setViewpointOut(bbNetwork* network, bbMapCoords MC, bbTime time, U32 collision)
 {
     bbNetworkPacket* packet;
     bbThreadedQueue_alloc(&network->outbox, (void**)&packet);
@@ -351,7 +351,7 @@ bbFlag bbNetworkApp_setViewpointOut(bbNetwork* network, bbMapCoords MC, U64 time
     return bbSuccess;
 }
 
-bbFlag bbNetworkApp_spawnBananaOut(bbNetwork* network, bbMapCoords MC, U64 time, U32 collision)
+bbFlag bbNetworkApp_spawnBananaOut(bbNetwork* network, bbMapCoords MC, bbTime time, U32 collision)
 {
     bbNetworkPacket* packet;
     bbThreadedQueue_alloc(&network->outbox, (void**)&packet);
@@ -368,7 +368,7 @@ bbFlag bbNetworkApp_spawnBananaOut(bbNetwork* network, bbMapCoords MC, U64 time,
 }
 
 
-bbFlag bbNetworkApp_spawnUnitOut(bbNetwork* network, I32 unit_type, bbMapCoords MC,bbMapCoords MC2, U64 time, U32 collision)
+bbFlag bbNetworkApp_spawnUnitOut(bbNetwork* network, I32 unit_type, bbMapCoords MC,bbMapCoords MC2, bbTime time, U32 collision)
 {
     bbNetworkPacket* packet;
     bbThreadedQueue_alloc(&network->outbox, (void**)&packet);
@@ -386,7 +386,7 @@ bbFlag bbNetworkApp_spawnUnitOut(bbNetwork* network, I32 unit_type, bbMapCoords 
     return bbSuccess;
 }
 
-bbFlag bbNetworkApp_setGoalpointOut(bbNetwork* network, I32 entity, bbMapCoords MC, U64 time, U32 collision)
+bbFlag bbNetworkApp_setGoalpointOut(bbNetwork* network, I32 entity, bbMapCoords MC, bbTime time, U32 collision)
 {
     bbNetworkPacket* packet;
     bbThreadedQueue_alloc(&network->outbox, (void**)&packet);

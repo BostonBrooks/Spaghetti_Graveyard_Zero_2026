@@ -129,8 +129,8 @@ typedef struct bbNetworkPacket
 {
     bbListElement_Handle list_element;
     I32 type;
-    U64 send_tick;
-    U64 act_tick;
+    bbTime send_tick;
+    bbTime act_tick;
     I32 player;
     U32 collision;
     bbNetworkPacket_data data;

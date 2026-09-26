@@ -4,7 +4,7 @@
 #include "engine/data/bbHome.h"
 #include "engine/textbox/bbTextbox.h"
 
-bbFlag bbCS_setTextbox(bbCore* core,bbHandle* handle, char* string, char* key, U64 time, bbInstruction_source source, bbHandle action)
+bbFlag bbCS_setTextbox(bbCore* core,bbHandle* handle, char* string, char* key, bbTime time, bbInstruction_source source, bbHandle action)
 {
 
     bbTextbox* textbox;
@@ -182,7 +182,7 @@ bbFlag bbI_unsetTextbox_fn(bbCore* core, bbInstruction* instruction) {
     bbNotHere()
 }
 
-bbFlag bbCI_setTextbox(bbCore* core, char* string, char* key, U64 time, bbInstruction_source source, bbHandle action) {
+bbFlag bbCI_setTextbox(bbCore* core, char* string, char* key, bbTime time, bbInstruction_source source, bbHandle action) {
     bbTextbox* textbox;
     bbHandle textbox_handle;
     //bbDictionary_lookup(home.textbox_system.dict,key,&textbox_handle);
@@ -216,7 +216,7 @@ bbFlag bbCD_unsetTextbox_fn(bbCore* core, bbInstruction* undo_instruction) {
 }
 
 
-bbFlag bbCI_putTextbox(bbCore* core, char* string, char* key, U64 time, bbInstruction_source source, bbHandle action)
+bbFlag bbCI_putTextbox(bbCore* core, char* string, char* key, bbTime time, bbInstruction_source source, bbHandle action)
 {
     bbTextbox* textbox;
     bbHandle textbox_handle;
@@ -243,7 +243,7 @@ bbFlag bbCI_putTextbox(bbCore* core, char* string, char* key, U64 time, bbInstru
     pushActiveInstruction(instruction)
     return bbSuccess;
 }
-bbFlag bbCS_putTextbox(bbCore* core,bbHandle* handle, char* string, char* key, U64 time, bbInstruction_source source, bbHandle action)
+bbFlag bbCS_putTextbox(bbCore* core,bbHandle* handle, char* string, char* key, bbTime time, bbInstruction_source source, bbHandle action)
 {
 
     bbTextbox* textbox;

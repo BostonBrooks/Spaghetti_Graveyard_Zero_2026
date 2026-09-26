@@ -61,7 +61,7 @@ bbMapCoords MC, I32 index){
     return bbSuccess;
 }
 
-static float angular_interpolate(float prev_angle, float next_angle, U64 prev_time, U64 current_time, U64 next_time) {
+static float angular_interpolate(float prev_angle, float next_angle, bbTime prev_time, bbTime current_time, bbTime next_time) {
 
     float t = (float)(current_time - prev_time) / (float)(next_time - prev_time);
     float delta = fmodf(next_angle-prev_angle + M_PI,2.0f*M_PI)-M_PI;

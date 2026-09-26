@@ -10,7 +10,7 @@
 bbFlag bbCoreInput_sendAIGoalpoint(bbCore* core,
                                  bbHandle entity,
                                  bbMapCoords MC,
-                                 U64 time,
+                                 bbTime time,
                                  bbInstruction_source source,
                                  bbHandle action)
 {bbHere()
@@ -37,7 +37,7 @@ bbHere()
 
 }
 
-bbFlag bbNetworkApp_sendAIGoalpoint(bbNetwork* Network, bbHandle server_entity, bbMapCoords MC, U64 time, U32 collision)
+bbFlag bbNetworkApp_sendAIGoalpoint(bbNetwork* Network, bbHandle server_entity, bbMapCoords MC, bbTime time, U32 collision)
 {bbHere()
     bbAction action;
     action.header.type = bbActionType_sendAIGoalpoint;

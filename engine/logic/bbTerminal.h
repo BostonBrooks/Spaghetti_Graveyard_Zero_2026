@@ -12,7 +12,7 @@
 
 extern thread_local char* thread;
 static const int stringLength = 512;
-extern U64 test_time;
+extern bbTime test_time;
 
 extern thread_local bool debug_off;
 

@@ -8,8 +8,8 @@
 bbFlag bbAction_setString(void* Core,
                          U32 sender,
                          U32 collision,
-                         U64 created_tick,
-                         U64 act_tick,
+                         bbTime created_tick,
+                         bbTime act_tick,
                          char* key)
 {
     bbCore* core = (bbCore*)Core;
@@ -47,8 +47,8 @@ I32 bbAction_compare (void* A, void* B)
 bbFlag bbAction_setViewpoint(void* Core,
                             bbMapCoords map_coords,
                             U32 collision,
-                            U64 created_tick,
-                            U64 act_tick)
+                            bbTime created_tick,
+                            bbTime act_tick)
 {
     bbCore* core = (bbCore*)Core;
 

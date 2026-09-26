@@ -10,7 +10,7 @@ pthread_barrier_t barrier1;
 thread_local char* thread;
 thread_local bool debug_off;
 
-U64 test_time = 0;
+bbTime test_time = 0;
 bbHandle null_handle;
 char test_string[KEY_LENGTH];
 

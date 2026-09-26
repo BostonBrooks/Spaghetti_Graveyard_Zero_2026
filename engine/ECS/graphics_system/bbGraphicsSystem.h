@@ -7,6 +7,9 @@
 typedef struct
 {
     bbComponent component;
+
+    bbTime last_state_change;
+    bbTime last_wander_time;
 } bbGraphicsComponent;
 
 

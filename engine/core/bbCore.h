@@ -33,7 +33,7 @@ DECLARE_SQ_HEADER(bbInstruction,sizeof(bbInstruction),169)
 
 struct bbCore
 {
-    U64 core_time;
+    bbTime core_time;
 
     bbInstruction_fn** instruction_functions;
     bbCoreInbox_fn** inbox_functions;
@@ -60,11 +60,11 @@ struct bbCore
     bbList action_temp_fifo;
 
     /// Set by bbCore_rewindUntilTime(bbCore* core, U64 time);
-    U64 rewind_until_time;
+    bbTime rewind_until_time;
     /// Set by bbCoreInput_setTime()
-    U64 simulation_time;
+    bbTime simulation_time;
     /// Set by clock / incremented at end of loop
-    U64 actual_time;
+    bbTime actual_time;
 
     struct bbECS *ECS;
 };
@@ -75,7 +75,7 @@ bbFlag bbCore_react(bbCore* core);
 bbFlag bbCore_rewind(bbCore* core);
 bbFlag bbCore_clearFuture(bbCore* core);
 //bbFlag bbCore_rewindUntil(bbCore* core, bbCallback* callback);
-bbFlag bbCore_rewindUntil(bbCore* core, U64 time);
+bbFlag bbCore_rewindUntil(bbCore* core, bbTime time);
 bbFlag bbCore_initVInstructions(bbCore* core);
 
 bbFlag bbCore_printStack(bbCore* core);

@@ -14,6 +14,7 @@
 #define U64    uint64_t
 #define U64_MAX UINT64_MAX
 #define sfUint8 uint8_t
+#define bbTime uint64_t
 
 #define I32_MAX 2147483647l
 #define I32_MIN -2147483647l

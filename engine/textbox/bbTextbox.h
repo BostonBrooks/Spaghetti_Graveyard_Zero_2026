@@ -20,7 +20,7 @@ typedef enum
 
 typedef struct
 {
-    U64 timestamp;
+    bbTime timestamp;
     bbListElement_Handle list;
     I32 length;
     bbTextbox_messageType type;
@@ -53,8 +53,8 @@ I32 bbTextbox_sortMessageBy(void* A, void* B);
 bbFlag bbTextbox_newMessage(bbTextbox *textbox, bbHandle* message_handle, char** message_text);
 bbFlag bbTextbox_getText(bbTextbox *textbox, bbHandle message_handle, char** message_text);
 
-bbFlag bbTextbox_setMessage(bbTextbox *textbox, bbHandle message_handle, U64 timestamp);
-bbFlag bbTextbox_putMessage(bbTextbox *textbox, bbHandle message_handle, U64 timestamp);
+bbFlag bbTextbox_setMessage(bbTextbox *textbox, bbHandle message_handle, bbTime timestamp);
+bbFlag bbTextbox_putMessage(bbTextbox *textbox, bbHandle message_handle, bbTime timestamp);
 bbFlag bbTextbox_hideMessage(bbTextbox *textbox, bbHandle message_handle);
 bbFlag bbTextbox_deleteMessage(bbTextbox *textbox, bbHandle message_handle);
 bbFlag bbTextbox_updateBuffer(bbTextbox *textbox);

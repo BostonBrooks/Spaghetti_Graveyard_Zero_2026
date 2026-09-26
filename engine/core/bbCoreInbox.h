@@ -13,7 +13,7 @@ typedef struct bbCoreInboxMessage
 {
     U32 type;
     bbInstruction_data data;
-    U64 act_time;
+    bbTime act_time;
     bbListElement_Handle list_element;
 } bbCoreInboxMessage;
 

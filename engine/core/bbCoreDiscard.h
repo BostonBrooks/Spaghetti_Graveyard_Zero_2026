@@ -8,7 +8,7 @@
 
 ///Discard undo instructions up until time, including other objects belonging
 ///to the undo instructions
-bbFlag bbCoreDiscard(bbCore* core, U64 time);
-bbFlag bbCoreDiscardSegmented(bbCore* core, U64 time);
+bbFlag bbCoreDiscard(bbCore* core, bbTime time);
+bbFlag bbCoreDiscardSegmented(bbCore* core, bbTime time);
 
 bbFlag bbCore_initDiscard(bbCore* core);

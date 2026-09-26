@@ -32,8 +32,8 @@ typedef struct
     bbAction_status status;
     U32 sender;
     U32 collision;
-    U64 created_tick;
-    U64 act_tick;
+    bbTime created_tick;
+    bbTime act_tick;
 
     bbListElement_Handle list_element;
     char key[KEY_LENGTH];
@@ -57,8 +57,8 @@ I32 bbAction_compare (void* A, void* B);
 bbFlag bbAction_setString(void* Core,
                             U32 sender,
                             U32 collision,
-                            U64 created_tick,
-                            U64 act_tick,
+                            bbTime created_tick,
+                            bbTime act_tick,
                             char* key);
 
 
@@ -68,22 +68,22 @@ bbFlag bbAction_update(void* core);
 bbFlag bbAction_loop(void* Core,
                             U32 sender,
                             U32 collision,
-                            U64 created_tick,
-                            U64 act_tick,
+                            bbTime created_tick,
+                            bbTime act_tick,
                             char* key);
 
 
 bbFlag bbAction_setViewpoint(void* core,
                             bbMapCoords map_coords,
                             U32 collision,
-                            U64 created_tick,
-                            U64 act_tick);
+                            bbTime created_tick,
+                            bbTime act_tick);
 
 bbFlag bbAction_setGoalpoint(void* Core,
                             bbMapCoords map_coords,
                             bbHandle handle,
                             U32 collision,
-                            U64 created_tick,
-                            U64 act_tick);
+                            bbTime created_tick,
+                            bbTime act_tick);
 
 #endif //BB_ACTION_H

@@ -11,7 +11,7 @@
 #include "engine/logic/bbString.h"
 #include "engine/network/bbNetworkPacket.h"
 
-bbFlag bbNetworkApp_sendMessage(void* network, bbHandle message_handle, U64 time, U32 collision);
+bbFlag bbNetworkApp_sendMessage(void* network, bbHandle message_handle, bbTime time, U32 collision);
 bbFlag bbNetworkApp_receiveMessage(void* network, void* packet);
 
 bbFlag bbNetworkPacket_toMessageHandle (sfPacket* packet, bbHandle* message_handle, bbTextbox_message** message)

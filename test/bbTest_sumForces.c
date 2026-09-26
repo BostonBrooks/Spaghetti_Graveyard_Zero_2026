@@ -15,7 +15,7 @@ thread_local char* thread;
 thread_local bool debug_off;
 bbHome home;
 
-U64 test_time = 0;
+bbTime test_time = 0;
 bbHandle null_handle;
 char test_string[KEY_LENGTH];
 

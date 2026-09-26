@@ -75,7 +75,7 @@ I32 bbTextbox_sortMessageBy(void* A, void* B)
 }
 
 
-bbFlag bbTextbox_setMessage(bbTextbox *textbox, bbHandle message_handle, U64 timestamp)
+bbFlag bbTextbox_setMessage(bbTextbox *textbox, bbHandle message_handle, bbTime timestamp)
 {
     bbTextbox_system* system = textbox->system;
     bbTextbox_message* message;
@@ -88,7 +88,7 @@ bbFlag bbTextbox_setMessage(bbTextbox *textbox, bbHandle message_handle, U64 tim
     return bbSuccess;
 }
 
-bbFlag bbTextbox_putMessage(bbTextbox *textbox, bbHandle message_handle, U64 timestamp)
+bbFlag bbTextbox_putMessage(bbTextbox *textbox, bbHandle message_handle, bbTime timestamp)
 {
     bbTextbox_system* system = textbox->system;
     bbTextbox_message* message;

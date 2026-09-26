@@ -34,8 +34,8 @@ typedef struct
     bbListElement_Handle list_element;
     bbAI_FunctionTable ftable;
     bbAI_state state;
-    U64 last_state_change;
-    U64 last_attack;
+    bbTime last_state_change;
+    bbTime last_attack;
     bbMapCoords goalpoint;
     bbHandle target;
 } bbAI_Component;

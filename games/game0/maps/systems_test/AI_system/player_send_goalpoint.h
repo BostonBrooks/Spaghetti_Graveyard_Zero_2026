@@ -12,7 +12,7 @@
 bbFlag bbCoreInput_sendAIGoalpoint(bbCore* core,
                                  bbHandle entity,
                                  bbMapCoords MC,
-                                 U64 time,
+                                 bbTime time,
                                  bbInstruction_source source,
                                  bbHandle action);
 
@@ -21,10 +21,10 @@ bbFlag bbCoreInput_sendAIGoalpoint(bbCore* core,
 bbFlag bbInstruction_sendAIGoalpoint_fn(bbCore* core, bbInstruction* instruction);
 
 
-bbFlag bbNetworkApp_sendAIGoalpoint(bbNetwork* Network, bbHandle server_entity, bbMapCoords MC, U64 time, U32 collision);
+bbFlag bbNetworkApp_sendAIGoalpoint(bbNetwork* Network, bbHandle server_entity, bbMapCoords MC, bbTime time, U32 collision);
 //PACKETTYPE_SENDGOALPOINT
 
-bbFlag bbNetworkApp_sendAIGoalpoint(bbNetwork* Network, bbHandle server_entity, bbMapCoords MC, U64 time, U32 collision);
+bbFlag bbNetworkApp_sendAIGoalpoint(bbNetwork* Network, bbHandle server_entity, bbMapCoords MC, bbTime time, U32 collision);
 bbFlag bbAction_setAIGoalpoint_fn(bbCore* core, bbAction* action) ;
 
 

@@ -15,7 +15,7 @@ extern U32 collision;
 
 bbFlag bbCoreInput_testClick4(bbCore* core,
                                   bbMapCoords MC,
-                                  U64 time,
+                                  bbTime time,
                                   bbInstruction_source source,
                                   bbHandle action)
 {
@@ -38,7 +38,7 @@ bbFlag bbInstruction_testClick4_fn(bbCore* core, bbInstruction* instruction)
     return bbSuccess;
 }
 
-bbFlag bbNetworkApp_setClick4(bbNetwork* Network, bbMapCoords MC, U64 time, U32 collision)
+bbFlag bbNetworkApp_setClick4(bbNetwork* Network, bbMapCoords MC, bbTime time, U32 collision)
 {
     bbNetwork* network = (bbNetwork*)Network;
     bbNetworkPacket* packet;

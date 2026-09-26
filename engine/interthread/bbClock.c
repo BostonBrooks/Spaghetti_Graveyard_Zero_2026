@@ -190,7 +190,7 @@ bbFlag bbClock_handle_init( bbClock* clock,
 }
 
 
-bbFlag bbClock_waitTick(bbClock* clock, bbClock_handle* handle, U64 until_map_tick)
+bbFlag bbClock_waitTick(bbClock* clock, bbClock_handle* handle, bbTime until_map_tick)
 {
 
     if (until_map_tick <= clock->map_tick)
@@ -229,8 +229,8 @@ bbFlag bbClock_waitTick(bbClock* clock, bbClock_handle* handle, U64 until_map_ti
 }
 
 bbFlag bbClock_setPause(bbClock* clock,
-                U64 reference_server_tick,
-                U64 reference_map_tick,
+                bbTime reference_server_tick,
+                bbTime reference_map_tick,
                 bool is_paused)
 {
     clock->reference_server_tick = reference_server_tick;

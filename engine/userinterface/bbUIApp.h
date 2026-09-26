@@ -12,7 +12,7 @@ typedef struct
     bbGraphicsApp graphics;
     bbWidgets widgets;
     bbUI_Inbox inbox;
-    U64 UI_time;
+    bbTime UI_time;
     bbClock_handle clock2_handle;
 
     sfTexture* SplashTexture;

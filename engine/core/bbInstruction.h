@@ -103,8 +103,8 @@ typedef struct
 {
     bbHandle AI_handle;
     U32 AI_state;
-    U64 last_state_change;
-    U64 last_attack;
+    bbTime last_state_change;
+    bbTime last_attack;
     bbHandle target_handle;
     bbMapCoords goalpoint;
 } bbInstructionsData_AI_State;
@@ -174,8 +174,8 @@ typedef struct
     bbHandle handle;
     I32 type;
     I32 goal_moveable;
-    U64 last_state_change;
-    U64 last_attack;
+    bbTime last_state_change;
+    bbTime last_attack;
     bbMapCoords goalpoint;
 } bbInstructionsData_moveableState;
 
@@ -219,7 +219,7 @@ typedef struct bbInstruction
 {
     I32 type;
     bbInstruction_data data;
-    U64 act_time;
+    bbTime act_time;
     U32 collision;
     U8 player;
     void* ECS;

@@ -35,7 +35,7 @@ thread_local char* thread;
 thread_local bool debug_off;
 bbHome home;
 
-U64 test_time = 0;
+bbTime test_time = 0;
 bbHandle null_handle;
 char test_string[KEY_LENGTH];
 
@@ -154,8 +154,8 @@ int main(void)
                 clock_handle_init = true;
                 //core_time = home.clock2.map_tick;
             }
-            U64 ticks_per_frame = 6;
-            U64 new_map_tick = home.core.clock2_handle.map_tick
+            bbTime ticks_per_frame = 6;
+            bbTime new_map_tick = home.core.clock2_handle.map_tick
                 - home.core.clock2_handle.map_tick % ticks_per_frame + ticks_per_frame;
             bbClock_waitTick(&home.clock2,&home.core.clock2_handle,new_map_tick);
 

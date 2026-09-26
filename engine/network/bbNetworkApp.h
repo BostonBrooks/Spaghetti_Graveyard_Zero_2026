@@ -23,12 +23,12 @@ bbFlag bbNetworkApp_sendTestClick(bbNetwork* network, bbMapCoords* coords);
 bbFlag bbNetworkApp_netsendButton(bbNetwork* network, char* key);
 bbFlag bbNetworkApp_netpauseButton(bbNetwork* network, char* key);
 
-bbFlag bbNetworkApp_netcodeButton(bbNetwork* network, char* key, U64 time);
-bbFlag bbNetworkApp_keyUp(bbNetwork* network, I32 key_code, U64 time, U32 collision);
-bbFlag bbNetworkApp_keyDown(bbNetwork* network, I32 key_code, U64 time, U32 collision);
+bbFlag bbNetworkApp_netcodeButton(bbNetwork* network, char* key, bbTime time);
+bbFlag bbNetworkApp_keyUp(bbNetwork* network, I32 key_code, bbTime time, U32 collision);
+bbFlag bbNetworkApp_keyDown(bbNetwork* network, I32 key_code, bbTime time, U32 collision);
 
-bbFlag bbNetworkApp_setViewpointOut(bbNetwork* network, bbMapCoords MC, U64 time, U32 collision);
-bbFlag bbNetworkApp_setGoalpointOut(bbNetwork* network, I32 entity, bbMapCoords MC, U64 time, U32 collision);
+bbFlag bbNetworkApp_setViewpointOut(bbNetwork* network, bbMapCoords MC, bbTime time, U32 collision);
+bbFlag bbNetworkApp_setGoalpointOut(bbNetwork* network, I32 entity, bbMapCoords MC, bbTime time, U32 collision);
 
 bbFlag bbNetworkApp_sendAction(bbNetwork* network, bbAction* action);
 #endif // BBNWETWORKAPP_H

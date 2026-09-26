@@ -12,7 +12,7 @@ bbFlag bbAction_receive(bbCore* core, bbNetwork* network, bbAction* action);
 bbFlag bbCoreInput_requestAction(bbCore* core,
                                   bbNetwork* network,
                                   bbAction* new_action,
-                                  U64 time,
+                                  bbTime time,
                                   bbInstruction_source source,
                                   bbHandle action);
 

@@ -160,7 +160,7 @@ bbFlag bbCore_react(bbCore* core)
 }
 
 
-bbFlag bbCore_rewindUntil(bbCore* core, U64 time)
+bbFlag bbCore_rewindUntil(bbCore* core, bbTime time)
 {//bbHere()
     while (core->simulation_time > time)
     { //bbHere()

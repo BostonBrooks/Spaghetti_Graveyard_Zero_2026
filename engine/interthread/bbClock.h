@@ -8,8 +8,8 @@
 ///Stored data returned by bbClock_waitTick()
 typedef struct
 {
-    U64 server_tick;
-    U64 map_tick;
+    bbTime server_tick;
+    bbTime map_tick;
     U8 clock_thread_index;
     bool clock_paused;
 } bbClock_handle;
@@ -26,8 +26,8 @@ typedef enum
 typedef struct bbClock2_message
 {
     bbClock_message_type message_type;
-    U64 server_tick;
-    U64 map_tick;
+    bbTime server_tick;
+    bbTime map_tick;
     U8 clock_thread_index;
     bool clock_paused;
     bbListElement_Handle list_element;
@@ -38,7 +38,7 @@ typedef struct
     char thread_name[KEY_LENGTH];
     bbThreadedQueue outbox;
     //send a wakeup message when send_time == current_tick
-    U64 wait_until_tick;
+    bbTime wait_until_tick;
 
     ///if the game is paused, bbClock_waitTick() will wake up the thread every
     ///N clock ticks
@@ -53,12 +53,12 @@ typedef struct
 {
     pthread_t thread_id;
     bbNetworkTime* network_time;
-    U64 server_tick;
-    U64 map_tick;
+    bbTime server_tick;
+    bbTime map_tick;
 
     ///used to calculate difference between server_tick and map_tick
-    U64 reference_server_tick;
-    U64 reference_map_tick;
+    bbTime reference_server_tick;
+    bbTime reference_map_tick;
     bool is_paused;
     bool is_running;
 
@@ -75,11 +75,11 @@ bbFlag bbClock_handle_init( bbClock* clock,
                             char* thread_name);
 
 
-bbFlag bbClock_waitTick(bbClock* clock, bbClock_handle* handle, U64 until_map_tick);
+bbFlag bbClock_waitTick(bbClock* clock, bbClock_handle* handle, bbTime until_map_tick);
 
 bbFlag bbClock_setPause(bbClock* clock,
-                U64 reference_server_tick,
-                U64 reference_map_tick,
+                bbTime reference_server_tick,
+                bbTime reference_map_tick,
                 bool is_paused);
 
 bbFlag bbClock_testPause(bbClock* clock,bool is_paused);
