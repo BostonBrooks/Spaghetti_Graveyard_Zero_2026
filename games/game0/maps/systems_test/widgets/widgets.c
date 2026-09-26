@@ -6,6 +6,7 @@
 #include "games/game0/maps/systems_test/widgets/switch_character_button.h"
 #include "games/game0/maps/systems_test/widgets/server_socket_number.h"
 #include "games/game0/maps/systems_test/widgets/textbox_widget.h"
+#include "games/game0/maps/systems_test/widgets/text_input.h"
 
 bbFlag bbWidget_Constructor_Clock(bbWidget** self,
                                   bbWidgets* widgets,
@@ -145,6 +146,18 @@ bbFlag bbWidgetFunctions_populate(bbWidgetFunctions* self)
         WidgetConstructor,
         bbWidget_Constructor_Textbox,
         "WIDGET_TEXTBOX");
+
+    bbWidgetFunctions_add(self,
+        WidgetConstructor,
+        bbWidget_Constructor_TextInput,
+        "WIDGET_TEXT_INPUT");
+
+    bbWidgetFunctions_add(self,
+        WidgetCommand,
+        bbWidget_Command_TextInput,
+        "WIDGET_TEXT_INPUT");
+
+
 
     return bbSuccess;
 }

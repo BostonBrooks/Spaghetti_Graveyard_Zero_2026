@@ -271,6 +271,7 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
         engine/userinterface/bbWidgetFunctions.c
         engine/userinterface/bbWidgets.c
         engine/userinterface/bbInputMode.c
+        engine/userinterface/bbTextInput.c
 
         engine/viewport/bbDrawables.c
         engine/viewport/bbMapIcons.c

@@ -23,7 +23,7 @@
 #include "games/game0/maps/systems_test/drawfunctions/widget_textBox.h"
 #include "games/game0/maps/systems_test/drawfunctions/unit_group.h"
 #include "games/game0/maps/systems_test/drawfunctions/drawbuffer_sprite.h"
-
+#include "games/game0/maps/systems_test/drawfunctions/widget_textInput.h"
 #define NUM_DRAWFUNCTIONS 69
 
 bbFlag bbDF_widgetSprite(void* drawable, void* frame_descriptor, void* cl){
@@ -194,6 +194,11 @@ bbFlag bbDrawfunctions_new(bbDrawfunctions** drawfunctions){
     functions->functions[29] = bbDF_DrawbufferAnimation;
     handle.u64 = 29;
     bbDictionary_add(functions->dictionary, "DRAWBUFFER_ANIMATION", handle);
+
+
+    functions->functions[30] = bbDF_widgetTextInput;
+    handle.u64 = 30;
+    bbDictionary_add(functions->dictionary, "WIDGET_TEXT_INPUT", handle);
 
 
     *drawfunctions = functions;

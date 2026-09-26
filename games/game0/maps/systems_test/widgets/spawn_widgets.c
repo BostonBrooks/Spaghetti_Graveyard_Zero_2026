@@ -54,5 +54,14 @@ bbFlag bbUIApp_spawnWidgets(bbUIApp* app)
                  "DIALOGUE",
                  (bbScreenPoints){500*SCREEN_PPP,13*SCREEN_PPP});
 
+
+
+    bbWidget_constructor(NULL,
+                 &home.UI.widgets,
+                 "WIDGET_TEXT_INPUT",
+                 "LAYOUT",
+                 "TEXT_INPUT",
+                 (bbScreenPoints){500*SCREEN_PPP,415*SCREEN_PPP});
+
     return bbSuccess;
 }

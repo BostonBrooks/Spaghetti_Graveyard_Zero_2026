@@ -10,6 +10,12 @@ bbFlag bbInputModes_populate(bbInputModes* input_modes)
 {
     bbInputMode* input_mode = calloc(1, sizeof(bbInputMode));
 
+    bbHandle widget_handle;
+    bbDictionary_lookup(home.UI.widgets.dict, "TEXT_INPUT", &widget_handle);
+    bbWidget* widget;
+    bbVPool_lookup(home.UI.widgets.pool,(void**)&widget,widget_handle);
+
+    input_mode->widget = widget;
 
     for (I32 i = 0; i < sfKeyCount; i++)
     {
@@ -86,7 +92,14 @@ bbFlag bbKeyAction_null (struct bbInputMode* input_mode, sfEvent * event, struct
             bbWidget* widget = input_mode->widget;
             bbWidgets* widgets = &home.UI.widgets;
             char key = (event->key.shift == sfTrue) ? action->uppercase : action->lowercase;
-            printf("%c", key);
+
+
+            bbHandle handle;
+            handle.u64 = key;
+            bbWidget_onCommand (input_mode->widget,
+                                widgets,
+                                   bbWC_putChar,
+                                   handle);
             fflush(stdout);
             break;
         }
