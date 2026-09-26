@@ -158,6 +158,14 @@ bbFlag bbAI_onCommand(bbAI_Component* component,
                           bbAI_CommandData data,
                           bool is_action)
 {
+    // bbHandle entity_handle;
+    // bbECS_entity*  entity;
+    // bbComponent_mapComponent(home.ECS.ECS, bbECS_AI, (bbComponent*)component,
+    //                          bbECS_ECS, &entity_handle,
+    //                          (bbComponent**)&entity);
+    // bbDebug("ai on command %s\n", entity->key);
+
+
     if (component == NULL) return bbNone;
     I32 function_index = component->ftable.command;
     if (function_index < 0)

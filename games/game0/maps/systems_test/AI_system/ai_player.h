@@ -98,15 +98,23 @@ bbFlag bbAI_Command_Player(bbAI_Component* component,
                            bool is_action)
 {
 
+    // bbHandle entity_handle;
+    // bbECS_entity*  entity;
+    // bbComponent_mapComponent(home.ECS.ECS, bbECS_AI, (bbComponent*)component,
+    //                          bbECS_ECS, &entity_handle,
+    //                          (bbComponent**)&entity);
+    // bbDebug("command ai %s\n", entity->key);
 
     //is action: command is unable to modify state unless this function was called by a bbAction to ensure "core safeness"
     //I need to be careful about the player modifying the state without sending a message to the server and back
     if (type == bbAI_setGoalPoint && is_action)
     {
         bbHandle entity_handle;
+        bbECS_entity*  entity;
         bbComponent_mapComponent(home.ECS.ECS, bbECS_AI, (bbComponent*)component,
                                  bbECS_ECS, &entity_handle,
-                                 NULL);
+                                 (bbComponent**)&entity);
+        //bbDebug("ai set goalpoint %s\n", entity->key);
 
         bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_moving);
 
@@ -213,7 +221,7 @@ bbFlag bbAI_Command_Player(bbAI_Component* component,
                                     bbInstructionSource_internal, no_handle);
         }
         else
-        {bbHere()
+        {//bbHere()
             // bbCoreInput_testClick4(&home.core.core, data.goal_point,
             //                        home.core.core.actual_time,
             //                        bbInstructionSource_internal, no_handle);
@@ -223,7 +231,7 @@ bbFlag bbAI_Command_Player(bbAI_Component* component,
                                      bbECS_ECS, &entity_handle,
                                      (bbComponent**)&entity);
 
-            bbDebug("send ai %s goalpoint\n", entity->key);
+            //bbDebug("send ai %s goalpoint\n", entity->key);
 
             bbCoreInput_sendAIGoalpoint(&home.core.core,
                                  entity_handle,

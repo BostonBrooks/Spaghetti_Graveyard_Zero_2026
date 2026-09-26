@@ -63,6 +63,8 @@ bbFlag bbCoreInbox_setPlayerEntity_fn(bbCore* core, bbCoreInboxMessage* message)
     bbFlag flag = bbHandle_mapComponent(core->ECS,bbECS_ECS,entity_handle,bbECS_ServerEntities,&entity_handle,NULL);
     bbFlag_print(flag)
 
+
+
     bbActionRequest_setPlayerEntity(core,
                        home.network.server_socket_number,
                        collision++,
@@ -81,6 +83,9 @@ bbFlag bbActionRequest_setPlayerEntity(void* Core,
                        U32 player,
                        bbHandle server_handle) {
 
+
+
+
     bbCore* core = (bbCore*)Core;
 
     bbAction action;
@@ -93,6 +98,10 @@ bbFlag bbActionRequest_setPlayerEntity(void* Core,
     action.integer = player;
     action.handle = server_handle;
 
+    bbECS_entity* entity;
+    bbHandle_mapComponent(home.ECS.ECS, bbECS_ServerEntities,server_handle,bbECS_ECS,NULL,(bbComponent**)&entity);
+    bbDebug("player = %u, set entity %s\n", action.integer,entity->key);
+
     bbAction_request(core,&home.network,&action);
 
     return bbSuccess;
@@ -100,7 +109,7 @@ bbFlag bbActionRequest_setPlayerEntity(void* Core,
 }
 
 bbFlag bbAction_setPlayerEntity_fn(bbCore* core, bbAction* action)
-{bbHere()
+{//bbHere()
 
     I32 player_index = action->integer;
     bbHandle server_handle = action->handle;
@@ -114,8 +123,8 @@ bbFlag bbAction_setPlayerEntity_fn(bbCore* core, bbAction* action)
         &entity_handle,
         (bbComponent**)&entity);
 
-    bbFlag_print(flag)
-    bbDebug("player %d clicked %s\n",player_index,entity->key);
+    //bbFlag_print(flag)
+    //bbDebug("player %d clicked %s\n",player_index,entity->key);
 
 
     bbHandle action_handle;
@@ -139,6 +148,10 @@ bbFlag bbCI_setPlayerEntity(bbCore* core, I32 player_index, bbHandle entity_hand
     instruction->data.three_handles.handle2 = entity_handle;
     pushActiveInstruction(instruction)
 
+    // bbECS_entity* entity;
+    // bbHandle_getComponent(&home.ECS.ECS->system,(bbComponent**)&entity,entity_handle);
+    //
+    // bbDebug("player index = %d, entity %s\n", player_index, entity->key);
     return bbSuccess;
 }
 
@@ -147,6 +160,12 @@ bbFlag bbI_setPlayerEntity_fn(bbCore* core, bbInstruction* instruction) {
 
     I32  player_index = instruction->data.three_handles.handle1.u64;
     bbHandle  entity_handle = instruction->data.three_handles.handle2;
+
+    // bbECS_entity*  entity;
+    // bbHandle_getComponent(&home.ECS.ECS->system, (bbComponent**)&entity, entity_handle);
+    //
+    // bbDebug("player index = %d, selected entity = %s\n", player_index, entity->key);
+
 
     bbPlayers* players = (bbPlayers*) core->ECS->systems[bbECS_Players];
     bbPlayer player = players->players[player_index];
@@ -197,7 +216,12 @@ bbFlag bbI_setPlayerEntity_fn(bbCore* core, bbInstruction* instruction) {
     {
         bbUI_Inbox_SetViewpoint(&home.UI.inbox, entity_handle);
     }
+    players->players[player_index].selected_entities[0] = entity_handle;
 
+    // bbHandle entity_handle2 = players->players[player_index].selected_entities[0];
+    // bbHandle_getComponent(&home.ECS.ECS->system, (bbComponent**)&entity, entity_handle2);
+    //
+    // bbDebug("player index = %d, selected entity = %s\n", player_index, entity->key);
     return bbSuccess;
 }
 

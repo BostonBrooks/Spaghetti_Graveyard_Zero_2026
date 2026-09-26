@@ -68,6 +68,13 @@ bbFlag bbAction_setAIGoalpoint_fn(bbCore* core, bbAction* action) {
 
     bbAI_CommandData data;
     data.goal_point = MC;
+
+    bbHandle entity_handle;
+    bbECS_entity*  entity;
+    bbComponent_mapComponent(home.ECS.ECS, bbECS_AI, (bbComponent*)component,
+                             bbECS_ECS, &entity_handle,
+                             (bbComponent**)&entity);
+    bbDebug("ai set goalpoint %s\n", entity->key);
     bbAI_onCommand(component,
                       (bbAI_System*)home.ECS.ECS->systems[bbECS_AI],
                       bbAI_setGoalPoint,
@@ -79,15 +86,15 @@ bbFlag bbAction_setAIGoalpoint_fn(bbCore* core, bbAction* action) {
 
     bbCI_doNothing(core, bbInstructionSource_action, action_handle);
 
-    bbECS_entity* entity;
+    bbECS_entity* entity2;
     bbHandle_mapComponent(home.ECS.ECS,
     bbECS_ServerEntities,
     server_handle,
     bbECS_ECS,
     NULL,
-    (bbComponent**) &entity);
+    (bbComponent**) &entity2);
 
-    bbDebug("commanded %s to set goalpoint\n", entity->key);
+    bbDebug("commanded %s to set goalpoint\n", entity2->key);
 
     return bbSuccess;
 

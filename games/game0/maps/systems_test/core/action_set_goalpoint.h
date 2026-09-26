@@ -16,6 +16,13 @@ bbFlag bbAction_setGoalpoint_fn(bbCore* core, bbAction* action)
     bbAI_CommandData data;
     data.goal_point = action->map_coords;
 
+
+    bbHandle entity_handle;
+    bbECS_entity*  entity;
+    bbComponent_mapComponent(home.ECS.ECS, bbECS_AI, (bbComponent*)component,
+                             bbECS_ECS, &entity_handle,
+                             (bbComponent**)&entity);
+    bbDebug("ai set goalpoint %s\n", entity->key);
     bbAI_onCommand(component,
                           (bbAI_System*)home.ECS.ECS->systems[bbECS_AI],
                           bbAI_setGoalPoint,
@@ -47,7 +54,7 @@ bbFlag bbAction_setTarget_fn(bbCore* core, bbAction* action)
 
     bbAI_CommandData data;
     data.handle = entity_handle;
-
+    bbHere()
     bbAI_onCommand(component,
                           (bbAI_System*)home.ECS.ECS->systems[bbECS_AI],
                           bbAI_targetMonster,

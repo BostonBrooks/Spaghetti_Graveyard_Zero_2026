@@ -10,7 +10,7 @@
 #include "engine/logic/bbString.h"
 #include "engine/logic/bbSystemPool.h"
 #include "engine/ECS/AI_system/bbAI_System.h"
-
+extern U32 collision;
 bbFlag bbCoreInbox_clickMonster_fn(bbCore* core, bbCoreInboxMessage* message);
 bbFlag bbCoreInbox_receiveMessage_fn(bbCore* core, bbCoreInboxMessage* message);
 bbFlag bbCoreInbox_Freeze(bbCore* core)
@@ -51,7 +51,7 @@ bbFlag bbCoreInbox_clickUnit_fn(bbCore* core, struct bbCoreInboxMessage* message
             if (server_entity!=NULL) {
                 bbActionRequest_setPlayerEntity(&home.core.core,
                                                home.ECS.players.this_player,
-                                               7,//TODO define global collision for action requests
+                                               collision++,
                                                home.core.core.actual_time,
                                                home.core.core.actual_time,
                                                home.ECS.players.this_player,
@@ -139,6 +139,13 @@ bbFlag bbCoreInbox_testClick_fn(bbCore* core, bbCoreInboxMessage* message)
     bbAI_CommandData data;
     data.goal_point = message->data.map_click.coords;
     data.integer = message->data.map_click.button;
+
+    // bbHandle entity_handle;
+    // bbECS_entity*  entity;
+    // bbComponent_mapComponent(home.ECS.ECS, bbECS_AI, (bbComponent*)component,
+    //                          bbECS_ECS, &entity_handle,
+    //                          (bbComponent**)&entity);
+    // //bbDebug("ai map click %s\n", entity->key);
 
     bbAI_onCommand(component,
                   (bbAI_System*)home.ECS.ECS->systems[bbECS_AI],
