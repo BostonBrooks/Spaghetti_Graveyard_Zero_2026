@@ -11,7 +11,7 @@
 #include "engine/logic/bbLookupTable.h"
 #include "engine/userinterface/bbWidgets.h"
 #include "engine/viewport/bbViewportSpawner.h"
-#include "engine/viewport/bbRenderUnits.h"
+#include "engine/render_units/bbRenderUnits.h"
 #include "engine/viewport/bbDrawBuffer.h"
 
 typedef struct bbViewportApp

@@ -1,8 +1,8 @@
 #ifndef BB_BBRENDERUNITS
 #define BB_BBRENDERUNITS
 
-#include "bbUnits.h"
-#include "bbViewportApp.h"
+#include "../viewport/bbUnits.h"
+#include "../viewport/bbViewportApp.h"
 
 ///Render units are like ordinary units except they only exist when they're on screen
 // They are able to move around like a bbMoveable component
