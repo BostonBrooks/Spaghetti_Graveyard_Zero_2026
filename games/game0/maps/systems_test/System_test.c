@@ -40,12 +40,15 @@
 #include "engine/logic/bbString.h"
 #include "moveables/moveables.h"
 
+
+
 pthread_barrier_t barrier1;
 
 thread_local char* thread;
 thread_local bool debug_off;
 bbHome home;
 
+U64 random_seed = 193;
 bbTime test_time = 0;
 bbHandle null_handle;
 char test_string[KEY_LENGTH];
