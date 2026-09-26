@@ -4,6 +4,7 @@
 #include "engine/data/bbHome.h"
 #include "engine/logic/bbFlag.h"
 #include "engine/userinterface/bbInputMode.h"
+#include "games/game0/maps/systems_test/core/core_inbox.h"
 
 ///should be called AFTER widgets are spawned, may need to look up widgets in dictionary
 bbFlag bbInputModes_populate(bbInputModes* input_modes)
@@ -16,6 +17,8 @@ bbFlag bbInputModes_populate(bbInputModes* input_modes)
     bbVPool_lookup(home.UI.widgets.pool,(void**)&widget,widget_handle);
 
     input_mode->widget = widget;
+    input_mode->click_entity = bbClickEntity_print;
+    input_mode->click_map_coords = bbClickMapCoords_print;
 
     for (I32 i = 0; i < sfKeyCount; i++)
     {
@@ -79,6 +82,29 @@ bbFlag bbInputModes_populate(bbInputModes* input_modes)
     input_mode->key_actions[sfKeyY].uppercase = 'Y';
     input_mode->key_actions[sfKeyZ].uppercase = 'Z';
 
+    input_mode->key_actions[sfKeyEnter].control_key = 0;
+    input_mode->key_actions[sfKeyEnter].function = bbKeyAction_event;
+
+    input_mode->key_actions[sfKeyNumpad0].control_key = 0;
+    input_mode->key_actions[sfKeyNumpad0].function = bbKeyAction_ctrl;
+    input_mode->key_actions[sfKeyNumpad1].control_key = 1;
+    input_mode->key_actions[sfKeyNumpad1].function = bbKeyAction_ctrl;
+    input_mode->key_actions[sfKeyNumpad2].control_key = 2;
+    input_mode->key_actions[sfKeyNumpad2].function = bbKeyAction_ctrl;
+    input_mode->key_actions[sfKeyNumpad3].control_key = 3;
+    input_mode->key_actions[sfKeyNumpad3].function = bbKeyAction_ctrl;
+    input_mode->key_actions[sfKeyNumpad4].control_key = 4;
+    input_mode->key_actions[sfKeyNumpad4].function = bbKeyAction_ctrl;
+    input_mode->key_actions[sfKeyNumpad5].control_key = 5;
+    input_mode->key_actions[sfKeyNumpad5].function = bbKeyAction_ctrl;
+    input_mode->key_actions[sfKeyNumpad6].control_key = 6;
+    input_mode->key_actions[sfKeyNumpad6].function = bbKeyAction_ctrl;
+    input_mode->key_actions[sfKeyNumpad7].control_key = 7;
+    input_mode->key_actions[sfKeyNumpad7].function = bbKeyAction_ctrl;
+    input_mode->key_actions[sfKeyNumpad8].control_key = 8;
+    input_mode->key_actions[sfKeyNumpad8].function = bbKeyAction_ctrl;
+    input_mode->key_actions[sfKeyNumpad9].control_key = 9;
+    input_mode->key_actions[sfKeyNumpad9].function = bbKeyAction_ctrl;
 
     bbInputModes_add(input_modes, input_mode, "TEST_INPUT_MODE");
 
@@ -134,14 +160,14 @@ bbFlag bbKeyAction_ctrl (struct bbInputMode* input_mode, sfEvent * event, struct
     case sfEvtKeyPressed:
         {
         I32 conrol_key = action->control_key;
-            U64 mask = 1u << conrol_key;
+            U64 mask = 1ULL << conrol_key;
             input_mode->control_keys |= mask;
         break;
         }
     case sfEvtKeyReleased:
         {
             I32 conrol_key = action->control_key;
-            U64 mask = 1u << conrol_key;
+            U64 mask = 1ULL << conrol_key;
             input_mode->control_keys &= ~mask;
         }
     }
@@ -149,6 +175,21 @@ bbFlag bbKeyAction_ctrl (struct bbInputMode* input_mode, sfEvent * event, struct
 }
 bbFlag bbKeyAction_event (struct bbInputMode* input_mode, sfEvent * event, struct bbKeyAction* action )
 {
-    char key = (event->key.shift == sfTrue) ? action->uppercase : action->lowercase;
-    bbCoreInbox_keyPress(&home.core.core, key);
+    bbCoreInbox_KeyPress(&home.core.core, action->control_key, input_mode->control_keys);
+}
+
+
+bbFlag bbClickEntity_print(bbInputMode* input_mode, bbHandle entity_handle)
+{
+    bbCoreInbox_ClickUnit(&home.core.core, entity_handle, input_mode->control_keys);
+    bbDebug("clicked entity index = %d, system = %d, generation = %d\n",
+        entity_handle.system.index, entity_handle.system.system, entity_handle.system.generation);
+    return bbSuccess;
+}
+bbFlag bbClickMapCoords_print(bbInputMode* input_mode, bbMapCoords map_coords)
+{
+    bbCoreInbox_ClicMap(&home.core.core, map_coords, input_mode->control_keys);
+    bbDebug("clicked map coords i = %d, j = %d, k = %d\n",
+        map_coords.i, map_coords.j, map_coords.k);
+    return bbSuccess;
 }

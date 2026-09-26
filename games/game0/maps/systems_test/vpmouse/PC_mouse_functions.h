@@ -51,6 +51,7 @@ void* graphics)
     bbUnit* unit = Unit;
 
 
+    home.UI.input_modes.current_mode->click_entity(home.UI.input_modes.current_mode,unit->entity_handle);
   //  bbCoreInbox_SetPlayerEntity(&home.core.core, 0, unit->entity_handle);
 
 

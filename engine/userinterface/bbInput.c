@@ -163,6 +163,7 @@ bbFlag bbInput_poll(bbInput* input, sfRenderWindow* window){
         case sfEvtMouseMoved:
         case sfEvtMouseButtonPressed:
         case sfEvtMouseButtonReleased:{
+
             bbMouse_Event(input->mouse, &event);
             break;
         }
@@ -254,6 +255,8 @@ bbFlag bbInput_poll(bbInput* input, sfRenderWindow* window){
         }
         case sfEvtKeyReleased:
             sfKeyCode keyCode = event.key.code;
+
+            bbInputModes_event(&home.UI.input_modes, &event);
             if (keyCode == sfKeyEscape)
             {
 

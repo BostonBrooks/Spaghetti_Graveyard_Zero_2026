@@ -21,6 +21,9 @@ typedef struct bbInputMode bbInputMode;
 
 typedef bbFlag bbKeyAction_fn (bbInputMode* input_mode, sfEvent * event, bbKeyAction* action);
 
+typedef bbFlag bbClickEntity(bbInputMode* input_mode, bbHandle entity_handle);
+typedef bbFlag bbClickMapCoords(bbInputMode* input_mode, bbMapCoords map_coords);
+
 typedef struct bbKeyAction
 {
     char lowercase;
@@ -35,6 +38,9 @@ typedef struct bbInputMode
     U64 control_keys;
     bbWidget* widget;
     bbKeyAction key_actions[sfKeyCount];
+
+    bbClickEntity* click_entity;
+    bbClickMapCoords* click_map_coords;
 } bbInputMode;
 
 typedef struct
@@ -60,5 +66,7 @@ bbFlag bbKeyAction_ctrl(bbInputMode* input_mode, sfEvent * event, bbKeyAction* a
 bbFlag bbKeyAction_event(bbInputMode* input_mode, sfEvent * event, bbKeyAction* action);
 
 
+bbFlag bbClickEntity_print(bbInputMode* input_mode, bbHandle entity_handle);
+bbFlag bbClickMapCoords_print(bbInputMode* input_mode, bbMapCoords map_coords);
 
 #endif  //BB_INPUTMODE_H

@@ -24,6 +24,65 @@ bbFlag bbCoreInbox_Freeze(bbCore* core)
 }
 
 
+bbFlag bbCoreInbox_ClickUnit(bbCore* core, bbHandle entity_handle, U64 control_keys)
+{
+    bbCoreInboxMessage* message;
+    bbThreadedQueue_alloc(&core->local_message_queue, (void** ) &message);
+    message->type = bbCoreInbox_clickUnit;
+    message->data.three_handles.handle1 = entity_handle;
+    message->data.three_handles.handle2.u64 = control_keys;
+    bbThreadedQueue_pushL(&core->local_message_queue, message);
+}
+bbFlag bbCoreInbox_clickUnit_fn(bbCore* core, struct bbCoreInboxMessage* message)
+{
+    bbNotImplemented()
+
+    bbDebug("clicked entity index %d, control keys:\n %064" PRIb64 "\n",
+        message->data.three_handles.handle1.system.index,
+        message->data.three_handles.handle2.u64);
+}
+
+bbFlag bbCoreInbox_ClicMap(bbCore* core, bbMapCoords coords, U64 control_keys)
+{
+    bbCoreInboxMessage* message;
+    bbThreadedQueue_alloc(&core->local_message_queue, (void** ) &message);
+    message->type = bbCoreInbox_clickUnit;
+    message->data.agent_MC.coords = coords;
+    message->data.agent_MC.handle1.u64 = control_keys;
+    bbThreadedQueue_pushL(&core->local_message_queue, message);
+}
+bbFlag bbCoreInbox_clickMap_fn(bbCore* core, struct bbCoreInboxMessage* message)
+{
+    bbNotImplemented()
+
+    bbDebug("clicked map coords (%d, %d, %d)), control keys:\n %064" PRIb64 "\n",
+    message->data.agent_MC.coords.i,
+    message->data.agent_MC.coords.j,
+    message->data.agent_MC.coords.k,
+    message->data.agent_MC.handle1.u64);
+}
+
+bbFlag bbCoreInbox_KeyPress(bbCore* core, U64 key, U64 control_keys)
+{
+    bbCoreInboxMessage* message;
+    bbThreadedQueue_alloc(&core->local_message_queue, (void** ) &message);
+    message->type = bbCoreInbox_keyPress;
+    message->data.three_handles.handle1.u64 = key;
+    message->data.three_handles.handle2.u64 = control_keys;
+    bbThreadedQueue_pushL(&core->local_message_queue, message);
+}
+bbFlag bbCoreInbox_keyPress_fn(bbCore* core, struct bbCoreInboxMessage* message)
+{
+    bbNotImplemented()
+
+bbDebug("clicked key %llu, control keys:\n %064" PRIb64 "\n",
+    message->data.three_handles.handle1.u64,
+    message->data.three_handles.handle2.u64);
+}
+
+
+
+
 bbFlag bbCoreInbox_Freese_fn(bbCore* core, struct bbCoreInboxMessage* message)
 {
     bbHere();
@@ -81,6 +140,9 @@ bbFlag bbCore_initInboxMessages(bbCore* core)
     core->inbox_functions[bbCoreInbox_clickPlayer-bbCoreInbox_numTypes] = bbCoreInbox_clickPlayer_fn;
     core->inbox_functions[bbCoreInbox_clickMonster-bbCoreInbox_numTypes] = bbCoreInbox_clickMonster_fn;
    core->inbox_functions[bbCoreInbox_setPlayerEntity-bbCoreInbox_numTypes] = bbCoreInbox_setPlayerEntity_fn;
+   core->inbox_functions[bbCoreInbox_clickMap-bbCoreInbox_numTypes] =  bbCoreInbox_clickMap_fn;
+   core->inbox_functions[bbCoreInbox_clickUnit-bbCoreInbox_numTypes] = bbCoreInbox_clickUnit_fn;
+   core->inbox_functions[bbCoreInbox_keyPress-bbCoreInbox_numTypes] = bbCoreInbox_keyPress_fn;
     return bbSuccess;
 }
 

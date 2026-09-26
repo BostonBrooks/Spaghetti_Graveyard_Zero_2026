@@ -47,6 +47,8 @@ void* graphics)
     bbMapCoords MC = home.viewport_app.viewport.viewpoint;
     bbMapCoords MC2 = bbViewportCoords_getMapCoords(VC);
     bbCoreInbox_TestClick(&home.core.core, MC2,1);
+
+    home.UI.input_modes.current_mode->click_map_coords(home.UI.input_modes.current_mode,MC2);
     bbDebug("clicking unit with null enter function\n");
 }
 bbFlag bbVPMouse_LeftUp_NULL (void* mouse, void* widgets, void* unit,

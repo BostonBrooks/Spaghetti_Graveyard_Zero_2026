@@ -52,6 +52,8 @@ void* graphics)
 
     bbCoreInbox_ClickMonster(&home.core.core, unit->entity_handle);
 
+
+    home.UI.input_modes.current_mode->click_entity(home.UI.input_modes.current_mode,unit->entity_handle);
     bbDebug("clicking monster\n");
 }
 bbFlag bbVPMouse_LeftUp_Monster (void* mouse, void* widgets, void* unit,

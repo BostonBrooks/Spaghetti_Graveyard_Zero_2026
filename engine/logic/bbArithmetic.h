@@ -148,4 +148,17 @@ static I64 bbArith64_roundDown (I64 x, I64 y){
     return x >= 0 ? (x / y) * y : ((x - y + 1) / y) * y;
 }
 
+static U64 bbArith64_setBit(U64* bitmap, char bit)
+{
+    U64 mask = 1LLU << bit;
+    *bitmap |= mask;
+    return *bitmap;
+}
+
+static U64 bbArith64_clearBit(U64* bitmap, char bit)
+{
+    U64 mask = 1LLU << bit;
+    *bitmap &= ~mask;
+    return *bitmap;
+}
 #endif //BB_ARITHMETIC_H
