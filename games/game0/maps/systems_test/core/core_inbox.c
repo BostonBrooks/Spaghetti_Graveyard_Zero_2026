@@ -39,35 +39,7 @@ bbFlag bbCoreInbox_clickUnit_fn(bbCore* core, struct bbCoreInboxMessage* message
     bbPlayer_ClickUnit((bbPlayers*)core->ECS->systems[bbECS_Players],
         message->data.three_handles.handle1,
         message->data.three_handles.handle2.u64);
-
-    bbHandle entity_handle = message->data.three_handles.handle1;
-    bbTeam* team;
-    bbHandle_mapComponent(home.ECS.ECS,bbECS_ECS,entity_handle,bbECS_Teams,NULL,(bbComponent**)&team);
-
-    if (team!=NULL) {
-        if (team->team == bbTeam_player) {
-
-            bbHandle server_handle;
-            bbServerEntity* server_entity;
-            bbHandle_mapComponent(home.ECS.ECS,bbECS_ECS,entity_handle,bbECS_ServerEntities,&server_handle,(bbComponent**)&server_entity);
-
-            if (server_entity!=NULL) {
-                bbActionRequest_setPlayerEntity(&home.core.core,
-                                               home.ECS.players.this_player,
-                                               collision++,
-                                               home.core.core.actual_time,
-                                               home.core.core.actual_time,
-                                               home.ECS.players.this_player,
-                                               server_handle);
-            }
-        } else {
-
-        }
-    }
-
-    bbDebug("clicked entity index %d, control keys:\n %064" PRIb64 "\n",
-        message->data.three_handles.handle1.system.index,
-        message->data.three_handles.handle2.u64);
+    return bbSuccess;
 }
 
 bbFlag bbCoreInbox_ClickMap(bbCore* core, bbMapCoords coords, U64 control_keys)
@@ -78,6 +50,7 @@ bbFlag bbCoreInbox_ClickMap(bbCore* core, bbMapCoords coords, U64 control_keys)
     message->data.agent_MC.coords = coords;
     message->data.agent_MC.handle1.u64 = control_keys;
     bbThreadedQueue_pushL(&core->local_message_queue, message);
+    return bbSuccess;
 }
 bbFlag bbCoreInbox_clickMap_fn(bbCore* core, struct bbCoreInboxMessage* message)
 {
@@ -86,12 +59,8 @@ bbFlag bbCoreInbox_clickMap_fn(bbCore* core, struct bbCoreInboxMessage* message)
     bbPlayer_ClickMap((bbPlayers*)core->ECS->systems[bbECS_Players],
                      message->data.agent_MC.coords, message->data.agent_MC.handle1.u64);
 
+    return bbSuccess;
 
-    bbDebug("clicked map coords (%d, %d, %d)), control keys:\n %064" PRIb64 "\n",
-    message->data.agent_MC.coords.i,
-    message->data.agent_MC.coords.j,
-    message->data.agent_MC.coords.k,
-    message->data.agent_MC.handle1.u64);
 }
 
 bbFlag bbCoreInbox_KeyPress(bbCore* core, U64 key, U64 control_keys)
@@ -102,6 +71,7 @@ bbFlag bbCoreInbox_KeyPress(bbCore* core, U64 key, U64 control_keys)
     message->data.three_handles.handle1.u64 = key;
     message->data.three_handles.handle2.u64 = control_keys;
     bbThreadedQueue_pushL(&core->local_message_queue, message);
+    return bbSuccess;
 }
 bbFlag bbCoreInbox_keyPress_fn(bbCore* core, struct bbCoreInboxMessage* message)
 {
@@ -114,6 +84,7 @@ bbFlag bbCoreInbox_keyPress_fn(bbCore* core, struct bbCoreInboxMessage* message)
 bbDebug("clicked key %llu, control keys:\n %064" PRIb64 "\n",
     message->data.three_handles.handle1.u64,
     message->data.three_handles.handle2.u64);
+    return bbSuccess;
 }
 
 
@@ -221,6 +192,7 @@ bbFlag bbCoreInbox_SetGoalpoint(bbCore* core, bbHandle entity, bbMapCoords goalp
     message->data.agent_MC.coords = goalpoint;
     message->data.agent_MC.handle1 = entity;
     bbThreadedQueue_pushL(&core->local_message_queue, message);
+    return bbSuccess;
 }
 
 
@@ -228,6 +200,8 @@ bbFlag bbCoreInbox_setGoalpoint_fn(bbCore* core, bbCoreInboxMessage* message)
 {
 
     bbMoveable_setGoalPoint(&home.ECS.moveables,message->data.agent_MC.handle1, message->data.agent_MC.coords);
+
+    return bbSuccess;
 }
 
 bbFlag bbCoreInbox_ReceiveMessage(bbCore* core,bbNetwork* Network, bbHandle threaded_pool_handle) {
@@ -277,6 +251,7 @@ bbFlag bbCoreInbox_ClickMonster(bbCore* core, bbHandle entity_handle)
     message->type = bbCoreInbox_clickMonster;
     message->data.three_handles.handle1 = entity_handle;
     bbThreadedQueue_pushL(&core->local_message_queue, message);
+    return bbSuccess;
 }
 
 bbFlag bbCoreInbox_clickMonster_fn(bbCore* core, bbCoreInboxMessage* message)
@@ -300,6 +275,7 @@ bbFlag bbCoreInbox_clickMonster_fn(bbCore* core, bbCoreInboxMessage* message)
                   bbAI_clickMonster,
                   data,
                   false);
+    return bbSuccess;
 }
 
 
@@ -310,6 +286,7 @@ bbFlag bbCoreInbox_ClickPlayer(bbCore* core, bbHandle entity_handle)
     message->type = bbCoreInbox_clickPlayer;
     message->data.three_handles.handle1 = entity_handle;
     bbThreadedQueue_pushL(&core->local_message_queue, message);
+    return bbSuccess;
 }
 
 bbFlag bbCoreInbox_clickPlayer_fn(bbCore* core, bbCoreInboxMessage* message)
@@ -328,4 +305,5 @@ bbFlag bbCoreInbox_clickPlayer_fn(bbCore* core, bbCoreInboxMessage* message)
                        home.ECS.players.this_player,
                        server_handle);
 
+    return bbSuccess;
 }

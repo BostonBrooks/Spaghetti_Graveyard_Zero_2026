@@ -64,8 +64,7 @@ bbFlag test_func (bbList* list, void* node, void* cl)
 }
 
 void* userinterface_thread(void* arg);
-int main(void)
-{
+int main(void) {
     thread = "MAIN";
     debug_off = false;
     printf("Hello, World!\n");
@@ -191,12 +190,12 @@ int main(void)
 
     bbEntitySpawner_spawnFile(&home.ECS.spawner, "maps/systems_test/entity_spawner/spawner.csv");
 
-//Test teams
+    //Test teams
     bbHandle player_entity = home.ECS.players.players[home.ECS.players.this_player].selected_entities[0];
     bbTeam* team;
     bbHandle_mapComponent(home.ECS.ECS,bbECS_ECS,player_entity,bbECS_Teams,NULL,(bbComponent**)&team);
     bbDebug("player team = %d\n", team->team);
-//End test teams
+    //End test teams
     //bbMoveable* test_moveable = &home.ECS.moveables.moveables[0];
 
     //bbECS_entity* test_entity;
@@ -210,10 +209,10 @@ int main(void)
     //bbDebug("moveable = %p, moveable1 = %p\n", test_moveable, test_moveable2);
 
 
-    bbMapCoords MC;
-    MC.i = 10100; MC.j = 10000; MC.k = 0;
-
-    bbHandle entity_handle = home.ECS.ECS->list.list.head;
+    // bbMapCoords MC;
+    // MC.i = 10100; MC.j = 10000; MC.k = 0;
+    //
+    // bbHandle entity_handle = home.ECS.ECS->list.list.head;
     //
     // bbCoreInput_spawnGraphicsComponent(&home.core.core,
     //                                    MC,
@@ -221,6 +220,10 @@ int main(void)
     //                                    moveable_handle,
     //                                    bbInstructionSource_norewind,
     //                                    no_handle);
+
+    for (I32 i = 0; i < NUM_PLAYERS; i++){
+        bbCoreInput_setPlayerState(&home.core.core, i,bbPlayer_stateDefault);
+    }
     bbCore_react(&home.core.core);
     fflush(stdout);
 

@@ -8,6 +8,7 @@
 
 typedef enum {
     bbPlayer_stateNULL,
+    bbPlayer_stateDefault,
     bbPlayer_stateNum,
 } bbPlayer_state;
 
@@ -39,6 +40,7 @@ typedef struct {
 
 typedef struct bbPlayers{
     bbSystem system;
+    ///this is not shared state
     I32 this_player;
     bbPlayerState states[bbPlayer_stateNum];
     bbPlayer players[NUM_PLAYERS];
@@ -55,7 +57,7 @@ bbFlag bbPlayer_ClickMap(bbPlayers* players, bbMapCoords coords, U64 control_key
 bbFlag bbPlayer_ClickUnit(bbPlayers* players, bbHandle entity_handle, U64 control_keys);
 bbFlag bbPlayer_KeyPress(bbPlayers* players, U64 key, U64 control_keys);
 
-
+bbFlag bbCoreInput_setPlayerState(bbCore* core, U32 player, U32 state);
 
 ///On clicking player character, request change of player character from code
 bbFlag bbCoreInbox_SetPlayerEntity(bbCore* core, U32 player, bbHandle entity_handle);

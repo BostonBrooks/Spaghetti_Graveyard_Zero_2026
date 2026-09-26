@@ -76,6 +76,18 @@ printf("%s%s", string1, string2);\
 fflush(stdout);\
 }}
 
+#define bbBreak(...) {\
+if(!debug_off){\
+char string1[stringLength];\
+char string2[stringLength];\
+sprintf (string1, "In FILE: %s, FUNCTION: %s, LINE: %d, THREAD: %s, TIME: %lu\nDEBUG: ",\
+__FILE_NAME__, __func__, __LINE__, thread, test_time);\
+sprintf (string2, __VA_ARGS__);\
+printf("%s%s", string1, string2);\
+fflush(stdout);\
+__asm__ volatile("int $3");\
+}}
+
 #define bbPrintf(...) {\
 char string[stringLength];\
 sprintf (string, __VA_ARGS__);\

@@ -72,6 +72,18 @@ bbFlag bbPlayer_KeyPress(bbPlayers* players, U64 key, U64 control_keys)
 }
 
 
+bbFlag bbCoreInput_setPlayerState(bbCore* core, U32 player_int, U32 state) {
+    bbNotImplemented()
+
+    bbPlayers* players = (bbPlayers*)core->ECS->systems[bbECS_Players];
+    bbPlayer* player = &players->players[player_int];
+    player->state = state;
+    if (player_int == players->this_player) {
+        bbInputModes_set(&home.UI.input_modes,
+            players->states[state].bbInputMode_key);
+    }
+    return bbSuccess;
+}
 
 bbFlag bbCoreInbox_SetPlayerEntity(bbCore* core, U32 player, bbHandle entity_handle) {
 
@@ -112,7 +124,7 @@ bbFlag bbActionRequest_setPlayerEntity(void* Core,
                        U32 player,
                        bbHandle server_handle) {
 
-
+    bbBreak("...")
 
 
     bbCore* core = (bbCore*)Core;
