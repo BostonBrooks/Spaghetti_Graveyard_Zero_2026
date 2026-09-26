@@ -35,6 +35,7 @@ typedef struct bbMinimalDrawable
     bbDrawableState state;
     bbList_Handle listElement;
     bbList_Handle squareListElement;
+    U64 random_seed;
     bbFrame frames[FRAMES_PER_DRAWABLE];
 } bbMinimalDrawable;
 

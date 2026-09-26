@@ -161,4 +161,26 @@ static U64 bbArith64_clearBit(U64* bitmap, char bit)
     *bitmap &= ~mask;
     return *bitmap;
 }
+
+static U64 bbArith64_hash(U64 old_hash) {
+    U64 new_hash = old_hash + 0x9e3779b97f4a7c15ULL;
+
+    // 2. Apply a 64-bit avalanche hash mixer (bit-shifts and prime multipliers)
+
+    new_hash  = (new_hash  ^ (new_hash  >> 30)) * 0xbf58476d1ce4e5b9ULL;
+    new_hash  = (new_hash  ^ (new_hash  >> 27)) * 0x94d049bb133111ebULL;
+    return new_hash  ^ (new_hash  >> 31);
+}
+
+static U64 bbArith64_hashIndex(U64 old_hash, I64 index) {
+    U64 new_hash = index + old_hash + 0x9e3779b97f4a7c15ULL;
+
+    // 2. Apply a 64-bit avalanche hash mixer (bit-shifts and prime multipliers)
+
+    new_hash  = (new_hash  ^ (new_hash  >> 30)) * 0xbf58476d1ce4e5b9ULL;
+    new_hash  = (new_hash  ^ (new_hash  >> 27)) * 0x94d049bb133111ebULL;
+    return new_hash  ^ (new_hash  >> 31);
+}
+
+
 #endif //BB_ARITHMETIC_H
