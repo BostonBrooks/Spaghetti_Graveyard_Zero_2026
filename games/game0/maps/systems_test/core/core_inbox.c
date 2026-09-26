@@ -35,10 +35,13 @@ bbFlag bbCoreInbox_ClickUnit(bbCore* core, bbHandle entity_handle, U64 control_k
 }
 bbFlag bbCoreInbox_clickUnit_fn(bbCore* core, struct bbCoreInboxMessage* message)
 {
-    bbNotImplemented()
+
+    bbPlayer_ClickUnit((bbPlayers*)core->ECS->systems[bbECS_Players],
+        message->data.three_handles.handle1,
+        message->data.three_handles.handle2.u64);
 
     bbHandle entity_handle = message->data.three_handles.handle1;
-    bbTeam* team;;
+    bbTeam* team;
     bbHandle_mapComponent(home.ECS.ECS,bbECS_ECS,entity_handle,bbECS_Teams,NULL,(bbComponent**)&team);
 
     if (team!=NULL) {
@@ -78,7 +81,11 @@ bbFlag bbCoreInbox_ClickMap(bbCore* core, bbMapCoords coords, U64 control_keys)
 }
 bbFlag bbCoreInbox_clickMap_fn(bbCore* core, struct bbCoreInboxMessage* message)
 {
-    bbNotImplemented()
+
+
+    bbPlayer_ClickMap((bbPlayers*)core->ECS->systems[bbECS_Players],
+                     message->data.agent_MC.coords, message->data.agent_MC.handle1.u64);
+
 
     bbDebug("clicked map coords (%d, %d, %d)), control keys:\n %064" PRIb64 "\n",
     message->data.agent_MC.coords.i,
@@ -98,7 +105,11 @@ bbFlag bbCoreInbox_KeyPress(bbCore* core, U64 key, U64 control_keys)
 }
 bbFlag bbCoreInbox_keyPress_fn(bbCore* core, struct bbCoreInboxMessage* message)
 {
-    bbNotImplemented()
+    bbPlayer_KeyPress((bbPlayers*)core->ECS->systems[bbECS_Players],
+        message->data.three_handles.handle1.u64,
+        message->data.three_handles.handle2.u64);
+
+
 
 bbDebug("clicked key %llu, control keys:\n %064" PRIb64 "\n",
     message->data.three_handles.handle1.u64,

@@ -31,9 +31,9 @@ bbFlag bbPlayers_init(bbPlayers* system, bbECS* ECS){
     for (I32 i = 0; i < NUM_PLAYERS; i++) {
         for (I32 j = 0; j < MAX_SELECTED_ENTITIES; j++) {
             system->players[i].selected_entities[j] = system->system.pool->null;
+            system->players[i].state = bbPlayer_stateNULL;
         }
     }
-
     system->system.getComponent = bbPlayers_getComponent_fn;
     system->system.getHandle = bbPlayers_getHandle_fn;
     system->system.delete = NULL;
@@ -41,8 +41,37 @@ bbFlag bbPlayers_init(bbPlayers* system, bbECS* ECS){
 
     ECS->systems[bbECS_Players] = (bbSystem* )system;
 
+    bbPlayers_populate(system);
+
     return bbSuccess;
 }
+
+
+bbFlag bbPlayer_ClickMap(bbPlayers* players, bbMapCoords coords, U64 control_keys) {
+    I32 this_player_int = players->this_player;
+    bbPlayer* this_player = &players->players[this_player_int];
+    I32 state = this_player->state;
+    bbPlayerState player_state = players->states[state];
+    player_state.click_map(players,coords,control_keys);
+}
+bbFlag bbPlayer_ClickUnit(bbPlayers* players, bbHandle entity_handle, U64 control_keys)
+{
+    I32 this_player_int = players->this_player;
+    bbPlayer* this_player = &players->players[this_player_int];
+    I32 state = this_player->state;
+    bbPlayerState player_state = players->states[state];
+    player_state.click_unit(players,entity_handle,control_keys);
+}
+bbFlag bbPlayer_KeyPress(bbPlayers* players, U64 key, U64 control_keys)
+{
+    I32 this_player_int = players->this_player;
+    bbPlayer* this_player = &players->players[this_player_int];
+    I32 state = this_player->state;
+    bbPlayerState player_state = players->states[state];
+    player_state.key_press(players,key,control_keys);
+}
+
+
 
 bbFlag bbCoreInbox_SetPlayerEntity(bbCore* core, U32 player, bbHandle entity_handle) {
 
