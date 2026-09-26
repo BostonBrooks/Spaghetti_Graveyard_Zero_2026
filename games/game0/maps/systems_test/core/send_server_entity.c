@@ -23,7 +23,7 @@ bbFlag bbCoreInbox_TestClick3(bbCore* core, bbHandle entity_handle)
 
 
 bbFlag bbCoreInbox_testClick3_fn(bbCore* core, bbCoreInboxMessage* message)
-{
+{bbHere()
     bbAction action;
 
     bbHandle server_handle;
@@ -40,6 +40,7 @@ bbFlag bbCoreInbox_testClick3_fn(bbCore* core, bbCoreInboxMessage* message)
     action.header.act_tick = home.core.core.actual_time;
     bbStr_setStr(action.header.key,"ACHILLES", KEY_LENGTH);
     action.handle = server_handle;
+    action.integer = 0;
 
     bbCoreInput_requestAction(&home.core.core,&home.network,&action,home.core.core.actual_time,
                                 bbInstructionSource_internal, no_handle);

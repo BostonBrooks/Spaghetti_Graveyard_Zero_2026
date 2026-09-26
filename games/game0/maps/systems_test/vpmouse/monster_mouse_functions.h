@@ -50,7 +50,7 @@ void* graphics)
     bbMapCoords MC2 = bbViewportCoords_getMapCoords(VC);
     bbUnit* unit = Unit;
 
-    bbCoreInbox_ClickMonster(&home.core.core, unit->entity_handle);
+    //bbCoreInbox_ClickMonster(&home.core.core, unit->entity_handle);
 
 
     home.UI.input_modes.current_mode->click_entity(home.UI.input_modes.current_mode,unit->entity_handle);

@@ -1,5 +1,7 @@
 
 #include "AI_system/player_send_goalpoint.h"
+#include "core/actions.h"
+#include "core/action_request.h"
 #include "engine/data/bbHome.h"
 #include "engine/ECS/players/bbPlayers.h"
 #include "engine/logic/bbFlag.h"
@@ -80,7 +82,7 @@ bbFlag bbPlayer_ClickUnit_default(bbPlayers* players, bbHandle entity_handle, U6
 
     if (team!=NULL) {
         if (team->team == bbTeam_player) {
-
+bbHere()
             bbHandle server_handle;
             bbServerEntity* server_entity;
             bbHandle_mapComponent(home.ECS.ECS,bbECS_ECS,entity_handle,bbECS_ServerEntities,&server_handle,(bbComponent**)&server_entity);
@@ -96,6 +98,26 @@ bbFlag bbPlayer_ClickUnit_default(bbPlayers* players, bbHandle entity_handle, U6
             }
         } else {
 
+            bbHandle server_handle;
+            bbServerEntity* server_entity;
+            bbHandle_mapComponent(home.ECS.ECS,bbECS_ECS,entity_handle,bbECS_ServerEntities,&server_handle,(bbComponent**)&server_entity);
+
+            if (server_entity!=NULL) {
+                bbHere()
+                bbAction action;
+                action.header.type = bbActionType_setTarget;
+                action.header.status = bbAction_Wait;
+                action.header.sender = players->this_player;
+                action.header.collision = collision++;
+                action.header.created_tick = home.core.core.actual_time;
+                action.header.act_tick = home.core.core.actual_time;
+                bbStr_setStr(action.header.key,"ACHILLES", KEY_LENGTH);
+                action.handle = server_handle;
+                action.integer = players->this_player;
+
+                bbCoreInput_requestAction(&home.core.core,&home.network,&action,home.core.core.actual_time,
+                                            bbInstructionSource_internal, no_handle);
+            }
         }
     }
 

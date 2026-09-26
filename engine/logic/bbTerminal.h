@@ -80,7 +80,7 @@ fflush(stdout);\
 if(!debug_off){\
 char string1[stringLength];\
 char string2[stringLength];\
-sprintf (string1, "In FILE: %s, FUNCTION: %s, LINE: %d, THREAD: %s, TIME: %lu\nDEBUG: ",\
+sprintf (string1, "In FILE: %s, FUNCTION: %s, LINE: %d, THREAD: %s, TIME: %lu\nBREAKPOINT: ",\
 __FILE_NAME__, __func__, __LINE__, thread, test_time);\
 sprintf (string2, __VA_ARGS__);\
 printf("%s%s", string1, string2);\

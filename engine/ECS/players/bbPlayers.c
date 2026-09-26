@@ -124,8 +124,6 @@ bbFlag bbActionRequest_setPlayerEntity(void* Core,
                        U32 player,
                        bbHandle server_handle) {
 
-    bbBreak("...")
-
 
     bbCore* core = (bbCore*)Core;
 

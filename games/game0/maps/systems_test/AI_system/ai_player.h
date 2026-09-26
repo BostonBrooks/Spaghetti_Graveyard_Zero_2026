@@ -205,14 +205,14 @@ bbFlag bbAI_Command_Player(bbAI_Component* component,
 
     //TODO type == bbAI_mapClick for testing purposes
     if (type == bbAI_clickMonster)
-    {
+    {bbNotHere()
         bbAction action;
-        bbCoreInbox_TestClick3(&home.core.core, data.handle);
+       // bbCoreInbox_TestClick3(&home.core.core, data.handle);
     }
 
     if (type == bbAI_mapClick)
-    {
-
+    {bbNotHere()
+/*
         if (data.integer == 0)
         {
             //TODO click to spawn
@@ -239,6 +239,6 @@ bbFlag bbAI_Command_Player(bbAI_Component* component,
                                  home.core.core.actual_time,
                                     bbInstructionSource_internal, no_handle);
         }
-    }
+    */}
     return bbSuccess;
 }
