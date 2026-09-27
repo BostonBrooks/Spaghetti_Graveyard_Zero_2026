@@ -54,14 +54,12 @@ bbFlag bbDrawable_squareLeaveVisible(bbDrawables* drawables, bbDrawableFunctionT
 }
 
 
-// bbFlag bbDrawable_spawnRenderUnits(bbDrawables* drawables, bbDrawableFunctionTable* table, bbDrawable* drawable)
-// {
-//     bbNotImplemented()
-// }
-// bbFlag bbDrawable_unspawnRenderUnits(bbDrawables* drawables, bbDrawableFunctionTable* table, bbDrawable* drawable)
-// {
-//     bbNotImplemented()
-// }
+
+I32 bbDrawables_getFunction(bbDrawableFunctionTable* table, char* key) {
+    bbHandle handle;
+    bbDictionary_lookup(table->notify_visible_dict,key, &handle);
+    return handle.u64;
+}
 
 bbFlag bbDrawables_initFunctionTable(bbDrawableFunctionTable* table) {
     I32 magic_number = 193;

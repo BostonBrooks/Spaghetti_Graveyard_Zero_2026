@@ -38,5 +38,7 @@ bbFlag bbDrawables_populateFunctionTable(bbDrawableFunctionTable* table);
 bbFlag bbDrawables_addFunction(bbDrawableFunctionTable* table, bbDrawable_notifyVisible_fn* function, char* key);
 bbFlag bbDrawables_addSpawner(bbDrawableFunctionTable* table, bbRenderUnitGroup_spawn_fn* function, char* key);
 
+I32 bbDrawables_getFunction(bbDrawableFunctionTable* table, char* key);
+
 
 #endif// BB_DRAWABLE_FUNCTIONS

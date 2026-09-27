@@ -13,7 +13,7 @@ bbFlag bbCoreInput_sendAIGoalpoint(bbCore* core,
                                  bbTime time,
                                  bbInstruction_source source,
                                  bbHandle action)
-{bbHere()
+{//bbHere()
     allocActiveInstruction(instruction)
     instruction->type = bbI_AI_sendGoalpoint;
     instruction->data.agent_MC.handle1 = entity;
@@ -26,7 +26,7 @@ bbFlag bbCoreInput_sendAIGoalpoint(bbCore* core,
 
 extern U32 collision;
 bbFlag bbInstruction_sendAIGoalpoint_fn(bbCore* core, bbInstruction* instruction) {
-bbHere()
+//bbHere()
     bbMapCoords MC = instruction->data.agent_MC.coords;
     bbHandle entity_handle = instruction->data.agent_MC.handle1;
     bbHandle server_handle;
@@ -38,7 +38,7 @@ bbHere()
 }
 
 bbFlag bbNetworkApp_sendAIGoalpoint(bbNetwork* Network, bbHandle server_entity, bbMapCoords MC, bbTime time, U32 collision)
-{bbHere()
+{//bbHere()
     bbAction action;
     action.header.type = bbActionType_sendAIGoalpoint;
     action.header.status = bbAction_Wait;
@@ -74,7 +74,7 @@ bbFlag bbAction_setAIGoalpoint_fn(bbCore* core, bbAction* action) {
     bbComponent_mapComponent(home.ECS.ECS, bbECS_AI, (bbComponent*)component,
                              bbECS_ECS, &entity_handle,
                              (bbComponent**)&entity);
-    bbDebug("ai set goalpoint %s\n", entity->key);
+    //bbDebug("ai set goalpoint %s\n", entity->key);
     bbAI_onCommand(component,
                       (bbAI_System*)home.ECS.ECS->systems[bbECS_AI],
                       bbAI_setGoalPoint,

@@ -399,7 +399,7 @@ int main(void) {
 void* userinterface_thread(void* arg)
 {
     thread = "USER INTERFACE";
-    debug_off = true;
+    debug_off = false;
 
     bbUIApp_init(&home.UI);
     bbInputModes_init(&home.UI.input_modes);

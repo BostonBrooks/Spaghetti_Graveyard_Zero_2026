@@ -1,6 +1,7 @@
 #ifndef BB_VIEWPORTAPP_H
 #define BB_VIEWPORTAPP_H
 
+#include "bbActiveSquares.h"
 #include "engine/viewport/bbDrawableFunctions.h"
 #include "engine/viewport/bbViewportMouse.h"
 #include "engine/viewport/bbMapIcons.h"
@@ -26,7 +27,7 @@ typedef struct bbViewportApp
     bbWidget* viewport_widget;
 
     bbHandle viewport_focus;
-
+    bbActiveSquares active_squares;
     //Convert from movable handle to unit handle
     //bbVPool* moveable_units;
     //Convert from entity handle to unit handle
@@ -36,6 +37,9 @@ typedef struct bbViewportApp
     bbViewportSpawner viewport_spawner;
 
     bbVPMouse mouse;
+
+
+
 } bbViewportApp;
 
 bbFlag bbViewportApp_init(bbViewportApp* app);

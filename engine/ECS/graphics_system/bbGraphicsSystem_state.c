@@ -70,14 +70,14 @@ bbFlag bbCI_Graphics_setState(bbCore* core,
         component2 = component;
     }
 
-    bbDebug("attempting to set state: %d\n", state);
+    //bbDebug("attempting to set state: %d\n", state);
 
     allocActiveInstruction(instruction)
     instruction->type = bbI_Graphics_setState;
     bbGraphics_updateState(&instruction->data.graphics , &component2->data, state, time);
 
 
-    bbDebug("attempting to set state: %d\n",instruction->data.graphics.drawable_state);
+   // bbDebug("attempting to set state: %d\n",instruction->data.graphics.drawable_state);
 
     instruction->source = source;
     instruction->redo_instruction = action;
@@ -95,7 +95,7 @@ bbFlag bbI_Graphics_setState_fn(bbCore* core, bbInstruction* instruction)
         bbECS_Graphics,NULL,(bbComponent**)&component);
 
 
-    bbDebug("attempting to set state: %d\n", instruction->data.graphics.drawable_state);
+   // bbDebug("attempting to set state: %d\n", instruction->data.graphics.drawable_state);
     if (instruction->source == bbInstructionSource_internal)
     {
         allocUndoInstruction(undo_instruction);

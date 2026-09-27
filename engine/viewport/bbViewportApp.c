@@ -17,6 +17,9 @@ bbFlag bbViewportApp_init(bbViewportApp* app)
     //bbVPool_newBloated(&app->moveable_units, sizeof(bbHandle), 10,1000,"MOVEABLE_UNITS");
     //bbVPool_newBloated(&app->entity_units, sizeof(bbHandle), 10,1000,"ENTITY_UNITS");
     bbLookupTable_new(&app->entity_units2,bbECS_ECS,10,1000);
+    bbActiveSquares_init(&app->active_squares);
+
+
     return bbSuccess;
 }
 

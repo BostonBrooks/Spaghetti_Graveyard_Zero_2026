@@ -15,6 +15,12 @@ bbFlag bbViewportSpawnCat(bbViewportApp* viewport_app,
                       &home.UI.graphics,
                       MC);
 
+    drawable->functions.on_enter = bbDrawables_getFunction(&home.viewport_app.table, "ENTER NULL");
+    drawable->functions.on_leave = bbDrawables_getFunction(&home.viewport_app.table, "LEAVE NULL");
+    drawable->functions.on_square_enter = bbDrawables_getFunction(&home.viewport_app.table, "SQUARE ENTER NULL");
+    drawable->functions.on_square_leave = bbDrawables_getFunction(&home.viewport_app.table, "SQUARE LEAVE NULL");
+
+
     return bbSuccess;
 }
 
@@ -34,9 +40,20 @@ bbFlag bbViewportSpawnSkelly(bbViewportApp* viewport_app,
     bbHandle unit_handle;
     bbFlag flag = bbVPool_alloc2(pool, (void**)&unit,&unit_handle);
 
+
+    unit->drawable.functions.on_enter = bbDrawables_getFunction(&home.viewport_app.table, "ENTER NULL");
+    unit->drawable.functions.on_leave = bbDrawables_getFunction(&home.viewport_app.table, "LEAVE NULL");
+    unit->drawable.functions.on_square_enter = bbDrawables_getFunction(&home.viewport_app.table, "SQUARE ENTER NULL");
+    unit->drawable.functions.on_square_leave = bbDrawables_getFunction(&home.viewport_app.table, "SQUARE LEAVE NULL");
+
+
+
     unit->drawable.md.coords = MC;
     unit->drawable.md.SC = SC;
     bbHandle drawfunctionHandle;
+
+
+
     if (entity_handle.u64 != no_handle.u64)
     {
         bbHandle* entity_unit;
@@ -142,6 +159,12 @@ bbFlag bbViewportSpawnZombie(bbViewportApp* viewport_app,
 
     bbHandle unit_handle;
     bbFlag flag = bbVPool_alloc2(pool, (void**)&unit,&unit_handle);
+
+    unit->drawable.functions.on_enter = bbDrawables_getFunction(&home.viewport_app.table, "ENTER NULL");
+    unit->drawable.functions.on_leave = bbDrawables_getFunction(&home.viewport_app.table, "LEAVE NULL");
+    unit->drawable.functions.on_square_enter = bbDrawables_getFunction(&home.viewport_app.table, "SQUARE ENTER NULL");
+    unit->drawable.functions.on_square_leave = bbDrawables_getFunction(&home.viewport_app.table, "SQUARE LEAVE NULL");
+
 
     unit->drawable.md.coords = MC;
     unit->drawable.md.SC = SC;
@@ -255,6 +278,13 @@ bbFlag bbViewportSpawnCow(bbViewportApp* viewport_app,
     bbHandle unit_handle;
     bbFlag flag = bbVPool_alloc2(pool, (void**)&unit,&unit_handle);
 
+    unit->drawable.functions.on_enter = bbDrawables_getFunction(&home.viewport_app.table, "ENTER NULL");
+    unit->drawable.functions.on_leave = bbDrawables_getFunction(&home.viewport_app.table, "LEAVE NULL");
+    unit->drawable.functions.on_square_enter = bbDrawables_getFunction(&home.viewport_app.table, "SQUARE ENTER NULL");
+    unit->drawable.functions.on_square_leave = bbDrawables_getFunction(&home.viewport_app.table, "SQUARE LEAVE NULL");
+
+
+
     unit->drawable.md.coords = MC;
     unit->drawable.md.SC = SC;
     bbHandle drawfunctionHandle;
@@ -362,6 +392,13 @@ bbFlag bbViewportSpawnFox(bbViewportApp* viewport_app,
 
     bbHandle unit_handle;
     bbFlag flag = bbVPool_alloc2(pool, (void**)&unit,&unit_handle);
+
+    unit->drawable.functions.on_enter = bbDrawables_getFunction(&home.viewport_app.table, "ENTER NULL");
+    unit->drawable.functions.on_leave = bbDrawables_getFunction(&home.viewport_app.table, "LEAVE NULL");
+    unit->drawable.functions.on_square_enter = bbDrawables_getFunction(&home.viewport_app.table, "SQUARE ENTER NULL");
+    unit->drawable.functions.on_square_leave = bbDrawables_getFunction(&home.viewport_app.table, "SQUARE LEAVE NULL");
+
+
 
     unit->drawable.md.coords = MC;
     unit->drawable.md.SC = SC;
@@ -479,6 +516,13 @@ bbFlag bbViewportSpawnLizard(bbViewportApp* viewport_app,
     bbHandle unit_handle;
     bbFlag flag = bbVPool_alloc2(pool, (void**)&unit,&unit_handle);
 
+    unit->drawable.functions.on_enter = bbDrawables_getFunction(&home.viewport_app.table, "ENTER NULL");
+    unit->drawable.functions.on_leave = bbDrawables_getFunction(&home.viewport_app.table, "LEAVE NULL");
+    unit->drawable.functions.on_square_enter = bbDrawables_getFunction(&home.viewport_app.table, "SQUARE ENTER NULL");
+    unit->drawable.functions.on_square_leave = bbDrawables_getFunction(&home.viewport_app.table, "SQUARE LEAVE NULL");
+
+
+
     unit->drawable.md.coords = MC;
     unit->drawable.md.SC = SC;
     bbHandle drawfunctionHandle;
@@ -591,6 +635,13 @@ bbFlag bbViewportSpawnDevil(bbViewportApp* viewport_app,
     bbHandle unit_handle;
     bbFlag flag = bbVPool_alloc2(pool, (void**)&unit,&unit_handle);
 
+    unit->drawable.functions.on_enter = bbDrawables_getFunction(&home.viewport_app.table, "ENTER NULL");
+    unit->drawable.functions.on_leave = bbDrawables_getFunction(&home.viewport_app.table, "LEAVE NULL");
+    unit->drawable.functions.on_square_enter = bbDrawables_getFunction(&home.viewport_app.table, "SQUARE ENTER NULL");
+    unit->drawable.functions.on_square_leave = bbDrawables_getFunction(&home.viewport_app.table, "SQUARE LEAVE NULL");
+
+
+
     unit->drawable.md.coords = MC;
     unit->drawable.md.SC = SC;
     bbHandle drawfunctionHandle;
@@ -699,6 +750,13 @@ bbFlag bbViewportSpawnFireball(bbViewportApp* viewport_app,
 
     bbHandle unit_handle;
     bbFlag flag = bbVPool_alloc2(pool, (void**)&unit,&unit_handle);
+
+    unit->drawable.functions.on_enter = bbDrawables_getFunction(&home.viewport_app.table, "ENTER NULL");
+    unit->drawable.functions.on_leave = bbDrawables_getFunction(&home.viewport_app.table, "LEAVE NULL");
+    unit->drawable.functions.on_square_enter = bbDrawables_getFunction(&home.viewport_app.table, "SQUARE ENTER NULL");
+    unit->drawable.functions.on_square_leave = bbDrawables_getFunction(&home.viewport_app.table, "SQUARE LEAVE NULL");
+
+
 
     unit->drawable.md.coords = MC;
     unit->drawable.md.SC = SC;

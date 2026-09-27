@@ -100,6 +100,8 @@ bbFlag bbUIApp_draw(bbUIApp* app)
     if (i_max > squares_i) i_max = squares_i;
     if (j_max > squares_j) j_max = squares_j;
 
+    bbActiveSquares_update(&home.viewport_app,&home.viewport_app.active_squares,i_min,j_min,i_max,j_max);
+
     bbDrawablesPlus_draw( &cl, i_min, j_min, i_max, j_max);
     //bbAvoidables_draw(home.private.viewportApp.avoidables, &cl, 0, 0, 12, 12);
 
