@@ -8,13 +8,14 @@ bbFlag bbGraphicsSystem_getComponent_fn(bbSystem* system, bbComponent** componen
 bbFlag bbGraphicsSystem_getHandle_fn(bbSystem* system, bbComponent* component, bbHandle* component_handle);
 
 
-bbFlag bbGraphicsSystem_init(bbGraphicsSystem* graphics_system, bbECS* ECS)
+bbFlag bbGraphicsSystem_init(bbGraphicsSystem* graphics_system, bbECS* ECS, bbUI_Inbox* inbox)
 {
     bbVPool_newBloated(&graphics_system->system.pool, sizeof(bbGraphicsComponent), 1000, 10, "GRAPHICS SYSTEM");
 
     graphics_system->system.getComponent = bbGraphicsSystem_getComponent_fn;
     graphics_system->system.getHandle = bbGraphicsSystem_getHandle_fn;
     graphics_system->system.ECS = ECS;
+    graphics_system->inbox = inbox;
 
     ECS->systems[bbECS_Graphics] = (bbSystem* )graphics_system;
 

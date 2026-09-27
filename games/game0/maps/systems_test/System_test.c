@@ -119,7 +119,7 @@ int main(void) {
     bbECS_new(&home.core.core.ECS, bbECS_numSystems);
     home.ECS.ECS = home.core.core.ECS;
     bbServerEntities_init(&home.ECS.server_entities,home.core.core.ECS);
-    bbGraphicsSystem_init(&home.ECS.graphics_system,home.core.core.ECS);
+    bbGraphicsSystem_init(&home.ECS.graphics_system,home.core.core.ECS, &home.UI.inbox);
     bbGraphicsSystem_populate(&home.ECS.graphics_system);
     bbMoveables_init(&home.ECS.moveables,home.core.core.ECS);
     bbAvoidables_new(&home.ECS.avoidables, 12, 12);

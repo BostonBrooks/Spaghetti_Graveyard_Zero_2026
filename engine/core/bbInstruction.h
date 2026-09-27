@@ -3,6 +3,7 @@
 #define BB_INSTRUCTION_H
 #include "engine/core/bbCore.h"
 #include "engine/data/bbConstants.h"
+//#include "engine/ECS/graphics_system/bbGraphicsSystem.h"
 #include "engine/geometry/bbCoordinates.h"
 #include "engine/logic/bbHandle.h"
 
@@ -212,7 +213,7 @@ typedef union
     bbInstructionsData_moveableState moveable_state;
     bbInstructionsData_AI_State AI_state;
     bbSpawnFunctionArgs sfArgs;
-
+    //bbGraphicsComponent_data graphics;
 } bbInstruction_data;
 
 typedef struct bbInstruction

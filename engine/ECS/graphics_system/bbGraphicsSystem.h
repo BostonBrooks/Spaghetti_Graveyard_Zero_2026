@@ -7,6 +7,7 @@
 
 typedef struct bbGraphicsSystem bbGraphicsSystem;
 
+typedef struct bbUI_Inbox bbUI_Inbox;
 
 
 typedef struct {
@@ -32,14 +33,14 @@ typedef bbFlag bbGraphics_spawnFunction(bbGraphicsSystem* system,
 typedef struct bbGraphicsSystem
 {
     bbSystem system;
-
+    bbUI_Inbox* inbox;
     bbGraphics_spawnFunction** spawn_functions;
     I32 spawn_function_count;
     I32 max_function_count;
     bbDictionary* spawn_dict;
 } bbGraphicsSystem;
 
-bbFlag bbGraphicsSystem_init(bbGraphicsSystem* graphics_system, bbECS* ECS);
+bbFlag bbGraphicsSystem_init(bbGraphicsSystem* graphics_system, bbECS* ECS, bbUI_Inbox* inbox);
 bbFlag bbGraphicsSystem_populate(bbGraphicsSystem* graphics_system);
 
 bbFlag bbGraphics_spawnFunction_add(bbGraphicsSystem* graphics_system,

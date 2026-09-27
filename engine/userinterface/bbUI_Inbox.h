@@ -58,7 +58,7 @@ typedef struct
     bbHandle redo;
 } bbUI_Inbox_message;
 
-typedef struct
+typedef struct bbUI_Inbox
 {
     bbVPool* local_message_pool;
     ///Receive messages from GUI, FIFO
