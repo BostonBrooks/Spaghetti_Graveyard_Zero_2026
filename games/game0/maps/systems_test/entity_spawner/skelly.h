@@ -256,7 +256,6 @@ bbFlag bbSF_addGraphics_devil(void* spawner,
     bbHandle handle;
     bbVPool_reverseLookup(home.ECS.ECS->system.pool, entity, &handle);
 
-    bbHandle moveable = entity->components[bbECS_Moveables];
     //
     // bbCoreSynchronous_spawnGraphicsComponent(&home.core.core,
     //                                args.position,

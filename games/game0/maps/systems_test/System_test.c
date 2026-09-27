@@ -459,6 +459,9 @@ void* userinterface_thread(void* arg)
     //
     // bbUI_Inbox_NewDrawable(&home.UI.inbox, zombie_int, MC, no_handle, no_handle);
 
+    bbInputModes_populate(&home.UI.input_modes);
+    bbInputModes_set(&home.UI.input_modes, "TEST_INPUT_MODE");
+
     pthread_barrier_wait(&barrier1);
 
 //test texbox
@@ -467,8 +470,6 @@ void* userinterface_thread(void* arg)
     bbDebug("message_buffer:\n%s\n",message_buffer);
 
 
-    bbInputModes_populate(&home.UI.input_modes);
-    bbInputModes_set(&home.UI.input_modes, "TEST_INPUT_MODE");
 bbHere()
     while (1)
     {

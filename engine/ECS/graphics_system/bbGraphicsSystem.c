@@ -81,7 +81,7 @@ bbFlag bbCS_spawnGraphicsComponent( bbCore* core,
                  ECS,
                  data->entity_handle,
                  component_handle,
-                 bbECS_Teams,
+                 bbECS_Graphics,
                  bbInstructionSource_internal,
                  no_handle);
 
