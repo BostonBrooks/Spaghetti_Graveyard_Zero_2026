@@ -136,6 +136,9 @@ bbFlag bbCore_initMap(bbInstructionMap* map)
 
     map->forward[bbI_unspawnDrawable] = bbI_spawnDrawable;
     map->rollback[bbI_spawnDrawable] = bbI_unspawnDrawable;
+
+    map->forward[bbI_Graphics_unsetState] = bbI_Graphics_setState;
+    map->rollback[bbI_Graphics_setState] = bbI_Graphics_unsetState;
 }
 
 

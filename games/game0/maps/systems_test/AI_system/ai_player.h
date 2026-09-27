@@ -3,6 +3,7 @@
 #include "core/send_server_enitity.h"
 #include "../core/action_request.h"
 #include "engine/ECS/AI_system/bbAI_System.h"
+#include "engine/ECS/graphics_system/bbGraphicsSystem_state.h"
 #include "engine/logic/bbString.h"
 
 extern U32 collision;
@@ -31,9 +32,16 @@ bbFlag bbAI_Update_Player(bbAI_Component* component)
 
                 bbComponent_mapComponent(home.ECS.ECS, bbECS_AI, (bbComponent*)component,
                                          bbECS_ECS, &entity_handle,
-                                         (bbComponent**)&moveable);
+                                         NULL);
 
                 bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_idle);
+                bbCI_Graphics_setState(&home.core.core,
+                              NULL,
+                              entity_handle,
+                              bbDrawableState_idle,
+                              home.core.core.simulation_time,
+                                 bbInstructionSource_internal, no_handle);
+
                 bbHandle AI_handle;
 
                 bbComponent_getHandle(&home.ECS.AI_system.system,(bbComponent*)component,&AI_handle);
@@ -72,7 +80,12 @@ bbFlag bbAI_Update_Player(bbAI_Component* component)
                                          bbECS_ECS, &entity_handle,
                                          NULL);
 
-                bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_attacking);
+                bbCI_Graphics_setState(&home.core.core,
+                             NULL,
+                             entity_handle,
+                             bbDrawableState_attacking,
+                             home.core.core.simulation_time,
+                                bbInstructionSource_internal, no_handle);
                 bbHandle AI_handle;
 
                 bbComponent_getHandle(&home.ECS.AI_system.system,(bbComponent*)component,&AI_handle);
@@ -115,8 +128,12 @@ bbFlag bbAI_Command_Player(bbAI_Component* component,
                                  bbECS_ECS, &entity_handle,
                                  (bbComponent**)&entity);
         //bbDebug("ai set goalpoint %s\n", entity->key);
-
-        bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_moving);
+        bbCI_Graphics_setState(&home.core.core,
+                      NULL,
+                      entity_handle,
+                      bbDrawableState_moving,
+                      home.core.core.simulation_time,
+                         bbInstructionSource_internal, no_handle);
 
         bbHandle AI_handle;
         bbComponent_getHandle(&home.ECS.AI_system.system,(bbComponent*)component,&AI_handle);
@@ -169,7 +186,12 @@ bbFlag bbAI_Command_Player(bbAI_Component* component,
                                  bbECS_ECS, &entity_handle,
                                  NULL);
 
-        bbUI_Inbox_SetEntityState(&home.UI.inbox, entity_handle, bbDrawableState_moving);
+        bbCI_Graphics_setState(&home.core.core,
+              NULL,
+              entity_handle,
+              bbDrawableState_moving,
+              home.core.core.simulation_time,
+                 bbInstructionSource_internal, no_handle);
 
         bbHandle AI_handle;
         bbComponent_getHandle(&home.ECS.AI_system.system,(bbComponent*)component,&AI_handle);

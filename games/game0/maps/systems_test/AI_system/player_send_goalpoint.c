@@ -54,7 +54,7 @@ bbFlag bbNetworkApp_sendAIGoalpoint(bbNetwork* Network, bbHandle server_entity, 
 }
 
 bbFlag bbAction_setAIGoalpoint_fn(bbCore* core, bbAction* action) {
-    bbHere()
+    //bbHere()
     bbMapCoords MC = action->goal_coords;
     bbHandle server_handle = action->handle;
 
@@ -94,7 +94,7 @@ bbFlag bbAction_setAIGoalpoint_fn(bbCore* core, bbAction* action) {
     NULL,
     (bbComponent**) &entity2);
 
-    bbDebug("commanded %s to set goalpoint\n", entity2->key);
+    //bbDebug("commanded %s to set goalpoint\n", entity2->key);
 
     return bbSuccess;
 

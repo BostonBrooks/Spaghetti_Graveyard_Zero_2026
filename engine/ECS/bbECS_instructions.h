@@ -29,6 +29,8 @@ typedef enum {
     bbI_unspawnDrawable,
     bbI_spawnGraphicsComponent,
     bbI_unspawnGraphicsComponent,
+    bbI_Graphics_setState,
+    bbI_Graphics_unsetState,
     bbI_ECS_numECS_Instructions,
 } bbECS_Instruction_type;
 

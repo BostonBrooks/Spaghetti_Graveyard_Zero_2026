@@ -9,6 +9,14 @@ typedef struct bbGraphicsSystem bbGraphicsSystem;
 
 typedef struct bbUI_Inbox bbUI_Inbox;
 
+typedef enum
+{
+    bbGraphicsState_idle = 0,
+    bbGraphicsState_moving = 1,
+    bbGraphicsState_attacking = 2,
+    bbGraphicsState_dead = 3,
+} bbGraphicsState;
+
 
 typedef struct
 {

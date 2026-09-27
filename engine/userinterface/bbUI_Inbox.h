@@ -16,6 +16,7 @@ typedef enum
     bbUI_Inbox_newSkelly,
     bbUI_Inbox_setUnitState,
     bbUI_Inbox_setEntityState,
+    bbUI_Inbox_setEntityState2,
     bbUI_Inbox_newBanana,
     bbUI_Inbox_deleteUnit,
     bbUI_Inbox_newUnit,
@@ -111,4 +112,8 @@ bbFlag bbUI_Inbox_newDrawable_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
 bbFlag bbUI_Inbox_SetViewpoint(bbUI_Inbox* inbox,  bbHandle entity_handle);
 
 bbFlag bbUI_Inbox_setViewpoint_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message);
+
+bbFlag bbUI_Inbox_SetEntityState2(bbUI_Inbox* inbox, bbGraphicsComponent_data* data);
+bbFlag bbUI_Inbox_setEntityState2_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message);
+
 #endif // BB_UI_INBOX_H
