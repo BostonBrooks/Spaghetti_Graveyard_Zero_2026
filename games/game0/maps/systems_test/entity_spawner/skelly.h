@@ -220,27 +220,26 @@ bbFlag bbSF_addGraphics_fox(void* spawner,
                                bbInstruction_source source)
 {
 
+
     bbAssert(source == bbInstructionSource_norewind || source == bbInstructionSource_internal, "not implemented");
 
     bbHandle handle;
     bbVPool_reverseLookup(home.ECS.ECS->system.pool, entity, &handle);
 
-    bbHandle moveable = entity->components[bbECS_Moveables];
-    //
-    // bbCoreSynchronous_spawnGraphicsComponent(&home.core.core,
-    //                                args.position,
-    //                                handle,
-    //                                moveable,
-    //                                bbInstructionSource_norewind);
+    bbGraphicsComponent_data data;
+    data.entity_handle = handle;
+    data.MC = args->position,
+    data.last_state_change = 0;
+    data.last_wander_time = 0;
+    data.random_seed = bbRand();
+    data.drawable_state = bbDrawableState_idle;
 
-    bbCoreInput_spawnDrawable(&home.core.core,
-                                    "FOX",
-                                   args->position,
-                                   bbDrawableState_moving,
-                                   handle,
-                                   moveable,
-                                   source,
-                                   no_handle);
+    bbCS_spawnGraphicsComponent(&home.core.core,
+                                              NULL,
+                                              "FOX",
+                                              &data,
+                                              bbInstructionSource_norewind,
+                                              no_handle);
 
     return bbSuccess;
 }
