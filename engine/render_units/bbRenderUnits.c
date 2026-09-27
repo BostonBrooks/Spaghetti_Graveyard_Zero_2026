@@ -50,6 +50,17 @@ bbFlag bbRenderUnitGroup_spawn(bbRenderUnits* render_units,
     bbRenderUnitGroup_spawn_fn* spawn_fn = render_units->spawnFunctions[spawn_function_index];
     return spawn_fn(render_units, drawable);
 }
+bbFlag bbRenderUnitGroup_spawnKey(bbRenderUnits* render_units,
+                                      char* key,
+                                      bbDrawable* drawable) {
+    bbHandle dict_entry;
+    bbDictionary_lookup(render_units->spawnFunction_dict,key, &dict_entry);
+
+    bbRenderUnitGroup_spawn(render_units,
+                            dict_entry.u64,
+                            drawable);
+}
+
 
 bbFlag bbRenderUnitGroup_delete(bbRenderUnits* render_units,
                                       bbRenderUnitGroup* group)
@@ -107,12 +118,21 @@ bbFlag bbRenderUnitGroup_spawn_foxes(bbRenderUnitGroup** Group,
 
     bbList_pushL(&render_units->list, group);
 
-    *Group = group;
+    if (Group != NULL) *Group = group;
     return bbSuccess;
 
 }
 
+bbFlag bbRenderUnitGroup_spawnFoxes_fn(struct bbRenderUnits* render_units, bbDrawable* drawable)
+{
 
+    bbRenderUnitGroup_spawn_foxes(NULL,
+                                  render_units,
+                                  drawable,
+                                  &home.UI.graphics);
+
+    return bbSuccess;
+}
 
 bbFlag bbRenderUnits_updateMovement(bbRenderUnits* render_units)
 {

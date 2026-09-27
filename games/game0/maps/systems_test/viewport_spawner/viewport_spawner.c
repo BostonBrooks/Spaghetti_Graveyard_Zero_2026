@@ -454,12 +454,11 @@ bbFlag bbViewportSpawnFox(bbViewportApp* viewport_app,
 
 
     bbRenderUnitGroup* group;
-    bbRenderUnitGroup_spawn_foxes(&group,
-                                  home.viewport_app.renderUnits,
-                                  &unit->drawable,
-                                  graphics);
+    bbRenderUnitGroup_spawnKey(viewport_app->renderUnits,
+                               "FOXES",
+                               &unit->drawable);
 
-        bbList_sortL(&unitSquare->list, unit);
+    bbList_sortL(&unitSquare->list, unit);
 
     return bbSuccess;
 }

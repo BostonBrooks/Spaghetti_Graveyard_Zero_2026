@@ -3,7 +3,7 @@
 
 #include "../viewport/bbUnits.h"
 #include "../viewport/bbViewportApp.h"
-
+#include "engine/viewport/bbDrawableFunctions.h"
 ///Render units are like ordinary units except they only exist when they're on screen
 // They are able to move around like a bbMoveable component
 #define UNITS_PER_GROUP 12
@@ -27,7 +27,7 @@ typedef struct bbRenderUnitGroup
     bbListElement_Handle list_element;
 } bbRenderUnitGroup;
 
-typedef bbFlag bbRenderUnitGroup_spawn_fn(struct bbRenderUnits* render_units, bbDrawable* drawable);
+//typedef bbFlag bbRenderUnitGroup_spawn_fn(struct bbRenderUnits* render_units, bbDrawable* drawable);
 
 typedef struct bbRenderUnits
 {
@@ -46,7 +46,7 @@ typedef struct bbRenderUnits
 
 } bbRenderUnits;
 
-bbFlag bbRenderUnits_new(bbRenderUnits** render_units);
+bbFlag bbRenderUnits_new(bbRenderUnits** this);
 
 ///calculate positions based on positions of drawable and other units.
 bbFlag bbRenderUnits_updateMovement(bbRenderUnits* render_units);
@@ -54,9 +54,16 @@ bbFlag bbRenderUnits_populateFunctions (bbRenderUnits* render_units);
 bbFlag bbRenderUnits_addSpawnFunction(bbRenderUnits* render_units,
                                       bbRenderUnitGroup_spawn_fn* spawn_function,
                                       char* key);
+
 bbFlag bbRenderUnitGroup_spawn(bbRenderUnits* render_units,
                                       I32 spawn_function_index,
                                       bbDrawable* drawable);
+
+
+bbFlag bbRenderUnitGroup_spawnKey(bbRenderUnits* render_units,
+                                      char* key,
+                                      bbDrawable* drawable);
+
 bbFlag bbRenderUnitGroup_delete(bbRenderUnits* render_units,
                                       bbRenderUnitGroup* group);
 
@@ -68,4 +75,7 @@ bbFlag bbRenderUnitGroup_spawn_foxes(bbRenderUnitGroup** Group,
                                      bbRenderUnits* render_units,
                                      bbDrawable* drawable,
                                      bbGraphicsApp* graphics);
+
+bbFlag bbRenderUnitGroup_spawnFoxes_fn(struct bbRenderUnits* render_units, bbDrawable* drawable);
+
 #endif // BB_BBRENDERUNITS

@@ -47,7 +47,10 @@ bbFlag bbCS_Graphics_setState(bbCore* core,
                               I32 state,
                               bbTime time,
                               bbInstruction_source source,
-                              bbHandle action);
+                              bbHandle action)
+{
+    bbNotImplemented()
+}
 
 bbFlag bbCI_Graphics_setState(bbCore* core,
                               bbGraphicsComponent* component,

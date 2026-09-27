@@ -24,8 +24,6 @@ typedef enum
     bbDrawableState_dead = 3,
 } bbDrawableState;
 
-///Notify the drawable that it has entered or left the area around the viewpoint
-typedef bbFlag bbDrawable_notifyVisible_fn(struct bbDrawables* drawables, struct bbDrawable* drawable);
 
 typedef struct bbMinimalDrawable
 {
@@ -40,20 +38,24 @@ typedef struct bbMinimalDrawable
 } bbMinimalDrawable;
 
 
-typedef struct bbDrawable
-{
+typedef struct {
 
-    bbMinimalDrawable md;
-
-
-    ///Render unit data
-    ///But RenderUnit is derived from bbDrawable and so
-    struct bbRenderUnitGroup* group;
     I32 on_enter;
     I32 on_leave;
     I32 on_square_enter;
     I32 on_square_leave;
     I32 render_unit_spawn;
+}bbDrawableFunctions;
+
+typedef struct bbDrawable
+{
+
+    bbMinimalDrawable md;
+    bbDrawableFunctions functions;
+
+    ///Render unit data
+    ///But RenderUnit is derived from bbDrawable and so
+    struct bbRenderUnitGroup* group;
 } bbDrawable;
 
 typedef struct
@@ -70,6 +72,7 @@ typedef struct bbDrawables
     bbList list;
     bbNestedList nestedList;
 
+    struct bbRenderUnits* renderUnits; //drawables and render units are tightly linked
     //We cant extend bbDrawables because it ends in a flexible array member,
     //so we use a pointer to extra data
     void* extra_data;
@@ -116,17 +119,6 @@ bbFlag bbDrawable_setLocation(bbDrawable* self, bbDrawables* drawables,
                               bbMapCoords MC);
 
 
-///Notify the drawable that it has entered the area around the viewpoint
-bbFlag bbDrawable_enterVisible(bbDrawables* drawables, bbDrawable* drawable);
-///Notify the drawable that it has left the area around the viewpoint
-bbFlag bbDrawable_leaveVisible(bbDrawables* drawables, bbDrawable* drawable);
-///Notify the drawable that the square it is in has left the area around the viewpoint
-bbFlag bbDrawable_squareEnterVisible(bbDrawables* drawables, bbDrawable* drawable);
-///Notify the drawable that the square it is in has left the area around the viewpoint
-bbFlag bbDrawable_squareLeaveVisible(bbDrawables* drawables, bbDrawable* drawable);
-
-bbFlag bbDrawables_populateFunctions(bbDrawables* drawables);
-bbFlag bbDrawables_addFunction(bbDrawables* drawables, bbDrawable_notifyVisible_fn* function);
 
 bbFlag bbDrawable_newSkeleton(bbDrawable** self, bbDrawables* drawables,
                           bbGraphicsApp* graphics, bbMapCoords MC);

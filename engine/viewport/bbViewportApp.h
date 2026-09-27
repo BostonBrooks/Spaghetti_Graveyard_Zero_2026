@@ -1,7 +1,7 @@
 #ifndef BB_VIEWPORTAPP_H
 #define BB_VIEWPORTAPP_H
 
-
+#include "engine/viewport/bbDrawableFunctions.h"
 #include "engine/viewport/bbViewportMouse.h"
 #include "engine/viewport/bbMapIcons.h"
 #include "engine/viewport/bbUnits.h"
@@ -19,6 +19,7 @@ typedef struct bbViewportApp
     bbDrawables* drawables;
     bbMapIcons* mapIcons;
     bbUnits* units;
+    bbDrawableFunctionTable table;
     struct bbRenderUnits* renderUnits;
     bbDrawBuffer* drawbuffer;
     bbViewport viewport;
