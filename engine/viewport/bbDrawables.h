@@ -45,6 +45,7 @@ typedef struct {
     I32 on_square_enter;
     I32 on_square_leave;
     I32 render_unit_spawn;
+    I32 render_unit_unspawn;
 }bbDrawableFunctions;
 
 typedef struct bbDrawable
