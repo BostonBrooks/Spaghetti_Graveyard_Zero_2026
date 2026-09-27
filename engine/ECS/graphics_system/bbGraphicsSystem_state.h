@@ -9,3 +9,4 @@ bbFlag bbCI_Graphics_setState(bbCore* core, bbHandle entity_handle, I32 state, b
 bbFlag bbI_Graphics_setState_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbI_Graphics_unsetState_fn(bbCore* core, bbInstruction* instruction);
 
+bbFlag bbGraphics_updateState(bbGraphicsComponent_data* new, bbGraphicsComponent_data* old, I32 state, bbTime time);
