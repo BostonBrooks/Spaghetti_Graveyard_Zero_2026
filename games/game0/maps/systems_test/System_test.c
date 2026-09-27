@@ -48,7 +48,7 @@ thread_local char* thread;
 thread_local bool debug_off;
 bbHome home;
 
-U64 random_seed = 193;
+U64 bbArith_rand = 193;
 bbTime test_time = 0;
 bbHandle null_handle;
 char test_string[KEY_LENGTH];
@@ -120,6 +120,7 @@ int main(void) {
     home.ECS.ECS = home.core.core.ECS;
     bbServerEntities_init(&home.ECS.server_entities,home.core.core.ECS);
     bbGraphicsSystem_init(&home.ECS.graphics_system,home.core.core.ECS);
+    bbGraphicsSystem_populate(&home.ECS.graphics_system);
     bbMoveables_init(&home.ECS.moveables,home.core.core.ECS);
     bbAvoidables_new(&home.ECS.avoidables, 12, 12);
     bbSpatial_init(&home.ECS.spatial,home.core.core.ECS, 12, 12);
@@ -185,6 +186,7 @@ int main(void) {
     bool once = false;
 
 
+
     bbEntitySpawner_init(&home.ECS.spawner);
     bbEntitySpawner_populate(&home.ECS.spawner);
 
@@ -227,6 +229,16 @@ int main(void) {
     for (I32 i = 0; i < NUM_PLAYERS; i++){
         bbCoreInput_setPlayerState(&home.core.core, i,bbPlayer_stateDefault);
     }
+
+    // bbGraphicsComponent_data data;
+    //
+    // bbCS_spawnGraphicsComponent( &home.core.core,
+    //                                       NULL,
+    //                                       "NULL",
+    //                                       &data,
+    //                                       bbInstructionSource_norewind,
+    //                                       no_handle);
+
     bbCore_react(&home.core.core);
     fflush(stdout);
 

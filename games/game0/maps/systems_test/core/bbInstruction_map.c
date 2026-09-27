@@ -132,6 +132,10 @@ bbFlag bbCore_initMap(bbInstructionMap* map)
     map->rollback[bbI_spawnTeamComponent] = bbI_unspawnTeamComponent;
 
     map->rollback[bbI_AI_sendGoalpoint] = NO_INVERSE_FUNCTION;
+
+
+    map->forward[bbI_unspawnDrawable] = bbI_spawnDrawable;
+    map->rollback[bbI_spawnDrawable] = bbI_unspawnDrawable;
 }
 
 

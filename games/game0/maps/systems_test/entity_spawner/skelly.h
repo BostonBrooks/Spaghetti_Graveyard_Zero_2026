@@ -171,7 +171,7 @@ bbFlag bbSF_addGraphics_skelly(void* spawner,
     //                                moveable,
     //                                bbInstructionSource_norewind);
 
-    bbCoreInput_spawnGraphicsComponent(&home.core.core,
+    bbCoreInput_spawnDrawable(&home.core.core,
                                     "SKELLY",
                                    args->position,
                                    bbDrawableState_moving,
@@ -202,7 +202,7 @@ bbFlag bbSF_addGraphics_cow(void* spawner,
     //                                moveable,
     //                                bbInstructionSource_norewind);
 
-    bbCoreInput_spawnGraphicsComponent(&home.core.core,
+    bbCoreInput_spawnDrawable(&home.core.core,
                                     "COW",
                                    args->position,
                                    bbDrawableState_moving,
@@ -233,7 +233,7 @@ bbFlag bbSF_addGraphics_fox(void* spawner,
     //                                moveable,
     //                                bbInstructionSource_norewind);
 
-    bbCoreInput_spawnGraphicsComponent(&home.core.core,
+    bbCoreInput_spawnDrawable(&home.core.core,
                                     "FOX",
                                    args->position,
                                    bbDrawableState_moving,
@@ -263,15 +263,20 @@ bbFlag bbSF_addGraphics_devil(void* spawner,
     //                                handle,
     //                                moveable,
     //                                bbInstructionSource_norewind);
+    bbGraphicsComponent_data data;
+    data.entity_handle = handle;
+    data.MC = args->position,
+    data.last_state_change = 0;
+    data.last_wander_time = 0;
+    data.random_seed = bbRand();
+    data.drawable_state = bbDrawableState_idle;
 
-    bbCoreInput_spawnGraphicsComponent(&home.core.core,
-                                    "DEVIL",
-                                   args->position,
-                                   bbDrawableState_moving,
-                                   handle,
-                                   moveable,
-                                   source,
-                                   no_handle);
+    bbCS_spawnGraphicsComponent(&home.core.core,
+                                              NULL,
+                                              "DEVIL",
+                                              &data,
+                                              bbInstructionSource_norewind,
+                                              no_handle);
 
     return bbSuccess;
 }
@@ -295,7 +300,7 @@ bbFlag bbSF_addGraphics_lizard(void* spawner,
     //                                moveable,
     //                                bbInstructionSource_norewind);
 
-    bbCoreInput_spawnGraphicsComponent(&home.core.core,
+    bbCoreInput_spawnDrawable(&home.core.core,
                                     "LIZARD",
                                    args->position,
                                    bbDrawableState_moving,
@@ -326,7 +331,7 @@ bbFlag bbSF_addGraphics_fireball(void* spawner,
     //                                moveable,
     //                                bbInstructionSource_norewind);
 
-    bbCoreInput_spawnGraphicsComponent(&home.core.core,
+    bbCoreInput_spawnDrawable(&home.core.core,
                                     "FIREBALL",
                                    args->position,
                                    bbDrawableState_moving,
@@ -360,7 +365,7 @@ bbFlag bbSF_addGraphics_skelly2(void* spawner,
         state = bbDrawableState_moving;
     }
 
-    bbCoreInput_spawnGraphicsComponent(&home.core.core,
+    bbCoreInput_spawnDrawable(&home.core.core,
                                     "SKELLY",
                                    args->position,
                                    //state,

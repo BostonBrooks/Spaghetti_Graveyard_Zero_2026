@@ -5,7 +5,7 @@
 #include "engine/logic/bbList.h"
 #include "engine/userinterface/bbUI_Inbox.h"
 
-bbFlag bbCoreInput_spawnGraphicsComponent(bbCore* core,
+bbFlag bbCoreInput_spawnDrawable(bbCore* core,
                                           char* type,
                                           bbMapCoords MC,
                                           I32 drawable_state,
@@ -33,7 +33,7 @@ bbFlag bbCoreInput_spawnGraphicsComponent(bbCore* core,
     return bbSuccess;
 }
 
-bbFlag bbInstruction_spawnGraphicsComponent_fn(bbCore* core, bbInstruction* instruction)
+bbFlag bbInstruction_spawnDrawable_fn(bbCore* core, bbInstruction* instruction)
 {
 
 
@@ -106,7 +106,7 @@ bbFlag bbInstruction_spawnGraphicsComponent_fn(bbCore* core, bbInstruction* inst
     return bbSuccess;
 }
 
-bbFlag bbInstruction_unspawnGraphicsComponent_fn(bbCore* core, bbInstruction* instruction)
+bbFlag bbInstruction_unspawnDrawable_fn(bbCore* core, bbInstruction* instruction)
 {
 
 
@@ -140,4 +140,36 @@ bbFlag bbInstruction_unspawnGraphicsComponent_fn(bbCore* core, bbInstruction* in
         //bbVPool_free(core->instruction_pool, (void*)instruction);
     }
 
+}
+//
+// typedef bbFlag bbGraphics_spawnFunction(bbGraphicsSystem* system,
+//                                    bbGraphicsComponent_data data);
+bbFlag bbGraphics_spawnNull(bbGraphicsSystem* system,
+                                   bbGraphicsComponent_data data) {
+    bbHere()
+    return bbSuccess;
+}
+
+bbFlag bbGraphics_spawnDevil(bbGraphicsSystem* system,
+                                   bbGraphicsComponent_data data) {
+
+    bbDictionary* dict = home.viewport_app.viewport_spawner.spawn_function_dict;
+    bbHandle type_handle;
+    bbDictionary_lookup(dict,"DEVIL",&type_handle);
+
+    bbUI_Inbox_NewDrawable(&home.UI.inbox,
+                           type_handle.u64,
+                           data.MC,
+                           data.entity_handle,
+                           no_handle);
+
+
+    bbUI_Inbox_SetEntityState(&home.UI.inbox,data.entity_handle, data.drawable_state);
+
+    return bbSuccess;
+}
+
+bbFlag bbGraphicsSystem_populate(bbGraphicsSystem* graphics_system) {
+    bbGraphics_spawnFunction_add(graphics_system, bbGraphics_spawnNull, "NULL");
+    return bbSuccess;
 }

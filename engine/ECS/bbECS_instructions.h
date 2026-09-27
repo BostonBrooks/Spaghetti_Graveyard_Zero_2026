@@ -25,6 +25,10 @@ typedef enum {
     bbI_unsetTeam,
     bbI_spawnTeamComponent,
     bbI_unspawnTeamComponent,
+    bbI_spawnDrawable,
+    bbI_unspawnDrawable,
+    bbI_spawnGraphicsComponent,
+    bbI_unspawnGraphicsComponent,
     bbI_ECS_numECS_Instructions,
 } bbECS_Instruction_type;
 

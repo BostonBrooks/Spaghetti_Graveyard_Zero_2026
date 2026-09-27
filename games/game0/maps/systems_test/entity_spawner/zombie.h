@@ -1,5 +1,6 @@
 #include "engine/ECS/bbECS.h"
 #include "../../../../../engine/ECS/entity_spawner/bbEntitySpawner.h"
+#include "engine/ECS/graphics_system/bbGraphicsSystem.h"
 #include "engine/ECS/moveables/bbMoveables.h"
 #include "engine/ECS/server_entities/bbServerEntities.h"
 #include "engine/logic/bbFlag.h"
@@ -30,7 +31,7 @@ bbFlag bbSF_addGraphics_zombie(void* spawner,
     //                                moveable,
     //                                bbInstructionSource_norewind);
 
-    bbCoreInput_spawnGraphicsComponent(&home.core.core,
+    bbCoreInput_spawnDrawable(&home.core.core,
                                     "ZOMBIE",
                                    args->position,
                                    bbDrawableState_moving,

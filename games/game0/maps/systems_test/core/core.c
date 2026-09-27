@@ -45,8 +45,8 @@ bbFlag bbCore_initVInstructions(bbCore* core)
     core->instruction_functions[bbInstruction_unspawnServerEntity-bbInstruction_numTypes] = bbInstruction_unspawnServerEntity_fn;
     core->instruction_functions[bbInstruction_netpauseButton-bbInstruction_numTypes] = bbInstruction_netpauseButton_fn;
     core->instruction_functions[bbInstruction_unfreezeButton-bbInstruction_numTypes] = bbInstruction_unfreezeButton_fn;
-    core->instruction_functions[bbInstruction_spawnGraphicsComponent-bbInstruction_numTypes] = bbInstruction_spawnGraphicsComponent_fn;
-    core->instruction_functions[bbInstruction_unspawnGraphicsComponent-bbInstruction_numTypes] = bbInstruction_unspawnGraphicsComponent_fn;
+    core->instruction_functions[bbInstruction_spawnGraphicsComponent-bbInstruction_numTypes] = bbInstruction_spawnDrawable_fn;
+    core->instruction_functions[bbInstruction_unspawnGraphicsComponent-bbInstruction_numTypes] = bbInstruction_unspawnDrawable_fn;
     core->instruction_functions[bbInstruction_updateMoveables-bbInstruction_numTypes] = bbInstruction_updateMoveables_fn;
     core->instruction_functions[bbInstruction_unupdateMoveables-bbInstruction_numTypes] = bbInstruction_unupdateMoveables_fn;
     core->instruction_functions[bbInstruction_spawnTestMoveable-bbInstruction_numTypes] = bbInstruction_spawnTestMoveable_fn;
@@ -69,90 +69,10 @@ bbFlag bbCore_initVInstructions(bbCore* core)
     core->instruction_functions[bbI_setPlayerEntity-bbInstruction_numTypes] = bbI_setPlayerEntity_fn;
     core->instruction_functions[bbI_unsetPlayerEntity-bbInstruction_numTypes] = bbI_unsetPlayerEntity_fn;
     core->instruction_functions[bbI_AI_sendGoalpoint-bbInstruction_numTypes] = bbInstruction_sendAIGoalpoint_fn;
+    core->instruction_functions[bbI_spawnGraphicsComponent-bbInstruction_numTypes] = bbI_spawnGraphicsComponent_fn;
+    core->instruction_functions[bbI_unspawnGraphicsComponent-bbInstruction_numTypes] = bbI_unspawnGraphicsComponent_fn;
 
 
 
        return bbSuccess;
 }
-//     core->instruction_functions
-//         = calloc(bbVInstruction_numTypes-bbInstruction_numTypes,
-//             sizeof (bbInstruction_fn*));
-//
-//     core->instruction_functions[bbVInstruction_setGoalpointOut-bbInstruction_numTypes]
-//         = bbVInstruction_setGoalpointOut_fn;
-//
-//     core->instruction_functions[bbVInstruction_setGoalpointIn-bbInstruction_numTypes]
-//         = bbVInstruction_setGoalpointIn_fn;
-//
-//     core->instruction_functions[bbVInstruction_unsetGoalpoint-bbInstruction_numTypes]
-//         = bbVInstruction_unsetGoalpoint_fn;
-//
-//     core->instruction_functions[bbVInstruction_updateMovables-bbInstruction_numTypes]
-//         = bbVInstruction_updateMovables_fn;
-//
-//     core->instruction_functions[bbVInstruction_unupdateMovables-bbInstruction_numTypes]
-//         = bbVInstruction_unupdateMovables_fn;
-//
-//
-//     core->instruction_functions[bbVInstruction_setGoalMovable-bbInstruction_numTypes]
-//         = bbVInstruction_setGoalMovable_fn;
-//
-//
-//     core->instruction_functions[bbVInstruction_unsetGoalMovable-bbInstruction_numTypes]
-//         = bbVInstruction_unsetGoalMovable_fn;
-//
-//     core->instruction_functions[bbVInstruction_updateAgentSquare-bbInstruction_numTypes]
-//         = bbVInstruction_updateAgentSquare_fn;
-//
-//     core->instruction_functions[bbVInstruction_unupdateAgentSquare-bbInstruction_numTypes]
-//         = bbVInstruction_unupdateAgentSquare_fn;
-//
-//     core->instruction_functions[bbVInstruction_updateAgentsSquare-bbInstruction_numTypes]
-//         = bbVInstruction_updateAgentsSquare_fn;
-//
-//     core->instruction_functions[bbVInstruction_unupdateAgentsSquare-bbInstruction_numTypes]
-//         = bbVInstruction_unupdateAgentsSquare_fn;
-//
-//
-//     core->instruction_functions[bbVInstruction_updateAgent-bbInstruction_numTypes]
-//         = bbVInstruction_updateAgent_fn;
-//
-//     core->instruction_functions[bbVInstruction_unupdateAgent-bbInstruction_numTypes]
-//         = bbVInstruction_unupdateAgent_fn;
-//
-//     core->instruction_functions[bbVInstruction_updateAgents-bbInstruction_numTypes]
-//         = bbVInstruction_updateAgents_fn;
-//
-//     core->instruction_functions[bbVInstruction_unupdateAgents-bbInstruction_numTypes]
-//         = bbVInstruction_unupdateAgents_fn;
-//
-//     core->instruction_functions[bbVInstruction_commandAgent-bbInstruction_numTypes]
-//         = bbVInstruction_commandAgent_fn;
-//
-//     core->instruction_functions[bbVInstruction_spawnUnitIn-bbInstruction_numTypes]
-//     = bbVInstruction_spawnUnitIn_fn;
-//     core->instruction_functions[bbVInstruction_spawnUnitOut-bbInstruction_numTypes]
-//     = bbVInstruction_spawnUnitOut_fn;
-//     core->instruction_functions[bbVInstruction_commandAgentMapClick-bbInstruction_numTypes]
-//     = bbVInstruction_commandAgentMapClick_fn;
-//
-//     core->instruction_functions[bbVInstruction_damageAgent-bbInstruction_numTypes]
-//     = bbVInstruction_damageAgent_fn;
-//     core->instruction_functions[bbVInstruction_undamageAgent-bbInstruction_numTypes]
-//     = bbVInstruction_undamageAgent_fn;
-//
-//
-//
-//     core->instruction_functions[bbVInstruction_spawnAgent-bbInstruction_numTypes]
-//     = bbVInstruction_spawnAgent_fn;
-//     core->instruction_functions[bbVInstruction_unspawnAgent-bbInstruction_numTypes]
-//     = bbVInstruction_unspawnAgent_fn;
-//
-//     core->instruction_functions[bbVInstruction_deleteEntity-bbInstruction_numTypes]
-//     = bbVInstruction_deleteEntity_fn;
-//     core->instruction_functions[bbVInstruction_undeleteEntity-bbInstruction_numTypes]
-//     = bbVInstruction_undeleteEntity_fn;
-//
-//
-//     return bbSuccess;
-// }

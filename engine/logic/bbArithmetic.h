@@ -162,11 +162,9 @@ static U64 bbArith64_clearBit(U64* bitmap, char bit)
     return *bitmap;
 }
 
-extern U64 random_seed;
+extern U64 bbArith_rand;
 
-#define bbRand(output){\
-    random_seed = bbArith64_hash(random_seed);\
-    output = random_seed;}\
+#define bbRand() bbArith_rand = bbArith64_hash(bbArith_rand)
 
 static U64 bbArith64_hash(U64 old_hash) {
     U64 new_hash = old_hash + 0x9e3779b97f4a7c15ULL;
