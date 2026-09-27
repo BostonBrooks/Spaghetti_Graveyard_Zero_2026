@@ -207,10 +207,71 @@ bbFlag bbGraphics_spawnZombie(bbGraphicsSystem* system,
     return bbSuccess;
 }
 
+
+bbFlag bbGraphics_spawnLizard(bbGraphicsSystem* system,
+                                   bbGraphicsComponent_data data) {
+
+    bbDictionary* dict = home.viewport_app.viewport_spawner.spawn_function_dict;
+    bbHandle type_handle;
+    bbDictionary_lookup(dict,"LIZARD",&type_handle);
+
+    bbUI_Inbox_NewDrawable(&home.UI.inbox,
+                           type_handle.u64,
+                           data.MC,
+                           data.entity_handle,
+                           no_handle);
+
+
+    bbUI_Inbox_SetEntityState(&home.UI.inbox,data.entity_handle, data.drawable_state);
+
+    return bbSuccess;
+}
+
+bbFlag bbGraphics_spawnCow(bbGraphicsSystem* system,
+                                   bbGraphicsComponent_data data) {
+
+    bbDictionary* dict = home.viewport_app.viewport_spawner.spawn_function_dict;
+    bbHandle type_handle;
+    bbDictionary_lookup(dict,"COW",&type_handle);
+
+    bbUI_Inbox_NewDrawable(&home.UI.inbox,
+                           type_handle.u64,
+                           data.MC,
+                           data.entity_handle,
+                           no_handle);
+
+
+    bbUI_Inbox_SetEntityState(&home.UI.inbox,data.entity_handle, data.drawable_state);
+
+    return bbSuccess;
+}
+bbFlag bbGraphics_spawnSkelly(bbGraphicsSystem* system,
+                                   bbGraphicsComponent_data data) {
+
+    bbDictionary* dict = home.viewport_app.viewport_spawner.spawn_function_dict;
+    bbHandle type_handle;
+    bbDictionary_lookup(dict,"SKELLY",&type_handle);
+
+    bbUI_Inbox_NewDrawable(&home.UI.inbox,
+                           type_handle.u64,
+                           data.MC,
+                           data.entity_handle,
+                           no_handle);
+
+
+    bbUI_Inbox_SetEntityState(&home.UI.inbox,data.entity_handle, data.drawable_state);
+
+    return bbSuccess;
+}
+
+
 bbFlag bbGraphicsSystem_populate(bbGraphicsSystem* graphics_system) {
     bbGraphics_spawnFunction_add(graphics_system, bbGraphics_spawnNull, "NULL");
     bbGraphics_spawnFunction_add(graphics_system, bbGraphics_spawnDevil, "DEVIL");
     bbGraphics_spawnFunction_add(graphics_system, bbGraphics_spawnFox, "FOX");
     bbGraphics_spawnFunction_add(graphics_system, bbGraphics_spawnZombie, "ZOMBIE");
+    bbGraphics_spawnFunction_add(graphics_system, bbGraphics_spawnLizard, "LIZARD");
+    bbGraphics_spawnFunction_add(graphics_system, bbGraphics_spawnCow, "COW");
+    bbGraphics_spawnFunction_add(graphics_system, bbGraphics_spawnSkelly, "SKELLY");
     return bbSuccess;
 }

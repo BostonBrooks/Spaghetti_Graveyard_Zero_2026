@@ -194,22 +194,26 @@ bbFlag bbSF_addGraphics_cow(void* spawner,
     bbHandle handle;
     bbVPool_reverseLookup(home.ECS.ECS->system.pool, entity, &handle);
 
-    bbHandle moveable = entity->components[bbECS_Moveables];
     //
     // bbCoreSynchronous_spawnGraphicsComponent(&home.core.core,
     //                                args.position,
     //                                handle,
     //                                moveable,
     //                                bbInstructionSource_norewind);
+    bbGraphicsComponent_data data;
+    data.entity_handle = handle;
+    data.MC = args->position,
+    data.last_state_change = 0;
+    data.last_wander_time = 0;
+    data.random_seed = bbRand();
+    data.drawable_state = bbDrawableState_idle;
 
-    bbCoreInput_spawnDrawable(&home.core.core,
-                                    "COW",
-                                   args->position,
-                                   bbDrawableState_moving,
-                                   handle,
-                                   moveable,
-                                   source,
-                                   no_handle);
+    bbCS_spawnGraphicsComponent(&home.core.core,
+                                              NULL,
+                                              "COW",
+                                              &data,
+                                              bbInstructionSource_norewind,
+                                              no_handle);
 
     return bbSuccess;
 }
@@ -285,27 +289,32 @@ bbFlag bbSF_addGraphics_lizard(void* spawner,
                                bbInstruction_source source)
 {
 
+
     bbAssert(source == bbInstructionSource_norewind || source == bbInstructionSource_internal, "not implemented");
 
     bbHandle handle;
     bbVPool_reverseLookup(home.ECS.ECS->system.pool, entity, &handle);
 
-    bbHandle moveable = entity->components[bbECS_Moveables];
     //
     // bbCoreSynchronous_spawnGraphicsComponent(&home.core.core,
     //                                args.position,
     //                                handle,
     //                                moveable,
     //                                bbInstructionSource_norewind);
+    bbGraphicsComponent_data data;
+    data.entity_handle = handle;
+    data.MC = args->position,
+    data.last_state_change = 0;
+    data.last_wander_time = 0;
+    data.random_seed = bbRand();
+    data.drawable_state = bbDrawableState_idle;
 
-    bbCoreInput_spawnDrawable(&home.core.core,
-                                    "LIZARD",
-                                   args->position,
-                                   bbDrawableState_moving,
-                                   handle,
-                                   moveable,
-                                   source,
-                                   no_handle);
+    bbCS_spawnGraphicsComponent(&home.core.core,
+                                              NULL,
+                                              "LIZARD",
+                                              &data,
+                                              bbInstructionSource_norewind,
+                                              no_handle);
 
     return bbSuccess;
 }
@@ -352,26 +361,26 @@ bbFlag bbSF_addGraphics_skelly2(void* spawner,
     bbHandle handle;
     bbVPool_reverseLookup(home.ECS.ECS->system.pool, entity, &handle);
 
-    bbHandle moveable = entity->components[bbECS_Moveables];
+    //
+    // bbCoreSynchronous_spawnGraphicsComponent(&home.core.core,
+    //                                args.position,
+    //                                handle,
+    //                                moveable,
+    //                                bbInstructionSource_norewind);
+    bbGraphicsComponent_data data;
+    data.entity_handle = handle;
+    data.MC = args->position,
+    data.last_state_change = 0;
+    data.last_wander_time = 0;
+    data.random_seed = bbRand();
+    data.drawable_state = bbDrawableState_idle;
 
-    I32 state;
-    if (args->state == bbMoveableType_Idle)
-    {
-        state = bbDrawableState_idle;
-    } else
-    {
-        state = bbDrawableState_moving;
-    }
-
-    bbCoreInput_spawnDrawable(&home.core.core,
-                                    "SKELLY",
-                                   args->position,
-                                   //state,
-                                   bbDrawableState_moving,
-                                   handle,
-                                   moveable,
-                                   source,
-                                   no_handle);
+    bbCS_spawnGraphicsComponent(&home.core.core,
+                                              NULL,
+                                              "SKELLY",
+                                              &data,
+                                              bbInstructionSource_norewind,
+                                              no_handle);
 
     return bbSuccess;
 }
