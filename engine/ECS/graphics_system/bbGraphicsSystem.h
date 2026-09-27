@@ -4,20 +4,11 @@
 
 #include "engine/ECS/bbECS.h"
 #include "engine/logic/bbDictionary.h"
-
+#include "engine/ECS/graphics_system/bbGraphicsSystem_data.h"
 typedef struct bbGraphicsSystem bbGraphicsSystem;
 
 typedef struct bbUI_Inbox bbUI_Inbox;
 
-
-typedef struct {
-    bbHandle entity_handle;
-    bbMapCoords MC;
-    bbTime last_state_change;
-    bbTime last_wander_time;
-    U64 random_seed;
-    I32 drawable_state;
-} bbGraphicsComponent_data;
 
 typedef struct
 {
