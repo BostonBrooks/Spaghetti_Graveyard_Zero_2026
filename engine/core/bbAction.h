@@ -42,6 +42,7 @@ typedef struct
 typedef struct
 {
     bbAction_header header;
+    U64 random_seed;
     I32 integer;
     I32 integer2;
     I32 integer3;

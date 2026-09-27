@@ -319,6 +319,13 @@ bbFlag bbAction_toPacket(sfPacket* packet, bbAction* action)
 
     sfPacket_writeString(packet, action->header.key);
 
+
+    U64 random_seed_lower = action->random_seed & 0xFFFFFFFF;
+    U64 random_seed_upper = action->random_seed / 0x100000000;
+
+    sfPacket_writeUint32(packet, random_seed_lower);
+    sfPacket_writeUint32(packet, random_seed_upper);
+
     sfPacket_writeInt32(packet, action->integer);
     sfPacket_writeInt32(packet, action->integer2);
     sfPacket_writeInt32(packet, action->integer3);
@@ -355,6 +362,12 @@ bbFlag bbAction_fromPacket(sfPacket* packet, bbAction* action)
     action->header.act_tick = act_tick_upper * 0x100000000 + act_tick_lower;
 
     sfPacket_readString(packet, action->header.key);
+
+
+    U64 random_seed_lower 	= sfPacket_readUint32(packet);
+    U64 random_seed_upper = sfPacket_readUint32(packet);
+
+    action->random_seed = random_seed_upper * 0x100000000 + random_seed_lower;
 
     action->integer = sfPacket_readInt32(packet);
     action->integer2 = sfPacket_readInt32(packet);
