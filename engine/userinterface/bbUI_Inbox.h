@@ -2,6 +2,7 @@
 #define BB_UI_INBOX_H
 
 #include "engine/core/bbCoreInbox.h"
+#include "engine/ECS/graphics_system/bbGraphicsSystem.h"
 #include "engine/logic/bbFlag.h"
 #include "engine/logic/bbHandle.h"
 #include "engine/threadsafe/bbThreadedPool.h"
@@ -50,6 +51,7 @@ typedef struct
 
 typedef union {
     bbUI_Inbox_data data;
+    bbGraphicsComponent_data graphics;
 }bbUI_Inbox_dataUnion;
 
 typedef struct
