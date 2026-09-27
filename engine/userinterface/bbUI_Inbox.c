@@ -120,7 +120,7 @@ bbFlag bbUI_Inbox_unpressButton2_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* messa
     bbHandle widget_handle;
     bbWidget* widget;
 
-    bbDictionary_lookup(widgets->dict,message->data.string.string,&widget_handle);
+    bbDictionary_lookup(widgets->dict,message->data.data.string.string,&widget_handle);
     bbVPool_lookup(widgets->pool,(void**)&widget,widget_handle);
 
     widget->is_frozen = false;
@@ -134,18 +134,18 @@ bbFlag bbUI_Inbox_setWidgetPosition_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* me
     bbHandle widget_handle;
     bbWidget* widget;
 
-    bbDictionary_lookup(widgets->dict,message->data.string.string,&widget_handle);
+    bbDictionary_lookup(widgets->dict,message->data.data.string.string,&widget_handle);
     bbVPool_lookup(widgets->pool,(void**)&widget,widget_handle);
 
     //bbDebug("str = %s\n", message->data.string.string);
-    bbWidget_onCommand(widget, widgets,bbWC_setPosition,message->data.handle.handle);
+    bbWidget_onCommand(widget, widgets,bbWC_setPosition,message->data.data.handle.handle);
 
     return bbSuccess;
 }
 
 bbFlag bbUI_Inbox_setViewpoint_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
 {
-    home.viewport_app.viewport_focus = message->data.entity_handle;
+    home.viewport_app.viewport_focus = message->data.data.entity_handle;
 
     return bbSuccess;
 }
@@ -165,7 +165,7 @@ bbFlag bbUI_Inbox_UnpressButton2(bbUI_Inbox* inbox, char* key)
     bbUI_Inbox_message* message;
     bbThreadedQueue_alloc(&inbox->local_message_queue,(void**)&message);
     message->type = bbUI_Inbox_unpressButton2;
-    bbStr_setStr(message->data.string.string, key, KEY_LENGTH);
+    bbStr_setStr(message->data.data.string.string, key, KEY_LENGTH);
 
     //bbDebug("key: %s\n", key);
 
@@ -179,8 +179,8 @@ bbFlag bbUI_Inbox_SetWidgetPosition(bbUI_Inbox* inbox, char* key, bbHandle posit
     bbUI_Inbox_message* message;
     bbThreadedQueue_alloc(&inbox->local_message_queue,(void**)&message);
     message->type = bbUI_Inbox_setWidgetPosition;
-    bbStr_setStr(message->data.string.string, key, KEY_LENGTH);
-    message->data.handle.handle = position;
+    bbStr_setStr(message->data.data.string.string, key, KEY_LENGTH);
+    message->data.data.handle.handle = position;
     bbThreadedQueue_pushL(&inbox->local_message_queue, (void*)message);
     return bbSuccess;
 }
@@ -202,7 +202,7 @@ bbFlag bbUI_Inbox_SetViewpoint(bbUI_Inbox* inbox, bbHandle entity_handle)
     bbUI_Inbox_message* message;
     bbThreadedQueue_alloc(&inbox->local_message_queue,(void**)&message);
     message->type = bbUI_Inbox_setViewpoint;
-    message->data.entity_handle = entity_handle;
+    message->data.data.entity_handle = entity_handle;
     bbThreadedQueue_pushL(&inbox->local_message_queue, (void*)message);
     return bbSuccess;
 }
@@ -212,8 +212,8 @@ bbFlag bbUI_Inbox_NewSkelly(bbUI_Inbox* inbox, bbMapCoords coords, I32 movable)
     bbUI_Inbox_message* message;
     bbThreadedQueue_alloc(&inbox->local_message_queue,(void**)&message);
     message->type = bbUI_Inbox_newSkelly;
-    message->data.coords = coords;
-    message->data.handle.handle.u64 = movable;
+    message->data.data.coords = coords;
+    message->data.data.handle.handle.u64 = movable;
     bbThreadedQueue_pushL(&inbox->local_message_queue, (void*)message);
     return bbSuccess;
 }
@@ -224,8 +224,8 @@ bbFlag bbUI_Inbox_SetUnitState(bbUI_Inbox* inbox, bbHandle unit, I32 sprite)
     bbUI_Inbox_message* message;
     bbThreadedQueue_alloc(&inbox->local_message_queue,(void**)&message);
     message->type = bbUI_Inbox_setUnitState;
-    message->data.handle.handle = unit;
-    message->data.integer = sprite;
+    message->data.data.handle.handle = unit;
+    message->data.data.integer = sprite;
     bbThreadedQueue_pushL(&inbox->local_message_queue, (void*)message);
     return bbSuccess;
 }
@@ -234,10 +234,10 @@ bbFlag bbUI_Inbox_SetUnitState(bbUI_Inbox* inbox, bbHandle unit, I32 sprite)
 bbFlag bbUI_Inbox_setUnitState_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
 {
     bbUnit* unit;
-    bbFlag flag = bbVPool_lookup(home.viewport_app.units->pool, (void**)&unit, message->data.handle.handle);
+    bbFlag flag = bbVPool_lookup(home.viewport_app.units->pool, (void**)&unit, message->data.data.handle.handle);
     if (flag == bbSuccess)
     {
-        unit->drawable.md.state = message->data.integer;
+        unit->drawable.md.state = message->data.data.integer;
         unit->drawable.md.frames[0].start_time = home.UI.clock2_handle.map_tick;
         unit->drawable.md.frames[1].start_time = home.UI.clock2_handle.map_tick;
         unit->drawable.md.frames[2].start_time = home.UI.clock2_handle.map_tick;
@@ -257,8 +257,8 @@ bbFlag bbUI_Inbox_SetEntityState(bbUI_Inbox* inbox, bbHandle entity, I32 state)
     bbUI_Inbox_message* message;
     bbThreadedQueue_alloc(&inbox->local_message_queue,(void**)&message);
     message->type = bbUI_Inbox_setEntityState;
-    message->data.handle.handle = entity;
-    message->data.integer = state;
+    message->data.data.handle.handle = entity;
+    message->data.data.integer = state;
 
     bbAssert(state < 4, "we currently have 4 drawable states\n");
 
@@ -273,7 +273,7 @@ bbFlag bbUI_Inbox_setEntityState_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* messa
     bbFlag flag;// = bbVPool_lookup(home.viewport_app.entity_units, (void**)&unit_handle, message->data.handle.handle);
 
     bbHandle unit_handle2;
-    bbFlag flag2 = bbLookupTable_lookup(home.viewport_app.entity_units2,message->data.handle.handle,&unit_handle2);
+    bbFlag flag2 = bbLookupTable_lookup(home.viewport_app.entity_units2,message->data.data.handle.handle,&unit_handle2);
 
 
     if (flag2 != bbSuccess)
@@ -285,7 +285,7 @@ bbFlag bbUI_Inbox_setEntityState_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* messa
     flag = bbVPool_lookup(home.viewport_app.units->pool, (void**)&unit, unit_handle2);
     if (flag != bbSuccess) bbNotHere()
 
-        unit->drawable.md.state = message->data.integer;
+        unit->drawable.md.state = message->data.data.integer;
         unit->drawable.md.frames[0].start_time = home.UI.clock2_handle.map_tick;
         unit->drawable.md.frames[1].start_time = home.UI.clock2_handle.map_tick;
         unit->drawable.md.frames[2].start_time = home.UI.clock2_handle.map_tick;
@@ -305,9 +305,9 @@ bbFlag bbUI_Inbox_NewBanana(bbUI_Inbox* inbox, bbMapCoords MC, bbHandle entity_h
     bbUI_Inbox_message* message;
     bbThreadedQueue_alloc(&inbox->local_message_queue,(void**)&message);
     message->type = bbUI_Inbox_newBanana;
-    message->data.coords = MC;
-    message->data.entity_handle = entity_handle;
-    message->data.moveable_handle = moveable_handle;
+    message->data.data.coords = MC;
+    message->data.data.entity_handle = entity_handle;
+    message->data.data.moveable_handle = moveable_handle;
 
     bbThreadedQueue_pushL(&inbox->local_message_queue, (void*)message);
     return bbSuccess;
@@ -320,8 +320,8 @@ bbFlag bbUI_Inbox_SetUnitHP(bbUI_Inbox* inbox, bbHandle unit, float HP)
     bbUI_Inbox_message* message;
     bbThreadedQueue_alloc(&inbox->local_message_queue,(void**)&message);
     message->type = bbUI_Inbox_setUnitHP;
-    message->data.handle.handle = unit;
-    message->data.floating = HP;
+    message->data.data.handle.handle = unit;
+    message->data.data.floating = HP;
 
     bbThreadedQueue_pushL(&inbox->local_message_queue, (void*)message);
     return bbSuccess;
@@ -330,9 +330,9 @@ bbFlag bbUI_Inbox_SetUnitHP(bbUI_Inbox* inbox, bbHandle unit, float HP)
 bbFlag bbUI_Inbox_newBanana_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
 {
        bbViewportApp* app = &home.viewport_app;
-    bbMapCoords MC = message->data.coords;
-    bbHandle entity_handle = message->data.entity_handle;
-    bbHandle moveable_handle = message->data.moveable_handle;
+    bbMapCoords MC = message->data.data.coords;
+    bbHandle entity_handle = message->data.data.entity_handle;
+    bbHandle moveable_handle = message->data.data.moveable_handle;
     bbUnit* unit;
     bbUnits* units = home.viewport_app.units;
     bbGraphicsApp* graphics = &home.UI.graphics;
@@ -472,10 +472,10 @@ bbFlag bbUI_Inbox_newBanana_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
 
 bbFlag bbUI_Inbox_setUnitHP_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
 {
-    I32 entity_index = message->data.integer;
-    float HP = message->data.floating;
+    I32 entity_index = message->data.data.integer;
+    float HP = message->data.data.floating;
 
-    bbHandle unit_handle = message->data.handle.handle;
+    bbHandle unit_handle = message->data.data.handle.handle;
 
     bbUnits* units = home.viewport_app.units;
     bbUnit* unit;
@@ -503,10 +503,10 @@ bbFlag bbUI_Inbox_NewUnit(bbUI_Inbox* inbox, I32 type_index, bbMapCoords MC, I32
         bbUI_Inbox_message* message;
         bbThreadedQueue_alloc(&inbox->local_message_queue,(void**)&message);
         message->type = bbUI_Inbox_newUnit;
-        message->data.coords = MC;
-        message->data.integer = entity_index;
-        message->data.integer2 = movable_index;
-        message->data.integer3 = type_index;
+        message->data.data.coords = MC;
+        message->data.data.integer = entity_index;
+        message->data.data.integer2 = movable_index;
+        message->data.data.integer3 = type_index;
 
         bbThreadedQueue_pushL(&inbox->local_message_queue, (void*)message);
         return bbSuccess;
@@ -528,7 +528,7 @@ bbFlag bbUI_Inbox_DeleteUnit(bbUI_Inbox* inbox, bbHandle entity_handle, bbHandle
     bbUI_Inbox_message* message;
     bbThreadedQueue_alloc(&inbox->local_message_queue,(void**)&message);
     message->type = bbUI_Inbox_deleteUnit;
-    message->data.entity_handle = entity_handle;
+    message->data.data.entity_handle = entity_handle;
     //message->data.moveable_handle = moveable_handle;
 
 
@@ -539,8 +539,8 @@ bbFlag bbUI_Inbox_DeleteUnit(bbUI_Inbox* inbox, bbHandle entity_handle, bbHandle
 bbFlag bbUI_Inbox_deleteUnit_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
 {
     bbUnits* units = home.viewport_app.units;
-    bbHandle entity_handle = message->data.entity_handle;
-    bbHandle moveable_handle = message->data.moveable_handle;
+    bbHandle entity_handle = message->data.data.entity_handle;
+    bbHandle moveable_handle = message->data.data.moveable_handle;
 
     bbHandle* unit_handle;
     //bbVPool_lookup(home.viewport_app.entity_units,(void**)&unit_handle,entity_handle);
@@ -620,8 +620,8 @@ bbFlag bbUI_Inbox_NewTree(bbUI_Inbox* inbox, char* tree_type, bbMapCoords positi
     bbUI_Inbox_message* message;
     bbThreadedQueue_alloc(&inbox->local_message_queue,(void**)&message);
     message->type = bbUI_Inbox_newTree;
-    message->data.coords = position;
-    bbStr_setStr(message->data.string.string, tree_type,KEY_LENGTH);
+    message->data.data.coords = position;
+    bbStr_setStr(message->data.data.string.string, tree_type,KEY_LENGTH);
 
     bbThreadedQueue_pushL(&inbox->local_message_queue, (void*)message);
     return bbSuccess;
@@ -629,9 +629,9 @@ bbFlag bbUI_Inbox_NewTree(bbUI_Inbox* inbox, char* tree_type, bbMapCoords positi
 bbFlag bbUI_Inbox_newTree_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
 {
     bbDrawable* drawable;
-    bbDrawable_newTree(&drawable, home.viewport_app.drawables, &home.UI.graphics,message->data.coords);
+    bbDrawable_newTree(&drawable, home.viewport_app.drawables, &home.UI.graphics,message->data.data.coords);
     bbMapIcon* mapicon;
-    bbMapIcon_new(&mapicon, home.viewport_app.mapIcons,&home.UI.graphics, message->data.coords);
+    bbMapIcon_new(&mapicon, home.viewport_app.mapIcons,&home.UI.graphics, message->data.data.coords);
 
 
 }
@@ -643,9 +643,9 @@ bbFlag bbUI_Inbox_NewDrawable(bbUI_Inbox* inbox, I32 type_index, bbMapCoords MC,
     bbThreadedQueue_alloc(&inbox->local_message_queue,(void**)&message);
     message->type = bbUI_Inbox_newDrawable;
 
-    message->data.integer = type_index;
-    message->data.coords = MC;
-    message->data.entity_handle = entity_handle;
+    message->data.data.integer = type_index;
+    message->data.data.coords = MC;
+    message->data.data.entity_handle = entity_handle;
 
     //bbDebug("new drawable type %d\n", type_index);
     //message->data.moveable_handle = moveable_handle;
@@ -657,8 +657,8 @@ bbFlag bbUI_Inbox_NewDrawable(bbUI_Inbox* inbox, I32 type_index, bbMapCoords MC,
 bbFlag bbUI_Inbox_newDrawable_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message){
     bbViewportSpawner_spawnDrawable(&home.viewport_app,
                                      &home.viewport_app.viewport_spawner,
-                                     message->data.integer,
-                                     message->data.coords,
-                                     message->data.entity_handle,
+                                     message->data.data.integer,
+                                     message->data.data.coords,
+                                     message->data.data.entity_handle,
                                      no_handle);
 }

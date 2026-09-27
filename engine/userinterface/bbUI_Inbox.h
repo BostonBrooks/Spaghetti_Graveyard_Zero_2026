@@ -48,10 +48,14 @@ typedef struct
     float floating;
 } bbUI_Inbox_data;
 
+typedef union {
+    bbUI_Inbox_data data;
+}bbUI_Inbox_dataUnion;
+
 typedef struct
 {
     bbUI_Inbox_type type;
-    bbUI_Inbox_data data;
+    bbUI_Inbox_dataUnion data;
     bbListElement_Handle list_element;
 
     //may or may not need to redo local messages
