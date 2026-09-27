@@ -20,7 +20,7 @@ bbFlag bbCoreInput_spawnDrawable(bbCore* core,
 
 
     allocActiveInstruction(instruction)
-    instruction->type = bbInstruction_spawnGraphicsComponent;
+    instruction->type = bbInstruction_spawnDrawable;
     instruction->data.agent_MC.type = type_int;
     instruction->data.agent_MC.handle1 = entity;
     instruction->data.agent_MC.handle2 = moveable;
@@ -51,7 +51,7 @@ bbFlag bbInstruction_spawnDrawable_fn(bbCore* core, bbInstruction* instruction)
     if (instruction->source == bbInstructionSource_internal)
     {
         allocUndoInstruction(undo_instruction);
-        undo_instruction->type = bbInstruction_unspawnGraphicsComponent;
+        undo_instruction->type = bbInstruction_unspawnDrawable;
         undo_instruction->data.agent_MC.handle1 = instruction->data.agent_MC.handle1;
         undo_instruction->data.agent_MC.handle2 = instruction->data.agent_MC.handle2;
         undo_instruction->data.agent_MC.type = instruction->data.agent_MC.type;
@@ -64,7 +64,7 @@ bbFlag bbInstruction_spawnDrawable_fn(bbCore* core, bbInstruction* instruction)
     else if (instruction->source == bbInstructionSource_input)
     {
         allocUndoInstruction(undo_instruction);
-        undo_instruction->type = bbInstruction_unspawnGraphicsComponent;
+        undo_instruction->type = bbInstruction_unspawnDrawable;
         undo_instruction->data.agent_MC.handle1 = instruction->data.agent_MC.handle1;
         undo_instruction->data.agent_MC.handle2 = instruction->data.agent_MC.handle2;
         undo_instruction->data.agent_MC.type = instruction->data.agent_MC.type;
@@ -79,7 +79,7 @@ bbFlag bbInstruction_spawnDrawable_fn(bbCore* core, bbInstruction* instruction)
     else if (instruction->source == bbInstructionSource_action)
     {
         allocUndoInstruction(undo_instruction);
-        undo_instruction->type = bbInstruction_unspawnGraphicsComponent;
+        undo_instruction->type = bbInstruction_unspawnDrawable;
         undo_instruction->data.agent_MC.handle1 = instruction->data.agent_MC.handle1;
         undo_instruction->data.agent_MC.handle2 = instruction->data.agent_MC.handle2;
         undo_instruction->data.agent_MC.type = instruction->data.agent_MC.type;
@@ -171,5 +171,6 @@ bbFlag bbGraphics_spawnDevil(bbGraphicsSystem* system,
 
 bbFlag bbGraphicsSystem_populate(bbGraphicsSystem* graphics_system) {
     bbGraphics_spawnFunction_add(graphics_system, bbGraphics_spawnNull, "NULL");
+    bbGraphics_spawnFunction_add(graphics_system, bbGraphics_spawnDevil, "DEVIL");
     return bbSuccess;
 }

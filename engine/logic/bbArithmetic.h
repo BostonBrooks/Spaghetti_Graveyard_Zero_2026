@@ -164,7 +164,7 @@ static U64 bbArith64_clearBit(U64* bitmap, char bit)
 
 extern U64 bbArith_rand;
 
-#define bbRand() bbArith_rand = bbArith64_hash(bbArith_rand)
+#define bbRand() bbArith_rand = bbArith64_hash(bbArith_rand);
 
 static U64 bbArith64_hash(U64 old_hash) {
     U64 new_hash = old_hash + 0x9e3779b97f4a7c15ULL;
@@ -177,7 +177,7 @@ static U64 bbArith64_hash(U64 old_hash) {
 }
 
 static U64 bbArith64_hashIndex(U64 old_hash, I64 index) {
-    U64 new_hash = index + old_hash + 0x9e3779b97f4a7c15ULL;
+    U64 new_hash = index * 1610612741ULL + old_hash + 0x9e3779b97f4a7c15ULL;
 
     // 2. Apply a 64-bit avalanche hash mixer (bit-shifts and prime multipliers)
 

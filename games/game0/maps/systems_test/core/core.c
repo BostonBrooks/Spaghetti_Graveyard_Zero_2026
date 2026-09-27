@@ -45,8 +45,8 @@ bbFlag bbCore_initVInstructions(bbCore* core)
     core->instruction_functions[bbInstruction_unspawnServerEntity-bbInstruction_numTypes] = bbInstruction_unspawnServerEntity_fn;
     core->instruction_functions[bbInstruction_netpauseButton-bbInstruction_numTypes] = bbInstruction_netpauseButton_fn;
     core->instruction_functions[bbInstruction_unfreezeButton-bbInstruction_numTypes] = bbInstruction_unfreezeButton_fn;
-    core->instruction_functions[bbInstruction_spawnGraphicsComponent-bbInstruction_numTypes] = bbInstruction_spawnDrawable_fn;
-    core->instruction_functions[bbInstruction_unspawnGraphicsComponent-bbInstruction_numTypes] = bbInstruction_unspawnDrawable_fn;
+    core->instruction_functions[bbInstruction_spawnDrawable-bbInstruction_numTypes] = bbInstruction_spawnDrawable_fn;
+    core->instruction_functions[bbInstruction_unspawnDrawable-bbInstruction_numTypes] = bbInstruction_unspawnDrawable_fn;
     core->instruction_functions[bbInstruction_updateMoveables-bbInstruction_numTypes] = bbInstruction_updateMoveables_fn;
     core->instruction_functions[bbInstruction_unupdateMoveables-bbInstruction_numTypes] = bbInstruction_unupdateMoveables_fn;
     core->instruction_functions[bbInstruction_spawnTestMoveable-bbInstruction_numTypes] = bbInstruction_spawnTestMoveable_fn;

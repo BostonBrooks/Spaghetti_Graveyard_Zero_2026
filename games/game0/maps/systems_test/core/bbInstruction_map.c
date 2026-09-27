@@ -58,8 +58,8 @@ bbFlag bbCore_initMap(bbInstructionMap* map)
     //map->forward[] = ;
     map->rollback[bbInstruction_testClick4] = NO_INVERSE_FUNCTION;
 
-    map->forward[bbInstruction_unspawnGraphicsComponent] = bbInstruction_spawnGraphicsComponent;
-    map->rollback[bbInstruction_spawnGraphicsComponent] = bbInstruction_unspawnGraphicsComponent;
+    map->forward[bbInstruction_unspawnDrawable] = bbInstruction_spawnDrawable;
+    map->rollback[bbInstruction_spawnDrawable] = bbInstruction_unspawnDrawable;
 
     map->forward[bbInstruction_unspawnTestMoveable] = bbInstruction_spawnTestMoveable;
     map->rollback[bbInstruction_spawnTestMoveable] = bbInstruction_unspawnTestMoveable;
@@ -81,8 +81,8 @@ bbFlag bbCore_initMap(bbInstructionMap* map)
     //map->forward[] = ;
     map->rollback[bbInstruction_testClick4] = NO_INVERSE_FUNCTION;
 
-    map->forward[bbInstruction_unspawnGraphicsComponent] = bbInstruction_spawnGraphicsComponent;
-    map->rollback[bbInstruction_spawnGraphicsComponent] = bbInstruction_unspawnGraphicsComponent;
+    map->forward[bbInstruction_unspawnDrawable] = bbInstruction_spawnDrawable;
+    map->rollback[bbInstruction_spawnDrawable] = bbInstruction_unspawnDrawable;
 
 
     map->forward[bbInstruction_unspawnTestMoveable] = bbInstruction_spawnTestMoveable;
