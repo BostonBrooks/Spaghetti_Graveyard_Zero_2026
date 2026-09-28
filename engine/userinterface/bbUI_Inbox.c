@@ -339,6 +339,12 @@ bbFlag bbUI_Inbox_setEntityState2_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* mess
     bbFlag flag = bbVPool_lookup(home.viewport_app.units->pool, (void**)&unit, unit_handle2);
     if (flag != bbSuccess) {bbNotHere()}
 
+    I32 prev_state = unit->drawable.md.state;
+    if (prev_state == bbDrawableState_moving) {
+        bbTime delta_t = message->data.graphics.last_state_change - unit->drawable.last_state_change;
+        unit->drawable.last_wander_time += delta_t;
+    }
+    unit->drawable.last_state_change = message->data.graphics.last_state_change;
     unit->drawable.md.state = message->data.graphics.drawable_state;
     unit->drawable.md.random_seed = message->data.graphics.random_seed;
     unit->drawable.md.frames[0].start_time = message->data.graphics.last_state_change;

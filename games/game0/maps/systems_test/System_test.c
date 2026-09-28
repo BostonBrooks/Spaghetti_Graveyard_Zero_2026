@@ -401,6 +401,17 @@ void* userinterface_thread(void* arg)
     thread = "USER INTERFACE";
     debug_off = false;
 
+
+    home.viewport_app.active_squares.old_i_min = 0;
+    home.viewport_app.active_squares.old_j_min = 0;
+    home.viewport_app.active_squares.old_i_max = 0;
+    home.viewport_app.active_squares.old_j_max = 0;
+    home.viewport_app.active_squares.new_i_min = 0;
+    home.viewport_app.active_squares.new_j_min = 0;
+    home.viewport_app.active_squares.new_i_max = 0;
+    home.viewport_app.active_squares.new_j_max = 0;
+
+
     bbUIApp_init(&home.UI);
     bbInputModes_init(&home.UI.input_modes);
 

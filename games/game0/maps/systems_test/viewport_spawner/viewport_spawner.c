@@ -400,7 +400,8 @@ bbFlag bbViewportSpawnFox(bbViewportApp* viewport_app,
     unit->drawable.functions.on_square_enter = bbDrawables_getFunction(&home.viewport_app.table, "SPAWN FOXES");
     unit->drawable.functions.on_square_leave = bbDrawables_getFunction(&home.viewport_app.table, "UNSPAWN FOXES");
 
-
+    unit->drawable.last_state_change = 0; //set this value from the simulation thread when spawned
+    unit->drawable.last_wander_time = 0;
 
     unit->drawable.md.coords = MC;
     unit->drawable.md.SC = SC;

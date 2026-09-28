@@ -54,6 +54,11 @@ typedef struct bbDrawable
     bbMinimalDrawable md;
     bbDrawableFunctions functions;
 
+
+    bbTime last_state_change;
+    bbTime last_wander_time;
+
+
     ///Render unit data
     ///But RenderUnit is derived from bbDrawable and so
     struct bbRenderUnitGroup* group;

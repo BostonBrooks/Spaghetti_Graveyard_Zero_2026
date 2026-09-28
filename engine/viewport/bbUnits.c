@@ -106,25 +106,21 @@ bbFlag bbUnits_consumeBuffer(bbUnits* units, bbVPool* entity_units, bbMoveables_
             unit->next_coords = snapshot->moveables[i].position;
             unit->next_goalpoint = snapshot->moveables[i].goalpoint;
             unit->next_time = snapshot->time;
+            unit->prev_angle = unit->next_angle;
 
 
             I32 delta_i = unit->next_coords.i - unit->prev_coords.i;
             I32 delta_j = unit->next_coords.j - unit->prev_coords.j;
 
-            if (delta_i * delta_i + delta_j * delta_j < POINTS_PER_PIXEL*POINTS_PER_PIXEL*16)
-            {
-
-                delta_i = unit->next_goalpoint.i - unit->prev_coords.i;
-                delta_j = unit->next_goalpoint.j - unit->prev_coords.j;
-            }
-
-            //TODO this condition is always true
-            //if (delta_i * delta_i + delta_j * delta_j > POINTS_PER_PIXEL*POINTS_PER_PIXEL)
+            if (delta_i * delta_i + delta_j * delta_j > POINTS_PER_PIXEL*POINTS_PER_PIXEL*16)
             {
                 float rotation = atan2(delta_i, delta_j);
                 unit->next_angle = rotation;
-                drawable->md.rotation = rotation;
+            } else {
+                unit->next_angle = unit->prev_angle;
             }
+
+
         }
         bbMapCoords position;
         //if (interp_positions)
@@ -133,8 +129,8 @@ bbFlag bbUnits_consumeBuffer(bbUnits* units, bbVPool* entity_units, bbMoveables_
                = bbMapCoords_interpolate(unit->prev_coords, unit->next_coords, unit->prev_time,
                    map_time, unit->next_time);
 
-        //drawable->rotation = angular_interpolate(unit->prev_angle,unit->next_angle,
-        //                                         unit->prev_time, map_time, unit->next_time);
+        drawable->md.rotation = angular_interpolate(unit->prev_angle,unit->next_angle,
+                                                 unit->prev_time, map_time, unit->next_time);
 
         bbDrawable_setLocation(drawable, units,position);
 

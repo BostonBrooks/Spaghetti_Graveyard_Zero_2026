@@ -216,18 +216,22 @@ bbFlag bbRenderUnits_updateMovement(bbRenderUnits* render_units)
 
                 bbTime current_time = home.UI.clock2_handle.map_tick;
                 //TODO bbTime last_update; bbTime last_wander
-                double wander_time = current_time/60.0;
-                double delta_i = f0*sin(wander_time*1.1)
-                                +f1*cos(wander_time*1.1)
-                                +f2*sin(wander_time)
-                                +f3*cos(wander_time);
+                bbTime wander_time = parent_unit->drawable.last_wander_time;
+                if (parent_unit->drawable.md.state == bbDrawableState_moving) {
+                    wander_time += current_time- parent_unit->drawable.last_state_change;
+                }
+                double wander_time_d = wander_time / 60.0;
 
-                double delta_j = f4*sin(wander_time*1.1)
-                                +f5*cos(wander_time*1.1)
-                                +f6*sin(wander_time)
-                                +f7*cos(wander_time);
+                double delta_i = f0*sin(wander_time_d*1.1)
+                                +f1*cos(wander_time_d*1.1)
+                                +f2*sin(wander_time_d)
+                                +f3*cos(wander_time_d);
 
-                bbDebug("wander_time=%f\n",wander_time);
+                double delta_j = f4*sin(wander_time_d*1.1)
+                                +f5*cos(wander_time_d*1.1)
+                                +f6*sin(wander_time_d)
+                                +f7*cos(wander_time_d);
+
 
                 double row_N = i / 4;
                 double column_M = i %4;
