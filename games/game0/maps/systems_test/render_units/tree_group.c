@@ -96,7 +96,7 @@ bbFlag bbRenderUnitGroup_spawn_trees(bbRenderUnitGroup** Group,
                 "DRAWABLE_SHADOW",
                 &drawfunctionHandle);
     a_tree.md.frames[1].draw_function = drawfunctionHandle.u64;
-    a_tree.md.frames[1].asset_handle.u64 = 612;
+    a_tree.md.frames[1].asset_handle.u64 = 1076;
     a_tree.md.frames[1].start_time=  0;
     a_tree.md.frames[1].framerate = 0;
     a_tree.md.frames[1].offset.x = 0;

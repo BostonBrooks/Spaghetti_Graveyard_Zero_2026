@@ -105,6 +105,16 @@ bbFlag bbRenderUnitGroup_spawn_foxes(bbRenderUnitGroup** Group,
     fox_drawable.frames[0].offset.x = 0;
     fox_drawable.frames[0].offset.y = 0;
 
+    bbDictionary_lookup(graphics->drawfunctions->dictionary,
+            "DRAWABLE_SHADOW",
+            &drawfunctionHandle);
+    fox_drawable.frames[1].draw_function = drawfunctionHandle.u64;
+    fox_drawable.frames[1].asset_handle.u64 = 1077;
+    fox_drawable.frames[1].start_time=  0;
+    fox_drawable.frames[1].framerate = 0;
+    fox_drawable.frames[1].offset.x = 0;
+    fox_drawable.frames[1].offset.y = 0;
+
     for (I32 i = 0; i < UNITS_PER_GROUP; i++ )
     {
         group->units[i].owner = drawable;
