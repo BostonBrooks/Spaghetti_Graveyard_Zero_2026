@@ -132,3 +132,32 @@ bbFlag bbDF_unitGroup2(void* Drawable, void* frameDescriptor, void* cl)
 
     return bbSuccess;
 }
+
+bbFlag bbDF_treeGroup(void* Drawable, void* frameDescriptor, void* cl)
+{
+    bbDrawable* drawable = Drawable;
+    bbFrame* self_frame = frameDescriptor;
+    drawFuncClosure* foo = cl;
+    bbGraphicsApp* graphics = foo->graphics;
+    bbViewport* VP = foo->target;
+
+    if (drawable->group == NULL) {
+        bbDebug("Trying to draw a null bbRenderUnitGroup\n")
+        return bbSuccess;
+    }
+
+    for (I32 i = 0; i < UNITS_PER_GROUP; i++)
+    {
+        bbMinimalDrawable* minimal_drawable = &drawable->group->units[i].md;
+
+        for (I32 j = 0; j < FRAMES_PER_DRAWABLE; j++)
+        {
+            bbFrame* frame = &minimal_drawable->frames[j];
+            if (frame->draw_function < 0) continue;
+            bbDrawFunction *drawFunction =graphics->drawfunctions->functions[frame->draw_function];
+            drawFunction(minimal_drawable, frame, cl);
+        }
+    }
+
+    return bbSuccess;
+}

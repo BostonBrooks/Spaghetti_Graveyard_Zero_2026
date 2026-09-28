@@ -1,4 +1,4 @@
-Number of Sprites:,1075,,,,,,,,,,,,
+Number of Sprites:,1076,,,,,,,,,,,,
 Label:,Integer Address:,Texture:,Left:,Top:,Width:,Height:,Origin X:,Origin Y:,Scale X:,Scale Y:,Scale By:,Comment:,
 NULL,0,NULL,0,0,128,128,0,0,1,1,None,Exception,
 LAYOUT_480,1,LAYOUT_480,0,0,720,480,0,0,1,1,None,The root of the widget tree,
@@ -1075,4 +1075,5 @@ ZOMBIEH41,1071,ZOMBIE,5282,937,63,70,23,55,2,2,None,A zombie
 ZOMBIEH42,1072,ZOMBIE,5410,937,63,70,23,55,2,2,None,A zombie
 ZOMBIEH43,1073,ZOMBIE,5538,937,63,70,23,55,2,2,None,A zombie
 ZOMBIEH44,1074,ZOMBIE,5666,937,63,70,23,55,2,2,None,A zombie
+TREE_MED,1075,TREE,0,0,300,450,157,441,0.1,0.1,None, A tree
 Label:,Integer Address:,Texture:,Left:,Top:,Width:,Height:,Origin X:,Origin Y:,Scale X:,Scale Y:,Scale By:,Comment:,

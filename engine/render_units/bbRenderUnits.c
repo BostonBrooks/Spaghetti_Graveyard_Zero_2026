@@ -141,6 +141,8 @@ bbFlag bbRenderUnits_updateMovement(bbRenderUnits* render_units)
     while (flag == bbSuccess)
     {
         bbDrawable* drawable = group->units[0].owner;
+
+
         float theta = drawable->md.rotation;
         float spacing = POINTS_PER_TILE;
         I32 num_units = 12;
@@ -152,20 +154,23 @@ bbFlag bbRenderUnits_updateMovement(bbRenderUnits* render_units)
 
         for (I32 i = 0; i < UNITS_PER_GROUP; i++)
         {
-            I32 row_N = i / 4;
-            I32 column_M = i %4;
-
-            delta_coords.i = (1.5-column_M)*spacing*c_theta - (-1+row_N)*spacing*s_theta;
-            delta_coords.j = -(1.5-column_M)*spacing*s_theta - (-1+row_N)*spacing*c_theta;
-            delta_coords.k = 0;
 
             bbRenderUnit* unit = &group->units[i];
-            unit->md.coords = drawable->md.coords;
-            unit->md.coords.i += delta_coords.i;
-            unit->md.coords.j += delta_coords.j;
-            unit->md.coords.k = bbMapCoords_getElevation(&home.ground_surface, unit->md.coords);
-            unit->md.rotation = drawable->md.rotation;
 
+            if (unit->movement_type == bbRU_movementType_rigid) {
+                I32 row_N = i / 4;
+                I32 column_M = i %4;
+
+                delta_coords.i = (1.5-column_M)*spacing*c_theta - (-1+row_N)*spacing*s_theta;
+                delta_coords.j = -(1.5-column_M)*spacing*s_theta - (-1+row_N)*spacing*c_theta;
+                delta_coords.k = 0;
+
+                unit->md.coords = drawable->md.coords;
+                unit->md.coords.i += delta_coords.i;
+                unit->md.coords.j += delta_coords.j;
+                unit->md.coords.k = bbMapCoords_getElevation(&home.ground_surface, unit->md.coords);
+                unit->md.rotation = drawable->md.rotation;
+            }
         }
         flag = bbList_increment(&render_units->list,(void**)&group);
     }

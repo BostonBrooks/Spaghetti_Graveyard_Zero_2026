@@ -1,3 +1,4 @@
+#include "tree_group.h"
 #include "engine/data/bbHome.h"
 #include "engine/logic/bbTerminal.h"
 #include "engine/render_units/bbRenderUnits.h"
@@ -53,6 +54,18 @@ bbFlag bbDNV_spawnFoxes(struct bbDrawables* drawables, struct bbDrawable* drawab
     return bbSuccess;
 }
 
+bbFlag bbDNV_spawnTrees(struct bbDrawables* drawables, struct bbDrawable* drawable) {
+
+
+    bbRenderUnitGroup_spawn_trees(NULL,
+                                  home.viewport_app.renderUnits,
+                                  drawable,
+                                  &home.UI.graphics);
+
+
+    return bbSuccess;
+}
+
 bbFlag bbDNV_unspawnFoxes(struct bbDrawables* drawables, struct bbDrawable* drawable) {
 
     if (drawable->group == NULL) {
@@ -74,7 +87,7 @@ bbFlag bbDrawables_populateFunctionTable(bbDrawableFunctionTable* table){
     bbDrawables_addFunction(table, bbDNV_squareLeaveNull, "SQUARE LEAVE NULL");
     bbDrawables_addFunction(table, bbDNV_spawnFoxes, "SPAWN FOXES");
     bbDrawables_addFunction(table, bbDNV_unspawnFoxes, "UNSPAWN FOXES");
-    bbDrawables_addSpawner(table, bbRUG_spawnNULL_fn, "SPAWN NULL");
+    bbDrawables_addFunction(table, bbDNV_spawnTrees, "SPAWN TREES");
     return bbSuccess;
 
 }

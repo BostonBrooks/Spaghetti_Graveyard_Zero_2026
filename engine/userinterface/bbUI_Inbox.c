@@ -4,6 +4,7 @@
 #include "engine/data/bbHome.h"
 #include "engine/logic/bbString.h"
 #include "engine/logic/bbTerminal.h"
+#include "render_units/tree_group.h"
 
 #define UI_INBOX_SIZE 4097
 
@@ -681,11 +682,14 @@ bbFlag bbUI_Inbox_NewTree(bbUI_Inbox* inbox, char* tree_type, bbMapCoords positi
 bbFlag bbUI_Inbox_newTree_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
 {
     bbDrawable* drawable;
-    bbDrawable_newTree(&drawable, home.viewport_app.drawables, &home.UI.graphics,message->data.data.coords);
+    //bbDrawable_newTree(&drawable, home.viewport_app.drawables, &home.UI.graphics,message->data.data.coords);
     bbMapIcon* mapicon;
     bbMapIcon_new(&mapicon, home.viewport_app.mapIcons,&home.UI.graphics, message->data.data.coords);
 
-
+    U64 rand = bbRand();
+    bbViewportSpawnTrees(&home.viewport_app,
+                         message->data.data.coords,
+                         rand);
 }
 
 

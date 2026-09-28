@@ -1,3 +1,4 @@
+#include "tree_group.h"
 #include "engine/render_units/bbRenderUnits.h"
 
 
@@ -14,5 +15,9 @@ bbFlag bbRenderUnits_populateFunctions (bbRenderUnits* render_units){
     bbRenderUnits_addSpawnFunction(render_units,
                                           bbRenderUnitGroup_unspawnNULL_fn,
                                           "UNSPAWN NULL");
+    bbRenderUnits_addSpawnFunction(render_units,
+                                          bbRenderUnitGroup_spawnTrees_fn,
+                                          "SPAWN TREES");
+
     return bbSuccess;
 }

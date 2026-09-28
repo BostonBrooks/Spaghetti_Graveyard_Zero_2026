@@ -211,6 +211,8 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
         games/game0/maps/systems_test/input/players.c
         games/game0/maps/systems_test/render_units/render_units.c
         games/game0/maps/systems_test/render_units/drawable_functions.c
+        games/game0/maps/systems_test/render_units/tree_group.c
+
         engine/test_string/bbTestString.c
 
         engine/ECS/bbECS.c

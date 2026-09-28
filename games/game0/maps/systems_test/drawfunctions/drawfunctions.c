@@ -201,6 +201,10 @@ bbFlag bbDrawfunctions_new(bbDrawfunctions** drawfunctions){
     bbDictionary_add(functions->dictionary, "WIDGET_TEXT_INPUT", handle);
 
 
+    functions->functions[31] = bbDF_treeGroup;
+    handle.u64 = 31;
+    bbDictionary_add(functions->dictionary, "TREE GROUP", handle);
+
     *drawfunctions = functions;
     return bbSuccess;
 }
