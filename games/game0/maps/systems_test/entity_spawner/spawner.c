@@ -16,8 +16,14 @@ bbFlag bbPF_null(void* spawner, char* string)
     return bbSuccess;
 }
 
-bbFlag bbPF_Hash(void* spawner, char* string)
+bbFlag bbPF_randomSeed(void* spawner, char* string)
 {
+    char key[KEY_LENGTH];
+    U64 seed;
+    sscanf ( string, "%[^','],%lu",key, &seed);
+
+    //bbDebug("seed = %lu\n", seed);
+    bbArith_rand = bbArith64_hash(seed);
     return bbSuccess;
 }
 
@@ -26,14 +32,16 @@ bbFlag bbPF_tree(void* spawner, char* string)
     char key[KEY_LENGTH];
     char tree_type[KEY_LENGTH];
     bbMapCoords position;
-    sscanf ( string, "%[^','],%[^','],%d,%d", key, tree_type,&position.i,&position.j);
+    I32 seed_index;
+    sscanf ( string, "%[^','],%[^','],%d,%d,%d", key, tree_type,&position.i,&position.j, &seed_index);
 
+    U64 deterministic_seed = bbArith64_hash(19900907);
     //POINTS_PER_PIXEL was 8
     position.i*=(POINTS_PER_PIXEL / 8);
     position.j*=(POINTS_PER_PIXEL / 8);
     position.k = bbMapCoords_getElevation(&home.ground_surface, position);
 
-    bbUI_Inbox_NewTree(&home.UI.inbox,tree_type, position);
+    bbUI_Inbox_NewTree(&home.UI.inbox,tree_type, position, bbArith64_hashIndex(deterministic_seed, seed_index));
 
     bbAvoidable_newCircle(home.ECS.avoidables, position, 4*POINTS_PER_TILE);
 
@@ -371,6 +379,9 @@ bbFlag bbEntitySpawner_populate(bbEntitySpawner* spawner)
     bbParseFunction_add(spawner, bbPF_skellyParser, "SKELLY");
     bbParseFunction_add(spawner, bbPF_skelly2Parser, "SKELLY2");
     bbParseFunction_add(spawner, bbPF_setGoalEntity, "SET_GOAL");
+    bbParseFunction_add(spawner, bbPF_randomSeed, "RANDOM_SEED");
+
+
 
     bbSpawnFunction_add(spawner, bbSF_null, "NULL");
     bbSpawnFunction_add(spawner, bbSF_addServerEntity_skelly, "SKELLY_SERVER");

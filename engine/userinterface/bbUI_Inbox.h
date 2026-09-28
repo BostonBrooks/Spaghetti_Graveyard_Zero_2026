@@ -101,7 +101,7 @@ bbFlag bbUI_Inbox_DeleteUnit(bbUI_Inbox* inbox, bbHandle entity_handle, bbHandle
 
 bbFlag bbUI_Inbox_SetUnitHP(bbUI_Inbox* inbox, bbHandle unit, float HP);
 
-bbFlag bbUI_Inbox_NewTree(bbUI_Inbox* inbox, char* tree_type, bbMapCoords position);
+bbFlag bbUI_Inbox_NewTree(bbUI_Inbox* inbox, char* tree_type, bbMapCoords position, U64 random_seed);
 bbFlag bbUI_Inbox_newTree_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message);
 
 bbFlag bbUI_Inbox_NewDrawable(bbUI_Inbox* inbox, I32 type_index, bbMapCoords MC, bbHandle entity_handle, bbHandle moveable_handle);

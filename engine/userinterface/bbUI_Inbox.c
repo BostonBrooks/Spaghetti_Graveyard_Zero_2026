@@ -667,13 +667,14 @@ bbFlag bbUI_Inbox_deleteUnit_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
 
 
 
-bbFlag bbUI_Inbox_NewTree(bbUI_Inbox* inbox, char* tree_type, bbMapCoords position)
+bbFlag bbUI_Inbox_NewTree(bbUI_Inbox* inbox, char* tree_type, bbMapCoords position, U64 random_seed)
 {
 
     bbUI_Inbox_message* message;
     bbThreadedQueue_alloc(&inbox->local_message_queue,(void**)&message);
     message->type = bbUI_Inbox_newTree;
     message->data.data.coords = position;
+    message->data.data.entity_handle.u64 = random_seed;
     bbStr_setStr(message->data.data.string.string, tree_type,KEY_LENGTH);
 
     bbThreadedQueue_pushL(&inbox->local_message_queue, (void*)message);
@@ -686,10 +687,11 @@ bbFlag bbUI_Inbox_newTree_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
     bbMapIcon* mapicon;
     bbMapIcon_new(&mapicon, home.viewport_app.mapIcons,&home.UI.graphics, message->data.data.coords);
 
-    U64 rand = bbRand();
     bbViewportSpawnTrees(&home.viewport_app,
                          message->data.data.coords,
-                         rand);
+                         message->data.data.entity_handle.u64);
+
+    return bbSuccess;
 }
 
 
