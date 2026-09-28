@@ -112,6 +112,11 @@ bbFlag bbDF_unitGroup2(void* Drawable, void* frameDescriptor, void* cl)
     bbGraphicsApp* graphics = foo->graphics;
     bbViewport* VP = foo->target;
 
+    if (drawable->group == NULL) {
+        bbDebug("Trying to draw a null bbRenderUnitGroup\n")
+        return bbSuccess;
+    }
+
     for (I32 i = 0; i < UNITS_PER_GROUP; i++)
     {
         bbMinimalDrawable* minimal_drawable = &drawable->group->units[i].md;
@@ -124,4 +129,6 @@ bbFlag bbDF_unitGroup2(void* Drawable, void* frameDescriptor, void* cl)
             drawFunction(minimal_drawable, frame, cl);
         }
     }
+
+    return bbSuccess;
 }

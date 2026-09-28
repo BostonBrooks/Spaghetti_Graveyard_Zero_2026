@@ -68,8 +68,8 @@ bbFlag bbRenderUnitGroup_delete(bbRenderUnits* render_units,
     bbDrawable* drawable = group->units[0].owner;
     drawable->group = NULL;
 
-    bbList_remove(&render_units->list, drawable);
-    bbVPool_free(render_units->pool, drawable);
+    bbList_remove(&render_units->list, group);
+    bbVPool_free(render_units->pool, group);
 
     return bbSuccess;
 
