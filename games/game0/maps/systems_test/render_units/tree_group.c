@@ -83,7 +83,7 @@ bbFlag bbRenderUnitGroup_spawn_trees(bbRenderUnitGroup** Group,
     }
     bbHandle drawfunctionHandle;
     bbDictionary_lookup(graphics->drawfunctions->dictionary,
-                "DRAWABLE_SPRITE",
+                "DRAWBUFFER_SPRITE",
                 &drawfunctionHandle);
     a_tree.md.frames[0].draw_function = drawfunctionHandle.u64;
     a_tree.md.frames[0].asset_handle.u64 = 1075;
@@ -111,11 +111,11 @@ bbFlag bbRenderUnitGroup_spawn_trees(bbRenderUnitGroup** Group,
         group->units[i].md.random_seed = bbArith64_hashIndex(drawable->md.random_seed, i);
         group->units[i].md.coords.i
             += (i/3) * POINTS_PER_TILE *2
-            + bbArith64_hashIndex(group->units[i].md.random_seed, i)%(POINTS_PER_TILE);
-            - POINTS_PER_TILE * 2;
+            + bbArith64_hashIndex(group->units[i].md.random_seed, i)%(POINTS_PER_TILE)
+            - POINTS_PER_TILE * 3;
         group->units[i].md.coords.j
             += (i%3) * POINTS_PER_TILE *2
-            + bbArith64_hashIndex(group->units[i].md.random_seed, i+12)%(POINTS_PER_TILE);
+            + bbArith64_hashIndex(group->units[i].md.random_seed, i+12)%(POINTS_PER_TILE)
             - POINTS_PER_TILE * 2;
         group->units[i].md.coords.k = bbMapCoords_getElevation(&home.ground_surface, group->units[i].md.coords);
     }
