@@ -308,6 +308,33 @@ bbFlag bbDrawable_setLocation(bbDrawable* drawable, bbDrawables* drawables,
     drawable->md.coords = MC;
     bbList_sortL(&newSquare->list, drawable);
 
+    bbActiveSquares* active_squares = &home.viewport_app.active_squares;
+
+    I32 i_min = active_squares->new_i_min;
+    I32 j_min = active_squares->new_j_min;
+    I32 i_max = active_squares->new_i_max;
+    I32 j_max = active_squares->new_j_max;
+
+    I32 i_old = oldSC.i;
+    I32 j_old = oldSC.j;
+    I32 i_new = newSC.i;
+    I32 j_new = newSC.j;
+
+    if (!(i_min<= i_old && i_old < i_max && j_min<= j_old && j_old < j_max ))
+    {
+        if ((i_min<= i_new && i_new < i_max && j_min<= j_new && j_new < j_max )) {
+            bbDrawable_enterVisible(drawables,  &home.viewport_app.table, drawable);
+        }
+    }
+
+    if ((i_min<= i_old && i_old < i_max && j_min<= j_old && j_old < j_max ))
+    {
+        if (!(i_min<= i_new && i_new < i_max && j_min<= j_new && j_new < j_max )) {
+            bbDrawable_leaveVisible(drawables,  &home.viewport_app.table, drawable);
+        }
+    }
+    //if oldSC in active_squares.
+
     return bbSuccess;
 }
 

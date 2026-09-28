@@ -62,6 +62,15 @@ bbFlag bbActiveSquare_activate(bbViewportApp* viewport_app, bbActiveSquares* act
         bbDrawableSquare* square = &viewport_app->units->squares[index];
         bbList_mapL(&square->list, bbActiveSquare_activate_fn, &cl);
     }
+    index = bbDrawables_getSquareIndex(i, j, viewport_app->drawables->squares_i,viewport_app->drawables->squares_j);
+
+    if (index>=0) {
+        bbDrawableSquare* square = &viewport_app->drawables->squares[index];
+        bbList_mapL(&square->list, bbActiveSquare_activate_fn, &cl);
+    }
+
+
+
     return bbSuccess;
 }
 bbFlag bbActiveSquare_deactivate(bbViewportApp* viewport_app, bbActiveSquares* active_squares, I32 i, I32 j){
@@ -73,6 +82,13 @@ bbFlag bbActiveSquare_deactivate(bbViewportApp* viewport_app, bbActiveSquares* a
 
     if (index>=0) {
         bbDrawableSquare* square = &viewport_app->units->squares[index];
+        bbList_mapL(&square->list, bbActiveSquare_deactivate_fn, &cl);
+    }
+
+    index = bbDrawables_getSquareIndex(i, j, viewport_app->drawables->squares_i,viewport_app->drawables->squares_j);
+
+    if (index>=0) {
+        bbDrawableSquare* square = &viewport_app->drawables->squares[index];
         bbList_mapL(&square->list, bbActiveSquare_deactivate_fn, &cl);
     }
     return bbSuccess;

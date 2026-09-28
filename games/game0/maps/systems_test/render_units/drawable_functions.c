@@ -1,6 +1,13 @@
 #include "engine/logic/bbTerminal.h"
 #include "engine/viewport/bbDrawableFunctions.h"
 #include "engine/viewport/bbDrawables.h"
+
+///bb Drawable, notify visible enter function null
+///if the drawable enters  the area around the viewport, notify by doing bbHare()
+bbFlag bbDNV_nullNull(struct bbDrawables* drawables, struct bbDrawable* drawable) {
+    bbDebug("Drawable notify visible not defined\n");
+    return bbSuccess;
+}
 ///bb Drawable, notify visible enter function null
 ///if the drawable enters  the area around the viewport, notify by doing bbHare()
 bbFlag bbDNV_enterNull(struct bbDrawables* drawables, struct bbDrawable* drawable) {
@@ -38,6 +45,7 @@ bbFlag bbRUG_spawnNULL_fn(struct bbRenderUnits* render_units, bbDrawable* drawab
 
 
 bbFlag bbDrawables_populateFunctionTable(bbDrawableFunctionTable* table){
+    bbDrawables_addFunction(table, bbDNV_nullNull, "NULL NULL");
     bbDrawables_addFunction(table, bbDNV_enterNull, "ENTER NULL");
     bbDrawables_addFunction(table, bbDNV_leaveNull, "LEAVE NULL");
     bbDrawables_addFunction(table, bbDNV_squareEnterNull, "SQUARE ENTER NULL");
