@@ -11,6 +11,7 @@
 typedef enum
 {
     bbRU_movementType_rigid,
+    bbRU_movementType_wander,
     bbRU_movementType_none,
 } bbRenderUnit_movementType;
 

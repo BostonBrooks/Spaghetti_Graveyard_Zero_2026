@@ -109,12 +109,14 @@ bbFlag bbRenderUnitGroup_spawn_foxes(bbRenderUnitGroup** Group,
     {
         group->units[i].owner = drawable;
         group->units[i].index = i;
-        group->units[i].movement_type = bbRU_movementType_rigid;
+        group->units[i].movement_type = bbRU_movementType_wander;
         group->units[i].md = fox_drawable;
-        group->units[i].md.coords.i += i * POINTS_PER_TILE;
+        group->units[i].md.random_seed = bbArith64_hashIndex(drawable->md.random_seed,i);
 
 
     }
+
+
 
     bbList_pushL(&render_units->list, group);
 
@@ -141,7 +143,7 @@ bbFlag bbRenderUnits_updateMovement(bbRenderUnits* render_units)
     while (flag == bbSuccess)
     {
         bbDrawable* drawable = group->units[0].owner;
-
+        bbUnit* parent_unit = (bbUnit*)group->units[0].owner;
 
         float theta = drawable->md.rotation;
         float spacing = POINTS_PER_TILE;
@@ -170,6 +172,80 @@ bbFlag bbRenderUnits_updateMovement(bbRenderUnits* render_units)
                 unit->md.coords.j += delta_coords.j;
                 unit->md.coords.k = bbMapCoords_getElevation(&home.ground_surface, unit->md.coords);
                 unit->md.rotation = drawable->md.rotation;
+            }
+
+            if (unit->movement_type == bbRU_movementType_wander) {
+
+
+                U64 coefficients = bbArith64_hash(unit->md.random_seed);
+                U64 mask = 0xFF;
+
+                U64 c0 = coefficients & mask;
+                double f0 = ((double)c0 - 128.0) / 512.0;
+                coefficients >>= 8;
+
+                U64 c1 = coefficients & mask;
+                double f1 = ((double)c1 - 128.0) / 512.0;
+                coefficients >>= 8;
+
+                U64 c2 = coefficients & mask;
+                double f2 = ((double)c2 - 128.0) / 512.0;
+                coefficients >>= 8;
+
+                U64 c3 = coefficients & mask;
+                double f3 = ((double)c3 - 128.0) / 512.0;
+                coefficients >>= 8;
+
+                U64 c4 = coefficients & mask;
+                double f4 = ((double)c4 - 128.0) / 512.0;
+                coefficients >>= 8;
+
+                U64 c5 = coefficients & mask;
+                double f5 = ((double)c5 - 128.0) / 512.0;
+                coefficients >>= 8;
+
+                U64 c6 = coefficients & mask;
+                double f6 = ((double)c6 - 128.0) / 512.0;
+                coefficients >>= 8;
+
+                U64 c7 = coefficients & mask;
+                double f7 = ((double)c7 - 128.0) / 512.0;
+
+                bbDebug("(%f, %f, %f, %f,%f, %f, %f, %f_\n",
+                    f0, f1, f2, f3, f4, f5, f6, f7)
+
+                bbTime current_time = home.UI.clock2_handle.map_tick;
+                //TODO bbTime last_update; bbTime last_wander
+                double wander_time = current_time/60.0;
+                double delta_i = f0*sin(wander_time*1.1)
+                                +f1*cos(wander_time*1.1)
+                                +f2*sin(wander_time)
+                                +f3*cos(wander_time);
+
+                double delta_j = f4*sin(wander_time*1.1)
+                                +f5*cos(wander_time*1.1)
+                                +f6*sin(wander_time)
+                                +f7*cos(wander_time);
+
+                bbDebug("wander_time=%f\n",wander_time);
+
+                double row_N = i / 4;
+                double column_M = i %4;
+
+                double rn =  row_N + delta_i;
+                double cm =  column_M + delta_j;
+
+                delta_coords.i = (1.5-cm)*spacing*c_theta - (-1+rn)*spacing*s_theta;
+                delta_coords.j = -(1.5-cm)*spacing*s_theta - (-1+rn)*spacing*c_theta;
+                delta_coords.k = 0;
+
+                unit->md.coords = drawable->md.coords;
+                unit->md.coords.i += delta_coords.i;
+                unit->md.coords.j += delta_coords.j;
+                unit->md.rotation = drawable->md.rotation;
+
+
+                unit->md.coords.k = bbMapCoords_getElevation(&home.ground_surface, unit->md.coords);
             }
         }
         flag = bbList_increment(&render_units->list,(void**)&group);

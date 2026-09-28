@@ -393,6 +393,8 @@ bbFlag bbViewportSpawnFox(bbViewportApp* viewport_app,
     bbHandle unit_handle;
     bbFlag flag = bbVPool_alloc2(pool, (void**)&unit,&unit_handle);
 
+    unit->drawable.md.random_seed = bbRand();
+
     unit->drawable.functions.on_enter = bbDrawables_getFunction(&home.viewport_app.table, "SPAWN FOXES");
     unit->drawable.functions.on_leave = bbDrawables_getFunction(&home.viewport_app.table, "UNSPAWN FOXES");
     unit->drawable.functions.on_square_enter = bbDrawables_getFunction(&home.viewport_app.table, "SPAWN FOXES");
