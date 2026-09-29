@@ -5,7 +5,7 @@
 #include "engine/geometry/bbGroundCoords.h"
 #include "engine/logic/bbNestedListR.h"
 
-#define DRAG_FREQUENCY 10
+#define DRAG_FREQUENCY 15
 
 bbFlag bbVPMouse_Init(bbVPMouse* vpmouse, void* viewportApp, bbDrawables* units, bbMouse* mouse, bbGraphicsApp* graphics)
 {
