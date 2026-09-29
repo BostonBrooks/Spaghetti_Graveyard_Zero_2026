@@ -8,6 +8,7 @@
 #include "engine/data/bbHome.h"
 #include "engine/logic/bbBloatedPool.h"
 #include "engine/logic/bbPrime.h"
+#include "engine/logic/bbSystemPool.h"
 
 
 bbFlag bbAI_System_getComponent_fn(struct bbSystem* system, bbComponent** component, bbHandle component_handle);
@@ -16,7 +17,7 @@ bbFlag bbAI_System_deleteComponent_fn(struct bbSystem* system, bbHandle componen
 
 bbFlag bbAI_System_init(bbAI_System* system,bbECS* ECS)
 {
-    bbVPool_newBloated(&system->system.pool, sizeof(bbAI_Component),10,1000,"ENTITY AI");
+    bbVPool_newSystem(&system->system.pool,bbECS_AI, sizeof(bbAI_Component),10,1000,"ENTITY AI");
     bbList_init(&system->list,system->system.pool,NULL,offsetof(bbAI_Component,list_element),NULL,bbECS_AI);
 
     system->system.getComponent = bbAI_System_getComponent_fn;
