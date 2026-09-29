@@ -47,20 +47,22 @@ bbFlag bbPlayers_init(bbPlayers* system, bbECS* ECS){
 }
 
 
-bbFlag bbPlayer_ClickMap(bbPlayers* players, bbMapCoords coords, U64 control_keys) {
+bbFlag bbPlayer_ClickMap(bbPlayers* players, bbMapCoords coords, U64 control_keys, bbVPMouseFunctionType type) {
     I32 this_player_int = players->this_player;
     bbPlayer* this_player = &players->players[this_player_int];
     I32 state = this_player->state;
+
+    bbDebug("player entity stste = %d\n",state)
     bbPlayerState player_state = players->states[state];
-    player_state.click_map(players,coords,control_keys);
+    player_state.click_map(players,coords,control_keys, type);
 }
-bbFlag bbPlayer_ClickUnit(bbPlayers* players, bbHandle entity_handle, U64 control_keys)
+bbFlag bbPlayer_ClickUnit(bbPlayers* players, bbHandle entity_handle, U64 control_keys, bbVPMouseFunctionType type)
 {
     I32 this_player_int = players->this_player;
     bbPlayer* this_player = &players->players[this_player_int];
     I32 state = this_player->state;
     bbPlayerState player_state = players->states[state];
-    player_state.click_unit(players,entity_handle,control_keys);
+    player_state.click_unit(players,entity_handle,control_keys, type);
 }
 bbFlag bbPlayer_KeyPress(bbPlayers* players, U64 key, U64 control_keys)
 {

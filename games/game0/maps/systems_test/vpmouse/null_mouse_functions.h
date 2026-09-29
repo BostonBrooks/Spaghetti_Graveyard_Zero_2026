@@ -63,9 +63,8 @@ void* graphics)
     home.UI.input_modes.current_mode->click_map_coords(home.UI.input_modes.current_mode,MC2,VPMouseLeftUp );
     bbDebug("unclicking unit with null enter function\n");
 }
-bbFlag bbVPMouse_LeftDrag_NULL (void* Mouse, void* widgets, void* unit,
-void* graphics)
-{
+bbFlag bbVPMouse_LeftDrag_NULL (void* Mouse, void* widgets, void* unit,void* graphics)
+    {
     bbVPMouse* mouse = (bbVPMouse*)Mouse;
     bbViewportCoords VC = mouse->position;
     bbMapCoords MC = home.viewport_app.viewport.viewpoint;

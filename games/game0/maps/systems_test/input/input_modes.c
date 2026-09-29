@@ -183,15 +183,17 @@ bbFlag bbKeyAction_event (struct bbInputMode* input_mode, sfEvent * event, struc
 
 bbFlag bbClickEntity_print(bbInputMode* input_mode, bbHandle entity_handle, bbVPMouseFunctionType type)
 {
-    bbCoreInbox_ClickUnit(&home.core.core, entity_handle, input_mode->control_keys);
+    bbCoreInbox_ClickUnit(&home.core.core, entity_handle, input_mode->control_keys, type);
     bbDebug("clicked entity index = %d, system = %d, generation = %d, type = %d\n",
         entity_handle.system.index, entity_handle.system.system, entity_handle.system.generation, type);
     return bbSuccess;
 }
 bbFlag bbClickMapCoords_print(bbInputMode* input_mode, bbMapCoords map_coords, bbVPMouseFunctionType type)
 {
-    bbCoreInbox_ClickMap(&home.core.core, map_coords, input_mode->control_keys);
+//bbAssert(type != VPMouseLeftDrag, "did we get here?\n");
+    bbCoreInbox_ClickMap(&home.core.core, map_coords, input_mode->control_keys, type);
     bbDebug("clicked map coords i = %d, j = %d, k = %d, type = %d\n",
         map_coords.i, map_coords.j, map_coords.k, type);
+
     return bbSuccess;
 }

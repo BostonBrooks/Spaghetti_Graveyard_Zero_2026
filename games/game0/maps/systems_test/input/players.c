@@ -6,13 +6,13 @@
 #include "engine/ECS/players/bbPlayers.h"
 #include "engine/logic/bbFlag.h"
 
-bbFlag bbPlayer_ClickMap_null(bbPlayers* players, bbMapCoords coords, U64 control_keys) ;
-bbFlag bbPlayer_ClickUnit_null(bbPlayers* players, bbHandle entity_handle, U64 control_keys) ;
+bbFlag bbPlayer_ClickMap_null(bbPlayers* players, bbMapCoords coords, U64 control_keys, bbVPMouseFunctionType type) ;
+bbFlag bbPlayer_ClickUnit_null(bbPlayers* players, bbHandle entity_handle, U64 control_keys, bbVPMouseFunctionType type) ;
 bbFlag bbPlayer_KeyPress_null(bbPlayers* players, U64 key, U64 control_keys);
 
 
-bbFlag bbPlayer_ClickMap_default(bbPlayers* players, bbMapCoords coords, U64 control_keys);
-bbFlag bbPlayer_ClickUnit_default(bbPlayers* players, bbHandle entity_handle, U64 control_keys) ;
+bbFlag bbPlayer_ClickMap_default(bbPlayers* players, bbMapCoords coords, U64 control_keys, bbVPMouseFunctionType type);
+bbFlag bbPlayer_ClickUnit_default(bbPlayers* players, bbHandle entity_handle, U64 control_keys, bbVPMouseFunctionType type) ;
 bbFlag bbPlayer_KeyPress_default(bbPlayers* players, U64 key, U64 control_keys);
 
 
@@ -37,7 +37,7 @@ bbFlag bbPlayers_populate(bbPlayers* system) {
 }
 
 
-bbFlag bbPlayer_ClickMap_null(bbPlayers* players, bbMapCoords coords, U64 control_keys) {
+bbFlag bbPlayer_ClickMap_null(bbPlayers* players, bbMapCoords coords, U64 control_keys, bbVPMouseFunctionType type) {
     bbNotImplemented()
 
     bbDebug("Player clicked map coords (%d, %d, %d)), control keys:\n %064" PRIb64 "\n",
@@ -46,7 +46,7 @@ bbFlag bbPlayer_ClickMap_null(bbPlayers* players, bbMapCoords coords, U64 contro
             coords.k,
             control_keys);
 }
-bbFlag bbPlayer_ClickUnit_null(bbPlayers* players, bbHandle entity_handle, U64 control_keys) {
+bbFlag bbPlayer_ClickUnit_null(bbPlayers* players, bbHandle entity_handle, U64 control_keys, bbVPMouseFunctionType type) {
     bbDebug("Player clicked entity index %d, control keys:\n %064" PRIb64 "\n",
     entity_handle.system.index,
     control_keys);
@@ -57,66 +57,72 @@ bbFlag bbPlayer_KeyPress_null(bbPlayers* players, U64 key, U64 control_keys) {
 }
 
 
-bbFlag bbPlayer_ClickMap_default(bbPlayers* players, bbMapCoords coords, U64 control_keys) {
+bbFlag bbPlayer_ClickMap_default(bbPlayers* players, bbMapCoords coords, U64 control_keys, bbVPMouseFunctionType type) {
 
     I32 this_player_int = players->this_player;
     bbPlayer* this_player = &players->players[this_player_int];
 
 
-    bbCoreInput_sendAIGoalpoint(&home.core.core,
-                                 this_player->selected_entities[0],
-                                 coords,
-                                 home.core.core.actual_time,
-                                 bbInstructionSource_internal,
-                                 no_handle);
 
+
+    if (type == VPMouseLeftDown || type == VPMouseLeftDrag) {
+
+        bbCoreInput_sendAIGoalpoint(&home.core.core,
+                                     this_player->selected_entities[0],
+                                     coords,
+                                     home.core.core.actual_time,
+                                     bbInstructionSource_internal,
+                                     no_handle);
+    }
     return bbSuccess;
 }
 
 extern U32 collision;
-bbFlag bbPlayer_ClickUnit_default(bbPlayers* players, bbHandle entity_handle, U64 control_keys) {
+bbFlag bbPlayer_ClickUnit_default(bbPlayers* players, bbHandle entity_handle, U64 control_keys, bbVPMouseFunctionType type) {
 
 
-    bbTeam* team;
-    bbHandle_mapComponent(home.ECS.ECS,bbECS_ECS,entity_handle,bbECS_Teams,NULL,(bbComponent**)&team);
+    if (type == VPMouseLeftDown) {
+        bbTeam* team;
+        bbHandle_mapComponent(home.ECS.ECS,bbECS_ECS,entity_handle,bbECS_Teams,NULL,(bbComponent**)&team);
 
-    if (team!=NULL) {
-        if (team->team == bbTeam_player) {
-bbHere()
-            bbHandle server_handle;
-            bbServerEntity* server_entity;
-            bbHandle_mapComponent(home.ECS.ECS,bbECS_ECS,entity_handle,bbECS_ServerEntities,&server_handle,(bbComponent**)&server_entity);
-
-            if (server_entity!=NULL) {
-                bbActionRequest_setPlayerEntity(&home.core.core,
-                                               home.ECS.players.this_player,
-                                               collision++,
-                                               home.core.core.actual_time,
-                                               home.core.core.actual_time,
-                                               home.ECS.players.this_player,
-                                               server_handle);
-            }
-        } else {
-
-            bbHandle server_handle;
-            bbServerEntity* server_entity;
-            bbHandle_mapComponent(home.ECS.ECS,bbECS_ECS,entity_handle,bbECS_ServerEntities,&server_handle,(bbComponent**)&server_entity);
-
-            if (server_entity!=NULL) {
+        if (team!=NULL) {
+            if (team->team == bbTeam_player) {
                 bbHere()
-                bbAction action;
-                action.header.type = bbActionType_setTarget;
-                action.header.status = bbAction_Wait;
-                action.header.sender = players->this_player;
-                action.header.collision = collision++;
-                action.header.created_tick = home.core.core.actual_time;
-                action.header.act_tick = home.core.core.actual_time;
-                bbStr_setStr(action.header.key,"ACHILLES", KEY_LENGTH);
-                action.handle = server_handle;
-                action.integer = players->this_player;
+                            bbHandle server_handle;
+                bbServerEntity* server_entity;
+                bbHandle_mapComponent(home.ECS.ECS,bbECS_ECS,entity_handle,bbECS_ServerEntities,&server_handle,(bbComponent**)&server_entity);
 
-                bbCoreInput_requestAction(&home.core.core,&home.network,&action,home.core.core.actual_time,
-                                            bbInstructionSource_internal, no_handle);
+                if (server_entity!=NULL) {
+                    bbActionRequest_setPlayerEntity(&home.core.core,
+                                                   home.ECS.players.this_player,
+                                                   collision++,
+                                                   home.core.core.actual_time,
+                                                   home.core.core.actual_time,
+                                                   home.ECS.players.this_player,
+                                                   server_handle);
+                }
+            } else {
+
+                bbHandle server_handle;
+                bbServerEntity* server_entity;
+                bbHandle_mapComponent(home.ECS.ECS,bbECS_ECS,entity_handle,bbECS_ServerEntities,&server_handle,(bbComponent**)&server_entity);
+
+                if (server_entity!=NULL) {
+                    bbHere()
+                    bbAction action;
+                    action.header.type = bbActionType_setTarget;
+                    action.header.status = bbAction_Wait;
+                    action.header.sender = players->this_player;
+                    action.header.collision = collision++;
+                    action.header.created_tick = home.core.core.actual_time;
+                    action.header.act_tick = home.core.core.actual_time;
+                    bbStr_setStr(action.header.key,"ACHILLES", KEY_LENGTH);
+                    action.handle = server_handle;
+                    action.integer = players->this_player;
+
+                    bbCoreInput_requestAction(&home.core.core,&home.network,&action,home.core.core.actual_time,
+                                                bbInstructionSource_internal, no_handle);
+                }
             }
         }
     }

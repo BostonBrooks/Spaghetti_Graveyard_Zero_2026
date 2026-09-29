@@ -30,6 +30,9 @@ typedef enum
     VPMouseRightDrag,
 } bbVPMouseFunctionType;
 
+static bbFlag print_VPMouseType
+
+
 typedef struct
 {
     //virtual functions

@@ -24,13 +24,14 @@ bbFlag bbCoreInbox_Freeze(bbCore* core)
 }
 
 
-bbFlag bbCoreInbox_ClickUnit(bbCore* core, bbHandle entity_handle, U64 control_keys)
+bbFlag bbCoreInbox_ClickUnit(bbCore* core, bbHandle entity_handle, U64 control_keys, bbVPMouseFunctionType type)
 {
     bbCoreInboxMessage* message;
     bbThreadedQueue_alloc(&core->local_message_queue, (void** ) &message);
     message->type = bbCoreInbox_clickUnit;
     message->data.three_handles.handle1 = entity_handle;
     message->data.three_handles.handle2.u64 = control_keys;
+    message->data.three_handles.handle3.u64 = type;
     bbThreadedQueue_pushL(&core->local_message_queue, message);
 }
 bbFlag bbCoreInbox_clickUnit_fn(bbCore* core, struct bbCoreInboxMessage* message)
@@ -38,17 +39,19 @@ bbFlag bbCoreInbox_clickUnit_fn(bbCore* core, struct bbCoreInboxMessage* message
 
     bbPlayer_ClickUnit((bbPlayers*)core->ECS->systems[bbECS_Players],
         message->data.three_handles.handle1,
-        message->data.three_handles.handle2.u64);
+        message->data.three_handles.handle2.u64,
+        message->data.three_handles.handle3.u64);
     return bbSuccess;
 }
 
-bbFlag bbCoreInbox_ClickMap(bbCore* core, bbMapCoords coords, U64 control_keys)
+bbFlag bbCoreInbox_ClickMap(bbCore* core, bbMapCoords coords, U64 control_keys, bbVPMouseFunctionType type)
 {
     bbCoreInboxMessage* message;
     bbThreadedQueue_alloc(&core->local_message_queue, (void** ) &message);
     message->type = bbCoreInbox_clickMap;
     message->data.agent_MC.coords = coords;
     message->data.agent_MC.handle1.u64 = control_keys;
+    message->data.agent_MC.handle2.u64 = type;
     bbThreadedQueue_pushL(&core->local_message_queue, message);
     return bbSuccess;
 }
@@ -57,7 +60,9 @@ bbFlag bbCoreInbox_clickMap_fn(bbCore* core, struct bbCoreInboxMessage* message)
 
 
     bbPlayer_ClickMap((bbPlayers*)core->ECS->systems[bbECS_Players],
-                     message->data.agent_MC.coords, message->data.agent_MC.handle1.u64);
+                     message->data.agent_MC.coords,
+                     message->data.agent_MC.handle1.u64,
+                     message->data.agent_MC.handle2.u64);
 
     return bbSuccess;
 

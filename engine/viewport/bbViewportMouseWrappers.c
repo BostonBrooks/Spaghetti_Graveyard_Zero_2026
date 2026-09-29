@@ -109,8 +109,18 @@ bbFlag bbVPMouse_LeftUpUnit(bbVPMouse* vpmouse, struct bbUnit* unit)
 ///what happens when you try to drag the unit?
 bbFlag bbVPMouse_LeftDragUnit(bbVPMouse* vpmouse, struct bbUnit* unit)
 {
-    if (unit == NULL) return bbFail;
-    bbHandle mouse_table_handle = unit->mouse.mouse_table;
+
+    bbViewportApp* viewport_app = vpmouse->viewportApp;
+    bbHandle mouse_table_handle;
+    if (unit == NULL)
+    {
+        bbVPMouseFunctions_getTableHandle(&viewport_app->mouse.functions,
+             &mouse_table_handle,"NULL TABLE" );
+    } else
+    {
+
+        mouse_table_handle = unit->mouse.mouse_table;
+    }
     bbVPMouseTable* mouse_table;
     bbFlag flag = bbVPool_lookup(vpmouse->functions.mouse_tables,(void**)&mouse_table,mouse_table_handle);
     bbUnits* units = vpmouse->units;
@@ -118,7 +128,7 @@ bbFlag bbVPMouse_LeftDragUnit(bbVPMouse* vpmouse, struct bbUnit* unit)
     I32 func_int = mouse_table->left_drag;
     if (func_int == -1) return bbSuccess;
 
-    bbVPMouse_LeftDrag* function;
+    bbVPMouse_LeftDown* function;
     bbVPMouseFunctions_getFunction(&vpmouse->functions, (void**)&function, VPMouseLeftDrag, func_int);
 
     if (function == NULL) return bbSuccess;
