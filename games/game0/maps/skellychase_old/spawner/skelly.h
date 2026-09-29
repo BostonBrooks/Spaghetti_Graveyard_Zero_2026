@@ -66,6 +66,7 @@ bbFlag bbUnit_newSkellyx(bbUnit** self, bbMapCoords MC,bbMapCoords goalpoint, I3
     bbHandle unit_handle;
     bbFlag flag = bbVPool_alloc2(pool, (void**)&unit, &unit_handle);
 
+    unit->drawable.md.class = bbDrawableClass_unit;
     unit->drawable.coords = MC;
     unit->drawable.SC = SC;
     bbHandle drawfunctionHandle;

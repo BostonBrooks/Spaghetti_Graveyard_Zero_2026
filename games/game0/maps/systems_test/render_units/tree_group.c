@@ -17,6 +17,7 @@ bbFlag bbViewportSpawnTrees(bbViewportApp *viewport_app,
     bbHandle drawable_handle;
     bbFlag flag = bbVPool_alloc2(pool, (void**)&drawable,&drawable_handle);
 
+    drawable->md.class = bbDrawableClass_drawable;
     drawable->functions.on_enter = bbDrawables_getFunction(&home.viewport_app.table, "SPAWN TREES");
     drawable->functions.on_leave = bbDrawables_getFunction(&home.viewport_app.table, "UNSPAWN FOXES");
     drawable->functions.on_square_enter = bbDrawables_getFunction(&home.viewport_app.table, "SPAWN TREES");
@@ -80,6 +81,7 @@ bbFlag bbRenderUnitGroup_spawn_trees(bbRenderUnitGroup** Group,
     a_tree.md.coords = drawable->md.coords;
     a_tree.md.state = bbDrawableState_idle;
     a_tree.movement_type = bbRU_movementType_none;
+    a_tree.md.class = bbDrawableClass_renderUnit;
 
     for (I32 k = 0; k < FRAMES_PER_DRAWABLE; k++) {
         a_tree.md.frames[k].draw_function = -1;

@@ -39,7 +39,7 @@ bbFlag bbViewportSpawnSkelly(bbViewportApp* viewport_app,
 
     bbHandle unit_handle;
     bbFlag flag = bbVPool_alloc2(pool, (void**)&unit,&unit_handle);
-
+    unit->drawable.md.class = bbDrawableClass_unit;
     unit->drawable.md.random_seed = moveable_handle.u64;
     //bbDebug("Skelly spawned with seed %lu\n", unit->drawable.md.random_seed);
 
@@ -162,7 +162,7 @@ bbFlag bbViewportSpawnZombie(bbViewportApp* viewport_app,
     bbHandle unit_handle;
     bbFlag flag = bbVPool_alloc2(pool, (void**)&unit,&unit_handle);
 
-
+    unit->drawable.md.class = bbDrawableClass_unit;
     unit->drawable.md.random_seed = moveable_handle.u64;
     //bbDebug("Zombie spawned with seed %lu\n", unit->drawable.md.random_seed);
 
@@ -283,7 +283,7 @@ bbFlag bbViewportSpawnCow(bbViewportApp* viewport_app,
 
     bbHandle unit_handle;
     bbFlag flag = bbVPool_alloc2(pool, (void**)&unit,&unit_handle);
-
+    unit->drawable.md.class = bbDrawableClass_unit;
     unit->drawable.md.random_seed = moveable_handle.u64;
     //bbDebug("Cow spawned with seed %lu\n", unit->drawable.md.random_seed);
 
@@ -401,7 +401,7 @@ bbFlag bbViewportSpawnFox(bbViewportApp* viewport_app,
 
     bbHandle unit_handle;
     bbFlag flag = bbVPool_alloc2(pool, (void**)&unit,&unit_handle);
-
+    unit->drawable.md.class = bbDrawableClass_unit;
     unit->drawable.md.random_seed = moveable_handle.u64;
     //bbDebug("Fox spawned with seed %lu\n", unit->drawable.md.random_seed);
 
@@ -527,7 +527,7 @@ bbFlag bbViewportSpawnLizard(bbViewportApp* viewport_app,
 
     bbHandle unit_handle;
     bbFlag flag = bbVPool_alloc2(pool, (void**)&unit,&unit_handle);
-
+    unit->drawable.md.class = bbDrawableClass_unit;
     unit->drawable.md.random_seed = moveable_handle.u64;
     //bbDebug("Lizzard spawned with seed %lu\n", unit->drawable.md.random_seed);
 
@@ -650,7 +650,7 @@ bbFlag bbViewportSpawnDevil(bbViewportApp* viewport_app,
     bbHandle unit_handle;
     bbFlag flag = bbVPool_alloc2(pool, (void**)&unit,&unit_handle);
 
-
+    unit->drawable.md.class = bbDrawableClass_unit;
     unit->drawable.md.random_seed = moveable_handle.u64;
     //bbDebug("Devil spawned with seed %lu\n", unit->drawable.md.random_seed);
 
@@ -770,7 +770,7 @@ bbFlag bbViewportSpawnFireball(bbViewportApp* viewport_app,
     bbHandle unit_handle;
     bbFlag flag = bbVPool_alloc2(pool, (void**)&unit,&unit_handle);
 
-
+    unit->drawable.md.class = bbDrawableClass_unit;
     unit->drawable.md.random_seed = moveable_handle.u64;
     //bbDebug("Fireball spawned with seed %lu\n", unit->drawable.md.random_seed);
 

@@ -183,6 +183,8 @@ bbFlag bbDrawable_newTree(bbDrawable** self, bbDrawables* drawables,
 
     bbDrawable* drawable;
     bbVPool_alloc(pool, (void**)&drawable);
+
+    drawable->md.class = bbDrawableClass_drawable;
     drawable->md.coords = MC;
     drawable->md.SC = SC;
     bbHandle drawfunctionHandle;
@@ -220,6 +222,9 @@ bbFlag bbDrawable_newCat(bbDrawable** self, bbDrawables* drawables,
 
     bbDrawable* drawable;
     bbVPool_alloc(pool, (void**)&drawable);
+
+
+    drawable->md.class = bbDrawableClass_drawable;
     drawable->md.coords = MC;
     drawable->md.SC = SC;
     bbHandle drawfunctionHandle;
@@ -253,6 +258,9 @@ bbFlag bbDrawable_newSkeleton(bbDrawable** self, bbDrawables* drawables,
 
     bbDrawable* drawable;
     bbVPool_alloc(pool, (void**)&drawable);
+
+
+    drawable->md.class = bbDrawableClass_drawable;
     drawable->md.coords = MC;
     drawable->md.SC = SC;
     bbHandle drawfunctionHandle;
@@ -347,6 +355,9 @@ bbFlag bbDrawable_newSphere(bbDrawable** self, bbDrawables* drawables,
 
     bbDrawable* drawable;
     bbVPool_alloc(pool, (void**)&drawable);
+
+
+    drawable->md.class = bbDrawableClass_drawable;
     drawable->md.coords = MC;
     drawable->md.SC = SC;
 
@@ -386,6 +397,9 @@ bbFlag bbDrawable_newPoint(bbDrawable** self, bbDrawables* drawables,
 
     bbDrawable* drawable;
     bbVPool_alloc(pool, (void**)&drawable);
+
+
+    drawable->md.class = bbDrawableClass_drawable;
     drawable->md.coords = MC;
     drawable->md.SC = SC;
 

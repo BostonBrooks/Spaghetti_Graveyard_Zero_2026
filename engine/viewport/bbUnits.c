@@ -16,6 +16,7 @@ bbMapCoords MC, I32 index){
     bbHandle unit_handle;
     bbFlag flag = bbVPool_alloc2(pool, (void**)&unit,&unit_handle);
 
+    unit->drawable.md.class = bbDrawableClass_unit;
 
     unit->drawable.md.coords = MC;
     unit->drawable.md.SC = SC;

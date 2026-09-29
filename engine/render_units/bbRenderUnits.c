@@ -90,7 +90,7 @@ bbFlag bbRenderUnitGroup_spawn_foxes(bbRenderUnitGroup** Group,
     bbMinimalDrawable fox_drawable;
     fox_drawable.coords = drawable->md.coords;
     fox_drawable.state = bbDrawableState_idle;
-
+    fox_drawable.class = bbDrawableClass_renderUnit;
 
     for (I32 k = 0; k < FRAMES_PER_DRAWABLE; k++){
         fox_drawable.frames[k].draw_function = -1;

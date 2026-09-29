@@ -401,7 +401,7 @@ bbFlag bbUI_Inbox_newBanana_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
 
     bbHandle unit_handle;
     bbFlag flag = bbVPool_alloc2(pool, (void**)&unit,&unit_handle);
-
+    unit->drawable.md.class = bbDrawableClass_unit;
     unit->drawable.md.coords = MC;
     unit->drawable.md.SC = SC;
     bbHandle drawfunctionHandle;
