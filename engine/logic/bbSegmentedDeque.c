@@ -272,3 +272,30 @@ bbFlag bbSegmentedDeque_popBack(bbSegmentedDeque* deque, void** element)
     return bbSuccess;
 
 }
+
+
+//typedef bbFlag bbSegmentedDequeFunction(bbSegmentedDeque* deque, void* node, void* cl);
+
+bbFlag bbSegmentedDeque_mapL(bbSegmentedDeque* deque, bbSegmentedDequeFunction* myFunc, void* cl) {
+    I32 index = deque->start_index;
+    I32 segment_int = deque->start_segment;
+    bbDummyStruct* segment = deque->elements[segment_int];
+    bbDummyStruct* element = &segment[index];
+    while (1) {
+        while (1) {
+            myFunc(deque, element,cl);
+            if (segment_int == deque->end_segment || segment_int == deque->end_segment) goto Label_Name;
+            index++;
+            if (index >= BBSEGMENTEDDEQUE_SEGMENT_SIZE)
+            {
+                index = 0;
+                break;
+            }
+        }
+        segment_int++;
+        if (segment_int >= deque->num_segments) segment_int++;
+    }
+    Label_Name:
+
+    return bbSuccess;
+}

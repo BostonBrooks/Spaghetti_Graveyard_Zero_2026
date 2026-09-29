@@ -59,4 +59,8 @@ bbFlag bbSegmentedDeque_peakBack(bbSegmentedDeque* deque, void** element);
 ///increment tail
 bbFlag bbSegmentedDeque_popBack(bbSegmentedDeque* deque, void** element);
 
+
+typedef bbFlag bbSegmentedDequeFunction(bbSegmentedDeque* deque, void* node, void* cl);
+
+bbFlag bbSegmentedDeque_mapL(bbSegmentedDeque* deque, bbSegmentedDequeFunction* myFunc, void* cl);
 #endif //BBSEGMENTEDDEQUE_H

@@ -35,6 +35,10 @@ bbFlag CONCAT2(BB_CLASS,_deque_allocBack)(CONCAT2(BB_CLASS,_deque)* deque, BB_CL
 bbFlag CONCAT2(BB_CLASS,_deque_pushBack)(CONCAT2(BB_CLASS,_deque)* deque, BB_CLASS* UNUSED);\
 bbFlag CONCAT2(BB_CLASS,_deque_peakBack)(CONCAT2(BB_CLASS,_deque)* deque, BB_CLASS** element);\
 bbFlag CONCAT2(BB_CLASS,_deque_popBack)(CONCAT2(BB_CLASS,_deque)* deque, BB_CLASS** element);\
+typedef bbFlag CONCAT2(BB_CLASS,_deque_fn)(CONCAT2(BB_CLASS,_deque)* deque, void* node, void* cl);\
+bbFlag CONCAT2(BB_CLASS,_deque_mapL)(CONCAT2(BB_CLASS,_deque)* deque, CONCAT2(BB_CLASS,_deque_fn)* myFunc, void* cl);\
+
+
 
 ///Define functions for segmented queue
 #define DECLARE_SQ_BODY(BB_CLASS,BB_SIZEOF,BB_SEGMENT_SIZE)\
@@ -262,6 +266,31 @@ bbFlag CONCAT2(BB_CLASS,_deque_popBack)(CONCAT2(BB_CLASS,_deque)* deque, BB_CLAS
     bbAssert(segment != NULL, "Segment not found\n");\
     if (element != NULL) *element = (BB_CLASS*)&segment[new_index];\
     deque->in_use--;\
+    return bbSuccess;\
+}\
+\
+bbFlag CONCAT2(BB_CLASS,_deque_mapL)(CONCAT2(BB_CLASS,_deque)* deque, CONCAT2(BB_CLASS,_deque_fn)* myFunc, void* cl){\
+    I32 index = deque->start_index;\
+    I32 segment_int = deque->start_segment;\
+    BB_CLASS* segment = deque->elements[segment_int];\
+    BB_CLASS* element = &segment[index];\
+    while (1) {\
+        while (1) {\
+            element = &deque->elements[segment_int][index];\
+            myFunc(deque, element,cl);\
+            if (segment_int == deque->end_segment && index == deque->end_index) goto Label_Name;\
+            index++;\
+            if (index >= BBSEGMENTEDDEQUE_SEGMENT_SIZE)\
+            {\
+                index = 0;\
+                break;\
+            }\
+        }\
+        segment_int++;\
+        if (segment_int >= deque->num_segments) segment_int = 0;\
+    }\
+    Label_Name:\
+    \
     return bbSuccess;\
 }\
 

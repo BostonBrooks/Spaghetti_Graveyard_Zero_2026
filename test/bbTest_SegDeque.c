@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define KEY_LENGTH 32
+
 #include "engine/logic/bbSegmentedDeque.h"
 #include "engine/logic/bbTerminal.h"
 #include "engine/logic/bbSQ_Macros.h"
@@ -15,9 +17,17 @@ bbTime test_time = 0;
 
 typedef struct {
     char string[32];
-} test_struct;
+} bbTest;
 
-DECLARE_SQ_HEADER(bbTest,sizeof(test_struct),12)
+DECLARE_SQ_HEADER(bbTest,sizeof(bbTest),12)
+
+
+bbFlag test_fn(bbTest_deque* deque, void* node, void* cl) {
+    bbTest* test_struct = node;
+    printf("string is %s\n", test_struct->string);
+    return bbSuccess;
+}
+
 
 int main(void)
 {
@@ -27,19 +37,24 @@ int main(void)
 
     bbSegmentedDeque_init(&deque, 12);
 
-    test_struct *test, *test2;
+    bbTest *test, *test2;
 
     bbTest_deque macro_deque;
-    bbTest_deque_init(&macro_deque, 12);
+    bbTest_deque_init(&macro_deque, 12, "test");
 
     for (I32 i = 0; i < 100; i++)
     {
-        bbTest_deque_allocBack(&macro_deque, (void**)&test);
+        bbTest_deque_allocBack(&macro_deque, &test);
 
         sprintf(test->string, "%d", i);
 
-        bbTest_deque_pushBack(&macro_deque, &test);
+        bbTest_deque_pushBack(&macro_deque, test);
     }
+
+    bbTest_deque_mapL(&macro_deque,test_fn,NULL);
+
+
+    exit(EXIT_SUCCESS);
     for (I32 i = 0; i < 1000; i++){
 
         printf("%d\n", i);
@@ -78,4 +93,4 @@ int main(void)
     return EXIT_SUCCESS;
 }
 
-DECLARE_SQ_BODY(bbTest,sizeof(test_struct),12)
+DECLARE_SQ_BODY(bbTest,sizeof(bbTest),12)
