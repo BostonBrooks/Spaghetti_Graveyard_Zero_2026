@@ -30,10 +30,41 @@ typedef enum
     VPMouseRightDrag,
 } bbVPMouseType;
 
-static bbFlag print_VPMouseType(bbVPMouseType type) {
-
-}
-
+#define bbVPMouseType_print(flag)\
+{\
+switch ((bbFlag)flag)\
+{\
+case VPMouseIsOver:\
+bbDebug ("Mouse Event Type = VPMouseIsOver\n");\
+break;\
+case VPMouseEnter:\
+bbDebug ("Mouse Event Type = VPMouseEnter\n");\
+break;\
+case VPMouseLeave:\
+bbDebug ("Mouse Event Type = VPMouseLeave\n");\
+break;\
+case VPMouseLeftDown:\
+bbDebug ("Mouse Event Type = VPMouseLeftDown\n");\
+break;\
+case VPMouseLeftUp:\
+bbDebug ("Mouse Event Type = VPMouseLeftUp\n");\
+break;\
+case VPMouseLeftDrag:\
+bbDebug ("Mouse Event Type = VPMouseLeftDrag\n");\
+break;\
+case VPMouseRightDown:\
+bbDebug ("Mouse Event Type = VPMouseRightDown\n");\
+break;\
+case VPMouseRightUp:\
+bbDebug ("Mouse Event Type = VPMouseRightUp\n");\
+break;\
+case VPMouseRightDrag:\
+bbDebug ("Mouse Event Type = VPMouseRightDrag\n");\
+break;\
+default:\
+bbDebug("Unknown Mouse Event Type\n");\
+}\
+}\
 
 typedef struct
 {

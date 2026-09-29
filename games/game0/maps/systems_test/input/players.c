@@ -40,11 +40,12 @@ bbFlag bbPlayers_populate(bbPlayers* system) {
 bbFlag bbPlayer_ClickMap_null(bbPlayers* players, bbMapCoords coords, U64 control_keys, bbVPMouseType type) {
     bbNotImplemented()
 
-    bbDebug("Player clicked map coords (%d, %d, %d)), control keys:\n %064" PRIb64 "\n",
+    bbDebug("Player clicked map coords (%d, %d, %d)), control keys:\n %064" PRIb64 ", %d\n",
             coords.i,
             coords.j,
             coords.k,
-            control_keys);
+            control_keys,
+            type);
 }
 bbFlag bbPlayer_ClickUnit_null(bbPlayers* players, bbHandle entity_handle, U64 control_keys, bbVPMouseType type) {
     bbDebug("Player clicked entity index %d, control keys:\n %064" PRIb64 "\n",
@@ -63,9 +64,10 @@ bbFlag bbPlayer_ClickMap_default(bbPlayers* players, bbMapCoords coords, U64 con
     bbPlayer* this_player = &players->players[this_player_int];
 
 
+    bbDebug("this_player->state = %d\n", this_player->state);
 
-
-    if (type == VPMouseLeftDown || type == VPMouseLeftDrag) {
+    bbVPMouseType_print(type)
+    //if (type == VPMouseLeftDown || type == VPMouseLeftDrag) {
 
         bbCoreInput_sendAIGoalpoint(&home.core.core,
                                      this_player->selected_entities[0],
@@ -73,7 +75,7 @@ bbFlag bbPlayer_ClickMap_default(bbPlayers* players, bbMapCoords coords, U64 con
                                      home.core.core.actual_time,
                                      bbInstructionSource_internal,
                                      no_handle);
-    }
+    //}
     return bbSuccess;
 }
 

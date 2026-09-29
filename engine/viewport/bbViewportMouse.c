@@ -1,9 +1,11 @@
 #include "engine/viewport/bbViewportMouse.h"
 
 #include "bbViewportApp.h"
+#include "engine/data/bbHome.h"
 #include "engine/geometry/bbGroundCoords.h"
 #include "engine/logic/bbNestedListR.h"
 
+#define DRAG_FREQUENCY 10
 
 bbFlag bbVPMouse_Init(bbVPMouse* vpmouse, void* viewportApp, bbDrawables* units, bbMouse* mouse, bbGraphicsApp* graphics)
 {
@@ -88,7 +90,24 @@ bbFlag bbVPMouse_Event(bbVPMouse* vpmouse, bbVPMouse_event* event)
         bbDebug("mouse left viewport\n");
         break;
     case bbEvtDrag:
-        bbDebug("mouse drag viewport\n");
+            bbDebug("mouse drag viewport\n");
+            button = event->button;
+            if (button == bbMouseLeft)
+            {
+                vpmouse->left_changed = false;
+                vpmouse->left_down = true;
+                vpmouse->previous_position = vpmouse->position;
+
+            } else if (button == bbMouseRight)
+            {
+                vpmouse->right_changed = false;
+                vpmouse->right_down = true;
+                vpmouse->previous_position = vpmouse->position;
+            }
+            break;
+
+
+            button = event->button;
         break;
 
     }
@@ -302,22 +321,30 @@ bbFlag bbVPMouse_Update(bbVPMouse* mouse, bbGraphicsApp* graphics)
         bbVPool_lookup(units->pool, (void**)&unit2, mouse->is_over);
         bbVPMouse_LeftDownUnit(mouse, unit2);
 
+        mouse->left_down_time = home.clock2.map_tick;
         mouse->selected = mouse->is_over;
     }
     else if (!mouse->left_down && mouse->left_changed)
     {
-        if (bbSuccess != bbVPool_handleIsEqual(units->pool, mouse->selected, units->pool->null))
+        //if (bbSuccess != bbVPool_handleIsEqual(units->pool, mouse->selected, units->pool->null))
         {
             bbVPool_lookup(units->pool, (void**)&unit2, mouse->selected);
             bbVPMouse_LeftUpUnit(mouse, unit2);
+
+            mouse->left_down_time = home.clock2.map_tick;
         }
     }
     else if (mouse->left_down && !mouse->left_changed)
     {
-        if (bbSuccess != bbVPool_handleIsEqual(units->pool, mouse->selected, units->pool->null))
+        //if (bbSuccess != bbVPool_handleIsEqual(units->pool, mouse->selected, units->pool->null))
         {
             bbVPool_lookup(units->pool, (void**)&unit2, mouse->selected);
-            bbVPMouse_LeftDragUnit(mouse, unit2);
+
+            if (home.clock2.map_tick - mouse->left_down_time > DRAG_FREQUENCY)
+            {
+                mouse->left_down_time = home.clock2.map_tick;
+                bbVPMouse_LeftDragUnit(mouse, unit2);
+            }
         }
     }
 
@@ -327,11 +354,12 @@ bbFlag bbVPMouse_Update(bbVPMouse* mouse, bbGraphicsApp* graphics)
         bbVPool_lookup(units->pool, (void**)&unit3, mouse->is_over);
         bbVPMouse_RightDownUnit(mouse, unit3);
 
+        mouse->right_down_time = home.clock2.map_tick;
         mouse->selected = mouse->is_over;
     }
     else if (!mouse->right_down && mouse->right_changed)
     {
-        if (bbSuccess != bbVPool_handleIsEqual(units->pool, mouse->selected, units->pool->null))
+        //if (bbSuccess != bbVPool_handleIsEqual(units->pool, mouse->selected, units->pool->null))
         {
             bbVPool_lookup(units->pool, (void**)&unit3, mouse->selected);
             bbVPMouse_RightUpUnit(mouse, unit3);
@@ -339,10 +367,14 @@ bbFlag bbVPMouse_Update(bbVPMouse* mouse, bbGraphicsApp* graphics)
     }
     else if (mouse->right_down && !mouse->right_changed)
     {
-        if (bbSuccess != bbVPool_handleIsEqual(units->pool, mouse->selected, units->pool->null))
+        //if (bbSuccess != bbVPool_handleIsEqual(units->pool, mouse->selected, units->pool->null))
         {
             bbVPool_lookup(units->pool, (void**)&unit3, mouse->selected);
-            bbVPMouse_RightDragUnit(mouse, unit3);
+            if (home.clock2.map_tick - mouse->right_down_time > DRAG_FREQUENCY)
+            {
+                mouse->right_down_time = home.clock2.map_tick;
+                bbVPMouse_RightDragUnit(mouse, unit3);
+            }
         }
     }
 
