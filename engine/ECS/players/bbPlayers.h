@@ -26,8 +26,8 @@ typedef struct {
     bbPlayer_state state;
 } bbPlayer;
 
-typedef bbFlag bbPlayer_ClickMap_fn(bbPlayers* players, bbMapCoords coords, U64 control_keys, bbVPMouseFunctionType type);
-typedef bbFlag bbPlayer_ClickUnit_fn(bbPlayers* players, bbHandle entity_handle, U64 control_keys, bbVPMouseFunctionType type);
+typedef bbFlag bbPlayer_ClickMap_fn(bbPlayers* players, bbMapCoords coords, U64 control_keys, bbVPMouseType type);
+typedef bbFlag bbPlayer_ClickUnit_fn(bbPlayers* players, bbHandle entity_handle, U64 control_keys, bbVPMouseType type);
 typedef bbFlag bbPlayer_KeyPress_fn(bbPlayers* players, U64 key, U64 control_keys);
 
 
@@ -54,8 +54,8 @@ bbFlag bbPlayers_init(bbPlayers* system, bbECS* ECS);
 ///load game-specific data
 bbFlag bbPlayers_populate(bbPlayers* system);
 
-bbFlag bbPlayer_ClickMap(bbPlayers* players, bbMapCoords coords, U64 control_keys, bbVPMouseFunctionType type);
-bbFlag bbPlayer_ClickUnit(bbPlayers* players, bbHandle entity_handle, U64 control_keys, bbVPMouseFunctionType type);
+bbFlag bbPlayer_ClickMap(bbPlayers* players, bbMapCoords coords, U64 control_keys, bbVPMouseType type);
+bbFlag bbPlayer_ClickUnit(bbPlayers* players, bbHandle entity_handle, U64 control_keys, bbVPMouseType type);
 bbFlag bbPlayer_KeyPress(bbPlayers* players, U64 key, U64 control_keys);
 
 bbFlag bbCoreInput_setPlayerState(bbCore* core, U32 player, U32 state);

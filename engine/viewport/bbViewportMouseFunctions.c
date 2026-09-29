@@ -65,7 +65,7 @@ bbFlag bbVPMouseFunctions_init(bbVPMouseFunctions* functions)
 }
 
 //bbFlag bbVPMouseFunctions_populate(bbVPMouseFunctions* self); // Not part of engine
-bbFlag bbVPMouseFunctions_add(bbVPMouseFunctions* functions, bbVPMouseFunctionType fnType, void* fnPointer, char* key )
+bbFlag bbVPMouseFunctions_add(bbVPMouseFunctions* functions, bbVPMouseType fnType, void* fnPointer, char* key )
 {
 
     I32 available_entries;
@@ -183,7 +183,7 @@ bbFlag bbVPMouseFunctions_getTableHandle(bbVPMouseFunctions* functions, bbHandle
     *table_handle = handle;
     return bbSuccess;
 }
-bbFlag bbVPMouseFunctions_getFunction(bbVPMouseFunctions* functions, void** function, bbVPMouseFunctionType fnType, I32 index)
+bbFlag bbVPMouseFunctions_getFunction(bbVPMouseFunctions* functions, void** function, bbVPMouseType fnType, I32 index)
 {   void* function_ptr;
     switch (fnType)
     {
@@ -229,7 +229,7 @@ bbFlag bbVPMouseFunctions_getFunction(bbVPMouseFunctions* functions, void** func
         return bbNone;
     }
 }
-I32 bbVPMouseFunctions_getInt(bbVPMouseFunctions* functions, bbVPMouseFunctionType fnType, char* key)
+I32 bbVPMouseFunctions_getInt(bbVPMouseFunctions* functions, bbVPMouseType fnType, char* key)
 {
     bbDictionary* dict;
     switch (fnType){

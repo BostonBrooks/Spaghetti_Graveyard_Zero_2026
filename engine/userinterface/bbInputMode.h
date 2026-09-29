@@ -21,8 +21,8 @@ typedef struct bbInputMode bbInputMode;
 
 typedef bbFlag bbKeyAction_fn (bbInputMode* input_mode, sfEvent * event, bbKeyAction* action);
 
-typedef bbFlag bbClickEntity(bbInputMode* input_mode, bbHandle entity_handle, bbVPMouseFunctionType type);
-typedef bbFlag bbClickMapCoords(bbInputMode* input_mode, bbMapCoords map_coords, bbVPMouseFunctionType type);
+typedef bbFlag bbClickEntity(bbInputMode* input_mode, bbHandle entity_handle, bbVPMouseType type);
+typedef bbFlag bbClickMapCoords(bbInputMode* input_mode, bbMapCoords map_coords, bbVPMouseType type);
 
 typedef struct bbKeyAction
 {
@@ -67,7 +67,7 @@ bbFlag bbKeyAction_ctrl(bbInputMode* input_mode, sfEvent * event, bbKeyAction* a
 bbFlag bbKeyAction_event(bbInputMode* input_mode, sfEvent * event, bbKeyAction* action);
 
 
-bbFlag bbClickEntity_print(bbInputMode* input_mode, bbHandle entity_handle, bbVPMouseFunctionType type);
-bbFlag bbClickMapCoords_print(bbInputMode* input_mode, bbMapCoords map_coords, bbVPMouseFunctionType type);
+bbFlag bbClickEntity_print(bbInputMode* input_mode, bbHandle entity_handle, bbVPMouseType type);
+bbFlag bbClickMapCoords_print(bbInputMode* input_mode, bbMapCoords map_coords, bbVPMouseType type);
 
 #endif  //BB_INPUTMODE_H

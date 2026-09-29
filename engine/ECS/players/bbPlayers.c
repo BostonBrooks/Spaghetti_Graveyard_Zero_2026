@@ -47,7 +47,7 @@ bbFlag bbPlayers_init(bbPlayers* system, bbECS* ECS){
 }
 
 
-bbFlag bbPlayer_ClickMap(bbPlayers* players, bbMapCoords coords, U64 control_keys, bbVPMouseFunctionType type) {
+bbFlag bbPlayer_ClickMap(bbPlayers* players, bbMapCoords coords, U64 control_keys, bbVPMouseType type) {
     I32 this_player_int = players->this_player;
     bbPlayer* this_player = &players->players[this_player_int];
     I32 state = this_player->state;
@@ -56,7 +56,7 @@ bbFlag bbPlayer_ClickMap(bbPlayers* players, bbMapCoords coords, U64 control_key
     bbPlayerState player_state = players->states[state];
     player_state.click_map(players,coords,control_keys, type);
 }
-bbFlag bbPlayer_ClickUnit(bbPlayers* players, bbHandle entity_handle, U64 control_keys, bbVPMouseFunctionType type)
+bbFlag bbPlayer_ClickUnit(bbPlayers* players, bbHandle entity_handle, U64 control_keys, bbVPMouseType type)
 {
     I32 this_player_int = players->this_player;
     bbPlayer* this_player = &players->players[this_player_int];

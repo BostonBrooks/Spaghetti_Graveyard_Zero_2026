@@ -28,9 +28,11 @@ typedef enum
     VPMouseRightDown,
     VPMouseRightUp,
     VPMouseRightDrag,
-} bbVPMouseFunctionType;
+} bbVPMouseType;
 
-static bbFlag print_VPMouseType
+static bbFlag print_VPMouseType(bbVPMouseType type) {
+
+}
 
 
 typedef struct
@@ -116,15 +118,15 @@ typedef struct
 
 bbFlag bbVPMouseFunctions_init(bbVPMouseFunctions* functions);
 bbFlag bbVPMouseFunctions_populate(bbVPMouseFunctions* self);
-bbFlag bbVPMouseFunctions_add(bbVPMouseFunctions* functions, bbVPMouseFunctionType fnType, void* fnPointer, char* key );
+bbFlag bbVPMouseFunctions_add(bbVPMouseFunctions* functions, bbVPMouseType fnType, void* fnPointer, char* key );
 
 ///pass table by reference, table is copied into pool, new handle returned by reference
 bbFlag bbVPMouseFunctions_addTable(bbVPMouseFunctions* functions, bbVPMouseTable* table, bbHandle* table_handle, char* key);
 ///return a pointer to the function table
 bbFlag bbVPMouseFunctions_getTable(bbVPMouseFunctions* functions, bbVPMouseTable** table, bbHandle table_handle);
 bbFlag bbVPMouseFunctions_getTableHandle(bbVPMouseFunctions* functions, bbHandle* table_handle, char* key);
-bbFlag bbVPMouseFunctions_getFunction(bbVPMouseFunctions* functions, void** function, bbVPMouseFunctionType fnType, I32 index);
-I32 bbVPMouseFunctions_getInt(bbVPMouseFunctions* functions, bbVPMouseFunctionType fnType, char* key);
+bbFlag bbVPMouseFunctions_getFunction(bbVPMouseFunctions* functions, void** function, bbVPMouseType fnType, I32 index);
+I32 bbVPMouseFunctions_getInt(bbVPMouseFunctions* functions, bbVPMouseType fnType, char* key);
 
 
 bbFlag bbVPMouse_IsOver_NULL (void* mouse, void* units, void* unit);

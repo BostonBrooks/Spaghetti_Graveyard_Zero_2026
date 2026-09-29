@@ -24,7 +24,7 @@ bbFlag bbCoreInbox_Freeze(bbCore* core)
 }
 
 
-bbFlag bbCoreInbox_ClickUnit(bbCore* core, bbHandle entity_handle, U64 control_keys, bbVPMouseFunctionType type)
+bbFlag bbCoreInbox_ClickUnit(bbCore* core, bbHandle entity_handle, U64 control_keys, bbVPMouseType type)
 {
     bbCoreInboxMessage* message;
     bbThreadedQueue_alloc(&core->local_message_queue, (void** ) &message);
@@ -44,7 +44,7 @@ bbFlag bbCoreInbox_clickUnit_fn(bbCore* core, struct bbCoreInboxMessage* message
     return bbSuccess;
 }
 
-bbFlag bbCoreInbox_ClickMap(bbCore* core, bbMapCoords coords, U64 control_keys, bbVPMouseFunctionType type)
+bbFlag bbCoreInbox_ClickMap(bbCore* core, bbMapCoords coords, U64 control_keys, bbVPMouseType type)
 {
     bbCoreInboxMessage* message;
     bbThreadedQueue_alloc(&core->local_message_queue, (void** ) &message);
