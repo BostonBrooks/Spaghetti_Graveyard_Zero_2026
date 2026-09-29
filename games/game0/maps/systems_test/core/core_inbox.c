@@ -172,7 +172,7 @@ bbFlag bbCoreInbox_TestMessage(bbCore* core)
 }
 
 bbFlag bbCoreInbox_TestClick(bbCore* core, bbMapCoords MC, I32 button)
-{
+{bbNotHere()
     bbCoreInboxMessage* message;
     bbThreadedQueue_alloc(&core->local_message_queue, (void** ) &message);
     message->type = bbCoreInbox_testClick;

@@ -46,7 +46,7 @@ bbFlag Viewport_RightDown (void* Mouse, void* Widgets, void* Widget, void*
     //send command to player,
     //player sends request to server,
     //message from server spawns skelly
-    bbCoreInbox_TestClick(&home.core.core, MC2,0);
+    //bbCoreInbox_TestClick(&home.core.core, MC2,0);
 
     return bbSuccess;
 }

@@ -10,6 +10,7 @@
 #include "engine/logic/bbFlag.h"
 #include "engine/logic/bbHandle.h"
 #include "engine/logic/bbIntTypes.h"
+#include "engine/viewport/bbViewportMouseFunctions.h"
 
 #define MAX_INPUT_MODES 16
 
@@ -20,8 +21,8 @@ typedef struct bbInputMode bbInputMode;
 
 typedef bbFlag bbKeyAction_fn (bbInputMode* input_mode, sfEvent * event, bbKeyAction* action);
 
-typedef bbFlag bbClickEntity(bbInputMode* input_mode, bbHandle entity_handle);
-typedef bbFlag bbClickMapCoords(bbInputMode* input_mode, bbMapCoords map_coords);
+typedef bbFlag bbClickEntity(bbInputMode* input_mode, bbHandle entity_handle, bbVPMouseFunctionType type);
+typedef bbFlag bbClickMapCoords(bbInputMode* input_mode, bbMapCoords map_coords, bbVPMouseFunctionType type);
 
 typedef struct bbKeyAction
 {
@@ -66,7 +67,7 @@ bbFlag bbKeyAction_ctrl(bbInputMode* input_mode, sfEvent * event, bbKeyAction* a
 bbFlag bbKeyAction_event(bbInputMode* input_mode, sfEvent * event, bbKeyAction* action);
 
 
-bbFlag bbClickEntity_print(bbInputMode* input_mode, bbHandle entity_handle);
-bbFlag bbClickMapCoords_print(bbInputMode* input_mode, bbMapCoords map_coords);
+bbFlag bbClickEntity_print(bbInputMode* input_mode, bbHandle entity_handle, bbVPMouseFunctionType type);
+bbFlag bbClickMapCoords_print(bbInputMode* input_mode, bbMapCoords map_coords, bbVPMouseFunctionType type);
 
 #endif  //BB_INPUTMODE_H

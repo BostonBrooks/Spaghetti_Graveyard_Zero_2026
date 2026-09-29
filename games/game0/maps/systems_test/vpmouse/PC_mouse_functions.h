@@ -49,36 +49,45 @@ bbFlag bbVPMouse_LeftDown_Player (void* Mouse, void* widgets, void* Unit,
 void* graphics)
 {
     bbUnit* unit = Unit;
-
-
-    home.UI.input_modes.current_mode->click_entity(home.UI.input_modes.current_mode,unit->entity_handle);
+    home.UI.input_modes.current_mode->click_entity(home.UI.input_modes.current_mode,unit->entity_handle,VPMouseLeftDown);
   //  bbCoreInbox_SetPlayerEntity(&home.core.core, 0, unit->entity_handle);
 
 
     bbDebug("clicking player character\n");
 }
-bbFlag bbVPMouse_LeftUp_Player (void* mouse, void* widgets, void* unit,
+bbFlag bbVPMouse_LeftUp_Player (void* mouse, void* widgets, void* Unit,
 void* graphics)
 {
+    bbUnit* unit = Unit;
+    home.UI.input_modes.current_mode->click_entity(home.UI.input_modes.current_mode,unit->entity_handle,VPMouseLeftUp);
     bbDebug("unclicking player character\n");
 }
-bbFlag bbVPMouse_LeftDrag_Player (void* mouse, void* widgets, void* unit,
+bbFlag bbVPMouse_LeftDrag_Player (void* mouse, void* widgets, void* Unit,
 void* graphics)
 {
+    bbUnit* unit = Unit;
+    home.UI.input_modes.current_mode->click_entity(home.UI.input_modes.current_mode,unit->entity_handle,VPMouseLeftDrag);
     bbDebug("left player character\n");
 }
-bbFlag bbVPMouse_RightDown_Player (void* mouse, void* widgets, void* unit,
+bbFlag bbVPMouse_RightDown_Player (void* mouse, void* widgets, void* Unit,
 void* graphics)
 {
+
+    bbUnit* unit = Unit;
+    home.UI.input_modes.current_mode->click_entity(home.UI.input_modes.current_mode,unit->entity_handle,VPMouseRightDown);
     bbDebug("right player character\n");
 }
-bbFlag bbVPMouse_RightUp_Player (void* mouse, void* widgets, void* unit,
+bbFlag bbVPMouse_RightUp_Player (void* mouse, void* widgets, void* Unit,
 void* graphics)
 {
+    bbUnit* unit = Unit;
+    home.UI.input_modes.current_mode->click_entity(home.UI.input_modes.current_mode,unit->entity_handle,VPMouseRightUp);
     bbDebug("right player character\n");
 }
-bbFlag bbVPMouse_RightDrag_Player (void* mouse, void* widgets, void* unit,
+bbFlag bbVPMouse_RightDrag_Player (void* mouse, void* widgets, void* Unit,
 void* graphics)
 {
+    bbUnit* unit = Unit;
+    home.UI.input_modes.current_mode->click_entity(home.UI.input_modes.current_mode,unit->entity_handle,VPMouseRightDrag);
     bbDebug("right player character\n");
 }

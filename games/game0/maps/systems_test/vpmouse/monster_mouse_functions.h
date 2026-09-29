@@ -53,31 +53,44 @@ void* graphics)
     //bbCoreInbox_ClickMonster(&home.core.core, unit->entity_handle);
 
 
-    home.UI.input_modes.current_mode->click_entity(home.UI.input_modes.current_mode,unit->entity_handle);
+    home.UI.input_modes.current_mode->click_entity(home.UI.input_modes.current_mode,unit->entity_handle,VPMouseLeftDown);
     bbDebug("clicking monster\n");
 }
-bbFlag bbVPMouse_LeftUp_Monster (void* mouse, void* widgets, void* unit,
+bbFlag bbVPMouse_LeftUp_Monster (void* mouse, void* widgets, void* Unit,
 void* graphics)
 {
+    bbUnit* unit = Unit;
+    home.UI.input_modes.current_mode->click_entity(home.UI.input_modes.current_mode,unit->entity_handle,VPMouseLeftUp);
     bbDebug("unclicking monster\n");
 }
-bbFlag bbVPMouse_LeftDrag_Monster (void* mouse, void* widgets, void* unit,
+bbFlag bbVPMouse_LeftDrag_Monster (void* mouse, void* widgets, void* Unit,
 void* graphics)
 {
+    bbUnit* unit = Unit;
+    home.UI.input_modes.current_mode->click_entity(home.UI.input_modes.current_mode,unit->entity_handle,VPMouseLeftDrag);
+    bbDebug("unclicking monster\n");
     bbDebug("left drag monster\n");
 }
-bbFlag bbVPMouse_RightDown_Monster (void* mouse, void* widgets, void* unit,
+bbFlag bbVPMouse_RightDown_Monster (void* mouse, void* widgets, void* Unit,
 void* graphics)
 {
+    bbUnit* unit = Unit;
+    home.UI.input_modes.current_mode->click_entity(home.UI.input_modes.current_mode,unit->entity_handle,VPMouseRightDown);
+    bbDebug("unclicking monster\n");
     bbDebug("right click monster\n");
 }
-bbFlag bbVPMouse_RightUp_Monster (void* mouse, void* widgets, void* unit,
+bbFlag bbVPMouse_RightUp_Monster (void* mouse, void* widgets, void* Unit,
 void* graphics)
 {
+    bbUnit* unit = Unit;
+    home.UI.input_modes.current_mode->click_entity(home.UI.input_modes.current_mode,unit->entity_handle,VPMouseRightUp);
+    bbDebug("unclicking monster\n");
     bbDebug("right unclick monster\n");
 }
-bbFlag bbVPMouse_RightDrag_Monster (void* mouse, void* widgets, void* unit,
+bbFlag bbVPMouse_RightDrag_Monster (void* mouse, void* widgets, void* Unit,
 void* graphics)
 {
-    bbDebug("right drag monster\n");
+    bbUnit* unit = Unit;
+    home.UI.input_modes.current_mode->click_entity(home.UI.input_modes.current_mode,unit->entity_handle,VPMouseRightDrag);
+    bbDebug("unclicking monster\n");
 }

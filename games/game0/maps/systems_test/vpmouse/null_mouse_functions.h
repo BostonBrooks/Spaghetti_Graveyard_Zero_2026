@@ -48,31 +48,66 @@ void* graphics)
     bbMapCoords MC2 = bbViewportCoords_getMapCoords(VC);
     //bbCoreInbox_TestClick(&home.core.core, MC2,1);
 
-    home.UI.input_modes.current_mode->click_map_coords(home.UI.input_modes.current_mode,MC2);
+    home.UI.input_modes.current_mode->click_map_coords(home.UI.input_modes.current_mode,MC2,VPMouseLeftDown );
     bbDebug("clicking unit with null enter function\n");
 }
-bbFlag bbVPMouse_LeftUp_NULL (void* mouse, void* widgets, void* unit,
+bbFlag bbVPMouse_LeftUp_NULL (void* Mouse, void* widgets, void* unit,
 void* graphics)
 {
+    bbVPMouse* mouse = (bbVPMouse*)Mouse;
+    bbViewportCoords VC = mouse->position;
+    bbMapCoords MC = home.viewport_app.viewport.viewpoint;
+    bbMapCoords MC2 = bbViewportCoords_getMapCoords(VC);
+    //bbCoreInbox_TestClick(&home.core.core, MC2,1);
+
+    home.UI.input_modes.current_mode->click_map_coords(home.UI.input_modes.current_mode,MC2,VPMouseLeftUp );
     bbDebug("unclicking unit with null enter function\n");
 }
-bbFlag bbVPMouse_LeftDrag_NULL (void* mouse, void* widgets, void* unit,
+bbFlag bbVPMouse_LeftDrag_NULL (void* Mouse, void* widgets, void* unit,
 void* graphics)
 {
+    bbVPMouse* mouse = (bbVPMouse*)Mouse;
+    bbViewportCoords VC = mouse->position;
+    bbMapCoords MC = home.viewport_app.viewport.viewpoint;
+    bbMapCoords MC2 = bbViewportCoords_getMapCoords(VC);
+    //bbCoreInbox_TestClick(&home.core.core, MC2,1);
+
+    home.UI.input_modes.current_mode->click_map_coords(home.UI.input_modes.current_mode,MC2,VPMouseLeftDrag );
     bbDebug("left drag unit with null enter function\n");
 }
-bbFlag bbVPMouse_RightDown_NULL (void* mouse, void* widgets, void* unit,
+bbFlag bbVPMouse_RightDown_NULL (void* Mouse, void* widgets, void* unit,
 void* graphics)
 {
+    bbVPMouse* mouse = (bbVPMouse*)Mouse;
+    bbViewportCoords VC = mouse->position;
+    bbMapCoords MC = home.viewport_app.viewport.viewpoint;
+    bbMapCoords MC2 = bbViewportCoords_getMapCoords(VC);
+    //bbCoreInbox_TestClick(&home.core.core, MC2,1);
+
+    home.UI.input_modes.current_mode->click_map_coords(home.UI.input_modes.current_mode,MC2,VPMouseRightDown );
     bbDebug("right click unit with null enter function\n");
 }
-bbFlag bbVPMouse_RightUp_NULL (void* mouse, void* widgets, void* unit,
+bbFlag bbVPMouse_RightUp_NULL (void* Mouse, void* widgets, void* unit,
 void* graphics)
 {
+    bbVPMouse* mouse = (bbVPMouse*)Mouse;
+    bbViewportCoords VC = mouse->position;
+    bbMapCoords MC = home.viewport_app.viewport.viewpoint;
+    bbMapCoords MC2 = bbViewportCoords_getMapCoords(VC);
+    //bbCoreInbox_TestClick(&home.core.core, MC2,1);
+
+    home.UI.input_modes.current_mode->click_map_coords(home.UI.input_modes.current_mode,MC2,VPMouseRightUp );
     bbDebug("right unclick unit with null enter function\n");
 }
-bbFlag bbVPMouse_RightDrag_NULL (void* mouse, void* widgets, void* unit,
+bbFlag bbVPMouse_RightDrag_NULL (void* Mouse, void* widgets, void* unit,
 void* graphics)
 {
+    bbVPMouse* mouse = (bbVPMouse*)Mouse;
+    bbViewportCoords VC = mouse->position;
+    bbMapCoords MC = home.viewport_app.viewport.viewpoint;
+    bbMapCoords MC2 = bbViewportCoords_getMapCoords(VC);
+    //bbCoreInbox_TestClick(&home.core.core, MC2,1);
+
+    home.UI.input_modes.current_mode->click_map_coords(home.UI.input_modes.current_mode,MC2,VPMouseRightDrag );
     bbDebug("right drag unit with null enter function\n");
 }
