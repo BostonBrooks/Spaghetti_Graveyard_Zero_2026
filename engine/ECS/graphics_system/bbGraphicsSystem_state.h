@@ -13,7 +13,7 @@ bbFlag bbCI_Graphics_setState(bbCore* core,
                                bbHandle action);
 
 bbFlag bbCS_Graphics_setState(bbCore* core,
-                              bbGraphicsComponent** component,
+                              bbGraphicsComponent* component,
                               bbHandle entity_handle,
                               I32 state,
                               bbTime time,

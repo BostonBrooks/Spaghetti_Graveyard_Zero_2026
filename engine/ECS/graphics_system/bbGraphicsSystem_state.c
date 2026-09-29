@@ -42,14 +42,76 @@ bbFlag bbGraphics_updateState(bbGraphicsComponent_data* new, bbGraphicsComponent
 }
 
 bbFlag bbCS_Graphics_setState(bbCore* core,
-                              bbGraphicsComponent** component,
+                              bbGraphicsComponent* component,
                               bbHandle entity_handle,
                               I32 state,
                               bbTime time,
                               bbInstruction_source source,
                               bbHandle action)
 {
-    bbNotImplemented()
+    bbGraphicsComponent* component2;
+    if (component == NULL)
+    {
+        bbHandle_mapComponent(core->ECS,bbECS_ECS,entity_handle,bbECS_Graphics,NULL,(bbComponent**)&component2);
+    }
+    else
+    {
+        component2 = component;
+    }
+
+
+    bbGraphicsComponent_data data;
+
+    bbGraphics_updateState(&data , &component2->data, state, time);
+
+    if (source == bbInstructionSource_input)
+    {
+        //create input instruction
+        allocRedoInstruction(instruction)
+        instruction->type = bbI_Graphics_setState;
+        instruction->data.graphics = data;
+        // bbDebug("attempting to set state: %d\n",instruction->data.graphics.drawable_state);
+        instruction->source = source;
+        instruction->redo_instruction = action;
+
+        //create undo instruction
+        allocUndoInstruction(undo_instruction)
+        undo_instruction->source = source;
+        undo_instruction->redo_instruction = (bbHandle)instruction_handle;
+        undo_instruction->data.graphics = component2->data;
+        //set instruction data
+        undo_instruction->type = bbI_Graphics_unsetState;
+        pushUndoInstruction(undo_instruction)
+        pushRedoInstruction(instruction)
+    } else if (source == bbInstructionSource_internal)
+    {
+        //create undo instruction
+        allocUndoInstruction(undo_instruction)
+        undo_instruction->source = source;
+        undo_instruction->data.graphics = component2->data;
+        //set instruction data
+        undo_instruction->type = bbI_Graphics_unsetState;
+        pushUndoInstruction(undo_instruction)
+    } else if (source == bbInstructionSource_action)
+    {
+        //create undo instruction
+        allocUndoInstruction(undo_instruction)
+        undo_instruction->redo_instruction = action;
+        undo_instruction->source = source;
+
+        //Set instruction data
+        undo_instruction->type = bbI_undoNothing;
+        pushUndoInstruction(undo_instruction)
+    } else if (source == bbInstructionSource_norewind)
+    {
+
+    }
+    bbGraphicsSystem* system = (bbGraphicsSystem*)core->ECS->systems[bbECS_Graphics];
+    bbUI_Inbox_SetEntityState2(system->inbox, &data);
+
+
+    component->data = data;
+    return bbSuccess;
 }
 
 bbFlag bbCI_Graphics_setState(bbCore* core,
@@ -75,10 +137,7 @@ bbFlag bbCI_Graphics_setState(bbCore* core,
     allocActiveInstruction(instruction)
     instruction->type = bbI_Graphics_setState;
     bbGraphics_updateState(&instruction->data.graphics , &component2->data, state, time);
-
-
    // bbDebug("attempting to set state: %d\n",instruction->data.graphics.drawable_state);
-
     instruction->source = source;
     instruction->redo_instruction = action;
     pushActiveInstruction(instruction)
@@ -104,8 +163,6 @@ bbFlag bbI_Graphics_setState_fn(bbCore* core, bbInstruction* instruction)
         undo_instruction->source = instruction->source;
         undo_instruction->redo_instruction.u64 = 0;
         pushUndoInstruction(undo_instruction)
-
-
     }
     else if (instruction->source == bbInstructionSource_input)
     {
@@ -147,5 +204,40 @@ bbFlag bbI_Graphics_setState_fn(bbCore* core, bbInstruction* instruction)
 }
 bbFlag bbI_Graphics_unsetState_fn(bbCore* core, bbInstruction* instruction)
 {
-    bbNotImplemented()
+
+
+    bbGraphicsComponent* component;
+    bbHandle_mapComponent(core->ECS,bbECS_ECS,instruction->data.graphics.entity_handle,
+        bbECS_Graphics,NULL,(bbComponent**)&component);
+
+    component->data = instruction->data.graphics;
+
+
+    if (instruction->source == bbInstructionSource_internal)
+    {
+        //bbVPool_free(core->instruction_pool, (void*)instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_input)
+    {
+
+        popRedoInstruction(redo_instruction,instruction)
+        allocActiveInstruction(new_instruction)
+        *new_instruction = redo_instruction;
+        pushActiveInstruction(new_instruction)
+        //bbInstruction* redo_instruction;
+        //bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction, instruction->redo_instruction);
+        //bbList_pushL(&core->active_stack, redo_instruction);
+        //bbVPool_free(core->instruction_pool, (void*)instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_action)
+    {
+        bbAction* redo_action;
+
+        bbVPool_lookup(core->action_pool, (void**)&redo_action, instruction->redo_instruction);
+        bbList_sortL(&core->action_queue,(void*)redo_action);
+        //bbVPool_free(core->instruction_pool, (void*)instruction);
+        return bbSuccess;
+    }
 }
