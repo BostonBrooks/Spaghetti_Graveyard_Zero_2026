@@ -12,6 +12,7 @@
 
 bbFlag bbAI_System_getComponent_fn(struct bbSystem* system, bbComponent** component, bbHandle component_handle);
 bbFlag bbAI_System_getHandle_fn(struct bbSystem* system, bbComponent* component, bbHandle* component_handle);
+bbFlag bbAI_System_deleteComponent_fn(struct bbSystem* system, bbHandle component_handle);
 
 bbFlag bbAI_System_init(bbAI_System* system,bbECS* ECS)
 {
@@ -20,6 +21,8 @@ bbFlag bbAI_System_init(bbAI_System* system,bbECS* ECS)
 
     system->system.getComponent = bbAI_System_getComponent_fn;
     system->system.getHandle = bbAI_System_getHandle_fn;
+    system->system.delete = bbAI_System_deleteComponent_fn;
+
     system->system.ECS = ECS;
     bbAI_Functions_init(&system->functions);
     ECS->systems[bbECS_AI] = (bbSystem*)system;
@@ -255,7 +258,37 @@ bbFlag bbI_spawnAIComponent_fn(bbCore* core, bbInstruction* instruction)
 
 bbFlag bbI_unspawnAIComponent_fn(bbCore* core, bbInstruction* instruction)
 {
-    bbNotImplemented()
+    bbHandle entity_handle = instruction->data.three_handles.handle1;
+    bbHandle component_handle;
+    bbHandle_mapComponent(core->ECS,bbECS_ECS,entity_handle,bbECS_AI,&component_handle,NULL);
+    bbHandle_deleteComponent(core->ECS->systems[bbECS_AI], component_handle);
+
+    if (instruction->source == bbInstructionSource_internal)
+    {
+        //bbHere()
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_input)
+    {
+        popRedoInstruction(redo_instruction,instruction)
+        allocActiveInstruction(new_instruction)
+        *new_instruction = redo_instruction;
+        bbCore_checkMap(&core->map, &redo_instruction, instruction);
+        pushActiveInstruction(new_instruction)
+//bbHere()
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_action)
+    {
+        bbAction* redo_action;
+
+        bbVPool_lookup(core->action_pool, (void**)&redo_action, instruction->redo_instruction);
+        bbList_sortL(&core->action_queue,(void*)redo_action);
+
+        //bbHere()
+        return bbSuccess;
+    }
+    bbAssert(0==1, "We should not get here\n");
 }
 
 
@@ -353,4 +386,17 @@ bbFlag bbAI_System_getComponent_fn(struct bbSystem* system, bbComponent** compon
 bbFlag bbAI_System_getHandle_fn(struct bbSystem* system, bbComponent* component, bbHandle* component_handle)
 {
     return bbVPool_reverseLookup(system->pool, (void*)component, component_handle);
+}
+
+
+bbFlag bbAI_System_deleteComponent_fn(struct bbSystem* system, bbHandle component_handle)
+{
+    bbAI_System* AI_System = (bbAI_System*)system;
+    bbAI_Component* component;
+    bbAI_System_getComponent_fn(system, (bbComponent**)&component, component_handle);
+
+    bbList_remove(&AI_System->list,component);
+    bbVPool_free(AI_System->system.pool,component);
+
+    return bbSuccess;
 }

@@ -45,14 +45,11 @@ bbFlag bbGraphicsSystem_populate(bbGraphicsSystem* graphics_system);
 bbFlag bbGraphics_spawnFunction_add(bbGraphicsSystem* graphics_system,
     bbGraphics_spawnFunction* function, char* key);
 
-bbFlag bbCI_spawnGraphicsComponent( bbCore* core,
-                                          char* type,
-                                          bbMapCoords MC,
-                                          I32 drawable_state,
-                                          U64 random_seed,
-                                          bbHandle entity,
-                                          bbInstruction_source source,
-                                          bbHandle action);
+bbFlag bbCI_spawnGraphicsComponent(  bbCore* core,
+                                         char* type,
+                                         bbGraphicsComponent_data* data,
+                                         bbInstruction_source source,
+                                         bbHandle action) ;
 
 bbFlag bbCS_spawnGraphicsComponent( bbCore* core,
                                           bbGraphicsComponent** this,

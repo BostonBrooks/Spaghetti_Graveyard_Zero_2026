@@ -246,13 +246,18 @@ bbFlag bbSF_addGraphics_fox(void* spawner,
     data.drawable_state = bbDrawableState_idle;
     data.random_seed = bbArith64_hashIndex(deterministic_seed,args->random_seed);
 
-    bbCS_spawnGraphicsComponent(&home.core.core,
-                                              NULL,
-                                              "FOX",
-                                              &data,
-                                              bbInstructionSource_norewind,
-                                              no_handle);
+    // bbCS_spawnGraphicsComponent(&home.core.core,
+    //                                           NULL,
+    //                                           "FOX",
+    //                                           &data,
+    //                                           bbInstructionSource_norewind,
+    //                                           no_handle);
 
+    bbCI_spawnGraphicsComponent(&home.core.core,
+                                "FOX",
+                                &data,
+                                bbInstructionSource_norewind,
+                                no_handle);
     return bbSuccess;
 }
 
