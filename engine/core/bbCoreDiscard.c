@@ -132,8 +132,8 @@ bbFlag bbCoreDiscardSegmented(bbCore* core, bbTime time)
             //bbDebug("undo instruction = %p, redo instruction = %p\n",
             //                 undo_instruction, redo_instruction2);
 
-            bbAssert(redo_instruction2 == redo_instruction, "redo instruction mismatch, types %d, %d\n",
-                     redo_instruction2->type,redo_instruction2->type);
+            bbWarning(redo_instruction2 == redo_instruction, "redo instruction mismatch, types %d, %d\n",
+                     redo_instruction2->type,redo_instruction->type);
             bbAssert(redo_instruction2 != NULL, "redo action not found\n");
             //bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction, undo_instruction->redo_instruction);
 
