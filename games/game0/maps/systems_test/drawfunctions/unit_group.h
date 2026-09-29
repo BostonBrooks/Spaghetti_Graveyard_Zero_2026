@@ -113,7 +113,9 @@ bbFlag bbDF_unitGroup2(void* Drawable, void* frameDescriptor, void* cl)
     bbViewport* VP = foo->target;
 
     if (drawable->group == NULL) {
-        bbDebug("Trying to draw a null bbRenderUnitGroup\n")
+
+        bbDebug("It would be nice if we didn't hard code home.viewport_app.units\n")
+        bbDrawable_enterVisible(home.viewport_app.units, &home.viewport_app.table, drawable);
         return bbSuccess;
     }
 
