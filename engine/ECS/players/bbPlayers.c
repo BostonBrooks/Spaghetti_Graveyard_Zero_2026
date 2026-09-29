@@ -36,7 +36,7 @@ bbFlag bbPlayers_init(bbPlayers* system, bbECS* ECS){
     }
     system->system.getComponent = bbPlayers_getComponent_fn;
     system->system.getHandle = bbPlayers_getHandle_fn;
-    system->system.delete = NULL;
+    system->system.delete = NULL; //bbNotImplemented()
     system->system.ECS = ECS;
 
     ECS->systems[bbECS_Players] = (bbSystem* )system;

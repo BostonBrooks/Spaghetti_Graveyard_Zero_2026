@@ -520,7 +520,7 @@ bbFlag bbLSF_liveSpawnSkelly(void* spawner,
                                    no_handle);
 
 
-    bbSF_addGraphics_skelly2(spawner,
+    bbSF_addGraphics_fox(spawner,
                                entity,
                                args,
                                source);

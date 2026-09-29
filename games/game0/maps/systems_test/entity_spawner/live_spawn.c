@@ -28,16 +28,8 @@ bbFlag bbCI_live_spawnEntity(bbCore* core, bbSpawnFunctionArgs args, char* key, 
     bbHandle spawn_function_handle;
     bbDictionary_lookup(home.ECS.spawner.live_spawn_dict,key,&spawn_function_handle);
 
-    instruction->data.sfArgs.type = spawn_function_handle.u64;
-    instruction->data.sfArgs.position = args.position;
-    instruction->data.sfArgs.goalpoint = args.goalpoint;
-    instruction->data.sfArgs.handle = args.handle;
-    instruction->data.sfArgs.goal_handle = args.goal_handle;
-    instruction->data.sfArgs.speed = args.speed;
-    instruction->data.sfArgs.radius = args.radius;
-    instruction->data.sfArgs.mass = args.mass;
-
-
+    instruction->data.sfArgs = args;
+    args.type = spawn_function_handle.u64; //TODO hard coded spawn function
     instruction->type = bbI_live_spawnEntity;
     instruction->source = source;
     instruction->redo_instruction = action;
@@ -51,7 +43,8 @@ bbFlag bbCI_live_spawnEntity(bbCore* core, bbSpawnFunctionArgs args, char* key, 
 bbFlag bbI_live_spawnEntity_fn(bbCore* core, bbInstruction* instruction)
 {
     bbHandle undo_handle;
-    bbLiveSpawnFunction* function = home.ECS.spawner.live_spawn_functions[instruction->data.sfArgs.type];
+    //bbLiveSpawnFunction* function = home.ECS.spawner.live_spawn_functions[instruction->data.sfArgs.type];
+    bbLiveSpawnFunction* function = home.ECS.spawner.live_spawn_functions[0];
 
     if (instruction->source == bbInstructionSource_internal)
     {
@@ -83,10 +76,7 @@ bbFlag bbI_live_spawnEntity_fn(bbCore* core, bbInstruction* instruction)
         undo_instruction->data.sfArgs.handle = undo_handle;
         undo_instruction->redo_instruction = instruction->redo_instruction;
         pushUndoInstruction(undo_instruction)
-
-
     } //else source == no rewind
-
 
     function(&home.ECS.spawner,
              &undo_handle,
@@ -100,8 +90,7 @@ bbFlag bbI_live_spawnEntity_fn(bbCore* core, bbInstruction* instruction)
 ///create redo instruction
 bbFlag bbI_live_unspawnEntity_fn(bbCore* core, bbInstruction* instruction)
 {
-
-
+    //No side-effects
 
     if (instruction->source == bbInstructionSource_internal)
     {

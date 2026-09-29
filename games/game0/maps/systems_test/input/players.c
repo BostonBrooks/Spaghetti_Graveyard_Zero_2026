@@ -63,23 +63,34 @@ bbFlag bbPlayer_ClickMap_default(bbPlayers* players, bbMapCoords coords, U64 con
 
     I32 this_player_int = players->this_player;
     bbPlayer* this_player = &players->players[this_player_int];
+bbHere()
+    if (type == VPMouseRightDown) {
+        bbHere()
+        bbSpawnFunctionArgs args;
+        args.state = 0;
+        args.speed = 15000;
+        args.radius = 120000;
+        args.mass = 1000;
+        args.random_seed = 193;
+        args.position = coords;
+        args.goalpoint = coords;
+        args.handle = no_handle;
+        args.goal_handle = no_handle;
+        bbCI_live_spawnEntity(&home.core.core, args, "SKELLY_LIVE", bbInstructionSource_internal, no_handle);
+    } else {
+        bbDebug("this_player->state = %d\n", this_player->state);
 
-    bbSpawnFunctionArgs args;
-    bbCI_live_spawnEntity(&home.core.core, args, char* key, bbInstruction_source source, bbHandle action)
+        bbVPMouseType_print(type)
+        if (type == VPMouseLeftDown || type == VPMouseLeftDrag) {
 
-
-    bbDebug("this_player->state = %d\n", this_player->state);
-
-    bbVPMouseType_print(type)
-    //if (type == VPMouseLeftDown || type == VPMouseLeftDrag) {
-
-        bbCoreInput_sendAIGoalpoint(&home.core.core,
-                                     this_player->selected_entities[0],
-                                     coords,
-                                     home.core.core.actual_time,
-                                     bbInstructionSource_internal,
-                                     no_handle);
-    //}
+            bbCoreInput_sendAIGoalpoint(&home.core.core,
+                                    this_player->selected_entities[0],
+                                    coords,
+                                    home.core.core.actual_time,
+                                    bbInstructionSource_internal,
+                                    no_handle);
+        }
+    }
     return bbSuccess;
 }
 

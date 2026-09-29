@@ -6,7 +6,7 @@
 
 bbFlag bbHitPoints_init(bbHitPoints* system,bbECS* ECS) {
     bbVPool_newSystem(&system->system.pool,bbECS_Hitpoints,sizeof(bbHitPoint),10,1000,"HITPOINTS");
-    bbList_init(&system->system.list,system->system.pool,NULL,offsetof(bbHitPoint,list),NULL,bbECS_Hitpoints);
+    bbList_init(&system->list,system->system.pool,NULL,offsetof(bbHitPoint,list),NULL,bbECS_Hitpoints);
 
     system->system.getComponent = bbHitPoints_getComponent;
     system->system.getHandle = bbHitPoints_getHandle;
@@ -14,7 +14,7 @@ bbFlag bbHitPoints_init(bbHitPoints* system,bbECS* ECS) {
 
     system->system.ECS = ECS;
     ECS->systems[bbECS_Hitpoints] = (bbSystem*)system;
-    return bbSystem;
+    return bbSuccess;
 }
 bbFlag bbHitPoints_getComponent(struct bbSystem* system, bbComponent** component, bbHandle component_handle)
 {
