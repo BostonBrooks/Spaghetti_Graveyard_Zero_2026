@@ -221,8 +221,8 @@ bbFlag bbRenderUnits_updateMovement(bbRenderUnits* render_units)
                 U64 c7 = coefficients & mask;
                 double f7 = ((double)c7 - 128.0) / 512.0;
 
-                bbDebug("(%f, %f, %f, %f,%f, %f, %f, %f_\n",
-                    f0, f1, f2, f3, f4, f5, f6, f7)
+               // bbDebug("(%f, %f, %f, %f,%f, %f, %f, %f_\n",
+               //     f0, f1, f2, f3, f4, f5, f6, f7)
 
                 bbTime current_time = home.UI.clock2_handle.map_tick;
                 //TODO bbTime last_update; bbTime last_wander
