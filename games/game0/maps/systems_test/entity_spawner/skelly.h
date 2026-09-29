@@ -171,6 +171,9 @@ bbFlag bbSF_addGraphics_skelly(void* spawner,
     //                                moveable,
     //                                bbInstructionSource_norewind);
 
+    bbHandle random_seed;
+    random_seed.u64 = args->random_seed;
+
     bbCoreInput_spawnDrawable(&home.core.core,
                                     "SKELLY",
                                    args->position,
@@ -178,7 +181,7 @@ bbFlag bbSF_addGraphics_skelly(void* spawner,
                                    handle,
                                    moveable,
                                    source,
-                                   no_handle);
+                                   random_seed);
 
     return bbSuccess;
 }
@@ -200,6 +203,9 @@ bbFlag bbSF_addGraphics_cow(void* spawner,
     //                                handle,
     //                                moveable,
     //                                bbInstructionSource_norewind);
+
+    U64 deterministic_seed = bbArith64_hash(1234567);
+
     bbGraphicsComponent_data data;
     data.entity_handle = handle;
     data.MC = args->position,
@@ -207,7 +213,7 @@ bbFlag bbSF_addGraphics_cow(void* spawner,
     data.last_wander_time = 0;
     data.random_seed = bbRand();
     data.drawable_state = bbDrawableState_idle;
-
+    data.random_seed = bbArith64_hashIndex(deterministic_seed,args->random_seed);
     bbCS_spawnGraphicsComponent(&home.core.core,
                                               NULL,
                                               "COW",
@@ -230,13 +236,15 @@ bbFlag bbSF_addGraphics_fox(void* spawner,
     bbHandle handle;
     bbVPool_reverseLookup(home.ECS.ECS->system.pool, entity, &handle);
 
+    U64 deterministic_seed = bbArith64_hash(1234567);
+
     bbGraphicsComponent_data data;
     data.entity_handle = handle;
     data.MC = args->position,
     data.last_state_change = 0;
     data.last_wander_time = 0;
-    data.random_seed = bbRand();
     data.drawable_state = bbDrawableState_idle;
+    data.random_seed = bbArith64_hashIndex(deterministic_seed,args->random_seed);
 
     bbCS_spawnGraphicsComponent(&home.core.core,
                                               NULL,
@@ -259,12 +267,9 @@ bbFlag bbSF_addGraphics_devil(void* spawner,
     bbHandle handle;
     bbVPool_reverseLookup(home.ECS.ECS->system.pool, entity, &handle);
 
-    //
-    // bbCoreSynchronous_spawnGraphicsComponent(&home.core.core,
-    //                                args.position,
-    //                                handle,
-    //                                moveable,
-    //                                bbInstructionSource_norewind);
+
+    U64 deterministic_seed = bbArith64_hash(1234567);
+
     bbGraphicsComponent_data data;
     data.entity_handle = handle;
     data.MC = args->position,
@@ -272,6 +277,7 @@ bbFlag bbSF_addGraphics_devil(void* spawner,
     data.last_wander_time = 0;
     data.random_seed = bbRand();
     data.drawable_state = bbDrawableState_idle;
+    data.random_seed = bbArith64_hashIndex(deterministic_seed,args->random_seed);
 
     bbCS_spawnGraphicsComponent(&home.core.core,
                                               NULL,
@@ -295,12 +301,9 @@ bbFlag bbSF_addGraphics_lizard(void* spawner,
     bbHandle handle;
     bbVPool_reverseLookup(home.ECS.ECS->system.pool, entity, &handle);
 
-    //
-    // bbCoreSynchronous_spawnGraphicsComponent(&home.core.core,
-    //                                args.position,
-    //                                handle,
-    //                                moveable,
-    //                                bbInstructionSource_norewind);
+
+    U64 deterministic_seed = bbArith64_hash(1234567);
+
     bbGraphicsComponent_data data;
     data.entity_handle = handle;
     data.MC = args->position,
@@ -308,6 +311,7 @@ bbFlag bbSF_addGraphics_lizard(void* spawner,
     data.last_wander_time = 0;
     data.random_seed = bbRand();
     data.drawable_state = bbDrawableState_idle;
+    data.random_seed = bbArith64_hashIndex(deterministic_seed,args->random_seed);
 
     bbCS_spawnGraphicsComponent(&home.core.core,
                                               NULL,
@@ -331,12 +335,10 @@ bbFlag bbSF_addGraphics_fireball(void* spawner,
     bbVPool_reverseLookup(home.ECS.ECS->system.pool, entity, &handle);
 
     bbHandle moveable = entity->components[bbECS_Moveables];
-    //
-    // bbCoreSynchronous_spawnGraphicsComponent(&home.core.core,
-    //                                args.position,
-    //                                handle,
-    //                                moveable,
-    //                                bbInstructionSource_norewind);
+
+
+    bbHandle random_seed;
+    random_seed.u64 = args->random_seed;
 
     bbCoreInput_spawnDrawable(&home.core.core,
                                     "FIREBALL",
@@ -361,12 +363,9 @@ bbFlag bbSF_addGraphics_skelly2(void* spawner,
     bbHandle handle;
     bbVPool_reverseLookup(home.ECS.ECS->system.pool, entity, &handle);
 
-    //
-    // bbCoreSynchronous_spawnGraphicsComponent(&home.core.core,
-    //                                args.position,
-    //                                handle,
-    //                                moveable,
-    //                                bbInstructionSource_norewind);
+
+    U64 deterministic_seed = bbArith64_hash(1234567);
+
     bbGraphicsComponent_data data;
     data.entity_handle = handle;
     data.MC = args->position,
@@ -374,6 +373,7 @@ bbFlag bbSF_addGraphics_skelly2(void* spawner,
     data.last_wander_time = 0;
     data.random_seed = bbRand();
     data.drawable_state = bbDrawableState_idle;
+    data.random_seed = bbArith64_hashIndex(deterministic_seed,args->random_seed);
 
     bbCS_spawnGraphicsComponent(&home.core.core,
                                               NULL,
@@ -437,8 +437,8 @@ bbFlag bbPF_skelly2Parser(void* Spawner, char* string)
     bbSpawnFunctionArgs args;
     I32 num_chars;
     char spawn_functions[256];
-    sscanf(string, "%[^','],%[^','],%[^','],%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%n",
-        key,name,state,
+    sscanf(string, "%[^','],%[^','],%[^','],%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%n",
+        key,name,state,&args.random_seed,
         &args.position.i,&args.position.j,&args.position.k,
         &args.goalpoint.i,&args.goalpoint.j,&args.goalpoint.k,
         &args.handle.bloated.index,&args.handle.bloated.collision,

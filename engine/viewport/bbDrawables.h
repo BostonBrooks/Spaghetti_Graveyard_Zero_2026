@@ -24,9 +24,18 @@ typedef enum
     bbDrawableState_dead = 3,
 } bbDrawableState;
 
+typedef enum
+{
+    bbDrawableClass_undefined = 0,
+    bbDrawableClass_minimal_drawable,
+    bbDrawableClass_drawable,
+    bbDrawableClass_unit,
+    bbDrawableClass_renderUnit,
+} bbDrawableClass;
 
 typedef struct bbMinimalDrawable
 {
+    bbDrawableClass class;
     bbMapCoords coords;
     bbSquareCoords SC;
     float rotation;

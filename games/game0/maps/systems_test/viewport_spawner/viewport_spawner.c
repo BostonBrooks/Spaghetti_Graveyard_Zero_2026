@@ -40,6 +40,8 @@ bbFlag bbViewportSpawnSkelly(bbViewportApp* viewport_app,
     bbHandle unit_handle;
     bbFlag flag = bbVPool_alloc2(pool, (void**)&unit,&unit_handle);
 
+    unit->drawable.md.random_seed = moveable_handle.u64;
+    //bbDebug("Skelly spawned with seed %lu\n", unit->drawable.md.random_seed);
 
     unit->drawable.functions.on_enter = bbDrawables_getFunction(&home.viewport_app.table, "ENTER NULL");
     unit->drawable.functions.on_leave = bbDrawables_getFunction(&home.viewport_app.table, "LEAVE NULL");
@@ -160,6 +162,10 @@ bbFlag bbViewportSpawnZombie(bbViewportApp* viewport_app,
     bbHandle unit_handle;
     bbFlag flag = bbVPool_alloc2(pool, (void**)&unit,&unit_handle);
 
+
+    unit->drawable.md.random_seed = moveable_handle.u64;
+    //bbDebug("Zombie spawned with seed %lu\n", unit->drawable.md.random_seed);
+
     unit->drawable.functions.on_enter = bbDrawables_getFunction(&home.viewport_app.table, "ENTER NULL");
     unit->drawable.functions.on_leave = bbDrawables_getFunction(&home.viewport_app.table, "LEAVE NULL");
     unit->drawable.functions.on_square_enter = bbDrawables_getFunction(&home.viewport_app.table, "SQUARE ENTER NULL");
@@ -278,6 +284,9 @@ bbFlag bbViewportSpawnCow(bbViewportApp* viewport_app,
     bbHandle unit_handle;
     bbFlag flag = bbVPool_alloc2(pool, (void**)&unit,&unit_handle);
 
+    unit->drawable.md.random_seed = moveable_handle.u64;
+    //bbDebug("Cow spawned with seed %lu\n", unit->drawable.md.random_seed);
+
     unit->drawable.functions.on_enter = bbDrawables_getFunction(&home.viewport_app.table, "ENTER NULL");
     unit->drawable.functions.on_leave = bbDrawables_getFunction(&home.viewport_app.table, "LEAVE NULL");
     unit->drawable.functions.on_square_enter = bbDrawables_getFunction(&home.viewport_app.table, "SQUARE ENTER NULL");
@@ -393,7 +402,8 @@ bbFlag bbViewportSpawnFox(bbViewportApp* viewport_app,
     bbHandle unit_handle;
     bbFlag flag = bbVPool_alloc2(pool, (void**)&unit,&unit_handle);
 
-    unit->drawable.md.random_seed = bbRand();
+    unit->drawable.md.random_seed = moveable_handle.u64;
+    //bbDebug("Fox spawned with seed %lu\n", unit->drawable.md.random_seed);
 
     unit->drawable.functions.on_enter = bbDrawables_getFunction(&home.viewport_app.table, "SPAWN FOXES");
     unit->drawable.functions.on_leave = bbDrawables_getFunction(&home.viewport_app.table, "UNSPAWN FOXES");
@@ -518,6 +528,9 @@ bbFlag bbViewportSpawnLizard(bbViewportApp* viewport_app,
     bbHandle unit_handle;
     bbFlag flag = bbVPool_alloc2(pool, (void**)&unit,&unit_handle);
 
+    unit->drawable.md.random_seed = moveable_handle.u64;
+    //bbDebug("Lizzard spawned with seed %lu\n", unit->drawable.md.random_seed);
+
     unit->drawable.functions.on_enter = bbDrawables_getFunction(&home.viewport_app.table, "ENTER NULL");
     unit->drawable.functions.on_leave = bbDrawables_getFunction(&home.viewport_app.table, "LEAVE NULL");
     unit->drawable.functions.on_square_enter = bbDrawables_getFunction(&home.viewport_app.table, "SQUARE ENTER NULL");
@@ -637,6 +650,10 @@ bbFlag bbViewportSpawnDevil(bbViewportApp* viewport_app,
     bbHandle unit_handle;
     bbFlag flag = bbVPool_alloc2(pool, (void**)&unit,&unit_handle);
 
+
+    unit->drawable.md.random_seed = moveable_handle.u64;
+    //bbDebug("Devil spawned with seed %lu\n", unit->drawable.md.random_seed);
+
     unit->drawable.functions.on_enter = bbDrawables_getFunction(&home.viewport_app.table, "ENTER NULL");
     unit->drawable.functions.on_leave = bbDrawables_getFunction(&home.viewport_app.table, "LEAVE NULL");
     unit->drawable.functions.on_square_enter = bbDrawables_getFunction(&home.viewport_app.table, "SQUARE ENTER NULL");
@@ -752,6 +769,10 @@ bbFlag bbViewportSpawnFireball(bbViewportApp* viewport_app,
 
     bbHandle unit_handle;
     bbFlag flag = bbVPool_alloc2(pool, (void**)&unit,&unit_handle);
+
+
+    unit->drawable.md.random_seed = moveable_handle.u64;
+    //bbDebug("Fireball spawned with seed %lu\n", unit->drawable.md.random_seed);
 
     unit->drawable.functions.on_enter = bbDrawables_getFunction(&home.viewport_app.table, "ENTER NULL");
     unit->drawable.functions.on_leave = bbDrawables_getFunction(&home.viewport_app.table, "LEAVE NULL");

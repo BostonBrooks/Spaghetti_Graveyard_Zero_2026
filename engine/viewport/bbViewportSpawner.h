@@ -13,7 +13,7 @@ extern I32 viewport_spawn_function_count;
 typedef bbFlag bbViewportSpawnFunction(bbViewportApp* viewport,
                                        bbMapCoords MC,
                                        bbHandle entity_handle,
-                                       bbHandle moveable_handle);
+                                       bbHandle random_seed);
 
 typedef struct
 {

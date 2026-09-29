@@ -42,7 +42,7 @@ typedef struct
     bbUI_Inbox_handle handle;
     bbUI_Inbox_string string;
     bbHandle entity_handle;
-    bbHandle moveable_handle;
+    bbHandle random_seed;
     bbMapCoords coords;
     I32 integer;
     I32 integer2;
@@ -104,7 +104,7 @@ bbFlag bbUI_Inbox_SetUnitHP(bbUI_Inbox* inbox, bbHandle unit, float HP);
 bbFlag bbUI_Inbox_NewTree(bbUI_Inbox* inbox, char* tree_type, bbMapCoords position, U64 random_seed);
 bbFlag bbUI_Inbox_newTree_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message);
 
-bbFlag bbUI_Inbox_NewDrawable(bbUI_Inbox* inbox, I32 type_index, bbMapCoords MC, bbHandle entity_handle, bbHandle moveable_handle);
+bbFlag bbUI_Inbox_NewDrawable(bbUI_Inbox* inbox, I32 type_index, bbMapCoords MC, bbHandle entity_handle, bbHandle random_seed);
 bbFlag bbUI_Inbox_newDrawable_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message);
 
 

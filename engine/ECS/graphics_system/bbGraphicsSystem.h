@@ -72,7 +72,7 @@ bbFlag bbCoreInput_spawnDrawable(bbCore* core,
                                           bbMapCoords MC,
                                           I32 drawable_state,
                                           bbHandle entity,
-                                          bbHandle moveable,
+                                          bbHandle random_seed,
                                           bbInstruction_source source,
                                           bbHandle action);
 

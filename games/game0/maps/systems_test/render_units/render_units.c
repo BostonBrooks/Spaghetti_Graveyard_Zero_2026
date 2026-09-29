@@ -10,13 +10,13 @@ bbFlag bbRenderUnitGroup_unspawnNULL_fn(struct bbRenderUnits* render_units, bbDr
 bbFlag bbRenderUnits_populateFunctions (bbRenderUnits* render_units){
 
     bbRenderUnits_addSpawnFunction(render_units,
-                                          bbRenderUnitGroup_spawnFoxes_fn,
+                                          (void*)bbRenderUnitGroup_spawnFoxes_fn,
                                           "FOXES");
     bbRenderUnits_addSpawnFunction(render_units,
-                                          bbRenderUnitGroup_unspawnNULL_fn,
+                                          (void*)bbRenderUnitGroup_unspawnNULL_fn,
                                           "UNSPAWN NULL");
     bbRenderUnits_addSpawnFunction(render_units,
-                                          bbRenderUnitGroup_spawnTrees_fn,
+                                          (void*)bbRenderUnitGroup_spawnTrees_fn,
                                           "SPAWN TREES");
 
     return bbSuccess;

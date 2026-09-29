@@ -10,7 +10,7 @@ bbFlag bbCoreInput_spawnDrawable(bbCore* core,
                                           bbMapCoords MC,
                                           I32 drawable_state,
                                           bbHandle entity,
-                                          bbHandle moveable,
+                                          bbHandle random_seed,
                                           bbInstruction_source source,
                                           bbHandle action)
 {
@@ -23,7 +23,7 @@ bbFlag bbCoreInput_spawnDrawable(bbCore* core,
     instruction->type = bbInstruction_spawnDrawable;
     instruction->data.agent_MC.type = type_int;
     instruction->data.agent_MC.handle1 = entity;
-    instruction->data.agent_MC.handle2 = moveable;
+    instruction->data.agent_MC.handle2 = random_seed;
     instruction->data.agent_MC.coords = MC;
     instruction->data.agent_MC.drawable_state = drawable_state;
 
@@ -157,11 +157,16 @@ bbFlag bbGraphics_spawnDevil(bbGraphicsSystem* system,
     bbHandle type_handle;
     bbDictionary_lookup(dict,"DEVIL",&type_handle);
 
+    bbHandle random_seed;
+    random_seed.u64 = data.random_seed;
+
+    //bbDebug("random seed = %lu\n", random_seed.u64);
+
     bbUI_Inbox_NewDrawable(&home.UI.inbox,
                            type_handle.u64,
                            data.MC,
                            data.entity_handle,
-                           no_handle);
+                           random_seed);
 
 
     bbUI_Inbox_SetEntityState(&home.UI.inbox,data.entity_handle, data.drawable_state);
@@ -176,11 +181,16 @@ bbFlag bbGraphics_spawnFox(bbGraphicsSystem* system,
     bbHandle type_handle;
     bbDictionary_lookup(dict,"FOX",&type_handle);
 
+
+    bbHandle random_seed;
+    random_seed.u64 = data.random_seed;
+
+    //bbDebug("random seed = %lu\n", random_seed.u64);
     bbUI_Inbox_NewDrawable(&home.UI.inbox,
                            type_handle.u64,
                            data.MC,
                            data.entity_handle,
-                           no_handle);
+                           random_seed);
 
 
     bbUI_Inbox_SetEntityState(&home.UI.inbox,data.entity_handle, data.drawable_state);
@@ -195,11 +205,15 @@ bbFlag bbGraphics_spawnZombie(bbGraphicsSystem* system,
     bbHandle type_handle;
     bbDictionary_lookup(dict,"ZOMBIE",&type_handle);
 
+
+    bbHandle random_seed;
+    random_seed.u64 = data.random_seed;
+
     bbUI_Inbox_NewDrawable(&home.UI.inbox,
                            type_handle.u64,
                            data.MC,
                            data.entity_handle,
-                           no_handle);
+                           random_seed);
 
 
     bbUI_Inbox_SetEntityState(&home.UI.inbox,data.entity_handle, data.drawable_state);
@@ -215,11 +229,15 @@ bbFlag bbGraphics_spawnLizard(bbGraphicsSystem* system,
     bbHandle type_handle;
     bbDictionary_lookup(dict,"LIZARD",&type_handle);
 
+
+    bbHandle random_seed;
+    random_seed.u64 = data.random_seed;
+
     bbUI_Inbox_NewDrawable(&home.UI.inbox,
                            type_handle.u64,
                            data.MC,
                            data.entity_handle,
-                           no_handle);
+                           random_seed);
 
 
     bbUI_Inbox_SetEntityState(&home.UI.inbox,data.entity_handle, data.drawable_state);
@@ -234,11 +252,15 @@ bbFlag bbGraphics_spawnCow(bbGraphicsSystem* system,
     bbHandle type_handle;
     bbDictionary_lookup(dict,"COW",&type_handle);
 
+
+    bbHandle random_seed;
+    random_seed.u64 = data.random_seed;
+
     bbUI_Inbox_NewDrawable(&home.UI.inbox,
                            type_handle.u64,
                            data.MC,
                            data.entity_handle,
-                           no_handle);
+                           random_seed);
 
 
     bbUI_Inbox_SetEntityState(&home.UI.inbox,data.entity_handle, data.drawable_state);
@@ -252,11 +274,15 @@ bbFlag bbGraphics_spawnSkelly(bbGraphicsSystem* system,
     bbHandle type_handle;
     bbDictionary_lookup(dict,"SKELLY",&type_handle);
 
+
+    bbHandle random_seed;
+    random_seed.u64 = data.random_seed;
+
     bbUI_Inbox_NewDrawable(&home.UI.inbox,
                            type_handle.u64,
                            data.MC,
                            data.entity_handle,
-                           no_handle);
+                           random_seed);
 
 
     bbUI_Inbox_SetEntityState(&home.UI.inbox,data.entity_handle, data.drawable_state);

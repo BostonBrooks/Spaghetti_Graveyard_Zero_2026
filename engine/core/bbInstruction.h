@@ -188,6 +188,7 @@ typedef struct
     I32 speed;
     I32 radius;
     I32 mass;
+    I32 random_seed;
     bbMapCoords position;
     bbMapCoords goalpoint;
     bbHandle handle;

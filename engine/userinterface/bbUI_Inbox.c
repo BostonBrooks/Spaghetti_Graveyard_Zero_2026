@@ -366,7 +366,7 @@ bbFlag bbUI_Inbox_NewBanana(bbUI_Inbox* inbox, bbMapCoords MC, bbHandle entity_h
     message->type = bbUI_Inbox_newBanana;
     message->data.data.coords = MC;
     message->data.data.entity_handle = entity_handle;
-    message->data.data.moveable_handle = moveable_handle;
+    message->data.data.random_seed = moveable_handle;
 
     bbThreadedQueue_pushL(&inbox->local_message_queue, (void*)message);
     return bbSuccess;
@@ -391,7 +391,7 @@ bbFlag bbUI_Inbox_newBanana_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
        bbViewportApp* app = &home.viewport_app;
     bbMapCoords MC = message->data.data.coords;
     bbHandle entity_handle = message->data.data.entity_handle;
-    bbHandle moveable_handle = message->data.data.moveable_handle;
+    bbHandle moveable_handle = message->data.data.random_seed;
     bbUnit* unit;
     bbUnits* units = home.viewport_app.units;
     bbGraphicsApp* graphics = &home.UI.graphics;
@@ -599,7 +599,7 @@ bbFlag bbUI_Inbox_deleteUnit_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
 {
     bbUnits* units = home.viewport_app.units;
     bbHandle entity_handle = message->data.data.entity_handle;
-    bbHandle moveable_handle = message->data.data.moveable_handle;
+    bbHandle moveable_handle = message->data.data.random_seed;
 
     bbHandle* unit_handle;
     //bbVPool_lookup(home.viewport_app.entity_units,(void**)&unit_handle,entity_handle);
@@ -701,7 +701,7 @@ bbFlag bbUI_Inbox_newTree_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
 }
 
 
-bbFlag bbUI_Inbox_NewDrawable(bbUI_Inbox* inbox, I32 type_index, bbMapCoords MC, bbHandle entity_handle, bbHandle moveable_handle)
+bbFlag bbUI_Inbox_NewDrawable(bbUI_Inbox* inbox, I32 type_index, bbMapCoords MC, bbHandle entity_handle, bbHandle random_seed)
 {
     bbUI_Inbox_message* message;
     bbThreadedQueue_alloc(&inbox->local_message_queue,(void**)&message);
@@ -710,6 +710,7 @@ bbFlag bbUI_Inbox_NewDrawable(bbUI_Inbox* inbox, I32 type_index, bbMapCoords MC,
     message->data.data.integer = type_index;
     message->data.data.coords = MC;
     message->data.data.entity_handle = entity_handle;
+    message->data.data.random_seed = random_seed;
 
     //bbDebug("new drawable type %d\n", type_index);
     //message->data.moveable_handle = moveable_handle;
@@ -719,10 +720,14 @@ bbFlag bbUI_Inbox_NewDrawable(bbUI_Inbox* inbox, I32 type_index, bbMapCoords MC,
 
 }
 bbFlag bbUI_Inbox_newDrawable_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message){
+
+    //bbHandle test_handle;test_handle.u64 = 69;
+
     bbViewportSpawner_spawnDrawable(&home.viewport_app,
                                      &home.viewport_app.viewport_spawner,
                                      message->data.data.integer,
                                      message->data.data.coords,
                                      message->data.data.entity_handle,
-                                     no_handle);
+                                     //test_handle);
+                                     message->data.data.random_seed);
 }

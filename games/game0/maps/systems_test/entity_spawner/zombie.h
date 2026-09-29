@@ -23,12 +23,8 @@ bbFlag bbSF_addGraphics_zombie(void* spawner,
     bbHandle handle;
     bbVPool_reverseLookup(home.ECS.ECS->system.pool, entity, &handle);
 
-    //
-    // bbCoreSynchronous_spawnGraphicsComponent(&home.core.core,
-    //                                args.position,
-    //                                handle,
-    //                                moveable,
-    //                                bbInstructionSource_norewind);
+    U64 deterministic_seed = bbArith64_hash(1234567);
+
     bbGraphicsComponent_data data;
     data.entity_handle = handle;
     data.MC = args->position,
@@ -36,6 +32,7 @@ bbFlag bbSF_addGraphics_zombie(void* spawner,
     data.last_wander_time = 0;
     data.random_seed = bbRand();
     data.drawable_state = bbDrawableState_idle;
+    data.random_seed = bbArith64_hashIndex(deterministic_seed,args->random_seed);
 
     bbCS_spawnGraphicsComponent(&home.core.core,
                                               NULL,
