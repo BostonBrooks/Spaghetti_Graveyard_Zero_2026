@@ -229,6 +229,7 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
         engine/ECS/players/bbPlayers.c
         engine/ECS/teams/bbTeams.c
         engine/ECS/graphics_system/bbGraphicsSystem_state.c
+        engine/ECS/hitpoints/bbHitPoints.c
 
         engine/core/bbAction.c
         engine/core/bbCore.c
