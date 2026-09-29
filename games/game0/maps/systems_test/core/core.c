@@ -14,6 +14,7 @@
 #include "games/game0/maps/systems_test/core/spawn_entity.h"
 #include "engine/ECS/graphics_system/bbGraphicsSystem.h"
 #include "engine/ECS/graphics_system/bbGraphicsSystem_state.h"
+#include "engine/ECS/hitpoints/bbHitPoints.h"
 #include "engine/ECS/moveables/bbMoveables_setState.h"
 #include "engine/ECS/players/bbPlayers.h"
 #include "engine/ECS/server_entities/bbServerEntities.h"
@@ -74,6 +75,10 @@ bbFlag bbCore_initVInstructions(bbCore* core)
     core->instruction_functions[bbI_unspawnGraphicsComponent-bbInstruction_numTypes] = bbI_unspawnGraphicsComponent_fn;
     core->instruction_functions[bbI_Graphics_setState-bbInstruction_numTypes] = bbI_Graphics_setState_fn;
     core->instruction_functions[bbI_Graphics_unsetState-bbInstruction_numTypes] = bbI_Graphics_unsetState_fn;
+    core->instruction_functions[bbI_Hitpoints_spawn-bbInstruction_numTypes] = bbI_Hitpoints_spawn_fn;
+    core->instruction_functions[bbI_Hitpoints_unspawn-bbInstruction_numTypes] = bbI_Hitpoints_unspawn_fn;
+    core->instruction_functions[bbI_Hitpoints_damage-bbInstruction_numTypes] = bbI_Hitpoints_damage_fn;
+    core->instruction_functions[bbI_Hitpoints_undamage-bbInstruction_numTypes] = bbI_Hitpoints_undamage_fn;
 
 
 

@@ -17,6 +17,7 @@ typedef enum
     bbECS_Spatial,
     bbECS_Players,
     bbECS_Teams,
+    bbECS_Hitpoints,
     bbECS_numSystems
 } bbECS_systems;
 

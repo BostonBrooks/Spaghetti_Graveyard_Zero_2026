@@ -5,6 +5,7 @@
 #include "engine/data/bbHome.h"
 #include "engine/ECS/players/bbPlayers.h"
 #include "engine/logic/bbFlag.h"
+#include "entity_spawner/live_spawn.h"
 
 bbFlag bbPlayer_ClickMap_null(bbPlayers* players, bbMapCoords coords, U64 control_keys, bbVPMouseType type) ;
 bbFlag bbPlayer_ClickUnit_null(bbPlayers* players, bbHandle entity_handle, U64 control_keys, bbVPMouseType type) ;
@@ -62,6 +63,9 @@ bbFlag bbPlayer_ClickMap_default(bbPlayers* players, bbMapCoords coords, U64 con
 
     I32 this_player_int = players->this_player;
     bbPlayer* this_player = &players->players[this_player_int];
+
+    bbSpawnFunctionArgs args;
+    bbCI_live_spawnEntity(&home.core.core, args, char* key, bbInstruction_source source, bbHandle action)
 
 
     bbDebug("this_player->state = %d\n", this_player->state);
