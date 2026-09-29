@@ -69,6 +69,12 @@ static float angular_interpolate(float prev_angle, float next_angle, bbTime prev
     return prev_angle+t*delta;
 }
 
+static float angular_exponential(float current_angle, float next_angle)
+{
+    float delta = fmodf(next_angle-current_angle + M_PI,2.0f*M_PI)-M_PI;
+
+    return current_angle + 0.1f * delta;
+}
 
 bbFlag bbUnits_consumeBuffer(bbUnits* units, bbVPool* entity_units, bbMoveables_snapshot* snapshot)
 {
@@ -130,9 +136,10 @@ bbFlag bbUnits_consumeBuffer(bbUnits* units, bbVPool* entity_units, bbMoveables_
                = bbMapCoords_interpolate(unit->prev_coords, unit->next_coords, unit->prev_time,
                    map_time, unit->next_time);
 
-        drawable->md.rotation = angular_interpolate(unit->prev_angle,unit->next_angle,
-                                                 unit->prev_time, map_time, unit->next_time);
+        //drawable->md.rotation = angular_interpolate(unit->prev_angle,unit->next_angle,
+        //                                         unit->prev_time, map_time, unit->next_time);
 
+        drawable->md.rotation = angular_exponential(drawable->md.rotation, unit->next_angle) ;
         bbDrawable_setLocation(drawable, units,position);
 
 
