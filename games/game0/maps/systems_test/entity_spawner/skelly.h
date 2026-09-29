@@ -442,12 +442,12 @@ bbFlag bbPF_skelly2Parser(void* Spawner, char* string)
     bbSpawnFunctionArgs args;
     I32 num_chars;
     char spawn_functions[256];
-    sscanf(string, "%[^','],%[^','],%[^','],%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%n",
+    sscanf(string, "%[^','],%[^','],%[^','],%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%n",
         key,name,state,&args.random_seed,
         &args.position.i,&args.position.j,&args.position.k,
         &args.goalpoint.i,&args.goalpoint.j,&args.goalpoint.k,
         &args.handle.bloated.index,&args.handle.bloated.collision,
-        &args.goal_handle.bloated.index,&args.goal_handle.bloated.collision,&args.speed,&args.radius,&args.mass,
+        &args.goal_handle.bloated.index,&args.goal_handle.bloated.collision,&args.speed,&args.radius,&args.mass,&args.hitpoints,
         &num_chars);
 
     ///POINTS_PER_PIXEL was 8

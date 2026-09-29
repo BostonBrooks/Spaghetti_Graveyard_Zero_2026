@@ -325,7 +325,6 @@ bbFlag bbCS_entity_setComponent(bbCore* core,
     bbAssert(!bbECS_entity_hasComponent(entity, system), "Entity already has component\n");
     entity->has_component |= mask;
     entity->components[system] = component;
-
     return bbSuccess;
 }
 

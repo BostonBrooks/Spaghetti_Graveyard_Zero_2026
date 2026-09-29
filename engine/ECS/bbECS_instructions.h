@@ -31,6 +31,8 @@ typedef enum {
     bbI_unspawnGraphicsComponent,
     bbI_Graphics_setState,
     bbI_Graphics_unsetState,
+    bbI_Hitpoints_update,
+    bbI_Hitpoints_unupdate,
     bbI_Hitpoints_spawn,
     bbI_Hitpoints_unspawn,
     bbI_Hitpoints_damage,

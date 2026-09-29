@@ -69,13 +69,15 @@ bbFlag bbEntitySpawner_spawnFile(bbEntitySpawner* spawner, char* file_name)
         FILE* file = fopen(file_name, "r");
         bbAssert(file != NULL, "bad spawner file\n");
 
-        char file_line[1024];
+        const I32 buffer_length = 2048;
+
+        char file_line[buffer_length];
 
         char key[KEY_LENGTH];
 
         while (1)
         {
-            char* flag = fgets(file_line, 1024, file);
+            char* flag = fgets(file_line, buffer_length, file);
             if (flag == NULL) break;
             if (file_line[0] == '#') continue;
             I32 i = 0;

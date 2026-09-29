@@ -35,6 +35,7 @@
 
 
 #include "engine/ECS/graphics_system/bbGraphicsSystem.h"
+#include "engine/ECS/hitpoints/bbHitPoints.h"
 #include "engine/ECS/spatial/bbSpatial_query.h"
 #include "engine/ECS/teams/bbTeams.h"
 #include "engine/logic/bbString.h"
@@ -67,6 +68,8 @@ bbFlag test_func (bbList* list, void* node, void* cl)
 }
 
 void* userinterface_thread(void* arg);
+
+
 int main(void) {
     thread = "MAIN";
     debug_off = false;
@@ -124,7 +127,7 @@ int main(void) {
     bbMoveables_init(&home.ECS.moveables,home.core.core.ECS);
     bbAvoidables_new(&home.ECS.avoidables, 12, 12);
     bbSpatial_init(&home.ECS.spatial,home.core.core.ECS, 12, 12);
-
+    bbHitPoints_init(&home.ECS.hitpoints,home.core.core.ECS);
     bbAI_System_init(&home.ECS.AI_system,home.core.core.ECS);
     bbAI_Functions_init(&home.ECS.AI_system.functions);
     bbAI_Functions_populate(&home.ECS.AI_system.functions);
@@ -366,6 +369,9 @@ int main(void) {
             //bbCore_react(&home.core.core);
 
             //updateAI is a bbCoreSynchronous function. We dont want to call bbCore_react() inside updateAI
+            bbCI_Hitpoints_update(&home.core.core,home.ECS.ECS, bbInstructionSource_input, no_handle);
+            bbCore_react(&home.core.core);
+
             bbCS_updateAI(&home.core.core, bbInstructionSource_input, no_handle);
             bbCore_react(&home.core.core);
 

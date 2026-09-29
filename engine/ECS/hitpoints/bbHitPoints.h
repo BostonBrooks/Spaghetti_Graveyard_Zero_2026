@@ -24,6 +24,19 @@ typedef struct {
 
 bbFlag bbHitPoints_init(bbHitPoints* system,bbECS* ECS);
 
+bbFlag bbCS_Hitpoints_update(bbCore* core,
+                             bbECS* ECS,
+                             bbInstruction_source source,
+                             bbHandle action);
+
+bbFlag bbCI_Hitpoints_update(bbCore* core,
+                             bbECS* ECS,
+                             bbInstruction_source source,
+                             bbHandle action);
+
+bbFlag bbI_Hitpoints_update_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbI_Hitpoints_unupdate_fn(bbCore* core, bbInstruction* instruction);
+
 bbFlag bbCS_Hitpoints_spawn(bbCore* core,
                              bbECS* ECS,
                              bbHandle entity,

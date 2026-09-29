@@ -18,6 +18,7 @@
 #include "engine/groundsurface/bbGroundSurface.h"
 #include "engine/spawner/bbSpawner.h"
 #include "../ECS/moveables/bbMoveables.h"
+#include "engine/ECS/hitpoints/bbHitPoints.h"
 #include "engine/ECS/moveables/bbAvoidables.h"
 #include "engine/ECS/players/bbPlayers.h"
 #include "engine/ECS/spatial/bbSpatial.h"
@@ -34,6 +35,7 @@ typedef struct
     bbEntitySpawner spawner;
     bbAI_System AI_system;
     bbSpatial spatial;
+    bbHitPoints hitpoints;
     bbAvoidables* avoidables;
     bbPlayers players;
     bbTeams teams;

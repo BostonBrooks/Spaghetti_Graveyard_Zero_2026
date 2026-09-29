@@ -140,6 +140,9 @@ bbFlag bbCore_initMap(bbInstructionMap* map)
     map->forward[bbI_Graphics_unsetState] = bbI_Graphics_setState;
     map->rollback[bbI_Graphics_setState] = bbI_Graphics_unsetState;
 
+    map->forward[bbI_Hitpoints_unupdate] = bbI_Hitpoints_update;
+    map->rollback[bbI_Hitpoints_update] = bbI_Hitpoints_unupdate;
+
     map->forward[bbI_Hitpoints_unspawn] = bbI_Hitpoints_spawn;
     map->rollback[bbI_Hitpoints_spawn] = bbI_Hitpoints_unspawn;
 

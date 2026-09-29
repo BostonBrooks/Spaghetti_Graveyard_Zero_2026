@@ -75,6 +75,8 @@ bbFlag bbCore_initVInstructions(bbCore* core)
     core->instruction_functions[bbI_unspawnGraphicsComponent-bbInstruction_numTypes] = bbI_unspawnGraphicsComponent_fn;
     core->instruction_functions[bbI_Graphics_setState-bbInstruction_numTypes] = bbI_Graphics_setState_fn;
     core->instruction_functions[bbI_Graphics_unsetState-bbInstruction_numTypes] = bbI_Graphics_unsetState_fn;
+    core->instruction_functions[bbI_Hitpoints_update-bbInstruction_numTypes] = bbI_Hitpoints_update_fn;
+    core->instruction_functions[bbI_Hitpoints_unupdate-bbInstruction_numTypes] = bbI_Hitpoints_unupdate_fn;
     core->instruction_functions[bbI_Hitpoints_spawn-bbInstruction_numTypes] = bbI_Hitpoints_spawn_fn;
     core->instruction_functions[bbI_Hitpoints_unspawn-bbInstruction_numTypes] = bbI_Hitpoints_unspawn_fn;
     core->instruction_functions[bbI_Hitpoints_damage-bbInstruction_numTypes] = bbI_Hitpoints_damage_fn;

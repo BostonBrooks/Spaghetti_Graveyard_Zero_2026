@@ -69,7 +69,7 @@ bbHere()
         bbSpawnFunctionArgs args;
         args.state = 0;
         args.speed = 15000;
-        args.radius = 120000;
+        args.radius = 200000;
         args.mass = 1000;
         args.random_seed = 193;
         args.position = coords;
@@ -89,6 +89,15 @@ bbHere()
                                     home.core.core.actual_time,
                                     bbInstructionSource_internal,
                                     no_handle);
+
+            //TODO this is test code
+            bbCI_Hitpoints_damage (&home.core.core,
+                          home.ECS.ECS,
+                          this_player->selected_entities[0],
+                          0,
+                          193,
+                          bbInstructionSource_internal,
+                          no_handle);
         }
     }
     return bbSuccess;

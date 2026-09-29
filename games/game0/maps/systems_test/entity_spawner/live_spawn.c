@@ -44,7 +44,7 @@ bbFlag bbI_live_spawnEntity_fn(bbCore* core, bbInstruction* instruction)
 {
     bbHandle undo_handle;
     //bbLiveSpawnFunction* function = home.ECS.spawner.live_spawn_functions[instruction->data.sfArgs.type];
-    bbLiveSpawnFunction* function = home.ECS.spawner.live_spawn_functions[0];
+    bbLiveSpawnFunction* function = home.ECS.spawner.live_spawn_functions[0]; //TODO hard coded
 
     if (instruction->source == bbInstructionSource_internal)
     {

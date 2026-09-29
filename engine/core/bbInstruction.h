@@ -136,6 +136,7 @@ typedef struct
 typedef struct
 {
     bbHandle agent;
+    I32 damage_type;
     I32 hitpoints;
 } bbInstructionsData_damageAgent;
 
@@ -189,6 +190,7 @@ typedef struct
     I32 radius;
     I32 mass;
     I32 random_seed;
+    I32 hitpoints;
     bbMapCoords position;
     bbMapCoords goalpoint;
     bbHandle handle;

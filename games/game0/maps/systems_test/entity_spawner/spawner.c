@@ -1,6 +1,7 @@
 #include "AI_system/ai_instructions.h"
 #include "engine/data/bbHome.h"
 #include "../../../../../engine/ECS/entity_spawner/bbEntitySpawner.h"
+#include "engine/ECS/hitpoints/bbHitPoints.h"
 #include "engine/groundsurface/bbGroundSurface.h"
 #include "games/game0/maps/systems_test/entity_spawner/skelly.h"
 #include "games/game0/maps/systems_test/entity_spawner/zombie.h"
@@ -370,6 +371,25 @@ bbFlag bbSF_setTeamMonster(void* spawner,
     return bbSuccess;
 }
 
+bbFlag bbSF_setHitpoints(void* spawner,
+                               bbECS_entity* entity,
+                               bbSpawnFunctionArgs* args,
+                               bbInstruction_source source)
+{//TODO make core synchronous set player handle; May want to store player character somewhere else
+    bbHandle entity_handle = entity->component.entity_handle;
+
+    bbCS_Hitpoints_spawn(&home.core.core,
+                          home.ECS.ECS,
+                          entity_handle,
+                          NULL,
+                          args->hitpoints,
+                          source,
+                          no_handle);
+
+    bbHere()
+    return bbSuccess;
+}
+
 
 bbFlag bbEntitySpawner_populate(bbEntitySpawner* spawner)
 {
@@ -406,6 +426,7 @@ bbFlag bbEntitySpawner_populate(bbEntitySpawner* spawner)
     bbSpawnFunction_add(spawner, bbSF_addServerEntity, "SERVER_ENTITY");
     bbSpawnFunction_add(spawner, bbSF_setTeamPlayer, "TEAM_PLAYER");
     bbSpawnFunction_add(spawner, bbSF_setTeamMonster, "TEAM_MONSTER");
+    bbSpawnFunction_add(spawner, bbSF_setHitpoints, "HITPOINTS");
 
 
 
