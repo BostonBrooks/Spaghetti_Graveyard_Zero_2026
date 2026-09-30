@@ -14,7 +14,7 @@
 #define BB_CORE_H
 
 #include "bbAction.h"
-#include "bbInstruction_map.h"
+#include "core_integrity.h"
 #include "engine/logic/bbIntTypes.h"
 #include "engine/logic/bbList.h"
 #include "engine/logic/bbVPool.h"
@@ -29,7 +29,8 @@ typedef  bbFlag bbInstruction_fn(bbCore* core, bbInstruction* instruction);
 typedef  bbFlag bbCoreInbox_fn(bbCore* core, struct bbCoreInboxMessage* message);
 typedef  bbFlag bbAction_fn(bbCore* core, bbAction* action);
 
-DECLARE_SQ_HEADER(bbInstruction,sizeof(bbInstruction),169)
+#define INSTRUCTIONDEQUESIZE 196
+DECLARE_SQ_HEADER(bbInstruction,sizeof(bbInstruction),INSTRUCTIONDEQUESIZE )
 
 struct bbCore
 {

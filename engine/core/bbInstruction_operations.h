@@ -46,7 +46,7 @@
 
 
 #define pushActiveInstruction(NAME)\
-    /*bbDebug("instruction type = %d\n", NAME->type)*/\
+    bbAssert(NAME->type!=bbInstruction_null, "this could be where we're going wrong\n")\
     bbInstruction_deque_pushFront(&core->active_instructions,NAME);
 
 #define allocUndoInstruction(NAME)\
@@ -57,6 +57,7 @@
 
 
 #define pushUndoInstruction(NAME)\
+    bbAssert(NAME->type!=bbInstruction_null, "this could be where we're going wrong\n")\
     bbInstruction_deque_pushFront(&core->undo_instructions,NAME);
 
 #define allocRedoInstruction(NAME)\
@@ -66,7 +67,9 @@
     NAME##_handle.ptr = NAME;
 
 #define pushRedoInstruction(NAME)\
-    bbInstruction_deque_pushFront(&core->redo_instructions,NAME);
+    bbAssert(NAME->type!=bbInstruction_null, "this could be where we're going wrong\n")\
+    bbInstruction_deque_pushFront(&core->redo_instructions,NAME);\
+    bbCore_quickCheck(core);
 
 #define popRedoInstruction(NAME,INSTRUCTION)\
     bbInstruction NAME;\

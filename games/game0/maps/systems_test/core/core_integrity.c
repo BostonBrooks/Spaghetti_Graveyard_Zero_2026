@@ -1,14 +1,16 @@
-#include "engine/core/bbInstruction_map.h"
+#include "engine/core/core_integrity.h"
 
 
 #include "engine/core/bbInstruction.h"
 #include  "games/game0/maps/systems_test/core/instructions.h"
+
 bbFlag bbCore_initMap(bbInstructionMap* map)
 {
     map->forward = calloc(bbVInstruction_numTypes, sizeof(I32));
     map->rollback = calloc(bbVInstruction_numTypes, sizeof(I32));
 
-    for (I32 i = 0; i < bbVInstruction_numTypes; i++) {
+    for (I32 i = 0; i < bbVInstruction_numTypes; i++)
+    {
         map->forward[i] = WRONG_FUNCTION_TYPE;
         map->rollback[i] = WRONG_FUNCTION_TYPE;
     }
@@ -153,17 +155,117 @@ bbFlag bbCore_initMap(bbInstructionMap* map)
 }
 
 
-
-bbFlag bbCore_checkMap(bbInstructionMap* map, void* forward, void* rollback) {
-
-
-    bbInstruction* forward_i = (bbInstruction*) forward;
-    bbInstruction* rollback_i = (bbInstruction*) rollback;
+bbFlag bbCore_checkMap(bbInstructionMap* map, void* forward, void* rollback)
+{
+    bbInstruction* forward_i = (bbInstruction*)forward;
+    bbInstruction* rollback_i = (bbInstruction*)rollback;
 
     I32 forward_back = map->rollback[forward_i->type];
     I32 backward_forward = map->forward[rollback_i->type];
 
     bbAssert(forward_back == rollback_i->type, "instruction type mismatch");
+
+    return bbSuccess;
+}
+
+
+bbFlag bbCore_checkIntegrity_fn(bbCore* core)
+{
+    bbInstructionMap* map = &core->map;
+    bbInstruction_deque *undo, *redo;
+    bbInstruction *undo_i, *redo_i;
+    I32 undo_index, redo_index, undo_segment, redo_segment;
+
+    undo = &core->undo_instructions;
+    redo = &core->redo_instructions;
+
+    undo_index = undo->end_index;
+    redo_index = redo->end_index;
+
+    undo_segment = undo->end_segment;
+    redo_segment = redo->end_segment;
+
+bbHere()
+    while (1){
+        undo_i = &undo->elements[undo_segment][undo_index];
+
+        //printf("index = %d, segment = %d", undo_index, undo_segment);
+        if (undo_i->source == bbInstructionSource_input)
+        {
+            redo_i = &redo->elements[redo_segment][redo_index];
+            // printf("  undo type: %d, redo type %d, redo index %d, redo segment %d\n",
+            //     undo_i->type, redo_i->type,redo_index, redo_segment);
+
+            I32 redo_expected = map->forward[undo_i->type];
+            I32 undo_expected = map->rollback[redo_i->type];
+
+            printf("undo %d, redo %d, undo_expected %d, redo_expected %d, undo index = %d, redo_index = %d, time = %lu\n",
+                undo_i->type, redo_i->type, undo_expected, redo_expected, undo_index,redo_index, core->actual_time);
+
+            if (undo_expected != undo_i->type || redo_expected != redo_i->type){ bbNotHere()}
+
+            I32 new_redo_index = redo_index - 1;
+            I32 new_redo_segment = redo_segment;
+            if (new_redo_index < 0)
+            {
+                new_redo_index = INSTRUCTIONDEQUESIZE - 1;
+                new_redo_segment--;
+                if (new_redo_segment < 0)
+                {
+                    new_redo_segment = redo->num_segments - 1;
+                }
+
+            }
+
+            redo_index = new_redo_index;
+            redo_segment = new_redo_segment;
+        }
+        I32 new_undo_index = undo_index - 1;
+        I32 new_undo_segment = undo_segment;
+        if (new_undo_index < 0)
+        {
+            new_undo_index = INSTRUCTIONDEQUESIZE - 1;
+            new_undo_segment--;
+            if (new_undo_segment < 0)
+            {
+                new_undo_segment = undo->num_segments - 1;
+            }
+
+        }
+        undo_index = new_undo_index;
+        undo_segment = new_undo_segment;
+        if (undo_segment == undo->start_segment && undo_index == undo->start_index) break;
+    }
+
+    return bbSuccess;
+}
+
+
+
+bbFlag bbCore_quickCheck_fn(bbCore* core)
+{
+
+    bbInstructionMap* map = &core->map;
+    bbInstruction_deque *undo, *redo;
+    bbInstruction *undo_i, *redo_i;
+    I32 undo_index, redo_index, undo_segment, redo_segment;
+
+    undo = &core->undo_instructions;
+    redo = &core->redo_instructions;
+
+    undo_index = undo->end_index;
+    redo_index = redo->end_index;
+
+    undo_segment = undo->end_segment;
+    redo_segment = redo->end_segment;
+
+    undo_i = &undo->elements[undo_segment][undo_index];
+    redo_i = &redo->elements[redo_segment][redo_index];
+
+    I32 redo_expected = map->forward[undo_i->type];
+    I32 undo_expected = map->rollback[redo_i->type];
+
+    if (undo_expected != undo_i->type || redo_expected != redo_i->type){ bbNotHere()}
 
     return bbSuccess;
 }

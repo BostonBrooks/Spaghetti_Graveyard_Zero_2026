@@ -107,19 +107,9 @@ bbFlag bbInstruction_setTime_fn(bbCore* core, bbInstruction* instruction)
     undo_instruction->type = bbInstruction_unsetTime;
     undo_instruction->data.u64 = core->simulation_time;
     undo_instruction->source = instruction->source;
-
-    //bbDebug ("time was %lu, now is %lu, actual %lu\n", undo_instruction->data.unsigned_long,
-    //    instruction->data.unsigned_long, core->actual_time);
-
     core->simulation_time = instruction->data.u64 ;
 
-#ifdef DEFINE_TEST_ECS
-    bbDebug("+time = %lu\n", core->simulation_time);
-#endif
 
-#ifdef DEFINE_TEST_CORE
-    //bbDebug("+time = %lu\n", core->simulation_time);
-#endif
     if (instruction->source == bbInstructionSource_internal)
     {
         //No longer passed by pool element
@@ -132,8 +122,8 @@ bbFlag bbInstruction_setTime_fn(bbCore* core, bbInstruction* instruction)
         allocRedoInstruction(redo_instruction)
          *redo_instruction = *instruction;
         undo_instruction->redo_instruction = (bbHandle)redo_instruction_handle;
-        pushRedoInstruction(redo_instruction)
         pushUndoInstruction(undo_instruction)
+        pushRedoInstruction(redo_instruction)
         return bbSuccess;
     }
     if (instruction->source == bbInstructionSource_action)
@@ -155,16 +145,6 @@ bbFlag bbInstruction_unsetTime_fn(bbCore* core, bbInstruction* instruction)
 
     core->simulation_time = instruction->data.u64 ;
 
-
-
-#ifdef DEFINE_TEST_ECS
-    bbDebug("-time = %lu\n", core->simulation_time);
-#endif
-
-
-#ifdef DEFINE_TEST_CORE
-    //bbDebug("-time = %lu\n", core->simulation_time);
-#endif
     if (instruction->source == bbInstructionSource_internal)
     {
         //bbVPool_free(core->instruction_pool, (void*)instruction);

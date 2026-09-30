@@ -11,6 +11,7 @@ typedef struct bbCore bbCore;
 
 typedef enum
 {
+    bbInstruction_null,
     bbInstruction_setString,
     bbInstruction_unsetString,
 

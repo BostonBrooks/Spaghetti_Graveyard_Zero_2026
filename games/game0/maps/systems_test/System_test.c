@@ -245,8 +245,24 @@ int main(void) {
     bbCore_react(&home.core.core);
     fflush(stdout);
 
+
+
+    bbCore_checkIntegrity(&home.core.core);
+    bbCoreInput_setTime(&home.core.core, 0, bbInstructionSource_input, no_handle);
+    bbCoreInput_setTime(&home.core.core, 0, bbInstructionSource_input, no_handle);
+    bbCoreInput_setTime(&home.core.core, 0, bbInstructionSource_input, no_handle);
+    bbCoreInput_setTime(&home.core.core, 0, bbInstructionSource_input, no_handle);
+    bbCore_checkIntegrity(&home.core.core);
+    bbCore_react(&home.core.core);
+
+
+    bbCore_checkIntegrity(&home.core.core);
+
+
+
     while (1)
     {//bbHere()
+    bbCore_checkIntegrity(&home.core.core);
 
         // I32 count = 0;
         //
@@ -316,6 +332,7 @@ int main(void) {
         bbCore_react(&home.core.core);
 
 
+        bbCore_checkIntegrity(&home.core.core);
 
         if (home.network.send_ready && home.network.receive_ready)
         {
@@ -334,16 +351,20 @@ int main(void) {
             // snprintf(message, MESSAGE_LENGTH,"time sent: %llu\n", home.core.core.actual_time);
             // bbNetworkApp_sendMessage(&home.network, message_handle2, home.core.core.actual_time, 193);
 
+            bbCore_checkIntegrity(&home.core.core);
+
             bbCoreInput_checkActions(&home.core.core,
                 home.core.core.actual_time,
                 bbInstructionSource_input, no_handle );
             bbCore_react(&home.core.core);
 
+            bbCore_checkIntegrity(&home.core.core);
 
             bbCoreInput_updateMoveables(&home.core.core,bbInstructionSource_input, no_handle );
             bbCore_react(&home.core.core);
 
 
+            bbCore_checkIntegrity(&home.core.core);
             // testing bbAction_request()
             // bbAction test_action;
             // test_action.header.type = bbActionType_setString;
@@ -372,9 +393,13 @@ int main(void) {
             bbCI_Hitpoints_update(&home.core.core,home.ECS.ECS, bbInstructionSource_input, no_handle);
             bbCore_react(&home.core.core);
 
+            bbCore_checkIntegrity(&home.core.core);
+
             bbCS_updateAI(&home.core.core, bbInstructionSource_input, no_handle);
             bbCore_react(&home.core.core);
 
+
+            bbCore_checkIntegrity(&home.core.core);
             //bbCoreInput_updateAgents(&home.core.core, home.agents_app.agents,
             //                         bbInstructionSource_input, no_handle);
             //bbCore_react(&home.core.core);

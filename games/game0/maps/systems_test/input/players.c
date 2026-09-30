@@ -142,14 +142,7 @@ bbFlag bbPlayer_ClickUnit_default(bbPlayers* players, bbHandle entity_handle, U6
                     bbCoreInput_requestAction(&home.core.core,&home.network,&action,home.core.core.actual_time,
                                                 bbInstructionSource_internal, no_handle);
 
-                    bbTest()
-                    bbCI_Hitpoints_damage (&home.core.core,
-                    home.ECS.ECS,
-                    entity_handle,
-                    0,
-                    193,
-                    bbInstructionSource_internal,
-                    no_handle);
+
                 }
             }
         }
