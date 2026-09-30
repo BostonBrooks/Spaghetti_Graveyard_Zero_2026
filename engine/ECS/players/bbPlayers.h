@@ -10,6 +10,8 @@
 typedef enum {
     bbPlayer_stateNULL,
     bbPlayer_stateDefault,
+    bbPlayer_stateMathsInput,
+
     bbPlayer_stateNum,
 } bbPlayer_state;
 
@@ -86,4 +88,5 @@ bbFlag bbI_setPlayerEntity_fn(bbCore* core, bbInstruction* instruction);
 
 ///Rollback modification
 bbFlag bbI_unsetPlayerEntity_fn(bbCore* core, bbInstruction* instruction);
+
 #endif //BB_PLAYERS

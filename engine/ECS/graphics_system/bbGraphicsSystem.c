@@ -24,7 +24,8 @@ bbFlag bbGraphicsSystem_deleteComponent_fn(struct bbSystem* system, bbHandle com
 
 bbFlag bbGraphicsSystem_init(bbGraphicsSystem* graphics_system, bbECS* ECS, bbUI_Inbox* inbox)
 {
-    bbVPool_newSystem(&graphics_system->system.pool, 127, sizeof(bbGraphicsComponent), 1000, 10, "GRAPHICS SYSTEM");
+    //bbVPool_newSystem(&graphics_system->system.pool, 127, sizeof(bbGraphicsComponent), 1000, 10, "GRAPHICS SYSTEM");
+    bbVPool_newBloated(&graphics_system->system.pool, sizeof(bbGraphicsComponent), 1000, 10, "GRAPHICS SYSTEM");
 
     graphics_system->system.getComponent = bbGraphicsSystem_getComponent_fn;
     graphics_system->system.getHandle = bbGraphicsSystem_getHandle_fn;

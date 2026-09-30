@@ -375,7 +375,8 @@ bbFlag bbSF_setHitpoints(void* spawner,
                                bbECS_entity* entity,
                                bbSpawnFunctionArgs* args,
                                bbInstruction_source source)
-{//TODO make core synchronous set player handle; May want to store player character somewhere else
+{
+
     bbHandle entity_handle = entity->component.entity_handle;
 
     bbCS_Hitpoints_spawn(&home.core.core,

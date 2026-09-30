@@ -98,6 +98,7 @@ bbFlag bbAI_Update_Player(bbAI_Component* component)
                 bbCI_Moveable_setIdle(&home.core.core,
                     moveable_handle,
                     bbInstructionSource_internal, no_handle);
+
             }
 
             break;
@@ -170,6 +171,14 @@ bbFlag bbAI_Command_Player(bbAI_Component* component,
 
         bbHandle target_handle = data.handle;
 
+       bbTest()
+      bbCI_Hitpoints_damage (&home.core.core,
+                    home.ECS.ECS,
+                    target_handle,
+                    0,
+                    193,
+                    bbInstructionSource_internal,
+                    no_handle);
 
         bbHandle target_moveable_handle;
         bbMoveable* target_moveable;

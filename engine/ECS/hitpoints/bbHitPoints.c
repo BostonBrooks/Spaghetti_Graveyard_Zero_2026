@@ -59,6 +59,7 @@ bbFlag bbCI_Hitpoints_update(bbCore* core,
 }
 
 bbFlag update_hitpoints_fn(bbList* list, void* node, void* cl) {
+
     bbHitPoint* hitpoint = (bbHitPoint*)node;
 
     if (hitpoint->prev_health != hitpoint->current_health) {
@@ -72,16 +73,86 @@ bbFlag update_hitpoints_fn(bbList* list, void* node, void* cl) {
 
 bbFlag bbI_Hitpoints_update_fn(bbCore* core, bbInstruction* instruction) {
 
+    if (instruction->source == bbInstructionSource_internal)
+    {
+        allocUndoInstruction(undo_instruction);
+        undo_instruction->type = bbI_Hitpoints_unupdate;
+        undo_instruction->source = instruction->source;
+        undo_instruction->redo_instruction.u64 = 0;
+        pushUndoInstruction(undo_instruction)
+
+
+    }
+    else if (instruction->source == bbInstructionSource_input)
+    {
+
+        allocUndoInstruction(undo_instruction);
+        undo_instruction->type = bbI_Hitpoints_unupdate;
+        undo_instruction->source = instruction->source;
+        allocRedoInstruction(redo_instruction)
+        *redo_instruction = *instruction;
+        undo_instruction->redo_instruction = (bbHandle)redo_instruction_handle;
+        pushRedoInstruction(redo_instruction)
+        pushUndoInstruction(undo_instruction)
+    }
+    else if (instruction->source == bbInstructionSource_action)
+    {
+
+        allocUndoInstruction(undo_instruction);
+        undo_instruction->type = bbI_Hitpoints_unupdate;
+        undo_instruction->source = instruction->source;
+        undo_instruction->redo_instruction = (bbHandle)instruction->redo_instruction;
+        pushUndoInstruction(undo_instruction)
+
+        bbAction* action;
+        bbVPool_lookup(core->action_queue.pool, (void**)&action, instruction->redo_instruction);
+        printf("collision = %d ", action->header.collision);
+    } //else source == no rewind
+
+
     bbHitPoints* hitpoints = (bbHitPoints*)core->ECS->systems[bbECS_Hitpoints];
     bbIterator iterator = bbIterator_new(&hitpoints->list);
     bbIterator_mapL(&iterator, update_hitpoints_fn,NULL);
 }
 bbFlag bbI_Hitpoints_unupdate_fn(bbCore* core, bbInstruction* instruction) {
-    bbNotImplemented() //I guess this is what we want?
+
 
     bbHitPoints* hitpoints = (bbHitPoints*)core->ECS->systems[bbECS_Hitpoints];
     bbIterator iterator = bbIterator_new(&hitpoints->list);
     bbIterator_mapL(&iterator, update_hitpoints_fn,NULL);
+
+
+
+    if (instruction->source == bbInstructionSource_internal)
+    {
+        //bbHere()
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_input)
+    {
+        popRedoInstruction(redo_instruction,instruction)
+        allocActiveInstruction(new_instruction)
+        *new_instruction = redo_instruction;
+        bbCore_checkMap(&core->map, &redo_instruction, instruction);
+        pushActiveInstruction(new_instruction)
+//bbHere()
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_action)
+    {
+        bbAction* redo_action;
+
+        bbVPool_lookup(core->action_pool, (void**)&redo_action, instruction->redo_instruction);
+        bbList_sortL(&core->action_queue,(void*)redo_action);
+
+
+
+
+        //bbHere()
+        return bbSuccess;
+    }
+    bbAssert(0==1, "We should not get here\n");
+
 }
 
 bbFlag bbCS_Hitpoints_spawn(bbCore* core,

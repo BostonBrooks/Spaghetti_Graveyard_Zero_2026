@@ -29,7 +29,30 @@ bbFlag bbInputModes_populate(bbInputModes* input_modes)
         input_mode->key_actions[i].event_code = 0;
         input_mode->key_actions[i].function = bbKeyAction_null;
     }
-    
+
+    input_mode->key_actions[sfKeyNumpad0].lowercase = '0';
+    input_mode->key_actions[sfKeyNumpad1].lowercase = '1';
+    input_mode->key_actions[sfKeyNumpad2].lowercase = '2';
+    input_mode->key_actions[sfKeyNumpad3].lowercase = '3';
+    input_mode->key_actions[sfKeyNumpad4].lowercase = '4';
+    input_mode->key_actions[sfKeyNumpad5].lowercase = '5';
+    input_mode->key_actions[sfKeyNumpad6].lowercase = '6';
+    input_mode->key_actions[sfKeyNumpad7].lowercase = '7';
+    input_mode->key_actions[sfKeyNumpad8].lowercase = '8';
+    input_mode->key_actions[sfKeyNumpad9].lowercase = '9';
+
+
+    input_mode->key_actions[sfKeyNumpad0].uppercase = '0';
+    input_mode->key_actions[sfKeyNumpad1].uppercase = '1';
+    input_mode->key_actions[sfKeyNumpad2].uppercase = '2';
+    input_mode->key_actions[sfKeyNumpad3].uppercase = '3';
+    input_mode->key_actions[sfKeyNumpad4].uppercase = '4';
+    input_mode->key_actions[sfKeyNumpad5].uppercase = '5';
+    input_mode->key_actions[sfKeyNumpad6].uppercase = '6';
+    input_mode->key_actions[sfKeyNumpad7].uppercase = '7';
+    input_mode->key_actions[sfKeyNumpad8].uppercase = '8';
+    input_mode->key_actions[sfKeyNumpad9].uppercase = '9';
+
     input_mode->key_actions[sfKeyA].lowercase = 'a';
     input_mode->key_actions[sfKeyB].lowercase = 'b';
     input_mode->key_actions[sfKeyC].lowercase = 'c';
@@ -87,7 +110,7 @@ bbFlag bbInputModes_populate(bbInputModes* input_modes)
     input_mode->key_actions[sfKeyEnter].event_code = 0;
     input_mode->key_actions[sfKeyEnter].function = bbKeyAction_event;
 
-    input_mode->key_actions[sfKeyNumpad0].control_key = 0;
+   /* input_mode->key_actions[sfKeyNumpad0].control_key = 0;
     input_mode->key_actions[sfKeyNumpad0].function = bbKeyAction_ctrl;
     input_mode->key_actions[sfKeyNumpad1].control_key = 1;
     input_mode->key_actions[sfKeyNumpad1].function = bbKeyAction_ctrl;
@@ -106,7 +129,7 @@ bbFlag bbInputModes_populate(bbInputModes* input_modes)
     input_mode->key_actions[sfKeyNumpad8].control_key = 8;
     input_mode->key_actions[sfKeyNumpad8].function = bbKeyAction_ctrl;
     input_mode->key_actions[sfKeyNumpad9].control_key = 9;
-    input_mode->key_actions[sfKeyNumpad9].function = bbKeyAction_ctrl;
+    input_mode->key_actions[sfKeyNumpad9].function = bbKeyAction_ctrl;*/
 
     bbInputModes_add(input_modes, input_mode, "TEST_INPUT_MODE");
 
@@ -177,7 +200,9 @@ bbFlag bbKeyAction_ctrl (struct bbInputMode* input_mode, sfEvent * event, struct
 }
 bbFlag bbKeyAction_event (struct bbInputMode* input_mode, sfEvent * event, struct bbKeyAction* action )
 {
-    bbCoreInbox_KeyPress(&home.core.core, action->control_key, input_mode->control_keys);
+    if (event->type == sfEvtKeyPressed) {
+        bbCoreInbox_KeyPress(&home.core.core, action->control_key, input_mode->control_keys);
+    }
 }
 
 

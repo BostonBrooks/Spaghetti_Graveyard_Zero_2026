@@ -4,6 +4,7 @@
 
 
 #include "AI_system/player_send_goalpoint.h"
+#include "engine/ECS/players/bbPlayers_maths.h"
 #include "games/game0/maps/systems_test/core/action_set_goalpoint.h"
 
 bbFlag bbAction_bbHere(void* Core,
@@ -66,6 +67,8 @@ bbFlag bbCore_initActions(bbCore* core)
     core->action_functions[bbActionType_setTarget- bbActionType_numActions] = bbAction_setTarget_fn;
     core->action_functions[bbActionType_setPlayerEntity- bbActionType_numActions] =  bbAction_setPlayerEntity_fn;
     core->action_functions[bbActionType_sendAIGoalpoint- bbActionType_numActions] =  bbAction_setAIGoalpoint_fn;
+    core->action_functions[bbActionType_askQuestion- bbActionType_numActions] =  bbAction_askQuestion_fn;
+    core->action_functions[bbActionType_answerQuestion- bbActionType_numActions] =  bbAction_answerQuestion_fn;
 
 
 
