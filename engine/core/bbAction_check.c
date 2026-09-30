@@ -38,8 +38,8 @@ bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
             allocRedoInstruction(redo_instruction)
              *redo_instruction = *instruction;
             undo_instruction->redo_instruction = redo_instruction_handle;
-            pushRedoInstruction(redo_instruction)
             pushUndoInstruction(undo_instruction)
+            pushRedoInstruction(redo_instruction)
         }
         else if (instruction->source == bbInstructionSource_action)
         {
@@ -112,7 +112,12 @@ bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
             args.type = 0;
             args.handle = no_handle;
             args.goal_handle = no_handle;
+
+
+
             bbCI_live_spawnEntity(core, args, "SKELLY_LIVE", bbInstructionSource_action, handle);
+
+
 
         }
         if (action->header.type == bbActionType_spawnEntity)
@@ -141,8 +146,8 @@ bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
         allocRedoInstruction(redo_instruction)
          *redo_instruction = *instruction;
         undo_instruction->redo_instruction = redo_instruction_handle;
-        pushRedoInstruction(redo_instruction)
         pushUndoInstruction(undo_instruction)
+        pushRedoInstruction(redo_instruction)
     }
     else if (instruction->source == bbInstructionSource_action)
     {

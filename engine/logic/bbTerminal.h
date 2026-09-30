@@ -307,4 +307,5 @@ __FILE_NAME__, __func__, __LINE__, thread, test_time);
 #define bbTest() printf ("In FILE: %s, FUNCTION: %s, LINE: %d, THREAD: %s, TIME: %lu\nBB_TEST: delete code later\n",\
 __FILE_NAME__, __func__, __LINE__, thread, test_time);
 
+#define bbEndTest()
 #endif //BB_TERMINAL_H

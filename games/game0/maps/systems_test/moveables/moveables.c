@@ -197,8 +197,8 @@ bbFlag bbInstruction_updateMoveables_fn(bbCore* core,
         allocRedoInstruction(redo_instruction)
         *redo_instruction = *instruction;
         undo_instruction->redo_instruction = (bbHandle)redo_instruction_handle;
-        pushRedoInstruction(redo_instruction)
         pushUndoInstruction(undo_instruction)
+        pushRedoInstruction(redo_instruction)
         return bbSuccess;
     }
     if (instruction->source == bbInstructionSource_action)

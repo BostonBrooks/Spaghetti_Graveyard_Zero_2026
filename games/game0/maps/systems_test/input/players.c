@@ -154,9 +154,15 @@ bbFlag bbPlayer_ClickUnit_default(bbPlayers* players, bbHandle entity_handle, U6
 
                     bbCoreInput_requestAction(&home.core.core,&home.network,&action,home.core.core.actual_time,
                                                 bbInstructionSource_internal, no_handle);
+
+
                 }
             }
         }
+    }
+    else if (type == VPMouseRightDown)
+    {
+
     }
 
     bbDebug("clicked entity index %d, control keys:\n %064" PRIb64 "\n",

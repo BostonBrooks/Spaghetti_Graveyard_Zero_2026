@@ -5,11 +5,15 @@
 ///Follow the nearest enemy
 bbFlag bbAI_Update_Chase2(bbAI_Component* component) {
    // debug_off = true;
-    bbMoveable* moveable;
-    bbHandle moveable_handle;
+
+    if (component->state == bbAIState_Recovering) return bbSuccess;
+
+    bbHitPoints hitpoints;
+    bbHitPoint* hitpoint;
     bbComponent_mapComponent(home.ECS.ECS, bbECS_AI, (bbComponent*)component,
-                             bbECS_Moveables, &moveable_handle,
-                             (bbComponent**)&moveable);
+                             bbECS_Hitpoints, NULL,
+                             (bbComponent**)&hitpoint);
+
 
 
     bbHandle attacker_entity_handle;
@@ -17,6 +21,32 @@ bbFlag bbAI_Update_Chase2(bbAI_Component* component) {
     bbComponent_mapComponent(home.ECS.ECS, bbECS_AI, (bbComponent*)component,
                              bbECS_ECS, &attacker_entity_handle,
                              (bbComponent**)&attacker_entity);
+
+    bbMoveable* moveable;
+    bbHandle moveable_handle;
+    bbComponent_mapComponent(home.ECS.ECS, bbECS_AI, (bbComponent*)component,
+                             bbECS_Moveables, &moveable_handle,
+                             (bbComponent**)&moveable);
+
+
+    if (hitpoint->current_health <=0)
+    {
+
+        bbUI_Inbox_SetEntityState(&home.UI.inbox, attacker_entity_handle, bbDrawableState_dead);
+        bbCI_Moveable_setDead(&home.core.core, moveable_handle,
+                         bbInstructionSource_internal, no_handle);
+
+        bbHandle AI_handle;
+        bbComponent_getHandle(home.ECS.ECS->systems[bbECS_AI],(bbComponent*)component,&AI_handle);
+
+        bbCI_AI_setRecovering(&home.core.core,
+                       AI_handle, home.core.core.simulation_time,
+                 bbInstructionSource_internal, no_handle);
+    }
+
+
+
+
 
 
 

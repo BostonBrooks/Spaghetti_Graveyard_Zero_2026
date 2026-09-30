@@ -25,8 +25,8 @@ bbFlag bbCS_updateAI(bbCore* core, bbInstruction_source source, bbHandle action)
 
         //set instruction data
         undo_instruction->type = bbInstruction_unupdateAI;
-        pushRedoInstruction(instruction)
         pushUndoInstruction(undo_instruction)
+        pushRedoInstruction(instruction)
     } else if (source == bbInstructionSource_internal)
     {
         //create undo instruction
@@ -88,8 +88,8 @@ bbFlag bbI_updateAI_fn(bbCore* core, bbInstruction* instruction)
         allocRedoInstruction(redo_instruction)
          *redo_instruction = *instruction;
         undo_instruction->redo_instruction = redo_instruction_handle;
-        pushRedoInstruction(redo_instruction)
         pushUndoInstruction(undo_instruction)
+        pushRedoInstruction(redo_instruction)
     }
     else if (instruction->source == bbInstructionSource_action)
     {
