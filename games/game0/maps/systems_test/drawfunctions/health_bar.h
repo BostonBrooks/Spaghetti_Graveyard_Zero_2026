@@ -44,7 +44,7 @@ bbFlag bbDF_healthPointsTest(void* drawable, void* frameDescriptor, void* cl){
 
     {
         sfVector2f V2F;
-        V2F.x = unit->percent_health / 2.0;
+        V2F.x = unit->percent_health * 50.0f;
         V2F.y = 5;
         sfRectangleShape_setSize(green_rect, V2F);
         

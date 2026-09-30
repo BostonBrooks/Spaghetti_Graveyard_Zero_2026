@@ -531,7 +531,6 @@ bbFlag bbUI_Inbox_newBanana_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
 
 bbFlag bbUI_Inbox_setUnitHP_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
 {
-bbDebug("#################################################")
     I32 entity_index = message->data.data.integer;
     float HP = message->data.data.floating;
 
