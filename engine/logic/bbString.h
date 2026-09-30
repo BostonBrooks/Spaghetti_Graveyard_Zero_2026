@@ -3,6 +3,7 @@
 #ifndef BB_STRING_H
 #define BB_STRING_H
 
+#include <stdlib.h>
 #include <string.h>
 #include "engine/logic/bbIntTypes.h"
 #include "engine/logic/bbFlag.h"

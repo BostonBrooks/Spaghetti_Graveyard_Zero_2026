@@ -3,7 +3,7 @@
 #include <pthread.h>
 
 #define MESSAGE_LENGTH 256
-#define MESSAGE_BUFFER_LENGTH 256
+#define MESSAGE_BUFFER_LENGTH 4096
 
 #include "engine/logic/bbDictionary.h"
 #include "engine/logic/bbFlag.h"
