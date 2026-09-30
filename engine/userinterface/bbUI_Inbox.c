@@ -75,10 +75,10 @@ bbFlag bbUI_Inbox_check(bbUI_Inbox* inbox)
         case bbUI_Inbox_newUnit:
             bbUI_Inbox_newUnit_fn(inbox,message);
             break;
-        case bbUI_Inbox_setUnitHP:
-            bbUI_Inbox_setUnitHP_fn(inbox,message);
-            break;
 #endif
+            case bbUI_Inbox_setUnitHP:
+                bbUI_Inbox_setUnitHP_fn(inbox,message);
+                break;
 
         case bbUI_Inbox_deleteUnit:
             bbUI_Inbox_deleteUnit_fn(inbox,message);
@@ -375,7 +375,7 @@ bbFlag bbUI_Inbox_NewBanana(bbUI_Inbox* inbox, bbMapCoords MC, bbHandle entity_h
 
 
 bbFlag bbUI_Inbox_SetUnitHP(bbUI_Inbox* inbox, bbHandle unit, float HP)
-{
+{bbDebug("##########################################\n")
     bbUI_Inbox_message* message;
     bbThreadedQueue_alloc(&inbox->local_message_queue,(void**)&message);
     message->type = bbUI_Inbox_setUnitHP;
@@ -531,16 +531,26 @@ bbFlag bbUI_Inbox_newBanana_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
 
 bbFlag bbUI_Inbox_setUnitHP_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
 {
+bbDebug("#################################################")
     I32 entity_index = message->data.data.integer;
     float HP = message->data.data.floating;
 
     bbHandle unit_handle = message->data.data.handle.handle;
+    bbHandle unit_handle2;
+    bbFlag flag2 = bbLookupTable_lookup(home.viewport_app.entity_units2,
+                                        unit_handle,
+                                        &unit_handle2);
+
+    if (flag2 != bbSuccess)
+    {
+        bbDebug("entity handle table lookup failed when setting unit state\n");
+        return bbFail;
+    }
 
     bbUnits* units = home.viewport_app.units;
     bbUnit* unit;
-    bbFlag flag = bbVPool_lookup(units->pool,(void**)&unit,unit_handle);
+    bbFlag flag = bbVPool_lookup(units->pool,(void**)&unit,unit_handle2);
 
-    unit->display_health_until = home.UI.clock2_handle.map_tick + 180;
 
     if (flag != bbSuccess)
     {
@@ -548,8 +558,10 @@ bbFlag bbUI_Inbox_setUnitHP_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
         return bbNone;
     }
 
+    unit->display_health_until = home.UI.clock2_handle.map_tick + 180;
     unit->percent_health = HP;
 
+    bbHere()
 
 
     return bbSuccess;

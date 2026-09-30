@@ -90,7 +90,7 @@ bbHere()
                                     bbInstructionSource_internal,
                                     no_handle);
 
-            //TODO this is test code
+            bbDebug("####################################\n")
             bbCI_Hitpoints_damage (&home.core.core,
                           home.ECS.ECS,
                           this_player->selected_entities[0],

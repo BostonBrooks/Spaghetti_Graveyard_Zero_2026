@@ -47,8 +47,7 @@ bbFlag bbDF_healthPointsTest(void* drawable, void* frameDescriptor, void* cl){
         V2F.x = unit->percent_health / 2.0;
         V2F.y = 5;
         sfRectangleShape_setSize(green_rect, V2F);
-
-
+        
         bbViewport* VP = foo->target;
 
         sfRenderTexture* renderTexture = VP->mapicon.renderTexture;

@@ -29,6 +29,7 @@ __FILE_NAME__, __func__, __LINE__, thread, test_time);}
 printf ("In FILE: %s, FUNCTION: %s, LINE: %d, THREAD: %s, TIME: %lu\n"\
 "BB_NOT_HERE\n",\
 __FILE_NAME__, __func__, __LINE__, thread, test_time);\
+fflush(stdout);\
 int _x = 1/0;\
 }
 
@@ -303,5 +304,7 @@ __FILE_NAME__, __func__, __LINE__, thread, test_time);
 
 #endif
 
+#define bbTest() printf ("In FILE: %s, FUNCTION: %s, LINE: %d, THREAD: %s, TIME: %lu\nBB_TEST: delete code later\n",\
+__FILE_NAME__, __func__, __LINE__, thread, test_time);
 
 #endif //BB_TERMINAL_H
