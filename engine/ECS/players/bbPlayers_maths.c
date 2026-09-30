@@ -54,7 +54,7 @@ bbFlag bbAction_askQuestion_fn(bbCore *core, bbAction *action)
         I32 arg1 = hashIndex % 12;
         I32 arg2 = (hashIndex / 12) %12;
         char buffer[128];
-        snprintf(buffer, sizeof(buffer), "Whats is %d + %d?", arg1, arg2);
+        snprintf(buffer, sizeof(buffer), "Whats is %d + %d?\n", arg1, arg2);
         bbCI_setTextbox(core, buffer, "DIALOGUE?", action->header.act_tick,bbInstructionSource_internal,no_handle);
     }
 
@@ -98,7 +98,12 @@ bbFlag bbAction_answerQuestion_fn(bbCore *core, bbAction *action)
 
     bbDebug("answer = %d\n", answer);
     char buffer[128];
+
     snprintf(buffer, sizeof(buffer), "Your answer was %d\n", answer);
+    if (answer == I32_MIN) {
+        bbStr_setStr(buffer,"Your answer was invalid\n",sizeof(buffer));
+    }
+
     bbCI_putTextbox(core, buffer, "DIALOGUE?", action->header.act_tick,bbInstructionSource_internal,no_handle);
 
     return bbSuccess;
