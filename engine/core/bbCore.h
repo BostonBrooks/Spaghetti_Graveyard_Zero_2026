@@ -14,7 +14,7 @@
 #define BB_CORE_H
 
 #include "bbAction.h"
-#include "bbInstruction_map.h"
+#include "engine/core/core_integrity.h"
 #include "engine/logic/bbIntTypes.h"
 #include "engine/logic/bbList.h"
 #include "engine/logic/bbVPool.h"
