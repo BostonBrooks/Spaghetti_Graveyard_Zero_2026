@@ -30,6 +30,33 @@ bbFlag bbInputModes_populate(bbInputModes* input_modes)
         input_mode->key_actions[i].function = bbKeyAction_null;
     }
 
+    //input_mode->key_actions[sfKeyUnknown].function = bbKeyAction_null;
+
+
+    input_mode->key_actions[sfKeyNumpad0].control_key = 0;
+    input_mode->key_actions[sfKeyNumpad0].function = bbKeyAction_putCharCtrl;
+    input_mode->key_actions[sfKeyNumpad1].control_key = 1;
+    input_mode->key_actions[sfKeyNumpad1].function = bbKeyAction_putCharCtrl;
+    input_mode->key_actions[sfKeyNumpad2].control_key = 2;
+    input_mode->key_actions[sfKeyNumpad2].function = bbKeyAction_putCharCtrl;
+    input_mode->key_actions[sfKeyNumpad3].control_key = 3;
+    input_mode->key_actions[sfKeyNumpad3].function = bbKeyAction_putCharCtrl;
+    input_mode->key_actions[sfKeyNumpad4].control_key = 4;
+    input_mode->key_actions[sfKeyNumpad4].function = bbKeyAction_putCharCtrl;
+    input_mode->key_actions[sfKeyNumpad5].control_key = 5;
+    input_mode->key_actions[sfKeyNumpad5].function = bbKeyAction_putCharCtrl;
+    input_mode->key_actions[sfKeyNumpad6].control_key = 6;
+    input_mode->key_actions[sfKeyNumpad6].function = bbKeyAction_putCharCtrl;
+    input_mode->key_actions[sfKeyNumpad7].control_key = 7;
+    input_mode->key_actions[sfKeyNumpad7].function = bbKeyAction_putCharCtrl;
+    input_mode->key_actions[sfKeyNumpad8].control_key = 8;
+    input_mode->key_actions[sfKeyNumpad8].function = bbKeyAction_putCharCtrl;
+    input_mode->key_actions[sfKeyNumpad9].control_key = 9;
+    input_mode->key_actions[sfKeyNumpad9].function = bbKeyAction_putCharCtrl;
+
+
+
+
     input_mode->key_actions[sfKeyNumpad0].lowercase = '0';
     input_mode->key_actions[sfKeyNumpad1].lowercase = '1';
     input_mode->key_actions[sfKeyNumpad2].lowercase = '2';
@@ -52,6 +79,12 @@ bbFlag bbInputModes_populate(bbInputModes* input_modes)
     input_mode->key_actions[sfKeyNumpad7].uppercase = '7';
     input_mode->key_actions[sfKeyNumpad8].uppercase = '8';
     input_mode->key_actions[sfKeyNumpad9].uppercase = '9';
+
+    for (I32 i = sfKeyA; i <= sfKeyZ; i++)
+    {
+        input_mode->key_actions[i].function = bbKeyAction_putChar;
+    }
+
 
     input_mode->key_actions[sfKeyA].lowercase = 'a';
     input_mode->key_actions[sfKeyB].lowercase = 'b';
@@ -110,28 +143,15 @@ bbFlag bbInputModes_populate(bbInputModes* input_modes)
     input_mode->key_actions[sfKeyEnter].event_code = 0;
     input_mode->key_actions[sfKeyEnter].function = bbKeyAction_event;
 
-   /* input_mode->key_actions[sfKeyNumpad0].control_key = 0;
-    input_mode->key_actions[sfKeyNumpad0].function = bbKeyAction_ctrl;
-    input_mode->key_actions[sfKeyNumpad1].control_key = 1;
-    input_mode->key_actions[sfKeyNumpad1].function = bbKeyAction_ctrl;
-    input_mode->key_actions[sfKeyNumpad2].control_key = 2;
-    input_mode->key_actions[sfKeyNumpad2].function = bbKeyAction_ctrl;
-    input_mode->key_actions[sfKeyNumpad3].control_key = 3;
-    input_mode->key_actions[sfKeyNumpad3].function = bbKeyAction_ctrl;
-    input_mode->key_actions[sfKeyNumpad4].control_key = 4;
-    input_mode->key_actions[sfKeyNumpad4].function = bbKeyAction_ctrl;
-    input_mode->key_actions[sfKeyNumpad5].control_key = 5;
-    input_mode->key_actions[sfKeyNumpad5].function = bbKeyAction_ctrl;
-    input_mode->key_actions[sfKeyNumpad6].control_key = 6;
-    input_mode->key_actions[sfKeyNumpad6].function = bbKeyAction_ctrl;
-    input_mode->key_actions[sfKeyNumpad7].control_key = 7;
-    input_mode->key_actions[sfKeyNumpad7].function = bbKeyAction_ctrl;
-    input_mode->key_actions[sfKeyNumpad8].control_key = 8;
-    input_mode->key_actions[sfKeyNumpad8].function = bbKeyAction_ctrl;
-    input_mode->key_actions[sfKeyNumpad9].control_key = 9;
-    input_mode->key_actions[sfKeyNumpad9].function = bbKeyAction_ctrl;*/
+
+    input_mode->key_actions[sfKeyBackspace].function = bbKeyAction_clearChar;
+    input_mode->key_actions[sfKeyPeriod].function = bbKeyAction_clearChar;
+
+
 
     bbInputModes_add(input_modes, input_mode, "TEST_INPUT_MODE");
+
+    return bbSuccess;
 
 }
 bbFlag bbKeyAction_null (struct bbInputMode* input_mode, sfEvent * event, struct bbKeyAction* action )
@@ -144,14 +164,7 @@ bbFlag bbKeyAction_null (struct bbInputMode* input_mode, sfEvent * event, struct
             bbWidgets* widgets = &home.UI.widgets;
             char key = (event->key.shift == sfTrue) ? action->uppercase : action->lowercase;
 
-
-            bbHandle handle;
-            handle.u64 = key;
-            bbWidget_onCommand (input_mode->widget,
-                                widgets,
-                                   bbWC_putChar,
-                                   handle);
-            fflush(stdout);
+            bbDebug("you clicked key %c\n", key);
             break;
         }
     }
@@ -178,6 +191,66 @@ bbFlag bbKeyAction_putChar (struct bbInputMode* input_mode, sfEvent * event, str
 
     return bbSuccess;
 }
+
+
+bbFlag bbKeyAction_clearChar (struct bbInputMode* input_mode, sfEvent * event, struct bbKeyAction* action )
+{
+    switch (event->type)
+    {
+        case sfEvtKeyPressed:
+        {
+            bbWidget* widget = input_mode->widget;
+            bbWidgets* widgets = &home.UI.widgets;
+            char key = (event->key.shift == sfTrue) ? action->uppercase : action->lowercase;
+            bbHandle handle;
+            handle.u64 = key;
+            bbWidget_onCommand(widget,widgets, bbWC_clrStr,
+                               handle);
+            break;
+        }
+    }
+
+    return bbSuccess;
+}
+
+bbFlag bbKeyAction_putCharCtrl (struct bbInputMode* input_mode, sfEvent * event, struct bbKeyAction* action )
+{
+    switch (event->type)
+    {
+        case sfEvtKeyPressed:
+        {
+            I32 conrol_key = action->control_key;
+            U64 mask = 1ULL << conrol_key;
+            input_mode->control_keys |= mask;
+            break;
+        }
+        case sfEvtKeyReleased:
+        {
+            I32 conrol_key = action->control_key;
+            U64 mask = 1ULL << conrol_key;
+            input_mode->control_keys &= ~mask;
+        }
+    }
+
+    switch (event->type)
+    {
+
+        case sfEvtKeyPressed:
+        {
+            bbWidget* widget = input_mode->widget;
+            bbWidgets* widgets = &home.UI.widgets;
+            char key = (event->key.shift == sfTrue) ? action->uppercase : action->lowercase;
+            bbHandle handle;
+            handle.u64 = key;
+            bbWidget_onCommand(widget,widgets, bbWC_putChar,
+                               handle);
+            break;
+        }
+    }
+
+    return bbSuccess;
+}
+
 bbFlag bbKeyAction_ctrl (struct bbInputMode* input_mode, sfEvent * event, struct bbKeyAction* action )
 {
     switch (event->type)
@@ -200,12 +273,35 @@ bbFlag bbKeyAction_ctrl (struct bbInputMode* input_mode, sfEvent * event, struct
 }
 bbFlag bbKeyAction_event (struct bbInputMode* input_mode, sfEvent * event, struct bbKeyAction* action )
 {
+
     if (event->type == sfEvtKeyPressed) {
-        bbCoreInbox_KeyPress(&home.core.core, action->control_key, input_mode->control_keys);
+        bbCoreInbox_KeyPress(&home.core.core, action->event_code, input_mode->control_keys);
     }
 }
 
+bbFlag bbKeyAction_eventCtrl (struct bbInputMode* input_mode, sfEvent * event, struct bbKeyAction* action )
+{
+    switch (event->type)
+    {
+        case sfEvtKeyPressed:
+        {
+            I32 conrol_key = action->control_key;
+            U64 mask = 1ULL << conrol_key;
+            input_mode->control_keys |= mask;
+            break;
+        }
+        case sfEvtKeyReleased:
+        {
+            I32 conrol_key = action->control_key;
+            U64 mask = 1ULL << conrol_key;
+            input_mode->control_keys &= ~mask;
+        }
+    }
 
+    if (event->type == sfEvtKeyPressed) {
+        bbCoreInbox_KeyPress(&home.core.core, action->event_code, input_mode->control_keys);
+    }
+}
 bbFlag bbClickEntity_print(bbInputMode* input_mode, bbHandle entity_handle, bbVPMouseType type)
 {
     bbCoreInbox_ClickUnit(&home.core.core, entity_handle, input_mode->control_keys, type);

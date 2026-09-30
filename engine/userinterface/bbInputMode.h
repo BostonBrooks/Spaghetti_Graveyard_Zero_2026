@@ -30,6 +30,7 @@ typedef struct bbKeyAction
     char uppercase;
     U8 control_key;
     U8 event_code;
+    U8 event_code_release;
     bbKeyAction_fn* function;
 } bbKeyAction;
 
@@ -65,6 +66,9 @@ bbFlag bbKeyAction_null(bbInputMode* input_mode, sfEvent * event, bbKeyAction* a
 bbFlag bbKeyAction_putChar(bbInputMode* input_mode, sfEvent * event, bbKeyAction* action);
 bbFlag bbKeyAction_ctrl(bbInputMode* input_mode, sfEvent * event, bbKeyAction* action);
 bbFlag bbKeyAction_event(bbInputMode* input_mode, sfEvent * event, bbKeyAction* action);
+bbFlag bbKeyAction_putCharCtrl(bbInputMode* input_mode, sfEvent * event, bbKeyAction* action);
+bbFlag bbKeyAction_eventCtrl(bbInputMode* input_mode, sfEvent * event, bbKeyAction* action);
+bbFlag bbKeyAction_clearChar(bbInputMode* input_mode, sfEvent * event, bbKeyAction* action);
 
 
 bbFlag bbClickEntity_print(bbInputMode* input_mode, bbHandle entity_handle, bbVPMouseType type);
