@@ -7,6 +7,8 @@
 #include "engine/data/CSFML.h"
 
 #include "bbWidgets.h"
+#include "engine/core/bbCore.h"
+#include "engine/core/bbInstruction.h"
 #include "engine/logic/bbFlag.h"
 #include "engine/logic/bbHandle.h"
 #include "engine/logic/bbIntTypes.h"
@@ -73,5 +75,7 @@ bbFlag bbKeyAction_clearChar(bbInputMode* input_mode, sfEvent * event, bbKeyActi
 
 bbFlag bbClickEntity_print(bbInputMode* input_mode, bbHandle entity_handle, bbVPMouseType type);
 bbFlag bbClickMapCoords_print(bbInputMode* input_mode, bbMapCoords map_coords, bbVPMouseType type);
+
+
 
 #endif  //BB_INPUTMODE_H
