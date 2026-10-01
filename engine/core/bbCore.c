@@ -56,6 +56,7 @@ bbFlag bbCore_react(bbCore* core)
         {//bbHere()
             bbInstruction_fn* instruction_fn = core->instruction_functions[instruction.type-bbInstruction_numTypes];
 
+            bbDebug("instruction.type = %d\n", instruction.type);
             //bbDebug("instruction type = %d\n", instruction.type);
             bbAssert(instruction_fn != NULL, "Unknown instruction type %d\n", instruction.type);
 

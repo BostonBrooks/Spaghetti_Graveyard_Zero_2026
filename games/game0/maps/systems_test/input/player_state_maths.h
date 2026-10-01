@@ -42,6 +42,10 @@ bbFlag bbPlayer_ClickMap_requestingMaths(bbPlayers* players, bbMapCoords coords,
 }
 bbFlag bbPlayer_ClickUnit_requestingMaths(bbPlayers* players, bbHandle entity_handle, U64 control_keys, bbVPMouseType type){
 
+    bbTest()
+    bbECS_entity* ecs_entity;
+    bbHandle_getComponent(&home.ECS.ECS->system,(bbComponent**)&ecs_entity, entity_handle);
+    bbDebug("player targets entity %s\n", ecs_entity->key);
 
     if (type == VPMouseLeftDown) {
         bbHandle target_server_handle;
@@ -181,7 +185,18 @@ bbFlag bbPlayer_KeyPress_answeringMaths(bbPlayers* players, U64 key, U64 control
 
         bbHandle target_handle, target_server_handle;
         I32 this_player = home.ECS.players.this_player;
-        target_handle = home.ECS.players.players[this_player].selected_entities[0];
+        target_handle = home.ECS.players.players[this_player].target_entity;
+
+
+        bbTest()
+        bbECS_entity* ecs_entity;
+        bbHandle_getComponent(&home.ECS.ECS->system,(bbComponent**)&ecs_entity, target_handle);
+
+        if (ecs_entity == NULL) {
+            bbHere()
+            return bbSuccess;
+        }
+        bbDebug("player targets entity %s\n", ecs_entity->key);
 
         bbHandle_mapComponent(home.ECS.ECS,bbECS_ECS,target_handle,bbECS_ServerEntities,&target_server_handle,NULL);
 

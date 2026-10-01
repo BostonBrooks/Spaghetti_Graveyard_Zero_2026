@@ -173,6 +173,12 @@ bbFlag bbAI_Command_Player(bbAI_Component* component,
 
         bbHandle target_handle = data.handle;
 
+
+        bbECS_entity* ecs_entity;
+        bbHandle_getComponent(&home.ECS.ECS->system,(bbComponent**)&ecs_entity, target_handle);
+
+        bbDebug("player targets entity %s\n", ecs_entity->key);
+
         bbTest()
        bbCI_Hitpoints_damage (&home.core.core,
                      home.ECS.ECS,
