@@ -153,7 +153,7 @@ bbFlag bbI_Graphics_setState_fn(bbCore* core, bbInstruction* instruction)
     bbHandle_mapComponent(core->ECS,bbECS_ECS,instruction->data.graphics.entity_handle,
         bbECS_Graphics,NULL,(bbComponent**)&component);
 
-
+    bbAssert(component != NULL, "trying to update a null graphics component\n");
    // bbDebug("attempting to set state: %d\n", instruction->data.graphics.drawable_state);
     if (instruction->source == bbInstructionSource_internal)
     {
