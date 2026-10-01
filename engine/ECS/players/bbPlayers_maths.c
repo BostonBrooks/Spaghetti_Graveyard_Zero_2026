@@ -16,6 +16,7 @@ bbFlag bbActionRequest_askQuestion(void *Core,
                                    I32 type,
                                    U64 random_seed)
 {
+    bbHere()
     bbCore* core = (bbCore*)Core;
 
     bbAction action;
@@ -36,6 +37,7 @@ bbFlag bbActionRequest_askQuestion(void *Core,
 
 bbFlag bbAction_askQuestion_fn(bbCore *core, bbAction *action)
 {
+    bbHere()
     U32 player_index = action->integer;
     I32 type = action->integer2;
     U64 random_seed = action->handle.u64;
@@ -46,6 +48,8 @@ bbFlag bbAction_askQuestion_fn(bbCore *core, bbAction *action)
     bbVPool_reverseLookup(core->action_pool,action,&action_handle);
 
     bbCI_doNothing(&home.core.core, bbInstructionSource_action, action_handle);
+
+    bbCoreInput_setPlayerState(&home.core.core, player_index, bbPlayer_state_answeringMaths);
 
     if (player_index == players->this_player) {
 
@@ -73,6 +77,7 @@ bbFlag bbActionRequest_answerQuestion(void *Core,
                                       U64 random_seed,
                                       I32 answer)
 {
+    bbHere()
     bbCore* core = (bbCore*)Core;
 
     bbAction action;
@@ -88,14 +93,14 @@ bbFlag bbActionRequest_answerQuestion(void *Core,
     action.handle.u64 = random_seed;
 bbDebug("answer = %d\n", answer);
     bbAction_request(core,&home.network,&action);
-bbHere()
     return bbSuccess;
 }
 
 bbFlag bbAction_answerQuestion_fn(bbCore *core, bbAction *action)
 {
+    bbHere()
     I32 answer = action->integer3;
-
+    I32 player_int  = action->integer;
     bbDebug("answer = %d\n", answer);
     char buffer[128];
 
@@ -103,7 +108,7 @@ bbFlag bbAction_answerQuestion_fn(bbCore *core, bbAction *action)
     if (answer == I32_MIN) {
         bbStr_setStr(buffer,"Your answer was invalid\n",sizeof(buffer));
     }
-
+    bbCoreInput_setPlayerState(&home.core.core, player_int, bbPlayer_state_requestingMaths);
     bbCI_putTextbox(core, buffer, "DIALOGUE?", action->header.act_tick,bbInstructionSource_internal,no_handle);
 
     return bbSuccess;

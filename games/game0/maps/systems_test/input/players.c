@@ -8,6 +8,7 @@
 #include "engine/logic/bbFlag.h"
 #include "engine/userinterface/bbTextInput.h"
 #include "entity_spawner/live_spawn.h"
+#include "games/game0/maps/systems_test/input/player_state_maths.h"
 
 bbFlag bbPlayer_ClickMap_null(bbPlayers* players, bbMapCoords coords, U64 control_keys, bbVPMouseType type) ;
 bbFlag bbPlayer_ClickUnit_null(bbPlayers* players, bbHandle entity_handle, U64 control_keys, bbVPMouseType type) ;
@@ -28,6 +29,7 @@ bbFlag bbPlayers_populate(bbPlayers* system) {
         system->states[bbPlayer_stateNULL].bbInputMode_key,
         "TEST_INPUT_MODE", KEY_LENGTH);
 
+
     system->states[bbPlayer_stateDefault].click_map = bbPlayer_ClickMap_default;
     system->states[bbPlayer_stateDefault].click_unit = bbPlayer_ClickUnit_default;
     system->states[bbPlayer_stateDefault].key_press = bbPlayer_KeyPress_default;
@@ -36,7 +38,24 @@ bbFlag bbPlayers_populate(bbPlayers* system) {
         system->states[bbPlayer_stateDefault].bbInputMode_key,
         "TEST_INPUT_MODE", KEY_LENGTH);
 
+    system->states[bbPlayer_state_requestingMaths].click_map = bbPlayer_ClickMap_requestingMaths;
+    system->states[bbPlayer_state_requestingMaths].click_unit = bbPlayer_ClickUnit_requestingMaths;
+    system->states[bbPlayer_state_requestingMaths].key_press = bbPlayer_KeyPress_requestingMaths;
 
+    bbStr_setStr(
+        system->states[bbPlayer_state_requestingMaths].bbInputMode_key,
+        "TEST_INPUT_MODE", KEY_LENGTH);
+
+
+    system->states[bbPlayer_state_answeringMaths].click_map = bbPlayer_ClickMap_answeringMaths;
+    system->states[bbPlayer_state_answeringMaths].click_unit = bbPlayer_ClickUnit_answeringMaths;
+    system->states[bbPlayer_state_answeringMaths].key_press = bbPlayer_KeyPress_answeringMaths;
+
+    bbStr_setStr(
+        system->states[bbPlayer_state_answeringMaths].bbInputMode_key,
+         "NUMBER_INPUT", KEY_LENGTH);
+
+    return bbSuccess;
 }
 
 
@@ -185,11 +204,10 @@ bbFlag bbPlayer_KeyPress_default(bbPlayers* players, U64 key, U64 control_keys) 
         text_input = widget->extra_data;
 
         bbMutexLock(&text_input->mutex);
-
         I32 input_number = bbStr_toI32(text_input->raw_buffer);
-
-        bbMutexUnlock(&text_input->mutex);
         bbTextInput_setStr(text_input,"");
+        bbMutexUnlock(&text_input->mutex);
+
 
         bbDebug("input number = %d\n", input_number);
         bbActionRequest_answerQuestion(&home.core.core,

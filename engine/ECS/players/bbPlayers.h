@@ -10,8 +10,8 @@
 typedef enum {
     bbPlayer_stateNULL,
     bbPlayer_stateDefault,
-    bbPlayer_stateMathsInput,
-
+    bbPlayer_state_requestingMaths,
+    bbPlayer_state_answeringMaths,
     bbPlayer_stateNum,
 } bbPlayer_state;
 

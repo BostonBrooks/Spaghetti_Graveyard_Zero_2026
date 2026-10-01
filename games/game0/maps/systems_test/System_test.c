@@ -36,6 +36,7 @@
 
 #include "engine/ECS/graphics_system/bbGraphicsSystem.h"
 #include "engine/ECS/hitpoints/bbHitPoints.h"
+#include "engine/ECS/players/bbPlayers_maths.h"
 #include "engine/ECS/spatial/bbSpatial_query.h"
 #include "engine/ECS/teams/bbTeams.h"
 #include "engine/logic/bbString.h"
@@ -351,6 +352,22 @@ int main(void) {
             // snprintf(message, MESSAGE_LENGTH,"time sent: %llu\n", home.core.core.actual_time);
             // bbNetworkApp_sendMessage(&home.network, message_handle2, home.core.core.actual_time, 193);
 
+            static I32 once = 0;
+            if (once == 0) {
+                once = 1;
+
+                U64 rand = bbRand();
+                bbActionRequest_askQuestion(&home.core.core,
+                                                    home.ECS.players.this_player,
+                                                    collision++,
+                                                    home.core.core.actual_time,
+                                                    home.core.core.actual_time,
+                                                    home.ECS.players.this_player,
+                                                    0,
+                                              rand);
+
+            }
+
             bbCore_checkIntegrity(&home.core.core);
 
             bbCoreInput_checkActions(&home.core.core,
@@ -430,7 +447,7 @@ int main(void) {
 void* userinterface_thread(void* arg)
 {
     thread = "USER INTERFACE";
-    debug_off = false;
+    debug_off = true;
 
 
     home.viewport_app.active_squares.old_i_min = 0;
