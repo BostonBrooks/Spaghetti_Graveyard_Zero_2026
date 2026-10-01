@@ -101,10 +101,7 @@ int main(void) {
     bbTextbox_newMessage(home.textbox_app.textboxes[bbTextbox_Dialogue], &message_handle, &message_text);
     snprintf(message_text,MESSAGE_LENGTH,
 
-"Ho! Tom Bombadil, Tom Bombadillo!\n"
-"By water, wood and hill, by the reed and willow,\n"
-"By fire, sun and moon, harken now and hear us!\n"
-"Come, Tom Bombadil, for our need is near us!\n");
+"This was the last working checkpoint before i did a bad Rebase/Merge\n");
 
     bbTextbox_putMessage(home.textbox_app.textboxes[bbTextbox_Dialogue],message_handle,0);
     bbTextbox_updateBuffer(home.textbox_app.textboxes[bbTextbox_Dialogue]);
