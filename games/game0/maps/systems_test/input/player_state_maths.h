@@ -181,9 +181,15 @@ bbFlag bbPlayer_KeyPress_answeringMaths(bbPlayers* players, U64 key, U64 control
 
         bbHandle target_handle, target_server_handle;
         I32 this_player = home.ECS.players.this_player;
-        target_handle = home.ECS.players.players[this_player].selected_entities[0];
+        target_handle = home.ECS.players.players[this_player].target_entity;
 
-        bbHandle_mapComponent(home.ECS.ECS,bbECS_ECS,target_handle,bbECS_ServerEntities,&target_server_handle,NULL);
+        bbFlag flag = bbHandle_mapComponent(home.ECS.ECS,bbECS_ECS,target_handle,bbECS_ServerEntities,&target_server_handle,NULL);
+
+        if (flag != bbSuccess) {
+            bbFlag_print(flag)
+            bbDebug("Server handle not found\n");
+            return bbSuccess;
+        }
 
         bbActionRequest_setPlayerAttack(&home.core.core,
                                             home.ECS.players.this_player,

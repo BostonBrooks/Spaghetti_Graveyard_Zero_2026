@@ -170,7 +170,6 @@ bbFlag bbAI_Command_Player(bbAI_Component* component,
 
     if (type == bbAI_targetMonster && is_action)
     {
-
         bbHandle target_handle = data.handle;
 
         bbTest()

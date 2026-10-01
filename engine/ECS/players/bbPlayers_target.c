@@ -43,6 +43,11 @@ bbFlag bbAction_setPlayerTarget_fn(bbCore* core, bbAction* action) {
     bbVPool_reverseLookup(core->action_pool,action,&action_handle);
     bbCS_setPlayerTarget(core, action->integer, entity_handle, bbInstructionSource_action, action_handle);
 
+
+    bbECS_entity* entity;
+    bbHandle_getComponent(&home.ECS.ECS->system,(bbComponent**)&entity,entity_handle);
+    bbDebug("player sets target %s\n", entity->key);
+
     return bbSuccess;
 }
 bbFlag bbActionRequest_setPlayerAttack(void* Core,
