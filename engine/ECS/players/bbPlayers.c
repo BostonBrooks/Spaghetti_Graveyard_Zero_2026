@@ -79,6 +79,8 @@ bbFlag bbCoreInput_setPlayerState(bbCore* core, U32 player_int, U32 state,  bbIn
 
     bbDebug("setting player state to %d\n", state)
 
+    bbDebug("setting player state to %d\n", state)
+
     bbPlayers* players = (bbPlayers*)core->ECS->systems[bbECS_Players];
     bbPlayer* player = &players->players[player_int];
     player->state = state;

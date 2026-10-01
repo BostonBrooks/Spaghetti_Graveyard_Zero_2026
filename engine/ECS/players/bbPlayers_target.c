@@ -30,6 +30,8 @@ bbFlag bbActionRequest_setPlayerTarget(void* Core,
     action.handle = target_server_handle;
     bbAction_request(core,&home.network,&action);
 
+
+
     return bbSuccess;
 }
 
@@ -43,6 +45,10 @@ bbFlag bbAction_setPlayerTarget_fn(bbCore* core, bbAction* action) {
     bbVPool_reverseLookup(core->action_pool,action,&action_handle);
     bbCS_setPlayerTarget(core, action->integer, entity_handle, bbInstructionSource_action, action_handle);
 
+    bbTest()
+    bbECS_entity* ecs_entity;
+    bbHandle_getComponent(&home.ECS.ECS->system,(bbComponent**)&ecs_entity, entity_handle);
+    bbDebug("player targets entity %s\n", ecs_entity->key);
     return bbSuccess;
 }
 bbFlag bbActionRequest_setPlayerAttack(void* Core,
@@ -86,12 +92,12 @@ bbFlag bbAction_setPlayerAttack_fn(bbCore* core, bbAction* action) {
 
     bbHandle player_entity_handle = home.ECS.players.players[player].selected_entities[0];
 
+
+
     bbHandle_mapComponent(core->ECS, bbECS_ECS, player_entity_handle, bbECS_AI, NULL, (bbComponent**)&ai_component);
 
     bbAI_CommandData data;
     data.handle = target_handle;
-
-
 
     bbAI_onCommand(ai_component,
                           (bbAI_System*)home.ECS.ECS->systems[bbECS_AI],
@@ -102,6 +108,11 @@ bbFlag bbAction_setPlayerAttack_fn(bbCore* core, bbAction* action) {
     bbVPool_reverseLookup(core->action_pool,action,&action_handle);
 
     bbCI_doNothing(core, bbInstructionSource_action, action_handle);
+
+    bbTest()
+    bbECS_entity* ecs_entity;
+    bbHandle_getComponent(&home.ECS.ECS->system,(bbComponent**)&ecs_entity, target_handle);
+    bbDebug("player targets entity %s\n", ecs_entity->key);
 
     return bbSuccess;
 }
