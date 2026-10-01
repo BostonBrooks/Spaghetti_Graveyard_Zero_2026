@@ -6,6 +6,7 @@
 #include "AI_system/player_send_goalpoint.h"
 #include "engine/ECS/players/bbPlayers_maths.h"
 #include "games/game0/maps/systems_test/core/action_set_goalpoint.h"
+#include "engine/ECS/players/bbPlayers_target.h"
 
 bbFlag bbAction_bbHere(void* Core,
                        U32 sender,
@@ -62,13 +63,15 @@ bbFlag bbCore_initActions(bbCore* core)
 {
     core->action_functions = calloc(bbActionType_numVActions - bbActionType_numActions, sizeof(bbAction_fn*));
 
-    core->action_functions[bbActionType_bbHere- bbActionType_numActions] = bbAction_bbHere_fn;
-    core->action_functions[bbActionType_setGoalpoint- bbActionType_numActions] = bbAction_setGoalpoint_fn;
-    core->action_functions[bbActionType_setTarget- bbActionType_numActions] = bbAction_setTarget_fn;
-    core->action_functions[bbActionType_setPlayerEntity- bbActionType_numActions] =  bbAction_setPlayerEntity_fn;
-    core->action_functions[bbActionType_sendAIGoalpoint- bbActionType_numActions] =  bbAction_setAIGoalpoint_fn;
-    core->action_functions[bbActionType_askQuestion- bbActionType_numActions] =  bbAction_askQuestion_fn;
-    core->action_functions[bbActionType_answerQuestion- bbActionType_numActions] =  bbAction_answerQuestion_fn;
+    core->action_functions[bbActionType_bbHere - bbActionType_numActions] = bbAction_bbHere_fn;
+    core->action_functions[bbActionType_setGoalpoint - bbActionType_numActions] = bbAction_setGoalpoint_fn;
+    core->action_functions[bbActionType_setTarget - bbActionType_numActions] = bbAction_setTarget_fn;
+    core->action_functions[bbActionType_setPlayerEntity - bbActionType_numActions] =  bbAction_setPlayerEntity_fn;
+    core->action_functions[bbActionType_sendAIGoalpoint - bbActionType_numActions] =  bbAction_setAIGoalpoint_fn;
+    core->action_functions[bbActionType_askQuestion - bbActionType_numActions] =  bbAction_askQuestion_fn;
+    core->action_functions[bbActionType_answerQuestion - bbActionType_numActions] =  bbAction_answerQuestion_fn;
+    core->action_functions[bbActionType_setPlayerTarget - bbActionType_numActions] =  bbAction_setPlayerTarget_fn;
+    core->action_functions[bbActionType_setPlayerAttack - bbActionType_numActions] =  bbAction_setPlayerAttack_fn;
 
 
 

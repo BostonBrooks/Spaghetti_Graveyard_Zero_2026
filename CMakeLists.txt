@@ -217,7 +217,7 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
         games/game0/maps/systems_test/render_units/render_units.c
         games/game0/maps/systems_test/render_units/drawable_functions.c
         games/game0/maps/systems_test/render_units/tree_group.c
-
+        games/game0/maps/systems_test/core/action_request.c
 
         engine/test_string/bbTestString.c
 
@@ -237,6 +237,7 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
         engine/ECS/graphics_system/bbGraphicsSystem_state.c
         engine/ECS/hitpoints/bbHitPoints.c
         engine/ECS/players/bbPlayers_maths.c
+        engine/ECS/players/bbPlayers_target.c
 
         engine/core/bbAction.c
         engine/core/bbCore.c
@@ -246,7 +247,6 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
         engine/core/bbCoreInputs.c
         engine/core/bbInstruction.c
         engine/core/bbAction_check.c
-        games/game0/maps/systems_test/core/action_request.c
 
         engine/logic/bbList.c
         engine/logic/bbNestedList.c

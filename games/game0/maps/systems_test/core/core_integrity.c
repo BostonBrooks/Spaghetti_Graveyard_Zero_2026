@@ -154,6 +154,9 @@ bbFlag bbCore_initMap(bbInstructionMap* map)
     map->forward[bbI_bbInputModes_unset] = bbI_bbInputModes_set;
     map->rollback[bbI_bbInputModes_set] = bbI_bbInputModes_unset;
 
+
+    map->forward[bbI_unsetPlayerTarget] = bbI_setPlayerTarget;
+    map->rollback[bbI_setPlayerTarget] = bbI_unsetPlayerTarget;
     return bbSuccess;
 }
 

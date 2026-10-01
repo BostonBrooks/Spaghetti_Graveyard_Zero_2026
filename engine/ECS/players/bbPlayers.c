@@ -74,8 +74,10 @@ bbFlag bbPlayer_KeyPress(bbPlayers* players, U64 key, U64 control_keys)
 }
 
 
-bbFlag bbCoreInput_setPlayerState(bbCore* core, U32 player_int, U32 state) {
-    bbNotImplemented()
+bbFlag bbCoreInput_setPlayerState(bbCore* core, U32 player_int, U32 state,  bbInstruction_source source, bbHandle action) {
+    bbNotImplemented() //rollback
+
+    bbDebug("setting player state to %d\n", state)
 
     bbPlayers* players = (bbPlayers*)core->ECS->systems[bbECS_Players];
     bbPlayer* player = &players->players[player_int];

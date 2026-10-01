@@ -17,6 +17,7 @@
 #include "engine/ECS/hitpoints/bbHitPoints.h"
 #include "engine/ECS/moveables/bbMoveables_setState.h"
 #include "engine/ECS/players/bbPlayers.h"
+#include "engine/ECS/players/bbPlayers_target.h"
 #include "engine/ECS/server_entities/bbServerEntities.h"
 #include "engine/ECS/teams/bbTeams.h"
 #include "entity_spawner/live_spawn.h"
@@ -84,6 +85,8 @@ bbFlag bbCore_initVInstructions(bbCore* core)
     core->instruction_functions[bbI_Hitpoints_undamage-bbInstruction_numTypes] = bbI_Hitpoints_undamage_fn;
     core->instruction_functions[bbI_bbInputModes_set-bbInstruction_numTypes] = bbI_bbInputModes_set_fn;
     core->instruction_functions[bbI_bbInputModes_unset-bbInstruction_numTypes] = bbI_bbInputModes_unset_fn;
+    core->instruction_functions[bbI_setPlayerTarget-bbInstruction_numTypes] = bbI_setPlayerTarget_fn;
+    core->instruction_functions[bbI_unsetPlayerTarget-bbInstruction_numTypes] = bbI_unsetPlayerTarget_fn;
 
 
 

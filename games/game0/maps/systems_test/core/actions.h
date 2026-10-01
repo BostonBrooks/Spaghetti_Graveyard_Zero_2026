@@ -11,6 +11,8 @@ typedef enum
     bbActionType_askQuestion,
     bbActionType_answerQuestion,
     bbActionType_sendAIGoalpoint,
+    bbActionType_setPlayerTarget,
+    bbActionType_setPlayerAttack,
     bbActionType_numVActions
 } bbAction_vtype;
 

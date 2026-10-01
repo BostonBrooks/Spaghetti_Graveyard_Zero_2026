@@ -1,3 +1,5 @@
+
+
 #include "player_send_goalpoint.h"
 #include "core/actions.h"
 #include "core/send_server_enitity.h"
@@ -171,14 +173,14 @@ bbFlag bbAI_Command_Player(bbAI_Component* component,
 
         bbHandle target_handle = data.handle;
 
-       bbTest()
-      bbCI_Hitpoints_damage (&home.core.core,
-                    home.ECS.ECS,
-                    target_handle,
-                    0,
-                    193,
-                    bbInstructionSource_internal,
-                    no_handle);
+        bbTest()
+       bbCI_Hitpoints_damage (&home.core.core,
+                     home.ECS.ECS,
+                     target_handle,
+                     0,
+                     193,
+                     bbInstructionSource_internal,
+                     no_handle);
 
         bbHandle target_moveable_handle;
         bbMoveable* target_moveable;
