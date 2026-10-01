@@ -11,10 +11,10 @@ Spaghetti - Because I did not know much about how write well-structured code at 
 Graveyard - Because since learning how to write better code, I have discarded much of the code that I had written.
 Zero      - Because this is very much a work in progress and so comes before release 1.0
 
-#define BB_CSFML3 to compile with BB_CSFML3, 
+#define BB_CSFML3 to compile with CSFML3, 
 compile for CSFML2.6.1 otherwise
 
-To run the profile on Ubuntu, I ran the following commands separately:
+To run the profiler on Ubuntu, I ran the following commands separately:
 
 sudo sh -c 'echo 1 > /proc/sys/kernel/perf_event_paranoid'
 sudo sh -c 'echo 0 > /proc/sys/kernel/kptr_restrict'
