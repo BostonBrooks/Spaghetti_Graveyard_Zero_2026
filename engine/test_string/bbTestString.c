@@ -209,12 +209,13 @@ bbFlag bbI_doNothing_fn(bbCore* core, bbInstruction* instruction)
 
     } //else source == no rewind
 
-
+//Do side-effects
 
     return bbSuccess;
 }
 bbFlag bbI_undoNothing_fn(bbCore* core, bbInstruction* instruction)
 {
+    //do side-effects
 
     if (instruction->source == bbInstructionSource_internal)
     {

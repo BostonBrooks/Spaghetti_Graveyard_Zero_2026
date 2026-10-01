@@ -151,6 +151,91 @@ bbFlag bbInputModes_populate(bbInputModes* input_modes)
 
     bbInputModes_add(input_modes, input_mode, "TEST_INPUT_MODE");
 
+
+    //////////////////////////////////////////////////////
+
+    input_mode = calloc(1, sizeof(bbInputMode));
+
+    widget_handle;
+    bbDictionary_lookup(home.UI.widgets.dict, "TEXT_INPUT", &widget_handle);
+    widget;
+    bbVPool_lookup(home.UI.widgets.pool,(void**)&widget,widget_handle);
+
+    input_mode->widget = widget;
+    input_mode->click_entity = bbClickEntity_print;
+    input_mode->click_map_coords = bbClickMapCoords_print;
+
+    for (I32 i = 0; i < sfKeyCount; i++)
+    {
+        input_mode->key_actions[i].lowercase = '@';
+        input_mode->key_actions[i].uppercase = '#';
+        input_mode->key_actions[i].control_key = 0;
+        input_mode->key_actions[i].event_code = 0;
+        input_mode->key_actions[i].function = bbKeyAction_null;
+    }
+
+    //input_mode->key_actions[sfKeyUnknown].function = bbKeyAction_null;
+
+
+    input_mode->key_actions[sfKeyNumpad0].control_key = 0;
+    input_mode->key_actions[sfKeyNumpad0].function = bbKeyAction_putCharCtrl;
+    input_mode->key_actions[sfKeyNumpad1].control_key = 1;
+    input_mode->key_actions[sfKeyNumpad1].function = bbKeyAction_putCharCtrl;
+    input_mode->key_actions[sfKeyNumpad2].control_key = 2;
+    input_mode->key_actions[sfKeyNumpad2].function = bbKeyAction_putCharCtrl;
+    input_mode->key_actions[sfKeyNumpad3].control_key = 3;
+    input_mode->key_actions[sfKeyNumpad3].function = bbKeyAction_putCharCtrl;
+    input_mode->key_actions[sfKeyNumpad4].control_key = 4;
+    input_mode->key_actions[sfKeyNumpad4].function = bbKeyAction_putCharCtrl;
+    input_mode->key_actions[sfKeyNumpad5].control_key = 5;
+    input_mode->key_actions[sfKeyNumpad5].function = bbKeyAction_putCharCtrl;
+    input_mode->key_actions[sfKeyNumpad6].control_key = 6;
+    input_mode->key_actions[sfKeyNumpad6].function = bbKeyAction_putCharCtrl;
+    input_mode->key_actions[sfKeyNumpad7].control_key = 7;
+    input_mode->key_actions[sfKeyNumpad7].function = bbKeyAction_putCharCtrl;
+    input_mode->key_actions[sfKeyNumpad8].control_key = 8;
+    input_mode->key_actions[sfKeyNumpad8].function = bbKeyAction_putCharCtrl;
+    input_mode->key_actions[sfKeyNumpad9].control_key = 9;
+    input_mode->key_actions[sfKeyNumpad9].function = bbKeyAction_putCharCtrl;
+
+
+
+
+    input_mode->key_actions[sfKeyNumpad0].lowercase = '0';
+    input_mode->key_actions[sfKeyNumpad1].lowercase = '1';
+    input_mode->key_actions[sfKeyNumpad2].lowercase = '2';
+    input_mode->key_actions[sfKeyNumpad3].lowercase = '3';
+    input_mode->key_actions[sfKeyNumpad4].lowercase = '4';
+    input_mode->key_actions[sfKeyNumpad5].lowercase = '5';
+    input_mode->key_actions[sfKeyNumpad6].lowercase = '6';
+    input_mode->key_actions[sfKeyNumpad7].lowercase = '7';
+    input_mode->key_actions[sfKeyNumpad8].lowercase = '8';
+    input_mode->key_actions[sfKeyNumpad9].lowercase = '9';
+
+
+    input_mode->key_actions[sfKeyNumpad0].uppercase = '0';
+    input_mode->key_actions[sfKeyNumpad1].uppercase = '1';
+    input_mode->key_actions[sfKeyNumpad2].uppercase = '2';
+    input_mode->key_actions[sfKeyNumpad3].uppercase = '3';
+    input_mode->key_actions[sfKeyNumpad4].uppercase = '4';
+    input_mode->key_actions[sfKeyNumpad5].uppercase = '5';
+    input_mode->key_actions[sfKeyNumpad6].uppercase = '6';
+    input_mode->key_actions[sfKeyNumpad7].uppercase = '7';
+    input_mode->key_actions[sfKeyNumpad8].uppercase = '8';
+    input_mode->key_actions[sfKeyNumpad9].uppercase = '9';
+
+
+    input_mode->key_actions[sfKeyEnter].event_code = 0;
+    input_mode->key_actions[sfKeyEnter].function = bbKeyAction_event;
+
+
+    input_mode->key_actions[sfKeyBackspace].function = bbKeyAction_clearChar;
+    input_mode->key_actions[sfKeyPeriod].function = bbKeyAction_clearChar;
+
+
+
+    bbInputModes_add(input_modes, input_mode, "NUMBER_INPUT");
+
     return bbSuccess;
 
 }

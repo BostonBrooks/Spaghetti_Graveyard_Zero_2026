@@ -32,7 +32,7 @@
 #include "engine/ECS/AI_system/bbAI_System.h"
 #include "engine/test_string/bbTestString.h"
 #include "engine/ECS/bbECS_instructions.h"
-
+#include "engine/userinterface/bbInputMode_instructions.h"
 
 #include "engine/ECS/graphics_system/bbGraphicsSystem.h"
 #include "engine/ECS/hitpoints/bbHitPoints.h"
@@ -258,7 +258,7 @@ int main(void) {
 
     bbCore_checkIntegrity(&home.core.core);
 
-
+    bbCI_bbInputModes_set(&home.core.core, &home.UI.input_modes, "NUMBER_INPUT",bbInstructionSource_input, no_handle);
 
     while (1)
     {//bbHere()

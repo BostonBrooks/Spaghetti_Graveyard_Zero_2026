@@ -218,6 +218,7 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
         games/game0/maps/systems_test/render_units/drawable_functions.c
         games/game0/maps/systems_test/render_units/tree_group.c
 
+
         engine/test_string/bbTestString.c
 
         engine/ECS/bbECS.c
@@ -284,6 +285,7 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
         engine/userinterface/bbWidgets.c
         engine/userinterface/bbInputMode.c
         engine/userinterface/bbTextInput.c
+        games/game0/maps/systems_test/input/bbInputMode_instructions.c
 
         engine/viewport/bbDrawables.c
         engine/viewport/bbMapIcons.c

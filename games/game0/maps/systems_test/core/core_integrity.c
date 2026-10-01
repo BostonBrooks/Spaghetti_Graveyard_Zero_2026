@@ -151,6 +151,9 @@ bbFlag bbCore_initMap(bbInstructionMap* map)
     map->forward[bbI_Hitpoints_undamage] = bbI_Hitpoints_damage;
     map->rollback[bbI_Hitpoints_damage] = bbI_Hitpoints_undamage;
 
+    map->forward[bbI_bbInputModes_unset] = bbI_bbInputModes_set;
+    map->rollback[bbI_bbInputModes_set] = bbI_bbInputModes_unset;
+
     return bbSuccess;
 }
 

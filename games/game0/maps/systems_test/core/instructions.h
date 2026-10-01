@@ -39,6 +39,8 @@ typedef enum
     bbInstruction_requestAction,
     bbInstruction_unrequestAction,
     bbI_AI_sendGoalpoint,
+    bbI_bbInputModes_set,
+    bbI_bbInputModes_unset,
     bbVInstruction_numTypes
 }bbVInstruction_type;
 

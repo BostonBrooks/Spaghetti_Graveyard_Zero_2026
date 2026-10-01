@@ -21,6 +21,7 @@
 #include "engine/ECS/teams/bbTeams.h"
 #include "entity_spawner/live_spawn.h"
 #include "moveables/moveables.h"
+#include "engine/userinterface/bbInputMode_instructions.h"
 
 bbFlag bbCore_initVInstructions(bbCore* core)
 {
@@ -81,6 +82,8 @@ bbFlag bbCore_initVInstructions(bbCore* core)
     core->instruction_functions[bbI_Hitpoints_unspawn-bbInstruction_numTypes] = bbI_Hitpoints_unspawn_fn;
     core->instruction_functions[bbI_Hitpoints_damage-bbInstruction_numTypes] = bbI_Hitpoints_damage_fn;
     core->instruction_functions[bbI_Hitpoints_undamage-bbInstruction_numTypes] = bbI_Hitpoints_undamage_fn;
+    core->instruction_functions[bbI_bbInputModes_set-bbInstruction_numTypes] = bbI_bbInputModes_set_fn;
+    core->instruction_functions[bbI_bbInputModes_unset-bbInstruction_numTypes] = bbI_bbInputModes_unset_fn;
 
 
 
