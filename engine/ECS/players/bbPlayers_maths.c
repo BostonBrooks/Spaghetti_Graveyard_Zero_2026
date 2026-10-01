@@ -16,7 +16,6 @@ bbFlag bbActionRequest_askQuestion(void *Core,
                                    I32 type,
                                    U64 random_seed)
 {
-    bbHere()
     bbCore* core = (bbCore*)Core;
 
     bbAction action;
@@ -37,7 +36,6 @@ bbFlag bbActionRequest_askQuestion(void *Core,
 
 bbFlag bbAction_askQuestion_fn(bbCore *core, bbAction *action)
 {
-    bbHere()
     U32 player_index = action->integer;
     I32 type = action->integer2;
     U64 random_seed = action->handle.u64;
@@ -76,7 +74,6 @@ bbFlag bbActionRequest_answerQuestion(void *Core,
                                       U64 random_seed,
                                       I32 answer)
 {
-    bbHere()
     bbCore* core = (bbCore*)Core;
 
     bbAction action;
@@ -92,6 +89,7 @@ bbFlag bbActionRequest_answerQuestion(void *Core,
     action.handle.u64 = random_seed;
 bbDebug("answer = %d\n", answer);
     bbAction_request(core,&home.network,&action);
+bbHere()
     return bbSuccess;
 }
 
