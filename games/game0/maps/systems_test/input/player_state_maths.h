@@ -1,6 +1,7 @@
 
 #include "engine/ECS/players/bbPlayers_target.h"
 #include "engine/logic/bbTerminal.h"
+#include "games/game0/maps/systems_test/print_entity.h"
 
 extern U32 collision;
 
@@ -8,9 +9,9 @@ bbFlag bbPlayer_ClickMap_requestingMaths(bbPlayers* players, bbMapCoords coords,
 
     I32 this_player_int = players->this_player;
     bbPlayer* this_player = &players->players[this_player_int];
-    bbHere()
+    //bbHere()
         if (type == VPMouseRightDown) {
-            bbHere()
+            //bbHere()
             bbSpawnFunctionArgs args;
             args.state = 0;
             args.speed = 15000;
@@ -23,9 +24,9 @@ bbFlag bbPlayer_ClickMap_requestingMaths(bbPlayers* players, bbMapCoords coords,
             args.goal_handle = no_handle;
             bbCI_live_spawnEntity(&home.core.core, args, "SKELLY_LIVE", bbInstructionSource_internal, no_handle);
         } else {
-            bbDebug("this_player->state = %d\n", this_player->state);
+            //bbDebug("this_player->state = %d\n", this_player->state);
 
-            bbVPMouseType_print(type)
+            //bbVPMouseType_print(type)
             if (type == VPMouseLeftDown || type == VPMouseLeftDrag) {
 
                 bbCoreInput_sendAIGoalpoint(&home.core.core,
@@ -42,15 +43,20 @@ bbFlag bbPlayer_ClickMap_requestingMaths(bbPlayers* players, bbMapCoords coords,
 }
 bbFlag bbPlayer_ClickUnit_requestingMaths(bbPlayers* players, bbHandle entity_handle, U64 control_keys, bbVPMouseType type){
 
+    bbEntity_print(entity_handle);
 
     if (type == VPMouseLeftDown) {
         bbHandle target_server_handle;
 
         bbFlag flag = bbHandle_mapComponent(home.ECS.ECS,bbECS_ECS,entity_handle,bbECS_ServerEntities,&target_server_handle,NULL);
         if (flag != bbSuccess) {
-            bbDebug("server handle not found\n");
+           // bbDebug("server handle not found\n");
             return bbSuccess;
         }
+
+        bbECS_entity* entity;
+        bbHandle_getComponent(&home.ECS.ECS->system,(bbComponent**)&entity,entity_handle);
+        //bbDebug("player sets target %s\n", entity->key);
 
         bbActionRequest_setPlayerTarget(&home.core.core,
                                         home.ECS.players.this_player,
@@ -61,7 +67,7 @@ bbFlag bbPlayer_ClickUnit_requestingMaths(bbPlayers* players, bbHandle entity_ha
                                         target_server_handle);
 
 
-        bbDebug("bbVPMouseType type = %d\n", type);
+        //bbDebug("bbVPMouseType type = %d\n", type);
         bbTextInput* text_input;
         bbHandle widget_handle;
         bbDictionary_lookup(home.UI.widgets.dict, "TEXT_INPUT", &widget_handle);
@@ -77,7 +83,7 @@ bbFlag bbPlayer_ClickUnit_requestingMaths(bbPlayers* players, bbHandle entity_ha
         bbMutexUnlock(&text_input->mutex);
         bbTextInput_setStr(text_input,"");
 
-        bbDebug("input number = %d\n", input_number);
+        //bbDebug("input number = %d\n", input_number);
         U64 rand = bbRand();
 
         bbActionRequest_askQuestion(&home.core.core,
@@ -95,8 +101,8 @@ bbFlag bbPlayer_ClickUnit_requestingMaths(bbPlayers* players, bbHandle entity_ha
 }
 bbFlag bbPlayer_KeyPress_requestingMaths(bbPlayers* players, U64 key, U64 control_keys){
     {
-        bbDebug("Player clicked key %llu, control keys:\n %064" PRIb64 "\n",
-        key,control_keys);
+        //bbDebug("Player clicked key %llu, control keys:\n %064" PRIb64 "\n",
+        //key,control_keys);
 
         if (key == 0) {
 
@@ -111,9 +117,9 @@ bbFlag bbPlayer_ClickMap_answeringMaths(bbPlayers* players, bbMapCoords coords, 
 
     I32 this_player_int = players->this_player;
     bbPlayer* this_player = &players->players[this_player_int];
-    bbHere()
+    //bbHere()
         if (type == VPMouseRightDown) {
-            bbHere()
+            //bbHere()
             bbSpawnFunctionArgs args;
             args.state = 0;
             args.speed = 15000;
@@ -126,9 +132,9 @@ bbFlag bbPlayer_ClickMap_answeringMaths(bbPlayers* players, bbMapCoords coords, 
             args.goal_handle = no_handle;
             bbCI_live_spawnEntity(&home.core.core, args, "SKELLY_LIVE", bbInstructionSource_internal, no_handle);
         } else {
-            bbDebug("this_player->state = %d\n", this_player->state);
+            //bbDebug("this_player->state = %d\n", this_player->state);
 
-            bbVPMouseType_print(type)
+            //bbVPMouseType_print(type)
             if (type == VPMouseLeftDown || type == VPMouseLeftDrag) {
 
                 bbCoreInput_sendAIGoalpoint(&home.core.core,
@@ -144,11 +150,11 @@ bbFlag bbPlayer_ClickMap_answeringMaths(bbPlayers* players, bbMapCoords coords, 
     return bbSuccess;
 }
 bbFlag bbPlayer_ClickUnit_answeringMaths(bbPlayers* players, bbHandle entity_handle, U64 control_keys, bbVPMouseType type){
-    bbHere();
+
 }
 bbFlag bbPlayer_KeyPress_answeringMaths(bbPlayers* players, U64 key, U64 control_keys) {
-    bbDebug("Player clicked key %llu, control keys:\n %064" PRIb64 "\n",
-    key,control_keys);
+    //bbDebug("Player clicked key %llu, control keys:\n %064" PRIb64 "\n",
+    //key,control_keys);
 
     if (key == 0) {
 
@@ -168,7 +174,7 @@ bbFlag bbPlayer_KeyPress_answeringMaths(bbPlayers* players, U64 key, U64 control
         bbMutexUnlock(&text_input->mutex);
         bbTextInput_setStr(text_input,"");
 
-        bbDebug("input number = %d\n", input_number);
+        //bbDebug("input number = %d\n", input_number);
         bbActionRequest_answerQuestion(&home.core.core,
                                             home.ECS.players.this_player,
                                             collision++,
@@ -182,6 +188,9 @@ bbFlag bbPlayer_KeyPress_answeringMaths(bbPlayers* players, U64 key, U64 control
         bbHandle target_handle, target_server_handle;
         I32 this_player = home.ECS.players.this_player;
         target_handle = home.ECS.players.players[this_player].target_entity;
+
+
+        bbEntity_print(target_handle);
 
         bbFlag flag = bbHandle_mapComponent(home.ECS.ECS,bbECS_ECS,target_handle,bbECS_ServerEntities,&target_server_handle,NULL);
 

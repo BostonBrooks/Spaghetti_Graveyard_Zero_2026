@@ -16,7 +16,7 @@ bbFlag bbActionRequest_askQuestion(void *Core,
                                    I32 type,
                                    U64 random_seed)
 {
-    bbHere()
+
     bbCore* core = (bbCore*)Core;
 
     bbAction action;
@@ -37,12 +37,12 @@ bbFlag bbActionRequest_askQuestion(void *Core,
 
 bbFlag bbAction_askQuestion_fn(bbCore *core, bbAction *action)
 {
-    bbHere()
+    //bbHere()
     U32 player_index = action->integer;
     I32 type = action->integer2;
     U64 random_seed = action->handle.u64;
     bbPlayers* players = &home.ECS.players;
-    bbNotImplemented() //change the state of players[ player_index]
+    //bbNotImplemented() //change the state of players[ player_index]
 
     bbHandle action_handle;
     bbVPool_reverseLookup(core->action_pool,action,&action_handle);
@@ -76,7 +76,7 @@ bbFlag bbActionRequest_answerQuestion(void *Core,
                                       U64 random_seed,
                                       I32 answer)
 {
-    bbHere()
+    //bbHere()
     bbCore* core = (bbCore*)Core;
 
     bbAction action;
@@ -90,17 +90,17 @@ bbFlag bbActionRequest_answerQuestion(void *Core,
     action.integer2 = type;
     action.integer3 = answer;
     action.handle.u64 = random_seed;
-bbDebug("answer = %d\n", answer);
+//bbDebug("answer = %d\n", answer);
     bbAction_request(core,&home.network,&action);
     return bbSuccess;
 }
 
 bbFlag bbAction_answerQuestion_fn(bbCore *core, bbAction *action)
 {
-    bbHere()
+    //bbHere()
     I32 answer = action->integer3;
     I32 player_int  = action->integer;
-    bbDebug("answer = %d\n", answer);
+    //bbDebug("answer = %d\n", answer);
     char buffer[128];
 
     snprintf(buffer, sizeof(buffer), "Your answer was %d\n", answer);
@@ -113,6 +113,7 @@ bbFlag bbAction_answerQuestion_fn(bbCore *core, bbAction *action)
 
     bbCoreInput_setPlayerState(&home.core.core, player_int, bbPlayer_state_requestingMaths, bbInstructionSource_action, action_handle);
     bbCI_putTextbox(core, buffer, "DIALOGUE?", action->header.act_tick,bbInstructionSource_internal,no_handle);
+
 
     return bbSuccess;
 }

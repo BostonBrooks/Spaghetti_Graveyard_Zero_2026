@@ -1,6 +1,7 @@
 
 #include "engine/ECS/players/bbPlayers_target.h"
 
+#include "print_entity.h"
 #include "core/actions.h"
 #include "core/action_request.h"
 #include "engine/core/bbAction.h"
@@ -16,7 +17,7 @@ bbFlag bbActionRequest_setPlayerTarget(void* Core,
                                        bbTime act_tick,
                                        U32 player,
                                        bbHandle target_server_handle) {
-    bbHere()
+
     bbCore* core = (bbCore*)Core;
 
     bbAction action;
@@ -39,14 +40,12 @@ bbFlag bbAction_setPlayerTarget_fn(bbCore* core, bbAction* action) {
     bbHandle entity_handle;
     bbHandle_mapComponent(core->ECS, bbECS_ServerEntities, server_handle, bbECS_ECS, &entity_handle, NULL);
 
+    bbEntity_print(entity_handle);
     bbHandle action_handle;
     bbVPool_reverseLookup(core->action_pool,action,&action_handle);
     bbCS_setPlayerTarget(core, action->integer, entity_handle, bbInstructionSource_action, action_handle);
 
 
-    bbECS_entity* entity;
-    bbHandle_getComponent(&home.ECS.ECS->system,(bbComponent**)&entity,entity_handle);
-    bbDebug("player sets target %s\n", entity->key);
 
     return bbSuccess;
 }
@@ -58,7 +57,7 @@ bbFlag bbActionRequest_setPlayerAttack(void* Core,
                        U32 player,
                        bbHandle target_server_handle) {
 
-        bbHere()
+
         bbCore* core = (bbCore*)Core;
 
         bbAction action;
@@ -96,7 +95,8 @@ bbFlag bbAction_setPlayerAttack_fn(bbCore* core, bbAction* action) {
     bbAI_CommandData data;
     data.handle = target_handle;
 
-
+    bbEntity_print(target_handle)
+    bbEntity_print(home.ECS.players.players[player].target_entity)
 
     bbAI_onCommand(ai_component,
                           (bbAI_System*)home.ECS.ECS->systems[bbECS_AI],
@@ -123,13 +123,11 @@ bbFlag bbCS_setPlayerTarget(bbCore* core, U32 player, bbHandle entity_handle, bb
 {
     bbNotImplemented() //rollback
 
-    bbPlayer player_object = home.ECS.players.players[player];
-    player_object.target_entity = entity_handle;
+    bbPlayer* player_object = &home.ECS.players.players[player];
+    player_object->target_entity = entity_handle;
 
-    bbECS_entity* entity;
-    bbHandle_getComponent(&home.ECS.ECS->system,(bbComponent**)&entity,entity_handle);
 
-    bbDebug("player %d targeted entity %s\n", player, entity->key);
+    bbEntity_print(entity_handle);
 
     return bbSuccess;
 }
