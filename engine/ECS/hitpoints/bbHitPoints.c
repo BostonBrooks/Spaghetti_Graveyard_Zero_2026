@@ -162,7 +162,56 @@ bbFlag bbCS_Hitpoints_spawn(bbCore* core,
                              I32 max_hitpoints,
                              bbInstruction_source source,
                              bbHandle action) {
-    bbNotImplemented() //rollback
+
+    if (source == bbInstructionSource_input)
+    {
+        //create input instruction
+        allocRedoInstruction(instruction)
+
+        //set input instruction data
+        instruction->type = bbI_Hitpoints_spawn;
+        instruction->data.three_handles.handle1 = entity;
+        instruction->data.three_handles.handle2.i32x2.x = max_hitpoints;
+        instruction->source = source;
+        instruction->redo_instruction = action;
+        //bbStr_setStr(instruction->data.key, string, KEY_LENGTH);
+
+        //create undo instruction
+        allocUndoInstruction(undo_instruction)
+        undo_instruction->source = instruction->source;
+        undo_instruction->redo_instruction = (bbHandle)instruction_handle;
+
+        //set instruction data
+        undo_instruction->type = bbI_Hitpoints_unspawn;
+        undo_instruction->data.three_handles.handle1 = entity;
+        pushRedoInstruction(instruction)
+        pushUndoInstruction(undo_instruction)
+    } else if (source == bbInstructionSource_internal)
+    {
+        //create undo instruction
+        allocUndoInstruction(undo_instruction)
+        undo_instruction->source = source;
+        undo_instruction->redo_instruction.u64 = 0;
+        //set instruction data
+        undo_instruction->type = bbI_Hitpoints_unspawn;
+        undo_instruction->data.three_handles.handle1 = entity;
+        pushUndoInstruction(undo_instruction)
+    } else if (source == bbInstructionSource_action)
+    {
+        //create undo instruction
+        allocUndoInstruction(undo_instruction)
+        undo_instruction->redo_instruction = action;
+        undo_instruction->source = source;
+
+        //Set instruction data
+        undo_instruction->type = bbI_Hitpoints_unspawn;
+        undo_instruction->data.three_handles.handle1 = entity;
+        pushUndoInstruction(undo_instruction)
+    } else if (source == bbInstructionSource_norewind)
+    {
+
+    }
+
 
     bbHitPoints* hitpoints = (bbHitPoints*)ECS->systems[bbECS_Hitpoints];
     bbHitPoint* component;
@@ -196,14 +245,106 @@ bbFlag bbCI_Hitpoints_spawn(bbCore* core,
                              I32 max_hitpoints,
                              bbInstruction_source source,
                              bbHandle action) {
-    bbNotImplemented()
+    allocActiveInstruction(instruction)
+    instruction->type = bbI_Hitpoints_spawn;
+    instruction->data.three_handles.handle1 = entity;
+    instruction->data.three_handles.handle2.i32x2.x = max_hitpoints;
+    instruction->source = source;
+    instruction->redo_instruction = action;
+    pushActiveInstruction(instruction)
 }
 
 bbFlag bbI_Hitpoints_spawn_fn(bbCore* core, bbInstruction* instruction) {
-    bbNotImplemented()
+    if (instruction->source == bbInstructionSource_internal)
+    {
+
+        allocUndoInstruction(undo_instruction)
+        undo_instruction->type =
+        undo_instruction->type = bbI_Hitpoints_unspawn;
+        undo_instruction->data.three_handles.handle1 = instruction->data.three_handles.handle1;
+        undo_instruction->source = instruction->source;
+        undo_instruction->redo_instruction.u64 = 0;
+        pushUndoInstruction(undo_instruction)
+    }
+    else if (instruction->source == bbInstructionSource_input)
+    {
+        allocUndoInstruction(undo_instruction)
+        undo_instruction->type = bbI_Hitpoints_unspawn;
+        undo_instruction->data.three_handles.handle1 = instruction->data.three_handles.handle1;
+        undo_instruction->source = instruction->source;
+        allocRedoInstruction(redo_instruction)
+         *redo_instruction = *instruction;
+        undo_instruction->redo_instruction = redo_instruction_handle;
+        pushRedoInstruction(redo_instruction)
+        pushUndoInstruction(undo_instruction)
+    }
+    else if (instruction->source == bbInstructionSource_action)
+    {
+        allocUndoInstruction(undo_instruction)
+        undo_instruction->type = bbI_Hitpoints_unspawn;
+        undo_instruction->data.three_handles.handle1 = instruction->data.three_handles.handle1;
+        undo_instruction->source = instruction->source;
+        undo_instruction->redo_instruction = instruction->redo_instruction;
+        pushUndoInstruction(undo_instruction)
+    } //else source == no rewind
+
+    I32 max_hitpoints = instruction->data.three_handles.handle2.i32x2.x;
+    bbECS* ECS = core->ECS;
+    bbHandle entity = instruction->data.three_handles.handle1;
+    bbHitPoints* hitpoints = (bbHitPoints*)ECS->systems[bbECS_Hitpoints];
+    bbHitPoint* component;
+    bbHandle component_handle;
+    bbVPool_alloc2(hitpoints->system.pool,(void**)&component,&component_handle);
+
+    component->max_health = max_hitpoints;
+    component->current_health = max_hitpoints;
+    component->prev_health = max_hitpoints;
+    component->component.entity_handle = entity;
+
+    bbCS_entity_setComponent(core,
+                         ECS,
+                         entity,
+                         component_handle,
+                         bbECS_Hitpoints,
+                         bbInstructionSource_internal,
+                         no_handle);
+
+    bbList_pushL(&hitpoints->list,component);
 }
 bbFlag bbI_Hitpoints_unspawn_fn(bbCore* core, bbInstruction* instruction) {
-    bbNotImplemented()
+    {
+        bbHandle entity_handle = instruction->data.three_handles.handle1;
+        bbHandle component_handle;
+        bbHandle_mapComponent(core->ECS,bbECS_ECS,entity_handle,bbECS_Hitpoints,&component_handle,NULL);
+        bbHandle_deleteComponent(core->ECS->systems[bbECS_Hitpoints], component_handle);
+
+        if (instruction->source == bbInstructionSource_internal)
+        {
+            //bbHere()
+            return bbSuccess;
+        }
+        if (instruction->source == bbInstructionSource_input)
+        {
+            popRedoInstruction(redo_instruction,instruction)
+            allocActiveInstruction(new_instruction)
+            *new_instruction = redo_instruction;
+            bbCore_checkMap(&core->map, &redo_instruction, instruction);
+            pushActiveInstruction(new_instruction)
+    //bbHere()
+            return bbSuccess;
+        }
+        if (instruction->source == bbInstructionSource_action)
+        {
+            bbAction* redo_action;
+
+            bbVPool_lookup(core->action_pool, (void**)&redo_action, instruction->redo_instruction);
+            bbList_sortL(&core->action_queue,(void*)redo_action);
+
+            //bbHere()
+            return bbSuccess;
+        }
+        bbAssert(0==1, "We should not get here\n");
+    }
 }
 
 bbFlag bbCS_Hitpoints_damage (bbCore* core,
@@ -213,7 +354,76 @@ bbFlag bbCS_Hitpoints_damage (bbCore* core,
                           I32 hitpoints,
                           bbInstruction_source source,
                           bbHandle action) {
-    bbNotImplemented()
+    if (source == bbInstructionSource_input)
+    {
+        //create input instruction
+        allocRedoInstruction(instruction)
+        instruction->source = source;
+        //set input instruction data
+        instruction->type = bbI_Hitpoints_damage;
+
+        instruction->data.damage_agent.agent = entity;
+        instruction->data.damage_agent.hitpoints = hitpoints;
+        instruction->data.damage_agent.damage_type = damageType; //TODO damage calculation must be reversible
+        pushRedoInstruction(instruction)
+        //create undo instruction
+        allocUndoInstruction(undo_instruction)
+        undo_instruction->type = bbI_Hitpoints_undamage;
+
+        undo_instruction->data.damage_agent.agent = entity;
+        undo_instruction->data.damage_agent.hitpoints = hitpoints;
+        undo_instruction->data.damage_agent.damage_type = damageType;
+        undo_instruction->source = source;
+        undo_instruction->redo_instruction = (bbHandle)instruction_handle;
+
+        //set instruction data
+        pushUndoInstruction(undo_instruction)
+    } else if (source == bbInstructionSource_internal)
+    {
+        //create undo instruction
+
+        allocUndoInstruction(undo_instruction)
+        undo_instruction->type = bbI_Hitpoints_undamage;
+
+        undo_instruction->data.damage_agent.agent = entity;
+        undo_instruction->data.damage_agent.hitpoints = hitpoints;
+        undo_instruction->data.damage_agent.damage_type = damageType;
+        undo_instruction->source = source;
+
+        //set instruction data
+        pushUndoInstruction(undo_instruction)
+    } else if (source == bbInstructionSource_action)
+    {
+        //create undo instruction
+        allocUndoInstruction(undo_instruction)
+        undo_instruction->type = bbI_Hitpoints_undamage;
+
+        undo_instruction->data.damage_agent.agent = entity;
+        undo_instruction->data.damage_agent.hitpoints = hitpoints;
+        undo_instruction->data.damage_agent.damage_type = damageType;
+        undo_instruction->redo_instruction = action;
+        undo_instruction->source = source;
+
+        //Set instruction data
+        pushUndoInstruction(undo_instruction)
+    } else if (source == bbInstructionSource_norewind)
+    {
+
+    }
+
+
+    bbHitPoints* hit_points = (bbHitPoints*)core->ECS->systems[bbECS_Hitpoints];
+    bbHandle entity_handle = entity;
+    I32 damage = hitpoints;
+
+    bbHitPoint* hitpoint;
+    bbHandle_mapComponent(core->ECS,bbECS_ECS,entity_handle,bbECS_Hitpoints,NULL,(bbComponent**)&hitpoint);
+
+    bbWarning(hitpoint!=NULL,"Damaging an entity with no hitpoint compnent\n");
+    if (hitpoint != NULL) {
+        hitpoint->current_health -= damage;
+    }
+
 }
 
 bbFlag bbCI_Hitpoints_damage (bbCore* core,
@@ -238,12 +448,51 @@ bbFlag bbCI_Hitpoints_damage (bbCore* core,
 }
 
 bbFlag bbI_Hitpoints_damage_fn(bbCore* core, bbInstruction* instruction) {
-    bbNotImplemented() //rollback
+
 
     bbHitPoints* hit_points = (bbHitPoints*)core->ECS->systems[bbECS_Hitpoints];
     bbHandle entity_handle = instruction->data.damage_agent.agent;
     I32 damage = instruction->data.damage_agent.hitpoints;
     I32 damageType = instruction->data.damage_agent.damage_type;
+
+    if (instruction->source == bbInstructionSource_internal)
+    {
+        allocUndoInstruction(undo_instruction)
+        undo_instruction->type = bbI_Hitpoints_undamage;
+        undo_instruction->data.damage_agent.agent = entity_handle;
+        undo_instruction->data.damage_agent.hitpoints = damage;
+        undo_instruction->data.damage_agent.damage_type = damageType;
+        undo_instruction->source = instruction->source;
+        undo_instruction->redo_instruction.u64 = 0;
+        pushUndoInstruction(undo_instruction)
+    }
+    else if (instruction->source == bbInstructionSource_input)
+    {
+        allocUndoInstruction(undo_instruction)
+        undo_instruction->type = bbI_Hitpoints_undamage;
+        undo_instruction->data.damage_agent.agent = entity_handle;
+        undo_instruction->data.damage_agent.hitpoints = damage;
+        undo_instruction->data.damage_agent.damage_type = damageType;
+        undo_instruction->source = instruction->source;
+        allocRedoInstruction(redo_instruction)
+         *redo_instruction = *instruction;
+        undo_instruction->redo_instruction = (bbHandle)redo_instruction_handle;
+        pushRedoInstruction(redo_instruction)
+        pushUndoInstruction(undo_instruction)
+    }
+    else if (instruction->source == bbInstructionSource_action)
+    {
+        allocUndoInstruction(undo_instruction)
+        undo_instruction->type = bbI_Hitpoints_undamage;
+        undo_instruction->data.damage_agent.agent = entity_handle;
+        undo_instruction->data.damage_agent.hitpoints = damage;
+        undo_instruction->data.damage_agent.damage_type = damageType;
+        undo_instruction->source = instruction->source;
+        undo_instruction->redo_instruction = instruction->redo_instruction;
+        pushUndoInstruction(undo_instruction)
+
+    } //else source == no rewind
+
 
     bbHitPoint* hitpoint;
     bbHandle_mapComponent(core->ECS,bbECS_ECS,entity_handle,bbECS_Hitpoints,NULL,(bbComponent**)&hitpoint);
@@ -256,5 +505,40 @@ bbFlag bbI_Hitpoints_damage_fn(bbCore* core, bbInstruction* instruction) {
     return bbSuccess;
 }
 bbFlag bbI_Hitpoints_undamage_fn(bbCore* core, bbInstruction* instruction) {
-    bbNotImplemented()
+    bbHitPoints* hit_points = (bbHitPoints*)core->ECS->systems[bbECS_Hitpoints];
+    bbHandle entity_handle = instruction->data.damage_agent.agent;
+    I32 damage = instruction->data.damage_agent.hitpoints;
+    I32 damageType = instruction->data.damage_agent.damage_type;
+    bbHitPoint* hitpoint;
+    bbHandle_mapComponent(core->ECS,bbECS_ECS,entity_handle,bbECS_Hitpoints,NULL,(bbComponent**)&hitpoint);
+
+    bbWarning(hitpoint!=NULL,"Damaging an entity with no hitpoint compnent\n");
+    if (hitpoint != NULL) {
+        hitpoint->current_health += damage;
+    }
+    if (instruction->source == bbInstructionSource_internal)
+    {
+        //bbVPool_free(core->instruction_pool, (void*)instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_input)
+    {
+
+        popRedoInstruction(redo_instruction,instruction)
+        allocActiveInstruction(new_instruction)
+        *new_instruction = redo_instruction;
+        bbCore_checkMap(&core->map, &redo_instruction, instruction);
+
+        pushActiveInstruction(new_instruction)
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_action)
+    {
+        bbAction* redo_action;
+
+        bbVPool_lookup(core->action_pool, (void**)&redo_action, instruction->redo_instruction);
+        bbList_sortL(&core->action_queue,(void*)redo_action);
+        return bbSuccess;
+    }
+
 }
