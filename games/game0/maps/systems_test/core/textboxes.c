@@ -149,6 +149,7 @@ bbFlag bbI_unsetTextbox_fn(bbCore* core, bbInstruction* instruction) {
     textbox = home.textbox_app.textboxes[bbTextbox_Dialogue];
 
     bbTextbox_hideMessage(textbox,instruction->data.three_handles.handle1);
+    bbTextbox_updateBuffer(textbox);
 
     if (instruction->source == bbInstructionSource_internal)
     {
@@ -211,7 +212,14 @@ bbFlag bbCI_setTextbox(bbCore* core, char* string, char* key, bbTime time, bbIns
 }
 
 bbFlag bbCD_unsetTextbox_fn(bbCore* core, bbInstruction* undo_instruction) {
-    bbNotImplemented()
+    bbTextbox* textbox;
+    bbHandle textbox_handle;
+    //bbDictionary_lookup(home.textbox_system.dict,"DIALOGUE",&textbox_handle);
+    textbox = home.textbox_app.textboxes[bbTextbox_Dialogue];
+
+    bbTextbox_deleteMessage(textbox,
+        undo_instruction->data.three_handles.handle1);
+    bbTextbox_updateBuffer(textbox);
     return bbSuccess;
 }
 
