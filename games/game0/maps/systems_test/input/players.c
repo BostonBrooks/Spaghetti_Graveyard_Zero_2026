@@ -123,7 +123,7 @@ bbFlag bbPlayer_ClickUnit_default(bbPlayers* players, bbHandle entity_handle, U6
 
     if (type == VPMouseLeftDown) {
         bbTeam* team;
-        bbHandle_mapComponent(home.ECS.ECS,bbECS_ECS,entity_handle,bbECS_Teams,NULL,(bbComponent**)&team);
+        bbHandle_mapComponent(home.ECS.ECS, bbECS_ECS, entity_handle, bbECS_Teams,NULL, (bbComponent**)&team);
 
         if (team!=NULL) {
             if (team->team == bbTeam_player) {

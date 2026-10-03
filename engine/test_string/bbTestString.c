@@ -305,6 +305,7 @@ bbFlag bbCS_doNothing(bbCore* core,  bbInstruction_source source, bbHandle actio
 
     }
 
+    //do side effects
 
     return bbSuccess;
 }
