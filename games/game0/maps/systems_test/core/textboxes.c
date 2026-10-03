@@ -318,6 +318,42 @@ bbFlag bbCS_putTextbox(bbCore* core,bbHandle* handle, char* string, char* key, b
 
 bbFlag bbI_putTextbox_fn(bbCore* core, bbInstruction* instruction) {
 
+    bbHandle message_handle = instruction->data.three_handles.handle1;
+
+    if (instruction->source == bbInstructionSource_internal)
+    {
+        allocUndoInstruction(undo_instruction)
+        undo_instruction->type = bbI_unputTextbox;
+        undo_instruction->data.three_handles.handle1 = message_handle;
+        undo_instruction->source = instruction->source;
+        undo_instruction->redo_instruction.u64 = 0;
+        pushUndoInstruction(undo_instruction)
+    }
+    else if (instruction->source == bbInstructionSource_input)
+    {
+        allocUndoInstruction(undo_instruction)
+        undo_instruction->type = bbI_unputTextbox;
+        undo_instruction->data.three_handles.handle1 = message_handle;
+        undo_instruction->source = instruction->source;
+        allocRedoInstruction(redo_instruction)
+         *redo_instruction = *instruction;
+        undo_instruction->redo_instruction = (bbHandle)redo_instruction_handle;
+        pushRedoInstruction(redo_instruction)
+        pushUndoInstruction(undo_instruction)
+    }
+    else if (instruction->source == bbInstructionSource_action)
+    {
+        allocUndoInstruction(undo_instruction)
+        undo_instruction->type = bbI_unputTextbox;
+        undo_instruction->data.three_handles.handle1 = message_handle;
+        undo_instruction->source = instruction->source;
+        undo_instruction->redo_instruction = instruction->redo_instruction;
+        pushUndoInstruction(undo_instruction)
+
+    } //else source == no rewind
+
+    //Do side-effects
+
     bbTextbox* textbox;
     bbHandle textbox_handle;
     //bbDictionary_lookup(home.textbox_system.dict,"DIALOGUE",&textbox_handle);
@@ -327,15 +363,62 @@ bbFlag bbI_putTextbox_fn(bbCore* core, bbInstruction* instruction) {
         instruction->data.three_handles.handle1,
         instruction->data.three_handles.handle2.u64);
     bbTextbox_updateBuffer(textbox);
-    bbNotImplemented() //rollback
     return bbSuccess;
 }
 bbFlag bbI_unputTextbox_fn(bbCore* core, bbInstruction* instruction) {
-    bbNotImplemented()
+
+
+    bbTextbox* textbox;
+    bbHandle textbox_handle;
+    //bbDictionary_lookup(home.textbox_system.dict,"DIALOGUE",&textbox_handle);
+    textbox = home.textbox_app.textboxes[bbTextbox_Dialogue];
+
+    bbTextbox_hideMessage(textbox,
+        instruction->data.three_handles.handle1);
+    bbTextbox_updateBuffer(textbox);
+
+    //do side-effects
+    if (instruction->source == bbInstructionSource_internal)
+    {
+        //bbVPool_free(core->instruction_pool, (void*)instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_input)
+    {
+
+        popRedoInstruction(redo_instruction,instruction)
+        allocActiveInstruction(new_instruction)
+        *new_instruction = redo_instruction;
+        bbCore_checkMap(&core->map, &redo_instruction, instruction);
+
+        pushActiveInstruction(new_instruction)
+        //bbInstruction* redo_instruction;
+        //bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction, instruction->redo_instruction);
+        //bbList_pushL(&core->active_stack, redo_instruction);
+        //bbVPool_free(core->instruction_pool, (void*)instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_action)
+    {
+        bbAction* redo_action;
+
+        bbVPool_lookup(core->action_pool, (void**)&redo_action, instruction->redo_instruction);
+        bbList_sortL(&core->action_queue,(void*)redo_action);
+        //bbVPool_free(core->instruction_pool, (void*)instruction);
+        return bbSuccess;
+    }
+    bbAssert(0==1, "We should not get here\n");
     return bbSuccess;
 }
 
 bbFlag bbCD_unputTextbox_fn(bbCore* core, bbInstruction* undo_instruction) {
-    bbNotImplemented()
+    bbTextbox* textbox;
+    bbHandle textbox_handle;
+    //bbDictionary_lookup(home.textbox_system.dict,"DIALOGUE",&textbox_handle);
+    textbox = home.textbox_app.textboxes[bbTextbox_Dialogue];
+
+    bbTextbox_deleteMessage(textbox,
+        undo_instruction->data.three_handles.handle1);
+    bbTextbox_updateBuffer(textbox);
     return bbSuccess;
 }
