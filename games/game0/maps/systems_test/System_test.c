@@ -228,7 +228,7 @@ int main(void) {
     //                                    no_handle);
 
     for (I32 i = 0; i < NUM_PLAYERS; i++){
-        bbCoreInput_setPlayerState(&home.core.core, i,bbPlayer_stateDefault, bbInstructionSource_norewind,no_handle);
+        bbCI_setPlayerState(&home.core.core, i,bbPlayer_stateDefault, bbInstructionSource_norewind,no_handle);
     }
 
     // bbGraphicsComponent_data data;

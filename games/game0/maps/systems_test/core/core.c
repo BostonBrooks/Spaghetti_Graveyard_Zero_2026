@@ -87,6 +87,8 @@ bbFlag bbCore_initVInstructions(bbCore* core)
     core->instruction_functions[bbI_bbInputModes_unset-bbInstruction_numTypes] = bbI_bbInputModes_unset_fn;
     core->instruction_functions[bbI_setPlayerTarget-bbInstruction_numTypes] = bbI_setPlayerTarget_fn;
     core->instruction_functions[bbI_unsetPlayerTarget-bbInstruction_numTypes] = bbI_unsetPlayerTarget_fn;
+    core->instruction_functions[bbI_setPlayerState-bbInstruction_numTypes] = bbI_setPlayerState_fn;
+    core->instruction_functions[bbI_unsetPlayerState-bbInstruction_numTypes] = bbI_unsetPlayerState_fn;
 
 
 

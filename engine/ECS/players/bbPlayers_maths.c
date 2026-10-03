@@ -47,7 +47,7 @@ bbFlag bbAction_askQuestion_fn(bbCore *core, bbAction *action)
     bbHandle action_handle;
     bbVPool_reverseLookup(core->action_pool,action,&action_handle);
 
-    bbCoreInput_setPlayerState(&home.core.core, player_index, bbPlayer_state_answeringMaths, bbInstructionSource_action, action_handle);
+    bbCI_setPlayerState(&home.core.core, player_index, bbPlayer_state_answeringMaths, bbInstructionSource_action, action_handle);
 
 
     if (player_index == players->this_player) {
@@ -111,7 +111,7 @@ bbFlag bbAction_answerQuestion_fn(bbCore *core, bbAction *action)
     bbHandle action_handle;
     bbVPool_reverseLookup(core->action_pool,action,&action_handle);
 
-    bbCoreInput_setPlayerState(&home.core.core, player_int, bbPlayer_state_requestingMaths, bbInstructionSource_action, action_handle);
+    bbCI_setPlayerState(&home.core.core, player_int, bbPlayer_state_requestingMaths, bbInstructionSource_action, action_handle);
     bbCI_putTextbox(core, buffer, "DIALOGUE?", action->header.act_tick,bbInstructionSource_internal,no_handle);
 
 
