@@ -166,8 +166,53 @@ bbFlag bbCS_spawnSpatialComponent(bbCore* core,
                              bbInstruction_source source,
                              bbHandle action)
 {
+    if (source == bbInstructionSource_input)
+    {
+        //create input instruction
+        allocRedoInstruction(instruction)
+        instruction->source = source;
+        //set input instruction data
+        instruction->type = bbI_ECS_spatial_spawn;
+        instruction->data.agent_MC.handle1 = entity;
+        instruction->data.agent_MC.coords = MC;
+        instruction->source = source;
+        instruction->redo_instruction = action;
+        pushRedoInstruction(instruction)
+        //create undo instruction
+        allocUndoInstruction(undo_instruction)
+        undo_instruction->type = bbI_ECS_spatial_unspawn;
+        undo_instruction->data.agent_MC.handle1 = entity;
+        undo_instruction->source = source;
+        undo_instruction->redo_instruction = (bbHandle)instruction_handle;
 
-   // bbNotImplemented()//Spawn undo instruction
+        //set instruction data
+        pushUndoInstruction(undo_instruction)
+    } else if (source == bbInstructionSource_internal)
+    {
+        //create undo instruction
+
+        allocUndoInstruction(undo_instruction)
+        undo_instruction->type = bbI_ECS_spatial_unspawn;
+        undo_instruction->data.agent_MC.handle1 = entity;
+        undo_instruction->source = source;
+
+        //set instruction data
+        pushUndoInstruction(undo_instruction)
+    } else if (source == bbInstructionSource_action)
+    {
+        //create undo instruction
+        allocUndoInstruction(undo_instruction)
+        undo_instruction->type = bbI_ECS_spatial_unspawn;
+        undo_instruction->data.agent_MC.handle1 = entity;
+        undo_instruction->redo_instruction = action;
+        undo_instruction->source = source;
+
+        //Set instruction data
+        pushUndoInstruction(undo_instruction)
+    } else if (source == bbInstructionSource_norewind)
+    {
+
+    }
 
     bbSpatial_Component* component;
     bbHandle component_handle;
