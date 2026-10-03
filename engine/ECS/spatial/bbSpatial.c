@@ -1,6 +1,8 @@
 #include "engine/ECS/spatial/bbSpatial.h"
 
 #include "bbSpatial_query.h"
+#include "engine/core/bbInstruction_operations.h"
+#include "engine/ECS/bbECS_instructions.h"
 #include "engine/ECS/AI_system/bbAI_System.h"
 #include "engine/logic/bbBloatedPool.h"
 #include "engine/logic/bbSystemPool.h"
@@ -194,7 +196,7 @@ bbFlag bbCS_spawnSpatialComponent(bbCore* core,
                          no_handle);
 
     if (this != NULL) *this = component;
-}
+}   // bbI_ECS_spatial_spawn
 
 bbFlag bbCI_spawnSpatialComponent(bbCore* core,
                              bbHandle entity,
@@ -202,16 +204,113 @@ bbFlag bbCI_spawnSpatialComponent(bbCore* core,
                              bbInstruction_source source,
                              bbHandle action)
 {
-    bbNotImplemented()
+    allocActiveInstruction(instruction)
+    instruction->type = bbI_ECS_spatial_spawn;
+    instruction->data.agent_MC.handle1 = entity;
+    instruction->data.agent_MC.coords = MC;
+    instruction->source = source;
+    instruction->redo_instruction = action;
+    pushActiveInstruction(instruction)
 }
 
 bbFlag bbI_spawnSpatialComponent_fn(bbCore* core, bbInstruction* instruction) {
-    bbNotImplemented()
+    bbSpatial_Component* component;
+    bbHandle component_handle;
+    bbECS* ECS = core->ECS;
+    bbMapCoords MC = instruction->data.agent_MC.coords;
+    bbHandle entity = instruction->data.agent_MC.handle1;
+    bbSpatial* spatial = (bbSpatial*)ECS->systems[bbECS_Spatial];
+
+
+    if (instruction->source == bbInstructionSource_internal)
+    {
+
+        allocUndoInstruction(undo_instruction)
+        undo_instruction->type = bbI_ECS_spatial_unspawn;
+        undo_instruction->data.agent_MC.handle1 = instruction->data.agent_MC.handle1;
+        undo_instruction->source = instruction->source;
+        undo_instruction->redo_instruction.u64 = 0;
+        pushUndoInstruction(undo_instruction)
+    }
+    else if (instruction->source == bbInstructionSource_input)
+    {
+        allocUndoInstruction(undo_instruction)
+        undo_instruction->type = bbI_ECS_spatial_unspawn;
+        undo_instruction->data.agent_MC.handle1 = instruction->data.agent_MC.handle1;
+        undo_instruction->source = instruction->source;
+        allocRedoInstruction(redo_instruction)
+         *redo_instruction = *instruction;
+        undo_instruction->redo_instruction = redo_instruction_handle;
+        pushRedoInstruction(redo_instruction)
+        pushUndoInstruction(undo_instruction)
+    }
+    else if (instruction->source == bbInstructionSource_action)
+    {
+        allocUndoInstruction(undo_instruction)
+        undo_instruction->type = bbI_ECS_spatial_unspawn;
+        undo_instruction->data.agent_MC.handle1 = instruction->data.agent_MC.handle1;
+        undo_instruction->source = instruction->source;
+        undo_instruction->redo_instruction = instruction->redo_instruction;
+        pushUndoInstruction(undo_instruction)
+    } //else source == no rewind
+
+
+
+
+
+    bbList_alloc2(&spatial->master_list,(void**)&component, &component_handle);
+    bbList_pushL(&spatial->master_list,component);
+    bbSquareCoords SC = bbMapCoords_getSquareCoords(MC);
+    component->square_coords = SC;
+    component->map_coords = MC;
+    bbSpatialSquare* square= bbSpatial_getSquare(spatial,SC.i, SC.j, spatial->squares_i, spatial->squares_j);
+
+
+    component->square_list.prev = square->list.pool->null;
+    component->square_list.next = square->list.pool->null;
+    bbFlag flag = bbList_pushL(&square->list, component);
+    bbAssert(flag == bbSuccess, "could not push to list\n");
+
+    component->component.entity_handle = entity;
+    bbCS_entity_setComponent(core,
+                         ECS,
+                         component->component.entity_handle,
+                         component_handle,
+                         bbECS_Spatial,
+                         bbInstructionSource_internal,
+                         no_handle);
+
+    return bbSuccess;
 }
 bbFlag bbI_unspawnSpatialComponent_fn(bbCore* core, bbInstruction* instruction) {
-    bbNotImplemented()
+    bbHandle entity_handle = instruction->data.agent_MC.handle1;
+    bbHandle component_handle;
+    bbHandle_mapComponent(core->ECS,bbECS_ECS,entity_handle,bbECS_AI,&component_handle,NULL);
+    bbHandle_deleteComponent(core->ECS->systems[bbECS_AI], component_handle);
+
+    if (instruction->source == bbInstructionSource_internal)
+    {
+        //bbHere()
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_input)
+    {
+        popRedoInstruction(redo_instruction,instruction)
+        allocActiveInstruction(new_instruction)
+        *new_instruction = redo_instruction;
+        bbCore_checkMap(&core->map, &redo_instruction, instruction);
+        pushActiveInstruction(new_instruction)
+//bbHere()
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_action)
+    {
+        bbAction* redo_action;
+
+        bbVPool_lookup(core->action_pool, (void**)&redo_action, instruction->redo_instruction);
+        bbList_sortL(&core->action_queue,(void*)redo_action);
+
+        //bbHere()
+        return bbSuccess;
+    }
 }
-
-
-bbFlag bbSpatial_getComponent_fn(struct bbSystem* system, bbComponent** component, bbHandle component_handle);
-bbFlag bbSpatial_getHandle_fn(struct bbSystem* system, bbComponent* component, bbHandle* component_handle);
