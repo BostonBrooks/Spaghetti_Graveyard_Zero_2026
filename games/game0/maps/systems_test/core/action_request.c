@@ -46,7 +46,7 @@ bbFlag bbAction_receive(bbCore* core, bbNetwork* network, bbAction* action)
 
 
 
-
+//TODO is an action request a rollbackable instruction? probably not!
 bbFlag bbCoreInput_requestAction(bbCore* core,
                                   bbNetwork* network,
                                   bbAction* new_action,
