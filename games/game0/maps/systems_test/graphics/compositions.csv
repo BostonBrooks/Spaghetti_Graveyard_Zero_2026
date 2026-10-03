@@ -43,8 +43,10 @@ ANIMATION,ZOMBIE,UNIT_DRAWBUFFER,0,0,0,1,
 ANIMATION,ZOMBIE_ATTACK,UNIT_DRAWBUFFER,0,0,0,1,
 ANIMATION,SKELETON_DEATH,DRAWABLE_ANIMATION_ONCE,0,0,0,1,
 ,,,,,,,
-Label:,COW,Integer Address:,7,num:,2,Comment,Testing conditional rendering
+Label:,COW,Integer Address:,7,num:,4,Comment,Testing conditional rendering
 Type:,Key:,Drawfunction:,startTime,Offest X:,Offset Y:,Frame Rate:,
+ANIMATION,COW,UNIT_STILL_DRAWBUFFER,0,0,0,1,
+ANIMATION,COW,UNIT_STILL_DRAWBUFFER,0,0,0,1,
 ANIMATION,COW,UNIT_STILL_DRAWBUFFER,0,0,0,1,
 ANIMATION,COW,UNIT_STILL_DRAWBUFFER,0,0,0,1,
 ,,,,,,,
