@@ -87,7 +87,11 @@ bbFlag bbI_spawnTeamComponent_fn(bbCore* core, bbInstruction* instruction)
 }
 bbFlag bbI_unspawnTeamComponent_fn(bbCore* core, bbInstruction* instruction)
 {
-    bbNotImplemented()
+    bbHandle entity_handle = instruction->data.three_handles.handle1;
+    bbHandle component_handle;
+    bbHandle_mapComponent(core->ECS,bbECS_ECS,entity_handle,bbECS_Teams,&component_handle,NULL);
+    bbHandle_deleteComponent(core->ECS->systems[bbECS_Teams], component_handle);
+
 
         if (instruction->source == bbInstructionSource_internal)
         {
