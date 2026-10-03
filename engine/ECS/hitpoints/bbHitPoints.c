@@ -39,11 +39,71 @@ bbFlag bbHitPoints_delete(struct bbSystem* system, bbHandle component_handle)
     return bbSuccess;
 }
 
+
+bbFlag update_hitpoints_fn(bbList* list, void* node, void* cl) {
+
+    bbHitPoint* hitpoint = (bbHitPoint*)node;
+
+    if (hitpoint->prev_health != hitpoint->current_health) {
+        float new_HP = (float)hitpoint->current_health / (float)hitpoint->max_health;
+        bbUI_Inbox_SetUnitHP(&home.UI.inbox,hitpoint->component.entity_handle,new_HP);
+        bbDebug("new_HP = %f\n", new_HP);
+    }
+    hitpoint->prev_health = hitpoint->current_health;
+    return bbContinue;
+}
+
 bbFlag bbCS_Hitpoints_update(bbCore* core,
                              bbECS* ECS,
                              bbInstruction_source source,
                              bbHandle action) {
-    bbNotImplemented()
+    if (source == bbInstructionSource_input)
+    {
+        //create input instruction
+        allocRedoInstruction(instruction)
+        instruction->source = source;
+        //set input instruction data
+        instruction->type = bbI_Hitpoints_update;
+
+        //create undo instruction
+        allocUndoInstruction(undo_instruction)
+        undo_instruction->source = source;
+        undo_instruction->redo_instruction = (bbHandle)instruction_handle;
+
+        //set instruction data
+        undo_instruction->type = bbI_Hitpoints_unupdate;
+        pushUndoInstruction(undo_instruction)
+        pushRedoInstruction(instruction)
+    } else if (source == bbInstructionSource_internal)
+    {
+        //create undo instruction
+        allocUndoInstruction(undo_instruction)
+        undo_instruction->source = source;
+
+        //set instruction data
+        undo_instruction->type = bbI_Hitpoints_unupdate;
+        pushUndoInstruction(undo_instruction)
+    } else if (source == bbInstructionSource_action)
+    {
+        //create undo instruction
+        allocUndoInstruction(undo_instruction)
+        undo_instruction->redo_instruction = action;
+        undo_instruction->source = source;
+
+        //Set instruction data
+        undo_instruction->type = bbI_Hitpoints_unupdate;
+        pushUndoInstruction(undo_instruction)
+    } else if (source == bbInstructionSource_norewind)
+    {
+
+    }
+
+    //do side effects
+
+    bbHitPoints* hitpoints = (bbHitPoints*)core->ECS->systems[bbECS_Hitpoints];
+    bbIterator iterator = bbIterator_new(&hitpoints->list);
+    bbIterator_mapL(&iterator, update_hitpoints_fn,NULL);
+
 }
 
 bbFlag bbCI_Hitpoints_update(bbCore* core,
@@ -58,18 +118,6 @@ bbFlag bbCI_Hitpoints_update(bbCore* core,
     return bbSuccess;
 }
 
-bbFlag update_hitpoints_fn(bbList* list, void* node, void* cl) {
-
-    bbHitPoint* hitpoint = (bbHitPoint*)node;
-
-    if (hitpoint->prev_health != hitpoint->current_health) {
-        float new_HP = (float)hitpoint->current_health / (float)hitpoint->max_health;
-        bbUI_Inbox_SetUnitHP(&home.UI.inbox,hitpoint->component.entity_handle,new_HP);
-        bbDebug("new_HP = %f\n", new_HP);
-    }
-    hitpoint->prev_health = hitpoint->current_health;
-    return bbContinue;
-}
 
 bbFlag bbI_Hitpoints_update_fn(bbCore* core, bbInstruction* instruction) {
 
