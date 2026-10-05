@@ -29,7 +29,7 @@ typedef  bbFlag bbInstruction_fn(bbCore* core, bbInstruction* instruction);
 typedef  bbFlag bbCoreInbox_fn(bbCore* core, struct bbCoreInboxMessage* message);
 typedef  bbFlag bbAction_fn(bbCore* core, bbAction* action);
 
-#define INSTRUCTIONDEQUESIZE 196
+#define INSTRUCTIONDEQUESIZE 1024
 DECLARE_SQ_HEADER(bbInstruction,sizeof(bbInstruction),INSTRUCTIONDEQUESIZE )
 
 struct bbCore
