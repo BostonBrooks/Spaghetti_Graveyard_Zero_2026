@@ -30,7 +30,7 @@ bbFlag bbViewportSpawnTrees(bbViewportApp *viewport_app,
 drawable->md.state = bbDrawableState_idle;
     bbHandle drawfunctionHandle;
     bbDictionary_lookup(home.UI.graphics.drawfunctions->dictionary,
-         "TREE GROUP", &drawfunctionHandle);
+         "TREE_GROUP", &drawfunctionHandle);
 
     drawable->md.frames[0].draw_function = drawfunctionHandle.u64;
     drawable->md.frames[0].asset_handle.u64 = 12;

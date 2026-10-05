@@ -1,4 +1,4 @@
-Number of Textures:,49,,,
+Number of Textures:,50,,,
 Label:,Integer Address:,File:,Smooth:,Comment:
 NULL,0,./graphics/NULL.png,F,Exception
 LAYOUT_480,1,./graphics/Layout_480.png,F,The root of the widget tree
@@ -49,3 +49,4 @@ X,45,./graphics/X.png,T, X marks the spot
 CHERRYBLOSSOM,46,./graphics/CherryBlossom.png,T, A cherry blossum tree
 LEGION_WALK,47,./graphics/0AD/legion_walk.png,T, A legion walking
 LEGION_ATTACK,48,./graphics/0AD/legion_attack.png,T, A legion attacking
+LEGION_DEATH,49,./graphics/0AD/legion_die.png,T, A legion attacking

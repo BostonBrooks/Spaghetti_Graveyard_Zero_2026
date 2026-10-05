@@ -203,12 +203,17 @@ bbFlag bbDrawfunctions_new(bbDrawfunctions** drawfunctions){
 
     functions->functions[31] = bbDF_treeGroup;
     handle.u64 = 31;
-    bbDictionary_add(functions->dictionary, "TREE GROUP", handle);
+    bbDictionary_add(functions->dictionary, "TREE_GROUP", handle);
 
 
     functions->functions[32] = bbDF_compositionParentState;
     handle.u64 = 32;
-    bbDictionary_add(functions->dictionary, "PARENT STATE", handle);
+    bbDictionary_add(functions->dictionary, "PARENT_STATE", handle);
+
+
+    functions->functions[33] = bbDF_unitBufferOnce;
+    handle.u64 = 33;
+    bbDictionary_add(functions->dictionary, "UNIT_BUFFER_ONCE", handle);
 
     *drawfunctions = functions;
     return bbSuccess;
