@@ -37,7 +37,7 @@ bbFlag bbActionRequest_setPlayerTarget(void* Core,
 }
 
 bbFlag bbAction_setPlayerTarget_fn(bbCore* core, bbAction* action) {
-    bbNotImplemented()
+    bbNotImplemented() //?
     bbHandle server_handle = action->handle;
     bbHandle entity_handle;
     bbHandle_mapComponent(core->ECS, bbECS_ServerEntities, server_handle, bbECS_ECS, &entity_handle, NULL);

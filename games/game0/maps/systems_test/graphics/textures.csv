@@ -1,4 +1,4 @@
-Number of Textures:,47,,,,
+Number of Textures:,48,,,,
 Label:,Integer Address:,File:,Smooth:,Comment:,
 NULL,0,./graphics/NULL.png,F,Exception,
 LAYOUT_480,1,./graphics/Layout_480.png,F,The root of the widget tree,
@@ -47,3 +47,4 @@ BALLOONS,43,./graphics/Balloons.png,T, some coloured balloons
 FIREBALL,44,./graphics/Fireball.png,T, a fireball
 X,45,./graphics/X.png,T, X marks the spot
 CHERRYBLOSSOM,46,./graphics/CherryBlossom.png,T, A cherry blossum tree
+LEGION_WALK,47,./graphics/0AD/legion_walk.png,T, A legion waling
