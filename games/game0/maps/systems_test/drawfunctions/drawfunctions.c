@@ -205,6 +205,11 @@ bbFlag bbDrawfunctions_new(bbDrawfunctions** drawfunctions){
     handle.u64 = 31;
     bbDictionary_add(functions->dictionary, "TREE GROUP", handle);
 
+
+    functions->functions[32] = bbDF_compositionParentState;
+    handle.u64 = 32;
+    bbDictionary_add(functions->dictionary, "PARENT STATE", handle);
+
     *drawfunctions = functions;
     return bbSuccess;
 }
