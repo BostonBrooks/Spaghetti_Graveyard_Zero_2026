@@ -123,7 +123,7 @@ bbFlag bbPlayer_ClickUnit_default(bbPlayers* players, bbHandle entity_handle, U6
 
     if (type == VPMouseLeftDown) {
         bbTeam* team;
-        bbHandle_mapComponent(home.ECS.ECS,bbECS_ECS,entity_handle,bbECS_Teams,NULL,(bbComponent**)&team);
+        bbHandle_mapComponent(home.ECS.ECS, bbECS_ECS, entity_handle, bbECS_Teams,NULL, (bbComponent**)&team);
 
         if (team!=NULL) {
             if (team->team == bbTeam_player) {
@@ -171,8 +171,8 @@ bbFlag bbPlayer_ClickUnit_default(bbPlayers* players, bbHandle entity_handle, U6
                     action.handle = server_handle;
                     action.integer = players->this_player;
 
-                    bbCoreInput_requestAction(&home.core.core,&home.network,&action,home.core.core.actual_time,
-                                                bbInstructionSource_internal, no_handle);
+
+                    bbAction_request(&home.core.core,&home.network, &action);
 
 
                 }

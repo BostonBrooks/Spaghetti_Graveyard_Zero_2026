@@ -42,7 +42,6 @@ bbFlag bbCoreInbox_testClick3_fn(bbCore* core, bbCoreInboxMessage* message)
     action.handle = server_handle;
     action.integer = 0;
 
-    bbCoreInput_requestAction(&home.core.core,&home.network,&action,home.core.core.actual_time,
-                                bbInstructionSource_internal, no_handle);
+    bbAction_request(&home.core.core,&home.network, &action);
     return bbSuccess;
 }

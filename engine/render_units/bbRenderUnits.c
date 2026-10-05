@@ -96,11 +96,11 @@ bbFlag bbRenderUnitGroup_spawn_foxes(bbRenderUnitGroup** Group,
         fox_drawable.frames[k].draw_function = -1;
     }
     bbDictionary_lookup(graphics->drawfunctions->dictionary,
-                    "UNIT_STILL_DRAWBUFFER",
+                    "PARENT_STATE",
                     &drawfunctionHandle);
 
     fox_drawable.frames[0].draw_function = drawfunctionHandle.u64;
-    fox_drawable.frames[0].asset_handle.u64 = 21;
+    fox_drawable.frames[0].asset_handle.u64 = 10;
     fox_drawable.frames[0].start_time=  0;
     fox_drawable.frames[0].framerate = 1;
     fox_drawable.frames[0].offset.x = 0;

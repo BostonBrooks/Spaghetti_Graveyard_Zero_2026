@@ -39,6 +39,8 @@ typedef enum {
     bbI_Hitpoints_undamage,
     bbI_setPlayerTarget,
     bbI_unsetPlayerTarget,
+    bbI_setPlayerState,
+    bbI_unsetPlayerState,
     bbI_ECS_numECS_Instructions,
 } bbECS_Instruction_type;
 

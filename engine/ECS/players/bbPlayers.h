@@ -61,8 +61,10 @@ bbFlag bbPlayer_ClickMap(bbPlayers* players, bbMapCoords coords, U64 control_key
 bbFlag bbPlayer_ClickUnit(bbPlayers* players, bbHandle entity_handle, U64 control_keys, bbVPMouseType type);
 bbFlag bbPlayer_KeyPress(bbPlayers* players, U64 key, U64 control_keys);
 
-bbFlag bbCoreInput_setPlayerState(bbCore* core, U32 player, U32 state,  bbInstruction_source source, bbHandle action);
-
+bbFlag bbCI_setPlayerState(bbCore* core, U32 player, U32 state,  bbInstruction_source source, bbHandle action);
+bbFlag bbCS_setPlayerState(bbCore* core, U32 player, U32 state,  bbInstruction_source source, bbHandle action);
+bbFlag bbI_setPlayerState_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbI_unsetPlayerState_fn(bbCore* core, bbInstruction* instruction);
 ///On clicking player character, request change of player character from code
 bbFlag bbCoreInbox_SetPlayerEntity(bbCore* core, U32 player, bbHandle entity_handle);
 

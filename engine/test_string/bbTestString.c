@@ -56,12 +56,7 @@ bbFlag bbI_setString_fn(bbCore* core, bbInstruction* instruction)
 bbFlag bbI_unsetString_fn(bbCore* core, bbInstruction* instruction)
 {
 //bbHere()
-    if (instruction->source == bbInstructionSource_action)
-    {
-        bbAction* redo_action;
-        bbVPool_lookup(core->action_pool, (void**)&redo_action, instruction->redo_instruction);
-        printf("collision = %d ", redo_action->header.collision);
-    }
+
 
     printf("-new quote %s, old quote: %s, simulation time = %lu, actual time = %lu\n",
         instruction->data.key,test_string, core->simulation_time, core->actual_time);
@@ -193,11 +188,6 @@ bbFlag bbI_doNothing_fn(bbCore* core, bbInstruction* instruction)
         undo_instruction->redo_instruction = (bbHandle)redo_instruction_handle;
         pushRedoInstruction(redo_instruction)
         pushUndoInstruction(undo_instruction)
-
-        // bbHandle handle;
-        // bbVPool_reverseLookup(core->instruction_pool, instruction, &handle);
-        // undo_instruction->redo_instruction = handle;
-        // bbList_pushL(&core->undo_stack, (void*)undo_instruction);
     }
     else if (instruction->source == bbInstructionSource_action)
     {
@@ -305,6 +295,7 @@ bbFlag bbCS_doNothing(bbCore* core,  bbInstruction_source source, bbHandle actio
 
     }
 
+    //do side effects
 
     return bbSuccess;
 }

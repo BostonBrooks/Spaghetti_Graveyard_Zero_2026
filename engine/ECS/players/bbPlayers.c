@@ -74,11 +74,135 @@ bbFlag bbPlayer_KeyPress(bbPlayers* players, U64 key, U64 control_keys)
 }
 
 
-bbFlag bbCoreInput_setPlayerState(bbCore* core, U32 player_int, U32 state,  bbInstruction_source source, bbHandle action) {
-    bbNotImplemented() //rollback
+bbFlag bbCI_setPlayerState(bbCore* core, U32 player_int, U32 state,  bbInstruction_source source, bbHandle action) {
+    allocActiveInstruction(instruction)
+    instruction->type = bbI_setPlayerState;
+    instruction->data.three_handles.handle1.u64 = player_int;
+    instruction->data.three_handles.handle2.u64 = state;
+    instruction->source = source;
+    instruction->redo_instruction = action;
+
+    pushActiveInstruction(instruction)
+}
+bbFlag bbCS_setPlayerState(bbCore* core, U32 player_int, U32 state,  bbInstruction_source source, bbHandle action)
+{
+
+    bbPlayers* players = (bbPlayers*)core->ECS->systems[bbECS_Players];
+    bbPlayer* player = &players->players[player_int];
+
+    if (source == bbInstructionSource_input)
+    {
+        //create input instruction
+        allocRedoInstruction(instruction)
+        instruction->source = source;
+        //set input instruction data
+        instruction->type = bbI_setPlayerState;
+        instruction->data.three_handles.handle1.u64 = player_int;
+        instruction->data.three_handles.handle2.u64 = state;
+
+        //create undo instruction
+        allocUndoInstruction(undo_instruction)
+        undo_instruction->source = source;
+        undo_instruction->redo_instruction = (bbHandle)instruction_handle;
+
+        //set instruction data
+        undo_instruction->type = bbI_unsetPlayerState;
+        undo_instruction->data.three_handles.handle1.u64 = player_int;
+        undo_instruction->data.three_handles.handle2.u64 = player->state;
+        pushUndoInstruction(undo_instruction)
+        pushRedoInstruction(instruction)
+    } else if (source == bbInstructionSource_internal)
+    {
+        //create undo instruction
+        allocUndoInstruction(undo_instruction)
+        undo_instruction->source = source;
+
+        //set instruction data
+        undo_instruction->type = bbI_unsetPlayerState;
+        undo_instruction->data.three_handles.handle1.u64 = player_int;
+        undo_instruction->data.three_handles.handle2.u64 = player->state;
+        pushUndoInstruction(undo_instruction)
+    } else if (source == bbInstructionSource_action)
+    {
+        //create undo instruction
+        allocUndoInstruction(undo_instruction)
+        undo_instruction->redo_instruction = action;
+        undo_instruction->source = source;
+
+        //Set instruction data
+        undo_instruction->type = bbI_unsetPlayerState;
+        undo_instruction->data.three_handles.handle1.u64 = player_int;
+        undo_instruction->data.three_handles.handle2.u64 = player->state;
+        pushUndoInstruction(undo_instruction)
+    } else if (source == bbInstructionSource_norewind)
+    {
+
+    }
 
     bbDebug("setting player state to %d\n", state)
 
+    player->state = state;
+    if (player_int == players->this_player) {
+        bbInputModes_set(&home.UI.input_modes,
+            players->states[state].bbInputMode_key);
+    }
+    return bbSuccess;
+}
+bbFlag bbI_setPlayerState_fn(bbCore* core, bbInstruction* instruction)
+{
+
+    U32 player_int = instruction->data.three_handles.handle1.u64;
+    U32 state = instruction->data.three_handles.handle2.u64;
+    bbPlayers* players = (bbPlayers*)core->ECS->systems[bbECS_Players];
+    bbPlayer* player = &players->players[player_int];
+
+    if (instruction->source == bbInstructionSource_internal)
+    {
+        allocUndoInstruction(undo_instruction)
+        undo_instruction->type = bbI_unsetPlayerState;
+        undo_instruction->data.three_handles.handle1.u64 = player_int;
+        undo_instruction->data.three_handles.handle2.u64 = player->state;
+        undo_instruction->source = instruction->source;
+        undo_instruction->redo_instruction.u64 = 0;
+        pushUndoInstruction(undo_instruction)
+    }
+    else if (instruction->source == bbInstructionSource_input)
+    {
+        allocUndoInstruction(undo_instruction)
+        undo_instruction->type = bbI_unsetPlayerState;
+        undo_instruction->data.three_handles.handle1.u64 = player_int;
+        undo_instruction->data.three_handles.handle2.u64 = player->state;
+        undo_instruction->source = instruction->source;
+        allocRedoInstruction(redo_instruction)
+         *redo_instruction = *instruction;
+        undo_instruction->redo_instruction = (bbHandle)redo_instruction_handle;
+        pushRedoInstruction(redo_instruction)
+        pushUndoInstruction(undo_instruction)
+    }
+    else if (instruction->source == bbInstructionSource_action)
+    {
+        allocUndoInstruction(undo_instruction)
+        undo_instruction->type = bbI_unsetPlayerState;
+        undo_instruction->data.three_handles.handle1.u64 = player_int;
+        undo_instruction->data.three_handles.handle2.u64 = player->state;
+        undo_instruction->source = instruction->source;
+        undo_instruction->redo_instruction = instruction->redo_instruction;
+        pushUndoInstruction(undo_instruction)
+
+    } //else source == no rewind
+
+    player->state = state;
+    if (player_int == players->this_player) {
+        bbInputModes_set(&home.UI.input_modes,
+            players->states[state].bbInputMode_key);
+    }
+
+}
+bbFlag bbI_unsetPlayerState_fn(bbCore* core, bbInstruction* instruction)
+{
+
+    U32 player_int = instruction->data.three_handles.handle1.u64;
+    U32 state = instruction->data.three_handles.handle2.u64;
     bbPlayers* players = (bbPlayers*)core->ECS->systems[bbECS_Players];
     bbPlayer* player = &players->players[player_int];
     player->state = state;
@@ -86,7 +210,36 @@ bbFlag bbCoreInput_setPlayerState(bbCore* core, U32 player_int, U32 state,  bbIn
         bbInputModes_set(&home.UI.input_modes,
             players->states[state].bbInputMode_key);
     }
-    return bbSuccess;
+
+    if (instruction->source == bbInstructionSource_internal)
+    {
+        //bbVPool_free(core->instruction_pool, (void*)instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_input)
+    {
+
+        popRedoInstruction(redo_instruction,instruction)
+        allocActiveInstruction(new_instruction)
+        *new_instruction = redo_instruction;
+        bbCore_checkMap(&core->map, &redo_instruction, instruction);
+
+        pushActiveInstruction(new_instruction)
+        //bbInstruction* redo_instruction;
+        //bbVPool_lookup(core->instruction_pool, (void**)&redo_instruction, instruction->redo_instruction);
+        //bbList_pushL(&core->active_stack, redo_instruction);
+        //bbVPool_free(core->instruction_pool, (void*)instruction);
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_action)
+    {
+        bbAction* redo_action;
+
+        bbVPool_lookup(core->action_pool, (void**)&redo_action, instruction->redo_instruction);
+        bbList_sortL(&core->action_queue,(void*)redo_action);
+        //bbVPool_free(core->instruction_pool, (void*)instruction);
+        return bbSuccess;
+    }
 }
 
 bbFlag bbCoreInbox_SetPlayerEntity(bbCore* core, U32 player, bbHandle entity_handle) {
