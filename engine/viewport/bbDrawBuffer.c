@@ -7,16 +7,17 @@
 
 I32 bbDrawBufferObject_isCloser(void* one, void* two){
     bbDrawBufferObject* object_one = one;
-    bbDrawBufferObject* oject_two = two;
+    bbDrawBufferObject* object_two = two;
 
-    I32 foo = oject_two->MC.i - object_one->MC.i
-              -oject_two->MC.j + object_one->MC.j;
+    I32 foo = object_two->MC.i - object_one->MC.i
+              -object_two->MC.j + object_one->MC.j
+              + object_two->draw_bias - object_one->draw_bias;
 
     if (foo > 0) return 1;
     if (foo < 0) return 0;
 
-    if (object_one->collision > oject_two->collision) return 1;
-    if (object_one->collision < oject_two->collision) return 0;
+    if (object_one->collision > object_two->collision) return 1;
+    if (object_one->collision < object_two->collision) return 0;
 
     bbNotHere()
     return 3;

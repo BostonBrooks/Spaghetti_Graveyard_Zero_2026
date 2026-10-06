@@ -16,6 +16,7 @@ typedef struct {
 
 typedef struct {
     bbMapCoords MC;
+    I32 draw_bias;
     I32 collision;
     I32 draw_function;
     bbHandle asset_handle;
