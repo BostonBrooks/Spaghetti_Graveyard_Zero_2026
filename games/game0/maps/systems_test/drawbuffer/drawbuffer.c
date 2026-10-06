@@ -4,6 +4,8 @@
 #include "engine/viewport/bbDrawBuffer.h"
 #include "engine/viewport/bbViewport.h"
 
+//#define NO_DRAWBUFFER_CULLING
+
 bbFlag bbDrawBuffer_bbHere(void* node, void* cl) {
     bbDebug("bbDrawBuffer_bbHere()\n")
     printf("####################################################\n");
@@ -20,6 +22,7 @@ bbFlag bbDB_sprite(void* node, void* cl){
 
     U64 spriteInt = object->asset_handle.u64;
     if (spriteInt >= graphics->sprites->num_sprites) spriteInt = 0;
+    if (spriteInt < 0) spriteInt = 0;
     sfSprite* sprite = graphics->sprites->sprites[spriteInt].sprite;
     sfRenderTexture* renderTexture = VP->main.renderTexture;
     sfVector2f V2F = bbMapCoords_getV2f(object->MC, VP);
@@ -37,8 +40,18 @@ bbFlag bbDB_unitSprite(void* node, void* cl){
 
     U64 spriteInt = object->asset_handle.u64;
     if (spriteInt >= graphics->sprites->num_sprites) spriteInt = 0;
+    if (spriteInt < 0) spriteInt = 0;
     sfSprite* sprite = graphics->sprites->sprites[spriteInt].sprite;
     sfVector2f V2F = bbMapCoords_getV2f(object->MC, VP);
+
+#ifndef NO_DRAWBUFFER_CULLING
+    //TODO this is a bit of a hack
+    if (V2F.x < 0) return bbSuccess;
+    if (V2F.y < 0) return bbSuccess;
+    if (V2F.x > VP->width) return bbSuccess;
+    if (V2F.y > VP->height) return bbSuccess;
+
+#endif
     sfSprite_setPosition(sprite,V2F);
 
     sfRenderTexture* renderTexture = VP->main.renderTexture;

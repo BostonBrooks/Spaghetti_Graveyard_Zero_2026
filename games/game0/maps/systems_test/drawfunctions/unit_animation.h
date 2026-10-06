@@ -180,6 +180,7 @@ bbFlag bbDF_unitDrawBuffer(void* Drawable, void* frameDescriptor, void* cl){
     draw_buffer_object->MC = drawable->md.coords;
 
     if (spriteInt >= graphics->sprites->num_sprites) spriteInt = 0;
+    if (spriteInt < 0) spriteInt = 0;
     draw_buffer_object->asset_handle.u64 = spriteInt;
     bbSprite* bb_sprite = &graphics->sprites->sprites[spriteInt];
     draw_buffer_object->draw_bias = bb_sprite->d.draw_bias;
@@ -224,6 +225,7 @@ bbFlag bbDF_unitBufferOnce(void* Drawable, void* frameDescriptor, void* cl){
     draw_buffer_object->MC = drawable->md.coords;
 
     if (spriteInt >= graphics->sprites->num_sprites) spriteInt = 0;
+    if (spriteInt < 0) spriteInt = 0;
     draw_buffer_object->asset_handle.u64 = spriteInt;
     bbSprite* bb_sprite = &graphics->sprites->sprites[spriteInt];
     draw_buffer_object->draw_bias = bb_sprite->d.draw_bias;
@@ -267,6 +269,7 @@ bbFlag bbDF_unitStillDrawBuffer(void* Drawable, void* frameDescriptor, void* cl)
     draw_buffer_object->MC = drawable->md.coords;
 
     if (spriteInt >= graphics->sprites->num_sprites) spriteInt = 0;
+    if (spriteInt < 0) spriteInt = 0;
     draw_buffer_object->asset_handle.u64 = spriteInt;
     bbSprite* bb_sprite = &graphics->sprites->sprites[spriteInt];
     draw_buffer_object->draw_bias = bb_sprite->d.draw_bias;
