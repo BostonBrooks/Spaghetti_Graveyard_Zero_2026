@@ -243,7 +243,7 @@ bbFlag bbSF_addGraphics_fox(void* spawner,
     data.MC = args->position,
     data.last_state_change = 0;
     data.last_wander_time = 0;
-    data.drawable_state = bbDrawableState_idle;
+    data.drawable_state = bbDrawableState_moving;
     data.random_seed = bbArith64_hashIndex(deterministic_seed,args->random_seed);
 
     // bbCS_spawnGraphicsComponent(&home.core.core,
