@@ -8,6 +8,10 @@
 #include "engine/data/CSFML.h"
 #include "engine/graphics/bbTextures.h"
 
+typedef struct {
+
+} bbSprite;
+
 typedef struct { //bbSprites
     I32 num_sprites;
     bbDictionary* dictionary;

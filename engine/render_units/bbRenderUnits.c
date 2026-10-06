@@ -119,11 +119,17 @@ bbFlag bbRenderUnitGroup_spawn_foxes(bbRenderUnitGroup** Group,
 
     for (I32 i = 0; i < UNITS_PER_GROUP; i++ )
     {
+        U64 seed = bbArith64_hashIndex(drawable->md.random_seed,i);
+        float framerate = 1.0 + (bbArith64_hashIndex(seed,1) % 16) / 160.f;
+        U32 start_time = bbArith64_hashIndex(seed, 2) % 60;
+
         group->units[i].owner = drawable;
         group->units[i].index = i;
         group->units[i].movement_type = bbRU_movementType_wander;
         group->units[i].md = fox_drawable;
-        group->units[i].md.random_seed = bbArith64_hashIndex(drawable->md.random_seed,i);
+        group->units[i].md.random_seed = seed;
+        group->units[i].md.frames[0].framerate = framerate;
+        group->units[i].md.frames[0].start_time = start_time;
 
 
     }
