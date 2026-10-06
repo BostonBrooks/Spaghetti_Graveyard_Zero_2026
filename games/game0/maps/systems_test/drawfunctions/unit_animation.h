@@ -170,7 +170,7 @@ bbFlag bbDF_unitDrawBuffer(void* Drawable, void* frameDescriptor, void* cl){
 
     I32 spriteInt = animation->Sprites[angle*frames+frameInt].u64;
 
-    bbAssert(spriteInt < home.UI.graphics.sprites->num_sprites, "bad sprite int\n")
+    bbAssert(spriteInt < home.UI.graphics.sprites->num_sprites, "bad sprite int %d\n", spriteInt)
 
     bbDrawBufferObject* draw_buffer_object;
     bbDrawBufferObject_new(home.viewport_app.drawbuffer,&draw_buffer_object) ;
