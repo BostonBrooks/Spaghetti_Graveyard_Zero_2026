@@ -17,6 +17,7 @@ typedef struct {
     float origin_y;
     float scale_x;
     float scale_y;
+    I32 draw_bias;
 } sprite_dimensions;
 
 bbFlag bbSprite_new(bbSprites* sprites, char* key, I32 address, sfTexture* texture, sprite_dimensions* dimensions){
@@ -58,6 +59,8 @@ bbFlag bbSprite_new(bbSprites* sprites, char* key, I32 address, sfTexture* textu
     scale.y = dimensions->scale_y;
     sfSprite_setScale(sprite, scale);
 
+    sprites->sprites[address].draw_bias = dimensions->draw_bias;
+
     sprites->sprites[address].sprite = sprite;
     bbHandle handle;
     handle.u64 = address;
@@ -98,10 +101,10 @@ bbFlag bbSprites_new(bbSprites** self, bbTextures* textures, char* file_path,
     sprite_dimensions dimensions;
     char scale_by[KEY_LENGTH];
 
-    while(fscanf(file, "%[^,],%d,%[^,],%d,%d,%d,%d,%f,%f,%f,%f,%[^,],%*[^\n]\n",
+    while(fscanf(file, "%[^,],%d,%[^,],%d,%d,%d,%d,%f,%f,%f,%f,%d,%[^,],%*[^\n]\n",
                  key, &address, texture, &dimensions.left, &dimensions.top, &dimensions.width,
                  &dimensions.height, &dimensions.origin_x, &dimensions.origin_y, &dimensions.scale_x,
-                 &dimensions.scale_y, scale_by) == 12)
+                 &dimensions.scale_y, &dimensions.draw_bias, scale_by) == 13)
     {
         if(0 == strcmp(scale_by, "Widget")){
             dimensions.scale_x *= widget_scale;

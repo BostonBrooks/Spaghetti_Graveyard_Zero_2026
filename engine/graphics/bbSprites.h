@@ -10,6 +10,7 @@
 
 typedef struct {
     sfSprite* sprite;
+    I32 draw_bias;
 } bbSprite;
 
 typedef struct { //bbSprites
