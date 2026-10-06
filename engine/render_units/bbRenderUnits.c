@@ -96,7 +96,7 @@ bbFlag bbRenderUnitGroup_spawn_foxes(bbRenderUnitGroup** Group,
         fox_drawable.frames[k].draw_function = -1;
     }
     bbDictionary_lookup(graphics->drawfunctions->dictionary,
-                    "PARENT_STATE",
+                    "FRONT_ROW",
                     &drawfunctionHandle);
 
     fox_drawable.frames[0].draw_function = drawfunctionHandle.u64;

@@ -215,6 +215,11 @@ bbFlag bbDrawfunctions_new(bbDrawfunctions** drawfunctions){
     handle.u64 = 33;
     bbDictionary_add(functions->dictionary, "UNIT_BUFFER_ONCE", handle);
 
+
+    functions->functions[34] = bbDF_frontRow;
+    handle.u64 = 34;
+    bbDictionary_add(functions->dictionary, "FRONT_ROW", handle);
+
     *drawfunctions = functions;
     return bbSuccess;
 }
