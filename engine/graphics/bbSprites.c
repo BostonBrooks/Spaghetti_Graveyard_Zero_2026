@@ -8,17 +8,7 @@
 #include "engine/logic/bbPrime.h"
 #include "engine/logic/bbTerminal.h"
 
-typedef struct {
-    I32 left;
-    I32 top;
-    I32 width;
-    I32 height;
-    float origin_x;
-    float origin_y;
-    float scale_x;
-    float scale_y;
-    I32 draw_bias;
-} sprite_dimensions;
+
 
 bbFlag bbSprite_new(bbSprites* sprites, char* key, I32 address, sfTexture* texture, sprite_dimensions* dimensions){
 
@@ -59,7 +49,7 @@ bbFlag bbSprite_new(bbSprites* sprites, char* key, I32 address, sfTexture* textu
     scale.y = dimensions->scale_y;
     sfSprite_setScale(sprite, scale);
 
-    sprites->sprites[address].draw_bias = dimensions->draw_bias;
+    sprites->sprites[address].d = *dimensions;
 
     sprites->sprites[address].sprite = sprite;
     bbHandle handle;

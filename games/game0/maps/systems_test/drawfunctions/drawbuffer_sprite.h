@@ -20,7 +20,7 @@ bbFlag bbDF_drawBufferSprite(void* Drawable, void* frameDescriptor, void* cl){
     if (spriteInt >= graphics->sprites->num_sprites) spriteInt = 0;
     draw_buffer_object->asset_handle.u64 = spriteInt;
     bbSprite* bb_sprite = &graphics->sprites->sprites[spriteInt];
-    draw_buffer_object->draw_bias = bb_sprite->draw_bias;
+    draw_buffer_object->draw_bias = bb_sprite->d.draw_bias;
 
 
 
@@ -51,7 +51,7 @@ bbFlag bbDF_drawBufferUnitSprite(void* Drawable, void* frameDescriptor, void* cl
     if (spriteInt >= graphics->sprites->num_sprites) spriteInt = 0;
     draw_buffer_object->asset_handle.u64 = spriteInt;
     bbSprite* bb_sprite = &graphics->sprites->sprites[spriteInt];
-    draw_buffer_object->draw_bias = bb_sprite->draw_bias;
+    draw_buffer_object->draw_bias = bb_sprite->d.draw_bias;
 
     if (draw_buffer_object->asset_handle.u64 >= graphics->sprites->num_sprites) draw_buffer_object->asset_handle.u64 = 0;
 

@@ -9,8 +9,20 @@
 #include "engine/graphics/bbTextures.h"
 
 typedef struct {
-    sfSprite* sprite;
+    I32 left;
+    I32 top;
+    I32 width;
+    I32 height;
+    float origin_x;
+    float origin_y;
+    float scale_x;
+    float scale_y;
     I32 draw_bias;
+} sprite_dimensions;
+
+typedef struct {
+    sfSprite* sprite;
+    sprite_dimensions d;
 } bbSprite;
 
 typedef struct { //bbSprites
