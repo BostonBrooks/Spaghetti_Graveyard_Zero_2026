@@ -500,6 +500,14 @@ bbFlag bbSF_addAI_fireball(void* spawner,
                                bbSpawnFunctionArgs* args,
                                bbInstruction_source source);
 
+bbFlag bbSF_setHitpoints(void* spawner,
+                               bbECS_entity* entity,
+                               bbSpawnFunctionArgs* args,
+                               bbInstruction_source source);
+bbFlag bbSF_setTeamMonster(void* spawner,
+                               bbECS_entity* entity,
+                               bbSpawnFunctionArgs* args,
+                               bbInstruction_source source);
 bbFlag bbLSF_liveSpawnSkelly(void* spawner,
                                   bbHandle* Entity,
                                   bbSpawnFunctionArgs* args,
@@ -530,12 +538,22 @@ bbFlag bbLSF_liveSpawnSkelly(void* spawner,
                                args,
                                source);
 
+    bbSF_setHitpoints(spawner,
+                      entity,
+                      args,
+                      source);
 
+
+    bbSF_setTeamMonster(spawner,
+                      entity,
+                      args,
+                      source);
 
     bbSF_addAI_skelly(spawner,
                       entity,
                       args,
                       source);
+
 
 
     bbComponent_getHandle(&home.ECS.ECS->system,(bbComponent*)entity,Entity);

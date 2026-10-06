@@ -1,4 +1,6 @@
 #include "engine/ECS/spatial/bbSpatial_query.h"
+
+#include "engine/ECS/AI_system/bbAI_System.h"
 #include "engine/ECS/spatial/bbSpatial.h"
 #include "engine/ECS/teams/bbTeams.h"
 #include "engine/logic/bbIterator.h"
@@ -259,6 +261,29 @@ bbFlag bbFilter_canAttack_fn(bbList* list, void* node, void* cl)
         //bbHere()
         return bbContinue;
     }
+
+
+    bbAI_Component* target_AI;
+
+
+    flag = bbHandle_mapComponent(filter_cl->ECS,
+                                 bbECS_ECS,
+                                 target_entity_handle,
+                                 bbECS_AI,
+                                 NULL,
+                                 (bbComponent**)&target_AI);
+
+    if (flag == bbNone) {
+        //bbHere()
+        return bbContinue;
+    }
+    if (target_AI == NULL) {
+        //bbHere()
+        return bbContinue;
+    }
+
+    if (target_AI->state == bbAIState_Recovering) return bbContinue ;
+
     bbTeam* target_team;
     flag = bbHandle_mapComponent(filter_cl->ECS,
                                  bbECS_ECS,
@@ -278,6 +303,8 @@ bbFlag bbFilter_canAttack_fn(bbList* list, void* node, void* cl)
     if (attacker_team->team != target_team->team) {
         return(bbSuccess);
     }
+
+
 
     return bbContinue;
 }

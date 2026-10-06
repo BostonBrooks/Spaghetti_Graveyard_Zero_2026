@@ -112,6 +112,7 @@ bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
             args.type = 0;
             args.handle = no_handle;
             args.goal_handle = no_handle;
+            args.hitpoints = 1024;
 
 
 

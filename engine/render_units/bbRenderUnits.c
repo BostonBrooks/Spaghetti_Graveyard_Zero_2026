@@ -81,7 +81,8 @@ bbFlag bbRenderUnitGroup_spawn_foxes(bbRenderUnitGroup** Group,
                                      bbDrawable* drawable,
                                      bbGraphicsApp* graphics)
 {
-    bbAssert(drawable->group == NULL, "trying to respawn an existing drawable group\n");
+    bbWarning(drawable->group == NULL, "trying to respawn an existing drawable group\n");
+    if (drawable->group != NULL){return bbSuccess;}
     bbRenderUnitGroup* group;
     bbVPool_alloc2(render_units->pool, (void**)&group, NULL);
     drawable->group = group;

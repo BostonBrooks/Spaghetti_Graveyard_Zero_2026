@@ -97,6 +97,7 @@ bbHere()
         args.goalpoint = coords;
         args.handle = no_handle;
         args.goal_handle = no_handle;
+        args.hitpoints = 1024;
         bbCI_live_spawnEntity(&home.core.core, args, "SKELLY_LIVE", bbInstructionSource_internal, no_handle);
     } else {
         bbDebug("this_player->state = %d\n", this_player->state);
