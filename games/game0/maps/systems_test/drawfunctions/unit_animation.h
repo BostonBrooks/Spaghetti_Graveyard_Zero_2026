@@ -89,7 +89,7 @@ bbFlag bbDF_unitAnimationWAngle(void* Drawable, void* frameDescriptor, void* cl)
 
 
     bbAssert(spriteInt >= 0, "Array index out of bounds");
-    sfSprite* sprite = animation->sprites->sprites[spriteInt];
+    sfSprite* sprite = animation->sprites->sprites[spriteInt].sprite;
 
     sfVector2f V2F = bbMapCoords_getV2f(drawable->md.coords, VP);
 
@@ -130,7 +130,7 @@ bbFlag bbDF_unitStillWAngle(void* Drawable, void* frameDescriptor, void* cl){
 
 
     bbAssert(spriteInt >= 0, "Array index out of bounds");
-    sfSprite* sprite = animation->sprites->sprites[spriteInt];
+    sfSprite* sprite = animation->sprites->sprites[spriteInt].sprite;
 
     sfVector2f V2F = bbMapCoords_getV2f(drawable->md.coords, VP);
 

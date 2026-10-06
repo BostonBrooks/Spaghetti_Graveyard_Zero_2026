@@ -203,7 +203,7 @@ bbFlag bbMouse_Draw(bbMouse* mouse, void* Widgets, bbGraphicsApp* graphics,
             dragged_SP.x = mouse->position.x - mouse->drag_origin.x;
             dragged_SP.y = mouse->position.y - mouse->drag_origin.y;
             sfVector2f pos = bbScreenPoints_getV2f(dragged_SP);
-            sfSprite* sprite = graphics->sprites->sprites[selected->mtable.drag_icon];
+            sfSprite* sprite = graphics->sprites->sprites[selected->mtable.drag_icon].sprite;
             sfSprite_setPosition(sprite, pos);
             sfRenderWindow_drawSprite(window, sprite, NULL);
 
@@ -223,7 +223,7 @@ bbFlag bbMouse_Draw(bbMouse* mouse, void* Widgets, bbGraphicsApp* graphics,
     spriteInt = (widget == NULL) ? 133 : widget->mtable.mouse_icon;
 
     if (spriteInt < 0) spriteInt = 0;
-    sfSprite* sprite = graphics->sprites->sprites[spriteInt];
+    sfSprite* sprite = graphics->sprites->sprites[spriteInt].sprite;
     sfSprite_setPosition(sprite, pos);
     sfRenderWindow_drawSprite(window, sprite, NULL);
     return bbSuccess;

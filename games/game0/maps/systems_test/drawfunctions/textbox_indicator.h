@@ -17,7 +17,7 @@ bbFlag bbDF_textboxIndicator(void* drawable, void* frameDescriptor, void* cl){
 
 
 
-    sfSprite* sprite = graphics->sprites->sprites[154];
+    sfSprite* sprite = graphics->sprites->sprites[154].sprite;
 
     bbScreenPoints SP;
     SP.x = widget->rect.left + frame->offset.x;

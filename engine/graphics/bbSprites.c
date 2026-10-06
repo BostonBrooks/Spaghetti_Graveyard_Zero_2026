@@ -58,7 +58,7 @@ bbFlag bbSprite_new(bbSprites* sprites, char* key, I32 address, sfTexture* textu
     scale.y = dimensions->scale_y;
     sfSprite_setScale(sprite, scale);
 
-    sprites->sprites[address] = sprite;
+    sprites->sprites[address].sprite = sprite;
     bbHandle handle;
     handle.u64 = address;
 
@@ -80,7 +80,7 @@ bbFlag bbSprites_new(bbSprites** self, bbTextures* textures, char* file_path,
     I32 num;
     fscanf(file, "Number of Sprites:,%d%*[^\n]\n", &num);
 
-    bbSprites* sprites = malloc(sizeof(bbSprites) + num * sizeof (sfSprite*));
+    bbSprites* sprites = malloc(sizeof(bbSprites) + num * sizeof (bbSprite));
 
 
     sprites->num_sprites = num;
@@ -149,7 +149,7 @@ bbFlag bbSprites_lookup (sfSprite** self, bbSprites * sprites, char* key){
     }
     bbAssert(address < sprites->num_sprites, "address out of bounds\n");
 
-    *self = sprites->sprites[address];
+    *self = sprites->sprites[address].sprite;
 
     return bbSuccess;
 }

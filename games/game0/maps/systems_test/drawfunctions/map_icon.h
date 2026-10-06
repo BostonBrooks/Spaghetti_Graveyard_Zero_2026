@@ -8,7 +8,7 @@ bbFlag bbDF_mapiconTest(void* drawable, void* frameDescriptor, void* cl){
     I32 spriteInt = frame_descriptor->asset_handle.u64;
 
     bbGraphicsApp* graphics = foo->graphics;
-    sfSprite* sprite = graphics->sprites->sprites[spriteInt];
+    sfSprite* sprite = graphics->sprites->sprites[spriteInt].sprite;
 
 
     bbViewport* VP = foo->target;

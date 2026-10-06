@@ -18,7 +18,7 @@ bbFlag bbDB_sprite(void* node, void* cl){
     bbViewport* VP = foo->target;
 
     I32 spriteInt = object->asset_handle.u64;
-    sfSprite* sprite = graphics->sprites->sprites[spriteInt];
+    sfSprite* sprite = graphics->sprites->sprites[spriteInt].sprite;
     sfRenderTexture* renderTexture = VP->main.renderTexture;
     sfVector2f V2F = bbMapCoords_getV2f(object->MC, VP);
     sfSprite_setPosition(sprite,V2F);
@@ -34,7 +34,7 @@ bbFlag bbDB_unitSprite(void* node, void* cl){
     bbViewport* VP = foo->target;
 
     I32 spriteInt = object->asset_handle.u64;
-    sfSprite* sprite = graphics->sprites->sprites[spriteInt];
+    sfSprite* sprite = graphics->sprites->sprites[spriteInt].sprite;
     sfVector2f V2F = bbMapCoords_getV2f(object->MC, VP);
     sfSprite_setPosition(sprite,V2F);
 

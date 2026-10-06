@@ -14,7 +14,7 @@ bbFlag bbDF_eyeCandyTest(void* drawable, void* frameDescriptor, void* cl){
     I32 frame = time % frames;
     I32 spriteInt = animation->Sprites[frame].u64;
     bbSprites* sprites = animation->sprites;
-    sfSprite* sprite = sprites->sprites[spriteInt];
+    sfSprite* sprite = sprites->sprites[spriteInt].sprite;
 
 
     bbViewport* VP = foo->target;

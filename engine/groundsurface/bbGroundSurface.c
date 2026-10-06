@@ -584,7 +584,7 @@ bbFlag bbGroundSurface_setTexture(bbGroundSurface* surface)
             bbHandle sprite_int;
             bbDictionary_lookup(home.UI.graphics.sprites->dictionary, "GRASS", &sprite_int);
 
-            sfSprite* sprite = home.UI.graphics.sprites->sprites[sprite_int.u64];
+            sfSprite* sprite = home.UI.graphics.sprites->sprites[sprite_int.u64].sprite;
 
             sfRenderTexture_drawSprite(ground_texture, sprite, NULL);
 

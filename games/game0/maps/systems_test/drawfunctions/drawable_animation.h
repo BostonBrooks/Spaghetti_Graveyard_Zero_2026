@@ -32,7 +32,7 @@ bbFlag bbDF_drawableAnimation(void* Drawable, void* frameDescriptor, void* cl){
 
     //if (animationInt == 9){ bbDebug("spriteInt = %d\n", spriteInt);}
 
-    sfSprite* sprite = animation->sprites->sprites[spriteInt];
+    sfSprite* sprite = animation->sprites->sprites[spriteInt].sprite;
     sfRenderTexture* renderTexture = VP->main.renderTexture;
 
     sfVector2f V2F = bbMapCoords_getV2f(drawable->md.coords, VP);
@@ -117,7 +117,7 @@ bbFlag bbDF_drawableAnimationWAngle(void* Drawable, void* frameDescriptor, void*
     }
 
     bbAssert(spriteInt >= 0, "Array index out of bounds");
-    sfSprite* sprite = animation->sprites->sprites[spriteInt];
+    sfSprite* sprite = animation->sprites->sprites[spriteInt].sprite;
     sfRenderTexture* renderTexture = VP->main.renderTexture;
 
     sfVector2f V2F = bbMapCoords_getV2f(drawable->md.coords, VP);
@@ -163,7 +163,7 @@ bbFlag bbDF_drawableAnimationOnce(void* Drawable, void* frameDescriptor, void* c
     }
 
     bbAssert(spriteInt >= 0, "Array index out of bounds");
-    sfSprite* sprite = animation->sprites->sprites[spriteInt];
+    sfSprite* sprite = animation->sprites->sprites[spriteInt].sprite;
     sfRenderTexture* renderTexture = VP->main.renderTexture;
 
     sfVector2f V2F = bbMapCoords_getV2f(drawable->md.coords, VP);

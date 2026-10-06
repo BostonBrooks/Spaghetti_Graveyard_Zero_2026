@@ -18,7 +18,7 @@ bbFlag bbDF_widgetGraphicsTimeAnimation(void* drawable, void* frameDescriptor, v
     I32 frame = (int)((double)(time - frame_descriptor->start_time) *
                       (double)animation->framerate * frame_descriptor->framerate) % animation->frames;
     I32 sprite_int = animation->Sprites[angle*frames+frame].u64;
-    sfSprite* sprite = animation->sprites->sprites[sprite_int];
+    sfSprite* sprite = animation->sprites->sprites[sprite_int].sprite;
 
 
 
@@ -52,7 +52,7 @@ bbFlag bbDF_widgetCoreTimeAnimation(void* drawable, void* frameDescriptor, void*
     I32 frame = (int)((double)(time - frame_descriptor->start_time) *
                       (double)animation->framerate * frame_descriptor->framerate) % animation->frames;
     I32 sprite_int = animation->Sprites[angle*frames+frame].u64;
-    sfSprite* sprite = animation->sprites->sprites[sprite_int];
+    sfSprite* sprite = animation->sprites->sprites[sprite_int].sprite;
 
 
 
@@ -92,7 +92,7 @@ bbFlag bbDF_widgetServerTimeAnimation(void* drawable, void* frameDescriptor, voi
     I32 frame = (int)((double)(time - frame_descriptor->start_time) *
                       (double)animation->framerate * frame_descriptor->framerate) % animation->frames;
     I32 sprite_int = animation->Sprites[angle*frames+frame].u64;
-    sfSprite* sprite = animation->sprites->sprites[sprite_int];
+    sfSprite* sprite = animation->sprites->sprites[sprite_int].sprite;
 
 
 

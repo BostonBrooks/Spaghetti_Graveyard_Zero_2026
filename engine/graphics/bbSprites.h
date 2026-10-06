@@ -9,13 +9,13 @@
 #include "engine/graphics/bbTextures.h"
 
 typedef struct {
-
+    sfSprite* sprite;
 } bbSprite;
 
 typedef struct { //bbSprites
     I32 num_sprites;
     bbDictionary* dictionary;
-    sfSprite* sprites[];
+    bbSprite sprites[];
 
 } bbSprites;
 

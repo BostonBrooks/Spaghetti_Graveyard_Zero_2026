@@ -33,7 +33,7 @@ bbFlag bbDF_widgetSprite(void* drawable, void* frame_descriptor, void* cl){
     bbGraphicsApp* graphics = closure->graphics;
 
     I32 spriteInt = frame->asset_handle.u64;
-    sfSprite* sprite = graphics->sprites->sprites[spriteInt];
+    sfSprite* sprite = graphics->sprites->sprites[spriteInt].sprite;
 
 
     bbScreenPoints SP;
