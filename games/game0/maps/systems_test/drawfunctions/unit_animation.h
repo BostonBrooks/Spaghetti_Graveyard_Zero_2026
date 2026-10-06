@@ -170,6 +170,8 @@ bbFlag bbDF_unitDrawBuffer(void* Drawable, void* frameDescriptor, void* cl){
 
     I32 spriteInt = animation->Sprites[angle*frames+frameInt].u64;
 
+    bbAssert(spriteInt < home.UI.graphics.sprites->num_sprites, "bad sprite int\n")
+
     bbDrawBufferObject* draw_buffer_object;
     bbDrawBufferObject_new(home.viewport_app.drawbuffer,&draw_buffer_object) ;
     bbHandle draw_function_handle;
@@ -207,6 +209,7 @@ bbFlag bbDF_unitBufferOnce(void* Drawable, void* frameDescriptor, void* cl){
     if (frameInt >= frames) frameInt = frames - 1;
 
     I32 spriteInt = animation->Sprites[angle*frames+frameInt].u64;
+    bbAssert(spriteInt < home.UI.graphics.sprites->num_sprites, "bad sprite int\n")
 
     bbDrawBufferObject* draw_buffer_object;
     bbDrawBufferObject_new(home.viewport_app.drawbuffer,&draw_buffer_object) ;
@@ -243,6 +246,7 @@ bbFlag bbDF_unitStillDrawBuffer(void* Drawable, void* frameDescriptor, void* cl)
     I32 frameInt = 0;
 
     I32 spriteInt = animation->Sprites[angle*frames+frameInt].u64;
+    bbAssert(spriteInt < home.UI.graphics.sprites->num_sprites, "bad sprite int\n")
 
 
     bbDrawBufferObject* draw_buffer_object;
