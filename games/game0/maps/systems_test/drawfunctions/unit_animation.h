@@ -59,7 +59,7 @@ I32 getAngleXD(float radians, I32 numAngles)
 
     if (numAngles == 1) return 0;
 
-    I32 angle = ((I32)((radians*0.15915494309f+1)*numAngles + numAngles/2.f - 0.5f))%numAngles;
+    I32 angle = bbArith_mod((I32)((radians*0.15915494309f+1)*numAngles + numAngles/2.f - 0.5f),numAngles);
     //bbDebug("radians/2pi = %f, getAngle = %d\n",radians*0.15915494309f, angle);
     return angle;
 
