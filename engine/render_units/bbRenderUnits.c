@@ -125,7 +125,7 @@ bbFlag bbRenderUnitGroup_spawn_foxes(bbRenderUnitGroup** Group,
 
         group->units[i].owner = drawable;
         group->units[i].index = i;
-        group->units[i].movement_type = bbRU_movementType_wander;
+        group->units[i].movement_type = bbRU_movementType_minimium;
         group->units[i].md = fox_drawable;
         group->units[i].md.random_seed = seed;
         group->units[i].md.frames[0].framerate = framerate;
@@ -175,8 +175,14 @@ bbFlag bbRenderUnits_updateMovement(bbRenderUnits* render_units)
         for (I32 i = 0; i < UNITS_PER_GROUP; i++)
         {
 
-            bbRenderUnit* unit = &group->units[i];
 
+            bbRenderUnit* unit = &group->units[i];
+            unit->forces.i = 0;
+            unit->forces.j = 0;
+            unit->forces.k = 0;
+            unit->correction.i = 0;
+            unit->correction.j = 0;
+            unit->correction.k = 0;
             if (unit->movement_type == bbRU_movementType_rigid) {
                 I32 row_N = i / 4;
                 I32 column_M = i %4;
@@ -192,7 +198,7 @@ bbFlag bbRenderUnits_updateMovement(bbRenderUnits* render_units)
                 unit->md.rotation = drawable->md.rotation;
             }
 
-            if (unit->movement_type == bbRU_movementType_wander) {
+            if (unit->movement_type == bbRU_movementType_minimium) {
 
 
                 U64 coefficients = bbArith64_hash(unit->md.random_seed);

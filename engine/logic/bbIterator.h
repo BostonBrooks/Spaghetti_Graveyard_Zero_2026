@@ -10,6 +10,7 @@ typedef struct
 
 } bbIterator;
 
+//typedef bbFlag bbListFunction(bbList* list, void* node, void* cl);
 bbIterator bbIterator_new(bbList* list);
 
 bbFlag bbIterator_setHead(bbIterator* iterator, bbHandle* handle, void** element);

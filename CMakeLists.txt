@@ -215,6 +215,7 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
         games/game0/maps/systems_test/render_units/tree_group.c
         games/game0/maps/systems_test/core/action_request.c
 
+
         engine/test_string/bbTestString.c
 
         engine/ECS/bbECS.c
@@ -298,6 +299,7 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
 
 
         engine/render_units/bbRenderUnits.c
+        engine/render_units/bbRenderUnit_avoidance.c
 
         engine/geometry/bbCoordinates.c
         engine/geometry/bbGroundCoords.c

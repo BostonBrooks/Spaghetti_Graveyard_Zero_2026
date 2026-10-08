@@ -10,14 +10,17 @@
 
 typedef enum
 {
-    bbRU_movementType_rigid,
-    bbRU_movementType_wander,
+    bbRU_movementType_rigid, //Does not move relative to group
+    bbRU_movementType_minimium, //Moves relative to group but always returns to the expected position
+    bbRU_movementType_persistent, //offset from expected position is persistent
     bbRU_movementType_none,
 } bbRenderUnit_movementType;
 
 typedef struct
 {
     bbMinimalDrawable md;
+    bbFloat3D correction;
+    bbFloat3D forces;
     I32 index;
     bbRenderUnit_movementType movement_type;
     bbDrawable* owner;

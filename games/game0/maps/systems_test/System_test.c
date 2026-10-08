@@ -41,7 +41,7 @@
 #include "engine/ECS/teams/bbTeams.h"
 #include "engine/logic/bbString.h"
 #include "moveables/moveables.h"
-
+#include "engine/render_units/bbRenderUnit_avoidance.h"
 
 
 pthread_barrier_t barrier1;
@@ -569,7 +569,7 @@ bbHere()
 
         bbMoveables_copyBuffer(&home.ECS.moveables, &moveables_snapshot);
         bbUnits_consumeBuffer(home.viewport_app.units, NULL, &moveables_snapshot);
-        bbRenderUnits_updateMovement(home.viewport_app.renderUnits);
+        bbRenderUnits_avoidance(home.viewport_app.renderUnits);
         bbUIApp_draw(&home.UI);
 
 
