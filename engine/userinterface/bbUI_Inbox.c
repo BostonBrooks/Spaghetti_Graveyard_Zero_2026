@@ -280,6 +280,7 @@ bbFlag bbUI_Inbox_setEntityState_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* messa
     bbHandle unit_handle2;
     bbFlag flag2 = bbLookupTable_lookup(home.viewport_app.entity_units2,message->data.data.handle.handle,&unit_handle2);
 
+
     I32 state =  message->data.data.integer;
 
     if (flag2 != bbSuccess)
@@ -292,6 +293,7 @@ bbFlag bbUI_Inbox_setEntityState_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* messa
     if (flag != bbSuccess) bbNotHere()
 
         unit->drawable.md.state = state;
+        unit->drawable.last_state_change = home.UI.clock2_handle.map_tick;
         unit->drawable.md.frames[0].start_time = home.UI.clock2_handle.map_tick;
         unit->drawable.md.frames[1].start_time = home.UI.clock2_handle.map_tick;
         unit->drawable.md.frames[2].start_time = home.UI.clock2_handle.map_tick;
@@ -323,7 +325,6 @@ bbFlag bbUI_Inbox_SetEntityState2(bbUI_Inbox* inbox, bbGraphicsComponent_data* d
 bbFlag bbUI_Inbox_setEntityState2_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
 {
 
-    bbDebug("attempting to set state: %d\n", message->data.graphics.drawable_state);
 
 
     bbHandle unit_handle2;
@@ -347,16 +348,22 @@ bbFlag bbUI_Inbox_setEntityState2_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* mess
         unit->drawable.last_wander_time += delta_t;
     }
     unit->drawable.last_state_change = message->data.graphics.last_state_change;
+
+    if (unit->drawable.md.state == bbDrawableState_dead)
+    {
+        bbDebug("state dead = %llu\n", unit->drawable.last_state_change);
+    }
+
     unit->drawable.md.state = message->data.graphics.drawable_state;
     unit->drawable.md.random_seed = message->data.graphics.random_seed;
-    // unit->drawable.md.frames[0].start_time = message->data.graphics.last_state_change;
-    // unit->drawable.md.frames[1].start_time = message->data.graphics.last_state_change;
-    // unit->drawable.md.frames[2].start_time = message->data.graphics.last_state_change;
-    // unit->drawable.md.frames[3].start_time = message->data.graphics.last_state_change;
-    // unit->drawable.md.frames[4].start_time = message->data.graphics.last_state_change;
-    // unit->drawable.md.frames[5].start_time = message->data.graphics.last_state_change;
-    // unit->drawable.md.frames[6].start_time = message->data.graphics.last_state_change;
-    // unit->drawable.md.frames[7].start_time = message->data.graphics.last_state_change;
+    unit->drawable.md.frames[0].start_time = message->data.graphics.last_state_change;
+    unit->drawable.md.frames[1].start_time = message->data.graphics.last_state_change;
+    unit->drawable.md.frames[2].start_time = message->data.graphics.last_state_change;
+    unit->drawable.md.frames[3].start_time = message->data.graphics.last_state_change;
+    unit->drawable.md.frames[4].start_time = message->data.graphics.last_state_change;
+    unit->drawable.md.frames[5].start_time = message->data.graphics.last_state_change;
+    unit->drawable.md.frames[6].start_time = message->data.graphics.last_state_change;
+    unit->drawable.md.frames[7].start_time = message->data.graphics.last_state_change;
 
 
 
@@ -564,7 +571,7 @@ bbFlag bbUI_Inbox_setUnitHP_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
     unit->display_health_until = home.UI.clock2_handle.map_tick + 180;
     unit->percent_health = HP;
 
-    bbHere()
+
 
 
     return bbSuccess;
