@@ -62,7 +62,7 @@ bbFlag bbAI_Update_Chase2(bbAI_Component* component) {
 
     if (bbSuccess != bbVPool_handleIsNULL(home.ECS.ECS->system.pool,target_entity_handle)) {
 
-        bbFlag_print(flag)
+        //bbFlag_print(flag)
         return bbSuccess;
         //debug_off = true;
     }

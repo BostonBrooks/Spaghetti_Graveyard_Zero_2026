@@ -47,7 +47,7 @@ bbFlag update_hitpoints_fn(bbList* list, void* node, void* cl) {
     if (hitpoint->prev_health != hitpoint->current_health) {
         float new_HP = (float)hitpoint->current_health / (float)hitpoint->max_health;
         bbUI_Inbox_SetUnitHP(&home.UI.inbox,hitpoint->component.entity_handle,new_HP);
-        bbDebug("new_HP = %f\n", new_HP);
+        //bbDebug("new_HP = %f\n", new_HP);
     }
     hitpoint->prev_health = hitpoint->current_health;
     return bbContinue;
