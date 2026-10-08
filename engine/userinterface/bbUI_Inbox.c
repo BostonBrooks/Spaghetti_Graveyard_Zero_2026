@@ -303,7 +303,17 @@ bbFlag bbUI_Inbox_setEntityState_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* messa
         unit->drawable.md.frames[6].start_time = home.UI.clock2_handle.map_tick;
         unit->drawable.md.frames[7].start_time = home.UI.clock2_handle.map_tick;
 
-        if (state == bbDrawableState_dead) bbDebug("time = %lu, dead\n", home.UI.clock2_handle.map_tick);
+        if (state == bbDrawableState_dead) {
+            //bbDebug("time = %lu, dead\n", home.UI.clock2_handle.map_tick);
+
+            if (unit->drawable.group != NULL) {
+                for (I32 i = 0; i < UNITS_PER_GROUP; i++) {
+                    bbRenderUnit* render_unit = &unit->drawable.group->units[i];
+                    render_unit->avoidance_type = bbRU_avoidanceType_none;
+                }
+            }
+
+        }
 
     return bbSuccess;
 }

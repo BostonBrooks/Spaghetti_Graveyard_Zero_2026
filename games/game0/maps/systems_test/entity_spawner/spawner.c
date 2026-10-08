@@ -44,7 +44,8 @@ bbFlag bbPF_tree(void* spawner, char* string)
 
     bbUI_Inbox_NewTree(&home.UI.inbox,tree_type, position, bbArith64_hashIndex(deterministic_seed, seed_index));
 
-    bbAvoidable_newCircle(home.ECS.avoidables, position, 4*POINTS_PER_TILE);
+    //bbNotImplemented() sparse trees dont have avoidance, dense trees dont
+    //bbAvoidable_newCircle(home.ECS.avoidables, position, 4*POINTS_PER_TILE);
 
     return bbSuccess;
 }

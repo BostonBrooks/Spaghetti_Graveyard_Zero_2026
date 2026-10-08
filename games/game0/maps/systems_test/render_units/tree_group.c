@@ -77,10 +77,13 @@ bbFlag bbRenderUnitGroup_spawn_trees(bbRenderUnitGroup** Group,
     bbVPool_alloc2(render_units->pool, (void**)&group, NULL);
     drawable->group = group;
 
+    group->spacing = POINTS_PER_TILE * 3;
+    group->randomness = 1.f;
     bbRenderUnit a_tree;
     a_tree.md.coords = drawable->md.coords;
     a_tree.md.state = bbDrawableState_idle;
-    a_tree.movement_type = bbRU_movementType_none;
+    a_tree.avoidance_type = bbRU_avoidanceType_rigid;
+    a_tree.movement_type = bbRU_movementType_wander;
     a_tree.md.class = bbDrawableClass_renderUnit;
 
     for (I32 k = 0; k < FRAMES_PER_DRAWABLE; k++) {

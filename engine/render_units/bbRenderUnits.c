@@ -87,6 +87,9 @@ bbFlag bbRenderUnitGroup_spawn_foxes(bbRenderUnitGroup** Group,
     bbVPool_alloc2(render_units->pool, (void**)&group, NULL);
     drawable->group = group;
 
+    group->spacing = POINTS_PER_TILE;
+    group->randomness = 1.f;
+
     bbHandle drawfunctionHandle;
     bbMinimalDrawable fox_drawable;
     fox_drawable.coords = drawable->md.coords;
@@ -125,7 +128,13 @@ bbFlag bbRenderUnitGroup_spawn_foxes(bbRenderUnitGroup** Group,
 
         group->units[i].owner = drawable;
         group->units[i].index = i;
-        group->units[i].movement_type = bbRU_movementType_minimium;
+        group->units[i].avoidance_type = bbRU_avoidanceType_minimium;
+        group->units[i].movement_type = bbRU_movementType_wander;
+
+        if (drawable->md.state == bbDrawableState_dead) {
+            group->units[i].avoidance_type = bbRU_avoidanceType_none;
+        }
+
         group->units[i].md = fox_drawable;
         group->units[i].md.random_seed = seed;
         group->units[i].md.frames[0].framerate = framerate;
@@ -164,8 +173,8 @@ bbFlag bbRenderUnits_updateMovement(bbRenderUnits* render_units)
         bbUnit* parent_unit = (bbUnit*)group->units[0].owner;
 
         float theta = drawable->md.rotation;
-        float spacing = POINTS_PER_TILE;
-        I32 num_units = 12;
+        float spacing = group->spacing;
+        float randomness = group->randomness;
 
         bbMapCoords delta_coords, new_coords;
 
@@ -183,22 +192,87 @@ bbFlag bbRenderUnits_updateMovement(bbRenderUnits* render_units)
             unit->correction.i = 0;
             unit->correction.j = 0;
             unit->correction.k = 0;
-            if (unit->movement_type == bbRU_movementType_rigid) {
-                I32 row_N = i / 4;
-                I32 column_M = i %4;
+            if (unit->movement_type == bbRU_movementType_static) {
 
-                delta_coords.i = (1.5-column_M)*spacing*c_theta - (-1+row_N)*spacing*s_theta;
-                delta_coords.j = -(1.5-column_M)*spacing*s_theta - (-1+row_N)*spacing*c_theta;
+
+                U64 coefficients = bbArith64_hash(unit->md.random_seed);
+                U64 mask = 0xFF;
+
+                U64 c0 = coefficients & mask;
+                double f0 = ((double)c0 - 128.0) / 512.0;
+                coefficients >>= 8;
+
+                U64 c1 = coefficients & mask;
+                double f1 = ((double)c1 - 128.0) / 512.0;
+                coefficients >>= 8;
+
+                U64 c2 = coefficients & mask;
+                double f2 = ((double)c2 - 128.0) / 512.0;
+                coefficients >>= 8;
+
+                U64 c3 = coefficients & mask;
+                double f3 = ((double)c3 - 128.0) / 512.0;
+                coefficients >>= 8;
+
+                U64 c4 = coefficients & mask;
+                double f4 = ((double)c4 - 128.0) / 512.0;
+                coefficients >>= 8;
+
+                U64 c5 = coefficients & mask;
+                double f5 = ((double)c5 - 128.0) / 512.0;
+                coefficients >>= 8;
+
+                U64 c6 = coefficients & mask;
+                double f6 = ((double)c6 - 128.0) / 512.0;
+                coefficients >>= 8;
+
+                U64 c7 = coefficients & mask;
+                double f7 = ((double)c7 - 128.0) / 512.0;
+
+               // bbDebug("(%f, %f, %f, %f,%f, %f, %f, %f_\n",
+               //     f0, f1, f2, f3, f4, f5, f6, f7)
+
+                // bbTime current_time = home.UI.clock2_handle.map_tick;
+                // //TODO bbTime last_update; bbTime last_wander
+                // bbTime wander_time = parent_unit->drawable.last_wander_time;
+                // if (parent_unit->drawable.md.state == bbDrawableState_moving) {
+                //     wander_time += current_time- parent_unit->drawable.last_state_change;
+                // }
+                //double wander_time_d = wander_time / 60.0;
+
+                double delta_i = f0*0;//sin(wander_time_d*1.1)
+                                +f1*1;//cos(wander_time_d*1.1)
+                                +f2*0;//sin(wander_time_d)
+                                +f3*1;//cos(wander_time_d);
+
+                double delta_j = f4*0;//sin(wander_time_d*1.1)
+                                +f5*1;//cos(wander_time_d*1.1)
+                                +f6*0;//sin(wander_time_d)
+                                +f7*1;//cos(wander_time_d);
+
+                delta_i *= randomness;
+                delta_j *= randomness;
+
+                double row_N = i / 4;
+                double column_M = i %4;
+
+                double rn =  row_N + delta_i;
+                double cm =  column_M + delta_j;
+
+                delta_coords.i = (1.5-cm)*spacing*c_theta - (-1+rn)*spacing*s_theta;
+                delta_coords.j = -(1.5-cm)*spacing*s_theta - (-1+rn)*spacing*c_theta;
                 delta_coords.k = 0;
 
                 unit->md.coords = drawable->md.coords;
                 unit->md.coords.i += delta_coords.i;
                 unit->md.coords.j += delta_coords.j;
-                unit->md.coords.k = bbMapCoords_getElevation(&home.ground_surface, unit->md.coords);
                 unit->md.rotation = drawable->md.rotation;
+
+
+                unit->md.coords.k = bbMapCoords_getElevation(&home.ground_surface, unit->md.coords);
             }
 
-            if (unit->movement_type == bbRU_movementType_minimium) {
+            if (unit->movement_type == bbRU_movementType_wander) {
 
 
                 U64 coefficients = bbArith64_hash(unit->md.random_seed);
@@ -256,6 +330,9 @@ bbFlag bbRenderUnits_updateMovement(bbRenderUnits* render_units)
                                 +f6*sin(wander_time_d)
                                 +f7*cos(wander_time_d);
 
+
+                delta_i *= randomness;
+                delta_j *= randomness;
 
                 double row_N = i / 4;
                 double column_M = i %4;
