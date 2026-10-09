@@ -149,11 +149,13 @@ bbFlag bbDF_frontRow(void* drawable, void* frameDescriptor, void* cl){
     output_frame.offset.x = input_frame->offset.x + self_frame->offset.x;
     output_frame.offset.y = input_frame->offset.y + self_frame->offset.y;
     output_frame.framerate = input_frame->framerate * self_frame->framerate;
-    output_frame.start_time = input_frame->start_time + self_frame->start_time + parent_drawable->last_state_change;
+    output_frame.start_time = input_frame->start_time + self_frame->start_time;
     output_frame.draw_function = input_frame->draw_function;
 
     if (state == bbDrawableState_dead)
     {
+        //bbHack()
+        output_frame.start_time +=  parent_drawable->last_state_change;
        // bbDebug("output start_time = %lu, input start_time = %lu, of 12 start time = %lu, parent_drawable last sate change %lu\n", output_frame.start_time, input_frame->start_time, self_frame->start_time, parent_drawable->last_state_change);
     }
 

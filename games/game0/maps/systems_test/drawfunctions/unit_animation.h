@@ -165,10 +165,10 @@ bbFlag bbDF_unitDrawBuffer(void* Drawable, void* frameDescriptor, void* cl){
 
     I32 frames = animation->frames;
 
-    I32 frameInt =  (I64)((double)(foo->map_time - frame->start_time)
-            *(double)animation->framerate*(double)frame->framerate) % frames;
+    I32 frameInt =  bbArith64_mod((I64)((double)(foo->map_time - frame->start_time)
+            *(double)animation->framerate*(double)frame->framerate), frames);
 
-    if (frameInt < 0) frameInt = 0;
+
 
 
     I32 spriteInt = animation->Sprites[angle*frames+frameInt].u64;

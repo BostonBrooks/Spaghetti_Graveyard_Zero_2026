@@ -55,6 +55,8 @@ static bbFlag sum_forces_inner(bbList* list, void* node, void* cl) {
                 if (distance >= spacing) continue;
                 float overlap = spacing - distance;
 
+                if (inner_unit->avoidance_type == bbRU_avoidanceType_rigid) overlap*= 2;
+
                 outer_unit->forces.i -= overlap * i_dif / distance /3.0f;
                 outer_unit->forces.j -= overlap * j_dif / distance /3.0f;
 
@@ -105,6 +107,8 @@ static bbFlag sum_forces_inner(bbList* list, void* node, void* cl) {
                 float spacing = POINTS_PER_TILE;
                 if (distance >= spacing) continue;
                 float overlap = spacing - distance;
+
+                if (inner_unit->avoidance_type == bbRU_avoidanceType_rigid) overlap*= 2;
 
                 //TODO possible divide by zero?
                 outer_unit->forces.i -= overlap * i_dif / distance /3.0f;

@@ -128,6 +128,8 @@ static I64 bbArith64_div (I64 x, I64 y){
         return x/y - 1;
     return x/y;
 }
+
+//Find the modulus of a number, always non-negative
 static I64 bbArith64_mod (I64 x, I64 y){
     return x - y* bbArith64_div(x, y);
 }
