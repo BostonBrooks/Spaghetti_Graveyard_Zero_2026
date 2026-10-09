@@ -38,7 +38,7 @@ bbFlag bbInstruction_sendAIGoalpoint_fn(bbCore* core, bbInstruction* instruction
 }
 
 bbFlag bbNetworkApp_sendAIGoalpoint(bbNetwork* Network, bbHandle server_entity, bbMapCoords MC, bbTime time, U32 collision)
-{//bbHere()
+{bbHere()
     bbAction action;
     action.header.type = bbActionType_sendAIGoalpoint;
     action.header.status = bbAction_Wait;
