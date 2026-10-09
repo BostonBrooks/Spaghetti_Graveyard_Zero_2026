@@ -49,7 +49,7 @@ bbFlag bbDB_unitSprite(void* node, void* cl){
     if (V2F.x < 0) return bbSuccess;
     if (V2F.y < 0) return bbSuccess;
     if (V2F.x > VP->width) return bbSuccess;
-    if (V2F.y > VP->height) return bbSuccess;
+    if (V2F.y > VP->height + 40) return bbSuccess;
 
 #endif
     sfSprite_setPosition(sprite,V2F);
