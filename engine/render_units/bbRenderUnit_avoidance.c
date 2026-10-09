@@ -53,7 +53,7 @@ static bbFlag sum_forces_inner(bbList* list, void* node, void* cl) {
                 float overlap = spacing - distance;
 
                 outer_unit->forces.i -= overlap * i_dif / distance /3.0f;
-                outer_unit->forces.j -= overlap * i_dif / distance /3.0f;
+                outer_unit->forces.j -= overlap * j_dif / distance /3.0f;
 
 
             }
@@ -100,8 +100,9 @@ static bbFlag sum_forces_inner(bbList* list, void* node, void* cl) {
                 if (distance >= spacing) continue;
                 float overlap = spacing - distance;
 
+                //TODO possible divide by zero?
                 outer_unit->forces.i -= overlap * i_dif / distance /3.0f;
-                outer_unit->forces.j -= overlap * i_dif / distance /3.0f;
+                outer_unit->forces.j -= overlap * j_dif / distance /3.0f;
 
 
 
