@@ -23,6 +23,13 @@ bbFlag bbAction_setString(void* Core,
     bbStr_setStr(action->header.key, key, KEY_LENGTH);
     bbList_sortL(&core->action_queue,(void*)action);
 
+
+    action->header.status = bbAction_Unknown;
+    action->header.all_action_list.list_id = 0;
+    action->header.all_action_list.prev = core->all_action_list.pool->null;
+    action->header.all_action_list.next = core->all_action_list.pool->null;
+    bbList_pushL(&core->all_action_list,action);
+
     return bbSuccess;
 }
 
@@ -61,6 +68,11 @@ bbFlag bbAction_setViewpoint(void* Core,
     action->map_coords = map_coords;
     bbList_sortL(&core->action_queue,(void*)action);
 
+    action->header.status = bbAction_Unknown;
+    action->header.all_action_list.list_id = 0;
+    action->header.all_action_list.prev = core->all_action_list.pool->null;
+    action->header.all_action_list.next = core->all_action_list.pool->null;
+    bbList_pushL(&core->all_action_list,action);
     return bbSuccess;
 }
 

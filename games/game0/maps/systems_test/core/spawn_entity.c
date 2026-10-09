@@ -92,6 +92,12 @@ bbFlag bbAction_spawnEntity(void* Core,
     action->handle = server_entity;
     bbList_sortL(&core->action_queue,(void*)action);
 
+
+    action->header.status = bbAction_Unknown;
+    action->header.all_action_list.list_id = 0;
+    action->header.all_action_list.prev = core->all_action_list.pool->null;
+    action->header.all_action_list.next = core->all_action_list.pool->null;
+    bbList_pushL(&core->all_action_list,action);
     return bbSuccess;
 }
 

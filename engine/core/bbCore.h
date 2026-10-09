@@ -59,6 +59,7 @@ struct bbCore
     bbVPool* action_pool;
     bbList action_queue;
     bbList action_temp_fifo;
+    bbList all_action_list;
 
     /// Set by bbCore_rewindUntilTime(bbCore* core, U64 time);
     bbTime rewind_until_time;

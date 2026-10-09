@@ -23,6 +23,7 @@ typedef enum
     bbAction_Accept,
     bbAction_Modify,
     bbAction_Deny,
+    bbAction_Unknown,
     bbAction_numStatus,
 } bbAction_status;
 ///Action header used to figure out what order to enact actions
@@ -35,7 +36,8 @@ typedef struct
     bbTime created_tick;
     bbTime act_tick;
 
-    bbListElement_Handle list_element;
+    bbListElement_Handle pending_list;
+    bbListElement_Handle all_action_list;
     char key[KEY_LENGTH];
 } bbAction_header;
 
