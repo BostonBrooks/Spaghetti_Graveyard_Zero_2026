@@ -191,9 +191,6 @@ int main(void){
                 if (packetStruct.type == PACKETTYPE_ACTION)
                 {
                     packetStruct.data.action.header.status = bbAction_Accept;
-
-bbDebug("%s is happy\n", packetStruct.data.action.header.key);
-
                     sfPacket_clear(packet);
 
                     bbNetworkPacket_fromStruct(packet, &packetStruct);

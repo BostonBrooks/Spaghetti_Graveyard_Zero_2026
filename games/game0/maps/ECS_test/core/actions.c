@@ -22,10 +22,10 @@ bbFlag bbAction_bbHere(void* Core,
 
 
     action->header.status = bbAction_Unknown;
-    action->header.all_action_list.list_id = 0;
-    action->header.all_action_list.prev = core->all_action_list.pool->null;
-    action->header.all_action_list.next = core->all_action_list.pool->null;
-    bbList_pushL(&core->all_action_list,action);
+    action->header.all_actions.list_id = 0;
+    action->header.all_actions.prev = core->all_actions.pool->null;
+    action->header.all_actions.next = core->all_actions.pool->null;
+    bbList_pushL(&core->all_actions,action);
     return bbSuccess;
 }
 

@@ -48,6 +48,11 @@ bbFlag bbList_popR(bbList* list, void** element);
 bbFlag bbList_sortL(bbList* list, void* element);
 bbFlag bbList_sortR(bbList* list, void* element);
 
+///Start from the left, keep searching until compare returns true
+bbFlag bbList_searchL(bbList* list,I32 (*compare)(void* A, void* B), void* element_in, void** element_out);
+///Start from the right, keep searching until compare returns true
+bbFlag bbList_searchR(bbList* list,I32 (*compare)(void* A, void* B), void* element_in, void** element_out);
+
 ///keep the element in the same list, but move up or down to keep the list sorted
 bbFlag bbList_reposition(bbList* list, void* element);
 

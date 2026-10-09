@@ -252,6 +252,7 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
         engine/logic/bbList_map.c
         engine/logic/bbList_iterate.c
         engine/logic/bbList_getNth.c
+        engine/logic/bbList_search.c
 
         engine/logic/bbTree.c
         engine/logic/bbBloatedPool.c

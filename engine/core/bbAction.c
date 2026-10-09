@@ -25,10 +25,10 @@ bbFlag bbAction_setString(void* Core,
 
 
     action->header.status = bbAction_Unknown;
-    action->header.all_action_list.list_id = 0;
-    action->header.all_action_list.prev = core->all_action_list.pool->null;
-    action->header.all_action_list.next = core->all_action_list.pool->null;
-    bbList_pushL(&core->all_action_list,action);
+    action->header.all_actions.list_id = 0;
+    action->header.all_actions.prev = core->all_actions.pool->null;
+    action->header.all_actions.next = core->all_actions.pool->null;
+    bbList_pushL(&core->all_actions,action);
 
     return bbSuccess;
 }
@@ -45,8 +45,8 @@ I32 bbAction_compare (void* A, void* B)
     if (a->sender < b->sender) return 1;
     if (a->sender > b->sender) return 0;
 
-    bbNotHere()
-
+    //bbNotHere()
+    bbDebug("working with two identical actions!!!!!\n")
     return -1;
 }
 
@@ -69,10 +69,10 @@ bbFlag bbAction_setViewpoint(void* Core,
     bbList_sortL(&core->action_queue,(void*)action);
 
     action->header.status = bbAction_Unknown;
-    action->header.all_action_list.list_id = 0;
-    action->header.all_action_list.prev = core->all_action_list.pool->null;
-    action->header.all_action_list.next = core->all_action_list.pool->null;
-    bbList_pushL(&core->all_action_list,action);
+    action->header.all_actions.list_id = 0;
+    action->header.all_actions.prev = core->all_actions.pool->null;
+    action->header.all_actions.next = core->all_actions.pool->null;
+    bbList_pushL(&core->all_actions,action);
     return bbSuccess;
 }
 

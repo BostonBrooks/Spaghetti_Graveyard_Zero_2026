@@ -20,7 +20,7 @@
 
 bbFlag bbCore_init(bbCore* core)
 {
-    bbVPool_newBloated(&core->instruction_pool, sizeof(bbInstruction), 1000, 10, "bbInstruction");
+    bbVPool_newBloated(&core->instruction_pool, sizeof(bbInstruction), 10, 1000, "bbInstruction");
     bbList_init(&core->active_stack, core->instruction_pool, NULL, offsetof(bbInstruction, list_element),NULL,69);
     bbList_init(&core->undo_stack, core->instruction_pool, NULL, offsetof(bbInstruction, list_element),NULL,70);
 
@@ -34,7 +34,7 @@ bbFlag bbCore_init(bbCore* core)
     bbVPool_newBloated(&core->action_pool,sizeof(bbAction),10,1000, "bbAction");
     bbList_init(&core->action_queue, core->action_pool, NULL, offsetof(bbAction, header.action_queue),bbAction_compare,71);
     bbList_init(&core->action_temp_fifo, core->action_pool, NULL, offsetof(bbAction, header.action_queue),bbAction_compare,72);
-    bbList_init(&core->all_action_list, core->action_pool, NULL, offsetof(bbAction, header.all_action_list),bbAction_compare,73);
+    bbList_init(&core->all_actions, core->action_pool, NULL, offsetof(bbAction, header.all_actions),NULL,73);
 
     bbInstruction_deque_init(&core->active_instructions,1024, "Active Instructions");
     bbInstruction_deque_init(&core->undo_instructions,1024,"Undo Instructions");
