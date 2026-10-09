@@ -39,7 +39,7 @@ bbFlag bbPlayer_ClickMap_requestingMaths(bbPlayers* players, bbMapCoords coords,
 
             bbAction action;
             action.header.type = bbActionType_sendAIGoalpoint;
-            action.header.status = bbAction_Wait;
+            action.header.status = bbAction_Speculative;
             action.header.sender = home.ECS.players.this_player;
             action.header.collision = collision;
             action.header.created_tick = home.core.core.actual_time;
@@ -188,7 +188,7 @@ bbFlag bbPlayer_ClickMap_answeringMaths(bbPlayers* players, bbMapCoords coords, 
 
             bbAction action;
             action.header.type = bbActionType_sendAIGoalpoint;
-            action.header.status = bbAction_Wait;
+            action.header.status = bbAction_Speculative;
             action.header.sender = home.ECS.players.this_player;
             action.header.collision = collision;
             action.header.created_tick = home.core.core.actual_time;
