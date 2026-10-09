@@ -23,9 +23,12 @@ static bbFlag sum_forces_inner(bbList* list, void* node, void* cl) {
     if (inner_group == outer_group) {
         for (I32 i = 0; i < UNITS_PER_GROUP; i++) {
                 bbRenderUnit* outer_unit = &outer_group->units[i];
+                if (outer_unit->avoidance_type == bbRU_avoidanceType_none) continue;
+                if (outer_unit->avoidance_type == bbRU_avoidanceType_rigid) continue;
             for (I32 j = 0; j < UNITS_PER_GROUP; j++) {
                 if (i == j) continue;
                 bbRenderUnit* inner_unit = &inner_group->units[j];
+                if (inner_unit->avoidance_type == bbRU_avoidanceType_none) continue;
 
                 I32 inner_int_i = inner_unit->md.coords.i;
                 I32 inner_int_j = inner_unit->md.coords.j;
@@ -71,9 +74,12 @@ static bbFlag sum_forces_inner(bbList* list, void* node, void* cl) {
         if (distance > POINTS_PER_TILE * 16) return bbContinue;
 
         for (I32 i = 0; i < UNITS_PER_GROUP; i++) {
-                bbRenderUnit* outer_unit = &outer_group->units[i];
+            bbRenderUnit* outer_unit = &outer_group->units[i];
+            if (outer_unit->avoidance_type == bbRU_avoidanceType_none) continue;
+            if (outer_unit->avoidance_type == bbRU_avoidanceType_rigid) continue;
             for (I32 j = 0; j < UNITS_PER_GROUP; j++) {
                 bbRenderUnit* inner_unit = &inner_group->units[j];
+                if (inner_unit->avoidance_type == bbRU_avoidanceType_none) continue;
 
                 I32 inner_int_i = inner_unit->md.coords.i;
                 I32 inner_int_j = inner_unit->md.coords.j;

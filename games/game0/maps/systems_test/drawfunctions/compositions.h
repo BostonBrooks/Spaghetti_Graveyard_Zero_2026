@@ -154,7 +154,7 @@ bbFlag bbDF_frontRow(void* drawable, void* frameDescriptor, void* cl){
 
     if (state == bbDrawableState_dead)
     {
-        bbDebug("output start_time = %lu, input start_time = %lu, of 12 start time = %lu, parent_drawable last sate change %lu\n", output_frame.start_time, input_frame->start_time, self_frame->start_time, parent_drawable->last_state_change);
+       // bbDebug("output start_time = %lu, input start_time = %lu, of 12 start time = %lu, parent_drawable last sate change %lu\n", output_frame.start_time, input_frame->start_time, self_frame->start_time, parent_drawable->last_state_change);
     }
 
     if (output_frame.draw_function <0){

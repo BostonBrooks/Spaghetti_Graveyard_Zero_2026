@@ -10,10 +10,15 @@
 
 typedef enum
 {
-    bbRU_movementType_rigid, //Does not move relative to group
-    bbRU_movementType_minimium, //Moves relative to group but always returns to the expected position
-    bbRU_movementType_persistent, //offset from expected position is persistent
-    bbRU_movementType_none,
+    bbRU_avoidanceType_rigid, //Does not move relative to group
+    bbRU_avoidanceType_minimium, //Moves relative to group but always returns to the expected position
+    bbRU_avoidanceType_persistent, //offset from expected position is persistent
+    bbRU_avoidanceType_none, //Does not take part in avoidance, eg dead
+} bbRenderUnit_avoidanceType;
+
+typedef enum {
+    bbRU_movementType_static,
+    bbRU_movementType_wander,
 } bbRenderUnit_movementType;
 
 typedef struct
@@ -22,6 +27,7 @@ typedef struct
     bbFloat3D correction;
     bbFloat3D forces;
     I32 index;
+    bbRenderUnit_avoidanceType avoidance_type;
     bbRenderUnit_movementType movement_type;
     bbDrawable* owner;
 } bbRenderUnit;
@@ -29,6 +35,8 @@ typedef struct
 typedef struct bbRenderUnitGroup
 {
     bbRenderUnit units[UNITS_PER_GROUP];
+    I32 spacing;
+    float randomness;
     bbListElement_Handle list_element;
 } bbRenderUnitGroup;
 

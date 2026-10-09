@@ -206,18 +206,17 @@ bbFlag bbDF_unitBufferOnce(void* Drawable, void* frameDescriptor, void* cl){
     I32 animationInt = frame->asset_handle.u64;
     bbAnimation* animation = graphics->animations->animations[animationInt];
 
-    //TODO may vary
     I32 numAngles = animation->angles;
     I32 angle = getAngleXD(drawable->md.rotation, numAngles);
 
     I32 frames = animation->frames;
 
-    bbDebug("start time = %llu\n", frame->start_time);
+   // bbDebug("start time = %llu\n", frame->start_time);
 
     I32 frameInt = (I64)((double)(foo->map_time - frame->start_time)
             *(double)animation->framerate*(double)frame->framerate);
 
-    bbDebug("map time = %llu, start_time = %llu\n", foo->map_time, frame->start_time);
+   // bbDebug("map time = %llu, start_time = %llu\n", foo->map_time, frame->start_time);
 
     if (frameInt >= frames) frameInt = frames - 1;
 
