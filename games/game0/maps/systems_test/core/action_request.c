@@ -11,12 +11,29 @@
 bbFlag bbAction_request(bbCore* core, bbNetwork* network, bbAction* action)
 {
     if (action->header.status == bbAction_Wait)
-    {
+    { bbHere()
 
         bbNetworkApp_sendAction(network, action);
-    } else
-    {
-        bbNotImplemented()
+    } else if (action->header.status == bbAction_Speculative)
+    { bbHere()
+
+        bbAction* new_action;
+        bbFlag flag = bbList_alloc(&core->action_queue,(void**)&new_action);
+
+
+        //This operation nukes new_action->header.action_queue and new_action->header.all_action_list
+        *new_action = *action;
+
+
+
+        new_action->header.action_queue.list_id = 0;
+        new_action->header.action_queue.prev = core->action_queue.pool->null;
+        new_action->header.action_queue.next = core->action_queue.pool->null;
+        bbList_sortL(&core->action_queue,(void*)new_action);
+        new_action->header.all_action_list.list_id = 0;
+        new_action->header.all_action_list.prev = core->all_action_list.pool->null;
+        new_action->header.all_action_list.next = core->all_action_list.pool->null;
+        bbList_pushL(&core->all_action_list,new_action);
     }
 
     return bbSuccess;

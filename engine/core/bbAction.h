@@ -36,7 +36,7 @@ typedef struct
     bbTime created_tick;
     bbTime act_tick;
 
-    bbListElement_Handle pending_list;
+    bbListElement_Handle action_queue;
     bbListElement_Handle all_action_list;
     char key[KEY_LENGTH];
 } bbAction_header;

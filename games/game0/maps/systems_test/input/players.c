@@ -111,7 +111,16 @@ bbHere()
                                     home.core.core.actual_time,
                                     bbInstructionSource_internal,
                                     no_handle);
-
+            bbAction action;
+            action.header.type = bbActionType_sendAIGoalpoint;
+            action.header.status = bbAction_Wait;
+            action.header.sender = home.ECS.players.this_player;
+            action.header.collision = collision;
+            action.header.created_tick = home.core.core.actual_time;
+            action.header.act_tick = home.core.core.actual_time;
+            action.handle = this_player->selected_entities[0];
+            action.goal_coords = coords;
+            bbAction_request(&home.core.core,&home.network,&action);
 
         }
     }

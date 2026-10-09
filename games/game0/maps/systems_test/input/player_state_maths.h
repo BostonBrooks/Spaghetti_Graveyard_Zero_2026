@@ -32,12 +32,21 @@ bbFlag bbPlayer_ClickMap_requestingMaths(bbPlayers* players, bbMapCoords coords,
         //bbVPMouseType_print(type)
         if (type == VPMouseLeftDown || type == VPMouseLeftDrag)
         {
-            bbCoreInput_sendAIGoalpoint(&home.core.core,
-                                        this_player->selected_entities[0],
-                                        coords,
-                                        home.core.core.actual_time,
-                                        bbInstructionSource_internal,
-                                        no_handle);
+
+            bbHandle server_handle;
+            bbHandle_mapComponent(home.ECS.ECS,bbECS_ECS,this_player->selected_entities[0],bbECS_ServerEntities,&server_handle,NULL);
+
+
+            bbAction action;
+            action.header.type = bbActionType_sendAIGoalpoint;
+            action.header.status = bbAction_Wait;
+            action.header.sender = home.ECS.players.this_player;
+            action.header.collision = collision;
+            action.header.created_tick = home.core.core.actual_time;
+            action.header.act_tick = home.core.core.actual_time;
+            action.handle = server_handle;
+            action.goal_coords = coords;
+            bbAction_request(&home.core.core,&home.network,&action);
         }
     }
     return bbSuccess;
@@ -172,12 +181,21 @@ bbFlag bbPlayer_ClickMap_answeringMaths(bbPlayers* players, bbMapCoords coords, 
         //bbVPMouseType_print(type)
         if (type == VPMouseLeftDown || type == VPMouseLeftDrag)
         {
-            bbCoreInput_sendAIGoalpoint(&home.core.core,
-                                        this_player->selected_entities[0],
-                                        coords,
-                                        home.core.core.actual_time,
-                                        bbInstructionSource_internal,
-                                        no_handle);
+
+            bbHandle server_handle;
+            bbHandle_mapComponent(home.ECS.ECS,bbECS_ECS,this_player->selected_entities[0],bbECS_ServerEntities,&server_handle,NULL);
+
+
+            bbAction action;
+            action.header.type = bbActionType_sendAIGoalpoint;
+            action.header.status = bbAction_Wait;
+            action.header.sender = home.ECS.players.this_player;
+            action.header.collision = collision;
+            action.header.created_tick = home.core.core.actual_time;
+            action.header.act_tick = home.core.core.actual_time;
+            action.handle = server_handle;
+            action.goal_coords = coords;
+            bbAction_request(&home.core.core,&home.network,&action);
         }
     }
     return bbSuccess;

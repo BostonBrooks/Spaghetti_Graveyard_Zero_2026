@@ -40,7 +40,7 @@ I32 bbAnimations_new(bbAnimations** self, bbSprites* Sprites, bbDrawfunctions* d
 	while (fscanf(file, "%[^,],%d,%d,%d,%[^,],%d,%d,%f",
 				 key,&address,&radius,&height,drawfunction_str,&angles,&frames,&framerate) == 8){
 
-		bbAnimation* animation = malloc(sizeof(*animation) + angles*frames*sizeof(bbHandle));
+		bbAnimation* animation = malloc(sizeof(*animation) + (angles*frames+1)*sizeof(bbHandle));
 		bbAssert(animation!=NULL, "bad malloc\n");
 		bbStr_setStr(animation->key, key, KEY_LENGTH);
 		animation->radius = radius;
@@ -63,6 +63,7 @@ I32 bbAnimations_new(bbAnimations** self, bbSprites* Sprites, bbDrawfunctions* d
 			sprite_handle.u64 = sprite_int;
 			animation->Sprites[i] = sprite_handle;
 		}
+		animation->Sprites[angles*frames].u64 = 0;
 		fscanf(file, "%*[^\n]\n");
 
 		handle.u64 = address;
