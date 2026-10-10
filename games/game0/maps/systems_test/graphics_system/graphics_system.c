@@ -197,6 +197,29 @@ bbFlag bbGraphics_spawnFox(bbGraphicsSystem* system,
 
     return bbSuccess;
 }
+bbFlag bbGraphics_spawnHoplite(bbGraphicsSystem* system,
+                                   bbGraphicsComponent_data data) {
+
+    bbDictionary* dict = home.viewport_app.viewport_spawner.spawn_function_dict;
+    bbHandle type_handle;
+    bbDictionary_lookup(dict,"HOPLITE",&type_handle);
+
+
+    bbHandle random_seed;
+    random_seed.u64 = data.random_seed;
+
+    //bbDebug("random seed = %lu\n", random_seed.u64);
+    bbUI_Inbox_NewDrawable(&home.UI.inbox,
+                           type_handle.u64,
+                           data.MC,
+                           data.entity_handle,
+                           random_seed);
+
+
+    bbUI_Inbox_SetEntityState(&home.UI.inbox,data.entity_handle, data.drawable_state);
+
+    return bbSuccess;
+}
 
 bbFlag bbGraphics_spawnZombie(bbGraphicsSystem* system,
                                    bbGraphicsComponent_data data) {
@@ -295,6 +318,7 @@ bbFlag bbGraphicsSystem_populate(bbGraphicsSystem* graphics_system) {
     bbGraphics_spawnFunction_add(graphics_system, bbGraphics_spawnNull, "NULL");
     bbGraphics_spawnFunction_add(graphics_system, bbGraphics_spawnDevil, "DEVIL");
     bbGraphics_spawnFunction_add(graphics_system, bbGraphics_spawnFox, "FOX");
+    bbGraphics_spawnFunction_add(graphics_system, bbGraphics_spawnHoplite, "HOPLITE");
     bbGraphics_spawnFunction_add(graphics_system, bbGraphics_spawnZombie, "ZOMBIE");
     bbGraphics_spawnFunction_add(graphics_system, bbGraphics_spawnLizard, "LIZARD");
     bbGraphics_spawnFunction_add(graphics_system, bbGraphics_spawnCow, "COW");

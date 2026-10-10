@@ -8,6 +8,9 @@ bbFlag bbRenderUnitGroup_unspawnNULL_fn(struct bbRenderUnits* render_units, bbDr
 }
 
 bbFlag bbRenderUnits_populateFunctions (bbRenderUnits* render_units){
+    bbRenderUnits_addSpawnFunction(render_units,
+                                          (void*)bbRenderUnitGroup_spawnHoplites_fn,
+                                          "SPAWN HOPLITES");
 
     bbRenderUnits_addSpawnFunction(render_units,
                                           (void*)bbRenderUnitGroup_spawnFoxes_fn,

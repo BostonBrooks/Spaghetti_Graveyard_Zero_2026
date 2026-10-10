@@ -261,6 +261,43 @@ bbFlag bbSF_addGraphics_fox(void* spawner,
     return bbSuccess;
 }
 
+bbFlag bbSF_addGraphics_hoplite(void* spawner,
+                               bbECS_entity* entity,
+                               bbSpawnFunctionArgs* args,
+                               bbInstruction_source source)
+{
+
+
+    bbAssert(source == bbInstructionSource_norewind || source == bbInstructionSource_internal, "not implemented");
+
+    bbHandle handle;
+    bbVPool_reverseLookup(home.ECS.ECS->system.pool, entity, &handle);
+
+    U64 deterministic_seed = bbArith64_hash(1234567);
+
+    bbGraphicsComponent_data data;
+    data.entity_handle = handle;
+    data.MC = args->position,
+    data.last_state_change = 0;
+    data.last_wander_time = 0;
+    data.drawable_state = bbDrawableState_moving;
+    data.random_seed = bbArith64_hashIndex(deterministic_seed,args->random_seed);
+
+    // bbCS_spawnGraphicsComponent(&home.core.core,
+    //                                           NULL,
+    //                                           "FOX",
+    //                                           &data,
+    //                                           bbInstructionSource_norewind,
+    //                                           no_handle);
+
+    bbCI_spawnGraphicsComponent(&home.core.core,
+                                "HOPLITE",
+                                &data,
+                                bbInstructionSource_norewind,
+                                no_handle);
+    return bbSuccess;
+}
+
 bbFlag bbSF_addGraphics_devil(void* spawner,
                                bbECS_entity* entity,
                                bbSpawnFunctionArgs* args,

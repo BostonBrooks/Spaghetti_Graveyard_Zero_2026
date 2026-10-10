@@ -54,6 +54,15 @@ bbFlag bbDNV_spawnFoxes(struct bbDrawables* drawables, struct bbDrawable* drawab
     return bbSuccess;
 }
 
+
+bbFlag bbDNV_spawnHoplites(struct bbDrawables* drawables, struct bbDrawable* drawable) {
+
+    bbRenderUnitGroup_spawnKey(home.viewport_app.renderUnits,
+                               "SPAWN HOPLITES",
+                               drawable);
+    return bbSuccess;
+}
+
 bbFlag bbDNV_spawnTrees(struct bbDrawables* drawables, struct bbDrawable* drawable) {
 
 
@@ -86,6 +95,7 @@ bbFlag bbDrawables_populateFunctionTable(bbDrawableFunctionTable* table){
     bbDrawables_addFunction(table, bbDNV_squareEnterNull, "SQUARE ENTER NULL");
     bbDrawables_addFunction(table, bbDNV_squareLeaveNull, "SQUARE LEAVE NULL");
     bbDrawables_addFunction(table, bbDNV_spawnFoxes, "SPAWN FOXES");
+    bbDrawables_addFunction(table, bbDNV_spawnHoplites, "SPAWN HOPLITES");
     bbDrawables_addFunction(table, bbDNV_unspawnFoxes, "UNSPAWN FOXES");
     bbDrawables_addFunction(table, bbDNV_spawnTrees, "SPAWN TREES");
     return bbSuccess;
