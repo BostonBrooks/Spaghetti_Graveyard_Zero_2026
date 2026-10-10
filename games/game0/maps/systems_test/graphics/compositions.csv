@@ -1,4 +1,4 @@
-Number of Compositions:,13,,,,,,
+Number of Compositions:,14,,,,,,
 ,,,,,,,
 Label:,NULL,Integer Address:,0,num:,1,Comment,Void Composition
 Type:,Key:,Drawfunction:,startTime,Offest X:,Offset Y:,Frame Rate:,
@@ -66,9 +66,9 @@ ANIMATION,LIZARD,UNIT_STILL_DRAWBUFFER,0,0,0,1,
 ,,,,,,,
 Label:,FOX,Integer Address:,10,num:,4,Comment,Testing conditional rendering
 Type:,Key:,Drawfunction:,startTime,Offest X:,Offset Y:,Frame Rate:,
-ANIMATION,HOPLITE_WALK,UNIT_DRAWBUFFER,0,0,0,1,
-ANIMATION,HOPLITE_WALK,UNIT_DRAWBUFFER,0,0,0,1,
-ANIMATION,HOPLITE_ATTACK,UNIT_DRAWBUFFER,0,0,0,1,
+ANIMATION,LEGION_IDLE,UNIT_DRAWBUFFER,0,0,0,1,
+ANIMATION,LEGION_WALK,UNIT_DRAWBUFFER,0,0,0,1,
+ANIMATION,LEGION_ATTACK,UNIT_DRAWBUFFER,0,0,0,1,
 ANIMATION,LEGION_DEATH,UNIT_BUFFER_ONCE,0,0,0,1,
 ,,,,,,,
 Label:,DEVIL,Integer Address:,11,num:,4,Comment,Testing conditional rendering
@@ -79,6 +79,13 @@ ANIMATION,DEVIL,UNIT_STILL_DRAWBUFFER,0,0,0,1,
 ANIMATION,DEVIL,UNIT_STILL_DRAWBUFFER,0,0,0,1,
 ,,,,,,,
 Label:,UNIT_GROUP,Integer Address:,12,num:,4,Comment,draw unit as a group of 12
+Type:,Key:,Drawfunction:,startTime,Offest X:,Offset Y:,Frame Rate:,
+ANIMATION,LEGION_IDLE,UNIT_DRAWBUFFER,0,0,0,1,
+ANIMATION,LEGION_WALK,UNIT_DRAWBUFFER,0,0,0,1,
+ANIMATION,LEGION_ATTACK,UNIT_DRAWBUFFER,0,0,0,1,
+ANIMATION,LEGION_DEATH,UNIT_BUFFER_ONCE,0,0,0,1,
+,,,,,,,
+Label:,HOPLITES,Integer Address:,13,num:,4,Comment,draw unit as a group of 12
 Type:,Key:,Drawfunction:,startTime,Offest X:,Offset Y:,Frame Rate:,
 ANIMATION,HOPLITE_WALK,UNIT_DRAWBUFFER,0,0,0,1,
 ANIMATION,HOPLITE_WALK,UNIT_DRAWBUFFER,0,0,0,1,
