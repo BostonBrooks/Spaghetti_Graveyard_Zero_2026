@@ -14,7 +14,7 @@ bbFlag bbRenderUnits_populateFunctions (bbRenderUnits* render_units){
 
     bbRenderUnits_addSpawnFunction(render_units,
                                           (void*)bbRenderUnitGroup_spawnFoxes_fn,
-                                          "FOXES");
+                                          "SPAWN FOXES");
     bbRenderUnits_addSpawnFunction(render_units,
                                           (void*)bbRenderUnitGroup_unspawnNULL_fn,
                                           "UNSPAWN NULL");

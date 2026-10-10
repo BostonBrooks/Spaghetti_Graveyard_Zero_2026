@@ -49,7 +49,7 @@ bbFlag bbRUG_spawnNULL_fn(struct bbRenderUnits* render_units, bbDrawable* drawab
 bbFlag bbDNV_spawnFoxes(struct bbDrawables* drawables, struct bbDrawable* drawable) {
 
     bbRenderUnitGroup_spawnKey(home.viewport_app.renderUnits,
-                               "FOXES",
+                               "SPAWN FOXES",
                                drawable);
     return bbSuccess;
 }
