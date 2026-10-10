@@ -42,7 +42,7 @@ bbFlag bbDictionary_new (bbDictionary** self, I32 num_bins){
         dict->bins[i].tail = flag_None;
     }
 
-    for (I32 i = 0; i < 100; i++){
+    for (I32 i = 0; i < 1000; i++){
         dict->pool[i] = NULL;
     }
 
@@ -53,7 +53,7 @@ bbFlag bbDictionary_new (bbDictionary** self, I32 num_bins){
 
 
 bbFlag bbDictionary_delete(bbDictionary* dict){
-    for (I32 i = 0; i < 100; i++){
+    for (I32 i = 0; i < 1000; i++){
         if (dict->pool[i] != NULL) free (dict->pool[i]);
     }
     free(dict);
@@ -67,39 +67,39 @@ bbFlag bbDictionary_increase(bbDictionary* dict){
         && dict->available.tail == flag_None,
         "increasing non-empty pool\n");
 
-    while (i < 100 && dict->pool[i] != NULL) {
+    while (i < 1000 && dict->pool[i] != NULL) {
         i++;
     }
-    if (i == 100) {
+    if (i == 1000) {
         return bbFull;
     }
 
-    bbDictionary_entry* entry = calloc(100, sizeof(bbDictionary_entry));
+    bbDictionary_entry* entry = calloc(1000, sizeof(bbDictionary_entry));
     bbAssert(entry != NULL, "malloc failed\n");
     dict->pool[i] = entry;
 
 
-    for (I32 l = 0; l < 100; l++)
+    for (I32 l = 0; l < 1000; l++)
     {
-        dict->pool[i][l].self = i * 100 + l;
-        dict->pool[i][l].prev = i * 100 + l - 1;
-        dict->pool[i][l].next = i * 100 + l + 1;
+        dict->pool[i][l].self = i * 1000 + l;
+        dict->pool[i][l].prev = i * 1000 + l - 1;
+        dict->pool[i][l].next = i * 1000 + l + 1;
         dict->pool[i][l].in_use = false;
     }
 
 
     dict->pool[i][0].prev = flag_None;
-    dict->pool[i][100 - 1].next = flag_None;
+    dict->pool[i][1000 - 1].next = flag_None;
 
-    dict->available.head = i * 100;
-    dict->available.tail = (i + 1) * 100 - 1;
+    dict->available.head = i * 1000;
+    dict->available.tail = (i + 1) * 1000 - 1;
 
     return bbSuccess;
 }
 
 bbDictionary_entry* bbDictionary_indexLookup(bbDictionary* dict, I32 index){
-    I32 level1 = index / 100;
-    I32 level2 = index % 100;
+    I32 level1 = index / 1000;
+    I32 level2 = index % 1000;
     bbDictionary_entry* entry = &dict->pool[level1][level2];
     return entry;
 }

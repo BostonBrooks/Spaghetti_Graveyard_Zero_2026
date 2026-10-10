@@ -33,7 +33,7 @@ typedef struct
 typedef struct
 {
     I32 num_bins;
-    bbDictionary_entry* pool[100];
+    bbDictionary_entry* pool[1000];
     bbDictionary_bin available;
     bbDictionary_bin bins[];
 } bbDictionary;
