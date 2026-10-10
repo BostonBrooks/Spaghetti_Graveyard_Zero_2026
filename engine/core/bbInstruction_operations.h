@@ -57,7 +57,6 @@
 
 
 #define pushUndoInstruction(NAME)\
-    bbAssert(NAME->type!=bbInstruction_null, "this could be where we're going wrong\n")\
     bbInstruction_deque_pushFront(&core->undo_instructions,NAME);
 
 #define allocRedoInstruction(NAME)\
