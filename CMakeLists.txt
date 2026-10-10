@@ -9,8 +9,8 @@ if (CSFML3)
     add_definitions(-DBB_CSFML3=1)
 endif (CSFML3)
 
-#    add_compile_options(-fsanitize=address -fno-omit-frame-pointer -g)
-#    add_link_options(-fsanitize=address)
+    add_compile_options(-fsanitize=address -fno-omit-frame-pointer -g)
+    add_link_options(-fsanitize=address)
 
 add_executable(Server engine/server/bbServer.c
         engine/network/bbNetworkPacket.c

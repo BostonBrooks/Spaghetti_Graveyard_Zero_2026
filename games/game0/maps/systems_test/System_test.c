@@ -444,7 +444,7 @@ int main(void) {
 void* userinterface_thread(void* arg)
 {
     thread = "USER INTERFACE";
-    debug_off = true;
+    debug_off = false;
 
 
     home.viewport_app.active_squares.old_i_min = 0;
