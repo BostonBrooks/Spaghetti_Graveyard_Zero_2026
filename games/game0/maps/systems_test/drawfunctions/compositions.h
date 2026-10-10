@@ -142,6 +142,11 @@ bbFlag bbDF_frontRow(void* drawable, void* frameDescriptor, void* cl){
         state = bbDrawableState_idle;
     }
 
+    if (state == bbDrawableState_moving) {
+        if (parent_drawable->speed < 4)
+        state = bbDrawableState_idle;
+    }
+
     input_frame = &composition->frame[state];
 
     output_frame.type = input_frame->type;
