@@ -1,5 +1,5 @@
-#ifndef BB_PROJECITLES_H
-#define BB_PROJECITLES_H
+#ifndef BB_ECS_PROJ
+#define BB_ECS_PROJ
 
 
 
@@ -7,34 +7,40 @@
 #include "engine/ECS/bbECS.h"
 
 typedef struct {
-    bbComponent component;
-    bbListElement_Handle list;
-    bbMapCoords star_coords;
+
+    bbMapCoords start_coords;
     bbMapCoords end_coords;
     bbTime start_time;
     bbTime end_time;
     U64 gravity;
-} bbProjectile;
+} bbProj_data;
+
+
+typedef struct {
+    bbComponent component;
+    bbListElement_Handle list;
+    bbProj_data data;
+} bbProj_component;
 
 typedef struct {
     bbSystem system;
     bbList list;
-} bbProjectiles;
+} bbProj_system;
 
-bbFlag bbProjectiles_init(bbProjectiles* system, bbECS* ECS);
-bbFlag bbProjectiles_update(bbProjectiles* system);
+bbFlag bbProjectiles_init(bbProj_system* system, bbECS* ECS);
+bbFlag bbProjectiles_update(bbProj_system* system);
 
 ///uses a bbProjectile on the stack to spawn a projectile comonent
 bbFlag bbCI_spawnProjectile(bbCore* core,
                              bbHandle entity,
-                             bbProjectile* projectile,
+                             bbProj_data* data,
                              bbInstruction_source source,
                              bbHandle action);
 
 bbFlag bbCS_spawnProjectile(bbCore* core,
                              bbHandle entity,
-                             bbProjectile** new_projectile,
-                             bbProjectile* projectile,
+                             bbProj_system** new_projectile,
+                             bbProj_data* data,
                              bbInstruction_source source,
                              bbHandle action);
 
