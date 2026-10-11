@@ -30,6 +30,7 @@ bbFlag bbDrawables_addSpawner(bbDrawableFunctionTable* table, bbRenderUnitGroup_
 bbFlag bbDrawable_enterVisible(bbDrawables* drawables, bbDrawableFunctionTable* table, bbDrawable* drawable)
 {
     I32 index = drawable->functions.on_enter;
+    //TODO if index < 0
     bbDrawable_notifyVisible_fn* function = table->notify_visible[index];
     return function(drawables, drawable);
 }

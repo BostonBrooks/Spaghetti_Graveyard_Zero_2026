@@ -1,6 +1,7 @@
 #include "engine/viewport/bbDrawables.h"
 #include "engine/viewport/bbViewportApp.h"
 #include "engine/data/bbHome.h"
+#include  "games/game0/maps/systems_test/viewport_spawner/fireball2.h"
 
 I32 viewport_spawn_function_count = 12;
 
