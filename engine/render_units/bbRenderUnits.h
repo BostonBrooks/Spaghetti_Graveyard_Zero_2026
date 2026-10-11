@@ -89,6 +89,12 @@ bbFlag bbRenderUnitGroup_spawn_foxes(bbRenderUnitGroup** Group,
                                      bbDrawable* drawable,
                                      bbGraphicsApp* graphics);
 
+bbFlag bbRenderUnitGroup_spawn_hoplites(bbRenderUnitGroup** Group,
+                                     bbRenderUnits* render_units,
+                                     bbDrawable* drawable,
+                                     bbGraphicsApp* graphics);
+
 bbFlag bbRenderUnitGroup_spawnFoxes_fn(struct bbRenderUnits* render_units, bbDrawable* drawable);
+bbFlag bbRenderUnitGroup_spawnHoplites_fn(struct bbRenderUnits* render_units, bbDrawable* drawable);
 
 #endif // BB_BBRENDERUNITS

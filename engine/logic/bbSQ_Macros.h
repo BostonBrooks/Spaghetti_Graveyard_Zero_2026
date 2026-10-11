@@ -88,7 +88,7 @@ bbAssert(deque->in_use < BBSEGMENTEDDEQUE_SEGMENT_SIZE * deque->num_segments,"de
         segment = calloc(BB_SEGMENT_SIZE, sizeof(BB_CLASS));\
         deque->elements[new_segment] = segment;\
     }\
-    *element = (BB_CLASS*)&deque->elements[new_segment][new_index];\
+    *element = &segment[new_index];\
     return bbSuccess;\
 }\
 bbFlag CONCAT2(BB_CLASS,_deque_pushFront)(CONCAT2(BB_CLASS,_deque)* deque, BB_CLASS* UNUSED)\
