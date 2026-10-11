@@ -11,6 +11,9 @@ bbFlag bbRenderUnits_populateFunctions (bbRenderUnits* render_units){
     bbRenderUnits_addSpawnFunction(render_units,
                                           (void*)bbRenderUnitGroup_spawnHoplites_fn,
                                           "SPAWN HOPLITES");
+    bbRenderUnits_addSpawnFunction(render_units,
+                                          (void*)bbRenderUnitGroup_spawnArchers_fn,
+                                          "SPAWN ARCHERS");
 
     bbRenderUnits_addSpawnFunction(render_units,
                                           (void*)bbRenderUnitGroup_spawnFoxes_fn,

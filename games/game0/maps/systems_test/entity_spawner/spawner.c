@@ -416,6 +416,7 @@ bbFlag bbEntitySpawner_populate(bbEntitySpawner* spawner)
     bbSpawnFunction_add(spawner, bbSF_addGraphics_cow, "COW_GRAPHICS");
     bbSpawnFunction_add(spawner, bbSF_addGraphics_fox, "FOX_GRAPHICS");
     bbSpawnFunction_add(spawner, bbSF_addGraphics_hoplite, "HOPLITE_GRAPHICS");
+    bbSpawnFunction_add(spawner, bbSF_addGraphics_archers, "ARCHER_GRAPHICS");
     bbSpawnFunction_add(spawner, bbSF_addGraphics_devil, "DEVIL_GRAPHICS");
     bbSpawnFunction_add(spawner, bbSF_addGraphics_lizard, "LIZARD_GRAPHICS");
     bbSpawnFunction_add(spawner, bbSF_addGraphics_fireball, "FIREBALL_GRAPHICS");

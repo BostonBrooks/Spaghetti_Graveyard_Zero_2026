@@ -151,6 +151,83 @@ bbFlag bbRenderUnitGroup_spawn_hoplites(bbRenderUnitGroup** Group,
 
 }
 
+
+bbFlag bbRenderUnitGroup_spawn_archers(bbRenderUnitGroup** Group,
+                                     bbRenderUnits* render_units,
+                                     bbDrawable* drawable,
+                                     bbGraphicsApp* graphics)
+{
+    bbWarning(drawable->group == NULL, "trying to respawn an existing drawable group\n");
+    if (drawable->group != NULL){return bbSuccess;}
+    bbRenderUnitGroup* group;
+    bbVPool_alloc2(render_units->pool, (void**)&group, NULL);
+    drawable->group = group;
+
+    group->spacing = POINTS_PER_TILE;
+    group->randomness = 1.f;
+
+    bbHandle drawfunctionHandle;
+    bbMinimalDrawable fox_drawable;
+    fox_drawable.coords = drawable->md.coords;
+    fox_drawable.state = bbDrawableState_idle;
+    fox_drawable.class = bbDrawableClass_renderUnit;
+
+    for (I32 k = 0; k < FRAMES_PER_DRAWABLE; k++){
+        fox_drawable.frames[k].draw_function = -1;
+    }
+    bbDictionary_lookup(graphics->drawfunctions->dictionary,
+                    "PARENT_STATE",
+                    &drawfunctionHandle);
+
+    fox_drawable.frames[0].draw_function = drawfunctionHandle.u64;
+    fox_drawable.frames[0].asset_handle.u64 = 12;
+    fox_drawable.frames[0].start_time=  0;
+    fox_drawable.frames[0].framerate = 1;
+    fox_drawable.frames[0].offset.x = 0;
+    fox_drawable.frames[0].offset.y = 0;
+
+    bbDictionary_lookup(graphics->drawfunctions->dictionary,
+            "DRAWABLE_SHADOW",
+            &drawfunctionHandle);
+    fox_drawable.frames[1].draw_function = drawfunctionHandle.u64;
+    fox_drawable.frames[1].asset_handle.u64 = 1077;
+    fox_drawable.frames[1].start_time=  0;
+    fox_drawable.frames[1].framerate = 0;
+    fox_drawable.frames[1].offset.x = 0;
+    fox_drawable.frames[1].offset.y = 0;
+
+    for (I32 i = 0; i < UNITS_PER_GROUP; i++ )
+    {
+        U64 seed = bbArith64_hashIndex(drawable->md.random_seed,i);
+        float framerate = 1.0 + (bbArith64_hashIndex(seed,1) % 16) / 160.f;
+        U32 start_time = bbArith64_hashIndex(seed, 2) % 60;
+
+        group->units[i].owner = drawable;
+        group->units[i].index = i;
+        group->units[i].avoidance_type = bbRU_avoidanceType_minimium;
+        group->units[i].movement_type = bbRU_movementType_wander;
+
+        if (drawable->md.state == bbDrawableState_dead) {
+            group->units[i].avoidance_type = bbRU_avoidanceType_none;
+        }
+
+        group->units[i].md = fox_drawable;
+        group->units[i].md.random_seed = seed;
+        group->units[i].md.frames[0].framerate = framerate;
+        group->units[i].md.frames[0].start_time = start_time;
+
+
+    }
+
+
+
+    bbList_pushL(&render_units->list, group);
+
+    if (Group != NULL) *Group = group;
+    return bbSuccess;
+
+}
+
 bbFlag bbRenderUnitGroup_spawn_foxes(bbRenderUnitGroup** Group,
                                      bbRenderUnits* render_units,
                                      bbDrawable* drawable,
@@ -242,6 +319,17 @@ bbFlag bbRenderUnitGroup_spawnHoplites_fn(struct bbRenderUnits* render_units, bb
 {
 
     bbRenderUnitGroup_spawn_hoplites(NULL,
+                                  render_units,
+                                  drawable,
+                                  &home.UI.graphics);
+
+    return bbSuccess;
+}
+
+bbFlag bbRenderUnitGroup_spawnArchers_fn(struct bbRenderUnits* render_units, bbDrawable* drawable)
+{
+
+    bbRenderUnitGroup_spawn_archers(NULL,
                                   render_units,
                                   drawable,
                                   &home.UI.graphics);
