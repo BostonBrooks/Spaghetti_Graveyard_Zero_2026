@@ -8,6 +8,7 @@ bbFlag bbViewportApp_init(bbViewportApp* app)
     bbDrawables_new((void**)&app->drawables,  12, 12);
     bbMapIcons_new((void**) &app->mapIcons,  12, 12);
     bbUnits_new((void**)&app->units, 12, 12);
+    bbProjectiles_new((void**)&app->projectiles, 12, 12);
     bbDrawables_initFunctionTable(&app->table);
     bbDrawables_populateFunctionTable(&app->table);
     bbViewport_init(&app->viewport, 456, 466);
@@ -17,6 +18,7 @@ bbFlag bbViewportApp_init(bbViewportApp* app)
     //bbVPool_newBloated(&app->moveable_units, sizeof(bbHandle), 10,1000,"MOVEABLE_UNITS");
     //bbVPool_newBloated(&app->entity_units, sizeof(bbHandle), 10,1000,"ENTITY_UNITS");
     bbLookupTable_new(&app->entity_units2,bbECS_ECS,10,1000);
+    bbLookupTable_new(&app->entity_projectiles,bbECS_ECS,10,1000);
     bbActiveSquares_init(&app->active_squares);
 
 

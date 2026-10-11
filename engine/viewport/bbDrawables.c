@@ -135,6 +135,7 @@ bbFlag bbDrawablesPlus_draw(drawFuncClosure* cl,
     bbDrawables* drawables = home.viewport_app.drawables;
     bbDrawables* mapicons = home.viewport_app.mapIcons;
     bbDrawables* units = home.viewport_app.units;
+    bbDrawables* projectiles = home.viewport_app.projectiles;
 
     bbNestedList list;
     bbNestedList_init(&list);
@@ -153,6 +154,7 @@ bbFlag bbDrawablesPlus_draw(drawFuncClosure* cl,
             //Note: what if squares_i differs between units and drawables?
             bbNestedList_attach(&list, &drawables->squares[n].list);
             bbNestedList_attach(&list, &units->squares[n].list);
+            bbNestedList_attach(&list, &projectiles->squares[n].list);
         }
 
     }

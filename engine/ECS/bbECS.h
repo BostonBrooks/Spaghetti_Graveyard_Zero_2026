@@ -29,6 +29,7 @@ typedef enum
     bbSystem_MapIcons,
     bbSystem_RenderUnits,
     bbSystem_RenderBuffer,
+    bbSystem_Projectiles,
 } bbSystems;
 
 
