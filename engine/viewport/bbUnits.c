@@ -22,6 +22,7 @@ bbMapCoords MC, I32 index){
     unit->drawable.md.SC = SC;
     bbHandle drawfunctionHandle;
 
+    unit->type =  bbUnit_unit;
     unit->u.unit.prev_coords = MC;
     unit->u.unit.prev_time = 0;
     unit->u.unit.prev_goalpoint = MC;

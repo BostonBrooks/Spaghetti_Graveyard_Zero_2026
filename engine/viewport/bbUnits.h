@@ -10,6 +10,7 @@ typedef enum {
     bbUnit_unit,
     bbUnit_projectile
 } bbUnit_type;
+
 typedef struct {
     bbMapCoords start_coords;
     bbMapCoords end_coords;

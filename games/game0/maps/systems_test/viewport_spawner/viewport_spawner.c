@@ -69,6 +69,8 @@ bbFlag bbViewportSpawnSkelly(bbViewportApp* viewport_app,
         //bbVPool_allocFromHandle(home.viewport_app.moveable_units, (void**)&moveable_unit, moveable_handle);
         //*moveable_unit = unit_handle;
     }
+
+    unit->type =  bbUnit_unit;
     unit->u.unit.prev_coords = MC;
     unit->u.unit.prev_time = 0;
     unit->u.unit.prev_goalpoint = MC;
@@ -188,6 +190,7 @@ bbFlag bbViewportSpawnZombie(bbViewportApp* viewport_app,
         //bbVPool_allocFromHandle(home.viewport_app.moveable_units, (void**)&moveable_unit, moveable_handle);
         //*moveable_unit = unit_handle;
     }
+    unit->type =  bbUnit_unit;
     unit->u.unit.prev_coords = MC;
     unit->u.unit.prev_time = 0;
     unit->u.unit.prev_goalpoint = MC;
@@ -310,6 +313,7 @@ bbFlag bbViewportSpawnCow(bbViewportApp* viewport_app,
         //bbVPool_allocFromHandle(home.viewport_app.moveable_units, (void**)&moveable_unit, moveable_handle);
         //*moveable_unit = unit_handle;
     }
+    unit->type =  bbUnit_unit;
     unit->u.unit.prev_coords = MC;
     unit->u.unit.prev_time = 0;
     unit->u.unit.prev_goalpoint = MC;
@@ -428,6 +432,7 @@ bbFlag bbViewportSpawnHoplite(bbViewportApp* viewport_app,
         //bbVPool_allocFromHandle(home.viewport_app.moveable_units, (void**)&moveable_unit, moveable_handle);
         //*moveable_unit = unit_handle;
     }
+    unit->type =  bbUnit_unit;
     unit->u.unit.prev_coords = MC;
     unit->u.unit.prev_time = 0;
     unit->u.unit.prev_goalpoint = MC;
@@ -555,6 +560,7 @@ bbFlag bbViewportSpawnArcher(bbViewportApp* viewport_app,
         //bbVPool_allocFromHandle(home.viewport_app.moveable_units, (void**)&moveable_unit, moveable_handle);
         //*moveable_unit = unit_handle;
     }
+    unit->type =  bbUnit_unit;
     unit->u.unit.prev_coords = MC;
     unit->u.unit.prev_time = 0;
     unit->u.unit.prev_goalpoint = MC;
@@ -682,6 +688,7 @@ bbFlag bbViewportSpawnFox(bbViewportApp* viewport_app,
         //bbVPool_allocFromHandle(home.viewport_app.moveable_units, (void**)&moveable_unit, moveable_handle);
         //*moveable_unit = unit_handle;
     }
+    unit->type =  bbUnit_unit;
     unit->u.unit.prev_coords = MC;
     unit->u.unit.prev_time = 0;
     unit->u.unit.prev_goalpoint = MC;
@@ -807,6 +814,7 @@ bbFlag bbViewportSpawnLizard(bbViewportApp* viewport_app,
         //bbVPool_allocFromHandle(home.viewport_app.moveable_units, (void**)&moveable_unit, moveable_handle);
         //*moveable_unit = unit_handle;
     }
+    unit->type =  bbUnit_unit;
     unit->u.unit.prev_coords = MC;
     unit->u.unit.prev_time = 0;
     unit->u.unit.prev_goalpoint = MC;
@@ -930,6 +938,7 @@ bbFlag bbViewportSpawnDevil(bbViewportApp* viewport_app,
         //bbVPool_allocFromHandle(home.viewport_app.moveable_units, (void**)&moveable_unit, moveable_handle);
         //*moveable_unit = unit_handle;
     }
+    unit->type =  bbUnit_unit;
     unit->u.unit.prev_coords = MC;
     unit->u.unit.prev_time = 0;
     unit->u.unit.prev_goalpoint = MC;
@@ -1050,6 +1059,7 @@ bbFlag bbViewportSpawnFireball(bbViewportApp* viewport_app,
         //bbVPool_allocFromHandle(home.viewport_app.moveable_units, (void**)&moveable_unit, moveable_handle);
         //*moveable_unit = unit_handle;
     }
+    unit->type =  bbUnit_unit;
     unit->u.unit.prev_coords = MC;
     unit->u.unit.prev_time = 0;
     unit->u.unit.prev_goalpoint = MC;

@@ -439,6 +439,7 @@ bbFlag bbUI_Inbox_newBanana_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
         //bbVPool_allocFromHandle(home.viewport_app.moveable_units, (void**)&moveable_unit, moveable_handle);
         *moveable_unit = unit_handle;
     }
+    unit->type =  bbUnit_unit;
     unit->u.unit.prev_coords = MC;
     unit->u.unit.prev_time = 0;
     unit->u.unit.prev_goalpoint = MC;
