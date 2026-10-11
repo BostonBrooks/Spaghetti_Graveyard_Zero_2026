@@ -18,6 +18,7 @@ typedef enum
     bbECS_Players,
     bbECS_Teams,
     bbECS_Hitpoints,
+    bbECS_Projectiles,
     bbECS_numSystems
 } bbECS_systems;
 
