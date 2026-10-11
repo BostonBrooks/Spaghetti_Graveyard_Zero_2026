@@ -1,4 +1,4 @@
-Number of Textures:,54,,,
+Number of Textures:,55,,,
 Label:,Integer Address:,File:,Smooth:,Comment:
 NULL,0,./graphics/NULL.png,F,Exception
 LAYOUT_480,1,./graphics/Layout_480.png,F,The root of the widget tree
@@ -54,3 +54,4 @@ LEGION_IDLE,50,./graphics/0AD/legion_idle.png,T,A legion idle
 HOPLITE_ATTACK,51,./graphics/0AD/hoplite_attack.png,T,A hoplite attacking
 HOPLITE_WALK,52,./graphics/0AD/hoplite_walk.png,T,A hoplite walking
 HOPLITE_DIE,53,./graphics/0AD/hoplite_die.png,T,A hoplite dying
+ARCHER_ATTACK,54,./graphics/0AD/archer_attack.png,T,An archer dying
