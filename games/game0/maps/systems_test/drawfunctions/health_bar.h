@@ -39,12 +39,12 @@ bbFlag bbDF_healthPointsTest(void* drawable, void* frameDescriptor, void* cl){
 
     bbUnit* unit = drawable;
 
-    if (unit->display_health_until > home.UI.clock2_handle.map_tick
-        && unit->percent_health > 0)
+    if (unit->u.unit.display_health_until > home.UI.clock2_handle.map_tick
+        && unit->u.unit.percent_health > 0)
 
     {
         sfVector2f V2F;
-        V2F.x = unit->percent_health * 50.0f;
+        V2F.x = unit->u.unit.percent_health * 50.0f;
         V2F.y = 5;
         sfRectangleShape_setSize(green_rect, V2F);
         

@@ -5,14 +5,22 @@
 #include "bbDrawables.h"
 #include "bbViewportMouse.h"
 #include "engine/viewport/bbViewportMouseFunctions.h"
-typedef struct bbUnit
-{
-    //to be draw to the screen
-    bbDrawable drawable;
 
+typedef enum {
+    bbUnit_unit,
+    bbUnit_projectile
+} bbUnit_type;
+typedef struct {
+    bbMapCoords start_coords;
+    bbMapCoords end_coords;
+    bbTime start_time;
+    bbTime end_time;
+    U64 gravity;
+}bbProjectile_data;
+
+typedef struct {
     I32 enitity;
     I32 moveable;
-    bbHandle entity_handle;
     float percent_health;
     bbTime display_health_until;
     //the following are used for interpolation
@@ -28,6 +36,21 @@ typedef struct bbUnit
     bbMapCoords next_goalpoint;
 
     bbUnit_mouse mouse;
+} bbUnint_data;
+
+typedef struct {
+    bbUnint_data unit;
+    bbProjectile_data projectile;
+} bbUnit_union;
+
+typedef struct bbUnit
+{
+    //to be draw to the screen
+    bbDrawable drawable;
+    bbHandle entity_handle;
+    bbUnit_type type;
+    bbUnit_union u;
+
 } bbUnit;
 
 #define bbUnits_new(self, squares_i, squares_j)\

@@ -439,12 +439,12 @@ bbFlag bbUI_Inbox_newBanana_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
         //bbVPool_allocFromHandle(home.viewport_app.moveable_units, (void**)&moveable_unit, moveable_handle);
         *moveable_unit = unit_handle;
     }
-    unit->prev_coords = MC;
-    unit->prev_time = 0;
-    unit->prev_goalpoint = MC;
-    unit->next_coords = MC;
-    unit->next_time = 2;
-    unit->next_goalpoint = MC;
+    unit->u.unit.prev_coords = MC;
+    unit->u.unit.prev_time = 0;
+    unit->u.unit.prev_goalpoint = MC;
+    unit->u.unit.next_coords = MC;
+    unit->u.unit.next_time = 2;
+    unit->u.unit.next_goalpoint = MC;
     unit->drawable.md.state = bbDrawableState_moving;
 
 
@@ -578,8 +578,8 @@ bbFlag bbUI_Inbox_setUnitHP_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
         return bbNone;
     }
 
-    unit->display_health_until = home.UI.clock2_handle.map_tick + 180;
-    unit->percent_health = HP;
+    unit->u.unit.display_health_until = home.UI.clock2_handle.map_tick + 180;
+    unit->u.unit.percent_health = HP;
 
 
 

@@ -192,11 +192,11 @@ bbFlag bbVPMouse_isOver(bbVPMouse* vpmouse, bbHandle* unit_handle)
     {
         bbUnit* was_over;
         bbFlag flag2 = bbVPool_lookup(units->pool,(void**)&was_over,vpmouse->was_over);
-        if (flag2 == bbSuccess) was_over->mouse.hover = false;
+        if (flag2 == bbSuccess) was_over->u.unit.mouse.hover = false;
         if (cl.unit!=NULL)
         {
             bbUnit* is_over = cl.unit;
-            is_over->mouse.hover = true;
+            is_over->u.unit.mouse.hover = true;
         }
 
         vpmouse->was_over = vpmouse->is_over;
@@ -221,7 +221,7 @@ bbFlag bbVPMouse_isOverFunc(void* node, void* cl)
     bbDrawables* units = viewportApp->units;
     bbViewportCoords unit_coords;
 
-    bbHandle mouse_table_handle = unit->mouse.mouse_table;
+    bbHandle mouse_table_handle = unit->u.unit.mouse.mouse_table;
 
     bbMouseTable* mouse_table;
 
@@ -272,7 +272,7 @@ bbFlag bbVPMouse_Update(bbVPMouse* mouse, bbGraphicsApp* graphics)
     if (unit!=NULL)
     {
 
-        bbHandle mouse_table_handle = unit->mouse.mouse_table;
+        bbHandle mouse_table_handle = unit->u.unit.mouse.mouse_table;
         bbVPMouseTable* mouse_table;
         bbFlag flag = bbVPool_lookup(mouse->functions.mouse_tables,(void**)&mouse_table,mouse_table_handle);
 

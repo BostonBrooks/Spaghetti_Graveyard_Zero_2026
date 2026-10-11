@@ -9,11 +9,11 @@ typedef struct {
     bbTime start_time;
     bbTime end_time;
     U64 gravity;
-}bbProjectile_data;
+}bbProjectile_data_old;
 
 typedef struct {
     bbMinimalDrawable md;
-    bbProjectile_data data;
+    bbProjectile_data_old data;
 
     ///Note: this is not the same offset as in bbDrawable, will need separate machinery to work;
     struct bbRenderUnitGroup* group;

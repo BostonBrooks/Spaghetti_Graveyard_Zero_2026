@@ -297,7 +297,7 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
         engine/viewport/bbDrawBuffer.c
         engine/viewport/bbDrawableFunctions.c
         engine/viewport/bbActiveSquares.c
-        engine/viewport/bbProjectiles.c
+        engine/viewport/bbProjectiles_old.c
 
 
         engine/render_units/bbRenderUnits.c

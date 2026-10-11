@@ -13,7 +13,7 @@ bbFlag bbVPMouse_EnterUnit(bbVPMouse* vpmouse, struct bbUnit* unit)
              &mouse_table_handle,"NULL TABLE" );
     } else
     {
-        mouse_table_handle = unit->mouse.mouse_table;
+        mouse_table_handle = unit->u.unit.mouse.mouse_table;
     }
     bbVPMouseTable* mouse_table;
     bbFlag flag = bbVPool_lookup(vpmouse->functions.mouse_tables,(void**)&mouse_table,mouse_table_handle);
@@ -44,7 +44,7 @@ bbFlag bbVPMouse_LeaveUnit(bbVPMouse* vpmouse, struct bbUnit* unit)
              &mouse_table_handle,"NULL TABLE" );
     } else
     {
-        mouse_table_handle = unit->mouse.mouse_table;
+        mouse_table_handle = unit->u.unit.mouse.mouse_table;
     }
     bbVPMouseTable* mouse_table;
     bbFlag flag = bbVPool_lookup(vpmouse->functions.mouse_tables,(void**)&mouse_table,mouse_table_handle);
@@ -79,7 +79,7 @@ bbFlag bbVPMouse_LeftDownUnit(bbVPMouse* vpmouse, struct bbUnit* unit)
     } else
     {
 
-        mouse_table_handle = unit->mouse.mouse_table;
+        mouse_table_handle = unit->u.unit.mouse.mouse_table;
     }
     bbVPMouseTable* mouse_table;
     bbFlag flag = bbVPool_lookup(vpmouse->functions.mouse_tables,(void**)&mouse_table,mouse_table_handle);
@@ -108,7 +108,7 @@ bbFlag bbVPMouse_LeftUpUnit(bbVPMouse* vpmouse, struct bbUnit* unit)
              &mouse_table_handle,"NULL TABLE" );
     } else
     {
-        mouse_table_handle = unit->mouse.mouse_table;
+        mouse_table_handle = unit->u.unit.mouse.mouse_table;
     }
     bbVPMouseTable* mouse_table;
     bbFlag flag = bbVPool_lookup(vpmouse->functions.mouse_tables,(void**)&mouse_table,mouse_table_handle);
@@ -137,7 +137,7 @@ bbFlag bbVPMouse_LeftDragUnit(bbVPMouse* vpmouse, struct bbUnit* unit)
              &mouse_table_handle,"NULL TABLE" );
     } else
     {
-        mouse_table_handle = unit->mouse.mouse_table;
+        mouse_table_handle = unit->u.unit.mouse.mouse_table;
     }
     bbVPMouseTable* mouse_table;
     bbFlag flag = bbVPool_lookup(vpmouse->functions.mouse_tables,(void**)&mouse_table,mouse_table_handle);
@@ -164,7 +164,7 @@ bbFlag bbVPMouse_RightDownUnit(bbVPMouse* vpmouse, struct bbUnit* unit) {
              &mouse_table_handle,"NULL TABLE" );
     } else
     {
-        mouse_table_handle = unit->mouse.mouse_table;
+        mouse_table_handle = unit->u.unit.mouse.mouse_table;
     }
     bbVPMouseTable* mouse_table;
     bbFlag flag = bbVPool_lookup(vpmouse->functions.mouse_tables,(void**)&mouse_table,mouse_table_handle);
@@ -191,7 +191,7 @@ bbFlag bbVPMouse_RightUpUnit(bbVPMouse* vpmouse, struct bbUnit* unit)
              &mouse_table_handle,"NULL TABLE" );
     } else
     {
-        mouse_table_handle = unit->mouse.mouse_table;
+        mouse_table_handle = unit->u.unit.mouse.mouse_table;
     }
         bbVPMouseTable* mouse_table;
         bbFlag flag = bbVPool_lookup(vpmouse->functions.mouse_tables,(void**)&mouse_table,mouse_table_handle);
@@ -220,7 +220,7 @@ bbFlag bbVPMouse_RightDragUnit(bbVPMouse* vpmouse, struct bbUnit* unit)
              &mouse_table_handle,"NULL TABLE" );
     } else
     {
-        mouse_table_handle = unit->mouse.mouse_table;
+        mouse_table_handle = unit->u.unit.mouse.mouse_table;
     }
         bbVPMouseTable* mouse_table;
         bbFlag flag = bbVPool_lookup(vpmouse->functions.mouse_tables,(void**)&mouse_table,mouse_table_handle);

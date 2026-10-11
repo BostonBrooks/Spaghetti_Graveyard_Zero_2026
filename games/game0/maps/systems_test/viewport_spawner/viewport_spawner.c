@@ -69,12 +69,12 @@ bbFlag bbViewportSpawnSkelly(bbViewportApp* viewport_app,
         //bbVPool_allocFromHandle(home.viewport_app.moveable_units, (void**)&moveable_unit, moveable_handle);
         //*moveable_unit = unit_handle;
     }
-    unit->prev_coords = MC;
-    unit->prev_time = 0;
-    unit->prev_goalpoint = MC;
-    unit->next_coords = MC;
-    unit->next_time = 2;
-    unit->next_goalpoint = MC;
+    unit->u.unit.prev_coords = MC;
+    unit->u.unit.prev_time = 0;
+    unit->u.unit.prev_goalpoint = MC;
+    unit->u.unit.next_coords = MC;
+    unit->u.unit.next_time = 2;
+    unit->u.unit.next_goalpoint = MC;
     unit->drawable.md.state = bbDrawableState_idle;
     unit->entity_handle = entity_handle;
 
@@ -83,14 +83,14 @@ bbFlag bbViewportSpawnSkelly(bbViewportApp* viewport_app,
 
     bbVPMouseFunctions_getTableHandle(
         &home.viewport_app.mouse.functions,
-        &unit->mouse.mouse_table,
+        &unit->u.unit.mouse.mouse_table,
         "MONSTER" );
-    unit->mouse.hover = 0;
-    unit->mouse.selected = 0;
-    unit->mouse.rect.top = 4*POINTS_PER_TILE;
-    unit->mouse.rect.left = POINTS_PER_TILE;
-    unit->mouse.rect.height = 4*POINTS_PER_TILE;
-    unit->mouse.rect.width = 2*POINTS_PER_TILE;
+    unit->u.unit.mouse.hover = 0;
+    unit->u.unit.mouse.selected = 0;
+    unit->u.unit.mouse.rect.top = 4*POINTS_PER_TILE;
+    unit->u.unit.mouse.rect.left = POINTS_PER_TILE;
+    unit->u.unit.mouse.rect.height = 4*POINTS_PER_TILE;
+    unit->u.unit.mouse.rect.width = 2*POINTS_PER_TILE;
 
     bbDictionary_lookup(home.UI.graphics.drawfunctions->dictionary,
                         "COMPOSITION_STATE",
@@ -188,12 +188,12 @@ bbFlag bbViewportSpawnZombie(bbViewportApp* viewport_app,
         //bbVPool_allocFromHandle(home.viewport_app.moveable_units, (void**)&moveable_unit, moveable_handle);
         //*moveable_unit = unit_handle;
     }
-    unit->prev_coords = MC;
-    unit->prev_time = 0;
-    unit->prev_goalpoint = MC;
-    unit->next_coords = MC;
-    unit->next_time = 2;
-    unit->next_goalpoint = MC;
+    unit->u.unit.prev_coords = MC;
+    unit->u.unit.prev_time = 0;
+    unit->u.unit.prev_goalpoint = MC;
+    unit->u.unit.next_coords = MC;
+    unit->u.unit.next_time = 2;
+    unit->u.unit.next_goalpoint = MC;
     unit->drawable.md.state = bbDrawableState_moving;
     unit->entity_handle = entity_handle;
     //bbDebug("system = %u\n", entity_handle.system.system);
@@ -201,14 +201,14 @@ bbFlag bbViewportSpawnZombie(bbViewportApp* viewport_app,
 
     bbVPMouseFunctions_getTableHandle(
         &home.viewport_app.mouse.functions,
-        &unit->mouse.mouse_table,
+        &unit->u.unit.mouse.mouse_table,
         "PLAYER" );
-    unit->mouse.hover = 0;
-    unit->mouse.selected = 0;
-    unit->mouse.rect.top = 4*POINTS_PER_TILE;
-    unit->mouse.rect.left = POINTS_PER_TILE;
-    unit->mouse.rect.height = 4*POINTS_PER_TILE;
-    unit->mouse.rect.width = 2*POINTS_PER_TILE;
+    unit->u.unit.mouse.hover = 0;
+    unit->u.unit.mouse.selected = 0;
+    unit->u.unit.mouse.rect.top = 4*POINTS_PER_TILE;
+    unit->u.unit.mouse.rect.left = POINTS_PER_TILE;
+    unit->u.unit.mouse.rect.height = 4*POINTS_PER_TILE;
+    unit->u.unit.mouse.rect.width = 2*POINTS_PER_TILE;
 
 
     bbDictionary_lookup(home.UI.graphics.drawfunctions->dictionary,
@@ -310,26 +310,26 @@ bbFlag bbViewportSpawnCow(bbViewportApp* viewport_app,
         //bbVPool_allocFromHandle(home.viewport_app.moveable_units, (void**)&moveable_unit, moveable_handle);
         //*moveable_unit = unit_handle;
     }
-    unit->prev_coords = MC;
-    unit->prev_time = 0;
-    unit->prev_goalpoint = MC;
-    unit->next_coords = MC;
-    unit->next_time = 2;
-    unit->next_goalpoint = MC;
+    unit->u.unit.prev_coords = MC;
+    unit->u.unit.prev_time = 0;
+    unit->u.unit.prev_goalpoint = MC;
+    unit->u.unit.next_coords = MC;
+    unit->u.unit.next_time = 2;
+    unit->u.unit.next_goalpoint = MC;
     unit->drawable.md.state = bbDrawableState_moving;
     unit->entity_handle = entity_handle;
     //bbDebug("system = %u\n", entity_handle.system.system);
 
     bbVPMouseFunctions_getTableHandle(
         &home.viewport_app.mouse.functions,
-        &unit->mouse.mouse_table,
+        &unit->u.unit.mouse.mouse_table,
         "MONSTER" );
-    unit->mouse.hover = 0;
-    unit->mouse.selected = 0;
-    unit->mouse.rect.top = 4*POINTS_PER_TILE;
-    unit->mouse.rect.left = POINTS_PER_TILE;
-    unit->mouse.rect.height = 4*POINTS_PER_TILE;
-    unit->mouse.rect.width = 2*POINTS_PER_TILE;
+    unit->u.unit.mouse.hover = 0;
+    unit->u.unit.mouse.selected = 0;
+    unit->u.unit.mouse.rect.top = 4*POINTS_PER_TILE;
+    unit->u.unit.mouse.rect.left = POINTS_PER_TILE;
+    unit->u.unit.mouse.rect.height = 4*POINTS_PER_TILE;
+    unit->u.unit.mouse.rect.width = 2*POINTS_PER_TILE;
 
     bbDictionary_lookup(home.UI.graphics.drawfunctions->dictionary,
                         "COMPOSITION_STATE",
@@ -428,12 +428,12 @@ bbFlag bbViewportSpawnHoplite(bbViewportApp* viewport_app,
         //bbVPool_allocFromHandle(home.viewport_app.moveable_units, (void**)&moveable_unit, moveable_handle);
         //*moveable_unit = unit_handle;
     }
-    unit->prev_coords = MC;
-    unit->prev_time = 0;
-    unit->prev_goalpoint = MC;
-    unit->next_coords = MC;
-    unit->next_time = 2;
-    unit->next_goalpoint = MC;
+    unit->u.unit.prev_coords = MC;
+    unit->u.unit.prev_time = 0;
+    unit->u.unit.prev_goalpoint = MC;
+    unit->u.unit.next_coords = MC;
+    unit->u.unit.next_time = 2;
+    unit->u.unit.next_goalpoint = MC;
     unit->drawable.md.state = bbDrawableState_moving;
     unit->entity_handle = entity_handle;
     //bbDebug("system = %u\n", entity_handle.system.system);
@@ -441,14 +441,14 @@ bbFlag bbViewportSpawnHoplite(bbViewportApp* viewport_app,
 
     bbVPMouseFunctions_getTableHandle(
         &home.viewport_app.mouse.functions,
-        &unit->mouse.mouse_table,
+        &unit->u.unit.mouse.mouse_table,
         "MONSTER" );
-    unit->mouse.hover = 0;
-    unit->mouse.selected = 0;
-    unit->mouse.rect.top = 4*POINTS_PER_TILE;
-    unit->mouse.rect.left = POINTS_PER_TILE;
-    unit->mouse.rect.height = 4*POINTS_PER_TILE;
-    unit->mouse.rect.width = 2*POINTS_PER_TILE;
+    unit->u.unit.mouse.hover = 0;
+    unit->u.unit.mouse.selected = 0;
+    unit->u.unit.mouse.rect.top = 4*POINTS_PER_TILE;
+    unit->u.unit.mouse.rect.left = POINTS_PER_TILE;
+    unit->u.unit.mouse.rect.height = 4*POINTS_PER_TILE;
+    unit->u.unit.mouse.rect.width = 2*POINTS_PER_TILE;
 
 
     bbDictionary_lookup(home.UI.graphics.drawfunctions->dictionary,
@@ -555,12 +555,12 @@ bbFlag bbViewportSpawnArcher(bbViewportApp* viewport_app,
         //bbVPool_allocFromHandle(home.viewport_app.moveable_units, (void**)&moveable_unit, moveable_handle);
         //*moveable_unit = unit_handle;
     }
-    unit->prev_coords = MC;
-    unit->prev_time = 0;
-    unit->prev_goalpoint = MC;
-    unit->next_coords = MC;
-    unit->next_time = 2;
-    unit->next_goalpoint = MC;
+    unit->u.unit.prev_coords = MC;
+    unit->u.unit.prev_time = 0;
+    unit->u.unit.prev_goalpoint = MC;
+    unit->u.unit.next_coords = MC;
+    unit->u.unit.next_time = 2;
+    unit->u.unit.next_goalpoint = MC;
     unit->drawable.md.state = bbDrawableState_moving;
     unit->entity_handle = entity_handle;
     //bbDebug("system = %u\n", entity_handle.system.system);
@@ -568,14 +568,14 @@ bbFlag bbViewportSpawnArcher(bbViewportApp* viewport_app,
 
     bbVPMouseFunctions_getTableHandle(
         &home.viewport_app.mouse.functions,
-        &unit->mouse.mouse_table,
+        &unit->u.unit.mouse.mouse_table,
         "MONSTER" );
-    unit->mouse.hover = 0;
-    unit->mouse.selected = 0;
-    unit->mouse.rect.top = 4*POINTS_PER_TILE;
-    unit->mouse.rect.left = POINTS_PER_TILE;
-    unit->mouse.rect.height = 4*POINTS_PER_TILE;
-    unit->mouse.rect.width = 2*POINTS_PER_TILE;
+    unit->u.unit.mouse.hover = 0;
+    unit->u.unit.mouse.selected = 0;
+    unit->u.unit.mouse.rect.top = 4*POINTS_PER_TILE;
+    unit->u.unit.mouse.rect.left = POINTS_PER_TILE;
+    unit->u.unit.mouse.rect.height = 4*POINTS_PER_TILE;
+    unit->u.unit.mouse.rect.width = 2*POINTS_PER_TILE;
 
 
     bbDictionary_lookup(home.UI.graphics.drawfunctions->dictionary,
@@ -682,12 +682,12 @@ bbFlag bbViewportSpawnFox(bbViewportApp* viewport_app,
         //bbVPool_allocFromHandle(home.viewport_app.moveable_units, (void**)&moveable_unit, moveable_handle);
         //*moveable_unit = unit_handle;
     }
-    unit->prev_coords = MC;
-    unit->prev_time = 0;
-    unit->prev_goalpoint = MC;
-    unit->next_coords = MC;
-    unit->next_time = 2;
-    unit->next_goalpoint = MC;
+    unit->u.unit.prev_coords = MC;
+    unit->u.unit.prev_time = 0;
+    unit->u.unit.prev_goalpoint = MC;
+    unit->u.unit.next_coords = MC;
+    unit->u.unit.next_time = 2;
+    unit->u.unit.next_goalpoint = MC;
     unit->drawable.md.state = bbDrawableState_moving;
     unit->entity_handle = entity_handle;
     //bbDebug("system = %u\n", entity_handle.system.system);
@@ -695,14 +695,14 @@ bbFlag bbViewportSpawnFox(bbViewportApp* viewport_app,
 
     bbVPMouseFunctions_getTableHandle(
         &home.viewport_app.mouse.functions,
-        &unit->mouse.mouse_table,
+        &unit->u.unit.mouse.mouse_table,
         "MONSTER" );
-    unit->mouse.hover = 0;
-    unit->mouse.selected = 0;
-    unit->mouse.rect.top = 4*POINTS_PER_TILE;
-    unit->mouse.rect.left = POINTS_PER_TILE;
-    unit->mouse.rect.height = 4*POINTS_PER_TILE;
-    unit->mouse.rect.width = 2*POINTS_PER_TILE;
+    unit->u.unit.mouse.hover = 0;
+    unit->u.unit.mouse.selected = 0;
+    unit->u.unit.mouse.rect.top = 4*POINTS_PER_TILE;
+    unit->u.unit.mouse.rect.left = POINTS_PER_TILE;
+    unit->u.unit.mouse.rect.height = 4*POINTS_PER_TILE;
+    unit->u.unit.mouse.rect.width = 2*POINTS_PER_TILE;
 
 
     bbDictionary_lookup(home.UI.graphics.drawfunctions->dictionary,
@@ -807,12 +807,12 @@ bbFlag bbViewportSpawnLizard(bbViewportApp* viewport_app,
         //bbVPool_allocFromHandle(home.viewport_app.moveable_units, (void**)&moveable_unit, moveable_handle);
         //*moveable_unit = unit_handle;
     }
-    unit->prev_coords = MC;
-    unit->prev_time = 0;
-    unit->prev_goalpoint = MC;
-    unit->next_coords = MC;
-    unit->next_time = 2;
-    unit->next_goalpoint = MC;
+    unit->u.unit.prev_coords = MC;
+    unit->u.unit.prev_time = 0;
+    unit->u.unit.prev_goalpoint = MC;
+    unit->u.unit.next_coords = MC;
+    unit->u.unit.next_time = 2;
+    unit->u.unit.next_goalpoint = MC;
     unit->drawable.md.state = bbDrawableState_moving;
     unit->entity_handle = entity_handle;
     //bbDebug("system = %u\n", entity_handle.system.system);
@@ -820,14 +820,14 @@ bbFlag bbViewportSpawnLizard(bbViewportApp* viewport_app,
 
     bbVPMouseFunctions_getTableHandle(
         &home.viewport_app.mouse.functions,
-        &unit->mouse.mouse_table,
+        &unit->u.unit.mouse.mouse_table,
         "MONSTER" );
-    unit->mouse.hover = 0;
-    unit->mouse.selected = 0;
-    unit->mouse.rect.top = 4*POINTS_PER_TILE;
-    unit->mouse.rect.left = POINTS_PER_TILE;
-    unit->mouse.rect.height = 4*POINTS_PER_TILE;
-    unit->mouse.rect.width = 2*POINTS_PER_TILE;
+    unit->u.unit.mouse.hover = 0;
+    unit->u.unit.mouse.selected = 0;
+    unit->u.unit.mouse.rect.top = 4*POINTS_PER_TILE;
+    unit->u.unit.mouse.rect.left = POINTS_PER_TILE;
+    unit->u.unit.mouse.rect.height = 4*POINTS_PER_TILE;
+    unit->u.unit.mouse.rect.width = 2*POINTS_PER_TILE;
 
 
     bbDictionary_lookup(home.UI.graphics.drawfunctions->dictionary,
@@ -930,12 +930,12 @@ bbFlag bbViewportSpawnDevil(bbViewportApp* viewport_app,
         //bbVPool_allocFromHandle(home.viewport_app.moveable_units, (void**)&moveable_unit, moveable_handle);
         //*moveable_unit = unit_handle;
     }
-    unit->prev_coords = MC;
-    unit->prev_time = 0;
-    unit->prev_goalpoint = MC;
-    unit->next_coords = MC;
-    unit->next_time = 2;
-    unit->next_goalpoint = MC;
+    unit->u.unit.prev_coords = MC;
+    unit->u.unit.prev_time = 0;
+    unit->u.unit.prev_goalpoint = MC;
+    unit->u.unit.next_coords = MC;
+    unit->u.unit.next_time = 2;
+    unit->u.unit.next_goalpoint = MC;
     unit->drawable.md.state = bbDrawableState_moving;
     unit->entity_handle = entity_handle;
     //bbDebug("system = %u\n", entity_handle.system.system);
@@ -943,14 +943,14 @@ bbFlag bbViewportSpawnDevil(bbViewportApp* viewport_app,
 
     bbVPMouseFunctions_getTableHandle(
         &home.viewport_app.mouse.functions,
-        &unit->mouse.mouse_table,
+        &unit->u.unit.mouse.mouse_table,
         "MONSTER" );
-    unit->mouse.hover = 0;
-    unit->mouse.selected = 0;
-    unit->mouse.rect.top = 4*POINTS_PER_TILE;
-    unit->mouse.rect.left = POINTS_PER_TILE;
-    unit->mouse.rect.height = 4*POINTS_PER_TILE;
-    unit->mouse.rect.width = 2*POINTS_PER_TILE;
+    unit->u.unit.mouse.hover = 0;
+    unit->u.unit.mouse.selected = 0;
+    unit->u.unit.mouse.rect.top = 4*POINTS_PER_TILE;
+    unit->u.unit.mouse.rect.left = POINTS_PER_TILE;
+    unit->u.unit.mouse.rect.height = 4*POINTS_PER_TILE;
+    unit->u.unit.mouse.rect.width = 2*POINTS_PER_TILE;
 
 
     bbDictionary_lookup(home.UI.graphics.drawfunctions->dictionary,
@@ -1050,17 +1050,17 @@ bbFlag bbViewportSpawnFireball(bbViewportApp* viewport_app,
         //bbVPool_allocFromHandle(home.viewport_app.moveable_units, (void**)&moveable_unit, moveable_handle);
         //*moveable_unit = unit_handle;
     }
-    unit->prev_coords = MC;
-    unit->prev_time = 0;
-    unit->prev_goalpoint = MC;
-    unit->next_coords = MC;
-    unit->next_time = 2;
-    unit->next_goalpoint = MC;
+    unit->u.unit.prev_coords = MC;
+    unit->u.unit.prev_time = 0;
+    unit->u.unit.prev_goalpoint = MC;
+    unit->u.unit.next_coords = MC;
+    unit->u.unit.next_time = 2;
+    unit->u.unit.next_goalpoint = MC;
     unit->drawable.md.state = bbDrawableState_moving;
     unit->entity_handle = entity_handle;
     //bbDebug("system = %u\n", entity_handle.system.system);
 
-    unit->mouse.mouse_table.u64 = 0;
+    unit->u.unit.mouse.mouse_table.u64 = 0;
 
     bbDictionary_lookup(home.UI.graphics.drawfunctions->dictionary,
                         "COMPOSITION_STATE",
