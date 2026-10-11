@@ -85,7 +85,7 @@ bbAssert(deque->in_use < BBSEGMENTEDDEQUE_SEGMENT_SIZE * deque->num_segments,"de
     BB_CLASS* segment = deque->elements[new_segment];\
     if (segment == NULL)\
     {\
-        segment = calloc(BB_SEGMENT_SIZE, sizeof(bbDummyStruct));\
+        segment = calloc(BB_SEGMENT_SIZE, sizeof(BB_CLASS));\
         deque->elements[new_segment] = segment;\
     }\
     *element = (BB_CLASS*)&deque->elements[new_segment][new_index];\
