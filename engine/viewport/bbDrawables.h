@@ -66,7 +66,7 @@ typedef struct bbDrawable
 
     bbTime last_state_change;
     bbTime last_wander_time;
-
+    float speed;
 
     ///Render unit data
     ///But RenderUnit is derived from bbDrawable and so

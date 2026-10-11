@@ -23,6 +23,8 @@ typedef struct bbUnit
     float prev_angle;
     float next_angle;
     bbTime next_time;
+
+    float speed;
     bbMapCoords next_goalpoint;
 
     bbUnit_mouse mouse;

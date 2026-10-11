@@ -119,6 +119,9 @@ bbFlag bbUnits_consumeBuffer(bbUnits* units, bbVPool* entity_units, bbMoveables_
             I32 delta_i = unit->next_coords.i - unit->prev_coords.i;
             I32 delta_j = unit->next_coords.j - unit->prev_coords.j;
 
+            float distance = sqrt(delta_i * delta_i + delta_j * delta_j);
+
+            unit->drawable.speed = distance;
             if (delta_i * delta_i + delta_j * delta_j > POINTS_PER_PIXEL*POINTS_PER_PIXEL*16)
             {
                 float rotation = atan2(delta_i, delta_j);
