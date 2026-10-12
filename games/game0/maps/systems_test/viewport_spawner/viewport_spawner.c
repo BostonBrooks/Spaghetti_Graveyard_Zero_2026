@@ -793,7 +793,7 @@ bbProjectile_data data;
     data.start_coords = MC;
     data.end_coords = MC;
     data.end_coords.i += POINTS_PER_SQUARE/2;
-    data.end_coords.j -= POINTS_PER_SQUARE/2;
+    data.end_coords.j += POINTS_PER_SQUARE/2;
     data.start_time = 0;
     data.end_time = 300;
     data.gravity = 2;
