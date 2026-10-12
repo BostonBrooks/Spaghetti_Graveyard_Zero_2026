@@ -24,6 +24,7 @@
 #include "games/game0/maps/systems_test/drawfunctions/unit_group.h"
 #include "games/game0/maps/systems_test/drawfunctions/drawbuffer_sprite.h"
 #include "games/game0/maps/systems_test/drawfunctions/widget_textInput.h"
+#include "games/game0/maps/systems_test/drawfunctions/projectile_rotation.h"
 #define NUM_DRAWFUNCTIONS 69
 
 bbFlag bbDF_widgetSprite(void* drawable, void* frame_descriptor, void* cl){
@@ -219,6 +220,12 @@ bbFlag bbDrawfunctions_new(bbDrawfunctions** drawfunctions){
     functions->functions[34] = bbDF_frontRow;
     handle.u64 = 34;
     bbDictionary_add(functions->dictionary, "FRONT_ROW", handle);
+
+
+    functions->functions[35] = bbDF_projectileRotation;
+    handle.u64 = 35;
+    bbDictionary_add(functions->dictionary, "PROJECTILE_ROTATION", handle);
+
 
     *drawfunctions = functions;
     return bbSuccess;

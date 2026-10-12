@@ -101,3 +101,12 @@ bbViewportCoords bbScreenPoints_getViewportPoints(bbViewport* viewport,
     return VP;
 
 }
+
+float bbVelocity_getRotation(bbFloat3D velocity) {
+    float VX = (velocity.i + velocity.j);
+    float VY = (velocity.i - velocity.j) / 2 - velocity.k;
+
+    float theta = atan(VY / VX);
+
+    return theta;
+}

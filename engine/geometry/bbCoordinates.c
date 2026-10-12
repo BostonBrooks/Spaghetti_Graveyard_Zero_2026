@@ -171,6 +171,89 @@ bbMapCoords bbMapCoords_interpolate(bbMapCoords MC1, bbMapCoords MC2, I64 T0, I6
     return delta;
 
 }
+// float projectile_height (float start_time,
+//                        float end_time,
+//                        float start_height,
+//                        float end_height,
+//                        float gravity,
+//                        float current_time) {
+//     float dt = end_time - start_time;
+//
+//     if (dt <= 0.0f) return end_height;
+//     float u = (current_time - start_time) / dt;
+//     if (u<=0.0f) return start_height;
+//     if (u>=1.0f) return end_height;
+//     return start_height + (end_height - start_height) * u + gravity * dt * dt * (u*u-u);
+// }
+
+//g approx -0.1 G approx 1000
+bbMapCoords bbMapCoords_interpolateGravity(bbMapCoords MC1, bbMapCoords MC2, I64 G, I64 T0, I64 T1, I64 T2)
+{
+
+
+    if (T2 == T0)
+    {
+        return MC2;
+    }
+
+    bbMapCoords MC3;
+
+    I64 delta_t = T2-T0;
+    I64 delta_t1 = T1-T0;
+    I64 delta_t2 = T2-T1;
+
+    I64 start_i = MC1.i;
+    I32 end_i = MC2.i;
+
+    I64 start_j = MC1.j;
+    I32 end_j = MC2.j;
+
+    I64 start_k = MC1.k;
+    I64 end_k = MC2.k;
+
+//TODO bbArith64_div()
+    MC3.i = start_i + (end_i - start_i) * delta_t1 / delta_t;
+    MC3.j = start_j + (end_j - start_j) * delta_t1 / delta_t;
+    MC3.k = start_k + (end_k - start_k) * delta_t1 / delta_t;
+
+    MC3.k +=  G * delta_t1 * delta_t2 / 16384;
+
+    return MC3;
+}
+
+bbFloat3D bbMapCoords_getVelocity(bbMapCoords MC1, bbMapCoords MC2, I64 G, I64 T0, I64 T1, I64 T2) {
+
+
+    float delta_t = T2-T0;
+    float delta_i = MC2.i - MC1.i;
+    float delta_j = MC2.j - MC1.j;
+    float delta_k = MC2.k - MC1.k;
+
+    bbFloat3D linear;
+    linear.i = delta_i /delta_t;
+    linear.j = delta_j /delta_t;
+    linear.k = delta_k /delta_t;
+
+    linear.k += (float)(-2*T1+T2+T0) * G / 16384;
+
+    return linear;
+
+}
+
+bbFloat3D bbFloat3D_rect_to_polar (bbFloat3D rect)
+{
+    float r = sqrt(rect.i*rect.i + rect.j*rect.j + rect.k*rect.k);
+    float direction = atan2(rect.i,rect.j);
+    float polar = acos(rect.k / r);
+
+    bbFloat3D spherical;
+    spherical.i = r;
+    spherical.j = direction;
+    spherical.k = polar;
+
+    return spherical;
+
+}
 
 
 bbFlag bbMapCoords_withinCircle(bbMapCoords Point, bbMapCoords Centre, I32 radius)

@@ -110,4 +110,6 @@ I32 bbScreenPoints_inScreenPointsRect(bbScreenPoints SP, bbScreenPointsRect rect
 
 bbMilliCoords bbMilliCoords_interpolate(bbMilliCoords MC1, bbMilliCoords MC2, I64 T0, I64 T1, I64 T2);
 bbMapCoords bbMapCoords_interpolate(bbMapCoords MC1, bbMapCoords MC2, I64 T0, I64 T1, I64 T2);
+bbMapCoords bbMapCoords_interpolateGravity(bbMapCoords MC1, bbMapCoords MC2, I64 G, I64 T0, I64 T1, I64 T2);
+bbFloat3D bbMapCoords_getVelocity(bbMapCoords MC1, bbMapCoords MC2, I64 G, I64 T0, I64 T1, I64 T2);
 #endif // BB_COORDINATES_H

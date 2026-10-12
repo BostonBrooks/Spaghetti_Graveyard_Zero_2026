@@ -54,11 +54,11 @@ bbFlag bbProjectile_spawnFireball(bbViewportApp* viewport_app,
     }
 
     bbDictionary_lookup(home.UI.graphics.drawfunctions->dictionary,
-                        "DRAWABLE_SPRITE",
+                        "PROJECTILE_ROTATION",
                         &drawfunctionHandle);
 
     unit->drawable.md.frames[0].draw_function = drawfunctionHandle.u64;
-    unit->drawable.md.frames[0].asset_handle.u64 = 4;
+    unit->drawable.md.frames[0].asset_handle.u64 = 8;
     unit->drawable.md.frames[0].start_time= 0;
     unit->drawable.md.frames[0].framerate = 1;
     unit->drawable.md.frames[0].offset.x = 0;

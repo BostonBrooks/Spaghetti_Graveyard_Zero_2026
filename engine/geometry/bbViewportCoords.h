@@ -20,4 +20,6 @@ bbMapCoords bbScreenCoords_getMapCoords(bbScreenPoints SP, bbViewport* VP);
 
 bbViewportCoords bbScreenPoints_getViewportPoints(bbViewport* viewport,
     bbScreenPoints screen_points);
+
+float bbVelocity_getRotation(bbFloat3D velocity);
 #endif //BBVIEWPORTCOORDS_H

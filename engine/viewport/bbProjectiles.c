@@ -1,25 +1,11 @@
 #include "engine/viewport/bbProjectiles.h"
 
 #include "engine/data/bbHome.h"
+#include "engine/geometry/bbViewportCoords.h"
 
 typedef struct {
     bbTime current_time;
 } projectile_update_cl;
-
-float projectile_height (float start_time,
-                       float end_time,
-                       float start_height,
-                       float end_height,
-                       float gravity,
-                       float current_time) {
-    float dt = end_time - start_time;
-
-    if (dt <= 0.0f) return end_height;
-    float u = (current_time - start_time) / dt;
-    if (u<=0.0f) return start_height;
-    if (u>=1.0f) return end_height;
-    return start_height + (end_height - start_height) * u + gravity * dt * dt * (u*u-u);
-}
 
 
 ///typedef bbFlag bbListFunction(bbList* list, void* node, void* cl);
@@ -36,12 +22,30 @@ bbFlag projectile_update(bbList* list, void* node, void* cl)
     bbMapCoords end_coords = unit->u.projectile.end_coords;
     float gravity = unit->u.projectile.gravity;
 
+    if (current_time < start_time) return bbContinue;
+    if (current_time > end_time) return bbContinue;
 
-    bbMapCoords position
-   = bbMapCoords_interpolate(unit->u.projectile.start_coords, unit->u.projectile.end_coords, start_time,
-       current_time, end_time);
+    bbMapCoords position = bbMapCoords_interpolateGravity(
+        start_coords,
+        end_coords,
+        1000,
+        start_time,
+        current_time,
+        end_time);
 
-    position.k = projectile_height (start_time, end_time,  start_coords.k, end_coords.k, -0.1,current_time);
+    bbFloat3D velocity = bbMapCoords_getVelocity(
+        start_coords,
+        end_coords,
+        1000,
+        start_time,
+        current_time,
+        end_time);
+
+    float rotation = bbVelocity_getRotation(velocity);
+
+    unit->u.projectile.screen_rotation = rotation;
+
+    bbDebug("theta = %f\n", rotation);
 
     bbUnit_setLocation((bbDrawable*)unit, home.viewport_app.units,position);
 
