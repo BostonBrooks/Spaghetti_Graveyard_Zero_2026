@@ -16,7 +16,8 @@ typedef struct {
     bbMapCoords end_coords;
     bbTime start_time;
     bbTime end_time;
-    U64 gravity;
+    float gravity;
+    bbListElement_Handle list;
 }bbProjectile_data;
 
 typedef struct {
@@ -37,10 +38,10 @@ typedef struct {
     bbMapCoords next_goalpoint;
 
     bbUnit_mouse mouse;
-} bbUnint_data;
+} bbUnit_data;
 
 typedef struct {
-    bbUnint_data unit;
+    bbUnit_data unit;
     bbProjectile_data projectile;
 } bbUnit_union;
 

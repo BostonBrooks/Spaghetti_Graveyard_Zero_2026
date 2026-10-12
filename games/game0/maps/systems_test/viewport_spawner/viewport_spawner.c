@@ -786,6 +786,25 @@ bbFlag bbViewportSpawnLizard(bbViewportApp* viewport_app,
     bbSquareCoords SC = bbMapCoords_getSquareCoords(MC);
     bbUnitSquare* unitSquare = bbDrawables_getSquare(units,SC.i, SC.j, units->squares_i, units->squares_j);
 
+
+    bbTest()
+
+bbProjectile_data data;
+    data.start_coords = MC;
+    data.end_coords = MC;
+    data.end_coords.i += POINTS_PER_SQUARE/2;
+    data.start_time = 0;
+    data.end_time = 300;
+    data.gravity = 1;
+
+    bbProjectile_spawnFireball(&home.viewport_app,
+                                data,
+                                no_handle,
+                                no_handle,
+                                1) ;
+
+
+
     bbHandle unit_handle;
     bbFlag flag = bbVPool_alloc2(pool, (void**)&unit,&unit_handle);
     unit->drawable.md.class = bbDrawableClass_unit;

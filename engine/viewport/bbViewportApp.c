@@ -8,7 +8,7 @@ bbFlag bbViewportApp_init(bbViewportApp* app)
     bbDrawables_new((void**)&app->drawables,  12, 12);
     bbMapIcons_new((void**) &app->mapIcons,  12, 12);
     bbUnits_new((void**)&app->units, 12, 12);
-    bbProjectiles_new((void**)&app->projectiles, 12, 12);
+    bbList_init(&app->projectiles,app->units->pool,NULL,offsetof(bbUnit,u.projectile.list),NULL,bbECS_Projectiles);
     bbDrawables_initFunctionTable(&app->table);
     bbDrawables_populateFunctionTable(&app->table);
     bbViewport_init(&app->viewport, 456, 466);

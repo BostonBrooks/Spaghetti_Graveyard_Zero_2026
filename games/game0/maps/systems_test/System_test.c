@@ -42,6 +42,7 @@
 #include "engine/logic/bbString.h"
 #include "moveables/moveables.h"
 #include "engine/render_units/bbRenderUnit_avoidance.h"
+#include "engine/viewport/bbProjectiles.h"
 
 
 pthread_barrier_t barrier1;
@@ -569,6 +570,7 @@ bbHere()
 
         bbMoveables_copyBuffer(&home.ECS.moveables, &moveables_snapshot);
         bbUnits_consumeBuffer(home.viewport_app.units, NULL, &moveables_snapshot);
+        bbProjectiles_update(&home.viewport_app);
         bbRenderUnits_avoidance(home.viewport_app.renderUnits);
         bbUIApp_draw(&home.UI);
 

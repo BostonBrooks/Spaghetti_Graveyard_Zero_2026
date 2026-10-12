@@ -27,8 +27,8 @@ typedef struct {
     bbList list;
 } bbProj_system;
 
-bbFlag bbProjectiles_init(bbProj_system* system, bbECS* ECS);
-bbFlag bbProjectiles_update(bbProj_system* system);
+bbFlag bbECS_Proj_init(bbProj_system* system, bbECS* ECS);
+bbFlag bbECS_Proj_update(bbProj_system* system);
 
 ///uses a bbProjectile on the stack to spawn a projectile comonent
 bbFlag bbCI_spawnProjectile(bbCore* core,
