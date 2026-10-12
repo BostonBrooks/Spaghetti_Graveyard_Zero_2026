@@ -110,3 +110,16 @@ float bbVelocity_getRotation(bbFloat3D velocity) {
 
     return theta;
 }
+
+float bbVelocity_getAngle(bbFloat3D velocity) {
+    float speed = sqrtf(velocity.i * velocity.i + velocity.j * velocity.j+ velocity.k * velocity.k);
+
+    float dot_product = (velocity.i - velocity.j + velocity.k) / (sqrtf(3.0f)*speed);
+
+    if (dot_product > 1.0f) dot_product = 1.0f;
+    if (dot_product < -1.0f) dot_product = -1.0f;
+
+    float angle = asinf(dot_product);
+
+    return angle;
+}
