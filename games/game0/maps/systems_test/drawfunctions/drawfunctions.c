@@ -226,6 +226,12 @@ bbFlag bbDrawfunctions_new(bbDrawfunctions** drawfunctions){
     handle.u64 = 35;
     bbDictionary_add(functions->dictionary, "PROJECTILE_ROTATION", handle);
 
+    functions->functions[36] = bbDF_projectileRotationAngle;
+    handle.u64 = 36;
+    bbDictionary_add(functions->dictionary, "PROJECTILE_ROTATION_ANGLE", handle);
+
+    
+
 
     *drawfunctions = functions;
     return bbSuccess;

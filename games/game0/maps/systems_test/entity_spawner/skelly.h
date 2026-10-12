@@ -510,6 +510,9 @@ bbFlag bbPF_skellyParser(void* Spawner, char* string)
 //PARSER,UNUSED,POSITION I,J,K,GOALPOINT I, J, K, SERVER_HANDLE_INDEX,COLLISION,GOAL_SERVER_HANDLE_INDEX,COLLISION
 bbFlag bbPF_skelly2Parser(void* Spawner, char* string)
 {
+
+    bbDebug("%s\n", string);
+
     bbEntitySpawner* spawner = (bbEntitySpawner*)Spawner;
     char key[KEY_LENGTH];
     char state[KEY_LENGTH];

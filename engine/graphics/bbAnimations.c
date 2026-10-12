@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "engine/data/bbHome.h"
 #include "engine/graphics/bbSprites.h"
 #include "engine/logic/bbPrime.h"
 #include "engine/logic/bbString.h"
@@ -62,6 +63,15 @@ I32 bbAnimations_new(bbAnimations** self, bbSprites* Sprites, bbDrawfunctions* d
 			bbSprites_lookupInt(Sprites, &sprite_int, key );
 			sprite_handle.u64 = sprite_int;
 			animation->Sprites[i] = sprite_handle;
+
+
+
+			bbTest()
+
+			sfSprite* sprite = animation->sprites->sprites[sprite_handle.u64].sprite;
+			sfRenderWindow* window = home.UI.window;
+			sfRenderWindow_drawSprite(window, sprite, NULL);
+
 		}
 		animation->Sprites[angles*frames].u64 = 0;
 		fscanf(file, "%*[^\n]\n");

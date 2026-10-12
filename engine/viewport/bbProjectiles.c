@@ -42,9 +42,9 @@ bbFlag projectile_update(bbList* list, void* node, void* cl)
         end_time);
 
     float rotation = bbVelocity_getRotation(velocity);
-
     unit->u.projectile.screen_rotation = rotation;
-
+    float screen_angle = bbVelocity_getAngle(velocity);
+    unit->u.projectile.screen_angle = screen_angle;
     bbDebug("theta = %f\n", rotation);
 
     bbUnit_setLocation((bbDrawable*)unit, home.viewport_app.units,position);

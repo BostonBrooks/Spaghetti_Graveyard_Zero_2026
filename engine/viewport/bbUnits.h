@@ -18,6 +18,7 @@ typedef struct {
     bbTime end_time;
     float gravity;
     float screen_rotation;
+    float screen_angle;
     bbListElement_Handle list;
 }bbProjectile_data;
 
