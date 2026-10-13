@@ -214,7 +214,7 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
         games/game0/maps/systems_test/render_units/drawable_functions.c
         games/game0/maps/systems_test/render_units/tree_group.c
         games/game0/maps/systems_test/core/action_request.c
-        games/game0/maps/systems_test/viewport_spawner/fireball2.c
+        games/game0/maps/systems_test/viewport_spawner/arrow.c
 
 
         engine/test_string/bbTestString.c
@@ -260,6 +260,7 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
         engine/logic/bbDictionary.c
         engine/logic/bbIterator.c
         engine/logic/bbBubbleSort.c
+        engine/logic/bbDictionary2.c
 
         engine/threadsafe/bbThreadedQueue_search.c
         engine/threadsafe/bbThreadedQueue.c

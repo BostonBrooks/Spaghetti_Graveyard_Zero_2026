@@ -582,7 +582,7 @@ bbFlag bbGroundSurface_setTexture(bbGroundSurface* surface)
             sfRenderTexture* ground_texture = square->Base_Render_Texture;
 
             bbHandle sprite_int;
-            bbDictionary_lookup(home.UI.graphics.sprites->dictionary, "GRASS", &sprite_int);
+            bbFlag flag = bbDictionary2_lookup(home.UI.graphics.sprites->dictionary, "GRASS", &sprite_int,NULL);
 
             sfSprite* sprite = home.UI.graphics.sprites->sprites[sprite_int.u64].sprite;
 

@@ -7,6 +7,7 @@
 #include "engine/logic/bbIntTypes.h"
 #include "engine/data/CSFML.h"
 #include "engine/graphics/bbTextures.h"
+#include "engine/logic/bbDictionary2.h"
 
 typedef struct {
     I32 left;
@@ -27,7 +28,7 @@ typedef struct {
 
 typedef struct { //bbSprites
     I32 num_sprites;
-    bbDictionary* dictionary;
+    bbDictionary2* dictionary;
     bbSprite sprites[];
 
 } bbSprites;

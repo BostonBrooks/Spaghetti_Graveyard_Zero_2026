@@ -201,8 +201,8 @@ bbFlag bbWidget_newLayout(bbWidget** self,
 
     widget->frames[0].draw_function = drawfunctionHandle.u64;
 
-    bbDictionary_lookup(graphics->sprites->dictionary,
-                        "LAYOUT_480", &widget->frames[0].asset_handle);
+    bbFlag flag = bbDictionary2_lookup(graphics->sprites->dictionary,
+                        "LAYOUT_480", &widget->frames[0].asset_handle,NULL);
 
     //bbDebug("LAYOUT_480 = %d\n", widget->frames[0].handle.u64);
     widget->frames[0].offset.x = 0;
@@ -248,8 +248,8 @@ bbFlag bbWidget_newLayoutPong(bbWidget** self,
 
     widget->frames[0].draw_function = drawfunctionHandle.u64;
 
-    bbDictionary_lookup(graphics->sprites->dictionary,
-                        "PONGLAYOUT", &widget->frames[0].asset_handle);
+    bbFlag flag = bbDictionary2_lookup(graphics->sprites->dictionary,
+                        "PONGLAYOUT", &widget->frames[0].asset_handle,NULL);
 
     //bbDebug("LAYOUT_480 = %d\n", widget->frames[0].handle.u64);
     widget->frames[0].offset.x = 0;

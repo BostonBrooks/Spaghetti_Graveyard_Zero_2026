@@ -213,6 +213,7 @@ bbFlag bbSF_addGraphics_cow(void* spawner,
     data.last_wander_time = 0;
     data.random_seed = bbRand();
     data.drawable_state = bbDrawableState_idle;
+    data.drawable_type = bbGraphicsType_unit;
     data.random_seed = bbArith64_hashIndex(deterministic_seed,args->random_seed);
     bbCS_spawnGraphicsComponent(&home.core.core,
                                               NULL,
@@ -244,6 +245,7 @@ bbFlag bbSF_addGraphics_fox(void* spawner,
     data.last_state_change = 0;
     data.last_wander_time = 0;
     data.drawable_state = bbDrawableState_moving;
+    data.drawable_type = bbGraphicsType_unit;
     data.random_seed = bbArith64_hashIndex(deterministic_seed,args->random_seed);
 
     // bbCS_spawnGraphicsComponent(&home.core.core,
@@ -281,6 +283,7 @@ bbFlag bbSF_addGraphics_hoplite(void* spawner,
     data.last_state_change = 0;
     data.last_wander_time = 0;
     data.drawable_state = bbDrawableState_moving;
+    data.drawable_type = bbGraphicsType_unit;
     data.random_seed = bbArith64_hashIndex(deterministic_seed,args->random_seed);
 
     // bbCS_spawnGraphicsComponent(&home.core.core,
@@ -318,6 +321,7 @@ bbFlag bbSF_addGraphics_archers(void* spawner,
     data.last_state_change = 0;
     data.last_wander_time = 0;
     data.drawable_state = bbDrawableState_moving;
+    data.drawable_type = bbGraphicsType_unit;
     data.random_seed = bbArith64_hashIndex(deterministic_seed,args->random_seed);
 
     // bbCS_spawnGraphicsComponent(&home.core.core,
@@ -357,6 +361,7 @@ bbFlag bbSF_addGraphics_devil(void* spawner,
     data.last_wander_time = 0;
     data.random_seed = bbRand();
     data.drawable_state = bbDrawableState_idle;
+    data.drawable_type = bbGraphicsType_unit;
     data.random_seed = bbArith64_hashIndex(deterministic_seed,args->random_seed);
 
     bbCS_spawnGraphicsComponent(&home.core.core,
@@ -391,6 +396,7 @@ bbFlag bbSF_addGraphics_lizard(void* spawner,
     data.last_wander_time = 0;
     data.random_seed = bbRand();
     data.drawable_state = bbDrawableState_idle;
+    data.drawable_type = bbGraphicsType_unit;
     data.random_seed = bbArith64_hashIndex(deterministic_seed,args->random_seed);
 
     bbCS_spawnGraphicsComponent(&home.core.core,
@@ -453,6 +459,7 @@ bbFlag bbSF_addGraphics_skelly2(void* spawner,
     data.last_wander_time = 0;
     data.random_seed = bbRand();
     data.drawable_state = bbDrawableState_idle;
+    data.drawable_type = bbGraphicsType_unit;
     data.random_seed = bbArith64_hashIndex(deterministic_seed,args->random_seed);
 
     bbCS_spawnGraphicsComponent(&home.core.core,
@@ -465,6 +472,39 @@ bbFlag bbSF_addGraphics_skelly2(void* spawner,
     return bbSuccess;
 }
 
+bbFlag bbSF_addGraphics_arrow(void* spawner,
+                               bbECS_entity* entity,
+                               bbSpawnFunctionArgs* args,
+                               bbInstruction_source source)
+{
+
+    bbAssert(source == bbInstructionSource_norewind || source == bbInstructionSource_internal, "not implemented");
+
+    bbHandle handle;
+    bbVPool_reverseLookup(home.ECS.ECS->system.pool, entity, &handle);
+
+
+    U64 deterministic_seed = bbArith64_hash(1234567);
+
+    bbGraphicsComponent_data data;
+    data.entity_handle = handle;
+    data.MC = args->position,
+    data.last_state_change = 0;
+    data.last_wander_time = 0;
+    data.random_seed = bbRand();
+    data.drawable_state = bbDrawableState_idle;
+    data.drawable_type = bbGraphicsType_projectile;
+    data.random_seed = bbArith64_hashIndex(deterministic_seed,args->random_seed);
+
+    bbCS_spawnGraphicsComponent(&home.core.core,
+                                              NULL,
+                                              "SKELLY",
+                                              &data,
+                                              bbInstructionSource_norewind,
+                                              no_handle);
+
+    return bbSuccess;
+}
 
 //scans a line from spawner.csv that looks like
 //PARSER,UNUSED,POSITION I,J,K,GOALPOINT I, J, K, SERVER_HANDLE_INDEX,COLLISION

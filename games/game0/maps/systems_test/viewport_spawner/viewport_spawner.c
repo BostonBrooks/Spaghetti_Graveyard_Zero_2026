@@ -1,7 +1,7 @@
 #include "engine/viewport/bbDrawables.h"
 #include "engine/viewport/bbViewportApp.h"
 #include "engine/data/bbHome.h"
-#include  "games/game0/maps/systems_test/viewport_spawner/fireball2.h"
+#include  "games/game0/maps/systems_test/viewport_spawner/arrow.h"
 
 I32 viewport_spawn_function_count = 12;
 
@@ -786,23 +786,6 @@ bbFlag bbViewportSpawnLizard(bbViewportApp* viewport_app,
     bbSquareCoords SC = bbMapCoords_getSquareCoords(MC);
     bbUnitSquare* unitSquare = bbDrawables_getSquare(units,SC.i, SC.j, units->squares_i, units->squares_j);
 
-
-    bbTest()
-
-bbProjectile_data data;
-    data.start_coords = MC;
-    data.end_coords = MC;
-    data.end_coords.i += POINTS_PER_SQUARE/2;
-    data.end_coords.j += POINTS_PER_SQUARE/2;
-    data.start_time = 0;
-    data.end_time = 300;
-    data.gravity = 2;
-
-    bbProjectile_spawnFireball(&home.viewport_app,
-                                data,
-                                no_handle,
-                                no_handle,
-                                1) ;
 
 
 

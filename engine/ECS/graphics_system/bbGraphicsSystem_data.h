@@ -7,7 +7,14 @@ typedef struct {
     bbTime last_state_change;
     bbTime last_wander_time;
     U64 random_seed;
-    I32 drawable_state;
+    U16 drawable_type;
+    U16 drawable_state;
+
+    //TODO put these into a union
+    bbMapCoords start_point;
+    bbMapCoords end_point;
+    bbTime start_time;
+    bbTime end_time;
 } bbGraphicsComponent_data;
 
 #endif

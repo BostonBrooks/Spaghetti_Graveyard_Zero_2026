@@ -63,7 +63,7 @@ bbFlag bbNetworkPacket_fromMessageHandle (sfPacket* packet, bbHandle message_han
 }
 //bbFlag bbNetworkApp_sendMessage(struct bbNetwork* network, bbHandle message_handle, U64 time, U32 collision);
 ///take a message from home.textbox->system->pool, put it onto home.textbox->system->threaded_pool and send
-bbFlag bbNetworkApp_sendMessage(void* network, bbHandle message_handle, U64 time, U32 collision) {
+bbFlag bbNetworkApp_sendMessage(void* network, bbHandle message_handle, bbTime time, U32 collision) {
 
     bbNetwork* Network = network;
 

@@ -32,6 +32,7 @@ bbFlag bbSF_addGraphics_zombie(void* spawner,
     data.last_wander_time = 0;
     data.random_seed = bbRand();
     data.drawable_state = bbDrawableState_idle;
+    data.drawable_type = bbGraphicsType_unit;
     data.random_seed = bbArith64_hashIndex(deterministic_seed,args->random_seed);
 
     bbCS_spawnGraphicsComponent(&home.core.core,

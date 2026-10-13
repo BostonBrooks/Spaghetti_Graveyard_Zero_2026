@@ -22,7 +22,8 @@ typedef enum
     bbUI_Inbox_newUnit,
     bbUI_Inbox_setUnitHP,
     bbUI_Inbox_newTree,
-    bbUI_Inbox_newDrawable
+    bbUI_Inbox_newDrawable,
+    bbUI_Inbox_newArrow,
 } bbUI_Inbox_type;
 
 typedef struct
@@ -82,6 +83,7 @@ bbFlag bbUI_Inbox_setUnitState_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message
 bbFlag bbUI_Inbox_newBanana_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message);
 bbFlag bbUI_Inbox_deleteUnit_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message);
 
+bbFlag bbUI_Inbox_NewArrow(bbUI_Inbox* inbox, bbGraphicsComponent_data* data);
 bbFlag bbUI_Inbox_setUnitHP_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message);
 
 

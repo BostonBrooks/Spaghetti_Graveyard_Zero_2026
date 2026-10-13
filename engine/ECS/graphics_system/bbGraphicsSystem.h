@@ -9,6 +9,11 @@ typedef struct bbGraphicsSystem bbGraphicsSystem;
 
 typedef struct bbUI_Inbox bbUI_Inbox;
 
+typedef enum {
+    bbGraphicsType_unit,
+    bbGraphicsType_projectile,
+} bbGraphicsType;
+
 typedef enum
 {
     bbGraphicsState_idle = 0,

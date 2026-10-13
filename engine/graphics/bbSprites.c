@@ -55,7 +55,7 @@ bbFlag bbSprite_new(bbSprites* sprites, char* key, I32 address, sfTexture* textu
     bbHandle handle;
     handle.u64 = address;
 
-    bbDictionary_add(sprites->dictionary, key, handle);
+    bbDictionary2_add(sprites->dictionary, key, handle,NULL);
 
     return bbSuccess;
 }
@@ -77,7 +77,7 @@ bbFlag bbSprites_new(bbSprites** self, bbTextures* textures, char* file_path,
 
 
     sprites->num_sprites = num;
-    bbDictionary_new(&sprites->dictionary, nextPrime(num));
+    bbDictionary2_new(&sprites->dictionary, nextPrime(num), 4);
 
 
 
@@ -137,7 +137,7 @@ bbFlag bbSprites_lookup (sfSprite** self, bbSprites * sprites, char* key){
 
     } else {
         bbHandle handle;
-        bbDictionary_lookup(sprites->dictionary, key, &handle);
+        bbFlag flag = bbDictionary2_lookup(sprites->dictionary, key, &handle,NULL);
         address = handle.u64;
     }
     bbAssert(address < sprites->num_sprites, "address out of bounds\n");
@@ -153,12 +153,13 @@ bbFlag bbSprites_lookupInt(bbSprites* sprites, I32* address, char* key){
     char digits[] = "0123456789";
     I32 int_len = strspn(key, digits);
     I32 address1;
+    bbFlag flag;
     if(len == int_len){
         address1 = atoi(key);
 
     } else {
         bbHandle handle;
-        bbDictionary_lookup(sprites->dictionary, key, &handle);
+        flag = bbDictionary2_lookup(sprites->dictionary, key, &handle,NULL);
         address1 = handle.u64;
     }
     bbAssert(address1 < sprites->num_sprites,

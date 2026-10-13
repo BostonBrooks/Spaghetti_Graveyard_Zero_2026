@@ -5,6 +5,7 @@
 #include "engine/logic/bbString.h"
 #include "engine/logic/bbTerminal.h"
 #include "render_units/tree_group.h"
+#include "viewport_spawner/arrow.h"
 
 #define UI_INBOX_SIZE 4097
 
@@ -25,6 +26,8 @@ bbFlag bbUI_Inbox_init(bbUI_Inbox* inbox)
 }
 bbFlag bbUI_Inbox_setWidgetPosition_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message);
 bbFlag bbUI_Inbox_setEntityState_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message);
+bbFlag bbUI_Inbox_newArrow_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message);
+
 bbFlag bbUI_Inbox_check(bbUI_Inbox* inbox)
 {
     bbUI_Inbox_message* message;
@@ -90,10 +93,13 @@ bbFlag bbUI_Inbox_check(bbUI_Inbox* inbox)
 
         case bbUI_Inbox_newBanana:
             bbUI_Inbox_newBanana_fn(inbox, message);
-            break;
-        case bbUI_Inbox_newDrawable:
-            bbUI_Inbox_newDrawable_fn(inbox, message);
-            break;
+                break;
+            case bbUI_Inbox_newDrawable:
+                bbUI_Inbox_newDrawable_fn(inbox, message);
+                break;
+            case bbUI_Inbox_newArrow:
+                bbUI_Inbox_newArrow_fn(inbox, message);
+                break;
         default:
 
             bbDebug("Unknown UI local message type\nmessage->type = %d\n", message->type);
@@ -766,4 +772,37 @@ bbFlag bbUI_Inbox_newDrawable_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
 
 
 
+}
+
+
+
+bbFlag bbUI_Inbox_NewArrow(bbUI_Inbox* inbox, bbGraphicsComponent_data* data)
+{
+
+    bbDebug("attempting to set state: %d\n", data->drawable_state);
+
+    bbUI_Inbox_message* message;
+    bbThreadedQueue_alloc(&inbox->local_message_queue,(void**)&message);
+    message->type = bbUI_Inbox_newArrow;
+    message->data.graphics = *data;
+
+    bbThreadedQueue_pushL(&inbox->local_message_queue, (void*)message);
+    return bbSuccess;
+}
+bbFlag bbUI_Inbox_newArrow_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
+{
+    bbProjectile_data projectile_data;
+    projectile_data.start_coords = message->data.graphics.start_point;
+    projectile_data.end_coords = message->data.graphics.end_point;
+    projectile_data.start_time = message->data.graphics.start_time;
+    projectile_data.end_time = message->data.graphics.end_time;
+    projectile_data.gravity = 2;
+
+    bbProjectile_spawnArrow(&home.viewport_app,
+                                    projectile_data,
+                                    message->data.graphics.entity_handle,
+                                    no_handle,
+                                    1234567) ;
+
+    return bbSuccess;
 }

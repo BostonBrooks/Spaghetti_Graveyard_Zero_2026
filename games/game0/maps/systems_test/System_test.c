@@ -343,6 +343,28 @@ int main(void) {
 
         if (home.core.clock2_handle.clock_paused == false)
         {
+            static I32 every = 0;
+            every++;
+            if (every == 2) {
+                every = 0;
+
+                U64 rand = bbRand();
+                U64 rand2 = bbRand();
+
+                bbGraphicsComponent_data data;
+                data.start_point.i = 18000;
+                data.start_point.j = 3400;
+                data.start_point.k = 0;
+                data.end_point.i = 18000 + rand % POINTS_PER_SQUARE - POINTS_PER_SQUARE / 2;
+                data.end_point.j = 3400 + rand2 % POINTS_PER_SQUARE - POINTS_PER_SQUARE / 2;
+                data.end_point.k = 0;
+                data.start_time = home.core.core.simulation_time;
+                data.end_time = home.core.core.simulation_time + 300;
+
+                bbUI_Inbox_NewArrow(&home.UI.inbox, &data);
+
+            }
+
 
             // bbHandle message_handle2;
             // char* message;

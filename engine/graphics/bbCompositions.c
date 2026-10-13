@@ -70,7 +70,7 @@ I32 bbCompositions_new(bbCompositions** self,
 
 			if (strcmp(type, "SPRITE") == 0) {
 				//look up asset in sprites
-				bbDictionary_lookup(sprites->dictionary, asset, &handle);
+				bbFlag flag = bbDictionary2_lookup(sprites->dictionary, asset, &handle,NULL);
 				bbSprites_lookupInt(sprites, &sprite_int,  asset);
 				composition->frame[j].asset_handle.u64 = sprite_int;
 				composition->frame[j].type = Sprite;
