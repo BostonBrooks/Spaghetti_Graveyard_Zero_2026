@@ -136,10 +136,10 @@ bbFlag bbDictionary2_lookup(bbDictionary2* dict, char* key, bbHandle* value, bbH
     U32 bin_number = hash % dict->num_bins;
     U32 old_bin_size = dict->bins[bin_number].size;
     bbDictionary2_bin* bin = &dict->bins[bin_number];
-    bbDebug("key = %s\n", key);
+    //bbDebug("key = %s\n", key);
 
     for (U32 i=0; i<old_bin_size; i++) {
-        bbDebug("key = %s\n", bin->entries[i].key);
+        //bbDebug("key = %s\n", bin->entries[i].key);
         if (bin->entries[i].hash == hash && 0 == strcmp(bin->entries[i].key, key)) {
 
                 *value = bin->entries[i].value;

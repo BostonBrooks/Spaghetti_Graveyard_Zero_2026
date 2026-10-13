@@ -489,16 +489,16 @@ bbFlag bbSF_addGraphics_arrow(void* spawner,
     bbGraphicsComponent_data data;
     data.entity_handle = handle;
     data.MC = args->position,
-    data.last_state_change = 0;
-    data.last_wander_time = 0;
-    data.random_seed = bbRand();
-    data.drawable_state = bbDrawableState_idle;
+    data.start_point = args->position;
+    data.end_point = args->goalpoint;
+    data.start_time = home.core.core.simulation_time;
+    data.end_time = home.core.core.simulation_time + 300;
     data.drawable_type = bbGraphicsType_projectile;
     data.random_seed = bbArith64_hashIndex(deterministic_seed,args->random_seed);
 
     bbCS_spawnGraphicsComponent(&home.core.core,
                                               NULL,
-                                              "SKELLY",
+                                              "ARROW",
                                               &data,
                                               bbInstructionSource_norewind,
                                               no_handle);

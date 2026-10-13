@@ -420,6 +420,7 @@ bbFlag bbEntitySpawner_populate(bbEntitySpawner* spawner)
     bbSpawnFunction_add(spawner, bbSF_addGraphics_devil, "DEVIL_GRAPHICS");
     bbSpawnFunction_add(spawner, bbSF_addGraphics_lizard, "LIZARD_GRAPHICS");
     bbSpawnFunction_add(spawner, bbSF_addGraphics_fireball, "FIREBALL_GRAPHICS");
+    bbSpawnFunction_add(spawner, bbSF_addGraphics_arrow, "ARROW_GRAPHICS");
     bbSpawnFunction_add(spawner, bbSF_addAI_skelly, "SKELLY_AI");
     bbSpawnFunction_add(spawner, bbSF_addAI_chase, "CHASE_AI");
     bbSpawnFunction_add(spawner, bbSF_addAI_player, "PLAYER_AI");

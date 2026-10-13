@@ -779,7 +779,6 @@ bbFlag bbUI_Inbox_newDrawable_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
 bbFlag bbUI_Inbox_NewArrow(bbUI_Inbox* inbox, bbGraphicsComponent_data* data)
 {
 
-    bbDebug("attempting to set state: %d\n", data->drawable_state);
 
     bbUI_Inbox_message* message;
     bbThreadedQueue_alloc(&inbox->local_message_queue,(void**)&message);
@@ -797,6 +796,9 @@ bbFlag bbUI_Inbox_newArrow_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
     projectile_data.start_time = message->data.graphics.start_time;
     projectile_data.end_time = message->data.graphics.end_time;
     projectile_data.gravity = 2;
+
+    bbDebug("arrow entity = %d\n", message->data.graphics.entity_handle);
+
 
     bbProjectile_spawnArrow(&home.viewport_app,
                                     projectile_data,

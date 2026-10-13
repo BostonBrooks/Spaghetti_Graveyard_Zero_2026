@@ -340,6 +340,22 @@ bbFlag bbGraphics_spawnSkelly(bbGraphicsSystem* system,
 }
 
 
+bbFlag bbGraphics_spawnArrow(bbGraphicsSystem* system,
+                                   bbGraphicsComponent_data data) {
+
+//TODO spawn different types of arrow
+
+    bbHandle random_seed;
+    random_seed.u64 = data.random_seed;
+
+
+    bbUI_Inbox_NewArrow(&home.UI.inbox, &data);
+
+    return bbSuccess;
+}
+
+
+
 bbFlag bbGraphicsSystem_populate(bbGraphicsSystem* graphics_system) {
     bbGraphics_spawnFunction_add(graphics_system, bbGraphics_spawnNull, "NULL");
     bbGraphics_spawnFunction_add(graphics_system, bbGraphics_spawnDevil, "DEVIL");
@@ -350,5 +366,6 @@ bbFlag bbGraphicsSystem_populate(bbGraphicsSystem* graphics_system) {
     bbGraphics_spawnFunction_add(graphics_system, bbGraphics_spawnLizard, "LIZARD");
     bbGraphics_spawnFunction_add(graphics_system, bbGraphics_spawnCow, "COW");
     bbGraphics_spawnFunction_add(graphics_system, bbGraphics_spawnSkelly, "SKELLY");
+    bbGraphics_spawnFunction_add(graphics_system, bbGraphics_spawnArrow, "ARROW");
     return bbSuccess;
 }
