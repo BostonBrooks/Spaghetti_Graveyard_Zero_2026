@@ -96,6 +96,9 @@ typedef struct
     bbDictionary* live_spawn_dict;
 
     bbDictionary* states;
+
+    bbECS_entity* current_entity;
+    bbHandle entity_handle;
 } bbEntitySpawner;
 
 extern I32 parse_function_count;

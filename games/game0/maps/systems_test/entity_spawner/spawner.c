@@ -3,6 +3,7 @@
 #include "../../../../../engine/ECS/entity_spawner/bbEntitySpawner.h"
 #include "engine/ECS/hitpoints/bbHitPoints.h"
 #include "engine/groundsurface/bbGroundSurface.h"
+#include "games/game0/maps/systems_test/entity_spawner/multiline.h"
 #include "games/game0/maps/systems_test/entity_spawner/skelly.h"
 #include "games/game0/maps/systems_test/entity_spawner/zombie.h"
 #include "games/game0/maps/systems_test/entity_spawner/live_spawn.h"
@@ -172,8 +173,7 @@ bbFlag bbSF_addServerEntity(void* spawner,
     bbAssert(source == bbInstructionSource_norewind || source == bbInstructionSource_internal, "not implemented");
 
 
-    bbHandle handle;
-    bbVPool_reverseLookup(home.ECS.ECS->system.pool, entity, &handle);
+    bbHandle handle = entity->component.entity_handle;
 
     bbAI_Component* this;
 
@@ -402,6 +402,14 @@ bbFlag bbEntitySpawner_populate(bbEntitySpawner* spawner)
     bbParseFunction_add(spawner, bbPF_skelly2Parser, "SKELLY2");
     bbParseFunction_add(spawner, bbPF_setGoalEntity, "SET_GOAL");
     bbParseFunction_add(spawner, bbPF_randomSeed, "RANDOM_SEED");
+    bbParseFunction_add(spawner, bbPF_NewEntity, "NEW_ENTITY");
+    bbParseFunction_add(spawner, bbPF_AddServerHandle, "ADD_SERVER_HANDLE");
+    bbParseFunction_add(spawner, bbPF_AddMovement, "ADD_MOVEMENT");
+    bbParseFunction_add(spawner, bbPF_AddGraphics, "ADD_GRAPHICS");
+    bbParseFunction_add(spawner, bbPF_AddAI, "ADD_AI");
+    bbParseFunction_add(spawner, bbPF_AddTeam, "ADD_TEAM");
+    bbParseFunction_add(spawner, bbPF_AddHitpoints, "ADD_HITPOINTS");
+    bbParseFunction_add(spawner, bbPF_SetPlayer, "SET_PLAYER");
 
 
 

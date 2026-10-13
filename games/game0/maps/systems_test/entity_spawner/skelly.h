@@ -7,8 +7,9 @@
 #include "engine/ECS/server_entities/bbServerEntities.h"
 #include "engine/logic/bbFlag.h"
 #include "moveables/moveables.h"
+#include "engine/data/bbHome.h"
 
-///Core synchronous spawn empty entity
+///Core synchronous spawn empty entity, should not be in this file!
 bbFlag bbCS_spawnEmptyEntity(bbECS_entity** entity, char* key, bbInstruction_source source);
 bbFlag bbSF_addServerEntity_skelly(void* spawner,
                                bbECS_entity* entity,
