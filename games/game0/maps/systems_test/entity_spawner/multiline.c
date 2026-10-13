@@ -4,15 +4,16 @@
 
 #include "engine/data/bbConstants.h"
 #include "engine/data/bbHome.h"
+#include "engine/ECS/moveables/bbMoveables_setState.h"
 #include "engine/logic/bbFlag.h"
+#include "moveables/moveables.h"
 
-bbFlag bbPF_NewEntity(void* Spawner, char* line) {
-
-    bbEntitySpawner* spawner = (bbEntitySpawner*)Spawner;
+bbFlag bbPF_NewEntity(void *Spawner, char *line) {
+    bbEntitySpawner *spawner = (bbEntitySpawner *) Spawner;
     char key[KEY_LENGTH];
     char name[KEY_LENGTH];
     sscanf(line, "%32[^','],%32[^,\t\n]", key, name);
-    bbECS_entity* entity;
+    bbECS_entity *entity;
     bbCoreSynchronous_spawnEmptyEntity(&home.core.core,
                                        home.ECS.ECS,
                                        &entity,
@@ -28,9 +29,10 @@ bbFlag bbPF_NewEntity(void* Spawner, char* line) {
 
     return bbSuccess;
 }
-bbFlag bbPF_AddServerHandle(void* Spawner, char* line) {
-    bbEntitySpawner* spawner = (bbEntitySpawner*)Spawner;
-    bbECS_entity* entity = spawner->current_entity;
+
+bbFlag bbPF_AddServerHandle(void *Spawner, char *line) {
+    bbEntitySpawner *spawner = (bbEntitySpawner *) Spawner;
+    bbECS_entity *entity = spawner->current_entity;
     bbHandle entity_handle = entity->component.entity_handle;
 
     char key[KEY_LENGTH];
@@ -43,19 +45,84 @@ bbFlag bbPF_AddServerHandle(void* Spawner, char* line) {
     server_handle.bloated.collision = 1;
 
     bbCoreSynchronous_setServerEntity(&home.core.core,
-                                   entity_handle,
-                                   server_handle,
-                                  bbInstructionSource_norewind,
-                                  no_handle);
+                                      entity_handle,
+                                      server_handle,
+                                      bbInstructionSource_norewind,
+                                      no_handle);
+}
+
+bbFlag bbPF_AddMovement(void *Spawner, char *line) {
+    bbEntitySpawner *spawner = (bbEntitySpawner *) Spawner;
+    bbECS_entity *entity = spawner->current_entity;
+    bbHandle entity_handle = entity->component.entity_handle;
+
+    char key[KEY_LENGTH];
+    char state_str[KEY_LENGTH];
+    sscanf(line, "%32[^','],%32[^,\t\n]", key, state_str);
+
+    bbHandle state;
+    bbDictionary_lookup(spawner->states, state_str, &state);
 
 
+    switch (state.u64) {
+        case bbMoveableType_Following:
+
+            break;
+
+        case bbMoveableType_Moving: {
+            bbMapCoords position, goal;
+            I32 speed, radius, mass;
+            bbHandle moveable_handle;
+
+            sscanf(line, "%32[^','],%32[^','], %d, %d, %d, %d, %d, %d, %d, %d, %d",
+                   key, state_str, &position.i, &position.j, &position.k, &goal.i, &goal.j, &goal.k, &speed, &radius,
+                   &mass);
+
+            bbCoreSynchronous_spawnTestMoveable(&home.core.core,
+                                                entity_handle,
+                                                &moveable_handle,
+                                                position,
+                                                speed,
+                                                radius,
+                                                mass,
+                                                bbInstructionSource_norewind,
+                                                no_handle);
+
+            bbMoveable_setGoalPoint(&home.ECS.moveables, moveable_handle, goal);
+        }
+        break;
+
+
+        case bbMoveableType_Idle: {
+            bbMapCoords position;
+            I32 speed, radius, mass;
+            bbHandle moveable_handle;
+
+            sscanf(line, "%32[^','],%32[^','], %d, %d, %d, %d, %d, %d",
+                   key, state_str, &position.i, &position.j, &position.k, &speed, &radius, &mass);
+
+            bbCoreSynchronous_spawnTestMoveable(&home.core.core,
+                                                entity_handle,
+                                                &moveable_handle,
+                                                position,
+                                                speed,
+                                                radius,
+                                                mass,
+                                                bbInstructionSource_norewind,
+                                                no_handle);
+            bbCI_Moveable_setIdle(&home.core.core, moveable_handle, bbInstructionSource_norewind, no_handle);
+        }
+        break;
+    }
 }
-bbFlag bbPF_AddMovement(void* spawner, char* line) {
-    bbNotImplemented()
-}
-bbFlag bbPF_AddGraphics(void* Spawner, char* line) {
-    bbEntitySpawner* spawner = (bbEntitySpawner*)Spawner;
-    bbECS_entity* entity = spawner->current_entity;
+
+
+///This should create a graphics system component but not a graphics object;
+///what is theres no graphics context for this map?
+///only the graphics system works directly with
+bbFlag bbPF_AddGraphics(void *Spawner, char *line) {
+    bbEntitySpawner *spawner = (bbEntitySpawner *) Spawner;
+    bbECS_entity *entity = spawner->current_entity;
     bbHandle entity_handle = entity->component.entity_handle;
 
     char key[KEY_LENGTH];
@@ -64,7 +131,7 @@ bbFlag bbPF_AddGraphics(void* Spawner, char* line) {
     bbMapCoords map_coords;
 
     sscanf(line, "%32[^','],%32[^','],%d,%d,%d",
-        key, type, &map_coords.i, &map_coords.j, &map_coords.k);
+           key, type, &map_coords.i, &map_coords.j, &map_coords.k);
 
 
     U64 deterministic_seed = bbArith64_hash(1234567);
@@ -78,23 +145,27 @@ bbFlag bbPF_AddGraphics(void* Spawner, char* line) {
     data.drawable_state = bbDrawableState_idle;
     data.drawable_type = bbGraphicsType_unit;
     bbCS_spawnGraphicsComponent(&home.core.core,
-                                              NULL,
-                                              "COW",
-                                              &data,
-                                              bbInstructionSource_norewind,
-                                              no_handle);
+                                NULL,
+                                "COW",
+                                &data,
+                                bbInstructionSource_norewind,
+                                no_handle);
 
     return bbSuccess;
 }
-bbFlag bbPF_AddAI(void* spawner, char* line) {
+
+bbFlag bbPF_AddAI(void *spawner, char *line) {
     bbNotImplemented()
 }
-bbFlag bbPF_AddTeam(void* spawner, char* line) {
+
+bbFlag bbPF_AddTeam(void *spawner, char *line) {
     bbNotImplemented()
 }
-bbFlag bbPF_AddHitpoints(void* spawner, char* line) {
+
+bbFlag bbPF_AddHitpoints(void *spawner, char *line) {
     bbNotImplemented()
 }
-bbFlag bbPF_SetPlayer(void* spawner, char* line) {
+
+bbFlag bbPF_SetPlayer(void *spawner, char *line) {
     bbNotImplemented()
 }
