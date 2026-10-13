@@ -42,14 +42,9 @@ bbFlag projectile_update(bbList* list, void* node, void* cl)
         end_time);
 
     float rotation = bbVelocity_getRotation(velocity);
-/*
-     if (rotation > M_PI_2 && rotation < 3.0f*M_PI_2) {
-         rotation += M_PI;
-     }
-    if (rotation < -M_PI_2 && rotation > -3.0f*M_PI_2) {
-        rotation += M_PI;
-    }
-*/
+
+
+
     unit->u.projectile.screen_rotation = rotation;
     float screen_angle = bbVelocity_getAngle(velocity);
     unit->u.projectile.screen_angle = screen_angle;
