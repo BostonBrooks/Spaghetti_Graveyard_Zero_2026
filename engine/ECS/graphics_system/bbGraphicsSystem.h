@@ -1,6 +1,8 @@
 #ifndef BB_GRAPHICS_SYSTEM_H
 #define BB_GRAPHICS_SYSTEM_H
 
+///NOTE: only the graphics system should communicate directly with the graphics thread
+///The map should be able to run even when theres no graphics context.
 
 #include "engine/ECS/bbECS.h"
 #include "engine/logic/bbDictionary.h"
