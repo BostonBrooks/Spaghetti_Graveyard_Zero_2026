@@ -158,11 +158,12 @@ bbFlag bbPF_AddGraphics(void *Spawner, char *line) {
 
     char key[KEY_LENGTH];
     char type[KEY_LENGTH];
+    I32 state;
 
     bbMapCoords map_coords;
 
-    sscanf(line, "%32[^','],%32[^','],%d,%d,%d",
-           key, type, &map_coords.i, &map_coords.j, &map_coords.k);
+    sscanf(line, "%32[^','],%32[^','],%d,%d,%d,%d",
+           key, type,&state, &map_coords.i, &map_coords.j, &map_coords.k);
 
 
     U64 deterministic_seed = bbArith64_hash(1234567);
@@ -173,11 +174,11 @@ bbFlag bbPF_AddGraphics(void *Spawner, char *line) {
     data.last_state_change = 0;
     data.last_wander_time = 0;
     data.random_seed = bbRand();
-    data.drawable_state = bbDrawableState_idle;
+    data.drawable_state = state;
     data.drawable_type = bbGraphicsType_unit;
     bbCS_spawnGraphicsComponent(&home.core.core,
                                 NULL,
-                                "COW",
+                                type,
                                 &data,
                                 bbInstructionSource_norewind,
                                 no_handle);
@@ -199,4 +200,52 @@ bbFlag bbPF_AddHitpoints(void *spawner, char *line) {
 
 bbFlag bbPF_SetPlayer(void *spawner, char *line) {
     bbNotImplemented()
+}
+
+
+bbFlag bbPF_AddProjectile(void* Spawner, char* line)  {
+    bbEntitySpawner *spawner = (bbEntitySpawner *) Spawner;
+    bbECS_entity *entity = spawner->current_entity;
+    bbHandle entity_handle = entity->component.entity_handle;
+
+    char key[KEY_LENGTH];
+    char type[KEY_LENGTH];
+    I32 state;
+
+    bbMapCoords start_point;
+    bbMapCoords end_point;
+
+    sscanf(line, "%32[^','],%32[^','],%d,%d,%d,%d,%d,%d",
+           key, type, &start_point.i, &start_point.j, &start_point.k,&end_point.i, &end_point.j, &end_point.k);
+
+    I64 delta_i = end_point.i - start_point.i;
+    I64 delta_j = end_point.j - start_point.j;
+    I64 delta_k = end_point.k - start_point.k;
+    I64 distance = bbArith64_sqrt2(delta_i*delta_i+delta_j*delta_j+delta_k*delta_k);
+    I64 start_time = 0;
+    I64 end_time = 300 * distance / POINTS_PER_SQUARE;
+
+
+    // bbGraphicsComponent_data data;
+
+    //
+    // bbUI_Inbox_NewArrow(&home.UI.inbox, &data);
+
+    U64 deterministic_seed = bbArith64_hash(1234567);
+
+    bbGraphicsComponent_data data;
+    data.start_point = start_point;
+    data.end_point = end_point;
+    data.start_time = start_time;
+    data.end_time = end_time;
+    data.drawable_type = bbGraphicsType_projectile;
+    data.entity_handle = entity_handle;
+    bbCS_spawnGraphicsComponent(&home.core.core,
+                                NULL,
+                                type,
+                                &data,
+                                bbInstructionSource_norewind,
+                                no_handle);
+
+    return bbSuccess;
 }

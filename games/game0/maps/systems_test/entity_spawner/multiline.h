@@ -11,6 +11,7 @@ bbFlag bbPF_NewEntity(void* spawner, char* line);
 bbFlag bbPF_AddServerHandle(void* spawner, char* line);
 bbFlag bbPF_AddMovement(void* spawner, char* line);
 bbFlag bbPF_AddGraphics(void* spawner, char* line);
+bbFlag bbPF_AddProjectile(void* spawner, char* line);
 bbFlag bbPF_AddAI(void* spawner, char* line);
 bbFlag bbPF_AddTeam(void* spawner, char* line);
 bbFlag bbPF_AddHitpoints(void* spawner, char* line);
