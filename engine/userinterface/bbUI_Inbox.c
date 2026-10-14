@@ -795,7 +795,7 @@ bbFlag bbUI_Inbox_newArrow_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
     projectile_data.end_coords = message->data.graphics.end_point;
     projectile_data.start_time = message->data.graphics.start_time;
     projectile_data.end_time = message->data.graphics.end_time;
-    projectile_data.gravity = 2;
+    projectile_data.gravity = 1000;
 
     bbDebug("arrow entity = %d\n", message->data.graphics.entity_handle);
 

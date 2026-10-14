@@ -28,7 +28,7 @@ bbFlag projectile_update(bbList* list, void* node, void* cl)
     bbMapCoords position = bbMapCoords_interpolateGravity(
         start_coords,
         end_coords,
-        1000,
+         gravity,
         start_time,
         current_time,
         end_time);
@@ -36,7 +36,7 @@ bbFlag projectile_update(bbList* list, void* node, void* cl)
     bbFloat3D velocity = bbMapCoords_getVelocity(
         start_coords,
         end_coords,
-        1000,
+         gravity,
         start_time,
         current_time,
         end_time);
