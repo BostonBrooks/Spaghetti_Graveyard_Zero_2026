@@ -610,7 +610,8 @@ bbHere()
         if (home.clock2.is_running){
             if (home.UI.clock2_handle.clock_thread_index == 255)
             {
-                bbClock_handle_init(&home.clock2, &home.UI.clock2_handle, 0,"USER INTERFACE");
+                //Were not using this and it clogs up its own message queue
+                //bbClock_handle_init(&home.clock2, &home.UI.clock2_handle, 0,"USER INTERFACE");
             }
 
             if (home.clock2.map_tick >= 6)
