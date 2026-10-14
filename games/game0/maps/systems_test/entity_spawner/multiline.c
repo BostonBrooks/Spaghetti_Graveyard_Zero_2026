@@ -42,7 +42,7 @@ bbFlag bbPF_AddServerHandle(void *Spawner, char *line) {
 
     bbHandle server_handle;
     server_handle.bloated.index = index;
-    server_handle.bloated.collision = 1;
+    server_handle.bloated.collision = 193;
 
     bbCoreSynchronous_setServerEntity(&home.core.core,
                                       entity_handle,
@@ -66,7 +66,38 @@ bbFlag bbPF_AddMovement(void *Spawner, char *line) {
 
     switch (state.u64) {
         case bbMoveableType_Following:
+            //Use server handle to look up target and then set goal moveable
+            {
+            bbMapCoords position;
+            bbHandle goal_server_handle;
+            I32 goal_index,speed, radius, mass;
+            bbHandle moveable_handle;
 
+            sscanf(line, "%32[^','],%32[^','], %d, %d, %d, %d, %d, %d, %d",
+       key, state_str, &position.i, &position.j, &position.k, &goal_index, &speed, &radius, &mass);
+
+            bbHandle server_handle;
+            server_handle.bloated.index = goal_index;
+            server_handle.bloated.collision = 193;
+
+            bbCoreSynchronous_spawnTestMoveable(&home.core.core,
+                                    entity_handle,
+                                    &moveable_handle,
+                                    position,
+                                    speed,
+                                    radius,
+                                    mass,
+                                    bbInstructionSource_norewind,
+                                    no_handle);
+
+            bbMoveable_setGoalMoveable(&home.ECS.moveables,moveable_handle, server_handle);
+
+            bbTest()
+
+            bbECS_entity* target_entity;
+            bbHandle_mapComponent(home.ECS.ECS,bbECS_ServerEntities,server_handle,bbECS_ECS,NULL,(bbComponent**)&target_entity);
+            bbDebug("trying to target entity %s\n", target_entity->key);
+            }
             break;
 
         case bbMoveableType_Moving: {
