@@ -37,6 +37,7 @@
 #include "engine/ECS/graphics_system/bbGraphicsSystem.h"
 #include "engine/ECS/hitpoints/bbHitPoints.h"
 #include "engine/ECS/players/bbPlayers_maths.h"
+#include "engine/ECS/projectiles/bbECS_Proj.h"
 #include "engine/ECS/spatial/bbSpatial_query.h"
 #include "engine/ECS/teams/bbTeams.h"
 #include "engine/logic/bbString.h"
@@ -132,6 +133,7 @@ int main(void) {
     bbAI_Functions_populate(&home.ECS.AI_system.functions);
     bbPlayers_init(&home.ECS.players,home.core.core.ECS);
     bbTeams_init(&home.ECS.teams,home.core.core.ECS);
+    bbProj_system_init(&home.ECS.projectiles, home.core.core.ECS, 0) ;
 
     bbHandle server_handle;
     server_handle.bloated.index = 193;
@@ -399,7 +401,9 @@ int main(void) {
 
             bbCoreInput_updateMoveables(&home.core.core,bbInstructionSource_input, no_handle );
             bbCore_react(&home.core.core);
-
+            bbCI_updateProjectiles(&home.core.core, home.core.core.actual_time,
+                               bbInstructionSource_input, no_handle );
+            bbCore_react(&home.core.core);
 
             bbCore_checkIntegrity(&home.core.core);
             // testing bbAction_request()

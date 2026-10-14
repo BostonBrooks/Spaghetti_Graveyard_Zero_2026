@@ -1,6 +1,7 @@
 #include "engine/ECS/projectiles/bbECS_Proj.h"
 
 #include "engine/core/bbInstruction_operations.h"
+#include "engine/data/bbHome.h"
 #include "engine/ECS/bbECS_instructions.h"
 #include "engine/logic/bbIterator.h"
 #include "engine/logic/bbSystemPool.h"
@@ -20,13 +21,15 @@ bbFlag bbProj_getHandle_fn(struct bbSystem *system, bbComponent *component, bbHa
 }
 
 
-bbFlag bbProj_system_init(bbProj_system *system, bbECS *ECS, bbTime current_time) {
-    bbVPool_newSystem(&system->system.pool, bbECS_AI, sizeof(bbProj_component), 10, 1000, "ENTITY AI");
+bbFlag bbProj_system_init(bbProj_system *system, bbECS *ECS, bbTime current_time)
+{
+    bbVPool_newSystem(&system->system.pool, bbECS_Projectiles, sizeof(bbProj_component), 10, 1000, "ENTITY AI");
     bbList_init(&system->list, system->system.pool,NULL,offsetof(bbProj_component, list),NULL, bbECS_Projectiles);
 
     system->system.getComponent = bbProj_getComponent_fn;
     system->system.getHandle = bbProj_getHandle_fn;
     system->system.delete = bbProj_deleteComponent_fn;
+
     system->last_update = current_time;
     system->system.ECS = ECS;
     ECS->systems[bbECS_Projectiles] = (bbSystem *) system;
@@ -92,8 +95,8 @@ bbFlag bbProj_deleteComponent_fn(struct bbSystem *system, bbHandle component_han
     return bbSuccess;
 }
 
-bbFlag bbCI_updateProjectiles(bbCore *core,
-                              bbInstruction_source source, bbHandle action, bbTime time) {
+bbFlag bbCI_updateProjectiles(bbCore *core, bbTime time,
+                              bbInstruction_source source, bbHandle action) {
     allocActiveInstruction(instruction)
 
     instruction->type = bbI_updateProjectiles;
@@ -184,7 +187,12 @@ bbFlag bbCI_spawnProjectile(bbCore *core,
                             bbProj_data *data,
                             bbInstruction_source source,
                             bbHandle action) {
-    bbNotImplemented()
+    allocActiveInstruction(instruction)
+    instruction->type = bbI_spawnProjectile;
+    instruction->data.projectile = *data;
+    instruction->source = source;
+    instruction->redo_instruction = action;
+    pushActiveInstruction(instruction)
 }
 
 bbFlag bbCS_spawnProjectile(bbCore *core,
@@ -198,7 +206,26 @@ bbFlag bbCS_spawnProjectile(bbCore *core,
 
 
 bbFlag bbI_spawnProjectile_fn(bbCore *core, bbInstruction *instruction) {
-    bbNotImplemented()
+    bbNotImplemented() //rollback
+
+    bbProj_system *system = (bbProj_system *) core->ECS->systems[bbECS_Projectiles];
+    bbProj_component* component;
+    bbHandle component_handle;
+    bbList_alloc2(&system->list,(void**)&component, &component_handle);
+
+    component->data = instruction->data.projectile;
+
+    bbCS_entity_setComponent(core,
+                         home.ECS.ECS,
+                         component->component.entity_handle,
+                         component_handle,
+                         bbECS_Projectiles,
+                         bbInstructionSource_internal,
+                         no_handle);
+
+    bbList_pushL(&home.ECS.projectiles.list,component);
+
+
 }
 
 bbFlag bbI_unspawnProjectile_fn(bbCore *core, bbInstruction *instruction) {

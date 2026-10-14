@@ -3,18 +3,11 @@
 
 
 
-#define NUM_PROJECTILES 1000
+#include "engine/core/bbInstruction.h"
 #include "engine/ECS/bbECS.h"
+#include "engine/ECS/projectiles/bbECS_Proj_data.h"
 
-typedef struct {
 
-    bbMapCoords start_coords;
-    bbMapCoords current_coords;
-    bbMapCoords end_coords;
-    bbTime start_time;
-    bbTime end_time;
-    U64 gravity;
-} bbProj_data;
 
 
 typedef struct {
@@ -33,9 +26,8 @@ bbFlag bbProj_system_init(bbProj_system* system, bbECS* ECS, bbTime current_time
 bbFlag bbProj_system_interpolate(bbProj_system* system, bbECS* ECS, bbTime current_time );
 
 
-
-bbFlag bbCI_updateProjectiles(bbCore* core,
-                                  bbInstruction_source source, bbHandle action, bbTime time);
+bbFlag bbCI_updateProjectiles(bbCore *core, bbTime time,
+                              bbInstruction_source source, bbHandle action);
 
 bbFlag bbI_updateProjectiles_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbI_unupdateProjectiles_fn(bbCore* core, bbInstruction* instruction);

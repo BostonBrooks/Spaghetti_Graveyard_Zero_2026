@@ -25,7 +25,7 @@
 #include "engine/ECS/teams/bbTeams.h"
 #include "engine/textbox/bbTextbox.h"
 #include "engine/textbox/bbTextboxApp.h"
-
+#include "engine/ECS/projectiles/bbECS_Proj.h"
 typedef struct
 {
     bbECS* ECS;
@@ -38,6 +38,7 @@ typedef struct
     bbHitPoints hitpoints;
     bbAvoidables* avoidables;
     bbPlayers players;
+    bbProj_system projectiles;
     bbTeams teams;
 } bbECS_data;
 
