@@ -9,6 +9,7 @@
 typedef struct {
 
     bbMapCoords start_coords;
+    bbMapCoords current_coords;
     bbMapCoords end_coords;
     bbTime start_time;
     bbTime end_time;
@@ -25,12 +26,21 @@ typedef struct {
 typedef struct {
     bbSystem system;
     bbList list;
+    bbTime last_update;
 } bbProj_system;
 
-bbFlag bbECS_Proj_init(bbProj_system* system, bbECS* ECS);
-bbFlag bbECS_Proj_update(bbProj_system* system);
+bbFlag bbProj_system_init(bbProj_system* system, bbECS* ECS, bbTime current_time );
+bbFlag bbProj_system_interpolate(bbProj_system* system, bbECS* ECS, bbTime current_time );
 
-///uses a bbProjectile on the stack to spawn a projectile comonent
+
+
+bbFlag bbCI_updateProjectiles(bbCore* core,
+                                  bbInstruction_source source, bbHandle action, bbTime time);
+
+bbFlag bbI_updateProjectiles_fn(bbCore* core, bbInstruction* instruction);
+bbFlag bbI_unupdateProjectiles_fn(bbCore* core, bbInstruction* instruction);
+
+///uses a bbProjectile on the stack to spawn a projectile component
 bbFlag bbCI_spawnProjectile(bbCore* core,
                              bbHandle entity,
                              bbProj_data* data,
@@ -48,8 +58,7 @@ bbFlag bbCS_spawnProjectile(bbCore* core,
 bbFlag bbI_spawnProjectile_fn(bbCore* core, bbInstruction* instruction);
 bbFlag bbI_unspawnProjectile_fn(bbCore* core, bbInstruction* instruction);
 
-bbFlag bbProjectiles_getComponent(struct bbSystem* system, bbComponent** component, bbHandle component_handle);
-bbFlag bbProjectiles_getHandle(struct bbSystem* system, bbComponent* component, bbHandle* component_handle);
-
+// bbFlag bbProjectiles_getComponent(struct bbSystem* system, bbComponent** component, bbHandle component_handle);
+// bbFlag bbProjectiles_getHandle(struct bbSystem* system, bbComponent* component, bbHandle* component_handle);
 
 #endif //BB_PROJECITLES_H

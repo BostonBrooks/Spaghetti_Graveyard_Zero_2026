@@ -18,6 +18,7 @@
 #include "engine/ECS/moveables/bbMoveables_setState.h"
 #include "engine/ECS/players/bbPlayers.h"
 #include "engine/ECS/players/bbPlayers_target.h"
+#include "engine/ECS/projectiles/bbECS_Proj.h"
 #include "engine/ECS/server_entities/bbServerEntities.h"
 #include "engine/ECS/teams/bbTeams.h"
 #include "entity_spawner/live_spawn.h"
@@ -89,6 +90,10 @@ bbFlag bbCore_initVInstructions(bbCore* core)
     core->instruction_functions[bbI_unsetPlayerTarget-bbInstruction_numTypes] = bbI_unsetPlayerTarget_fn;
     core->instruction_functions[bbI_setPlayerState-bbInstruction_numTypes] = bbI_setPlayerState_fn;
     core->instruction_functions[bbI_unsetPlayerState-bbInstruction_numTypes] = bbI_unsetPlayerState_fn;
+    core->instruction_functions[bbI_spawnProjectile-bbInstruction_numTypes] = bbI_spawnProjectile_fn;
+    core->instruction_functions[bbI_unspawnProjectile-bbInstruction_numTypes] = bbI_unspawnProjectile_fn;
+    core->instruction_functions[bbI_updateProjectiles-bbInstruction_numTypes] = bbI_updateProjectiles_fn;
+    core->instruction_functions[bbI_unupdateProjectiles-bbInstruction_numTypes] = bbI_unupdateProjectiles_fn;
 
 
 

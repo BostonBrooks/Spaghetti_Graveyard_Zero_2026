@@ -41,6 +41,10 @@ typedef enum {
     bbI_unsetPlayerTarget,
     bbI_setPlayerState,
     bbI_unsetPlayerState,
+    bbI_spawnProjectile,
+    bbI_unspawnProjectile,
+    bbI_updateProjectiles,
+    bbI_unupdateProjectiles,
     bbI_ECS_numECS_Instructions,
 } bbECS_Instruction_type;
 

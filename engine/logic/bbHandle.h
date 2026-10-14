@@ -24,6 +24,7 @@ typedef union {
     U64 u64;
     I32x2 i32x2;
     bbSystem_Handle system;
+    I64 i64;
 } bbHandle;
 
 typedef struct
