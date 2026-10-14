@@ -55,7 +55,7 @@ bbFlag bbDF_projectileRotationAngle(void* Drawable, void* frameDescriptor, void*
 
     //TODO may vary
     I32 numAngles = animation->angles;
-    I32 angle = getAngleXD(unit->u.projectile.screen_angle, 16);
+    I32 angle = getAngleXD(unit->u.projectile.screen_angle, numAngles);
 
     I32 frames = animation->frames;
 
