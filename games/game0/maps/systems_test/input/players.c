@@ -154,14 +154,14 @@ bbFlag bbPlayer_ClickUnit_default(bbPlayers* players, bbHandle entity_handle, U6
             } else {
 
                 U64 seed = bbRand();
-                bbActionRequest_askQuestion(&home.core.core,
-                                            home.ECS.players.this_player,
-                                            collision++,
-                                            home.core.core.actual_time,
-                                            home.core.core.actual_time,
-                                            home.ECS.players.this_player,
-                                            0,
-                                            seed);
+                // bbActionRequest_askQuestion(&home.core.core,
+                //                             home.ECS.players.this_player,
+                //                             collision++,
+                //                             home.core.core.actual_time,
+                //                             home.core.core.actual_time,
+                //                             home.ECS.players.this_player,
+                //                             0,
+                //                             seed);
 
                 bbHandle server_handle;
                 bbServerEntity* server_entity;

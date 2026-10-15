@@ -203,10 +203,6 @@ bbFlag bbAI_Command_Player(bbAI_Component* component,
 
         bbHandle arrow_handle = arrow->component.entity_handle;
 
-        char key[KEY_LENGTH];
-        char type[KEY_LENGTH];
-        I32 state;
-
         bbMapCoords start_point = attacker_moveable->position;
         bbMapCoords end_point = target_moveable->position;
 
@@ -215,8 +211,8 @@ bbFlag bbAI_Command_Player(bbAI_Component* component,
         I64 delta_j = end_point.j - start_point.j;
         I64 delta_k = end_point.k - start_point.k;
         I64 distance = bbArith64_sqrt2(delta_i*delta_i+delta_j*delta_j+delta_k*delta_k);
-        I64 start_time = 0;
-        I64 end_time = 300 * distance / POINTS_PER_SQUARE;
+        I64 start_time = home.core.clock2_handle.map_tick;
+        I64 end_time = 300 * distance / POINTS_PER_SQUARE + home.core.clock2_handle.map_tick;
 
 
         // bbGraphicsComponent_data data;
@@ -235,7 +231,7 @@ bbFlag bbAI_Command_Player(bbAI_Component* component,
         data3.entity_handle = arrow_handle;
         bbCS_spawnGraphicsComponent(&home.core.core,
                                     NULL,
-                                    type,
+                                    "ARROW",
                                     &data3,
                                     bbInstructionSource_norewind,
                                     no_handle);
@@ -248,6 +244,7 @@ bbFlag bbAI_Command_Player(bbAI_Component* component,
         data2.start_time = start_time;
         data2.end_time = end_time;
         data2.gravity = 1000;
+
 
         bbCS_spawnProjectileMovement(&home.core.core,
                                  arrow_handle,
