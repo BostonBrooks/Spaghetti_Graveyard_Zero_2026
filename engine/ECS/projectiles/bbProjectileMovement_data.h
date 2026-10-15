@@ -11,7 +11,7 @@ typedef struct {
     bbTime start_time;
     bbTime end_time;
     U64 gravity;
-} bbProj_data;
+} bbProjectileMovement_data;
 
 
 

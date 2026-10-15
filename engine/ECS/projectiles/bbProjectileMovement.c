@@ -1,4 +1,4 @@
-#include "engine/ECS/projectiles/bbECS_Proj.h"
+#include "engine/ECS/projectiles/bbProjectileMovement.h"
 
 #include "engine/core/bbInstruction_operations.h"
 #include "engine/data/bbHome.h"
@@ -21,10 +21,10 @@ bbFlag bbProj_getHandle_fn(struct bbSystem *system, bbComponent *component, bbHa
 }
 
 
-bbFlag bbProj_system_init(bbProj_system *system, bbECS *ECS, bbTime current_time)
+bbFlag bbProjectileMovement_init(bbProjectileMovement *system, bbECS *ECS, bbTime current_time)
 {
-    bbVPool_newSystem(&system->system.pool, bbECS_Projectiles, sizeof(bbProj_component), 10, 1000, "ENTITY AI");
-    bbList_init(&system->list, system->system.pool,NULL,offsetof(bbProj_component, list),NULL, bbECS_Projectiles);
+    bbVPool_newSystem(&system->system.pool, bbECS_Projectiles, sizeof(bbProjectileMovement_component), 10, 1000, "ENTITY AI");
+    bbList_init(&system->list, system->system.pool,NULL,offsetof(bbProjectileMovement_component, list),NULL, bbECS_Projectiles);
 
     system->system.getComponent = bbProj_getComponent_fn;
     system->system.getHandle = bbProj_getHandle_fn;
@@ -43,7 +43,7 @@ typedef struct
 
 static bbFlag interpolate_projectile_fn(bbList* list, void* node, void* cl) {
 
-    bbProj_component* component = node;
+    bbProjectileMovement_component* component = node;
     interpolate_projectile_cl* closure = cl;
     bbMapCoords start_coords = component->data.start_coords;
     bbMapCoords end_coords = component->data.end_coords;
@@ -74,7 +74,7 @@ static bbFlag interpolate_projectile_fn(bbList* list, void* node, void* cl) {
 
     return bbContinue;
 }
-bbFlag bbProj_system_interpolate(bbProj_system* system, bbECS* ECS, bbTime current_time ) {
+bbFlag bbProjectileMovement_interpolate(bbProjectileMovement* system, bbECS* ECS, bbTime current_time ) {
 
     bbIterator iterator = bbIterator_new(&system->list);
     interpolate_projectile_cl closure;
@@ -85,8 +85,8 @@ bbFlag bbProj_system_interpolate(bbProj_system* system, bbECS* ECS, bbTime curre
 }
 
 bbFlag bbProj_deleteComponent_fn(struct bbSystem *system, bbHandle component_handle) {
-    bbProj_system *proj_system = (bbProj_system *) system;
-    bbProj_component *component;
+    bbProjectileMovement *proj_system = (bbProjectileMovement *) system;
+    bbProjectileMovement_component *component;
     bbProj_getComponent_fn(system, (bbComponent **) &component, component_handle);
 
     bbList_remove(&proj_system->list, component);
@@ -95,11 +95,11 @@ bbFlag bbProj_deleteComponent_fn(struct bbSystem *system, bbHandle component_han
     return bbSuccess;
 }
 
-bbFlag bbCI_updateProjectiles(bbCore *core, bbTime time,
+bbFlag bbCI_updateProjectileMovement(bbCore *core, bbTime time,
                               bbInstruction_source source, bbHandle action) {
     allocActiveInstruction(instruction)
 
-    instruction->type = bbI_updateProjectiles;
+    instruction->type = bbI_updateProjectileMovement;
     instruction->data.three_handles.handle1.i64 = time;
     instruction->source = source;
     instruction->redo_instruction = action;
@@ -108,11 +108,11 @@ bbFlag bbCI_updateProjectiles(bbCore *core, bbTime time,
     return bbSuccess;
 }
 
-bbFlag bbI_updateProjectiles_fn(bbCore *core, bbInstruction *instruction) {
-    bbProj_system *system = (bbProj_system *) core->ECS->systems[bbECS_Projectiles];
+bbFlag bbI_updateProjectileMovement_fn(bbCore *core, bbInstruction *instruction) {
+    bbProjectileMovement *system = (bbProjectileMovement *) core->ECS->systems[bbECS_Projectiles];
     if (instruction->source == bbInstructionSource_internal) {
         allocUndoInstruction(undo_instruction);
-        undo_instruction->type = bbI_unupdateProjectiles;
+        undo_instruction->type = bbI_unupdateProjectileMovement;
 
         undo_instruction->data.three_handles.handle1.i64 = system->last_update;
         undo_instruction->source = instruction->source;
@@ -120,7 +120,7 @@ bbFlag bbI_updateProjectiles_fn(bbCore *core, bbInstruction *instruction) {
         pushUndoInstruction(undo_instruction)
     } else if (instruction->source == bbInstructionSource_input) {
         allocUndoInstruction(undo_instruction);
-        undo_instruction->type = bbI_unupdateProjectiles;
+        undo_instruction->type = bbI_unupdateProjectileMovement;
         undo_instruction->data.three_handles.handle1.i64 = system->last_update;
         undo_instruction->source = instruction->source;
         allocRedoInstruction(redo_instruction)
@@ -130,24 +130,24 @@ bbFlag bbI_updateProjectiles_fn(bbCore *core, bbInstruction *instruction) {
         pushUndoInstruction(undo_instruction)
     } else if (instruction->source == bbInstructionSource_action) {
         allocUndoInstruction(undo_instruction);
-        undo_instruction->type = bbI_unupdateProjectiles;
+        undo_instruction->type = bbI_unupdateProjectileMovement;
         undo_instruction->data.three_handles.handle1.i64 = system->last_update;
         undo_instruction->source = instruction->source;
         undo_instruction->redo_instruction = (bbHandle) instruction->redo_instruction;
         pushUndoInstruction(undo_instruction)
     } //else source == no rewind
 
-    bbProj_system_interpolate(system, core->ECS, instruction->data.three_handles.handle1.i64 );
+    bbProjectileMovement_interpolate(system, core->ECS, instruction->data.three_handles.handle1.i64 );
     system->last_update = instruction->data.three_handles.handle1.i64;
     return bbSuccess;
 }
 
-bbFlag bbI_unupdateProjectiles_fn(bbCore *core, bbInstruction *instruction) {
+bbFlag bbI_unupdateProjectileMovement_fn(bbCore *core, bbInstruction *instruction) {
 
 
 
-    bbProj_system *system = (bbProj_system *) core->ECS->systems[bbECS_Projectiles];
-    bbProj_system_interpolate(system, core->ECS, instruction->data.three_handles.handle1.i64 );
+    bbProjectileMovement *system = (bbProjectileMovement *) core->ECS->systems[bbECS_Projectiles];
+    bbProjectileMovement_interpolate(system, core->ECS, instruction->data.three_handles.handle1.i64 );
     system->last_update = instruction->data.three_handles.handle1.i64;
 
     if (instruction->source == bbInstructionSource_internal)
@@ -182,34 +182,34 @@ bbFlag bbI_unupdateProjectiles_fn(bbCore *core, bbInstruction *instruction) {
 
 }
 
-bbFlag bbCI_spawnProjectile(bbCore *core,
+bbFlag bbCI_spawnProjectileMovement(bbCore *core,
                             bbHandle entity,
-                            bbProj_data *data,
+                            bbProjectileMovement_data *data,
                             bbInstruction_source source,
                             bbHandle action) {
     allocActiveInstruction(instruction)
-    instruction->type = bbI_spawnProjectile;
+    instruction->type = bbI_spawnProjectileMovement;
     instruction->data.projectile = *data;
     instruction->source = source;
     instruction->redo_instruction = action;
     pushActiveInstruction(instruction)
 }
 
-bbFlag bbCS_spawnProjectile(bbCore *core,
+bbFlag bbCS_spawnProjectileMovement(bbCore *core,
                             bbHandle entity,
-                            bbProj_system **new_projectile,
-                            bbProj_data *data,
+                            bbProjectileMovement **new_projectile,
+                            bbProjectileMovement_data *data,
                             bbInstruction_source source,
                             bbHandle action) {
     bbNotImplemented()
 }
 
 
-bbFlag bbI_spawnProjectile_fn(bbCore *core, bbInstruction *instruction) {
+bbFlag bbI_spawnProjectileMovement_fn(bbCore *core, bbInstruction *instruction) {
     bbNotImplemented() //rollback
 
-    bbProj_system *system = (bbProj_system *) core->ECS->systems[bbECS_Projectiles];
-    bbProj_component* component;
+    bbProjectileMovement *system = (bbProjectileMovement *) core->ECS->systems[bbECS_Projectiles];
+    bbProjectileMovement_component* component;
     bbHandle component_handle;
     bbList_alloc2(&system->list,(void**)&component, &component_handle);
 
@@ -228,6 +228,6 @@ bbFlag bbI_spawnProjectile_fn(bbCore *core, bbInstruction *instruction) {
 
 }
 
-bbFlag bbI_unspawnProjectile_fn(bbCore *core, bbInstruction *instruction) {
+bbFlag bbI_unspawnProjectileMovement_fn(bbCore *core, bbInstruction *instruction) {
     bbNotImplemented()
 }
