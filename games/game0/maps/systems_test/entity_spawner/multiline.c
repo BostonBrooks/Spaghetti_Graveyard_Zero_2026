@@ -249,3 +249,45 @@ bbFlag bbPF_AddProjectile(void* Spawner, char* line)  {
 
     return bbSuccess;
 }
+
+
+bbFlag bbPF_AddProjectileMovement(void* Spawner, char* line) {
+    bbEntitySpawner *spawner = (bbEntitySpawner *) Spawner;
+    bbECS_entity *entity = spawner->current_entity;
+    bbHandle entity_handle = entity->component.entity_handle;
+
+    char key[KEY_LENGTH];
+    char type[KEY_LENGTH];
+    I32 state;
+
+    bbMapCoords start_point;
+    bbMapCoords end_point;
+
+    sscanf(line, "%32[^','],%32[^','],%d,%d,%d,%d,%d,%d",
+           key, type, &start_point.i, &start_point.j, &start_point.k,&end_point.i, &end_point.j, &end_point.k);
+
+    I64 delta_i = end_point.i - start_point.i;
+    I64 delta_j = end_point.j - start_point.j;
+    I64 delta_k = end_point.k - start_point.k;
+    I64 distance = bbArith64_sqrt2(delta_i*delta_i+delta_j*delta_j+delta_k*delta_k);
+    I64 start_time = 0;
+    I64 end_time = 300 * distance / POINTS_PER_SQUARE;
+
+    bbProjectileMovement_data data;
+
+    data.start_coords = start_point;
+    data.current_coords = start_point;
+    data.end_coords = end_point;
+    data.start_time = start_time;
+    data.end_time = end_time;
+    data.gravity = 1000;
+
+    bbCI_spawnProjectileMovement(&home.core.core,
+                             entity_handle,
+                             &data,
+                             bbInstructionSource_norewind,
+                             no_handle);
+
+    return bbSuccess;
+
+}

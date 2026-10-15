@@ -16,6 +16,7 @@ bbFlag bbPF_AddAI(void* spawner, char* line);
 bbFlag bbPF_AddTeam(void* spawner, char* line);
 bbFlag bbPF_AddHitpoints(void* spawner, char* line);
 bbFlag bbPF_SetPlayer(void* spawner, char* line);
+bbFlag bbPF_AddProjectileMovement(void* spawner, char* line);
 
 
 #endif //multiline_h

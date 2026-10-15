@@ -192,6 +192,7 @@ bbFlag bbCI_spawnProjectileMovement(bbCore *core,
     instruction->data.projectile = *data;
     instruction->source = source;
     instruction->redo_instruction = action;
+    instruction->snapshot = entity;
     pushActiveInstruction(instruction)
 }
 
@@ -206,18 +207,52 @@ bbFlag bbCS_spawnProjectileMovement(bbCore *core,
 
 
 bbFlag bbI_spawnProjectileMovement_fn(bbCore *core, bbInstruction *instruction) {
-    bbNotImplemented() //rollback
-
     bbProjectileMovement *system = (bbProjectileMovement *) core->ECS->systems[bbECS_Projectiles];
     bbProjectileMovement_component* component;
     bbHandle component_handle;
     bbList_alloc2(&system->list,(void**)&component, &component_handle);
+    if (instruction->source == bbInstructionSource_internal)
+    {
+        allocUndoInstruction(undo_instruction);
+        undo_instruction->type = bbI_unspawnProjectileMovement;
+        undo_instruction->data.three_handles.handle1 = component_handle;
+        undo_instruction->source = instruction->source;
+        undo_instruction->redo_instruction.u64 = 0;
+        pushUndoInstruction(undo_instruction)
+
+
+    }
+    else if (instruction->source == bbInstructionSource_input)
+    {
+
+        allocUndoInstruction(undo_instruction);
+        undo_instruction->type = bbI_unspawnProjectileMovement;
+        undo_instruction->data.three_handles.handle1 = component_handle;
+        undo_instruction->source = instruction->source;
+        allocRedoInstruction(redo_instruction)
+        *redo_instruction = *instruction;
+        undo_instruction->redo_instruction = (bbHandle)redo_instruction_handle;
+        pushRedoInstruction(redo_instruction)
+        pushUndoInstruction(undo_instruction)
+    }
+    else if (instruction->source == bbInstructionSource_action)
+    {
+
+        allocUndoInstruction(undo_instruction);
+        undo_instruction->type = bbI_unspawnProjectileMovement;
+        undo_instruction->data.three_handles.handle1 = component_handle;
+        undo_instruction->source = instruction->source;
+        undo_instruction->redo_instruction = (bbHandle)instruction->redo_instruction;
+        pushUndoInstruction(undo_instruction)
+
+
+    } //else source == no rewind
 
     component->data = instruction->data.projectile;
 
     bbCS_entity_setComponent(core,
                          home.ECS.ECS,
-                         component->component.entity_handle,
+                         instruction->snapshot,
                          component_handle,
                          bbECS_Projectiles,
                          bbInstructionSource_internal,
@@ -225,9 +260,37 @@ bbFlag bbI_spawnProjectileMovement_fn(bbCore *core, bbInstruction *instruction) 
 
     bbList_pushL(&home.ECS.projectiles.list,component);
 
-
+    return bbSuccess;
 }
 
 bbFlag bbI_unspawnProjectileMovement_fn(bbCore *core, bbInstruction *instruction) {
-    bbNotImplemented()
+
+    bbProjectileMovement *system = (bbProjectileMovement *) core->ECS->systems[bbECS_Projectiles];
+    bbHandle_deleteComponent((bbSystem*)system, instruction->data.three_handles.handle1);
+
+    if (instruction->source == bbInstructionSource_internal)
+    {
+        //bbHere()
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_input)
+    {
+        popRedoInstruction(redo_instruction,instruction)
+        allocActiveInstruction(new_instruction)
+        *new_instruction = redo_instruction;
+        bbCore_checkMap(&core->map, &redo_instruction, instruction);
+        pushActiveInstruction(new_instruction)
+//bbHere()
+        return bbSuccess;
+    }
+    if (instruction->source == bbInstructionSource_action)
+    {
+        bbAction* redo_action;
+
+        bbVPool_lookup(core->action_pool, (void**)&redo_action, instruction->redo_instruction);
+        bbList_sortL(&core->action_queue,(void*)redo_action);
+        //bbHere()
+        return bbSuccess;
+    }
+    bbAssert(0==1, "We should not get here\n");
 }

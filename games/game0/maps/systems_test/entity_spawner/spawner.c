@@ -411,6 +411,7 @@ bbFlag bbEntitySpawner_populate(bbEntitySpawner* spawner)
     bbParseFunction_add(spawner, bbPF_AddHitpoints, "ADD_HITPOINTS");
     bbParseFunction_add(spawner, bbPF_SetPlayer, "SET_PLAYER");
     bbParseFunction_add(spawner, bbPF_AddProjectile, "ADD_PROJECTILE");
+    bbParseFunction_add(spawner, bbPF_AddProjectileMovement, "ADD_PROJECTILE_MOVEMENT");
 
 
 

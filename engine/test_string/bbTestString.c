@@ -41,9 +41,7 @@ bbFlag bbI_setString_fn(bbCore* core, bbInstruction* instruction)
         undo_instruction->redo_instruction = (bbHandle)instruction->redo_instruction;
         pushUndoInstruction(undo_instruction)
 
-        bbAction* action;
-        bbVPool_lookup(core->action_queue.pool, (void**)&action, instruction->redo_instruction);
-        printf("collision = %d ", action->header.collision);
+
     } //else source == no rewind
 
     printf("    +old quote: %s, new quote %s, simulation time = %lu, actual time = %lu\n",test_string,
