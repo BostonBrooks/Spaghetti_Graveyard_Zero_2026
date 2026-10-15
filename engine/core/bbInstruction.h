@@ -233,7 +233,7 @@ typedef struct bbInstruction
     bbListElement_Handle list_element;
     bbHandle redo_instruction;
     bbInstruction_source source;
-    bbHandle snapshot;
+    bbHandle extra_handle;
 } bbInstruction;
 
 

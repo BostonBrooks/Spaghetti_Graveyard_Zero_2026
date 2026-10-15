@@ -282,11 +282,13 @@ bbFlag bbPF_AddProjectileMovement(void* Spawner, char* line) {
     data.end_time = end_time;
     data.gravity = 1000;
 
-    bbCI_spawnProjectileMovement(&home.core.core,
+    bbCS_spawnProjectileMovement(&home.core.core,
                              entity_handle,
+                             NULL,
                              &data,
                              bbInstructionSource_norewind,
                              no_handle);
+
 
     return bbSuccess;
 

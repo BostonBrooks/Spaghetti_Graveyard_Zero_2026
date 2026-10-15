@@ -51,7 +51,7 @@ bbFlag bbCD_Moveable_unsetDead_fn(bbCore* core, bbInstruction* undo_instruction)
 bbFlag bbCD_unupdate_moveables_fn(bbCore* core, bbInstruction* undo_instruction)
 {
     bbMoveables_snapshot* snapshot;
-    bbVPool_lookup(home.ECS.moveables.snapshots, (void**)&snapshot, undo_instruction->snapshot);
+    bbVPool_lookup(home.ECS.moveables.snapshots, (void**)&snapshot, undo_instruction->extra_handle);
 
     if (snapshot == NULL) {
         bbWarning(snapshot == NULL, "core discard is buggy\n");

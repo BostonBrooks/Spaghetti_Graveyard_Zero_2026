@@ -347,7 +347,7 @@ int main(void) {
         {
             static I32 every = 0;
             every++;
-            if (every == 2) {
+            if (every == -1) { //set every == 2 to fire an arrow once every 2 simulation ticks
                 every = 0;
 
                 U64 rand = bbRand();
@@ -374,7 +374,7 @@ int main(void) {
             // snprintf(message, MESSAGE_LENGTH,"time sent: %llu\n", home.core.core.actual_time);
             // bbNetworkApp_sendMessage(&home.network, message_handle2, home.core.core.actual_time, 193);
 
-            static I32 once = 0;
+            static I32 once = 1; //Set once = 0 to set player state to askQuestion
             if (once == 0) {
                 once = 1;
 

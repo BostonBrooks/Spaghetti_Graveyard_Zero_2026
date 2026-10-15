@@ -192,17 +192,78 @@ bbFlag bbCI_spawnProjectileMovement(bbCore *core,
     instruction->data.projectile = *data;
     instruction->source = source;
     instruction->redo_instruction = action;
-    instruction->snapshot = entity;
+    instruction->extra_handle = entity;
     pushActiveInstruction(instruction)
 }
 
 bbFlag bbCS_spawnProjectileMovement(bbCore *core,
                             bbHandle entity,
-                            bbProjectileMovement **new_projectile,
+                            bbProjectileMovement_component **new_projectile,
                             bbProjectileMovement_data *data,
                             bbInstruction_source source,
                             bbHandle action) {
-    bbNotImplemented()
+
+
+    bbProjectileMovement *system = (bbProjectileMovement *) core->ECS->systems[bbECS_Projectiles];
+    bbProjectileMovement_component* component;
+    bbHandle component_handle;
+    bbList_alloc2(&system->list,(void**)&component, &component_handle);
+
+    if (source == bbInstructionSource_input)
+    {
+        //create input instruction
+        allocRedoInstruction(instruction)
+        instruction->source = source;
+        //set input instruction data
+        instruction->type = bbI_spawnProjectileMovement;
+        instruction->data.projectile = *data;
+        pushRedoInstruction(instruction)
+        //create undo instruction
+        allocUndoInstruction(undo_instruction)
+        undo_instruction->source = source;
+        undo_instruction->redo_instruction = (bbHandle)instruction_handle;
+        undo_instruction->type = bbI_unspawnProjectileMovement;
+        undo_instruction->data.three_handles.handle1 = component_handle;
+        pushUndoInstruction(undo_instruction)
+    } else if (source == bbInstructionSource_internal)
+    {
+        //create undo instruction
+
+        allocUndoInstruction(undo_instruction)
+        undo_instruction->source = source;
+        undo_instruction->type = bbI_unspawnProjectileMovement;
+        undo_instruction->data.three_handles.handle1 = component_handle;
+        pushUndoInstruction(undo_instruction)
+    } else if (source == bbInstructionSource_action)
+    {
+        //create undo instruction
+        allocUndoInstruction(undo_instruction)
+        undo_instruction->type = bbI_unspawnProjectileMovement;
+        undo_instruction->data.three_handles.handle1 = component_handle;
+        undo_instruction->redo_instruction = action;
+        undo_instruction->source = source;
+
+        pushUndoInstruction(undo_instruction)
+    } else if (source == bbInstructionSource_norewind)
+    {
+
+    }
+
+    component->data = *data;
+
+    bbCS_entity_setComponent(core,
+                         home.ECS.ECS,
+                         entity,
+                         component_handle,
+                         bbECS_Projectiles,
+                         bbInstructionSource_internal,
+                         no_handle);
+
+    bbList_pushL(&home.ECS.projectiles.list,component);
+
+    if (new_projectile != NULL) new_projectile = component;
+
+    return bbSuccess;
 }
 
 
@@ -252,7 +313,7 @@ bbFlag bbI_spawnProjectileMovement_fn(bbCore *core, bbInstruction *instruction) 
 
     bbCS_entity_setComponent(core,
                          home.ECS.ECS,
-                         instruction->snapshot,
+                         instruction->extra_handle,
                          component_handle,
                          bbECS_Projectiles,
                          bbInstructionSource_internal,

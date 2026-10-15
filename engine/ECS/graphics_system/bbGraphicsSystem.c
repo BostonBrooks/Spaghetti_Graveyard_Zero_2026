@@ -78,7 +78,7 @@ bbFlag bbCI_spawnGraphicsComponent(  bbCore* core,
     bbHandle function_handle;
     bbDictionary_lookup(system->spawn_dict,type, &function_handle);
 
-    instruction->snapshot = function_handle;
+    instruction->extra_handle = function_handle;
     instruction->data.graphics = *data;
     instruction->source = source;
     instruction->redo_instruction = action;
@@ -107,7 +107,7 @@ bbFlag bbCS_spawnGraphicsComponent( bbCore* core,
         instruction->source = source;
         //set input instruction data
         instruction->type = bbI_spawnGraphicsComponent;
-        instruction->snapshot = function_handle;
+        instruction->extra_handle = function_handle;
         instruction->data.graphics = *data;
         //create undo instruction
         allocUndoInstruction(undo_instruction)
@@ -225,7 +225,7 @@ bbFlag bbI_spawnGraphicsComponent_fn(bbCore* core, bbInstruction* instruction) {
                  bbInstructionSource_internal,
                  no_handle);
 
-    bbGraphics_spawnFunction* function = system->spawn_functions[instruction->snapshot.u64];
+    bbGraphics_spawnFunction* function = system->spawn_functions[instruction->extra_handle.u64];
     function(system,instruction->data.graphics);
 
     return bbSuccess;

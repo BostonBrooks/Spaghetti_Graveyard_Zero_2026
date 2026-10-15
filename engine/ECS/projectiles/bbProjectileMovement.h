@@ -41,7 +41,7 @@ bbFlag bbCI_spawnProjectileMovement(bbCore* core,
 
 bbFlag bbCS_spawnProjectileMovement(bbCore* core,
                              bbHandle entity,
-                             bbProjectileMovement** new_projectile,
+                             bbProjectileMovement_component** new_projectile,
                              bbProjectileMovement_data* data,
                              bbInstruction_source source,
                              bbHandle action);
