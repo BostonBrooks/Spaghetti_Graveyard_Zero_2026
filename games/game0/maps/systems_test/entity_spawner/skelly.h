@@ -210,10 +210,10 @@ bbFlag bbSF_addGraphics_cow(void* spawner,
     bbGraphicsComponent_data data;
     data.entity_handle = handle;
     data.MC = args->position,
-    data.last_state_change = 0;
-    data.last_wander_time = 0;
+    data.u.unit.last_state_change = 0;
+    data.u.unit.last_wander_time = 0;
     data.random_seed = bbRand();
-    data.drawable_state = bbDrawableState_idle;
+    data.u.unit.drawable_state = bbDrawableState_idle;
     data.drawable_type = bbGraphicsType_unit;
     data.random_seed = bbArith64_hashIndex(deterministic_seed,args->random_seed);
     bbCS_spawnGraphicsComponent(&home.core.core,
@@ -243,9 +243,9 @@ bbFlag bbSF_addGraphics_fox(void* spawner,
     bbGraphicsComponent_data data;
     data.entity_handle = handle;
     data.MC = args->position,
-    data.last_state_change = 0;
-    data.last_wander_time = 0;
-    data.drawable_state = bbDrawableState_moving;
+    data.u.unit.last_state_change = 0;
+    data.u.unit.last_wander_time = 0;
+    data.u.unit.drawable_state = bbDrawableState_moving;
     data.drawable_type = bbGraphicsType_unit;
     data.random_seed = bbArith64_hashIndex(deterministic_seed,args->random_seed);
 
@@ -281,9 +281,9 @@ bbFlag bbSF_addGraphics_hoplite(void* spawner,
     bbGraphicsComponent_data data;
     data.entity_handle = handle;
     data.MC = args->position,
-    data.last_state_change = 0;
-    data.last_wander_time = 0;
-    data.drawable_state = bbDrawableState_moving;
+    data.u.unit.last_state_change = 0;
+    data.u.unit.last_wander_time = 0;
+    data.u.unit.drawable_state = bbDrawableState_moving;
     data.drawable_type = bbGraphicsType_unit;
     data.random_seed = bbArith64_hashIndex(deterministic_seed,args->random_seed);
 
@@ -319,9 +319,9 @@ bbFlag bbSF_addGraphics_archers(void* spawner,
     bbGraphicsComponent_data data;
     data.entity_handle = handle;
     data.MC = args->position,
-    data.last_state_change = 0;
-    data.last_wander_time = 0;
-    data.drawable_state = bbDrawableState_moving;
+    data.u.unit.last_state_change = 0;
+    data.u.unit.last_wander_time = 0;
+    data.u.unit.drawable_state = bbDrawableState_moving;
     data.drawable_type = bbGraphicsType_unit;
     data.random_seed = bbArith64_hashIndex(deterministic_seed,args->random_seed);
 
@@ -358,10 +358,10 @@ bbFlag bbSF_addGraphics_devil(void* spawner,
     bbGraphicsComponent_data data;
     data.entity_handle = handle;
     data.MC = args->position,
-    data.last_state_change = 0;
-    data.last_wander_time = 0;
+    data.u.unit.last_state_change = 0;
+    data.u.unit.last_wander_time = 0;
     data.random_seed = bbRand();
-    data.drawable_state = bbDrawableState_idle;
+    data.u.unit.drawable_state = bbDrawableState_idle;
     data.drawable_type = bbGraphicsType_unit;
     data.random_seed = bbArith64_hashIndex(deterministic_seed,args->random_seed);
 
@@ -393,10 +393,10 @@ bbFlag bbSF_addGraphics_lizard(void* spawner,
     bbGraphicsComponent_data data;
     data.entity_handle = handle;
     data.MC = args->position,
-    data.last_state_change = 0;
-    data.last_wander_time = 0;
+    data.u.unit.last_state_change = 0;
+    data.u.unit.last_wander_time = 0;
     data.random_seed = bbRand();
-    data.drawable_state = bbDrawableState_idle;
+    data.u.unit.drawable_state = bbDrawableState_idle;
     data.drawable_type = bbGraphicsType_unit;
     data.random_seed = bbArith64_hashIndex(deterministic_seed,args->random_seed);
 
@@ -456,10 +456,10 @@ bbFlag bbSF_addGraphics_skelly2(void* spawner,
     bbGraphicsComponent_data data;
     data.entity_handle = handle;
     data.MC = args->position,
-    data.last_state_change = 0;
-    data.last_wander_time = 0;
+    data.u.unit.last_state_change = 0;
+    data.u.unit.last_wander_time = 0;
     data.random_seed = bbRand();
-    data.drawable_state = bbDrawableState_idle;
+    data.u.unit.drawable_state = bbDrawableState_idle;
     data.drawable_type = bbGraphicsType_unit;
     data.random_seed = bbArith64_hashIndex(deterministic_seed,args->random_seed);
 
@@ -490,10 +490,10 @@ bbFlag bbSF_addGraphics_arrow(void* spawner,
     bbGraphicsComponent_data data;
     data.entity_handle = handle;
     data.MC = args->position,
-    data.start_point = args->position;
-    data.end_point = args->goalpoint;
-    data.start_time = home.core.core.simulation_time;
-    data.end_time = home.core.core.simulation_time + 300;
+    data.u.projectile.start_point = args->position;
+    data.u.projectile.end_point = args->goalpoint;
+    data.u.projectile.start_time = home.core.core.simulation_time;
+    data.u.projectile.end_time = home.core.core.simulation_time + 300;
     data.drawable_type = bbGraphicsType_projectile;
     data.random_seed = bbArith64_hashIndex(deterministic_seed,args->random_seed);
 

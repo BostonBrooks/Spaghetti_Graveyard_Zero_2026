@@ -169,7 +169,7 @@ bbFlag bbGraphics_spawnDevil(bbGraphicsSystem* system,
                            random_seed);
 
 
-    bbUI_Inbox_SetEntityState(&home.UI.inbox,data.entity_handle, data.drawable_state);
+    bbUI_Inbox_SetEntityState(&home.UI.inbox,data.entity_handle, data.u.unit.drawable_state);
 
     return bbSuccess;
 }
@@ -193,7 +193,7 @@ bbFlag bbGraphics_spawnFox(bbGraphicsSystem* system,
                            random_seed);
 
 
-    bbUI_Inbox_SetEntityState(&home.UI.inbox,data.entity_handle, data.drawable_state);
+    bbUI_Inbox_SetEntityState(&home.UI.inbox,data.entity_handle, data.u.unit.drawable_state);
 
     return bbSuccess;
 }
@@ -216,7 +216,7 @@ bbFlag bbGraphics_spawnHoplite(bbGraphicsSystem* system,
                            random_seed);
 
 
-    bbUI_Inbox_SetEntityState(&home.UI.inbox,data.entity_handle, data.drawable_state);
+    bbUI_Inbox_SetEntityState(&home.UI.inbox,data.entity_handle, data.u.unit.drawable_state);
 
     return bbSuccess;
 }
@@ -241,7 +241,7 @@ bbFlag bbGraphics_spawnArcher(bbGraphicsSystem* system,
                            random_seed);
 
 
-    bbUI_Inbox_SetEntityState(&home.UI.inbox,data.entity_handle, data.drawable_state);
+    bbUI_Inbox_SetEntityState(&home.UI.inbox,data.entity_handle, data.u.unit.drawable_state);
 
     return bbSuccess;
 }
@@ -265,7 +265,7 @@ bbFlag bbGraphics_spawnZombie(bbGraphicsSystem* system,
                            random_seed);
 
 
-    bbUI_Inbox_SetEntityState(&home.UI.inbox,data.entity_handle, data.drawable_state);
+    bbUI_Inbox_SetEntityState(&home.UI.inbox,data.entity_handle, data.u.unit.drawable_state);
 
     return bbSuccess;
 }
@@ -289,7 +289,7 @@ bbFlag bbGraphics_spawnLizard(bbGraphicsSystem* system,
                            random_seed);
 
 
-    bbUI_Inbox_SetEntityState(&home.UI.inbox,data.entity_handle, data.drawable_state);
+    bbUI_Inbox_SetEntityState(&home.UI.inbox,data.entity_handle, data.u.unit.drawable_state);
 
     return bbSuccess;
 }
@@ -312,7 +312,7 @@ bbFlag bbGraphics_spawnCow(bbGraphicsSystem* system,
                            random_seed);
 
 
-    bbUI_Inbox_SetEntityState(&home.UI.inbox,data.entity_handle, data.drawable_state);
+    bbUI_Inbox_SetEntityState(&home.UI.inbox,data.entity_handle, data.u.unit.drawable_state);
 
     return bbSuccess;
 }
@@ -334,7 +334,7 @@ bbFlag bbGraphics_spawnSkelly(bbGraphicsSystem* system,
                            random_seed);
 
 
-    bbUI_Inbox_SetEntityState(&home.UI.inbox,data.entity_handle, data.drawable_state);
+    bbUI_Inbox_SetEntityState(&home.UI.inbox,data.entity_handle, data.u.unit.drawable_state);
 
     return bbSuccess;
 }

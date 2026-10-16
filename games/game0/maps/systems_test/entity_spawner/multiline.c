@@ -171,10 +171,10 @@ bbFlag bbPF_AddGraphics(void *Spawner, char *line) {
     bbGraphicsComponent_data data;
     data.entity_handle = entity_handle;
     data.MC = map_coords;
-    data.last_state_change = 0;
-    data.last_wander_time = 0;
+    data.u.unit.last_state_change = 0;
+    data.u.unit.last_wander_time = 0;
     data.random_seed = bbRand();
-    data.drawable_state = state;
+    data.u.unit.drawable_state = state;
     data.drawable_type = bbGraphicsType_unit;
     bbCS_spawnGraphicsComponent(&home.core.core,
                                 NULL,
@@ -234,10 +234,10 @@ bbFlag bbPF_AddProjectile(void* Spawner, char* line)  {
     U64 deterministic_seed = bbArith64_hash(1234567);
 
     bbGraphicsComponent_data data;
-    data.start_point = start_point;
-    data.end_point = end_point;
-    data.start_time = start_time;
-    data.end_time = end_time;
+    data.u.projectile.start_point = start_point;
+    data.u.projectile.end_point = end_point;
+    data.u.projectile.start_time = start_time;
+    data.u.projectile.end_time = end_time;
     data.drawable_type = bbGraphicsType_projectile;
     data.entity_handle = entity_handle;
     bbCS_spawnGraphicsComponent(&home.core.core,

@@ -229,13 +229,13 @@ bbFlag bbAI_Command_Player(bbAI_Component* component,
         U64 deterministic_seed = bbArith64_hash(1234567);
 
         bbGraphicsComponent_data data3;
-        data3.start_point = start_point;
-        data3.end_point = end_point;
-        data3.start_time = start_time;
-        data3.end_time = end_time;
+        data3.u.projectile.start_point = start_point;
+        data3.u.projectile.end_point = end_point;
+        data3.u.projectile.start_time = start_time;
+        data3.u.projectile.end_time = end_time;
         data3.drawable_type = bbGraphicsType_projectile;
         data3.entity_handle = arrow_handle;
-        data3.caster_entity_handle =entity_handle;
+        data3.u.projectile.caster_entity_handle =entity_handle;
         bbCS_spawnGraphicsComponent(&home.core.core,
                                     NULL,
                                     "ARROW",

@@ -354,14 +354,14 @@ int main(void) {
                 U64 rand2 = bbRand();
 
                 bbGraphicsComponent_data data;
-                data.start_point.i = 18000;
-                data.start_point.j = 3400;
-                data.start_point.k = 0;
-                data.end_point.i = 18000 + rand % POINTS_PER_SQUARE - POINTS_PER_SQUARE / 2;
-                data.end_point.j = 3400 + rand2 % POINTS_PER_SQUARE - POINTS_PER_SQUARE / 2;
-                data.end_point.k = 0;
-                data.start_time = home.core.core.simulation_time;
-                data.end_time = home.core.core.simulation_time + 300;
+                data.u.projectile.start_point.i = 18000;
+                data.u.projectile.start_point.j = 3400;
+                data.u.projectile.start_point.k = 0;
+                data.u.projectile.end_point.i = 18000 + rand % POINTS_PER_SQUARE - POINTS_PER_SQUARE / 2;
+                data.u.projectile.end_point.j = 3400 + rand2 % POINTS_PER_SQUARE - POINTS_PER_SQUARE / 2;
+                data.u.projectile.end_point.k = 0;
+                data.u.projectile.start_time = home.core.core.simulation_time;
+                data.u.projectile.end_time = home.core.core.simulation_time + 300;
 
                 bbUI_Inbox_NewArrow(&home.UI.inbox, &data);
 
