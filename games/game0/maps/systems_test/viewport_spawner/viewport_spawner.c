@@ -167,6 +167,10 @@ bbFlag bbViewportSpawnZombie(bbViewportApp* viewport_app,
 
     unit->drawable.md.class = bbDrawableClass_unit;
     unit->drawable.md.random_seed = moveable_handle.u64;
+
+    unit->drawable.md.projectile_spawn_point.i = 0;
+    unit->drawable.md.projectile_spawn_point.j = 0;
+    unit->drawable.md.projectile_spawn_point.k = POINTS_PER_TILE * 4;
     //bbDebug("Zombie spawned with seed %lu\n", unit->drawable.md.random_seed);
 
     unit->drawable.functions.on_enter = bbDrawables_getFunction(&home.viewport_app.table, "ENTER NULL");

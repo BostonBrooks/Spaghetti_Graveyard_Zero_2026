@@ -37,6 +37,7 @@ typedef struct bbMinimalDrawable
 {
     bbDrawableClass class;
     bbMapCoords coords;
+    bbMapCoords projectile_spawn_point;
     bbSquareCoords SC;
     float rotation;
     bbDrawableState state;
