@@ -15,6 +15,7 @@ typedef struct {
     bbMapCoords end_point;
     bbTime start_time;
     bbTime end_time;
+    bbHandle caster_entity_handle;
 } bbGraphicsComponent_data;
 
 #endif

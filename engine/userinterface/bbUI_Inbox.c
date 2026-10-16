@@ -799,6 +799,12 @@ bbFlag bbUI_Inbox_newArrow_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
 
     bbDebug("arrow entity = %d\n", message->data.graphics.entity_handle);
 
+    bbHandle caster_unit_handle, caster_entity_handle;
+
+    caster_entity_handle = message->data.graphics.entity_handle;
+
+    bbLookupTable_lookup(home.viewport_app.entity_units2, caster_entity_handle, &caster_unit_handle);
+    projectile_data.caster = caster_unit_handle;
 
     bbProjectile_spawnArrow(&home.viewport_app,
                                     projectile_data,

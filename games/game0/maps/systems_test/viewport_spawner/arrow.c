@@ -5,7 +5,7 @@
 bbFlag bbProjectile_spawnArrow(bbViewportApp* viewport_app,
                                   bbProjectile_data data,
                                   bbHandle entity_handle,
-                                  bbHandle caster_entity_handle,
+                                  bbHandle caster_drawable_handle,
                                   U64 random_seed) {
 
     bbUnit* unit;
@@ -13,9 +13,18 @@ bbFlag bbProjectile_spawnArrow(bbViewportApp* viewport_app,
     bbGraphicsApp* graphics = &home.UI.graphics;
     bbVPool* pool = units->pool;
     bbMapCoords MC = data.start_coords;
+    bbUnit* caster;
+    bbVPool_lookup(home.viewport_app.units->pool,(void**)&caster,data.caster);
+    if (caster!=NULL) {
+        MC.k += caster->drawable.md.projectile_spawn_point.k;
+    } else {
+        bbHere()
+    }
+
+
+
     bbSquareCoords SC = bbMapCoords_getSquareCoords(MC);
     bbUnitSquare* unitSquare = bbDrawables_getSquare(units,SC.i, SC.j, units->squares_i, units->squares_j);
-
     bbHandle unit_handle;
     bbFlag flag = bbVPool_alloc2(pool, (void**)&unit,&unit_handle);
 
@@ -31,6 +40,7 @@ bbFlag bbProjectile_spawnArrow(bbViewportApp* viewport_app,
 
 
     unit->drawable.md.coords = MC;
+
     unit->drawable.md.SC = SC;
     bbHandle drawfunctionHandle;
     if (entity_handle.u64 != no_handle.u64)
@@ -41,6 +51,8 @@ bbFlag bbProjectile_spawnArrow(bbViewportApp* viewport_app,
 
     unit->type =  bbUnit_projectile;
     unit->u.projectile = data;
+
+    if (caster!=NULL) unit->u.projectile.start_coords.k += caster->drawable.md.projectile_spawn_point.k;
     unit->drawable.md.state = bbDrawableState_moving;
     unit->entity_handle = entity_handle;
     //bbDebug("system = %u\n", entity_handle.system.system);
