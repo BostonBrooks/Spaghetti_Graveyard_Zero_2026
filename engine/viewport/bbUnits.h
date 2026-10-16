@@ -19,6 +19,7 @@ typedef struct {
     float gravity;
     float screen_rotation;
     float screen_angle;
+    bbHandle caster;
     bbListElement_Handle list;
 }bbProjectile_data;
 
