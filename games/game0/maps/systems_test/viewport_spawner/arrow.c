@@ -5,7 +5,7 @@
 bbFlag bbProjectile_spawnArrow(bbViewportApp* viewport_app,
                                   bbProjectile_data data,
                                   bbHandle entity_handle,
-                                  bbHandle caster_drawable_handle,
+                                  bbHandle caster_unit_handle,
                                   U64 random_seed) {
 
     bbUnit* unit;
@@ -14,9 +14,16 @@ bbFlag bbProjectile_spawnArrow(bbViewportApp* viewport_app,
     bbVPool* pool = units->pool;
     bbMapCoords MC = data.start_coords;
     bbUnit* caster;
-    bbVPool_lookup(home.viewport_app.units->pool,(void**)&caster,data.caster);
+    bbDebug("caster = %d\n", caster_unit_handle)
+    bbVPool_lookup(home.viewport_app.units->pool,(void**)&caster,caster_unit_handle);
     if (caster!=NULL) {
+        bbHere()
         MC.k += caster->drawable.md.projectile_spawn_point.k;
+        MC.i += caster->drawable.md.projectile_spawn_point.i * sin(caster->drawable.md.rotation)
+                - caster->drawable.md.projectile_spawn_point.j * cos(caster->drawable.md.rotation);
+
+        MC.j += caster->drawable.md.projectile_spawn_point.i * cos(caster->drawable.md.rotation)
+                + caster->drawable.md.projectile_spawn_point.j * sin(caster->drawable.md.rotation);
     } else {
         bbHere()
     }
@@ -52,7 +59,15 @@ bbFlag bbProjectile_spawnArrow(bbViewportApp* viewport_app,
     unit->type =  bbUnit_projectile;
     unit->u.projectile = data;
 
-    if (caster!=NULL) unit->u.projectile.start_coords.k += caster->drawable.md.projectile_spawn_point.k;
+    if (caster!=NULL)
+    {
+        unit->u.projectile.start_coords.k += caster->drawable.md.projectile_spawn_point.k;
+        unit->u.projectile.start_coords.i += caster->drawable.md.projectile_spawn_point.i * sin(caster->drawable.md.rotation)
+                - caster->drawable.md.projectile_spawn_point.j * cos(caster->drawable.md.rotation);
+
+        unit->u.projectile.start_coords.j += caster->drawable.md.projectile_spawn_point.i * cos(caster->drawable.md.rotation)
+                + caster->drawable.md.projectile_spawn_point.j * sin(caster->drawable.md.rotation);
+    }
     unit->drawable.md.state = bbDrawableState_moving;
     unit->entity_handle = entity_handle;
     //bbDebug("system = %u\n", entity_handle.system.system);
@@ -75,7 +90,19 @@ bbFlag bbProjectile_spawnArrow(bbViewportApp* viewport_app,
     unit->drawable.md.frames[0].framerate = 1;
     unit->drawable.md.frames[0].offset.x = 0;
     unit->drawable.md.frames[0].offset.y = 0;
-        bbList_sortL(&unitSquare->list, unit);
+
+    bbDictionary_lookup(home.UI.graphics.drawfunctions->dictionary,
+                    "DRAWABLE_SHADOW",
+                    &drawfunctionHandle);
+
+    unit->drawable.md.frames[1].draw_function = drawfunctionHandle.u64;
+    unit->drawable.md.frames[1].asset_handle.u64 = 89;
+    unit->drawable.md.frames[1].start_time= 0;
+    unit->drawable.md.frames[1].framerate = 1;
+    unit->drawable.md.frames[1].offset.x = 0;
+    unit->drawable.md.frames[1].offset.y = 0;
+
+    bbList_sortL(&unitSquare->list, unit);
 
     unit->u.projectile.list.list_id = 0;
     unit->u.projectile.list.prev = viewport_app->projectiles.pool->null;

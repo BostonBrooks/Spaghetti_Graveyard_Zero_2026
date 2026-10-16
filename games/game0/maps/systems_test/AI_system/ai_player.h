@@ -170,6 +170,12 @@ bbFlag bbAI_Command_Player(bbAI_Component* component,
 
     if (type == bbAI_targetMonster && is_action)
     {
+        bbHandle entity_handle;
+        bbECS_entity*  entity;
+        bbComponent_mapComponent(home.ECS.ECS, bbECS_AI, (bbComponent*)component,
+                                 bbECS_ECS, &entity_handle,
+                                 (bbComponent**)&entity);
+
         bbHere()
         bbHandle target_handle = data.handle;
 
@@ -229,7 +235,7 @@ bbFlag bbAI_Command_Player(bbAI_Component* component,
         data3.end_time = end_time;
         data3.drawable_type = bbGraphicsType_projectile;
         data3.entity_handle = arrow_handle;
-        data3.caster_entity_handle = component->component.entity_handle;
+        data3.caster_entity_handle =entity_handle;
         bbCS_spawnGraphicsComponent(&home.core.core,
                                     NULL,
                                     "ARROW",
