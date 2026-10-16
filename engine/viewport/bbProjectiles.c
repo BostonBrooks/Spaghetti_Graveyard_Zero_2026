@@ -22,7 +22,7 @@ bbFlag projectile_update(bbList* list, void* node, void* cl)
     bbMapCoords end_coords = unit->u.projectile.end_coords;
     float gravity = unit->u.projectile.gravity;
 
-    if (current_time < start_time) return bbContinue;
+    //if (current_time < start_time) return bbContinue;
     if (current_time > end_time) return bbContinue;
 
     bbMapCoords position = bbMapCoords_interpolateGravity(
