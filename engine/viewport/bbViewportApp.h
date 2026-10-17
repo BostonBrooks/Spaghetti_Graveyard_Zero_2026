@@ -2,6 +2,7 @@
 #define BB_VIEWPORTAPP_H
 
 #include "bbActiveSquares.h"
+#include "bbVP_ProjectileSpawner.h"
 #include "engine/viewport/bbDrawableFunctions.h"
 #include "engine/viewport/bbViewportMouse.h"
 #include "engine/viewport/bbMapIcons.h"
@@ -29,14 +30,12 @@ typedef struct bbViewportApp
 
     bbHandle viewport_focus;
     bbActiveSquares active_squares;
-    //Convert from movable handle to unit handle
-    //bbVPool* moveable_units;
-    //Convert from entity handle to unit handle
-    //bbVPool* entity_units;
+
     bbLookupTable* entity_units2;
     bbLookupTable* entity_projectiles;
 
     bbViewportSpawner viewport_spawner;
+    bbVP_ProjectileSpawner projectile_spawner;
 
     bbVPMouse mouse;
 

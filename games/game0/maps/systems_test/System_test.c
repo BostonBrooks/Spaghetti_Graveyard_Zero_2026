@@ -75,7 +75,7 @@ void* userinterface_thread(void* arg);
 
 int main(void) {
     thread = "MAIN";
-    debug_off = false;
+    debug_off = true;
     printf("Hello, World!\n");
 
     pthread_barrier_init(&barrier1, NULL, 2);
@@ -471,7 +471,7 @@ int main(void) {
 void* userinterface_thread(void* arg)
 {
     thread = "USER INTERFACE";
-    debug_off = false;
+    debug_off = true;
 
 
     home.viewport_app.active_squares.old_i_min = 0;
@@ -515,9 +515,8 @@ void* userinterface_thread(void* arg)
     I32 counter = 0;
     bbViewportSpawner_init(&home.viewport_app.viewport_spawner);
     bbViewportSpawner_populate(&home.viewport_app.viewport_spawner);
-    //bbEntities_init_graphics(&home.agents_app.entities);
-    //bbSpawner_spawnGraphics(&home.spawner, "./maps/systems_test/spawner/spawner.csv");
-
+    bbVP_ProjectileSpawner_init(&home.viewport_app.projectile_spawner);
+    bbVP_ProjectileSpawner_populate(&home.viewport_app.projectile_spawner);
     // bbHere()
     // bbMapCoords MC;
     // MC.i = 10000;

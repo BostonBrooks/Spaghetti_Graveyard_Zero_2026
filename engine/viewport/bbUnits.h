@@ -5,23 +5,14 @@
 #include "bbDrawables.h"
 #include "bbViewportMouse.h"
 #include "engine/viewport/bbViewportMouseFunctions.h"
+#include "engine/viewport/bbProjectile_data.h"
 
 typedef enum {
     bbUnit_unit,
     bbUnit_projectile
 } bbUnit_type;
 
-typedef struct {
-    bbMapCoords start_coords;
-    bbMapCoords end_coords;
-    bbTime start_time;
-    bbTime end_time;
-    float gravity;
-    float screen_rotation;
-    float screen_angle;
-    bbHandle caster;
-    bbListElement_Handle list;
-}bbProjectile_data;
+
 
 typedef struct {
     I32 enitity;
