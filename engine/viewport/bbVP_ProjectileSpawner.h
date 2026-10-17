@@ -39,7 +39,7 @@ bbFlag bbVP_ProjectileSpawner_spawn(bbViewportApp *viewport,
                                     U32 type,
                                     bbProjectile_data data,
                                     bbHandle entity_handle,
-                                    bbHandle caster_entity_handle,
+                                    bbHandle caster_unit_handle,
                                     U64 random_seed);
 
 #endif //BB_VP_PROJECTILE_SPAWNER_H

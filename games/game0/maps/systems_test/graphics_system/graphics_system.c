@@ -340,7 +340,7 @@ bbFlag bbGraphics_spawnSkelly(bbGraphicsSystem* system,
 }
 
 
-bbFlag bbGraphics_spawnArrow(bbGraphicsSystem* system,
+bbFlag bbGraphics_spawnProjectile(bbGraphicsSystem* system,
                                    bbGraphicsComponent_data data) {
 
 //TODO spawn different types of arrow
@@ -354,7 +354,6 @@ bbFlag bbGraphics_spawnArrow(bbGraphicsSystem* system,
 
     bbUI_Inbox_NewProjectile(&home.UI.inbox,type_handle.u64, &data);
 
-    bbUI_Inbox_NewArrow(&home.UI.inbox, &data);
 
     return bbSuccess;
 }
@@ -371,6 +370,6 @@ bbFlag bbGraphicsSystem_populate(bbGraphicsSystem* graphics_system) {
     bbGraphics_spawnFunction_add(graphics_system, bbGraphics_spawnLizard, "LIZARD");
     bbGraphics_spawnFunction_add(graphics_system, bbGraphics_spawnCow, "COW");
     bbGraphics_spawnFunction_add(graphics_system, bbGraphics_spawnSkelly, "SKELLY");
-    bbGraphics_spawnFunction_add(graphics_system, bbGraphics_spawnArrow, "ARROW");
+    bbGraphics_spawnFunction_add(graphics_system, bbGraphics_spawnProjectile, "ARROW");
     return bbSuccess;
 }

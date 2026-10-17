@@ -858,7 +858,7 @@ bbFlag bbUI_Inbox_newProjectile_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* messag
                                     spawner_index,
                                     projectile_data,
                                     message->data.graphics.entity_handle,
-                                    caster_entity_handle,
+                                    caster_unit_handle,
                                     1234567);
 
     return bbSuccess;

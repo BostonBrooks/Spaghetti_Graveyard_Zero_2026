@@ -41,14 +41,14 @@ bbFlag bbVP_ProjectileSpawner_spawn(bbViewportApp *viewport,
                                     U32 type,
                                     bbProjectile_data data,
                                     bbHandle entity_handle,
-                                    bbHandle caster_entity_handle,
+                                    bbHandle caster_unit_handle,
                                     U64 random_seed)
 {
     bbVP_SpawnProjectile* function = spawner->spawn_functions[type];
     function(viewport,
              data,
              entity_handle,
-             caster_entity_handle,
+             caster_unit_handle,
              random_seed);
 
     return bbSuccess;
