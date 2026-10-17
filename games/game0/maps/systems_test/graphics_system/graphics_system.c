@@ -348,6 +348,11 @@ bbFlag bbGraphics_spawnArrow(bbGraphicsSystem* system,
     bbHandle random_seed;
     random_seed.u64 = data.random_seed;
 
+    bbDictionary* dict = home.viewport_app.projectile_spawner.spawn_function_dict;
+    bbHandle type_handle;
+    bbDictionary_lookup(dict,"ARROW",&type_handle);
+
+    bbUI_Inbox_NewProjectile(&home.UI.inbox,type_handle.u64, &data);
 
     bbUI_Inbox_NewArrow(&home.UI.inbox, &data);
 

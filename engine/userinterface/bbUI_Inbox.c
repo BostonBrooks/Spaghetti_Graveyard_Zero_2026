@@ -100,6 +100,11 @@ bbFlag bbUI_Inbox_check(bbUI_Inbox* inbox)
             case bbUI_Inbox_newArrow:
                 bbUI_Inbox_newArrow_fn(inbox, message);
                 break;
+            case bbUI_Inbox_newProjectile:
+                bbUI_Inbox_newProjectile_fn(inbox, message);
+                break;
+
+
         default:
 
             bbDebug("Unknown UI local message type\nmessage->type = %d\n", message->type);
@@ -811,6 +816,50 @@ bbFlag bbUI_Inbox_newArrow_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
                                     message->data.graphics.entity_handle,
                                      caster_unit_handle,
                                     1234567) ;
+
+    return bbSuccess;
+}
+
+
+bbFlag bbUI_Inbox_NewProjectile(bbUI_Inbox* inbox,I32 spawner_index, bbGraphicsComponent_data* data)
+{
+
+
+    bbUI_Inbox_message* message;
+    bbThreadedQueue_alloc(&inbox->local_message_queue,(void**)&message);
+    message->type = bbUI_Inbox_newProjectile;
+    message->spawner_index = spawner_index;
+    message->data.graphics = *data;
+
+    bbThreadedQueue_pushL(&inbox->local_message_queue, (void*)message);
+    return bbSuccess;
+}
+bbFlag bbUI_Inbox_newProjectile_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
+{
+    bbProjectile_data projectile_data;
+    projectile_data.start_coords = message->data.graphics.u.projectile.start_point;
+    projectile_data.end_coords = message->data.graphics.u.projectile.end_point;
+    projectile_data.start_time = message->data.graphics.u.projectile.start_time;
+    projectile_data.end_time = message->data.graphics.u.projectile.end_time;
+    projectile_data.gravity = 1000;
+    I32 spawner_index =  message->spawner_index;
+
+    bbHandle caster_unit_handle, caster_entity_handle;
+
+    caster_entity_handle = message->data.graphics.u.projectile.caster_entity_handle;
+
+    bbDebug("caster entity = %d\n", caster_entity_handle.system.index);
+    bbLookupTable_lookup(home.viewport_app.entity_units2, caster_entity_handle, &caster_unit_handle);
+    projectile_data.caster = caster_unit_handle;
+
+
+    bbVP_ProjectileSpawner_spawn(&home.viewport_app,
+                                    &home.viewport_app.projectile_spawner,
+                                    spawner_index,
+                                    projectile_data,
+                                    message->data.graphics.entity_handle,
+                                    caster_entity_handle,
+                                    1234567);
 
     return bbSuccess;
 }
