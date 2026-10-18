@@ -9,8 +9,6 @@ typedef struct {
     bbTime start_time;
     bbTime end_time;
     float gravity;
-    float screen_rotation;
-    float screen_angle;
     bbHandle caster;
     bbListElement_Handle list;
 }bbProjectile_data;

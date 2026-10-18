@@ -40,7 +40,10 @@ typedef struct bbMinimalDrawable
     //i is forward, j is to the left, k is up
     bbMapCoords projectile_spawn_point;
     bbSquareCoords SC;
+    //this decides what angle of the animation to draw
     float rotation;
+    //decides how much to rotate the sprite
+    float screen_rotation;
     bbDrawableState state;
     bbList_Handle listElement;
     bbList_Handle squareListElement;

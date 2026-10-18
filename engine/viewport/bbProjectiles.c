@@ -45,9 +45,9 @@ bbFlag projectile_update(bbList* list, void* node, void* cl)
 
 
 
-    unit->u.projectile.screen_rotation = rotation;
+    unit->drawable.md.screen_rotation = rotation;
     float screen_angle = bbVelocity_getAngle(velocity);
-    unit->u.projectile.screen_angle = screen_angle;
+    unit->drawable.md.rotation = screen_angle;
 
     bbUnit_setLocation((bbDrawable*)unit, home.viewport_app.units,position);
 

@@ -31,9 +31,9 @@ bbFlag bbDF_projectileRotation(void* Drawable, void* frameDescriptor, void* cl){
     sfVector2f V2F = bbMapCoords_getV2f(drawable->md.coords, VP);
 
     sfSprite_setPosition(sprite,V2F);
-    sfSprite_setRotation(sprite,unit->u.projectile.screen_rotation *180.0f / M_PI);
+    sfSprite_setRotation(sprite,unit->drawable.md.screen_rotation  *180.0f / M_PI);
 
-    bbDebug("rotation = %f\n", unit->u.projectile.screen_rotation *180.0f / M_PI);
+    bbDebug("rotation = %f\n", unit->drawable.md.screen_rotation  *180.0f / M_PI);
     sfRenderTexture_drawSprite(renderTexture,sprite,NULL);
 
     return bbSuccess;
@@ -55,7 +55,7 @@ bbFlag bbDF_projectileRotationAngle(void* Drawable, void* frameDescriptor, void*
 
     //TODO may vary
     I32 numAngles = animation->angles;
-    I32 angle = getAngleXD(unit->u.projectile.screen_angle, numAngles);
+    I32 angle = getAngleXD(unit->drawable.md.rotation, numAngles);
 
     I32 frames = animation->frames;
 
@@ -72,7 +72,7 @@ bbFlag bbDF_projectileRotationAngle(void* Drawable, void* frameDescriptor, void*
     V2F.x += frame->offset.x / (float)POINTS_PER_PIXEL;
     V2F.y += frame->offset.y / (float)POINTS_PER_PIXEL;
     sfSprite_setPosition(sprite,V2F);
-    sfSprite_setRotation(sprite,unit->u.projectile.screen_rotation *180.0f / M_PI);
+    sfSprite_setRotation(sprite,unit->drawable.md.screen_rotation  *180.0f / M_PI);
 
     sfRenderTexture* renderTexture = VP->main.renderTexture;
     sfRenderTexture_drawSprite(renderTexture,sprite,NULL);
