@@ -103,7 +103,7 @@ int main(void) {
     bbTextbox_newMessage(home.textbox_app.textboxes[bbTextbox_Dialogue], &message_handle, &message_text);
     snprintf(message_text,MESSAGE_LENGTH,
 
-"This was the last working checkpoint before i did a bad Rebase/Merge\n");
+"Theres a place - I call home. It isn't there - anymore.\n");
 
     bbTextbox_putMessage(home.textbox_app.textboxes[bbTextbox_Dialogue],message_handle,0);
     bbTextbox_updateBuffer(home.textbox_app.textboxes[bbTextbox_Dialogue]);
