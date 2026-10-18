@@ -5,7 +5,7 @@
 #include "engine/logic/bbHandle.h"
 #include "engine/viewport/bbProjectile_data.h"
 #include "engine/viewport/bbViewportApp.h"
-bbFlag bbProjectile_spawnArrows(bbViewportApp* viewport_app,
+bbFlag bbProjectile_spawnArrowFan(bbViewportApp* viewport_app,
                                 bbProjectile_data data,
                                 bbHandle entity_handle,
                                 bbHandle caster_entity_handle,

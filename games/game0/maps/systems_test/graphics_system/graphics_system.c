@@ -350,7 +350,7 @@ bbFlag bbGraphics_spawnProjectile(bbGraphicsSystem* system,
 
     bbDictionary* dict = home.viewport_app.projectile_spawner.spawn_function_dict;
     bbHandle type_handle;
-    bbDictionary_lookup(dict,"ARROWS",&type_handle);
+    bbDictionary_lookup(dict,"ARROW_FAN",&type_handle);
 
     bbUI_Inbox_NewProjectile(&home.UI.inbox,type_handle.u64, &data);
 

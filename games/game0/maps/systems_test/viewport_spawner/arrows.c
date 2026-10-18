@@ -2,7 +2,7 @@
 #include "engine/logic/bbFlag.h"
 #include "engine/viewport/bbViewportApp.h"
 
-bbFlag bbProjectile_spawnArrows(bbViewportApp* viewport_app,
+bbFlag bbProjectile_spawnArrowFan(bbViewportApp* viewport_app,
                                   bbProjectile_data data,
                                   bbHandle entity_handle,
                                   bbHandle caster_unit_handle,
@@ -175,7 +175,7 @@ bbFlag bbProjectile_spawnArrows(bbViewportApp* viewport_app,
     for (I32 i = 0; i < UNITS_PER_GROUP; i++ ) {
 
         bbRenderUnit* render_unit = &group->units[i];
-        render_unit->start_point = start_coords[i];
+        render_unit->start_point = MC;
         render_unit->end_point = end_coords[i];
         render_unit->md = fox_drawable;
         render_unit->owner = &unit->drawable;
