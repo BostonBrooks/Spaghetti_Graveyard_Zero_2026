@@ -19,11 +19,11 @@ bbFlag bbProjectile_spawnArrowFan(bbViewportApp* viewport_app,
     if (caster!=NULL) {
         bbHere()
         MC.k += caster->drawable.md.projectile_spawn_point.k;
-        MC.i += caster->drawable.md.projectile_spawn_point.i * sin(caster->drawable.md.rotation)
-                - caster->drawable.md.projectile_spawn_point.j * cos(caster->drawable.md.rotation);
+        MC.i += caster->drawable.md.projectile_spawn_point.i * sin(caster->drawable.md.angle)
+                - caster->drawable.md.projectile_spawn_point.j * cos(caster->drawable.md.angle);
 
-        MC.j += caster->drawable.md.projectile_spawn_point.i * cos(caster->drawable.md.rotation)
-                + caster->drawable.md.projectile_spawn_point.j * sin(caster->drawable.md.rotation);
+        MC.j += caster->drawable.md.projectile_spawn_point.i * cos(caster->drawable.md.angle)
+                + caster->drawable.md.projectile_spawn_point.j * sin(caster->drawable.md.angle);
     } else {
         bbHere()
     }
@@ -65,11 +65,11 @@ bbFlag bbProjectile_spawnArrowFan(bbViewportApp* viewport_app,
     if (caster!=NULL)
     {
         unit->u.projectile.start_coords.k += caster->drawable.md.projectile_spawn_point.k;
-        unit->u.projectile.start_coords.i += caster->drawable.md.projectile_spawn_point.i * sin(caster->drawable.md.rotation)
-                - caster->drawable.md.projectile_spawn_point.j * cos(caster->drawable.md.rotation);
+        unit->u.projectile.start_coords.i += caster->drawable.md.projectile_spawn_point.i * sin(caster->drawable.md.angle)
+                - caster->drawable.md.projectile_spawn_point.j * cos(caster->drawable.md.angle);
 
-        unit->u.projectile.start_coords.j += caster->drawable.md.projectile_spawn_point.i * cos(caster->drawable.md.rotation)
-                + caster->drawable.md.projectile_spawn_point.j * sin(caster->drawable.md.rotation);
+        unit->u.projectile.start_coords.j += caster->drawable.md.projectile_spawn_point.i * cos(caster->drawable.md.angle)
+                + caster->drawable.md.projectile_spawn_point.j * sin(caster->drawable.md.angle);
     }
     unit->drawable.md.state = bbDrawableState_moving;
     unit->entity_handle = entity_handle;
@@ -83,16 +83,16 @@ bbFlag bbProjectile_spawnArrowFan(bbViewportApp* viewport_app,
         unit->drawable.md.frames[k].draw_function = -1;
     }
 
-    bbDictionary_lookup(home.UI.graphics.drawfunctions->dictionary,
-                        "PROJECTILE_ROTATION_ANGLE",
-                        &drawfunctionHandle);
-
-    unit->drawable.md.frames[0].draw_function = drawfunctionHandle.u64;
-    unit->drawable.md.frames[0].asset_handle.u64 = 35;
-    unit->drawable.md.frames[0].start_time= 0;
-    unit->drawable.md.frames[0].framerate = 1;
-    unit->drawable.md.frames[0].offset.x = 0;
-    unit->drawable.md.frames[0].offset.y = 0;
+    // bbDictionary_lookup(home.UI.graphics.drawfunctions->dictionary,
+    //                     "PROJECTILE_ROTATION_ANGLE",
+    //                     &drawfunctionHandle);
+    //
+    // unit->drawable.md.frames[0].draw_function = drawfunctionHandle.u64;
+    // unit->drawable.md.frames[0].asset_handle.u64 = 35;
+    // unit->drawable.md.frames[0].start_time= 0;
+    // unit->drawable.md.frames[0].framerate = 1;
+    // unit->drawable.md.frames[0].offset.x = 0;
+    // unit->drawable.md.frames[0].offset.y = 0;
 
     bbDictionary_lookup(home.UI.graphics.drawfunctions->dictionary,
                     "DRAWABLE_SHADOW",
@@ -144,7 +144,7 @@ bbFlag bbProjectile_spawnArrowFan(bbViewportApp* viewport_app,
                                        unit->u.projectile.start_coords,
                                        0,
                                        0.f,
-                                       unit->drawable.md.rotation,
+                                       unit->drawable.md.angle,
                                        POINTS_PER_TILE,
                                        0.f);
 
@@ -152,7 +152,7 @@ bbFlag bbProjectile_spawnArrowFan(bbViewportApp* viewport_app,
                                        unit->u.projectile.end_coords,
                                        0,
                                        0.f,
-                                       unit->drawable.md.rotation,
+                                       unit->drawable.md.angle,
                                        POINTS_PER_TILE,
                                        0.f);
 
@@ -160,7 +160,7 @@ bbFlag bbProjectile_spawnArrowFan(bbViewportApp* viewport_app,
     fox_drawable.state = bbDrawableState_idle;
     fox_drawable.class = bbDrawableClass_renderUnit;
     fox_drawable.random_seed = 0;
-    fox_drawable.rotation = 0;
+    fox_drawable.angle = 0;
     fox_drawable.coords = start_coords[0];
 
     for (I32 k = 0; k < FRAMES_PER_DRAWABLE; k++){
@@ -171,6 +171,7 @@ bbFlag bbProjectile_spawnArrowFan(bbViewportApp* viewport_app,
                     "PROJECTILES",
                     &drawfunctionHandle);
     fox_drawable.frames[0].draw_function = drawfunctionHandle.u64;
+    fox_drawable.frames[0].asset_handle.u64 = 35;
 
     for (I32 i = 0; i < UNITS_PER_GROUP; i++ ) {
 

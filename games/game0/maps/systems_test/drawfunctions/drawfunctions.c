@@ -234,8 +234,6 @@ bbFlag bbDrawfunctions_new(bbDrawfunctions** drawfunctions){
     handle.u64 = 37;
     bbDictionary_add(functions->dictionary, "PROJECTILES", handle);
 
-    
-
 
     *drawfunctions = functions;
     return bbSuccess;

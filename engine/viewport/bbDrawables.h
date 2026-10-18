@@ -41,9 +41,9 @@ typedef struct bbMinimalDrawable
     bbMapCoords projectile_spawn_point;
     bbSquareCoords SC;
     //this decides what angle of the animation to draw
-    float rotation;
+    float angle;
     //decides how much to rotate the sprite
-    float screen_rotation;
+    float rotation;
     bbDrawableState state;
     bbList_Handle listElement;
     bbList_Handle squareListElement;

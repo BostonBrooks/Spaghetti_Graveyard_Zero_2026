@@ -18,11 +18,11 @@ bbFlag bbProjectile_spawnArrow(bbViewportApp* viewport_app,
     if (caster!=NULL) {
         bbHere()
         MC.k += caster->drawable.md.projectile_spawn_point.k;
-        MC.i += caster->drawable.md.projectile_spawn_point.i * sin(caster->drawable.md.rotation)
-                - caster->drawable.md.projectile_spawn_point.j * cos(caster->drawable.md.rotation);
+        MC.i += caster->drawable.md.projectile_spawn_point.i * sin(caster->drawable.md.angle)
+                - caster->drawable.md.projectile_spawn_point.j * cos(caster->drawable.md.angle);
 
-        MC.j += caster->drawable.md.projectile_spawn_point.i * cos(caster->drawable.md.rotation)
-                + caster->drawable.md.projectile_spawn_point.j * sin(caster->drawable.md.rotation);
+        MC.j += caster->drawable.md.projectile_spawn_point.i * cos(caster->drawable.md.angle)
+                + caster->drawable.md.projectile_spawn_point.j * sin(caster->drawable.md.angle);
     } else {
         bbHere()
     }
@@ -61,11 +61,11 @@ bbFlag bbProjectile_spawnArrow(bbViewportApp* viewport_app,
     if (caster!=NULL)
     {
         unit->u.projectile.start_coords.k += caster->drawable.md.projectile_spawn_point.k;
-        unit->u.projectile.start_coords.i += caster->drawable.md.projectile_spawn_point.i * sin(caster->drawable.md.rotation)
-                - caster->drawable.md.projectile_spawn_point.j * cos(caster->drawable.md.rotation);
+        unit->u.projectile.start_coords.i += caster->drawable.md.projectile_spawn_point.i * sin(caster->drawable.md.angle)
+                - caster->drawable.md.projectile_spawn_point.j * cos(caster->drawable.md.angle);
 
-        unit->u.projectile.start_coords.j += caster->drawable.md.projectile_spawn_point.i * cos(caster->drawable.md.rotation)
-                + caster->drawable.md.projectile_spawn_point.j * sin(caster->drawable.md.rotation);
+        unit->u.projectile.start_coords.j += caster->drawable.md.projectile_spawn_point.i * cos(caster->drawable.md.angle)
+                + caster->drawable.md.projectile_spawn_point.j * sin(caster->drawable.md.angle);
     }
     unit->drawable.md.state = bbDrawableState_moving;
     unit->entity_handle = entity_handle;

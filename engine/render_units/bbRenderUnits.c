@@ -1,6 +1,7 @@
 #include "engine/render_units/bbRenderUnits.h"
 
 #include "engine/data/bbHome.h"
+#include "engine/geometry/bbViewportCoords.h"
 #include "engine/groundsurface/bbGroundSurface.h"
 #include "engine/logic/bbIterator.h"
 #include "engine/logic/bbSystemPool.h"
@@ -139,7 +140,7 @@ bbFlag bbRenderUnitGroup_spawn_hoplites(bbRenderUnitGroup** Group,
 
         group->units[i].md = fox_drawable;
         group->units[i].md.random_seed = seed;
-        group->units[i].md.rotation =0;
+        group->units[i].md.angle =0;
         group->units[i].md.frames[0].framerate = framerate;
         group->units[i].md.frames[0].start_time = start_time;
 
@@ -217,7 +218,7 @@ bbFlag bbRenderUnitGroup_spawn_archers(bbRenderUnitGroup** Group,
 
         group->units[i].md = fox_drawable;
         group->units[i].md.random_seed = seed;
-        group->units[i].md.rotation =0;
+        group->units[i].md.angle =0;
         group->units[i].md.frames[0].framerate = framerate;
         group->units[i].md.frames[0].start_time = start_time;
 
@@ -294,7 +295,7 @@ bbFlag bbRenderUnitGroup_spawn_foxes(bbRenderUnitGroup** Group,
 
         group->units[i].md = fox_drawable;
         group->units[i].md.random_seed = seed;
-        group->units[i].md.rotation =0;
+        group->units[i].md.angle =0;
         group->units[i].md.frames[0].framerate = framerate;
         group->units[i].md.frames[0].start_time = start_time;
 
@@ -352,7 +353,7 @@ bbFlag bbRenderUnits_updatePositions(bbRenderUnits* render_units)
         bbDrawable* drawable = group->units[0].owner;
         bbUnit* parent_unit = (bbUnit*)group->units[0].owner;
 
-        float theta = drawable->md.rotation;
+        float theta = drawable->md.angle;
         float spacing = group->spacing;
         float randomness = group->randomness;
 
@@ -378,7 +379,7 @@ bbFlag bbRenderUnits_updatePositions(bbRenderUnits* render_units)
         for (I32 i = 0; i < UNITS_PER_GROUP; i++) {
             bbRenderUnit* unit = &group->units[i];
             unit->md.coords = new_coords[i];
-            unit->md.rotation = drawable->md.rotation;
+            unit->md.angle = drawable->md.angle;
 
             unit->forces.i = 0;
             unit->forces.j = 0;
@@ -484,10 +485,8 @@ bbFlag bbRenderUnits_updateProjectiles(bbRenderUnits* render_units) {
     while (flag == bbSuccess) {
 
         bbUnit* parent_unit = (bbUnit*)group->units[0].owner;
-debug_off = false;
-        bbDebug("parent unit = %p, group = %p\n", parent_unit, group);
         float gravity = parent_unit->u.projectile.gravity;
-debug_off = true;
+
         bbTime start_time = parent_unit->u.projectile.start_time;
         bbTime end_time = parent_unit->u.projectile.end_time;
         bbTime current_time = home.UI.clock2_handle.map_tick;
@@ -502,17 +501,35 @@ debug_off = true;
             bbMapCoords end_coords = render_unit->end_point;
             bbMapCoords interp_coords = end_coords;
 
-            if (end_time > current_time) {
+            if (current_time > end_time) {
+
+                continue;
+            }
+
+
+
                 interp_coords = bbMapCoords_interpolateGravity(start_coords,
                                                                           end_coords,
                                                                           gravity,
                                                                           start_time,
                                                                           current_time,
                                                                           end_time);
-            }
 
+            bbFloat3D velocity = bbMapCoords_getVelocity(
+                start_coords,
+                end_coords,
+                gravity,
+                start_time,
+                current_time,
+                end_time);
+
+
+            float rotation = bbVelocity_getRotation(velocity);
+            float angle = bbVelocity_getAngle(velocity);
+
+            group->units[i].md.angle = angle;
+            group->units[i].md.rotation = rotation;
             group->units[i].md.coords = interp_coords;
-
 
            // debug_off = false;
            //  bbDebug("start time = %lld, end_time = %lld\n", start_time, end_time);
@@ -521,7 +538,6 @@ debug_off = true;
            //  bbDebug("interp (i, j, k) = (%d, %d, %d)\n", interp_coords.i, interp_coords.j, interp_coords.k);
            //  debug_off = true;
         }
-
 
         flag = bbList_increment(&render_units->projectile_list,(void**)&group);
     }

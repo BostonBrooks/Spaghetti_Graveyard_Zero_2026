@@ -143,7 +143,7 @@ bbFlag bbUnits_consumeBuffer(bbUnits* units, bbVPool* entity_units, bbMoveables_
         //drawable->md.rotation = angular_interpolate(unit->prev_angle,unit->next_angle,
         //                                         unit->prev_time, map_time, unit->next_time);
 
-        drawable->md.rotation = angular_exponential(drawable->md.rotation, unit->u.unit.next_angle) ;
+        drawable->md.angle = angular_exponential(drawable->md.angle, unit->u.unit.next_angle) ;
         bbDrawable_setLocation(drawable, units,position);
 
 
