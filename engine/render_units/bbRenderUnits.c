@@ -484,19 +484,22 @@ bbFlag bbRenderUnits_updateProjectiles(bbRenderUnits* render_units) {
     while (flag == bbSuccess) {
 
         bbUnit* parent_unit = (bbUnit*)group->units[0].owner;
+debug_off = false;
+        bbDebug("parent unit = %p, group = %p\n", parent_unit, group);
         float gravity = parent_unit->u.projectile.gravity;
-
+debug_off = true;
         bbTime start_time = parent_unit->u.projectile.start_time;
         bbTime end_time = parent_unit->u.projectile.end_time;
         bbTime current_time = home.UI.clock2_handle.map_tick;
 
+
         for (I32 i=0; i<UNITS_PER_GROUP; i++) {
 
 
-            bbRenderUnit* unit = (bbRenderUnit*)group->units[i].owner;
+            bbRenderUnit* render_unit = &group->units[i];
 
-            bbMapCoords start_coords = unit->start_point;
-            bbMapCoords end_coords = unit->end_point;
+            bbMapCoords start_coords = render_unit->start_point;
+            bbMapCoords end_coords = render_unit->end_point;
             bbMapCoords interp_coords = end_coords;
 
             if (end_time > current_time) {
@@ -512,6 +515,7 @@ bbFlag bbRenderUnits_updateProjectiles(bbRenderUnits* render_units) {
 
 
            debug_off = false;
+            bbDebug("start time = %lld, end_time = %lld\n", start_time, end_time);
             bbDebug("start (i, j, k) = (%d, %d, %d)\n", start_coords.i, start_coords.j, start_coords.k);
             bbDebug("end (i, j, k) = (%d, %d, %d)\n", end_coords.i, end_coords.j, end_coords.k);
             bbDebug("interp (i, j, k) = (%d, %d, %d)\n", interp_coords.i, interp_coords.j, interp_coords.k);
