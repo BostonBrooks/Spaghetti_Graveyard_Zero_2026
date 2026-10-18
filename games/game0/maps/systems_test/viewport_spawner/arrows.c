@@ -101,7 +101,7 @@ bbFlag bbProjectile_spawnArrows(bbViewportApp* viewport_app,
     unit->drawable.md.frames[1].framerate = 1;
     unit->drawable.md.frames[1].offset.x = 0;
     unit->drawable.md.frames[1].offset.y = 0;
-/*
+
     bbDictionary_lookup(home.UI.graphics.drawfunctions->dictionary,
                     "TREE_GROUP",
                     &drawfunctionHandle);
@@ -111,14 +111,14 @@ bbFlag bbProjectile_spawnArrows(bbViewportApp* viewport_app,
     unit->drawable.md.frames[2].framerate = 1;
     unit->drawable.md.frames[2].offset.x = 0;
     unit->drawable.md.frames[2].offset.y = 0;
-*/
+
     bbList_sortL(&unitSquare->list, unit);
 
     unit->u.projectile.list.list_id = 0;
     unit->u.projectile.list.prev = viewport_app->projectiles.pool->null;
     unit->u.projectile.list.next = viewport_app->projectiles.pool->null;
     bbList_pushL(&viewport_app->projectiles,unit);
-/*
+
 
 
 
@@ -176,9 +176,13 @@ bbFlag bbProjectile_spawnArrows(bbViewportApp* viewport_app,
         render_unit->avoidance_type = bbRU_avoidanceType_none;
         render_unit->movement_type = bbRU_movementType_static;
 
+         debug_off = false;
+ bbDebug(" (i, j, k) = (%d, %d, %d)\n", render_unit->start_point.i, render_unit->start_point.j, render_unit->start_point.k);
+ bbDebug(" (i, j, k) = (%d, %d, %d)\n", render_unit->end_point.i, render_unit->end_point.j, render_unit->end_point.k);
+ debug_off = true;
 
     }
 
-    bbList_pushL(&viewport_app->renderUnits->projectile_list, group);*/
+    bbList_pushL(&viewport_app->renderUnits->projectile_list, group);
     return bbSuccess;
 }

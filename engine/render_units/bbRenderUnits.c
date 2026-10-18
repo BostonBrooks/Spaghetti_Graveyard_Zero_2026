@@ -491,6 +491,8 @@ bbFlag bbRenderUnits_updateProjectiles(bbRenderUnits* render_units) {
         bbTime current_time = home.UI.clock2_handle.map_tick;
 
         for (I32 i=0; i<UNITS_PER_GROUP; i++) {
+
+
             bbRenderUnit* unit = (bbRenderUnit*)group->units[i].owner;
 
             bbMapCoords start_coords = unit->start_point;
@@ -506,10 +508,17 @@ bbFlag bbRenderUnits_updateProjectiles(bbRenderUnits* render_units) {
                                                                           end_time);
             }
 
-            unit->md.coords = interp_coords;
+            group->units[i].md.coords = interp_coords;
+
+
+           debug_off = false;
+            bbDebug("start (i, j, k) = (%d, %d, %d)\n", start_coords.i, start_coords.j, start_coords.k);
+            bbDebug("end (i, j, k) = (%d, %d, %d)\n", end_coords.i, end_coords.j, end_coords.k);
+            bbDebug("interp (i, j, k) = (%d, %d, %d)\n", interp_coords.i, interp_coords.j, interp_coords.k);
+            debug_off = true;
         }
 
 
-        flag = bbList_increment(&render_units->soldier_list,(void**)&group);
+        flag = bbList_increment(&render_units->projectile_list,(void**)&group);
     }
 }
