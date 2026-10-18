@@ -59,9 +59,12 @@ I32 getAngleXD(float radians, I32 numAngles)
 
     if (numAngles == 1) return 0;
 
-    I32 angle = bbArith_mod((I32)((radians*0.15915494309f+1)*numAngles + numAngles/2.f - 0.5f),numAngles);
-    //bbDebug("radians/2pi = %f, getAngle = %d\n",radians*0.15915494309f, angle);
-    return angle;
+    I32 angle =(I32)((radians*0.15915494309f+1)*numAngles + numAngles/2.f - 0.5f);
+
+    I32 angle_mod = bbArith_mod(angle,numAngles);
+
+    bbAssert(angle_mod >= 0 && angle_mod < numAngles, "bad angle value\n");
+    return angle_mod;
 
 }
 
@@ -167,7 +170,6 @@ bbFlag bbDF_unitDrawBuffer(void* Drawable, void* frameDescriptor, void* cl){
 
     I32 frameInt =  bbArith64_mod((I64)((double)(foo->map_time - frame->start_time)
             *(double)animation->framerate*(double)frame->framerate), frames);
-
 
 
 
