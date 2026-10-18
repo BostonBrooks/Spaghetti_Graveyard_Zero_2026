@@ -63,7 +63,7 @@ I32 getAngleXD(float radians, I32 numAngles)
 
     I32 angle_mod = bbArith_mod(angle,numAngles);
 
-    bbAssert(angle_mod >= 0 && angle_mod < numAngles, "bad angle value\n");
+    bbAssert(angle_mod >= 0 && angle_mod < numAngles, "bad angle value %f\n", radians);
     return angle_mod;
 
 }

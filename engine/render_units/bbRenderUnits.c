@@ -136,6 +136,7 @@ bbFlag bbRenderUnitGroup_spawn_hoplites(bbRenderUnitGroup** Group,
 
         group->units[i].md = fox_drawable;
         group->units[i].md.random_seed = seed;
+        group->units[i].md.rotation =0;
         group->units[i].md.frames[0].framerate = framerate;
         group->units[i].md.frames[0].start_time = start_time;
 
@@ -213,6 +214,7 @@ bbFlag bbRenderUnitGroup_spawn_archers(bbRenderUnitGroup** Group,
 
         group->units[i].md = fox_drawable;
         group->units[i].md.random_seed = seed;
+        group->units[i].md.rotation =0;
         group->units[i].md.frames[0].framerate = framerate;
         group->units[i].md.frames[0].start_time = start_time;
 
@@ -289,6 +291,7 @@ bbFlag bbRenderUnitGroup_spawn_foxes(bbRenderUnitGroup** Group,
 
         group->units[i].md = fox_drawable;
         group->units[i].md.random_seed = seed;
+        group->units[i].md.rotation =0;
         group->units[i].md.frames[0].framerate = framerate;
         group->units[i].md.frames[0].start_time = start_time;
 
@@ -350,12 +353,6 @@ bbFlag bbRenderUnits_updatePositions(bbRenderUnits* render_units)
         float spacing = group->spacing;
         float randomness = group->randomness;
 
-        bbMapCoords delta_coords, new_coordz;
-
-
-        float c_theta = cosf(theta);
-        float s_theta = sinf(theta);
-
         float wander_time_f = 0;
 
         if (group->units->movement_type == bbRU_movementType_wander) {
@@ -379,6 +376,7 @@ bbFlag bbRenderUnits_updatePositions(bbRenderUnits* render_units)
             bbRenderUnit* unit = &group->units[i];
             unit->md.coords = new_coords[i];
             unit->md.rotation = drawable->md.rotation;
+
             unit->forces.i = 0;
             unit->forces.j = 0;
             unit->forces.k = 0;
