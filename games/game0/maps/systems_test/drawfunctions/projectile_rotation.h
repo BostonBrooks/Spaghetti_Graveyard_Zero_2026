@@ -81,3 +81,20 @@ bbFlag bbDF_projectileRotationAngle(void* Drawable, void* frameDescriptor, void*
 
 
 }
+
+bbFlag bbDF_projectiles(void* Drawable, void* frameDescriptor, void* cl) {
+    bbRenderUnit* unit = Drawable;
+    drawFuncClosure* foo = cl;
+    bbGraphicsApp* graphics = foo->graphics;
+    bbViewport* VP = foo->target;
+
+    U64 spriteInt = 616;
+    if (spriteInt >= graphics->sprites->num_sprites) spriteInt = 0;
+    if (spriteInt < 0) spriteInt = 0;
+    sfSprite* sprite = graphics->sprites->sprites[spriteInt].sprite;
+    sfRenderTexture* renderTexture = VP->main.renderTexture;
+    sfVector2f V2F = bbMapCoords_getV2f(unit->md.coords, VP);
+    sfSprite_setPosition(sprite,V2F);
+    sfRenderTexture_drawSprite(renderTexture,sprite,NULL);
+
+}

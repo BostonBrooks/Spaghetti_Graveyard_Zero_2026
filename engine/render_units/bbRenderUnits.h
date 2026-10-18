@@ -48,7 +48,8 @@ typedef struct bbRenderUnitGroup
 typedef struct bbRenderUnits
 {
     bbVPool* pool;
-    bbList list;
+    bbList soldier_list;
+    bbList projectile_list;
 
     I32 spawnFunction_num;
     bbDictionary* spawnFunction_dict;
@@ -74,6 +75,7 @@ bbFlag bbRenderUnitGroup_calcPositions(bbMapCoords coords[12],
                                        float randomness);
 
 bbFlag bbRenderUnits_updatePositions(bbRenderUnits* render_units);
+bbFlag bbRenderUnits_updateProjectiles(bbRenderUnits* render_units);
 bbFlag bbRenderUnits_populateFunctions (bbRenderUnits* render_units);
 bbFlag bbRenderUnits_addSpawnFunction(bbRenderUnits* render_units,
                                       bbRenderUnitGroup_spawn_fn* spawn_function,

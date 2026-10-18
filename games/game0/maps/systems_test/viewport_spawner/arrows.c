@@ -101,13 +101,84 @@ bbFlag bbProjectile_spawnArrows(bbViewportApp* viewport_app,
     unit->drawable.md.frames[1].framerate = 1;
     unit->drawable.md.frames[1].offset.x = 0;
     unit->drawable.md.frames[1].offset.y = 0;
-
+/*
+    bbDictionary_lookup(home.UI.graphics.drawfunctions->dictionary,
+                    "TREE_GROUP",
+                    &drawfunctionHandle);
+    unit->drawable.md.frames[2].draw_function = drawfunctionHandle.u64;
+    unit->drawable.md.frames[2].asset_handle.u64 = 89;
+    unit->drawable.md.frames[2].start_time= 0;
+    unit->drawable.md.frames[2].framerate = 1;
+    unit->drawable.md.frames[2].offset.x = 0;
+    unit->drawable.md.frames[2].offset.y = 0;
+*/
     bbList_sortL(&unitSquare->list, unit);
 
     unit->u.projectile.list.list_id = 0;
     unit->u.projectile.list.prev = viewport_app->projectiles.pool->null;
     unit->u.projectile.list.next = viewport_app->projectiles.pool->null;
     bbList_pushL(&viewport_app->projectiles,unit);
+/*
 
+
+
+    bbRenderUnitGroup* group;
+    bbVPool_alloc2(viewport_app->renderUnits->pool, (void**)&group, NULL);
+
+    unit->drawable.group = group;
+
+    group->spacing = POINTS_PER_TILE;
+    group->randomness = 1.f;
+
+    bbMapCoords start_coords[12];
+    bbMapCoords end_coords[12];
+
+    bbRenderUnitGroup_calcPositions(start_coords,
+                                       unit->u.projectile.start_coords,
+                                       0,
+                                       0.f,
+                                       unit->drawable.md.rotation,
+                                       POINTS_PER_TILE,
+                                       0.f);
+
+    bbRenderUnitGroup_calcPositions(end_coords,
+                                       unit->u.projectile.end_coords,
+                                       0,
+                                       0.f,
+                                       unit->drawable.md.rotation,
+                                       POINTS_PER_TILE,
+                                       0.f);
+
+    bbMinimalDrawable fox_drawable;
+    fox_drawable.state = bbDrawableState_idle;
+    fox_drawable.class = bbDrawableClass_renderUnit;
+    fox_drawable.random_seed = 0;
+    fox_drawable.rotation = 0;
+    fox_drawable.coords = start_coords[0];
+
+    for (I32 k = 0; k < FRAMES_PER_DRAWABLE; k++){
+        fox_drawable.frames[k].draw_function = -1;
+    }
+
+    bbDictionary_lookup(home.UI.graphics.drawfunctions->dictionary,
+                    "PROJECTILES",
+                    &drawfunctionHandle);
+    fox_drawable.frames[0].draw_function = drawfunctionHandle.u64;
+
+    for (I32 i = 0; i < UNITS_PER_GROUP; i++ ) {
+
+        bbRenderUnit* render_unit = &group->units[i];
+        render_unit->start_point = start_coords[i];
+        render_unit->end_point = end_coords[i];
+        render_unit->md = fox_drawable;
+        render_unit->owner = &unit->drawable;
+        render_unit->index = i;
+        render_unit->avoidance_type = bbRU_avoidanceType_none;
+        render_unit->movement_type = bbRU_movementType_static;
+
+
+    }
+
+    bbList_pushL(&viewport_app->renderUnits->projectile_list, group);*/
     return bbSuccess;
 }

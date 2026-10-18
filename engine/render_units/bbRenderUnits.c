@@ -17,8 +17,11 @@ bbFlag bbRenderUnits_new(bbRenderUnits** this)
                       1000,
                       "RENDER UNITS");
 
-    bbList_init(&render_units->list, render_units->pool,NULL,offsetof(bbRenderUnitGroup, list_element)
+    bbList_init(&render_units->soldier_list, render_units->pool,NULL,offsetof(bbRenderUnitGroup, list_element)
             ,NULL,bbSystem_RenderUnits);
+
+    bbList_init(&render_units->projectile_list, render_units->pool,NULL,offsetof(bbRenderUnitGroup, list_element)
+            ,NULL,bbSystem_RenderProjectile);
 
     render_units->spawnFunction_num = 0;
     bbDictionary_new(&render_units->spawnFunction_dict,MAX_SPAWN_FUNCS);
@@ -68,7 +71,7 @@ bbFlag bbRenderUnitGroup_delete(bbRenderUnits* render_units,
     bbDrawable* drawable = group->units[0].owner;
     drawable->group = NULL;
 
-    bbList_remove(&render_units->list, group);
+    bbList_remove(&render_units->soldier_list, group);
     bbVPool_free(render_units->pool, group);
 
     return bbSuccess;
@@ -145,7 +148,7 @@ bbFlag bbRenderUnitGroup_spawn_hoplites(bbRenderUnitGroup** Group,
 
 
 
-    bbList_pushL(&render_units->list, group);
+    bbList_pushL(&render_units->soldier_list, group);
 
     if (Group != NULL) *Group = group;
     return bbSuccess;
@@ -223,7 +226,7 @@ bbFlag bbRenderUnitGroup_spawn_archers(bbRenderUnitGroup** Group,
 
 
 
-    bbList_pushL(&render_units->list, group);
+    bbList_pushL(&render_units->soldier_list, group);
 
     if (Group != NULL) *Group = group;
     return bbSuccess;
@@ -300,7 +303,7 @@ bbFlag bbRenderUnitGroup_spawn_foxes(bbRenderUnitGroup** Group,
 
 
 
-    bbList_pushL(&render_units->list, group);
+    bbList_pushL(&render_units->soldier_list, group);
 
     if (Group != NULL) *Group = group;
     return bbSuccess;
@@ -343,7 +346,7 @@ bbFlag bbRenderUnitGroup_spawnArchers_fn(struct bbRenderUnits* render_units, bbD
 bbFlag bbRenderUnits_updatePositions(bbRenderUnits* render_units)
 {
     bbRenderUnitGroup* group;
-    bbFlag flag = bbList_setHead(&render_units->list,(void**)&group);
+    bbFlag flag = bbList_setHead(&render_units->soldier_list,(void**)&group);
     while (flag == bbSuccess)
     {
         bbDrawable* drawable = group->units[0].owner;
@@ -385,7 +388,7 @@ bbFlag bbRenderUnits_updatePositions(bbRenderUnits* render_units)
             unit->correction.k = 0;
         }
 
-        flag = bbList_increment(&render_units->list,(void**)&group);
+        flag = bbList_increment(&render_units->soldier_list,(void**)&group);
     }
 
     return bbSuccess;
@@ -471,4 +474,42 @@ bbFlag bbRenderUnitGroup_calcPositions(bbMapCoords coords[UNITS_PER_GROUP],
 
     return bbSuccess;
 
+}
+
+
+bbFlag bbRenderUnits_updateProjectiles(bbRenderUnits* render_units) {
+
+    bbRenderUnitGroup* group;
+    bbFlag flag = bbList_setHead(&render_units->projectile_list,(void**)&group);
+    while (flag == bbSuccess) {
+
+        bbUnit* parent_unit = (bbUnit*)group->units[0].owner;
+        float gravity = parent_unit->u.projectile.gravity;
+
+        bbTime start_time = parent_unit->u.projectile.start_time;
+        bbTime end_time = parent_unit->u.projectile.end_time;
+        bbTime current_time = home.UI.clock2_handle.map_tick;
+
+        for (I32 i=0; i<UNITS_PER_GROUP; i++) {
+            bbRenderUnit* unit = (bbRenderUnit*)group->units[i].owner;
+
+            bbMapCoords start_coords = unit->start_point;
+            bbMapCoords end_coords = unit->end_point;
+            bbMapCoords interp_coords = end_coords;
+
+            if (end_time > current_time) {
+                interp_coords = bbMapCoords_interpolateGravity(start_coords,
+                                                                          end_coords,
+                                                                          gravity,
+                                                                          start_time,
+                                                                          current_time,
+                                                                          end_time);
+            }
+
+            unit->md.coords = interp_coords;
+        }
+
+
+        flag = bbList_increment(&render_units->soldier_list,(void**)&group);
+    }
 }

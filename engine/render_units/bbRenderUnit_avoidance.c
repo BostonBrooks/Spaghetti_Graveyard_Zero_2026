@@ -159,7 +159,7 @@ static bbFlag update_position(bbList* list, void* node, void* cl) {
 bbFlag bbRenderUnits_avoidance(bbRenderUnits* render_units) {
     //reset positions
     bbRenderUnits_updatePositions(render_units);
-    bbIterator outer_iterator = bbIterator_new(&render_units->list);
+    bbIterator outer_iterator = bbIterator_new(&render_units->soldier_list);
 
     for (I32 pass = 0; pass < AVOIDANCE_PASSES; pass++) {
         //sum forces

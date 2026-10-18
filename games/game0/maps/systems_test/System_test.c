@@ -596,6 +596,8 @@ bbHere()
         bbMoveables_copyBuffer(&home.ECS.moveables, &moveables_snapshot);
         bbUnits_consumeBuffer(home.viewport_app.units, NULL, &moveables_snapshot);
         bbProjectiles_update(&home.viewport_app);
+
+        bbRenderUnits_updateProjectiles(home.viewport_app.renderUnits);
         bbRenderUnits_avoidance(home.viewport_app.renderUnits);
         bbUIApp_draw(&home.UI);
 
