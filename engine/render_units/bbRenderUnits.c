@@ -514,12 +514,12 @@ debug_off = true;
             group->units[i].md.coords = interp_coords;
 
 
-           debug_off = false;
-            bbDebug("start time = %lld, end_time = %lld\n", start_time, end_time);
-            bbDebug("start (i, j, k) = (%d, %d, %d)\n", start_coords.i, start_coords.j, start_coords.k);
-            bbDebug("end (i, j, k) = (%d, %d, %d)\n", end_coords.i, end_coords.j, end_coords.k);
-            bbDebug("interp (i, j, k) = (%d, %d, %d)\n", interp_coords.i, interp_coords.j, interp_coords.k);
-            debug_off = true;
+           // debug_off = false;
+           //  bbDebug("start time = %lld, end_time = %lld\n", start_time, end_time);
+           //  bbDebug("start (i, j, k) = (%d, %d, %d)\n", start_coords.i, start_coords.j, start_coords.k);
+           //  bbDebug("end (i, j, k) = (%d, %d, %d)\n", end_coords.i, end_coords.j, end_coords.k);
+           //  bbDebug("interp (i, j, k) = (%d, %d, %d)\n", interp_coords.i, interp_coords.j, interp_coords.k);
+           //  debug_off = true;
         }
 
 

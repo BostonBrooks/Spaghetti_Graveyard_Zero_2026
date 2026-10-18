@@ -58,10 +58,10 @@ bbFlag bbProjectile_spawnArrows(bbViewportApp* viewport_app,
 
     unit->type =  bbUnit_projectile;
     unit->u.projectile = data;
-
-    debug_off = false;
-    bbDebug("start time = %lld, end time = %lld\n", unit->u.projectile.start_time, unit->u.projectile.end_time);
-    debug_off = true;
+    //
+    // debug_off = false;
+    // bbDebug("start time = %lld, end time = %lld\n", unit->u.projectile.start_time, unit->u.projectile.end_time);
+    // debug_off = true;
     if (caster!=NULL)
     {
         unit->u.projectile.start_coords.k += caster->drawable.md.projectile_spawn_point.k;
@@ -182,11 +182,11 @@ bbFlag bbProjectile_spawnArrows(bbViewportApp* viewport_app,
         render_unit->index = i;
         render_unit->avoidance_type = bbRU_avoidanceType_none;
         render_unit->movement_type = bbRU_movementType_static;
-
-         debug_off = false;
- bbDebug("start point (i, j, k) = (%d, %d, %d)\n", render_unit->start_point.i, render_unit->start_point.j, render_unit->start_point.k);
- bbDebug("end point (i, j, k) = (%d, %d, %d)\n", render_unit->end_point.i, render_unit->end_point.j, render_unit->end_point.k);
- debug_off = true;
+ //
+ //         debug_off = false;
+ // bbDebug("start point (i, j, k) = (%d, %d, %d)\n", render_unit->start_point.i, render_unit->start_point.j, render_unit->start_point.k);
+ // bbDebug("end point (i, j, k) = (%d, %d, %d)\n", render_unit->end_point.i, render_unit->end_point.j, render_unit->end_point.k);
+ // debug_off = true;
 
     }
 
