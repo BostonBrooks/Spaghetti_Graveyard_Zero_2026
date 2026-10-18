@@ -14,7 +14,6 @@ bbFlag bbProjectile_spawnArrow(bbViewportApp* viewport_app,
     bbVPool* pool = units->pool;
     bbMapCoords MC = data.start_coords;
     bbUnit* caster;
-    bbDebug("caster = %d\n", caster_unit_handle)
     bbVPool_lookup(home.viewport_app.units->pool,(void**)&caster,caster_unit_handle);
     if (caster!=NULL) {
         bbHere()

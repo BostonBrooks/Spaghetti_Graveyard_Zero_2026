@@ -217,6 +217,7 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
         games/game0/maps/systems_test/viewport_spawner/arrow.c
         games/game0/maps/systems_test/entity_spawner/multiline.c
         games/game0/maps/systems_test/viewport_spawner/projectile_spawner.c
+        games/game0/maps/systems_test/viewport_spawner/arrows.c
 
         engine/test_string/bbTestString.c
 
