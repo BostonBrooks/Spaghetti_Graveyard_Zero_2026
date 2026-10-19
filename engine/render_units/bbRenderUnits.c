@@ -497,11 +497,13 @@ bbFlag bbRenderUnits_updateProjectiles(bbRenderUnits* render_units) {
 
             bbRenderUnit* render_unit = &group->units[i];
 
+            bbTime reference_time = current_time + render_unit->time_deviation;
+
             bbMapCoords start_coords = render_unit->start_point;
             bbMapCoords end_coords = render_unit->end_point;
             bbMapCoords interp_coords = end_coords;
 
-            if (current_time > end_time) {
+            if (reference_time  > end_time) {
 
                 continue;
             }
@@ -512,7 +514,7 @@ bbFlag bbRenderUnits_updateProjectiles(bbRenderUnits* render_units) {
                                                                           end_coords,
                                                                           gravity,
                                                                           start_time,
-                                                                          current_time,
+                                                                          reference_time ,
                                                                           end_time);
 
             bbFloat3D velocity = bbMapCoords_getVelocity(
@@ -520,7 +522,7 @@ bbFlag bbRenderUnits_updateProjectiles(bbRenderUnits* render_units) {
                 end_coords,
                 gravity,
                 start_time,
-                current_time,
+                reference_time ,
                 end_time);
 
 

@@ -148,13 +148,15 @@ bbFlag bbProjectile_spawnArrowFan(bbViewportApp* viewport_app,
                                        POINTS_PER_TILE,
                                        0.f);
 
+
+    I32 rand = bbRand();
     bbRenderUnitGroup_calcPositions(end_coords,
                                        unit->u.projectile.end_coords,
-                                       0,
+                                       rand,
                                        0.f,
                                        unit->drawable.md.angle,
-                                       POINTS_PER_TILE,
-                                       0.f);
+                                       POINTS_PER_TILE*2,
+                                       1.f);
 
     bbMinimalDrawable fox_drawable;
     fox_drawable.state = bbDrawableState_idle;
@@ -183,6 +185,11 @@ bbFlag bbProjectile_spawnArrowFan(bbViewportApp* viewport_app,
         render_unit->index = i;
         render_unit->avoidance_type = bbRU_avoidanceType_none;
         render_unit->movement_type = bbRU_movementType_static;
+
+        rand = bbRand();
+        render_unit->time_deviation = rand% 15;
+
+
  //
  //         debug_off = false;
  // bbDebug("start point (i, j, k) = (%d, %d, %d)\n", render_unit->start_point.i, render_unit->start_point.j, render_unit->start_point.k);
