@@ -11,4 +11,10 @@ bbFlag bbProjectile_spawnArrowFan(bbViewportApp* viewport_app,
                                 bbHandle caster_entity_handle,
                                 U64 random_seed) ;
 
+
+bbFlag bbProjectile_spawnArrowCloud(bbViewportApp* viewport_app,
+                                  bbProjectile_data data,
+                                  bbHandle entity_handle,
+                                  bbHandle caster_unit_handle,
+                                  U64 random_seed) ;
 #endif //BB_ARROWS_H

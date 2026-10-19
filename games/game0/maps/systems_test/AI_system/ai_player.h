@@ -238,7 +238,7 @@ bbFlag bbAI_Command_Player(bbAI_Component* component,
         data3.u.projectile.caster_entity_handle =entity_handle;
         bbCS_spawnGraphicsComponent(&home.core.core,
                                     NULL,
-                                    "ARROW",
+                                    "ARROW_CLOUD",
                                     &data3,
                                     bbInstructionSource_norewind,
                                     no_handle);

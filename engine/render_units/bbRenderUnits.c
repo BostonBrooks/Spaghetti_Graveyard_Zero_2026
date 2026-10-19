@@ -508,7 +508,11 @@ bbFlag bbRenderUnits_updateProjectiles(bbRenderUnits* render_units) {
                 continue;
             }
 
+            if (reference_time < start_time) {
+                render_unit->visible = false;
+            }
 
+            render_unit->visible = true;
 
                 interp_coords = bbMapCoords_interpolateGravity(start_coords,
                                                                           end_coords,

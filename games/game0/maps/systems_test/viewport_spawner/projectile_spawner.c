@@ -14,5 +14,10 @@ bbFlag bbVP_ProjectileSpawner_populate(bbVP_ProjectileSpawner *viewport_spawner)
     bbVP_ProjectileSpawner_add(viewport_spawner,
                       bbProjectile_spawnArrowFan,
                       "ARROW_FAN");
+
+
+    bbVP_ProjectileSpawner_add(viewport_spawner,
+                      bbProjectile_spawnArrowCloud,
+                      "ARROW_CLOUD");
     return bbSuccess;
 }

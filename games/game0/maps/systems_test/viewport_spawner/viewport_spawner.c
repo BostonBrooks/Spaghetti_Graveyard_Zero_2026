@@ -554,7 +554,7 @@ bbFlag bbViewportSpawnArcher(bbViewportApp* viewport_app,
 
     unit->drawable.md.projectile_spawn_point.i = 0;
     unit->drawable.md.projectile_spawn_point.j = 0;
-    unit->drawable.md.projectile_spawn_point.k = POINTS_PER_TILE * 8;
+    unit->drawable.md.projectile_spawn_point.k = 0;
 
     unit->drawable.functions.on_enter = bbDrawables_getFunction(&home.viewport_app.table, "SPAWN ARCHERS");
     unit->drawable.functions.on_leave = bbDrawables_getFunction(&home.viewport_app.table, "UNSPAWN FOXES");

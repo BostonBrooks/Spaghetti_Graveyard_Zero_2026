@@ -89,7 +89,7 @@ bbFlag bbDF_projectiles(void* Drawable, void* frameDescriptor, void* cl) {
     bbViewport* VP = foo->target;
     bbFrame* frame = frameDescriptor;
 
-
+    if (unit->visible == false) {return bbSuccess;}
 
     I32 animationInt = frame->asset_handle.u64;
     bbAnimation* animation = graphics->animations->animations[animationInt];
@@ -113,4 +113,5 @@ bbFlag bbDF_projectiles(void* Drawable, void* frameDescriptor, void* cl) {
     sfSprite_setRotation(sprite,unit->md.rotation  *180.0f / M_PI);
     sfRenderTexture_drawSprite(renderTexture,sprite,NULL);
 
+    return bbSuccess;
 }

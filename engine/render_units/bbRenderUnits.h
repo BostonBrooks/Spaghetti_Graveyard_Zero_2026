@@ -27,6 +27,7 @@ typedef struct
     bbMapCoords start_point;
     bbMapCoords end_point;
     I32 time_deviation;
+    bool visible;
     bbFloat3D correction;
     bbFloat3D forces;
     I32 index;

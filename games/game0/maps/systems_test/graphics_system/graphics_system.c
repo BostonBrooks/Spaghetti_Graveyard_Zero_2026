@@ -340,10 +340,29 @@ bbFlag bbGraphics_spawnSkelly(bbGraphicsSystem* system,
 }
 
 
-bbFlag bbGraphics_spawnProjectile(bbGraphicsSystem* system,
+bbFlag bbGraphics_spawnArrow(bbGraphicsSystem* system,
                                    bbGraphicsComponent_data data) {
 
 //TODO spawn different types of arrow
+
+    bbHandle random_seed;
+    random_seed.u64 = data.random_seed;
+
+    bbDictionary* dict = home.viewport_app.projectile_spawner.spawn_function_dict;
+    bbHandle type_handle;
+    bbDictionary_lookup(dict,"ARROW",&type_handle);
+
+    bbUI_Inbox_NewProjectile(&home.UI.inbox,type_handle.u64, &data);
+
+
+    return bbSuccess;
+}
+
+
+bbFlag bbGraphics_spawnArrowFan(bbGraphicsSystem* system,
+                                   bbGraphicsComponent_data data) {
+
+    //TODO spawn different types of arrow
 
     bbHandle random_seed;
     random_seed.u64 = data.random_seed;
@@ -357,7 +376,23 @@ bbFlag bbGraphics_spawnProjectile(bbGraphicsSystem* system,
 
     return bbSuccess;
 }
+bbFlag bbGraphics_spawnArrowCloud(bbGraphicsSystem* system,
+                                   bbGraphicsComponent_data data) {
 
+    //TODO spawn different types of arrow
+
+    bbHandle random_seed;
+    random_seed.u64 = data.random_seed;
+
+    bbDictionary* dict = home.viewport_app.projectile_spawner.spawn_function_dict;
+    bbHandle type_handle;
+    bbDictionary_lookup(dict,"ARROW_CLOUD",&type_handle);
+
+    bbUI_Inbox_NewProjectile(&home.UI.inbox,type_handle.u64, &data);
+
+
+    return bbSuccess;
+}
 
 
 bbFlag bbGraphicsSystem_populate(bbGraphicsSystem* graphics_system) {
@@ -370,6 +405,8 @@ bbFlag bbGraphicsSystem_populate(bbGraphicsSystem* graphics_system) {
     bbGraphics_spawnFunction_add(graphics_system, bbGraphics_spawnLizard, "LIZARD");
     bbGraphics_spawnFunction_add(graphics_system, bbGraphics_spawnCow, "COW");
     bbGraphics_spawnFunction_add(graphics_system, bbGraphics_spawnSkelly, "SKELLY");
-    bbGraphics_spawnFunction_add(graphics_system, bbGraphics_spawnProjectile, "ARROW");
+    bbGraphics_spawnFunction_add(graphics_system, bbGraphics_spawnArrow, "ARROW");
+    bbGraphics_spawnFunction_add(graphics_system, bbGraphics_spawnArrowFan, "ARROW_FAN");
+    bbGraphics_spawnFunction_add(graphics_system, bbGraphics_spawnArrowCloud, "ARROW_CLOUD");
     return bbSuccess;
 }
