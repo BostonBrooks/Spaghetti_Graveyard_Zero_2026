@@ -1,5 +1,10 @@
 # Spaghetti-Graveyard-UI
 
+The 2026 codebase has reached the end of it's lifetime. I've learned a lot about the systems I will need going forward. Since writing this code I've learned a lot about writing nice code, for some definition of the word "nice".
+
+The 2027 codebase is now being rebuilt from the bottom up. It han be found here: https://github.com/BostonBrooks/Spaghetti_Graveyard_Zero_2027
+
+
 Note: I am using this distro as a USB drive to switch between my laptop and 
 my workstation, as such this work in progress will likely not compile and 
 run properly.
