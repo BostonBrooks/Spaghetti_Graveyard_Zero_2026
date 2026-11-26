@@ -24,6 +24,10 @@ typedef enum {
 typedef struct
 {
     bbMinimalDrawable md;
+    bbMapCoords start_point;
+    bbMapCoords end_point;
+    I32 time_deviation;
+    bool visible;
     bbFloat3D correction;
     bbFloat3D forces;
     I32 index;
@@ -45,7 +49,8 @@ typedef struct bbRenderUnitGroup
 typedef struct bbRenderUnits
 {
     bbVPool* pool;
-    bbList list;
+    bbList soldier_list;
+    bbList projectile_list;
 
     I32 spawnFunction_num;
     bbDictionary* spawnFunction_dict;
@@ -62,7 +67,16 @@ typedef struct bbRenderUnits
 bbFlag bbRenderUnits_new(bbRenderUnits** this);
 
 ///calculate positions based on positions of drawable and other units.
-bbFlag bbRenderUnits_updateMovement(bbRenderUnits* render_units);
+bbFlag bbRenderUnitGroup_calcPositions(bbMapCoords coords[12],
+                                       bbMapCoords centre,
+                                       U64 random_seed,
+                                       float wander_time,
+                                       float rotation,
+                                       float spacing,
+                                       float randomness);
+
+bbFlag bbRenderUnits_updatePositions(bbRenderUnits* render_units);
+bbFlag bbRenderUnits_updateProjectiles(bbRenderUnits* render_units);
 bbFlag bbRenderUnits_populateFunctions (bbRenderUnits* render_units);
 bbFlag bbRenderUnits_addSpawnFunction(bbRenderUnits* render_units,
                                       bbRenderUnitGroup_spawn_fn* spawn_function,

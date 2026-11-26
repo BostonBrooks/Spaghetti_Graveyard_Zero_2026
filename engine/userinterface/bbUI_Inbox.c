@@ -100,6 +100,11 @@ bbFlag bbUI_Inbox_check(bbUI_Inbox* inbox)
             case bbUI_Inbox_newArrow:
                 bbUI_Inbox_newArrow_fn(inbox, message);
                 break;
+            case bbUI_Inbox_newProjectile:
+                bbUI_Inbox_newProjectile_fn(inbox, message);
+                break;
+
+
         default:
 
             bbDebug("Unknown UI local message type\nmessage->type = %d\n", message->type);
@@ -328,7 +333,7 @@ bbFlag bbUI_Inbox_setEntityState_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* messa
 bbFlag bbUI_Inbox_SetEntityState2(bbUI_Inbox* inbox, bbGraphicsComponent_data* data)
 {
 
-    bbDebug("attempting to set state: %d\n", data->drawable_state);
+    bbDebug("attempting to set state: %d\n", data->u.unit.drawable_state);
 
     bbUI_Inbox_message* message;
     bbThreadedQueue_alloc(&inbox->local_message_queue,(void**)&message);
@@ -360,26 +365,26 @@ bbFlag bbUI_Inbox_setEntityState2_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* mess
 
     I32 prev_state = unit->drawable.md.state;
     if (prev_state == bbDrawableState_moving) {
-        bbTime delta_t = message->data.graphics.last_state_change - unit->drawable.last_state_change;
+        bbTime delta_t = message->data.graphics.u.unit.last_state_change - unit->drawable.last_state_change;
         unit->drawable.last_wander_time += delta_t;
     }
-    unit->drawable.last_state_change = message->data.graphics.last_state_change;
+    unit->drawable.last_state_change = message->data.graphics.u.unit.last_state_change;
 
     if (unit->drawable.md.state == bbDrawableState_dead)
     {
         bbDebug("state dead = %llu\n", unit->drawable.last_state_change);
     }
 
-    unit->drawable.md.state = message->data.graphics.drawable_state;
+    unit->drawable.md.state = message->data.graphics.u.unit.drawable_state;
     unit->drawable.md.random_seed = message->data.graphics.random_seed;
-    unit->drawable.md.frames[0].start_time = message->data.graphics.last_state_change;
-    unit->drawable.md.frames[1].start_time = message->data.graphics.last_state_change;
-    unit->drawable.md.frames[2].start_time = message->data.graphics.last_state_change;
-    unit->drawable.md.frames[3].start_time = message->data.graphics.last_state_change;
-    unit->drawable.md.frames[4].start_time = message->data.graphics.last_state_change;
-    unit->drawable.md.frames[5].start_time = message->data.graphics.last_state_change;
-    unit->drawable.md.frames[6].start_time = message->data.graphics.last_state_change;
-    unit->drawable.md.frames[7].start_time = message->data.graphics.last_state_change;
+    unit->drawable.md.frames[0].start_time = message->data.graphics.u.unit.last_state_change;
+    unit->drawable.md.frames[1].start_time = message->data.graphics.u.unit.last_state_change;
+    unit->drawable.md.frames[2].start_time = message->data.graphics.u.unit.last_state_change;
+    unit->drawable.md.frames[3].start_time = message->data.graphics.u.unit.last_state_change;
+    unit->drawable.md.frames[4].start_time = message->data.graphics.u.unit.last_state_change;
+    unit->drawable.md.frames[5].start_time = message->data.graphics.u.unit.last_state_change;
+    unit->drawable.md.frames[6].start_time = message->data.graphics.u.unit.last_state_change;
+    unit->drawable.md.frames[7].start_time = message->data.graphics.u.unit.last_state_change;
 
 
 
@@ -791,20 +796,70 @@ bbFlag bbUI_Inbox_NewArrow(bbUI_Inbox* inbox, bbGraphicsComponent_data* data)
 bbFlag bbUI_Inbox_newArrow_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
 {
     bbProjectile_data projectile_data;
-    projectile_data.start_coords = message->data.graphics.start_point;
-    projectile_data.end_coords = message->data.graphics.end_point;
-    projectile_data.start_time = message->data.graphics.start_time;
-    projectile_data.end_time = message->data.graphics.end_time;
-    projectile_data.gravity = 2;
+    projectile_data.start_coords = message->data.graphics.u.projectile.start_point;
+    projectile_data.end_coords = message->data.graphics.u.projectile.end_point;
+    projectile_data.start_time = message->data.graphics.u.projectile.start_time;
+    projectile_data.end_time = message->data.graphics.u.projectile.end_time;
+    projectile_data.gravity = 1000;
 
-    bbDebug("arrow entity = %d\n", message->data.graphics.entity_handle);
 
+    bbHandle caster_unit_handle, caster_entity_handle;
+
+    caster_entity_handle = message->data.graphics.u.projectile.caster_entity_handle;
+
+    bbDebug("caster entity = %d\n", caster_entity_handle.system.index);
+    bbLookupTable_lookup(home.viewport_app.entity_units2, caster_entity_handle, &caster_unit_handle);
+    projectile_data.caster = caster_unit_handle;
 
     bbProjectile_spawnArrow(&home.viewport_app,
                                     projectile_data,
                                     message->data.graphics.entity_handle,
-                                    no_handle,
+                                     caster_unit_handle,
                                     1234567) ;
+
+    return bbSuccess;
+}
+
+
+bbFlag bbUI_Inbox_NewProjectile(bbUI_Inbox* inbox,I32 spawner_index, bbGraphicsComponent_data* data)
+{
+
+
+    bbUI_Inbox_message* message;
+    bbThreadedQueue_alloc(&inbox->local_message_queue,(void**)&message);
+    message->type = bbUI_Inbox_newProjectile;
+    message->spawner_index = spawner_index;
+    message->data.graphics = *data;
+
+    bbThreadedQueue_pushL(&inbox->local_message_queue, (void*)message);
+    return bbSuccess;
+}
+bbFlag bbUI_Inbox_newProjectile_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message)
+{
+    bbProjectile_data projectile_data;
+    projectile_data.start_coords = message->data.graphics.u.projectile.start_point;
+    projectile_data.end_coords = message->data.graphics.u.projectile.end_point;
+    projectile_data.start_time = message->data.graphics.u.projectile.start_time;
+    projectile_data.end_time = message->data.graphics.u.projectile.end_time;
+    projectile_data.gravity = 1000;
+    I32 spawner_index =  message->spawner_index;
+
+    bbHandle caster_unit_handle, caster_entity_handle;
+
+    caster_entity_handle = message->data.graphics.u.projectile.caster_entity_handle;
+
+    bbDebug("caster entity = %d\n", caster_entity_handle.system.index);
+    bbLookupTable_lookup(home.viewport_app.entity_units2, caster_entity_handle, &caster_unit_handle);
+    projectile_data.caster = caster_unit_handle;
+
+
+    bbVP_ProjectileSpawner_spawn(&home.viewport_app,
+                                    &home.viewport_app.projectile_spawner,
+                                    spawner_index,
+                                    projectile_data,
+                                    message->data.graphics.entity_handle,
+                                    caster_unit_handle,
+                                    1234567);
 
     return bbSuccess;
 }

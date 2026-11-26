@@ -38,7 +38,7 @@ bbFlag bbDF_unitGroup(void* Drawable, void* frameDescriptor, void* cl)
     bbAssert(input_frame->draw_function >= 0, "bad draw function\n");
 
     bbDebug("drawfunction = %d\n", input_frame->draw_function);
-    float theta = drawable->md.rotation;
+    float theta = drawable->md.angle;
     float spacing = POINTS_PER_TILE;
     I32 num_units = 12;
     unit_position pos[12];

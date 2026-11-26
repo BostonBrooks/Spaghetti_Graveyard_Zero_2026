@@ -24,6 +24,7 @@ typedef enum
     bbUI_Inbox_newTree,
     bbUI_Inbox_newDrawable,
     bbUI_Inbox_newArrow,
+    bbUI_Inbox_newProjectile
 } bbUI_Inbox_type;
 
 typedef struct
@@ -59,6 +60,7 @@ typedef union {
 typedef struct
 {
     bbUI_Inbox_type type;
+    I32 spawner_index;
     bbUI_Inbox_dataUnion data;
     bbListElement_Handle list_element;
 
@@ -109,7 +111,8 @@ bbFlag bbUI_Inbox_newTree_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message);
 bbFlag bbUI_Inbox_NewDrawable(bbUI_Inbox* inbox, I32 type_index, bbMapCoords MC, bbHandle entity_handle, bbHandle random_seed);
 bbFlag bbUI_Inbox_newDrawable_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message);
 
-
+bbFlag bbUI_Inbox_NewProjectile(bbUI_Inbox* inbox,I32 spawner_index, bbGraphicsComponent_data* data);
+bbFlag bbUI_Inbox_newProjectile_fn(bbUI_Inbox* inbox, bbUI_Inbox_message* message);
 
 bbFlag bbUI_Inbox_SetViewpoint(bbUI_Inbox* inbox,  bbHandle entity_handle);
 

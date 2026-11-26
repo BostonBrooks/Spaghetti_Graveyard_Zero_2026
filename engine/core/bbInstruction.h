@@ -4,6 +4,7 @@
 #include "engine/core/bbCore.h"
 #include "engine/data/bbConstants.h"
 #include "engine/ECS/graphics_system/bbGraphicsSystem_data.h"
+#include "engine/ECS/projectiles/bbProjectileMovement_data.h"
 #include "engine/geometry/bbCoordinates.h"
 #include "engine/logic/bbHandle.h"
 
@@ -218,6 +219,7 @@ typedef union
     bbInstructionsData_AI_State AI_state;
     bbSpawnFunctionArgs sfArgs;
     bbGraphicsComponent_data graphics;
+    bbProjectileMovement_data projectile;
 } bbInstruction_data;
 
 typedef struct bbInstruction
@@ -231,7 +233,7 @@ typedef struct bbInstruction
     bbListElement_Handle list_element;
     bbHandle redo_instruction;
     bbInstruction_source source;
-    bbHandle snapshot;
+    bbHandle extra_handle;
 } bbInstruction;
 
 

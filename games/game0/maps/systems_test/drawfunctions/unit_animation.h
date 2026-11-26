@@ -59,9 +59,12 @@ I32 getAngleXD(float radians, I32 numAngles)
 
     if (numAngles == 1) return 0;
 
-    I32 angle = bbArith_mod((I32)((radians*0.15915494309f+1)*numAngles + numAngles/2.f - 0.5f),numAngles);
-    //bbDebug("radians/2pi = %f, getAngle = %d\n",radians*0.15915494309f, angle);
-    return angle;
+    I32 angle =(I32)((radians*0.15915494309f+1)*numAngles + numAngles/2.f - 0.5f);
+
+    I32 angle_mod = bbArith_mod(angle,numAngles);
+
+    bbAssert(angle_mod >= 0 && angle_mod < numAngles, "bad angle value %f\n", radians);
+    return angle_mod;
 
 }
 
@@ -77,7 +80,7 @@ bbFlag bbDF_unitAnimationWAngle(void* Drawable, void* frameDescriptor, void* cl)
 
 //TODO may vary
     I32 numAngles = animation->angles;
-    I32 angle = getAngleXD(drawable->md.rotation, numAngles);
+    I32 angle = getAngleXD(drawable->md.angle, numAngles);
 
     I32 frames = animation->frames;
 
@@ -120,7 +123,7 @@ bbFlag bbDF_unitStillWAngle(void* Drawable, void* frameDescriptor, void* cl){
 
     //TODO may vary
     I32 numAngles = animation->angles;
-    I32 angle = getAngleXD(drawable->md.rotation, numAngles);
+    I32 angle = getAngleXD(drawable->md.angle, numAngles);
 
     I32 frames = animation->frames;
 
@@ -161,13 +164,12 @@ bbFlag bbDF_unitDrawBuffer(void* Drawable, void* frameDescriptor, void* cl){
 
     //TODO may vary
     I32 numAngles = animation->angles;
-    I32 angle = getAngleXD(drawable->md.rotation, numAngles);
+    I32 angle = getAngleXD(drawable->md.angle, numAngles);
 
     I32 frames = animation->frames;
 
     I32 frameInt =  bbArith64_mod((I64)((double)(foo->map_time - frame->start_time)
             *(double)animation->framerate*(double)frame->framerate), frames);
-
 
 
 
@@ -207,7 +209,7 @@ bbFlag bbDF_unitBufferOnce(void* Drawable, void* frameDescriptor, void* cl){
     bbAnimation* animation = graphics->animations->animations[animationInt];
 
     I32 numAngles = animation->angles;
-    I32 angle = getAngleXD(drawable->md.rotation, numAngles);
+    I32 angle = getAngleXD(drawable->md.angle, numAngles);
 
     I32 frames = animation->frames;
 
@@ -257,7 +259,7 @@ bbFlag bbDF_unitStillDrawBuffer(void* Drawable, void* frameDescriptor, void* cl)
 
     //TODO may vary
     I32 numAngles = animation->angles;
-    I32 angle = getAngleXD(drawable->md.rotation, numAngles);
+    I32 angle = getAngleXD(drawable->md.angle, numAngles);
 
     I32 frames = animation->frames;
 

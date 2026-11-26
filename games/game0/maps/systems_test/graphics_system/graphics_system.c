@@ -169,7 +169,7 @@ bbFlag bbGraphics_spawnDevil(bbGraphicsSystem* system,
                            random_seed);
 
 
-    bbUI_Inbox_SetEntityState(&home.UI.inbox,data.entity_handle, data.drawable_state);
+    bbUI_Inbox_SetEntityState(&home.UI.inbox,data.entity_handle, data.u.unit.drawable_state);
 
     return bbSuccess;
 }
@@ -193,7 +193,7 @@ bbFlag bbGraphics_spawnFox(bbGraphicsSystem* system,
                            random_seed);
 
 
-    bbUI_Inbox_SetEntityState(&home.UI.inbox,data.entity_handle, data.drawable_state);
+    bbUI_Inbox_SetEntityState(&home.UI.inbox,data.entity_handle, data.u.unit.drawable_state);
 
     return bbSuccess;
 }
@@ -216,7 +216,7 @@ bbFlag bbGraphics_spawnHoplite(bbGraphicsSystem* system,
                            random_seed);
 
 
-    bbUI_Inbox_SetEntityState(&home.UI.inbox,data.entity_handle, data.drawable_state);
+    bbUI_Inbox_SetEntityState(&home.UI.inbox,data.entity_handle, data.u.unit.drawable_state);
 
     return bbSuccess;
 }
@@ -241,7 +241,7 @@ bbFlag bbGraphics_spawnArcher(bbGraphicsSystem* system,
                            random_seed);
 
 
-    bbUI_Inbox_SetEntityState(&home.UI.inbox,data.entity_handle, data.drawable_state);
+    bbUI_Inbox_SetEntityState(&home.UI.inbox,data.entity_handle, data.u.unit.drawable_state);
 
     return bbSuccess;
 }
@@ -265,7 +265,7 @@ bbFlag bbGraphics_spawnZombie(bbGraphicsSystem* system,
                            random_seed);
 
 
-    bbUI_Inbox_SetEntityState(&home.UI.inbox,data.entity_handle, data.drawable_state);
+    bbUI_Inbox_SetEntityState(&home.UI.inbox,data.entity_handle, data.u.unit.drawable_state);
 
     return bbSuccess;
 }
@@ -289,7 +289,7 @@ bbFlag bbGraphics_spawnLizard(bbGraphicsSystem* system,
                            random_seed);
 
 
-    bbUI_Inbox_SetEntityState(&home.UI.inbox,data.entity_handle, data.drawable_state);
+    bbUI_Inbox_SetEntityState(&home.UI.inbox,data.entity_handle, data.u.unit.drawable_state);
 
     return bbSuccess;
 }
@@ -312,7 +312,7 @@ bbFlag bbGraphics_spawnCow(bbGraphicsSystem* system,
                            random_seed);
 
 
-    bbUI_Inbox_SetEntityState(&home.UI.inbox,data.entity_handle, data.drawable_state);
+    bbUI_Inbox_SetEntityState(&home.UI.inbox,data.entity_handle, data.u.unit.drawable_state);
 
     return bbSuccess;
 }
@@ -334,7 +334,7 @@ bbFlag bbGraphics_spawnSkelly(bbGraphicsSystem* system,
                            random_seed);
 
 
-    bbUI_Inbox_SetEntityState(&home.UI.inbox,data.entity_handle, data.drawable_state);
+    bbUI_Inbox_SetEntityState(&home.UI.inbox,data.entity_handle, data.u.unit.drawable_state);
 
     return bbSuccess;
 }
@@ -348,12 +348,51 @@ bbFlag bbGraphics_spawnArrow(bbGraphicsSystem* system,
     bbHandle random_seed;
     random_seed.u64 = data.random_seed;
 
+    bbDictionary* dict = home.viewport_app.projectile_spawner.spawn_function_dict;
+    bbHandle type_handle;
+    bbDictionary_lookup(dict,"ARROW",&type_handle);
 
-    bbUI_Inbox_NewArrow(&home.UI.inbox, &data);
+    bbUI_Inbox_NewProjectile(&home.UI.inbox,type_handle.u64, &data);
+
 
     return bbSuccess;
 }
 
+
+bbFlag bbGraphics_spawnArrowFan(bbGraphicsSystem* system,
+                                   bbGraphicsComponent_data data) {
+
+    //TODO spawn different types of arrow
+
+    bbHandle random_seed;
+    random_seed.u64 = data.random_seed;
+
+    bbDictionary* dict = home.viewport_app.projectile_spawner.spawn_function_dict;
+    bbHandle type_handle;
+    bbDictionary_lookup(dict,"ARROW_FAN",&type_handle);
+
+    bbUI_Inbox_NewProjectile(&home.UI.inbox,type_handle.u64, &data);
+
+
+    return bbSuccess;
+}
+bbFlag bbGraphics_spawnArrowCloud(bbGraphicsSystem* system,
+                                   bbGraphicsComponent_data data) {
+
+    //TODO spawn different types of arrow
+
+    bbHandle random_seed;
+    random_seed.u64 = data.random_seed;
+
+    bbDictionary* dict = home.viewport_app.projectile_spawner.spawn_function_dict;
+    bbHandle type_handle;
+    bbDictionary_lookup(dict,"ARROW_CLOUD",&type_handle);
+
+    bbUI_Inbox_NewProjectile(&home.UI.inbox,type_handle.u64, &data);
+
+
+    return bbSuccess;
+}
 
 
 bbFlag bbGraphicsSystem_populate(bbGraphicsSystem* graphics_system) {
@@ -367,5 +406,7 @@ bbFlag bbGraphicsSystem_populate(bbGraphicsSystem* graphics_system) {
     bbGraphics_spawnFunction_add(graphics_system, bbGraphics_spawnCow, "COW");
     bbGraphics_spawnFunction_add(graphics_system, bbGraphics_spawnSkelly, "SKELLY");
     bbGraphics_spawnFunction_add(graphics_system, bbGraphics_spawnArrow, "ARROW");
+    bbGraphics_spawnFunction_add(graphics_system, bbGraphics_spawnArrowFan, "ARROW_FAN");
+    bbGraphics_spawnFunction_add(graphics_system, bbGraphics_spawnArrowCloud, "ARROW_CLOUD");
     return bbSuccess;
 }

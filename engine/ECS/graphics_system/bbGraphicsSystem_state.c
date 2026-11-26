@@ -21,21 +21,21 @@
 // } bbGraphicsComponent_data;
 bbFlag bbGraphics_updateState(bbGraphicsComponent_data* new, bbGraphicsComponent_data* old, I32 state, bbTime time) {
 
-    U64 time_diff = time - old->last_state_change;
+    U64 time_diff = time - old->u.unit.last_state_change;
 
     new->entity_handle = old->entity_handle;
     new->MC = old->MC;
-    new->last_state_change = time;
+    new->u.unit.last_state_change = time;
 
-    if (old->drawable_state == bbGraphicsState_moving)
+    if (old->u.unit.drawable_state == bbGraphicsState_moving)
     {
-        new->last_wander_time = old->last_wander_time + time_diff;
+        new->u.unit.last_wander_time = old->u.unit.last_wander_time + time_diff;
     } else
     {
-        new->last_wander_time = old->last_wander_time;
+        new->u.unit.last_wander_time = old->u.unit.last_wander_time;
     }
     new->random_seed = old->random_seed;
-    new->drawable_state = state;
+    new->u.unit.drawable_state = state;
 
 
     return bbSuccess;

@@ -37,6 +37,7 @@
 #include "engine/ECS/graphics_system/bbGraphicsSystem.h"
 #include "engine/ECS/hitpoints/bbHitPoints.h"
 #include "engine/ECS/players/bbPlayers_maths.h"
+#include "engine/ECS/projectiles/bbProjectileMovement.h"
 #include "engine/ECS/spatial/bbSpatial_query.h"
 #include "engine/ECS/teams/bbTeams.h"
 #include "engine/logic/bbString.h"
@@ -74,7 +75,7 @@ void* userinterface_thread(void* arg);
 
 int main(void) {
     thread = "MAIN";
-    debug_off = false;
+    debug_off = true;
     printf("Hello, World!\n");
 
     pthread_barrier_init(&barrier1, NULL, 2);
@@ -102,7 +103,7 @@ int main(void) {
     bbTextbox_newMessage(home.textbox_app.textboxes[bbTextbox_Dialogue], &message_handle, &message_text);
     snprintf(message_text,MESSAGE_LENGTH,
 
-"This was the last working checkpoint before i did a bad Rebase/Merge\n");
+"Theres a place - I call home. It isn't there - anymore.\n");
 
     bbTextbox_putMessage(home.textbox_app.textboxes[bbTextbox_Dialogue],message_handle,0);
     bbTextbox_updateBuffer(home.textbox_app.textboxes[bbTextbox_Dialogue]);
@@ -132,6 +133,7 @@ int main(void) {
     bbAI_Functions_populate(&home.ECS.AI_system.functions);
     bbPlayers_init(&home.ECS.players,home.core.core.ECS);
     bbTeams_init(&home.ECS.teams,home.core.core.ECS);
+    bbProjectileMovement_init(&home.ECS.projectiles, home.core.core.ECS, 0) ;
 
     bbHandle server_handle;
     server_handle.bloated.index = 193;
@@ -345,21 +347,21 @@ int main(void) {
         {
             static I32 every = 0;
             every++;
-            if (every == 2) {
+            if (every == -1) { //set every == 2 to fire an arrow once every 2 simulation ticks
                 every = 0;
 
                 U64 rand = bbRand();
                 U64 rand2 = bbRand();
 
                 bbGraphicsComponent_data data;
-                data.start_point.i = 18000;
-                data.start_point.j = 3400;
-                data.start_point.k = 0;
-                data.end_point.i = 18000 + rand % POINTS_PER_SQUARE - POINTS_PER_SQUARE / 2;
-                data.end_point.j = 3400 + rand2 % POINTS_PER_SQUARE - POINTS_PER_SQUARE / 2;
-                data.end_point.k = 0;
-                data.start_time = home.core.core.simulation_time;
-                data.end_time = home.core.core.simulation_time + 300;
+                data.u.projectile.start_point.i = 18000;
+                data.u.projectile.start_point.j = 3400;
+                data.u.projectile.start_point.k = 0;
+                data.u.projectile.end_point.i = 18000 + rand % POINTS_PER_SQUARE - POINTS_PER_SQUARE / 2;
+                data.u.projectile.end_point.j = 3400 + rand2 % POINTS_PER_SQUARE - POINTS_PER_SQUARE / 2;
+                data.u.projectile.end_point.k = 0;
+                data.u.projectile.start_time = home.core.core.simulation_time;
+                data.u.projectile.end_time = home.core.core.simulation_time + 300;
 
                 bbUI_Inbox_NewArrow(&home.UI.inbox, &data);
 
@@ -372,7 +374,7 @@ int main(void) {
             // snprintf(message, MESSAGE_LENGTH,"time sent: %llu\n", home.core.core.actual_time);
             // bbNetworkApp_sendMessage(&home.network, message_handle2, home.core.core.actual_time, 193);
 
-            static I32 once = 0;
+            static I32 once = 1; //Set once = 0 to set player state to askQuestion
             if (once == 0) {
                 once = 1;
 
@@ -399,7 +401,9 @@ int main(void) {
 
             bbCoreInput_updateMoveables(&home.core.core,bbInstructionSource_input, no_handle );
             bbCore_react(&home.core.core);
-
+            bbCI_updateProjectileMovement(&home.core.core, home.core.core.actual_time,
+                               bbInstructionSource_input, no_handle );
+            bbCore_react(&home.core.core);
 
             bbCore_checkIntegrity(&home.core.core);
             // testing bbAction_request()
@@ -467,7 +471,7 @@ int main(void) {
 void* userinterface_thread(void* arg)
 {
     thread = "USER INTERFACE";
-    debug_off = false;
+    debug_off = true;
 
 
     home.viewport_app.active_squares.old_i_min = 0;
@@ -511,9 +515,8 @@ void* userinterface_thread(void* arg)
     I32 counter = 0;
     bbViewportSpawner_init(&home.viewport_app.viewport_spawner);
     bbViewportSpawner_populate(&home.viewport_app.viewport_spawner);
-    //bbEntities_init_graphics(&home.agents_app.entities);
-    //bbSpawner_spawnGraphics(&home.spawner, "./maps/systems_test/spawner/spawner.csv");
-
+    bbVP_ProjectileSpawner_init(&home.viewport_app.projectile_spawner);
+    bbVP_ProjectileSpawner_populate(&home.viewport_app.projectile_spawner);
     // bbHere()
     // bbMapCoords MC;
     // MC.i = 10000;
@@ -593,6 +596,8 @@ bbHere()
         bbMoveables_copyBuffer(&home.ECS.moveables, &moveables_snapshot);
         bbUnits_consumeBuffer(home.viewport_app.units, NULL, &moveables_snapshot);
         bbProjectiles_update(&home.viewport_app);
+
+        bbRenderUnits_updateProjectiles(home.viewport_app.renderUnits);
         bbRenderUnits_avoidance(home.viewport_app.renderUnits);
         bbUIApp_draw(&home.UI);
 
@@ -606,7 +611,8 @@ bbHere()
         if (home.clock2.is_running){
             if (home.UI.clock2_handle.clock_thread_index == 255)
             {
-                bbClock_handle_init(&home.clock2, &home.UI.clock2_handle, 0,"USER INTERFACE");
+                //Were not using this and it clogs up its own message queue
+                //bbClock_handle_init(&home.clock2, &home.UI.clock2_handle, 0,"USER INTERFACE");
             }
 
             if (home.clock2.map_tick >= 6)

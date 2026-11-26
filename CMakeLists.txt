@@ -216,6 +216,8 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
         games/game0/maps/systems_test/core/action_request.c
         games/game0/maps/systems_test/viewport_spawner/arrow.c
         games/game0/maps/systems_test/entity_spawner/multiline.c
+        games/game0/maps/systems_test/viewport_spawner/projectile_spawner.c
+        games/game0/maps/systems_test/viewport_spawner/arrows.c
 
         engine/test_string/bbTestString.c
 
@@ -236,6 +238,7 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
         engine/ECS/hitpoints/bbHitPoints.c
         engine/ECS/players/bbPlayers_maths.c
         engine/ECS/players/bbPlayers_target.c
+        engine/ECS/projectiles/bbProjectileMovement.c
 
         engine/core/bbAction.c
         engine/core/bbCore.c
@@ -300,6 +303,7 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
         engine/viewport/bbDrawableFunctions.c
         engine/viewport/bbActiveSquares.c
         engine/viewport/bbProjectiles.c
+        engine/viewport/bbVP_ProjectileSpawner.c
 
         engine/render_units/bbRenderUnits.c
         engine/render_units/bbRenderUnit_avoidance.c

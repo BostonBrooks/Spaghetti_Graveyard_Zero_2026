@@ -1,6 +1,7 @@
 #include "engine/render_units/bbRenderUnits.h"
 
 #include "engine/data/bbHome.h"
+#include "engine/geometry/bbViewportCoords.h"
 #include "engine/groundsurface/bbGroundSurface.h"
 #include "engine/logic/bbIterator.h"
 #include "engine/logic/bbSystemPool.h"
@@ -17,8 +18,11 @@ bbFlag bbRenderUnits_new(bbRenderUnits** this)
                       1000,
                       "RENDER UNITS");
 
-    bbList_init(&render_units->list, render_units->pool,NULL,offsetof(bbRenderUnitGroup, list_element)
+    bbList_init(&render_units->soldier_list, render_units->pool,NULL,offsetof(bbRenderUnitGroup, list_element)
             ,NULL,bbSystem_RenderUnits);
+
+    bbList_init(&render_units->projectile_list, render_units->pool,NULL,offsetof(bbRenderUnitGroup, list_element)
+            ,NULL,bbSystem_RenderProjectile);
 
     render_units->spawnFunction_num = 0;
     bbDictionary_new(&render_units->spawnFunction_dict,MAX_SPAWN_FUNCS);
@@ -68,7 +72,7 @@ bbFlag bbRenderUnitGroup_delete(bbRenderUnits* render_units,
     bbDrawable* drawable = group->units[0].owner;
     drawable->group = NULL;
 
-    bbList_remove(&render_units->list, group);
+    bbList_remove(&render_units->soldier_list, group);
     bbVPool_free(render_units->pool, group);
 
     return bbSuccess;
@@ -136,6 +140,7 @@ bbFlag bbRenderUnitGroup_spawn_hoplites(bbRenderUnitGroup** Group,
 
         group->units[i].md = fox_drawable;
         group->units[i].md.random_seed = seed;
+        group->units[i].md.angle =0;
         group->units[i].md.frames[0].framerate = framerate;
         group->units[i].md.frames[0].start_time = start_time;
 
@@ -144,7 +149,7 @@ bbFlag bbRenderUnitGroup_spawn_hoplites(bbRenderUnitGroup** Group,
 
 
 
-    bbList_pushL(&render_units->list, group);
+    bbList_pushL(&render_units->soldier_list, group);
 
     if (Group != NULL) *Group = group;
     return bbSuccess;
@@ -213,6 +218,7 @@ bbFlag bbRenderUnitGroup_spawn_archers(bbRenderUnitGroup** Group,
 
         group->units[i].md = fox_drawable;
         group->units[i].md.random_seed = seed;
+        group->units[i].md.angle =0;
         group->units[i].md.frames[0].framerate = framerate;
         group->units[i].md.frames[0].start_time = start_time;
 
@@ -221,7 +227,7 @@ bbFlag bbRenderUnitGroup_spawn_archers(bbRenderUnitGroup** Group,
 
 
 
-    bbList_pushL(&render_units->list, group);
+    bbList_pushL(&render_units->soldier_list, group);
 
     if (Group != NULL) *Group = group;
     return bbSuccess;
@@ -289,6 +295,7 @@ bbFlag bbRenderUnitGroup_spawn_foxes(bbRenderUnitGroup** Group,
 
         group->units[i].md = fox_drawable;
         group->units[i].md.random_seed = seed;
+        group->units[i].md.angle =0;
         group->units[i].md.frames[0].framerate = framerate;
         group->units[i].md.frames[0].start_time = start_time;
 
@@ -297,7 +304,7 @@ bbFlag bbRenderUnitGroup_spawn_foxes(bbRenderUnitGroup** Group,
 
 
 
-    bbList_pushL(&render_units->list, group);
+    bbList_pushL(&render_units->soldier_list, group);
 
     if (Group != NULL) *Group = group;
     return bbSuccess;
@@ -337,196 +344,207 @@ bbFlag bbRenderUnitGroup_spawnArchers_fn(struct bbRenderUnits* render_units, bbD
     return bbSuccess;
 }
 
-bbFlag bbRenderUnits_updateMovement(bbRenderUnits* render_units)
+bbFlag bbRenderUnits_updatePositions(bbRenderUnits* render_units)
 {
     bbRenderUnitGroup* group;
-    bbFlag flag = bbList_setHead(&render_units->list,(void**)&group);
+    bbFlag flag = bbList_setHead(&render_units->soldier_list,(void**)&group);
     while (flag == bbSuccess)
     {
         bbDrawable* drawable = group->units[0].owner;
         bbUnit* parent_unit = (bbUnit*)group->units[0].owner;
 
-        float theta = drawable->md.rotation;
+        float theta = drawable->md.angle;
         float spacing = group->spacing;
         float randomness = group->randomness;
 
-        bbMapCoords delta_coords, new_coords;
+        float wander_time_f = 0;
 
-        float c_theta = cos(theta);
-        float s_theta = sin(theta);
+        if (group->units->movement_type == bbRU_movementType_wander) {
+            bbTime wander_time = parent_unit->drawable.last_wander_time;
+            if (parent_unit->drawable.md.state == bbDrawableState_moving) {
+                wander_time += home.UI.clock2_handle.map_tick- parent_unit->drawable.last_state_change;
+            }
+            wander_time_f = wander_time / 60.f;
+        }
+        bbMapCoords new_coords[UNITS_PER_GROUP];
 
-        for (I32 i = 0; i < UNITS_PER_GROUP; i++)
-        {
+        bbRenderUnitGroup_calcPositions(new_coords,
+                                       drawable->md.coords,
+                                       drawable->md.random_seed,
+                                       wander_time_f,
+                                       theta,
+                                       spacing,
+                                       randomness);
 
-
+        for (I32 i = 0; i < UNITS_PER_GROUP; i++) {
             bbRenderUnit* unit = &group->units[i];
+            unit->md.coords = new_coords[i];
+            unit->md.angle = drawable->md.angle;
+
             unit->forces.i = 0;
             unit->forces.j = 0;
             unit->forces.k = 0;
             unit->correction.i = 0;
             unit->correction.j = 0;
             unit->correction.k = 0;
-            if (unit->movement_type == bbRU_movementType_static) {
-
-
-                U64 coefficients = bbArith64_hash(unit->md.random_seed);
-                U64 mask = 0xFF;
-
-                U64 c0 = coefficients & mask;
-                double f0 = ((double)c0 - 128.0) / 512.0;
-                coefficients >>= 8;
-
-                U64 c1 = coefficients & mask;
-                double f1 = ((double)c1 - 128.0) / 512.0;
-                coefficients >>= 8;
-
-                U64 c2 = coefficients & mask;
-                double f2 = ((double)c2 - 128.0) / 512.0;
-                coefficients >>= 8;
-
-                U64 c3 = coefficients & mask;
-                double f3 = ((double)c3 - 128.0) / 512.0;
-                coefficients >>= 8;
-
-                U64 c4 = coefficients & mask;
-                double f4 = ((double)c4 - 128.0) / 512.0;
-                coefficients >>= 8;
-
-                U64 c5 = coefficients & mask;
-                double f5 = ((double)c5 - 128.0) / 512.0;
-                coefficients >>= 8;
-
-                U64 c6 = coefficients & mask;
-                double f6 = ((double)c6 - 128.0) / 512.0;
-                coefficients >>= 8;
-
-                U64 c7 = coefficients & mask;
-                double f7 = ((double)c7 - 128.0) / 512.0;
-
-               // bbDebug("(%f, %f, %f, %f,%f, %f, %f, %f_\n",
-               //     f0, f1, f2, f3, f4, f5, f6, f7)
-
-                // bbTime current_time = home.UI.clock2_handle.map_tick;
-                // //TODO bbTime last_update; bbTime last_wander
-                // bbTime wander_time = parent_unit->drawable.last_wander_time;
-                // if (parent_unit->drawable.md.state == bbDrawableState_moving) {
-                //     wander_time += current_time- parent_unit->drawable.last_state_change;
-                // }
-                //double wander_time_d = wander_time / 60.0;
-
-                double delta_i = f0*0;//sin(wander_time_d*1.1)
-                                +f1*1;//cos(wander_time_d*1.1)
-                                +f2*0;//sin(wander_time_d)
-                                +f3*1;//cos(wander_time_d);
-
-                double delta_j = f4*0;//sin(wander_time_d*1.1)
-                                +f5*1;//cos(wander_time_d*1.1)
-                                +f6*0;//sin(wander_time_d)
-                                +f7*1;//cos(wander_time_d);
-
-                delta_i *= randomness;
-                delta_j *= randomness;
-
-                double row_N = i / 4;
-                double column_M = i %4;
-
-                double rn =  row_N + delta_i;
-                double cm =  column_M + delta_j;
-
-                delta_coords.i = (1.5-cm)*spacing*c_theta - (-1+rn)*spacing*s_theta;
-                delta_coords.j = -(1.5-cm)*spacing*s_theta - (-1+rn)*spacing*c_theta;
-                delta_coords.k = 0;
-
-                unit->md.coords = drawable->md.coords;
-                unit->md.coords.i += delta_coords.i;
-                unit->md.coords.j += delta_coords.j;
-                unit->md.rotation = drawable->md.rotation;
-
-
-                unit->md.coords.k = bbMapCoords_getElevation(&home.ground_surface, unit->md.coords);
-            }
-
-            if (unit->movement_type == bbRU_movementType_wander) {
-
-
-                U64 coefficients = bbArith64_hash(unit->md.random_seed);
-                U64 mask = 0xFF;
-
-                U64 c0 = coefficients & mask;
-                double f0 = ((double)c0 - 128.0) / 512.0;
-                coefficients >>= 8;
-
-                U64 c1 = coefficients & mask;
-                double f1 = ((double)c1 - 128.0) / 512.0;
-                coefficients >>= 8;
-
-                U64 c2 = coefficients & mask;
-                double f2 = ((double)c2 - 128.0) / 512.0;
-                coefficients >>= 8;
-
-                U64 c3 = coefficients & mask;
-                double f3 = ((double)c3 - 128.0) / 512.0;
-                coefficients >>= 8;
-
-                U64 c4 = coefficients & mask;
-                double f4 = ((double)c4 - 128.0) / 512.0;
-                coefficients >>= 8;
-
-                U64 c5 = coefficients & mask;
-                double f5 = ((double)c5 - 128.0) / 512.0;
-                coefficients >>= 8;
-
-                U64 c6 = coefficients & mask;
-                double f6 = ((double)c6 - 128.0) / 512.0;
-                coefficients >>= 8;
-
-                U64 c7 = coefficients & mask;
-                double f7 = ((double)c7 - 128.0) / 512.0;
-
-               // bbDebug("(%f, %f, %f, %f,%f, %f, %f, %f_\n",
-               //     f0, f1, f2, f3, f4, f5, f6, f7)
-
-                bbTime current_time = home.UI.clock2_handle.map_tick;
-                //TODO bbTime last_update; bbTime last_wander
-                bbTime wander_time = parent_unit->drawable.last_wander_time;
-                if (parent_unit->drawable.md.state == bbDrawableState_moving) {
-                    wander_time += current_time- parent_unit->drawable.last_state_change;
-                }
-                double wander_time_d = wander_time / 60.0;
-
-                double delta_i = f0*sin(wander_time_d*1.1)
-                                +f1*cos(wander_time_d*1.1)
-                                +f2*sin(wander_time_d)
-                                +f3*cos(wander_time_d);
-
-                double delta_j = f4*sin(wander_time_d*1.1)
-                                +f5*cos(wander_time_d*1.1)
-                                +f6*sin(wander_time_d)
-                                +f7*cos(wander_time_d);
-
-
-                delta_i *= randomness;
-                delta_j *= randomness;
-
-                double row_N = i / 4;
-                double column_M = i %4;
-
-                double rn =  row_N + delta_i;
-                double cm =  column_M + delta_j;
-
-                delta_coords.i = (1.5-cm)*spacing*c_theta - (-1+rn)*spacing*s_theta;
-                delta_coords.j = -(1.5-cm)*spacing*s_theta - (-1+rn)*spacing*c_theta;
-                delta_coords.k = 0;
-
-                unit->md.coords = drawable->md.coords;
-                unit->md.coords.i += delta_coords.i;
-                unit->md.coords.j += delta_coords.j;
-                unit->md.rotation = drawable->md.rotation;
-
-
-                unit->md.coords.k = bbMapCoords_getElevation(&home.ground_surface, unit->md.coords);
-            }
         }
-        flag = bbList_increment(&render_units->list,(void**)&group);
+
+        flag = bbList_increment(&render_units->soldier_list,(void**)&group);
+    }
+
+    return bbSuccess;
+}
+
+
+bbFlag bbRenderUnitGroup_calcPositions(bbMapCoords coords[UNITS_PER_GROUP],
+                                       bbMapCoords centre,
+                                       U64 random_seed,
+                                       float wander_time,
+                                       float rotation,
+                                       float spacing,
+                                       float randomness) {
+
+    float c_theta = cosf(rotation);
+    float s_theta = sinf(rotation);
+
+    bbMapCoords delta_coords;
+    for (I32 i = 0; i < UNITS_PER_GROUP; i++) {
+        U64 coefficients = bbArith64_hashIndex(random_seed,i);
+        U64 mask = 0xFF;
+
+
+        U64 c0 = coefficients & mask;
+        float f0 = ((float)c0 - 128.0f) / 512.0f;
+        coefficients >>= 8;
+
+        U64 c1 = coefficients & mask;
+        float f1 = ((float)c1 - 128.0f) / 512.0f;
+        coefficients >>= 8;
+
+        U64 c2 = coefficients & mask;
+        float f2 = ((float)c2 - 128.0f) / 512.0f;
+        coefficients >>= 8;
+
+        U64 c3 = coefficients & mask;
+        float f3 = ((float)c3 - 128.0f) / 512.0f;
+        coefficients >>= 8;
+
+        U64 c4 = coefficients & mask;
+        float f4 = ((float)c4 - 128.0f) / 512.0f;
+        coefficients >>= 8;
+
+        U64 c5 = coefficients & mask;
+        float f5 = ((float)c5 - 128.0f) / 512.0f;
+        coefficients >>= 8;
+
+        U64 c6 = coefficients & mask;
+        float f6 = ((float)c6 - 128.0f) / 512.0f;
+        coefficients >>= 8;
+
+        U64 c7 = coefficients & mask;
+        float f7 = ((float)c7 - 128.0f) / 512.0f;
+
+        float delta_i = f0*sinf(wander_time*1.1f)
+                +f1*cosf(wander_time*1.1f)
+                +f2*sinf(wander_time)
+                +f3*cosf(wander_time);
+
+        float delta_j = f4*sinf(wander_time*1.1f)
+                        +f5*cosf(wander_time*1.1f)
+                        +f6*sinf(wander_time)
+                        +f7*cosf(wander_time);
+
+
+        delta_i *= randomness;
+        delta_j *= randomness;
+
+        I32 row_N = i / 4;
+        I32 column_M = i %4;
+
+        float row_f =  row_N + delta_i;
+        float column_f =  column_M + delta_j;
+
+        delta_coords.i = (1.5f-row_f)*spacing*c_theta - (-1.f+row_f)*spacing*s_theta;
+        delta_coords.j = -(1.5f-column_f)*spacing*s_theta - (-1.f+column_f)*spacing*c_theta;
+        delta_coords.k = 0;
+
+        coords[i].i = centre.i + delta_coords.i;
+        coords[i].j = centre.j + delta_coords.j;
+        coords[i].k = bbMapCoords_getElevation(&home.ground_surface, coords[i]);
+    }
+
+    return bbSuccess;
+
+}
+
+
+bbFlag bbRenderUnits_updateProjectiles(bbRenderUnits* render_units) {
+
+    bbRenderUnitGroup* group;
+    bbFlag flag = bbList_setHead(&render_units->projectile_list,(void**)&group);
+    while (flag == bbSuccess) {
+
+        bbUnit* parent_unit = (bbUnit*)group->units[0].owner;
+        float gravity = parent_unit->u.projectile.gravity;
+
+        bbTime start_time = parent_unit->u.projectile.start_time;
+        bbTime end_time = parent_unit->u.projectile.end_time;
+        bbTime current_time = home.UI.clock2_handle.map_tick;
+
+
+        for (I32 i=0; i<UNITS_PER_GROUP; i++) {
+
+
+            bbRenderUnit* render_unit = &group->units[i];
+
+            bbTime reference_time = current_time + render_unit->time_deviation;
+
+            bbMapCoords start_coords = render_unit->start_point;
+            bbMapCoords end_coords = render_unit->end_point;
+            bbMapCoords interp_coords = end_coords;
+
+            if (reference_time  > end_time) {
+
+                continue;
+            }
+
+            if (reference_time < start_time) {
+                render_unit->visible = false;
+            }
+
+            render_unit->visible = true;
+
+                interp_coords = bbMapCoords_interpolateGravity(start_coords,
+                                                                          end_coords,
+                                                                          gravity,
+                                                                          start_time,
+                                                                          reference_time ,
+                                                                          end_time);
+
+            bbFloat3D velocity = bbMapCoords_getVelocity(
+                start_coords,
+                end_coords,
+                gravity,
+                start_time,
+                reference_time ,
+                end_time);
+
+
+            float rotation = bbVelocity_getRotation(velocity);
+            float angle = bbVelocity_getAngle(velocity);
+
+            group->units[i].md.angle = angle;
+            group->units[i].md.rotation = rotation;
+            group->units[i].md.coords = interp_coords;
+
+           // debug_off = false;
+           //  bbDebug("start time = %lld, end_time = %lld\n", start_time, end_time);
+           //  bbDebug("start (i, j, k) = (%d, %d, %d)\n", start_coords.i, start_coords.j, start_coords.k);
+           //  bbDebug("end (i, j, k) = (%d, %d, %d)\n", end_coords.i, end_coords.j, end_coords.k);
+           //  bbDebug("interp (i, j, k) = (%d, %d, %d)\n", interp_coords.i, interp_coords.j, interp_coords.k);
+           //  debug_off = true;
+        }
+
+        flag = bbList_increment(&render_units->projectile_list,(void**)&group);
     }
 }

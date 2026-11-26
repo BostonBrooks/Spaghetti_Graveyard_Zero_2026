@@ -28,10 +28,10 @@ bbFlag bbSF_addGraphics_zombie(void* spawner,
     bbGraphicsComponent_data data;
     data.entity_handle = handle;
     data.MC = args->position,
-    data.last_state_change = 0;
-    data.last_wander_time = 0;
+    data.u.unit.last_state_change = 0;
+    data.u.unit.last_wander_time = 0;
     data.random_seed = bbRand();
-    data.drawable_state = bbDrawableState_idle;
+    data.u.unit.drawable_state = bbDrawableState_idle;
     data.drawable_type = bbGraphicsType_unit;
     data.random_seed = bbArith64_hashIndex(deterministic_seed,args->random_seed);
 

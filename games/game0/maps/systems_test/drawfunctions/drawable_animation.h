@@ -105,7 +105,7 @@ bbFlag bbDF_drawableAnimationWAngle(void* Drawable, void* frameDescriptor, void*
 
 //TODO may vary
     I32 numAngles = animation->angles;
-    I32 angle = getAngle(drawable->md.rotation, numAngles);
+    I32 angle = getAngle(drawable->md.angle, numAngles);
 
     I32 frames = animation->frames;
 
@@ -149,7 +149,7 @@ bbFlag bbDF_drawableAnimationOnce(void* Drawable, void* frameDescriptor, void* c
 
     //TODO may vary
     I32 numAngles = animation->angles;
-    I32 angle = getAngle(drawable->md.rotation, numAngles);
+    I32 angle = getAngle(drawable->md.angle, numAngles);
 
     I32 frames = animation->frames;
 

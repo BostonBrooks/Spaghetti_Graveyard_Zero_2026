@@ -162,6 +162,12 @@ bbFlag bbCore_initMap(bbInstructionMap* map)
     map->forward[bbI_unsetPlayerState] = bbI_setPlayerState;
     map->rollback[bbI_setPlayerState] = bbI_unsetPlayerState;
 
+    map->forward[bbI_unspawnProjectileMovement] = bbI_spawnProjectileMovement;
+    map->rollback[bbI_spawnProjectileMovement] = bbI_unspawnProjectileMovement;
+
+    map->forward[bbI_unupdateProjectileMovement] = bbI_updateProjectileMovement;
+    map->rollback[bbI_updateProjectileMovement] = bbI_unupdateProjectileMovement;
+
     return bbSuccess;
 }
 

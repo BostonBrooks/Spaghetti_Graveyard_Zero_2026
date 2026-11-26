@@ -22,13 +22,13 @@ bbFlag projectile_update(bbList* list, void* node, void* cl)
     bbMapCoords end_coords = unit->u.projectile.end_coords;
     float gravity = unit->u.projectile.gravity;
 
-    if (current_time < start_time) return bbContinue;
+    //if (current_time < start_time) return bbContinue;
     if (current_time > end_time) return bbContinue;
 
     bbMapCoords position = bbMapCoords_interpolateGravity(
         start_coords,
         end_coords,
-        1000,
+         gravity,
         start_time,
         current_time,
         end_time);
@@ -36,18 +36,18 @@ bbFlag projectile_update(bbList* list, void* node, void* cl)
     bbFloat3D velocity = bbMapCoords_getVelocity(
         start_coords,
         end_coords,
-        1000,
+         gravity,
         start_time,
         current_time,
         end_time);
 
     float rotation = bbVelocity_getRotation(velocity);
-
-
-
-    unit->u.projectile.screen_rotation = rotation;
     float screen_angle = bbVelocity_getAngle(velocity);
-    unit->u.projectile.screen_angle = screen_angle;
+
+
+
+    unit->drawable.md.rotation = rotation;
+    unit->drawable.md.angle = screen_angle;
 
     bbUnit_setLocation((bbDrawable*)unit, home.viewport_app.units,position);
 

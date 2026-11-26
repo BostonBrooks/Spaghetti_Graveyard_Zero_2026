@@ -128,7 +128,7 @@ bbFlag bbRenderUnitGroup_spawn_trees(bbRenderUnitGroup** Group,
         group->units[i].md.coords.k = bbMapCoords_getElevation(&home.ground_surface, group->units[i].md.coords);
     }
 
-    bbList_pushL(&render_units->list, group);
+    bbList_pushL(&render_units->soldier_list, group);
 
     if (Group != NULL) *Group = group;
     return bbSuccess;
