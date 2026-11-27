@@ -20,7 +20,7 @@
 
 bbFlag bbCore_init(bbCore* core)
 {
-    bbVPool_newBloated(&core->instruction_pool, sizeof(bbInstruction), 10, 1000, "bbInstruction");
+    bbVPool_newBloated(&core->instruction_pool, sizeof(bbInstruction), 10000, 1000, "bbInstruction");
     bbList_init(&core->active_stack, core->instruction_pool, NULL, offsetof(bbInstruction, list_element),NULL,69);
     bbList_init(&core->undo_stack, core->instruction_pool, NULL, offsetof(bbInstruction, list_element),NULL,70);
 
@@ -36,9 +36,9 @@ bbFlag bbCore_init(bbCore* core)
     bbList_init(&core->action_temp_fifo, core->action_pool, NULL, offsetof(bbAction, header.action_queue),bbAction_compare,72);
     bbList_init(&core->all_actions, core->action_pool, NULL, offsetof(bbAction, header.all_actions),NULL,73);
 
-    bbInstruction_deque_init(&core->active_instructions,1024, "Active Instructions");
-    bbInstruction_deque_init(&core->undo_instructions,1024,"Undo Instructions");
-    bbInstruction_deque_init(&core->redo_instructions,1024,"Redo Instructions");
+    bbInstruction_deque_init(&core->active_instructions,100024, "Active Instructions");
+    bbInstruction_deque_init(&core->undo_instructions,100024,"Undo Instructions");
+    bbInstruction_deque_init(&core->redo_instructions,100024,"Redo Instructions");
 
     core->simulation_time = 0;
  return bbSuccess;

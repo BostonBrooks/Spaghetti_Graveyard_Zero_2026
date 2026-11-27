@@ -4,6 +4,7 @@ project(Spaghetti_Graveyard_Zero_2026 C)
 set(CMAKE_C_STANDARD 23)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../games/game0)
 
+set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
 
 if (CSFML3)
     add_definitions(-DBB_CSFML3=1)
@@ -338,4 +339,45 @@ target_link_libraries(Systems_Test PRIVATE
         csfml-system
         csfml-network
         m
+)
+
+
+
+add_executable(Test_Core  test/bbTest_Core.c
+        engine/test_string/bbTestString.c
+
+        engine/core/bbAction.c
+        engine/core/bbCore.c
+        engine/core/bbCoreDiscard.c
+        engine/core/bbCoreInbox.c
+        engine/core/bbCoreInboxInput.c
+        engine/core/bbCoreInputs.c
+        engine/core/bbInstruction.c
+        engine/core/bbAction_check.c
+
+        engine/logic/bbList.c
+        engine/logic/bbNestedList.c
+        engine/logic/bbList_sort.c
+        engine/logic/bbList_map.c
+        engine/logic/bbList_iterate.c
+        engine/logic/bbList_getNth.c
+
+        engine/logic/bbTree.c
+        engine/logic/bbBloatedPool.c
+        engine/logic/bbDictionary.c
+
+        engine/threadsafe/bbThreadedQueue_search.c
+        engine/threadsafe/bbThreadedQueue.c
+        engine/threadsafe/bbThreadedPool.c
+)
+
+target_compile_definitions(Test_Core PRIVATE DEFINE_TEST_CORE
+        PRIVATE BB_HOME_H)
+target_include_directories(Test_Core PRIVATE "./"
+        PRIVATE "./games/game0/maps/core_test/")
+target_link_libraries(Test_Core PRIVATE
+        csfml-graphics
+        csfml-window
+        csfml-system
+        csfml-network
 )
