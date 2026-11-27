@@ -4,7 +4,7 @@ project(Spaghetti_Graveyard_Zero_2026 C)
 set(CMAKE_C_STANDARD 23)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../games/game0)
 
-set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
+#set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
 
 if (CSFML3)
     add_definitions(-DBB_CSFML3=1)
@@ -17,7 +17,8 @@ add_executable(Server engine/server/bbServer.c
         engine/network/bbNetworkPacket.c
         engine/threadsafe/bbThreadedPool.c
         engine/threadsafe/bbThreadedQueue.c
-        engine/logic/bbBloatedPool.c)
+        engine/logic/bbBloatedPool.c
+        engine/profiling/bbProfiling.c)
 
 target_compile_definitions(Server PRIVATE
         DEFINE_SERVER)
@@ -30,7 +31,8 @@ target_link_libraries(Server PRIVATE
 )
 
 add_executable(Test_Interpolate engine/logic/bbInterpolate.c
-        test/bbTest_Interpolate.c)
+        test/bbTest_Interpolate.c
+        engine/profiling/bbProfiling.c)
 target_compile_definitions(Test_Interpolate PRIVATE
         DEFINE_INTERPOLATE)
 target_include_directories(Test_Interpolate  PRIVATE "./")
@@ -41,19 +43,22 @@ target_compile_definitions(Test_Str PRIVATE
 target_include_directories(Test_Str  PRIVATE "./")
 
 add_executable(Test_Forces engine/logic/bbInterpolate.c
-        test/bbTest_sumForces.c)
+        test/bbTest_sumForces.c
+        engine/profiling/bbProfiling.c)
 target_compile_definitions(Test_Forces PRIVATE
         DEFINE_INTERPOLATE)
 target_include_directories(Test_Forces  PRIVATE "./")
 
 add_executable(Test_Pool test/bbTest_Pool.c
-        engine/logic/bbBloatedPool.c)
+        engine/logic/bbBloatedPool.c
+        engine/profiling/bbProfiling.c)
 target_compile_definitions(Test_Pool PRIVATE
         DEFINE_TEST_POOL)
 target_include_directories(Test_Pool PRIVATE "./")
 
 add_executable(Test_Deque engine/logic/bbSegmentedDeque.c
-        test/bbTest_SegDeque.c)
+        test/bbTest_SegDeque.c
+        engine/profiling/bbProfiling.c)
 target_compile_definitions(Test_Deque PRIVATE
         DEFINE_INTERPOLATE)
 target_include_directories(Test_Deque  PRIVATE "./")
@@ -69,6 +74,7 @@ add_executable(Test_Textbox test/bbTest_Textbox.c
         engine/threadsafe/bbThreadedQueue.c
         engine/threadsafe/bbThreadedPool.c
         engine/logic/bbDictionary.c
+        engine/profiling/bbProfiling.c
 )
 target_compile_definitions(Test_Textbox PRIVATE
         DEFINE_TEST_POOL)
@@ -78,14 +84,16 @@ add_executable(Test_Iterator test/bbTest_iterator.c
         engine/logic/bbIterator.c
         engine/logic/bbList.c
         engine/logic/bbSystemPool.c
-        engine/logic/bbBloatedPool.c)
+        engine/logic/bbBloatedPool.c
+        engine/profiling/bbProfiling.c)
 target_compile_definitions(Test_Iterator PRIVATE
         DEFINE_TEST_ITERATOR)
 target_include_directories(Test_Iterator PRIVATE "./")
 
 
 add_executable(Test_ArraySort test/bbTest_BubbleSort.c
-        engine/logic/bbBubbleSort.c)
+        engine/logic/bbBubbleSort.c
+        engine/profiling/bbProfiling.c)
 target_compile_definitions(Test_ArraySort PRIVATE
         DEFINE_TEST_ARRAYSORT)
 target_include_directories(Test_ArraySort PRIVATE "./")
@@ -117,6 +125,7 @@ add_executable(Core_Test  games/game0/maps/core_test/core_test.c
         engine/threadsafe/bbThreadedQueue_search.c
         engine/threadsafe/bbThreadedQueue.c
         engine/threadsafe/bbThreadedPool.c
+        engine/profiling/bbProfiling.c
 )
 
 target_compile_definitions(Core_Test PRIVATE DEFINE_TEST_CORE
@@ -138,6 +147,7 @@ add_executable(ECS_Test  games/game0/maps/ECS_test/ECS_test.c
         games/game0/maps/ECS_test/core/actions.c
 
 
+        engine/profiling/bbProfiling.c
         engine/ECS/bbECS.c
         engine/ECS/server_entities/bbServerEntities.c
 
@@ -221,6 +231,7 @@ add_executable(Systems_Test games/game0/maps/systems_test/System_test.c
         games/game0/maps/systems_test/viewport_spawner/arrows.c
 
         engine/test_string/bbTestString.c
+        engine/profiling/bbProfiling.c
 
         engine/ECS/bbECS.c
         engine/ECS/server_entities/bbServerEntities.c
@@ -344,7 +355,67 @@ target_link_libraries(Systems_Test PRIVATE
 
 
 add_executable(Test_Core  test/bbTest_Core.c
+
+        games/game0/maps/systems_test/core/netpause_button.c
+        games/game0/maps/systems_test/core/unfreeze_button.c
+        games/game0/maps/systems_test/graphics_system/graphics_system.c
+        games/game0/maps/systems_test/mouse/mouse.c
+        games/game0/maps/systems_test/drawfunctions/drawfunctions.c
+        games/game0/maps/systems_test/widgets/widgets.c
+        games/game0/maps/systems_test/widgets/spawn_widgets.c
+        games/game0/maps/systems_test/core/core.c
+        games/game0/maps/systems_test/core/instructions.c
+        games/game0/maps/systems_test/core/core_inputs.c
+        games/game0/maps/systems_test/core/core_inbox.c
+        games/game0/maps/systems_test/AI_system/AI_System.c
+        games/game0/maps/systems_test/entity_spawner/spawner.c
+        games/game0/maps/systems_test/moveables/moveables.c
+        games/game0/maps/systems_test/AI_system/ai_instructions.c
+        games/game0/maps/systems_test/viewport_spawner/viewport_spawner.c
+        games/game0/maps/systems_test/core/actions.c
+        games/game0/maps/systems_test/core/core_discard.c
+        games/game0/maps/systems_test/entity_spawner/live_spawn.c
+        games/game0/maps/systems_test/core/player_goalpoint.c
+        games/game0/maps/systems_test/core/spawn_entity.c
+        games/game0/maps/systems_test/core/textboxes.c
+        games/game0/maps/systems_test/network/network_textbox_system.c
+        games/game0/maps/systems_test/vpmouse/vpmouse.c
+        games/game0/maps/systems_test/core/send_server_entity.c
+        games/game0/maps/systems_test/core/core_integrity.c
+        games/game0/maps/systems_test/drawbuffer/drawbuffer.c
+        games/game0/maps/systems_test/AI_system/player_send_goalpoint.c
+        games/game0/maps/systems_test/input/input_modes.c
+        games/game0/maps/systems_test/input/players.c
+        games/game0/maps/systems_test/render_units/render_units.c
+        games/game0/maps/systems_test/render_units/drawable_functions.c
+        games/game0/maps/systems_test/render_units/tree_group.c
+        games/game0/maps/systems_test/core/action_request.c
+        games/game0/maps/systems_test/viewport_spawner/arrow.c
+        games/game0/maps/systems_test/entity_spawner/multiline.c
+        games/game0/maps/systems_test/viewport_spawner/projectile_spawner.c
+        games/game0/maps/systems_test/viewport_spawner/arrows.c
+
         engine/test_string/bbTestString.c
+        engine/profiling/bbProfiling.c
+
+        engine/ECS/bbECS.c
+        engine/ECS/server_entities/bbServerEntities.c
+        engine/ECS/moveables/bbMoveables.c
+        engine/ECS/moveables/bbAvoidables.c
+        engine/ECS/graphics_system/bbGraphicsSystem.c
+        engine/ECS/entity_spawner/bbEntitySpawner.c
+        engine/ECS/AI_system/bbAI_System.c
+        engine/ECS/entity_spawner/bbEntitySpawner.c
+        engine/ECS/moveables/bbMoveables_setState.c
+        engine/ECS/spatial/bbSpatial.c
+        engine/ECS/spatial/bbSpatial_query.c
+        engine/ECS/players/bbPlayers.c
+        engine/ECS/teams/bbTeams.c
+        engine/ECS/graphics_system/bbGraphicsSystem_state.c
+        engine/ECS/hitpoints/bbHitPoints.c
+        engine/ECS/players/bbPlayers_maths.c
+        engine/ECS/players/bbPlayers_target.c
+        engine/ECS/projectiles/bbProjectileMovement.c
 
         engine/core/bbAction.c
         engine/core/bbCore.c
@@ -357,27 +428,93 @@ add_executable(Test_Core  test/bbTest_Core.c
 
         engine/logic/bbList.c
         engine/logic/bbNestedList.c
+        engine/logic/bbNestedListR.c
         engine/logic/bbList_sort.c
         engine/logic/bbList_map.c
         engine/logic/bbList_iterate.c
         engine/logic/bbList_getNth.c
+        engine/logic/bbList_search.c
 
         engine/logic/bbTree.c
         engine/logic/bbBloatedPool.c
         engine/logic/bbDictionary.c
+        engine/logic/bbIterator.c
+        engine/logic/bbBubbleSort.c
+        engine/logic/bbDictionary2.c
 
         engine/threadsafe/bbThreadedQueue_search.c
         engine/threadsafe/bbThreadedQueue.c
         engine/threadsafe/bbThreadedPool.c
+
+        engine/network/bbNetworkTime.c
+        engine/network/bbNetworkPacket.c
+        engine/network/bbNetworkApp.c
+        engine/network/bbNetwork.c
+
+        engine/interthread/bbClock.c
+        engine/textbox/bbTextbox.c
+        engine/textbox/bbTextboxApp.c
+
+
+        engine/userinterface/bbInput.c
+        engine/userinterface/bbMouse.c
+        engine/userinterface/bbMouseFunctions.c
+        engine/userinterface/bbUI_Inbox.c
+        engine/userinterface/bbUIApp.c
+        engine/userinterface/bbWidgetFunctions.c
+        engine/userinterface/bbWidgets.c
+        engine/userinterface/bbInputMode.c
+        engine/userinterface/bbTextInput.c
+        games/game0/maps/systems_test/input/bbInputMode_instructions.c
+
+        engine/viewport/bbDrawables.c
+        engine/viewport/bbMapIcons.c
+        engine/viewport/bbUnits.c
+        engine/viewport/bbViewport.c
+        engine/viewport/bbViewportApp.c
+        engine/viewport/bbViewportSpawner.c
+        engine/viewport/bbViewportMouse.c
+        engine/viewport/bbViewportMouseFunctions.c
+        engine/viewport/bbViewportMouseWrappers.c
+        engine/viewport/bbDrawBuffer.c
+        engine/viewport/bbDrawableFunctions.c
+        engine/viewport/bbActiveSquares.c
+        engine/viewport/bbProjectiles.c
+        engine/viewport/bbVP_ProjectileSpawner.c
+
+        engine/render_units/bbRenderUnits.c
+        engine/render_units/bbRenderUnit_avoidance.c
+
+        engine/geometry/bbCoordinates.c
+        engine/geometry/bbGroundCoords.c
+        engine/geometry/bbViewportCoords.c
+
+        engine/groundsurface/bbHillShading.c
+        engine/groundsurface/bbGroundSurface.c
+
+        engine/graphics/bbTextures.c
+        engine/graphics/bbSprites.c
+        engine/graphics/bbGraphicsApp.c
+        engine/graphics/bbFonts.c
+        engine/graphics/bbCompositions.c
+        engine/graphics/bbColours.c
+        engine/graphics/bbAnimations.c
+
+        engine/data/bbPerformance.c
+        engine/logic/bbInterpolate.c
+        engine/logic/bbLookupTable.c
+        engine/logic/bbSystemPool.c
 )
 
 target_compile_definitions(Test_Core PRIVATE DEFINE_TEST_CORE
-        PRIVATE BB_HOME_H)
+)
+
 target_include_directories(Test_Core PRIVATE "./"
-        PRIVATE "./games/game0/maps/core_test/")
+        PRIVATE "./games/game0/maps/systems_test/")
 target_link_libraries(Test_Core PRIVATE
         csfml-graphics
         csfml-window
         csfml-system
         csfml-network
+        m
 )

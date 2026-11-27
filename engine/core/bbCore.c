@@ -17,7 +17,7 @@
 #include "engine/test_string/bbTestString.h"
 #include "engine/core/bbAction_check.h"
 #include "engine/logic/bbSegmentedDeque.h"
-
+#include "engine/profiling/bbProfiling.h"
 bbFlag bbCore_init(bbCore* core)
 {
     bbVPool_newBloated(&core->instruction_pool, sizeof(bbInstruction), 10000, 1000, "bbInstruction");
@@ -33,7 +33,11 @@ bbFlag bbCore_init(bbCore* core)
 
     bbVPool_newBloated(&core->action_pool,sizeof(bbAction),10,1000, "bbAction");
     bbList_init(&core->action_queue, core->action_pool, NULL, offsetof(bbAction, header.action_queue),bbAction_compare,71);
-    bbList_init(&core->action_temp_fifo, core->action_pool, NULL, offsetof(bbAction, header.action_queue),bbAction_compare,72);
+    bbList_init(&core->action_temp_lifo, core->action_pool, NULL, offsetof(bbAction, header.action_queue),bbAction_compare,72);
+
+    bbHandle head = core->action_temp_lifo.list_pointer->head;
+
+
     bbList_init(&core->all_actions, core->action_pool, NULL, offsetof(bbAction, header.all_actions),NULL,73);
 
     bbInstruction_deque_init(&core->active_instructions,100024, "Active Instructions");
@@ -52,6 +56,7 @@ bbFlag bbCore_react(bbCore* core)
         fetchInstruction(core)
 
         //bbHere()
+        BB_PROFILE_INC(instructions_executed);
 
         if (instruction.type >= bbInstruction_numTypes)
         {//bbHere()
@@ -169,6 +174,7 @@ bbFlag bbCore_rewindUntil(bbCore* core, bbTime time)
 
         fetchUndoInstruction(core)
 
+        BB_PROFILE_INC(instructions_undone);
         if (instruction.type >= bbInstruction_numTypes)
         {
 

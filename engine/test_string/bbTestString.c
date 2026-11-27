@@ -4,7 +4,7 @@
 #include "engine/core/bbInstruction.h"
 #include "engine/logic/bbString.h"
 #include "engine/core/bbInstruction_operations.h"
-
+#include "engine/profiling/bbProfiling.h"
 bbFlag bbI_setString_fn(bbCore* core, bbInstruction* instruction)
 {
     if (instruction->source == bbInstructionSource_internal)
@@ -43,10 +43,10 @@ bbFlag bbI_setString_fn(bbCore* core, bbInstruction* instruction)
 
 
     } //else source == no rewind
-
+#ifndef BB_ENABLE_PROFILING
     printf("    +old quote: %s, new quote %s, simulation time = %lu, actual time = %lu\n",test_string,
         instruction->data.key, core->simulation_time,core->actual_time);
-
+#endif
     bbStr_setStr(test_string, instruction->data.key, KEY_LENGTH);
 
     return bbSuccess;
@@ -55,10 +55,10 @@ bbFlag bbI_unsetString_fn(bbCore* core, bbInstruction* instruction)
 {
 //bbHere()
 
-
+#ifndef BB_ENABLE_PROFILING
     printf("-new quote %s, old quote: %s, simulation time = %lu, actual time = %lu\n",
         instruction->data.key,test_string, core->simulation_time, core->actual_time);
-
+#endif
     bbStr_setStr(test_string,instruction->data.key, KEY_LENGTH);
 
     if (instruction->source == bbInstructionSource_internal)
@@ -157,9 +157,10 @@ bbFlag bbCS_setString(bbCore* core, char* string, bbInstruction_source source, b
 
     //take action
 
+#ifndef BB_ENABLE_PROFILING
     printf("    +old quote: %s, new quote %s, time = %llu\n",test_string,
     string, core->simulation_time);
-
+#endif
     bbStr_setStr(test_string, string, KEY_LENGTH);
 
     return bbSuccess;

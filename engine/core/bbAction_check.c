@@ -1,5 +1,7 @@
 #include "engine/core/bbAction_check.h"
 
+#include <engine/profiling/bbProfiling.h>
+
 #include "bbInstruction_operations.h"
 #include "engine/ECS/moveables/bbMoveables.h"
 #include "engine/ECS/players/bbPlayers.h"
@@ -69,7 +71,11 @@ bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
     flag = bbList_popL(&core->action_queue,(void**)&action);
     while (flag == bbSuccess && action->header.act_tick <= core->simulation_time)
     {
-        bbList_pushL(&core->action_temp_fifo,(void*)action);
+        bbList_pushL(&core->action_temp_lifo,(void*)action);
+        bbHandle head = core->action_temp_lifo.list_pointer->head;
+
+
+
         flag = bbList_popL(&core->action_queue,(void**)&action);
     }
 
@@ -79,12 +85,16 @@ bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
 
     //bbHere()
     //take from one lifo and add to another
-    flag = bbList_popL(&core->action_temp_fifo,(void**)&action);
+    flag = bbList_popL(&core->action_temp_lifo,(void**)&action);
+    bbHandle head = core->action_temp_lifo.list_pointer->head;
+
+
     while (flag == bbSuccess)
     {
         bbHandle handle;
         bbVPool_reverseLookup(core->action_pool,action,&handle);
 
+        BB_PROFILE_INC(actions_executed);
         if (action->header.type >= bbActionType_numActions)
         {
             bbAction_fn* action_fn = core->action_functions[action->header.type- bbActionType_numActions];
@@ -128,7 +138,12 @@ bbFlag bbInstruction_checkActions_fn(bbCore* core, bbInstruction* instruction)
             bbCI_setPlayerEntity(core, player_index, entity_handle, bbInstructionSource_action, handle);
         }
 #endif
-        flag = bbList_popL(&core->action_temp_fifo,(void**)&action);
+
+        bbCore* Core = core;
+        bbList* list = &core->action_temp_lifo;
+        bbHandle head = core->action_temp_lifo.list_pointer->head;
+
+        flag = bbList_popL(&core->action_temp_lifo,(void**)&action);
     }
 
     if (instruction->source == bbInstructionSource_internal)
